@@ -1,0 +1,77 @@
+#macro(toKotlinType $type)
+    #if ($type.class.simpleName.equals("StringType"))String##
+    #elseif ($type.class.simpleName.equals("IntType"))Int##
+    #elseif ($type.class.simpleName.equals("FloatType"))Float##
+    #elseif ($type.class.simpleName.equals("BooleanType"))Boolean##
+    #elseif ($type.class.simpleName.equals("MapType"))Map#print("<")String, Any#print(">")##
+    #elseif ($type.class.simpleName.equals("ListType"))List#print("<")#toKotlinType($type.type)#print(">")##
+    #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))ByteArray##
+    #elseif ($type.class.simpleName.equals("DateType"))Date##
+    #else #capitalize($type.name)##
+    #end
+#end
+#macro(renderQuery $ast)
+    #if($ast.class.simpleName.equals("Query"))#*
+        *##renderData($ast.list)##
+        #foreach($renderable in $ast.list)#*
+            *##renderAST($renderable)
+        #end
+    #end
+#end
+#macro(renderMutation $ast)
+    #if($ast.class.simpleName.equals("Mutation"))#*
+        *##renderData($ast.list)##
+        #foreach($renderable in $ast.list)#*
+            *##if(!${isIncomingType.apply($renderable)} && !${isOutgoingType.apply($renderable)})#*
+                *##renderAST($renderable)#*
+            *##end##
+        #end
+    #end
+#end
+#macro(renderData $list)#*
+    *##tab(4)data class Data @JsonCreator constructor(#*
+    *##foreach($ast in $filterFields.apply($list))#*
+        *##if($foreach.count > 1)#tab(8), #else#tab(8)#end#*
+        *##if($ast.class.simpleName.equals("Entity"))#*
+            *#@JsonProperty("$ast.name") val $ast.name: List#print("<")#capitalize($ast.name)#print(">")?#*
+        *##else#*
+            *#@JsonProperty("$ast.name") val $ast.name: #toKotlinType($ast.type)?#*
+        *##end#*
+        *#$newLine#*
+    *##end#*
+    *#)##
+#end
+#macro(renderAST $ast)
+    #if($ast.class.simpleName.equals("Entity"))#*
+        *##tab(4)data class #capitalize($ast.name) @JsonCreator constructor(#renderFields($ast)#tab(4))$newLine$newLine#*
+        *##foreach($field in $ast.fields)#*
+            *##renderAST($field)#*
+        *##end##
+    #end
+#end
+#macro(capitalize $str)#*
+    *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
+#end
+#macro(renderFields $entity)#*
+    *##foreach($field in $entity.fields)#*
+        *##if ($foreach.count > 1), #end
+    #renderField($field)
+#end
+#end
+#macro(renderField $field)#*
+    *##if ($field.class.simpleName.equals("Entity"))#*
+        *##if ($field.listType)#*
+            *##tab(8)@JsonProperty("$field.name") val $field.name: List${lt}#capitalize($field.name)${gt}?#*
+        *##else#*
+            *##tab(8)@JsonProperty("$field.name") val $field.name: #capitalize($field.name)?#*
+        *##end#*
+    *##else#*
+        *##tab(8)@JsonProperty("$field.name") val $field.name: #toKotlinType($field.type)?#*
+    *##end##
+#end
+#macro(print $text)#*
+    *#${print.invoke($text)}##
+#end
+#macro(tab $indent)#*
+    *#${tab.invoke($indent)}##
+#end

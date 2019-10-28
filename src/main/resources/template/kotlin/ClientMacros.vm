@@ -1,0 +1,9 @@
+#macro(capitalize $str)#*
+    *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
+#end
+#macro(tab $indent)#*
+    *#${tab.invoke($indent)}##
+#end
+#macro(print $text)#*
+    *#${print.invoke($text)}##
+#end
