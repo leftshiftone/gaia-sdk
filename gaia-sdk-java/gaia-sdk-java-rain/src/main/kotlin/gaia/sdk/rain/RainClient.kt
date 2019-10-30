@@ -46,6 +46,7 @@ class RainClient(private val options: ClientOptions, private val transporter: IT
     }
     fun mutation(request: RainRequest.RainMutationRequest): Publisher<RainResponse.RainMutationResponse> {
         val (statement, variables) = request.getStatement()
-        return executeNative(statement, variables, request.preprocessors, RainResponse.RainMutationResponse::class)
+        return executeNative(statement, variables, request.preprocessors,RainResponse.RainMutationResponse::class)
     }
+
 }

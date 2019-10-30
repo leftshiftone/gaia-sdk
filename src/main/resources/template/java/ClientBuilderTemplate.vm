@@ -1,4 +1,4 @@
-#parse("/template/kotlin/ClientBuilderMacros.vm")
+#parse("/template/java/RequestMacros.vm")
 package gaia.sdk.$name
 
 import gaia.sdk.api.ClientOptions

@@ -44,4 +44,5 @@ class AtlasClient(private val options: ClientOptions, private val transporter: I
         val (statement, variables) = request.getStatement()
         return executeNative(statement, variables, request.preprocessors, AtlasResponse.AtlasQueryResponse::class)
     }
+
 }

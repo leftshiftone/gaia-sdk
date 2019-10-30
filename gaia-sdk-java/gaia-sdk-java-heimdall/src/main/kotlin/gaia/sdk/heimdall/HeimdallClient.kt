@@ -42,6 +42,7 @@ class HeimdallClient(private val options: ClientOptions, private val transporter
 
     fun mutation(request: HeimdallRequest.HeimdallMutationRequest): Publisher<HeimdallResponse.HeimdallMutationResponse> {
         val (statement, variables) = request.getStatement()
-        return executeNative(statement, variables, request.preprocessors, HeimdallResponse.HeimdallMutationResponse::class)
+        return executeNative(statement, variables, request.preprocessors,HeimdallResponse.HeimdallMutationResponse::class)
     }
+
 }

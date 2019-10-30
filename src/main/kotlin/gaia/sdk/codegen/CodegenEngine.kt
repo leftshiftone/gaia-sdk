@@ -16,15 +16,34 @@ import kotlin.math.absoluteValue
 class CodegenEngine(private val list: List<AbstractAST>, private val name: String) {
 
     private companion object {
-        const val REQUEST_TEMPLATE = "/template/kotlin/RequestTemplate.vm"
-        const val RESPONSE_TEMPLATE = "/template/kotlin/ResponseTemplate.vm"
-        const val CLIENT_TEMPLATE = "/template/kotlin/ClientTemplate.vm"
-        const val CLIENTBUILDER_TEMPLATE = "/template/kotlin/ClientBuilderTemplate.vm"
-
-        fun requestPath(name: String, lang: String) = System.getProperty("user.dir") + "/gaia-sdk-$lang/gaia-sdk-$lang-$name/src/main/${if (lang == "java") "kotlin" else lang}/gaia/sdk/$name/${name.capitalize()}Request.kt"
-        fun responsePath(name: String, lang: String) = System.getProperty("user.dir") + "/gaia-sdk-$lang/gaia-sdk-$lang-$name/src/main/${if (lang == "java") "kotlin" else lang}/gaia/sdk/$name/${name.capitalize()}Response.kt"
-        fun clientPath(name: String, lang: String) = System.getProperty("user.dir") + "/gaia-sdk-$lang/gaia-sdk-$lang-$name/src/main/${if (lang == "java") "kotlin" else lang}/gaia/sdk/$name/${name.capitalize()}Client.kt"
-        fun clientBuilderPath(name: String, lang: String) = System.getProperty("user.dir") + "/gaia-sdk-$lang/gaia-sdk-$lang-$name/src/main/${if (lang == "java") "kotlin" else lang}/gaia/sdk/$name/${name.capitalize()}ClientBuilder.kt"
+        fun requestPath(name: String, lang: String):String {
+            return when(lang) {
+                "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Request.kt"
+                "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Request.ts"
+                else -> ""
+            }
+        }
+        fun responsePath(name: String, lang: String):String {
+            return when(lang) {
+                "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Response.kt"
+                "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Response.ts"
+                else -> ""
+            }
+        }
+        fun clientPath(name: String, lang: String):String {
+            return when(lang) {
+                "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Client.kt"
+                "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Client.ts"
+                else -> ""
+            }
+        }
+        fun clientBuilderPath(name: String, lang: String):String {
+            return when(lang) {
+                "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}ClientBuilder.kt"
+                "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}ClientBuilder.ts"
+                else -> ""
+            }
+        }
     }
 
     fun generate() {
@@ -32,26 +51,30 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
         props["resource.loader"] = "class"
         props["class.resource.loader.class"] = "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader"
 
-        generateRequest(VelocityEngine(props), getContext())
-        generateClientBuilder(VelocityEngine(props), getContext())
-        generateClient(VelocityEngine(props), getContext())
-        generateResponse(VelocityEngine(props), getContext())
+        generateRequest(props)
+        generateClientBuilder(props)
+        generateClient(props)
+        generateResponse(props)
     }
 
-    private fun generateRequest(engine: VelocityEngine, context: VelocityContext) {
-        generate(engine, context, REQUEST_TEMPLATE, requestPath(name, "java"))
+    private fun generateRequest(props:Properties) {
+        generate(VelocityEngine(props), getContext(), "/template/java/RequestTemplate.vm", requestPath(name, "java"))
+        generate(VelocityEngine(props), getContext(), "/template/javascript/RequestTemplate.vm", requestPath(name, "javascript"))
     }
 
-    private fun generateClientBuilder(engine: VelocityEngine, context: VelocityContext) {
-        generate(engine, context, CLIENTBUILDER_TEMPLATE, clientBuilderPath(name, "java"))
+    private fun generateClientBuilder(props:Properties) {
+        generate(VelocityEngine(props), getContext(), "/template/java/ClientBuilderTemplate.vm", clientBuilderPath(name, "java"))
+        generate(VelocityEngine(props), getContext(), "/template/javascript/ClientBuilderTemplate.vm", clientBuilderPath(name, "javascript"))
     }
 
-    private fun generateClient(engine: VelocityEngine, context: VelocityContext) {
-        generate(engine, context, CLIENT_TEMPLATE, clientPath(name, "java"))
+    private fun generateClient(props:Properties) {
+        generate(VelocityEngine(props), getContext(), "/template/java/ClientTemplate.vm", clientPath(name, "java"))
+        generate(VelocityEngine(props), getContext(), "/template/javascript/ClientTemplate.vm", clientPath(name, "javascript"))
     }
 
-    private fun generateResponse(engine: VelocityEngine, context: VelocityContext) {
-        generate(engine, context, RESPONSE_TEMPLATE, responsePath(name, "java"))
+    private fun generateResponse(props:Properties) {
+        generate(VelocityEngine(props), getContext(), "/template/java/ResponseTemplate.vm", responsePath(name, "java"))
+        generate(VelocityEngine(props), getContext(), "/template/javascript/ResponseTemplate.vm", responsePath(name, "javascript"))
     }
 
     private fun generate(engine: VelocityEngine, context: VelocityContext, template: String, path:String) {

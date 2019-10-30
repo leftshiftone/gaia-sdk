@@ -1,4 +1,4 @@
-#parse("/template/kotlin/ResponseMacros.vm")
+#parse("/template/java/ResponseMacros.vm")
 package gaia.sdk.$name
 
 import com.fasterxml.jackson.annotation.JsonCreator

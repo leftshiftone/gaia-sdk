@@ -1,4 +1,4 @@
-#parse("/template/kotlin/ClientMacros.vm")
+#parse("/template/java/RequestMacros.vm")
 package gaia.sdk.$name
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -54,7 +54,8 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
     #tab(4)fun mutation(request: #capitalize($name)Request.#capitalize($name)MutationRequest): #*
     *#Publisher${lt}#capitalize($name)Response.#capitalize($name)MutationResponse${gt} {
     #tab(8)val (statement, variables) = request.getStatement()
-    #tab(8)return executeNative(statement, variables, request.preprocessors, #capitalize($name)Response.#capitalize($name)MutationResponse::class)
+    #tab(8)return executeNative(statement, variables, request.preprocessors,#capitalize($name)Response.#capitalize($name)MutationResponse::class)
     #tab(4)}
 #end
+
 }
