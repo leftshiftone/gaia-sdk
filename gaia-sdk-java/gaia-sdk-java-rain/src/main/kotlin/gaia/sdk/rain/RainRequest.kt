@@ -36,9 +36,9 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
             }
 
             fun classify(text:String, config: Classify.() -> Unit) = add {Classify(text).apply(config).render(it) }
-            fun rainQuery(statement:String) = add { 
+            fun gaiaQuery(statement:String) = add { 
                 val name1 = it.register("statement", statement)
-                "rainQuery(statement:\$$name1)" 
+                "gaiaQuery(statement:\$$name1)" 
             }
 
             fun render(registry:VariableRegistry): String {

@@ -8,6 +8,11 @@ export abstract class #capitalize($name)Request extends #print("Array<(_:Variabl
 #tab(8)config(request);
 #tab(8)return request;
 #tab(4)}
+#tab(4)public static mutation(config:(_:#capitalize($name)MutationRequest) => void) {
+#tab(8)const request = new #capitalize($name)MutationRequest();
+#tab(8)config(request);
+#tab(8)return request;
+#tab(4)}
 #tab(4)abstract getStatement():[string, {}];
 }
 
@@ -16,12 +21,12 @@ export class #capitalize($name)QueryRequest extends #capitalize($name)Request {$
 *##foreach($ast in $list)#*
     *##if($ast.class.simpleName.equals("Query"))#*
         *##foreach($renderable in $ast.list)#*
-            *##renderEntityAsField($renderable 4)#*
+            *##renderEntityAsField($renderable, "Query")#*
         *##end#*
     *##end##
 #end##
 
-#tab(4)public getStatement = ():[string, {}] #print("=>") {
+#tab(4)public getStatement():[string, {}] {
 #tab(8)const registry = new VariableRegistry();
 #tab(8)const fields = this.map((e) => e(registry)).join(" ");
 #tab(8)const statement = `query $name(${registry.getDatatypes().join(", ")}) { ${fields} }`;
@@ -37,11 +42,33 @@ export class #capitalize($name)QueryRequest extends #capitalize($name)Request {$
     *##end##
 #end##
 export class #capitalize($name)MutationRequest extends #capitalize($name)Request {
-public preprocessors:Array<string> = new Array<string>();
-#tab(4)public getStatement():[string, {}] {
+#tab(4)public preprocessors:Array<string> = new Array<string>();$newLine$newLine#*
+        *##foreach($ast in $list)#*
+            *##if($ast.class.simpleName.equals("Mutation"))#*
+                *##foreach($renderable in $ast.list)#*
+                    *##renderEntityAsField($renderable, "Mutation")#*
+                *##end#*
+                *##foreach($renderable in $ast.list)#*
+                    *##renderField($renderable, "Mutation")#*
+                *##end#*
+            *##end##
+        #end##
+
+        #tab(4)public getStatement():[string, {}] {
 #tab(8)const registry = new VariableRegistry();
 #tab(8)const fields = this.map((e) => e(registry)).join(" ");
-#tab(8)const statement = `query $name(${registry.getDatatypes().join(", ")}) { ${fields} }`;
+#tab(8)const statement = `mutation $name(${registry.getDatatypes().join(", ")}) { ${fields} }`;
 #tab(8)return [statement, registry.getVariables()]
 #tab(4)}
 }
+
+#foreach($ast in $list)#*
+    *##if($ast.class.simpleName.equals("Mutation"))#*
+        *##foreach($renderable in $ast.list)#*
+            *##renderEntity($renderable "Mutation")#*
+        *##end#*
+        *##foreach($renderable in $ast.list)#*
+            *##renderIncomingType($renderable, false)#*
+        *##end#*
+    *##end##
+#end##

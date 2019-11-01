@@ -13,12 +13,12 @@ interface QueryData {
 }
 interface QueryInsights {
     classify?:QueryClassify;
-    rainQuery?:Array<Map<string, any>>;
+    gaiaQuery?:Array<Map<string, any>>;
 }
 
 interface QueryClassify {
     classify?:QueryClassify;
-    rainQuery?:Array<Map<string, any>>;
+    gaiaQuery?:Array<Map<string, any>>;
 }
 export interface RainMutationResponse extends RainResponse {
     data?:MutationData;

@@ -18,7 +18,7 @@ data class RainQueryResponse @JsonCreator constructor(
     data class Data @JsonCreator constructor(        @JsonProperty("insights") val insights: List<Insights>?
 )    data class Insights @JsonCreator constructor(
         @JsonProperty("classify") val classify: Classify?, 
-        @JsonProperty("rainQuery") val rainQuery: List<Map<String, Any>>?
+        @JsonProperty("gaiaQuery") val gaiaQuery: List<Map<String, Any>>?
     )
 
     data class Classify @JsonCreator constructor(

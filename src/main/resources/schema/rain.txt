@@ -5,7 +5,7 @@ query {
           reference:string
           score:float
        }
-       rainQuery(statement:string):list(map)
+       gaiaQuery(statement:string):list(map)
     }
 }
 mutation {
