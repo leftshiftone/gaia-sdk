@@ -5,7 +5,7 @@ The gaia-sdk project is used to establish a connection from a client implementat
 At the moment the following programming languages are supported:
 
 * java (gaia-sdk-java)
-* javascript (gaia-sdk-javascript) (in progress)
+* javascript (gaia-sdk-javascript)
 * python (gaia-sdk-python) (in progress)
 
 ## Why to use
