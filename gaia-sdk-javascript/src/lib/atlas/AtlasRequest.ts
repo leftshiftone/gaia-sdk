@@ -75,14 +75,46 @@ class QueryLex extends Array<(_:VariableRegistry) => string> {
     public lemma = () => this.push(() => "lemma");
     public pos = () => this.push(() => "pos");
     public base = () => this.push(() => "base");
-    public flexions = () => this.push(() => "flexions");
-    public synonyms = () => this.push(() => "synonyms");
-    public collocations = () => this.push(() => "collocations");
-    public hyperonyms = () => this.push(() => "hyperonyms");
-    public meronyms = () => this.push(() => "meronyms");
-    public parts = () => this.push(() => "parts");
-    public abbreviations = () => this.push(() => "abbreviations");
-    public causations = () => this.push(() => "causations");
+    public flexions = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public synonyms = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public collocations = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public hyperonyms = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public meronyms = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public parts = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public abbreviations = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
+    public causations = (config:(_:QueryLex) => void) => this.push((registry) => {
+        const entity = new QueryLex();
+        config(entity);
+        return entity.render(registry);
+    });
     public labels = () => this.push(() => "labels");
 
     public render = (registry:VariableRegistry): string => {

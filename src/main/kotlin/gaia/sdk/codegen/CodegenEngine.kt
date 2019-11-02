@@ -20,6 +20,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             return when(lang) {
                 "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Request.kt"
                 "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Request.ts"
+                "python" -> System.getProperty("user.dir") + "/gaia-sdk-python/$name/${name.capitalize()}Request.py"
                 else -> ""
             }
         }
@@ -27,6 +28,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             return when(lang) {
                 "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Response.kt"
                 "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Response.ts"
+                "python" -> System.getProperty("user.dir") + "/gaia-sdk-python/$name/${name.capitalize()}Response.py"
                 else -> ""
             }
         }
@@ -34,6 +36,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             return when(lang) {
                 "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}Client.kt"
                 "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}Client.ts"
+                "python" -> System.getProperty("user.dir") + "/gaia-sdk-python/$name/${name.capitalize()}Client.py"
                 else -> ""
             }
         }
@@ -41,6 +44,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             return when(lang) {
                 "java" -> System.getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-java-$name/src/main/kotlin/gaia/sdk/$name/${name.capitalize()}ClientBuilder.kt"
                 "javascript" -> System.getProperty("user.dir") + "/gaia-sdk-javascript/src/lib/$name/${name.capitalize()}ClientBuilder.ts"
+                "python" -> System.getProperty("user.dir") + "/gaia-sdk-python/$name/${name.capitalize()}ClientBuilder.py"
                 else -> ""
             }
         }
@@ -60,21 +64,25 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
     private fun generateRequest(props:Properties) {
         generate(VelocityEngine(props), getContext(), "/template/java/RequestTemplate.vm", requestPath(name, "java"))
         generate(VelocityEngine(props), getContext(), "/template/javascript/RequestTemplate.vm", requestPath(name, "javascript"))
+        generate(VelocityEngine(props), getContext(), "/template/python/RequestTemplate.vm", requestPath(name, "python"))
     }
 
     private fun generateClientBuilder(props:Properties) {
         generate(VelocityEngine(props), getContext(), "/template/java/ClientBuilderTemplate.vm", clientBuilderPath(name, "java"))
         generate(VelocityEngine(props), getContext(), "/template/javascript/ClientBuilderTemplate.vm", clientBuilderPath(name, "javascript"))
+        generate(VelocityEngine(props), getContext(), "/template/python/ClientBuilderTemplate.vm", clientBuilderPath(name, "python"))
     }
 
     private fun generateClient(props:Properties) {
         generate(VelocityEngine(props), getContext(), "/template/java/ClientTemplate.vm", clientPath(name, "java"))
         generate(VelocityEngine(props), getContext(), "/template/javascript/ClientTemplate.vm", clientPath(name, "javascript"))
+        generate(VelocityEngine(props), getContext(), "/template/python/ClientTemplate.vm", clientPath(name, "python"))
     }
 
     private fun generateResponse(props:Properties) {
         generate(VelocityEngine(props), getContext(), "/template/java/ResponseTemplate.vm", responsePath(name, "java"))
         generate(VelocityEngine(props), getContext(), "/template/javascript/ResponseTemplate.vm", responsePath(name, "javascript"))
+        generate(VelocityEngine(props), getContext(), "/template/python/ResponseTemplate.vm", responsePath(name, "python"))
     }
 
     private fun generate(engine: VelocityEngine, context: VelocityContext, template: String, path:String) {

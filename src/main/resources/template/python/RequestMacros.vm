@@ -1,9 +1,9 @@
 #macro(toKotlinType $type)
-    #if ($type.class.simpleName.equals("StringType"))string##
-    #elseif ($type.class.simpleName.equals("IntType"))number##
-    #elseif ($type.class.simpleName.equals("FloatType"))number##
-    #elseif ($type.class.simpleName.equals("BooleanType"))boolean##
-    #elseif ($type.class.simpleName.equals("MapType"))Map#print("<")String, any#print(">")##
+    #if ($type.class.simpleName.equals("StringType"))str##
+    #elseif ($type.class.simpleName.equals("IntType"))int##
+    #elseif ($type.class.simpleName.equals("FloatType"))float##
+    #elseif ($type.class.simpleName.equals("BooleanType"))object##
+    #elseif ($type.class.simpleName.equals("MapType"))dict##
     #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))Uint8Array##
     #else #capitalize($type.name)##
     #end
@@ -19,21 +19,20 @@
 #end
 #macro(renderEntity $renderable $prefix)#*
     *##if($renderable.class.simpleName.equals("Entity") && !$isIncomingType.apply($renderable))#*
-        *#class $prefix#capitalize($renderable.name) extends #print("Array<(_:VariableRegistry) => string>") {$newLine#*
+        *#class $prefix#capitalize($renderable.name)(list):$newLine#*
         *##renderConstructor($renderable)#*
         *##renderFields($renderable, $prefix)#*
-        *#$newLine#tab(4)public render = (registry:VariableRegistry): string #print("=>") {$newLine#*
+        *#$newLine#tab(4)def render(self, registry:VariableRegistry):$newLine#*
             *##foreach($argument in $renderable.arguments)#*
-                *##tab(8)const name$foreach.count = registry.register("$argument.name", this.$argument.name);$newLine#*
+                *##tab(8)name$foreach.count = registry.register("$argument.name", self.$argument.name)$newLine#*
             *##end#*
             *##tab(8)return "${renderable.name}#if(!$renderable.arguments.isEmpty())(#end#*
             *##foreach($argument in $renderable.arguments)#*
                 *##if ($foreach.count > 1), #end#*
                 *#$argument.name:$" + name$foreach.count + "#*
             *##end#*
-            *##if(!$renderable.arguments.isEmpty()))#end { " + this.map((e) => e(registry)).join(" ") + " }";$newLine#*
-            *##tab(4)}$newLine#*
-        *#}$newLine$newLine#*
+            *##if(!$renderable.arguments.isEmpty()))#end { " + " ".join(map(lambda e: e(registry), self)) + " }"$newLine#*
+        *#$newLine$newLine#*
         *##foreach($field in $renderable.fields)#*
             *##renderEntity($field $prefix)#*
         *##end#*
@@ -65,47 +64,48 @@
     *##end##
 #end##
 #macro(renderNoArgumentField $field)#*
-    *##tab(4)public $field.name = () => this.push(() => "$field.name");$newLine##
+    *##tab(4)def ${field.name}(self):$newLine#*
+    *##tab(8)self.append(lambda x: "$field.name")$newLine$newLine##
 #end
 #macro(renderRefType $field $prefix)#*
-    *##tab(4)public ${field.name} = (config:(_:$prefix#capitalize($field.type.name)) => void) => this.push((registry) => {$newLine#*
-    *##tab(8)const entity = new $prefix#capitalize($field.type.name)();$newLine#*
-    *##tab(8)config(entity);$newLine#*
-    *##tab(8)return entity.render(registry);$newLine#*
-    *##tab(4)});$newLine##
+    *##tab(4)def ${field.name}(self, config:Callable[['$prefix#capitalize($field.type.name)'], None]):$newLine#*
+    *##tab(8)entity = $prefix#capitalize($field.type.name)()$newLine#*
+    *##tab(8)config(entity)$newLine#*
+    *##tab(8)self.append(lambda registry: "$field.name { " + (entity.render(registry)) + " }")$newLine$newLine##
 #end
 #macro(renderEntityField $field $prefix)#*
-    *##tab(4)public $field.name = (#renderArguments($field, $prefix)) => this.push((registry) => {$newLine#*
-
+    *##tab(4)def ${field.name}(self, #renderArguments($field, $prefix)):$newLine#*
+    *##tab(8)def callback(registry:VariableRegistry):$newLine#*
     *##if($isIncomingType.apply($field))#*
         *##foreach($argument in $field.arguments)#*
-            *##tab(8)const name$foreach.count = registry.register("$argument.name", $argument.name);$newLine#*
+            *##tab(12)name$foreach.count = registry.register("$argument.name", $argument.name);$newLine#*
         *##end#*
-        *##tab(8)return "$field.name";$newLine#*
+        *##tab(12)return "$field.name";$newLine#*
     *##else#*
-        *##tab(8)const entity = new $prefix#capitalize($field.name)(#*
+        *##tab(12)entity = $prefix#capitalize($field.name)(#*
         *##foreach($argument in $field.arguments)#*
             *##if ($foreach.count > 1), #end#*
             *#$argument.name#*
         *##end#*
-        *#);$newLine#*
-        *##tab(8)config(entity);$newLine#*
-        *##tab(8)return entity.render(registry);$newLine#*
+        *#)$newLine#*
+        *##tab(12)config(entity)$newLine#*
+        *##tab(12)return entity.render(registry)$newLine#*
     *##end#*
-    *##tab(4)});$newLine##
+    *##tab(8)self.append(callback)$newLine##
 #end
 #macro(renderArgumentField $field $prefix)#*
-    *##tab(4)public $field.name = (#renderArguments($field, $prefix)) => this.push((registry) => {$newLine#*
+    *##tab(4)def ${field.name}(self, #renderArguments($field, $prefix)):$newLine#*
+    *##tab(8)def callback(registry:VariableRegistry):$newLine#*
     *##foreach($argument in $field.arguments)#*
-        *##tab(8)const name$foreach.count = registry.register("$argument.name", $argument.name);$newLine#*
+        *##tab(12)name$foreach.count = registry.register("$argument.name", $argument.name)$newLine#*
     *##end#*
-    *##tab(8)return "${field.name}(#*
+    *##tab(12)return "${field.name}(#*
     *##foreach($argument in $field.arguments)#*
         *##if ($foreach.count > 1), #end#*
         *#$argument.name:$" + name$foreach.count + "#*
     *##end#*
-    *#)";$newLine#*
-    *##tab(4)});$newLine##
+    *#)"$newLine#*
+    *##tab(8)self.append(callback)$newLine$newLine##
 #end
 #macro(renderArguments $field $prefix)#*
     *##foreach($argument in $field.arguments)#*
@@ -114,12 +114,11 @@
     *##end#*
     *##if($field.class.simpleName.equals("Entity"))#*
     *##if (!$field.arguments.isEmpty()), #end#*
-    *#config:(_:#if(!$isIncomingType.apply($field))$prefix#end#capitalize($field.name)) => void#*
+    *#config:Callable[['#if(!$isIncomingType.apply($field))$prefix#end#capitalize($field.name)'], None]#*
     *##end##
 #end
 #macro(renderArgument $argument)#*
-    *#$argument.name:#toKotlinType($argument.type)#*
-    *##if($argument.value) = $argument.value.value#end##
+    *#$argument.name:#toKotlinType($argument.type)##
 #end
 #macro(renderEntityAsField $renderable $prefix)#*
     *##if($renderable.class.simpleName.equals("Entity") && !$isIncomingType.apply($renderable))#*
@@ -128,25 +127,22 @@
 #end##
 #macro(renderConstructor $entity)#*
     *##if(!$entity.arguments.isEmpty())#*
-        *##foreach($argument in $entity.arguments)#*
-            *##tab(4)private $argument.name:#toKotlinType($argument.type);$newLine#*
-        *##end$newLine#*
-        *##tab(4)constructor(#*
+        *##tab(4)def __init__(self#if(!$entity.arguments.isEmpty()), #end#*
         *##foreach($argument in $entity.arguments)#*
             *##if($foreach.count > 1), #end#*
             *#$argument.name:#toKotlinType($argument.type)#*
         *##end#*
-        *#) {$newLine#*
-        *##tab(8)super();$newLine#*
+        *#):$newLine#*
+        *##tab(8)super().__init__()$newLine#*
         *##foreach($argument in $entity.arguments)#*
-            *##tab(8)this.$argument.name = $argument.name;$newLine#*
+            *##tab(8)self.$argument.name = $argument.name$newLine#*
         *##end#*
-        *##tab(4)}$newLine$newLine#*
+        *#$newLine#*
     *##end##
 #end
 #macro(renderIncomingType $renderable $nested)#*
     *##if($renderable.class.simpleName.equals("Entity") && ($nested || $isIncomingType.apply($renderable)))#*
-        *#export class #capitalize($renderable.name) {$newLine#*
+        *#class #capitalize($renderable.name) {$newLine#*
         *##foreach($field in $renderable.fields)#*
             *##tab(4)$field.name?: #if($field.type)#toKotlinType($field.type)#else#capitalize($field.name)#end;#*
             *#$newLine#*
@@ -158,4 +154,8 @@
             *##end#*
         *##end#*a
     *##end##
+#end
+#macro(renderValue $value)#*
+    *##if ($value.class.simpleName.equals("BooleanValue"))#capitalize($value.value.toString())#*
+    *##else$value.value#end##
 #end

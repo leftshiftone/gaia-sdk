@@ -6,7 +6,7 @@ At the moment the following programming languages are supported:
 
 * java (gaia-sdk-java)
 * javascript (gaia-sdk-javascript)
-* python (gaia-sdk-python) (in progress)
+* python (gaia-sdk-python)
 
 ## Why to use
 * Ease of integration - The SDK takes care of all request preparation steps.

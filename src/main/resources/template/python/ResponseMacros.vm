@@ -1,0 +1,70 @@
+#macro(toKotlinType $type $prefix)
+    #if ($type.class.simpleName.equals("StringType"))str##
+    #elseif ($type.class.simpleName.equals("IntType"))int##
+    #elseif ($type.class.simpleName.equals("FloatType"))float##
+    #elseif ($type.class.simpleName.equals("BooleanType"))bool##
+    #elseif ($type.class.simpleName.equals("MapType"))dict##
+    #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))Uint8Array##
+    #elseif ($type.class.simpleName.equals("ListType"))#print("Array<")#toKotlinType($type.type, $prefix)#print(">")##
+    #else $prefix#capitalize($type.name)##
+    #end
+#end
+#macro(capitalize $str)#*
+    *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
+#end
+#macro(tab $indent)#*
+    *#${tab.invoke($indent)}##
+#end
+#macro(print $text)#*
+    *#${print.invoke($text)}##
+#end
+#macro(renderDataFields $list $prefix)#*
+    *##foreach($ast in $list)#*
+        *##if($ast.class.simpleName.equals($prefix))#*
+            *##foreach($renderable in $ast.list)#*
+                *##if($renderable.class.simpleName.equals("Entity"))#*
+                    *#$newLine#*
+                    *##tab(4)def ${renderable.name}(self) -> '$prefix#capitalize($renderable.name)':$newLine#*
+                    *##tab(8)return self.$renderable.name#*
+                *##end#*
+            *##end#*
+        *##end#*
+    *##end##
+#end
+#macro(renderEntities $list $prefix)#*
+    *##foreach($ast in $list)#*
+        *##if($ast.class.simpleName.equals($prefix))#*
+            *##foreach($renderable in $ast.list)#*
+                *##renderEntity($renderable, $prefix)#*
+                *##foreach($field in $renderable.fields)#*
+                    *##if ($field.class.simpleName.equals("Entity"))#*
+                        *#$newLine#*
+                        *##renderEntity($field, $prefix)#*
+                    *##end#*
+                *##end#*
+            *##end#*
+        *##end#*
+    *##end##
+#end
+#macro(renderEntity $entity $prefix)#*
+    *##if($entity.class.simpleName.equals("Entity"))#*
+        *#class $prefix#capitalize($entity.name):#*
+            *#$newLine#*
+            *##renderFields($entity, $prefix)#*
+        *#$newLine#*
+    *##end##
+#end
+#macro(renderFields $entity $prefix)#*
+    *##foreach($field in $renderable.fields)#*
+        *##tab(4)#renderField($field, $prefix)$newLine#*
+    *##end##
+#end
+#macro(renderField $field $prefix)#*
+    *##if ($field.class.simpleName.equals("Entity"))#*
+        *#def ${field.name}(self) -> '$prefix#capitalize($field.name)':$newLine#*
+        *##tab(8)return self.$field.name#*
+    *##else#*
+        *#def ${field.name}(self) -> #toKotlinType($field.type, $prefix):$newLine#*
+        *##tab(8)return self.$field.name#*
+    *##end##
+#end
