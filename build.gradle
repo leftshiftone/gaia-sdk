@@ -38,11 +38,10 @@ dependencies {
     antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.apache.velocity:velocity-engine-core:2.1"
 
-    compile group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.1'
-
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.1'
-    testCompile "org.assertj:assertj-core:3.11.1"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.5.1"
+    testImplementation "org.assertj:assertj-core:3.11.1"
 }
 
 repositories {
@@ -50,9 +49,9 @@ repositories {
     mavenCentral()
 }
 
+sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
 generateGrammarSource {
     outputDirectory = new File(project.rootDir, "build/generated-src/antlr/gaia/sdk/antlr")
     arguments += ["-visitor", "-package", "gaia.sdk.antlr"]
 }
-
-sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
+compileKotlin.dependsOn generateGrammarSource

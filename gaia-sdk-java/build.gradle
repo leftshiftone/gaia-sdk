@@ -1,19 +1,38 @@
-apply plugin: "kotlin"
+allprojects {
+    apply plugin: "kotlin"
 
-repositories {
-    jcenter()
-    mavenCentral()
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+        implementation "org.slf4j:slf4j-api:1.7.28"
+        implementation "org.reactivestreams:reactive-streams:1.0.3"
+        implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
+        implementation "io.projectreactor.netty:reactor-netty:0.8.4.RELEASE"
+
+        testImplementation "org.junit.jupiter:junit-jupiter-engine:5.5.1"
+        testImplementation "org.assertj:assertj-core:3.11.1"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+    tasks.withType(Test) { testTask ->
+        minHeapSize = "1G"
+        maxHeapSize = "2G"
+        testTask.beforeTest { descriptor ->
+            logger.lifecycle(descriptor.toString())
+        }
+    }
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-
-    compile group: 'org.reactivestreams', name: 'reactive-streams', version: '1.0.3'
-    compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
-    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.8.4.RELEASE'
-
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.1'
-    testCompile "org.assertj:assertj-core:3.11.1"
+subprojects {
+    dependencies {
+        implementation project(":gaia-sdk-java")
+    }
 }

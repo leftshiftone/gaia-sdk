@@ -1,0 +1,188 @@
+webhook-created: &webhook-created
+    name: Webhook created
+    command: |
+        curl $BUILD_STATUS_URL\?flow\=circleci-created -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+webhook-failed: &webhook-failed
+    name: Webhook completed
+    when: on_fail
+    command: |
+        curl $BUILD_STATUS_URL\?flow\=circleci-completed\&status\=FAILED -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+
+version: 2.1
+jobs:
+  webhook-completed:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    steps:
+      - run:
+          name: Webhook completed
+          command: |
+              curl $BUILD_STATUS_URL\?flow\=circleci-completed -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"${CIRCLE_BRANCH:-${CIRCLE_TAG/-/\/}}"'","build_number":"'"$CIRCLE_PREVIOUS_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+  build-java:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    environment:
+      TZ: "/usr/share/zoneinfo/Europe/Vienna"
+      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"'
+      TEST_RESULTS_PATH: build/circleci/test-results
+    steps:
+      - run:
+          <<: *webhook-created
+      - checkout
+      - run: chmod a+x gradlew
+      - restore_cache:
+          key: cache-gradle-{{ checksum "build.gradle" }}
+      - run: ./gradlew dependencies
+      - run: mkdir -p $TEST_RESULTS_PATH
+      - run: ./gradlew test --stacktrace
+      - run: find . -type f -regex ".*/build/test-results/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
+      - run: ./gradlew assemble --stacktrace
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: cache-gradle-{{ checksum "build.gradle" }}
+      - store_test_results:
+          path: build/circleci/test-results
+      - run:
+          <<: *webhook-failed
+  release-major:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - run:
+          <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+      - checkout
+      - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
+      - run: git checkout master && git pull --tags
+      - restore_cache:
+          key: cache-node-{{ checksum "package.json" }}
+      - run: ./gradlew build
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: cache-node-{{ checksum "package.json" }}
+      - run:
+          <<: *webhook-failed
+  release-minor:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - run:
+          <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+      - checkout
+      - run: yarn cleanup-release
+      - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
+      - run: git checkout master && git pull --tags
+      - restore_cache:
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: npm set registry https://registry.npmjs.org/
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run: npm run release:minor
+      - run: npm run doc
+      - run:
+          <<: *webhook-failed
+  release-patch:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - run:
+          <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+      - checkout
+      - run: yarn cleanup-release
+      - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
+      - run: git checkout ${CIRCLE_TAG/-/\/}
+      - restore_cache:
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: npm set registry https://registry.npmjs.org/
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run: npm run release:patch
+      - run: npm run doc
+      - run:
+          <<: *webhook-failed
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-java:
+          filters:
+            tags:
+              ignore: /.*/
+      - webhook-completed:
+          filters:
+            tags:
+              ignore: /.*/
+          requires:
+            - build-java
+  release-major:
+    jobs:
+      - release-major:
+          context: npm
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-major$/
+      - webhook-completed:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-major$/
+          requires:
+            - release-major
+  release-minor:
+    jobs:
+      - release-minor:
+          context: npm
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-minor$/
+      - webhook-completed:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-minor$/
+          requires:
+            - release-minor
+  release-patch:
+    jobs:
+      - release-patch:
+          context: npm
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-\d+\.\d+\.x$/
+      - webhook-completed:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^release-\d+\.\d+\.x$/
+          requires:
+            - release-patch
