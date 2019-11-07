@@ -54,14 +54,13 @@ jobs:
       - checkout
       - restore_cache:
           key: cache-node-{{ checksum "gaia-sdk-javascript/package.json" }}
-      - run: cd gaia-sdk-javascript
-      - run: yarn install
+      - run: cd ~/project/gaia-sdk-javascript && yarn install
       - save_cache:
           paths:
             - ./gaia-sdk-javascript/node_modules
           key: cache-node-{{ checksum "gaia-sdk-javascript/package.json" }}
-      - run: yarn test
-      - run: yarn build
+      - run: cd ~/project/gaia-sdk-javascript && yarn test
+      - run: cd ~/project/gaia-sdk-javascript && yarn build
       - run:
           <<: *webhook-failed
   release-major:
