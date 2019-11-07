@@ -45,6 +45,25 @@ jobs:
           path: build/circleci/test-results
       - run:
           <<: *webhook-failed
+  build-javascript:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - run:
+          <<: *webhook-created
+      - checkout
+      - run: cd gaia-sdk-javascript
+      - restore_cache:
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: cache-node-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: yarn build
+      - run:
+          <<: *webhook-failed
   release-major:
     docker:
       - image: circleci/node:10-browsers
@@ -129,12 +148,17 @@ workflows:
           filters:
             tags:
               ignore: /.*/
+      - build-javascript:
+          filters:
+            tags:
+              ignore: /.*/
       - webhook-completed:
           filters:
             tags:
               ignore: /.*/
           requires:
             - build-java
+            - build-javascript
   release-major:
     jobs:
       - release-major:
