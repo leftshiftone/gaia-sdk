@@ -52,14 +52,14 @@ jobs:
       - run:
           <<: *webhook-created
       - checkout
-      - run: cd gaia-sdk-javascript
       - restore_cache:
-          key: cache-node-{{ checksum "package.json" }}
+          key: cache-node-{{ checksum "gaia-sdk-javascript/package.json" }}
+      - run: cd gaia-sdk-javascript
       - run: yarn install
       - save_cache:
           paths:
-            - ./node_modules
-          key: cache-node-{{ checksum "package.json" }}
+            - ./gaia-sdk-javascript/node_modules
+          key: cache-node-{{ checksum "gaia-sdk-javascript/package.json" }}
       - run: yarn test
       - run: yarn build
       - run:
