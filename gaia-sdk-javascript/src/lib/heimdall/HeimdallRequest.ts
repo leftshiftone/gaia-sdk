@@ -18,7 +18,7 @@ export abstract class HeimdallRequest extends Array<(_:VariableRegistry) => stri
 export class HeimdallQueryRequest extends HeimdallRequest {
     public preprocessors:Array<string> = new Array<string>();
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `query heimdall(${registry.getDatatypes().join(", ")}) { ${fields} }`;
@@ -46,7 +46,7 @@ export class HeimdallMutationRequest extends HeimdallRequest {
         return "dispatchImpulseLog(impulse:$" + name1 + ")";
     });
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `mutation heimdall(${registry.getDatatypes().join(", ")}) { ${fields} }`;

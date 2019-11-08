@@ -24,7 +24,7 @@ export class AtlasQueryRequest extends AtlasRequest {
         return entity.render(registry);
     });
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `query atlas(${registry.getDatatypes().join(", ")}) { ${fields} }`;
@@ -327,7 +327,7 @@ export class AtlasMutationRequest extends AtlasRequest {
     public preprocessors:Array<string> = new Array<string>();
 
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `mutation atlas(${registry.getDatatypes().join(", ")}) { ${fields} }`;

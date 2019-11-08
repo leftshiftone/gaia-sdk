@@ -33,7 +33,7 @@
     *##foreach($ast in $filterFields.apply($list))#*
         *##if($foreach.count > 1)#tab(8), #else#tab(8)#end#*
         *##if($ast.class.simpleName.equals("Entity"))#*
-            *#@JsonProperty("$ast.name") val $ast.name: List#print("<")#capitalize($ast.name)#print(">")?#*
+            *#@JsonProperty("$ast.name") val $ast.name: #capitalize($ast.name)?#*
         *##else#*
             *#@JsonProperty("$ast.name") val $ast.name: #toKotlinType($ast.type)?#*
         *##end#*

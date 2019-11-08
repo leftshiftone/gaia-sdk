@@ -24,7 +24,7 @@ export class RainQueryRequest extends RainRequest {
         return entity.render(registry);
     });
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `query rain(${registry.getDatatypes().join(", ")}) { ${fields} }`;
@@ -98,7 +98,7 @@ export class RainMutationRequest extends RainRequest {
         return "handleSubmit(impulse:$" + name1 + ")";
     });
 
-    public getStatement():[string, {}] {
+    public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `mutation rain(${registry.getDatatypes().join(", ")}) { ${fields} }`;

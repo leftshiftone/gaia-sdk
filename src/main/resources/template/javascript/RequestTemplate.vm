@@ -26,7 +26,7 @@ export class #capitalize($name)QueryRequest extends #capitalize($name)Request {$
     *##end##
 #end##
 
-#tab(4)public getStatement():[string, {}] {
+#tab(4)public getStatement = ():[string, {}] => {
 #tab(8)const registry = new VariableRegistry();
 #tab(8)const fields = this.map((e) => e(registry)).join(" ");
 #tab(8)const statement = `query $name(${registry.getDatatypes().join(", ")}) { ${fields} }`;
@@ -54,7 +54,7 @@ export class #capitalize($name)MutationRequest extends #capitalize($name)Request
             *##end##
         #end##
 
-        #tab(4)public getStatement():[string, {}] {
+        #tab(4)public getStatement = ():[string, {}] => {
 #tab(8)const registry = new VariableRegistry();
 #tab(8)const fields = this.map((e) => e(registry)).join(" ");
 #tab(8)const statement = `mutation $name(${registry.getDatatypes().join(", ")}) { ${fields} }`;
