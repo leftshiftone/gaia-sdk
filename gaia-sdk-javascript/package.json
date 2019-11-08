@@ -1,7 +1,7 @@
 {
-    "name": "gaia-js-sdk",
-    "version": "0.6.0",
-    "description": "JavaScript connector to the GAIA ecosystem.",
+    "name": "@gaia/sdk",
+    "version": "0.1.0",
+    "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
         "crypto-js": "^3.1.9-1"
