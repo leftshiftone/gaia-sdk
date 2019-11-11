@@ -24,7 +24,7 @@ class RainClientTest {
                     reference()
                     score()
                 }
-                rainQuery("query")
+                gaiaQuery("query")
             }
         }
 
@@ -36,7 +36,7 @@ class RainClientTest {
             val map = ObjectMapper().readValue(payload, Map::class.java)
 
             assertThat(map["variables"]).isEqualTo(mapOf("statement1" to "query", "identity1" to "abc", "text1" to "text"))
-            assertThat(map["statement"]).isEqualTo("query rain(\$identity1: String!, \$text1: String!, \$statement1: String!) { insights(identity:\$identity1) { classify(text:\$text1) { qualifier reference score } rainQuery(statement:\$statement1) } }")
+            assertThat(map["statement"]).isEqualTo("query rain(\$identity1: String!, \$text1: String!, \$statement1: String!) { insights(identity:\$identity1) { classify(text:\$text1) { qualifier reference score } gaiaQuery(statement:\$statement1) } }")
             return Publisher { it.onComplete() }
         }
 
