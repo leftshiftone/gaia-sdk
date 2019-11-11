@@ -5,7 +5,7 @@ import gaia.sdk.api.ClientOptions
 import gaia.sdk.api.ITransporter
 import gaia.sdk.heimdall.HeimdallRequest.HeimdallMutationRequest.Impulse
 import gaia.sdk.heimdall.HeimdallRequest.HeimdallMutationRequest.ImpulseContext.ImpulseContextHeader
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.reactivestreams.Publisher
 
@@ -44,9 +44,10 @@ class HeimdallClientTest {
         override fun <T> transport(options: ClientOptions, type: Class<T>, payload: ByteArray): Publisher<T> {
             val map = ObjectMapper().readValue(payload, Map::class.java)
 
-            Assertions.assertEquals(map["variables"], mapOf("impulse1" to mapOf("impulsePayload" to "dGVzdA==", "impulseHeader" to mapOf("identityId" to "b", "clientId" to "a", "userId" to "c")),
-                    "impulse2" to mapOf("impulseContextPayload" to "dGVzdA==", "impulseContextHeader" to mapOf("identityId" to "b", "clientId" to "a", "userId" to "c"))))
-            Assertions.assertEquals(map["statement"], "mutation heimdall(\$impulse1: Impulse!, \$impulse2: ImpulseContext!) { dispatchImpulse(impulse:\$impulse1) dispatchImpulseContext(impulse:\$impulse2) }")
+            assertThat(map["variables"])
+                    .isEqualTo(mapOf("impulse1" to mapOf("impulsePayload" to "dGVzdA==", "impulseHeader" to mapOf("identityId" to "b", "clientId" to "a", "userId" to "c")), "impulse2" to mapOf("impulseContextPayload" to "dGVzdA==", "impulseContextHeader" to mapOf("identityId" to "b", "clientId" to "a", "userId" to "c"))))
+            assertThat(map["statement"])
+                    .isEqualTo("mutation heimdall(\$impulse1: Impulse!, \$impulse2: ImpulseContext!) { dispatchImpulse(impulse:\$impulse1) dispatchImpulseContext(impulse:\$impulse2) }")
             return Publisher { it.onComplete() }
         }
     }
