@@ -82,7 +82,7 @@ jobs:
       - run: if [[ "$SCOPE" = "patch" ]]; then echo "No checkout necessary"; else git checkout master; fi;
       - run: chmod a+x gradlew
       - run: ./gradlew test --stacktrace
-      - run: ./gradlew final publish -x :gaia-sdk-java:bintrayUpload -Prelease.scope=$SCOPE --stacktrace
+      - run: ./gradlew final publish -Prelease.scope=$SCOPE --stacktrace
       - run:
           name: Cleanup release
           when: always
