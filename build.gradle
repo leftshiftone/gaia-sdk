@@ -80,54 +80,6 @@ task triggerRelease() {
     }
 }
 
-task setVersionInPackageJson() {
-    doLast {
-        def packageJsonFile = file("${rootProject.projectDir}/package.json")
-        def parsedJson = new JsonSlurper().parseText(packageJsonFile.text)
-        parsedJson.version = version.toString()
-        def json = new JsonBuilder(parsedJson).toPrettyString()
-        packageJsonFile.text = json.replaceAll("    ", "  ")
-        logger.quiet("Updated version in package.json to ${version.toString()}")
-    }
-}
-
-task writeVersionToFile() {
-    doLast {
-        def setVersionProc = new ProcessBuilder(["echo", version.toString(), ">", "version.txt"])
-                .directory(project.projectDir)
-                .start()
-        setVersionProc.waitForProcessOutput(System.out, System.err)
-        logger.quiet("Wrote version ${version.toString()} to version.txt")
-    }
-}
-
-task commitPackageJson() {
-    doLast {
-        def gitAddPackageJsonProc = new ProcessBuilder(["git", "add", "package.json"])
-                .directory(project.projectDir)
-                .start()
-        gitAddPackageJsonProc.waitForProcessOutput(System.out, System.err)
-
-        String commitMessage = "[INFRA] set version to ${version.toString()}"
-        def gitCommitProc = new ProcessBuilder(["git", "commit", "-m", commitMessage])
-                .directory(project.projectDir)
-                .start()
-        gitCommitProc.waitForProcessOutput(System.out, System.err)
-    }
-}
-commitPackageJson.dependsOn setVersionInPackageJson
-
-task pushPackageJson() {
-    doLast {
-        def gitPushProc = new ProcessBuilder(["git", "push"])
-                .directory(project.projectDir)
-                .start()
-        gitPushProc.waitForProcessOutput(System.out, System.err)
-    }
-}
-pushPackageJson.dependsOn commitPackageJson
-afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushPackageJson }
-
 allprojects {
     apply plugin: "kotlin"
     apply plugin: "nebula.nebula-release"
@@ -140,10 +92,4 @@ allprojects {
     release {
         defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
     }
-}
-
-subprojects {
-    apply plugin: "org.jetbrains.dokka"
-    apply plugin: "maven-publish"
-    apply plugin: "com.jfrog.bintray"
 }
