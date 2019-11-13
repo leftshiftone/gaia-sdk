@@ -150,6 +150,8 @@ workflows:
               ignore: /.*/
             tags:
               only: /^trigger-release-(major|minor|patch)$/
+          requires:
+            - release-java
       - webhook-completed:
           filters:
             branches:
@@ -157,5 +159,4 @@ workflows:
             tags:
               only: /^trigger-release-(major|minor|patch)$/
           requires:
-            - release-java
             - release-javascript
