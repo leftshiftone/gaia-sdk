@@ -79,7 +79,7 @@ jobs:
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: echo 'export SCOPE=${CIRCLE_TAG#trigger-release-}' >> $BASH_ENV && source $BASH_ENV
       - run: echo "Release scope is $SCOPE"
-      - run: if [[ "$SCOPE" = "patch" ]] then echo "No checkout necessary"; else git checkout master; fi;
+      - run: if [[ "$SCOPE" = "patch" ]]; then echo "No checkout necessary"; else git checkout master; fi;
       - run: chmod a+x gradlew
       - run: ./gradlew test --stacktrace
       - run: ./gradlew final publish -Prelease.scope=$SCOPE --stacktrace
@@ -102,7 +102,7 @@ jobs:
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: echo 'export SCOPE=${CIRCLE_TAG#trigger-release-}' >> $BASH_ENV && source $BASH_ENV
       - run: echo "Release scope is $SCOPE"
-      - run: if [[ "$SCOPE" = "patch" ]] then echo "No checkout necessary"; else git checkout master; fi;
+      - run: if [[ "$SCOPE" = "patch" ]]; then echo "No checkout necessary"; else git checkout master; fi;
       - run: cd ~/project/gaia-sdk-javascript && npm install
       - run: cd ~/project/gaia-sdk-javascript && npm run test
       - run: npm set registry https://registry.npmjs.org/
