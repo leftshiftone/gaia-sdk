@@ -55,7 +55,7 @@
         "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN",
         "release:major": "release-it major --no-git.requireCleanWorkingDir",
         "release:minor": "release-it minor --no-git.requireCleanWorkingDir",
-        "release:patch": "release-it patch --no-git.requireCleanWorkingDir --no-git.requireUpstream",
+        "release:patch": "release-it patch --no-git.requireCleanWorkingDir --no-git.requireUpstream"
     },
     "repository": {
         "type": "git",
