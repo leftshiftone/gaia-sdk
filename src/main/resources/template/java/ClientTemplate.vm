@@ -2,8 +2,8 @@
 package gaia.sdk.$name
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.api.ClientOptions
-import gaia.sdk.api.ITransporter
+import ClientOptions
+import ITransporter
 import org.reactivestreams.Publisher
 import org.slf4j.LoggerFactory
 import java.security.SecureRandom

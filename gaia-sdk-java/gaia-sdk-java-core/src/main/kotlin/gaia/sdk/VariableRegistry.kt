@@ -1,8 +1,6 @@
 package gaia.sdk
 
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.math.absoluteValue
-import kotlin.random.Random
 
 class VariableRegistry {
     private val variables = HashMap<String, Any>()
