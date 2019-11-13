@@ -69,15 +69,10 @@ task triggerRelease() {
                 .directory(project.projectDir)
                 .start()
         gitPushProc.waitForProcessOutput(System.out, System.err)
-    }
-}
-
-task cleanupReleaseTrigger() {
-    doLast {
-        if (!project.hasProperty("scope")) {
-            throw new RuntimeException("Scope not set. Set it with e.g. -Pscope=minor")
+        if (gitPushProc.exitValue() != 0) {
+            logger.quiet("Unable to push tag")
         }
-        String scope = project.property("scope")
+
         def gitDeleteTriggerTagProc = new ProcessBuilder(["git", "tag", "-d", "trigger-release-$scope" as String])
                 .directory(project.projectDir)
                 .start()

@@ -72,10 +72,14 @@ jobs:
     steps:
       - run:
           <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
       - checkout
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: echo 'export SCOPE=${CIRCLE_TAG#trigger-release-}' >> $BASH_ENV && source $BASH_ENV
       - run: echo "Release scope is $SCOPE"
+      - run: if [[ "$SCOPE" = "patch" ]] then echo "No checkout necessary"; else git checkout master; fi;
       - run: chmod a+x gradlew
       - run: ./gradlew test --stacktrace
       - run: ./gradlew final publish -Prelease.scope=$SCOPE --stacktrace
@@ -91,10 +95,14 @@ jobs:
     steps:
       - run:
           <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
       - checkout
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: echo 'export SCOPE=${CIRCLE_TAG#trigger-release-}' >> $BASH_ENV && source $BASH_ENV
       - run: echo "Release scope is $SCOPE"
+      - run: if [[ "$SCOPE" = "patch" ]] then echo "No checkout necessary"; else git checkout master; fi;
       - run: cd ~/project/gaia-sdk-javascript && npm install
       - run: cd ~/project/gaia-sdk-javascript && npm run test
       - run: npm set registry https://registry.npmjs.org/
@@ -126,10 +134,10 @@ workflows:
           requires:
             - build-java
             - build-javascript
-  release-major:
+  release:
     jobs:
       - release-java:
-          context: npm
+          context: bintray-jcenter
           filters:
             branches:
               ignore: /.*/
