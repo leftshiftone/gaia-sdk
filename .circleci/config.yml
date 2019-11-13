@@ -85,7 +85,7 @@ jobs:
       - run: ./gradlew final publish -Prelease.scope=$SCOPE --stacktrace
       - run:
           name: Cleanup release
-          when: always
+          when: on_fail
           command: git push -d origin $CIRCLE_TAG || true
       - run:
           <<: *webhook-failed
