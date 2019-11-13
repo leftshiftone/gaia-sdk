@@ -54,7 +54,7 @@ val response = client.query(request)
 ## Development
 
 ### Release
-Releases are triggered locally. Just a tag will be pushed and CI pipelines take care of the rest.
+Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
 
 #### Major
 Run `./gradlew triggerRelease -Pscope=major` locally.
