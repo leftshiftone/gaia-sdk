@@ -63,7 +63,7 @@
             "commit": true,
             "commitMessage": "Release ${version}",
             "commitArgs": "",
-            "tag": true,
+            "tag": false,
             "tagName": "v${version}",
             "tagAnnotation": "Release ${version}",
             "tagArgs": "",
