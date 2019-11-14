@@ -105,8 +105,8 @@ jobs:
       - run: if [[ "$SCOPE" = "patch" ]]; then echo "No checkout necessary"; else git checkout master; fi;
       - run: cd ~/project/gaia-sdk-javascript && npm install
       - run: cd ~/project/gaia-sdk-javascript && npm run test
-      - run: npm set registry https://registry.npmjs.org/
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run: cd ~/project/gaia-sdk-javascript && npm set registry https://registry.npmjs.org/
+      - run: cd ~/project/gaia-sdk-javascript && echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run: cd ~/project/gaia-sdk-javascript && npm run release:$SCOPE
       - run:
           name: Cleanup release
