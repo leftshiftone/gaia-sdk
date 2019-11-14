@@ -1,5 +1,5 @@
 {
-    "name": "@gaia/sdk",
+    "name": "gaia-sdk",
     "version": "0.0.0",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
