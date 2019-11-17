@@ -1,6 +1,6 @@
 {
     "name": "gaia-sdk",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
@@ -43,7 +43,7 @@
     "scripts": {
         "webpack:dev": "webpack-dev-server --open --mode=development",
         "webpack:build": "webpack --mode=production",
-        "build" : "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
+        "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
         "lint": "stylelint tslint src/**/*.ts",
         "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN",
