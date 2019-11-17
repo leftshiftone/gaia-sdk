@@ -7,9 +7,6 @@
         "crypto-js": "^3.1.9-1"
     },
     "devDependencies": {
-        "@babel/cli": "^7.2.3",
-        "@babel/core": "^7.3.4",
-        "@babel/preset-env": "^7.3.4",
         "@types/crypto-js": "^3.1.43",
         "@types/jest": "^24.0.9",
         "@types/node": "^10.7.1",
@@ -46,10 +43,7 @@
     "scripts": {
         "webpack:dev": "webpack-dev-server --open --mode=development",
         "webpack:build": "webpack --mode=production",
-        "ts:build": "tsc -p . --outDir build",
-        "babel:transpile": "yarn run babel build --out-dir dist --ignore dist/libs/ --presets=@babel/preset-env",
-        "assemble": "npm run ts:build && npm run webpack:build",
-        "build": "npm run test && npm run ts:build && npm run babel:transpile && npm run webpack:build && rm -rf ./build",
+        "build" : "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
         "lint": "stylelint tslint src/**/*.ts",
         "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN",

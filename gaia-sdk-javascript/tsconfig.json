@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "es6",
     "target": "es5",
-    "sourceMap": false,
+    "sourceMap": true,
+    "inlineSources": true,
     "allowJs": false,
     "rootDir": "./src",
     "outDir": "./dist",
@@ -10,7 +11,14 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "lib": ["es5", "es2015.promise", "dom", "es2015", "es6"],
-    "declaration": true,
-    "declarationDir": "types"
-  }
+    "declaration": true
+  },
+    "files": [
+        "./src/all.ts",
+        "./src/atlas.ts",
+        "./src/heimdall.ts",
+        "./src/rain.ts"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false
 }

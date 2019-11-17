@@ -20,7 +20,7 @@ module.exports = (env, argv) => ({
         extensions: ['.ts', '.js'],
     },
     output: {
-        library: "GaiaJsSDK",
+        library: "GaiaSdk",
         libraryTarget: "umd",
         filename: 'libs/[name].min.js',
         path: path.resolve(__dirname, 'dist'),
