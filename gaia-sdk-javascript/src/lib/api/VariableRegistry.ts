@@ -11,13 +11,20 @@ export default class VariableRegistry {
         const varName = name + this.counters[name];
 
         this.variables[varName] = value;
-        this.datatypes.push("$" + varName + ":" + typeof(value));
+        this.datatypes.push("$" + varName + ":" + this.toType(typeof(value)));
 
         return varName;
     }
 
     public getVariables = () => this.variables;
     public getDatatypes = () => this.datatypes;
+
+    private toType(value:string):string {
+        switch (value) {
+            case "string": return "String!";
+            default: return value;
+        }
+    }
 
 }
 
