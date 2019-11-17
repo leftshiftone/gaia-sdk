@@ -1,5 +1,5 @@
 #parse("/template/javascript/ResponseMacros.vm")
-interface #capitalize($name)Response {}
+export interface #capitalize($name)Response {}
 #if($hasQuery)
 export interface #capitalize($name)QueryResponse extends #capitalize($name)Response {#*
     *#$newLine#tab(4)data?:QueryData;#*
@@ -9,7 +9,7 @@ export interface #capitalize($name)QueryResponse extends #capitalize($name)Respo
     *#$newLine#tab(4)logs?:#print("Record<string, Array<string>>")#*
     *#$newLine#tab(4)errors?:#print("Array<string>");$newLine##
 }
-interface QueryData {$newLine#*
+export interface QueryData {$newLine#*
     *##tab(4)#renderDataFields($list, "Query")
 }
     #renderEntities($list, "Query")
@@ -20,7 +20,7 @@ export interface #capitalize($name)MutationResponse extends #capitalize($name)Re
     *#$newLine#tab(4)logs?:#print("Record<string, Array<string>>")#*
     *#$newLine#tab(4)errors?:#print("Array<string>");$newLine##
 }
-interface MutationData {#*
+export interface MutationData {#*
     *##tab(4)#renderDataFields($list, "Mutation")
 }
     #renderEntities($list, "Mutation")

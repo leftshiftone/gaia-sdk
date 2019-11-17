@@ -47,7 +47,7 @@
 #end
 #macro(renderEntity $entity $prefix)#*
     *##if($entity.class.simpleName.equals("Entity"))#*
-        *#interface $prefix#capitalize($entity.name) {#*
+        *#export interface $prefix#capitalize($entity.name) {#*
             *#$newLine#*
             *##renderFields($entity, $prefix)#*
         *#}$newLine#*

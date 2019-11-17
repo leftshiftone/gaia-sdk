@@ -1,4 +1,4 @@
-interface AtlasResponse {}
+export interface AtlasResponse {}
 export interface AtlasQueryResponse extends AtlasResponse {
     data?:QueryData;
     nluScore?:number;
@@ -7,11 +7,11 @@ export interface AtlasQueryResponse extends AtlasResponse {
     logs?:Record<string, Array<string>>
     errors?:Array<string>;
 }
-interface QueryData {
+export interface QueryData {
     
     nlu?:QueryNlu;
 }
-interface QueryNlu {
+export interface QueryNlu {
     txt?:string;
     raw?:string;
     cls?:string;
@@ -20,7 +20,7 @@ interface QueryNlu {
     ner?:QueryNer;
 }
 
-interface QueryLex {
+export interface QueryLex {
     txt?:string;
     raw?:string;
     cls?:string;
@@ -29,7 +29,7 @@ interface QueryLex {
     ner?:QueryNer;
 }
 
-interface QueryDep {
+export interface QueryDep {
     txt?:string;
     raw?:string;
     cls?:string;
@@ -38,7 +38,7 @@ interface QueryDep {
     ner?:QueryNer;
 }
 
-interface QueryNer {
+export interface QueryNer {
     txt?:string;
     raw?:string;
     cls?:string;

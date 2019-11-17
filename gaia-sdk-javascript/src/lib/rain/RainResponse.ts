@@ -1,4 +1,4 @@
-interface RainResponse {}
+export interface RainResponse {}
 export interface RainQueryResponse extends RainResponse {
     data?:QueryData;
     nluScore?:number;
@@ -7,16 +7,16 @@ export interface RainQueryResponse extends RainResponse {
     logs?:Record<string, Array<string>>
     errors?:Array<string>;
 }
-interface QueryData {
+export interface QueryData {
     
     insights?:QueryInsights;
 }
-interface QueryInsights {
+export interface QueryInsights {
     classify?:QueryClassify;
     gaiaQuery?:Array<Map<string, any>>;
 }
 
-interface QueryClassify {
+export interface QueryClassify {
     classify?:QueryClassify;
     gaiaQuery?:Array<Map<string, any>>;
 }
@@ -25,38 +25,38 @@ export interface RainMutationResponse extends RainResponse {
     logs?:Record<string, Array<string>>
     errors?:Array<string>;
 }
-interface MutationData {    
+export interface MutationData {    
     receptionImpulse?:MutationReceptionImpulse;
     buttonImpulse?:MutationButtonImpulse;
     submitImpulse?:MutationSubmitImpulse;
     suggestionImpulse?:MutationSuggestionImpulse;
     utteranceImpulse?:MutationUtteranceImpulse;
 }
-interface MutationReceptionImpulse {
+export interface MutationReceptionImpulse {
     identityId?:string;
     clientId?:string;
     userId?:string;
     attributes?:Map<string, any>;
 }
-interface MutationButtonImpulse {
+export interface MutationButtonImpulse {
     identityId?:string;
     clientId?:string;
     userId?:string;
     attributes?:Map<string, any>;
 }
-interface MutationSubmitImpulse {
+export interface MutationSubmitImpulse {
     identityId?:string;
     clientId?:string;
     userId?:string;
     attributes?:Map<string, any>;
 }
-interface MutationSuggestionImpulse {
+export interface MutationSuggestionImpulse {
     identityId?:string;
     clientId?:string;
     userId?:string;
     attributes?:Map<string, any>;
 }
-interface MutationUtteranceImpulse {
+export interface MutationUtteranceImpulse {
     identityId?:string;
     clientId?:string;
     userId?:string;

@@ -1,48 +1,48 @@
-interface HeimdallResponse {}
+export interface HeimdallResponse {}
 export interface HeimdallMutationResponse extends HeimdallResponse {
     data?:MutationData;
     logs?:Record<string, Array<string>>
     errors?:Array<string>;
 }
-interface MutationData {    
+export interface MutationData {    
     impulse?:MutationImpulse;
     impulseContext?:MutationImpulseContext;
     impulseNotification?:MutationImpulseNotification;
     impulseLog?:MutationImpulseLog;
 }
-interface MutationImpulse {
+export interface MutationImpulse {
     impulsePayload?:Uint8Array;
     impulseHeader?:MutationImpulseHeader;
 }
 
-interface MutationImpulseHeader {
+export interface MutationImpulseHeader {
     impulsePayload?:Uint8Array;
     impulseHeader?:MutationImpulseHeader;
 }
-interface MutationImpulseContext {
+export interface MutationImpulseContext {
     impulseContextPayload?:Uint8Array;
     impulseContextHeader?:MutationImpulseContextHeader;
 }
 
-interface MutationImpulseContextHeader {
+export interface MutationImpulseContextHeader {
     impulseContextPayload?:Uint8Array;
     impulseContextHeader?:MutationImpulseContextHeader;
 }
-interface MutationImpulseNotification {
+export interface MutationImpulseNotification {
     impulseNotificationPayload?:Uint8Array;
     impulseNotificationHeader?:MutationImpulseNotificationHeader;
 }
 
-interface MutationImpulseNotificationHeader {
+export interface MutationImpulseNotificationHeader {
     impulseNotificationPayload?:Uint8Array;
     impulseNotificationHeader?:MutationImpulseNotificationHeader;
 }
-interface MutationImpulseLog {
+export interface MutationImpulseLog {
     impulseLogPayload?:Uint8Array;
     impulseLogHeader?:MutationImpulseLogHeader;
 }
 
-interface MutationImpulseLogHeader {
+export interface MutationImpulseLogHeader {
     impulseLogPayload?:Uint8Array;
     impulseLogHeader?:MutationImpulseLogHeader;
 }
