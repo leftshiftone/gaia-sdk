@@ -1,6 +1,20 @@
-allprojects {
-    apply plugin: "kotlin"
+/*
+ * Copyright (c) 2016-2019, Leftshift One
+ * __________________
+ * [2019] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
 
+allprojects {
     repositories {
         jcenter()
         mavenCentral()
@@ -17,7 +31,12 @@ allprojects {
 
         testImplementation "org.junit.jupiter:junit-jupiter-engine:5.5.1"
         testImplementation "org.assertj:assertj-core:3.11.1"
+        testRuntime "org.slf4j:slf4j-simple:1.7.28"
     }
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
 
     test {
         useJUnitPlatform()
@@ -31,8 +50,71 @@ allprojects {
     }
 }
 
+
 subprojects {
-    dependencies {
-        implementation project(":gaia-sdk-java")
+    apply plugin: "org.jetbrains.dokka"
+    apply plugin: "maven-publish"
+    apply plugin: "com.jfrog.bintray"
+
+    task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+        outputFormat = "javadoc"
+        outputDirectory = "${buildDir}/dokkaJavadoc"
+    }
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier "sources"
+    }
+    task javadocJar(type: Jar) {
+        from dokkaJavadoc
+        classifier "javadoc"
+    }
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = project.name
+                from components.java
+                artifact sourceJar
+                artifact javadocJar
+                pom.withXml {
+                    Node root = asNode()
+                    root.appendNode("name", "GAIA SDK")
+                    root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
+                    root.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+
+                    Node licenses = root.appendNode("licenses")
+                    Node license = licenses.appendNode("license")
+                    license.appendNode("name", "MIT")
+                    license.appendNode("url", "https://github.com/leftshiftone/gaia-sdk/blob/master/LICENSE")
+
+                    Node developers = root.appendNode("developers")
+                    Node developer = developers.appendNode("developer")
+                    developer.appendNode("id", "leftshiftone")
+                    developer.appendNode("name", "Leftshift One")
+                    developer.appendNode("email", "contact@leftshift.one")
+                    developer.appendNode("organization", "Leftshift One Software GmbH")
+                    developer.appendNode("organizationUrl", "https://www.leftshift.one")
+
+                    Node scm = root.appendNode("scm")
+                    scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/gaia-sdk.git")
+                    scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/gaia-sdk.git")
+                    scm.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+                }
+            }
+        }
+    }
+
+    bintray {
+        logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
+        user = System.getenv('BINTRAY_USER')
+        key = System.getenv('BINTRAY_KEY')
+        publish = true
+        pkg {
+            repo = "gaia-sdk"
+            name = "${project.group}.${project.name}"
+            userOrg = "leftshiftone"
+            licenses = ["MIT"]
+            vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
+            publications = ["mavenJava"]
+        }
     }
 }

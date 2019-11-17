@@ -1,6 +1,6 @@
 {
-    "name": "@gaia/sdk",
-    "version": "0.1.0",
+    "name": "gaia-sdk",
+    "version": "0.2.0",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
@@ -18,7 +18,7 @@
         "import-glob-loader": "^1.1.0",
         "jest": "^23.6.0",
         "jest-junit": "5.1.0",
-        "release-it": "^8.2.0",
+        "release-it": "^10.3.1",
         "sinon": "^7.2.3",
         "sonarqube-scanner": "2.1.2",
         "style-loader": "^0.22.1",
@@ -53,15 +53,9 @@
         "test": "jest",
         "lint": "stylelint tslint src/**/*.ts",
         "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN",
-        "trigger-release:major": "git pull --tags && git tag release-major && git push --tags && git tag -d release-major",
-        "cleanup-release:major": "git tag -d release-major && git push -d origin release-major",
-        "trigger-release:minor": "git pull --tags && git tag release-minor && git push --tags && git tag -d release-minor",
-        "cleanup-release:minor": "git tag -d release-minor && git push -d origin release-minor",
-        "trigger-release:patch": "git pull --tags && git tag release-patch && git push --tags && git tag -d release-patch",
-        "cleanup-release:patch": "git tag -d release-patch && git push -d origin release-patch",
-        "release:major": "release-it major",
-        "release:minor": "release-it minor",
-        "release:patch": "release-it patch --no-git.requireUpstream"
+        "release:major": "release-it major --no-git.requireCleanWorkingDir",
+        "release:minor": "release-it minor --no-git.requireCleanWorkingDir",
+        "release:patch": "release-it patch --no-git.requireCleanWorkingDir --no-git.requireUpstream"
     },
     "repository": {
         "type": "git",

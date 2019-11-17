@@ -1,18 +1,5 @@
-/*
- * Copyright (c) 2016-2019, Leftshift One
- * __________________
- * [2019] Leftshift One
- * All Rights Reserved.
- * NOTICE:  All information contained herein is, and remains
- * the property of Leftshift One and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Leftshift One
- * and its suppliers and may be covered by Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Leftshift One.
- */
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 
 buildscript {
     ext {
@@ -25,9 +12,9 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "com.netflix.nebula:nebula-release-plugin:8.0.3"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
-        classpath "com.netflix.nebula:nebula-release-plugin:8.0.3"
     }
 }
 
@@ -55,3 +42,54 @@ generateGrammarSource {
     arguments += ["-visitor", "-package", "gaia.sdk.antlr"]
 }
 compileKotlin.dependsOn generateGrammarSource
+
+task triggerRelease() {
+    doLast {
+        if (!project.hasProperty("scope")) {
+            throw new RuntimeException("Scope not set. Set it with e.g. -Pscope=minor")
+        }
+        String scope = project.property("scope")
+        def gitPullProc = new ProcessBuilder(["git", "pull", "--tags"])
+                .directory(project.projectDir)
+                .start()
+        gitPullProc.waitForProcessOutput(System.out, System.err)
+        if (gitPullProc.exitValue() != 0) {
+            throw new RuntimeException("Unable to pull")
+        }
+
+        def gitTriggerTagProc = new ProcessBuilder(["git", "tag", "-a", "-m", "Trigger", "trigger-release-$scope" as String])
+                .directory(project.projectDir)
+                .start()
+        gitTriggerTagProc.waitForProcessOutput(System.out, System.err)
+        if (gitPullProc.exitValue() != 0) {
+            throw new RuntimeException("Unable to create tag")
+        }
+
+        def gitPushProc = new ProcessBuilder(["git", "push", "--tags"])
+                .directory(project.projectDir)
+                .start()
+        gitPushProc.waitForProcessOutput(System.out, System.err)
+        if (gitPushProc.exitValue() != 0) {
+            logger.quiet("Unable to push tag")
+        }
+
+        def gitDeleteTriggerTagProc = new ProcessBuilder(["git", "tag", "-d", "trigger-release-$scope" as String])
+                .directory(project.projectDir)
+                .start()
+        gitDeleteTriggerTagProc.waitForProcessOutput(System.out, System.err)
+    }
+}
+
+allprojects {
+    apply plugin: "kotlin"
+    apply plugin: "nebula.nebula-release"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    release {
+        defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
+    }
+}

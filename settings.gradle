@@ -1,6 +1,6 @@
-include "gaia-sdk-java"
+rootProject.name = rootProjectName
+
+include "gaia-sdk-java:gaia-sdk-java-core"
 include "gaia-sdk-java:gaia-sdk-java-atlas"
 include "gaia-sdk-java:gaia-sdk-java-heimdall"
 include "gaia-sdk-java:gaia-sdk-java-rain"
-include "gaia-sdk-javascript"
-include "gaia-sdk-python"

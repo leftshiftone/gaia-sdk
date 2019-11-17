@@ -50,3 +50,17 @@ To invoke the request simply calling the appropriate client method.
 ```
 val response = client.query(request)
 ```
+
+## Development
+
+### Release
+Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
+
+#### Major
+Run `./gradlew triggerRelease -Pscope=major` locally.
+
+#### Minor
+Run `./gradlew triggerRelease -Pscope=minor` locally.
+
+#### Patch
+Run `./gradlew triggerRelease -Pscope=patch` locally.
