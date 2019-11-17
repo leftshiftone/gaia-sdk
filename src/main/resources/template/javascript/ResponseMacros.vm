@@ -1,8 +1,8 @@
 #macro(toKotlinType $type $prefix)
-    #if ($type.class.simpleName.equals("StringType"))string##
-    #elseif ($type.class.simpleName.equals("IntType"))number##
-    #elseif ($type.class.simpleName.equals("FloatType"))number##
-    #elseif ($type.class.simpleName.equals("BooleanType"))boolean##
+    #if ($type.class.simpleName.equals("StringType"))String##
+    #elseif ($type.class.simpleName.equals("IntType"))Int##
+    #elseif ($type.class.simpleName.equals("FloatType"))Float##
+    #elseif ($type.class.simpleName.equals("BooleanType"))Boolean##
     #elseif ($type.class.simpleName.equals("MapType"))Map#print("<")string, any#print(">")##
     #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))Uint8Array##
     #elseif ($type.class.simpleName.equals("ListType"))#print("Array<")#toKotlinType($type.type, $prefix)#print(">")##
