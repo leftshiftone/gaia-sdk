@@ -22,6 +22,7 @@ export default class VariableRegistry {
     private toType(value:string):string {
         switch (value) {
             case "string": return "String!";
+            case "boolean": return "Boolean!";
             default: return value;
         }
     }
