@@ -1,6 +1,6 @@
 {
     "name": "gaia-sdk",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
