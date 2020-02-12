@@ -53,6 +53,9 @@ val response = client.query(request)
 
 ## Development
 
+### Generate source
+Run `/gradlew generateSource`.
+
 ### Release
 Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
 

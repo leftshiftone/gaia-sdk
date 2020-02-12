@@ -43,6 +43,18 @@ generateGrammarSource {
 }
 compileKotlin.dependsOn generateGrammarSource
 
+test {
+    useJUnitPlatform()
+}
+
+task generateSource(type: Test) {
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "gaia.sdk.codegen.KotlinCodegenTest"
+    }
+}
+generateSource.dependsOn generateGrammarSource
+
 task triggerRelease() {
     doLast {
         if (!project.hasProperty("scope")) {

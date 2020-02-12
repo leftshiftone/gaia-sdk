@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class KotlinCodegenTest {
 
     @Test
-    fun test() {
+    fun generate() {
         Codegen.parse("/schema/atlas.txt".stream(), "atlas").generate()
         Codegen.parse("/schema/heimdall.txt".stream(), "heimdall").generate()
         Codegen.parse("/schema/rain.txt".stream(), "rain").generate()
