@@ -31,14 +31,14 @@ data class AtlasQueryResponse @JsonCreator constructor(
         @JsonProperty("lemma") val lemma: String?, 
         @JsonProperty("pos") val pos: String?, 
         @JsonProperty("base") val base: String?, 
-        @JsonProperty("flexions") val flexions: Lex?, 
-        @JsonProperty("synonyms") val synonyms: Lex?, 
-        @JsonProperty("collocations") val collocations: Lex?, 
-        @JsonProperty("hyperonyms") val hyperonyms: Lex?, 
-        @JsonProperty("meronyms") val meronyms: Lex?, 
-        @JsonProperty("parts") val parts: Lex?, 
-        @JsonProperty("abbreviations") val abbreviations: Lex?, 
-        @JsonProperty("causations") val causations: Lex?, 
+        @JsonProperty("flexions") val flexions: List<Lex>?, 
+        @JsonProperty("synonyms") val synonyms: List<Lex>?, 
+        @JsonProperty("collocations") val collocations: List<Lex>?, 
+        @JsonProperty("hyperonyms") val hyperonyms: List<Lex>?, 
+        @JsonProperty("meronyms") val meronyms: List<Lex>?, 
+        @JsonProperty("parts") val parts: List<Lex>?, 
+        @JsonProperty("abbreviations") val abbreviations: List<Lex>?, 
+        @JsonProperty("causations") val causations: List<Lex>?, 
         @JsonProperty("labels") val labels: List<String>?
     )
 

@@ -10,14 +10,14 @@ query {
           lemma:string
           pos:string
           base:string
-          flexions:ref(lex)
-          synonyms:ref(lex)
-          collocations:ref(lex)
-          hyperonyms:ref(lex)
-          meronyms:ref(lex)
-          parts:ref(lex)
-          abbreviations:ref(lex)
-          causations:ref(lex)
+          flexions:list(ref(lex))
+          synonyms:list(ref(lex))
+          collocations:list(ref(lex))
+          hyperonyms:list(ref(lex))
+          meronyms:list(ref(lex))
+          parts:list(ref(lex))
+          abbreviations:list(ref(lex))
+          causations:list(ref(lex))
           labels:list(string)
        }
        list(dep) {

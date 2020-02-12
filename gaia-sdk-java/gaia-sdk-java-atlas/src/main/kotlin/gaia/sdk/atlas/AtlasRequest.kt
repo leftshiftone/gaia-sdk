@@ -32,14 +32,14 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 fun lemma() = add { "lemma" }
                 fun pos() = add { "pos" }
                 fun base() = add { "base" }
-                fun flexions(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun synonyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun collocations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun hyperonyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun meronyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun parts(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun abbreviations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
-                fun causations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it) }
+                fun flexions() = add { "flexions" }
+                fun synonyms() = add { "synonyms" }
+                fun collocations() = add { "collocations" }
+                fun hyperonyms() = add { "hyperonyms" }
+                fun meronyms() = add { "meronyms" }
+                fun parts() = add { "parts" }
+                fun abbreviations() = add { "abbreviations" }
+                fun causations() = add { "causations" }
                 fun labels() = add { "labels" }
 
                 fun render(registry:VariableRegistry): String {

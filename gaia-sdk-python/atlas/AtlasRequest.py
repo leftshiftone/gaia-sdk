@@ -88,45 +88,29 @@ class QueryLex(list):
     def base(self):
         self.append(lambda x: "base")
 
-    def flexions(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "flexions { " + (entity.render(registry)) + " }")
+    def flexions(self):
+        self.append(lambda x: "flexions")
 
-    def synonyms(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "synonyms { " + (entity.render(registry)) + " }")
+    def synonyms(self):
+        self.append(lambda x: "synonyms")
 
-    def collocations(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "collocations { " + (entity.render(registry)) + " }")
+    def collocations(self):
+        self.append(lambda x: "collocations")
 
-    def hyperonyms(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "hyperonyms { " + (entity.render(registry)) + " }")
+    def hyperonyms(self):
+        self.append(lambda x: "hyperonyms")
 
-    def meronyms(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "meronyms { " + (entity.render(registry)) + " }")
+    def meronyms(self):
+        self.append(lambda x: "meronyms")
 
-    def parts(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "parts { " + (entity.render(registry)) + " }")
+    def parts(self):
+        self.append(lambda x: "parts")
 
-    def abbreviations(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "abbreviations { " + (entity.render(registry)) + " }")
+    def abbreviations(self):
+        self.append(lambda x: "abbreviations")
 
-    def causations(self, config:Callable[['QueryLex'], None]):
-        entity = QueryLex()
-        config(entity)
-        self.append(lambda registry: "causations { " + (entity.render(registry)) + " }")
+    def causations(self):
+        self.append(lambda x: "causations")
 
     def labels(self):
         self.append(lambda x: "labels")
