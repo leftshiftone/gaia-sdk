@@ -31,9 +31,13 @@
 #macro(renderData $list)#*
     *##tab(4)data class Data @JsonCreator constructor(#*
     *##foreach($ast in $filterFields.apply($list))#*
-        *##if($foreach.count > 1)#tab(8), #else#tab(8)#end#*
+        *##if($foreach.count > 1), #end#*
         *##if($ast.class.simpleName.equals("Entity"))#*
-            *#@JsonProperty("$ast.name") val $ast.name: #capitalize($ast.name)?#*
+            *##if ($ast.listType)#*
+                *#@JsonProperty("$ast.name") val $ast.name: List${lt}#capitalize($ast.name)${gt}?#*
+            *##else#*
+                *#@JsonProperty("$ast.name") val $ast.name: #capitalize($ast.name)?#*
+            *##end#*
         *##else#*
             *#@JsonProperty("$ast.name") val $ast.name: #toKotlinType($ast.type)?#*
         *##end#*

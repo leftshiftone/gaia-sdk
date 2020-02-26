@@ -9,16 +9,17 @@ export interface RainQueryResponse extends RainResponse {
 }
 export interface QueryData {
     
-    insights?:QueryInsights;
+    insights?:Array<QueryInsights>;
 }
 export interface QueryInsights {
-    classify?:QueryClassify;
+    classify?:Array<QueryClassify>;
     gaiaQuery?:Array<Map<string, any>>;
 }
 
 export interface QueryClassify {
-    classify?:QueryClassify;
-    gaiaQuery?:Array<Map<string, any>>;
+    qualifier?:string;
+    reference?:string;
+    score?:number;
 }
 export interface RainMutationResponse extends RainResponse {
     data?:MutationData;

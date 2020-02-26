@@ -16,8 +16,9 @@ export interface MutationImpulse {
 }
 
 export interface MutationImpulseHeader {
-    impulsePayload?:Uint8Array;
-    impulseHeader?:MutationImpulseHeader;
+    identityId?:string;
+    clientId?:string;
+    userId?:string;
 }
 export interface MutationImpulseContext {
     impulseContextPayload?:Uint8Array;
@@ -25,8 +26,9 @@ export interface MutationImpulseContext {
 }
 
 export interface MutationImpulseContextHeader {
-    impulseContextPayload?:Uint8Array;
-    impulseContextHeader?:MutationImpulseContextHeader;
+    identityId?:string;
+    clientId?:string;
+    userId?:string;
 }
 export interface MutationImpulseNotification {
     impulseNotificationPayload?:Uint8Array;
@@ -34,8 +36,9 @@ export interface MutationImpulseNotification {
 }
 
 export interface MutationImpulseNotificationHeader {
-    impulseNotificationPayload?:Uint8Array;
-    impulseNotificationHeader?:MutationImpulseNotificationHeader;
+    identityId?:string;
+    clientId?:string;
+    userId?:string;
 }
 export interface MutationImpulseLog {
     impulseLogPayload?:Uint8Array;
@@ -43,6 +46,7 @@ export interface MutationImpulseLog {
 }
 
 export interface MutationImpulseLogHeader {
-    impulseLogPayload?:Uint8Array;
-    impulseLogHeader?:MutationImpulseLogHeader;
+    identityId?:string;
+    clientId?:string;
+    userId?:string;
 }

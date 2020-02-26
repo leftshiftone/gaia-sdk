@@ -13,7 +13,7 @@ class #capitalize($name)QueryResponse(#capitalize($name)Response):#*
     *#$newLine#tab(4)def nluScore(self) -> float:#*
     *#$newLine#tab(8)return self.nluScore#*
     *#$newLine#tab(4)def nerScore(self) -> float:#*
-    *#$newLine#tab(8)return self.newScore#*
+    *#$newLine#tab(8)return self.nerScore#*
     *#$newLine#tab(4)def score(self) -> float:#*
     *#$newLine#tab(8)return self.score#*
     *#$newLine#tab(4)def logs(self) -> dict:#*

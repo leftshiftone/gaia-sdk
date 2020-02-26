@@ -15,7 +15,7 @@ data class RainQueryResponse @JsonCreator constructor(
     @JsonProperty("score") val score: Double?,
     @JsonProperty("errors") val errors: List<String>?): RainResponse() {
 
-    data class Data @JsonCreator constructor(        @JsonProperty("insights") val insights: Insights?
+    data class Data @JsonCreator constructor(@JsonProperty("insights") val insights: List<Insights>?
 )    data class Insights @JsonCreator constructor(
         @JsonProperty("classify") val classify: Classify?, 
         @JsonProperty("gaiaQuery") val gaiaQuery: List<Map<String, Any>>?
@@ -35,11 +35,11 @@ data class RainMutationResponse @JsonCreator constructor(
     @JsonProperty("logs") val logs: Map<String, List<String>>?,
     @JsonProperty("errors") val errors: List<String>?): RainResponse() {
 
-    data class Data @JsonCreator constructor(        @JsonProperty("handleReception") val handleReception: Boolean?
-        , @JsonProperty("handleUtterance") val handleUtterance: Boolean?
-        , @JsonProperty("handleSuggestion") val handleSuggestion: Boolean?
-        , @JsonProperty("handleButton") val handleButton: Boolean?
-        , @JsonProperty("handleSubmit") val handleSubmit: Boolean?
+    data class Data @JsonCreator constructor(@JsonProperty("handleReception") val handleReception: Boolean?
+, @JsonProperty("handleUtterance") val handleUtterance: Boolean?
+, @JsonProperty("handleSuggestion") val handleSuggestion: Boolean?
+, @JsonProperty("handleButton") val handleButton: Boolean?
+, @JsonProperty("handleSubmit") val handleSubmit: Boolean?
 )
     }
 }

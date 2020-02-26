@@ -1,4 +1,4 @@
-#macro(toKotlinType $type $prefix)
+#macro(toKotlinType $type $prefix)##
     #if ($type.class.simpleName.equals("StringType"))string##
     #elseif ($type.class.simpleName.equals("IntType"))number##
     #elseif ($type.class.simpleName.equals("FloatType"))number##
@@ -6,7 +6,8 @@
     #elseif ($type.class.simpleName.equals("MapType"))Map#print("<")string, any#print(">")##
     #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))Uint8Array##
     #elseif ($type.class.simpleName.equals("ListType"))#print("Array<")#toKotlinType($type.type, $prefix)#print(">")##
-    #else $prefix#capitalize($type.name)##
+    #elseif ($type.class.simpleName.equals("DateType"))Date##
+    #else$prefix#capitalize($type.name)##
     #end
 #end
 #macro(capitalize $str)#*
@@ -23,8 +24,12 @@
         *##if($ast.class.simpleName.equals($prefix))#*
             *##foreach($renderable in $ast.list)#*
                 *##if($renderable.class.simpleName.equals("Entity"))#*
-                    *#$newLine#*
-                    *##tab(4)$renderable.name?:$prefix#capitalize($renderable.name);#*
+                    *#$newLine#tab(4)#*
+                    *##if($renderable.listType)#*
+                    *#$renderable.name?:Array<$prefix#capitalize($renderable.name)>;#*
+                    *##else#*
+                    *#$renderable.name?:$prefix#capitalize($renderable.name);#*
+                    *##end#*
                 *##end#*
             *##end#*
         *##end#*
@@ -38,7 +43,11 @@
                 *##foreach($field in $renderable.fields)#*
                     *##if ($field.class.simpleName.equals("Entity"))#*
                         *#$newLine#*
+                        *##foreach($x in $field.fields)#*
+                        *##renderEntity($x, $prefix)#*
+                        *##end#*
                         *##renderEntity($field, $prefix)#*
+                        *##else#*
                     *##end#*
                 *##end#*
             *##end#*
@@ -54,13 +63,17 @@
     *##end##
 #end
 #macro(renderFields $entity $prefix)#*
-    *##foreach($field in $renderable.fields)#*
+    *##foreach($field in $entity.fields)#*
         *##tab(4)#renderField($field, $prefix)$newLine#*
     *##end##
 #end
 #macro(renderField $field $prefix)#*
     *##if ($field.class.simpleName.equals("Entity"))#*
-        *#$field.name?:$prefix#capitalize($field.name);#*
+        *##if($renderable.listType)#*
+            *#$field.name?:Array<$prefix#capitalize($field.name)>;#*
+        *##else#*
+            *#$field.name?:$prefix#capitalize($field.name);#*
+        *##end#*
     *##else#*
         *#$field.name?:#toKotlinType($field.type, $prefix);#*
     *##end##

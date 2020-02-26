@@ -13,10 +13,10 @@ data class HeimdallMutationResponse @JsonCreator constructor(
     @JsonProperty("logs") val logs: Map<String, List<String>>?,
     @JsonProperty("errors") val errors: List<String>?): HeimdallResponse() {
 
-    data class Data @JsonCreator constructor(        @JsonProperty("dispatchImpulse") val dispatchImpulse: Boolean?
-        , @JsonProperty("dispatchImpulseContext") val dispatchImpulseContext: Boolean?
-        , @JsonProperty("dispatchImpulseNotification") val dispatchImpulseNotification: Boolean?
-        , @JsonProperty("dispatchImpulseLog") val dispatchImpulseLog: Boolean?
+    data class Data @JsonCreator constructor(@JsonProperty("dispatchImpulse") val dispatchImpulse: Boolean?
+, @JsonProperty("dispatchImpulseContext") val dispatchImpulseContext: Boolean?
+, @JsonProperty("dispatchImpulseNotification") val dispatchImpulseNotification: Boolean?
+, @JsonProperty("dispatchImpulseLog") val dispatchImpulseLog: Boolean?
 )
     }
 }

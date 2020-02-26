@@ -23,10 +23,12 @@ class MutationImpulse:
 
 
 class MutationImpulseHeader:
-    def impulsePayload(self) -> Uint8Array:
-        return self.impulsePayload
-    def impulseHeader(self) -> 'MutationImpulseHeader':
-        return self.impulseHeader
+    def identityId(self) -> str:
+        return self.identityId
+    def clientId(self) -> str:
+        return self.clientId
+    def userId(self) -> str:
+        return self.userId
 
 class MutationImpulseContext:
     def impulseContextPayload(self) -> Uint8Array:
@@ -36,10 +38,12 @@ class MutationImpulseContext:
 
 
 class MutationImpulseContextHeader:
-    def impulseContextPayload(self) -> Uint8Array:
-        return self.impulseContextPayload
-    def impulseContextHeader(self) -> 'MutationImpulseContextHeader':
-        return self.impulseContextHeader
+    def identityId(self) -> str:
+        return self.identityId
+    def clientId(self) -> str:
+        return self.clientId
+    def userId(self) -> str:
+        return self.userId
 
 class MutationImpulseNotification:
     def impulseNotificationPayload(self) -> Uint8Array:
@@ -49,10 +53,12 @@ class MutationImpulseNotification:
 
 
 class MutationImpulseNotificationHeader:
-    def impulseNotificationPayload(self) -> Uint8Array:
-        return self.impulseNotificationPayload
-    def impulseNotificationHeader(self) -> 'MutationImpulseNotificationHeader':
-        return self.impulseNotificationHeader
+    def identityId(self) -> str:
+        return self.identityId
+    def clientId(self) -> str:
+        return self.clientId
+    def userId(self) -> str:
+        return self.userId
 
 class MutationImpulseLog:
     def impulseLogPayload(self) -> Uint8Array:
@@ -62,8 +68,10 @@ class MutationImpulseLog:
 
 
 class MutationImpulseLogHeader:
-    def impulseLogPayload(self) -> Uint8Array:
-        return self.impulseLogPayload
-    def impulseLogHeader(self) -> 'MutationImpulseLogHeader':
-        return self.impulseLogHeader
+    def identityId(self) -> str:
+        return self.identityId
+    def clientId(self) -> str:
+        return self.clientId
+    def userId(self) -> str:
+        return self.userId
 

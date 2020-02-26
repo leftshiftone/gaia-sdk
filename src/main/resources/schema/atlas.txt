@@ -2,7 +2,7 @@ query {
     addPunctuationPreprocessor:boolean = false
     removeSignaturePreprocessor:boolean = false
 
-    nlu(text:string, merge:boolean = false) {
+    list(nlu(text:string, merge:boolean = false)) {
        txt:string
        raw:string
        cls(qualifier:string = "default"):string

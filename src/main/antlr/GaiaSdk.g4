@@ -48,7 +48,7 @@ query        : QUERY CURLY_LEFT (entity | field | option)+ CURLY_RIGHT;
 mutation     : MUTATION CURLY_LEFT (entity | field | option)+ CURLY_RIGHT;
 subscription : SUBSCRIPTION CURLY_LEFT (entity | field | option)+ CURLY_RIGHT;
 identifier   : IDENTIFIER;
-entity       : annotation* (identifier | (LIST ROUND_LEFT identifier ROUND_RIGHT)) (ROUND_LEFT argument (COMMA argument)* ROUND_RIGHT)? CURLY_LEFT (field | entity)+ CURLY_RIGHT;
+entity       : annotation* (identifier (ROUND_LEFT argument (COMMA argument)* ROUND_RIGHT)? | (LIST ROUND_LEFT identifier (ROUND_LEFT argument (COMMA argument)* ROUND_RIGHT)? ROUND_RIGHT)) CURLY_LEFT (field | entity)+ CURLY_RIGHT;
 field        : annotation* identifier (ROUND_LEFT argument (COMMA argument)* ROUND_RIGHT)? COLON type;
 option       : annotation* identifier COLON simpleType EQUALS value;
 argument     : identifier COLON type (EQUALS value)?;

@@ -1,21 +1,23 @@
 class RainResponse:
     None
 class QueryInsights:
-    def classify(self) -> 'QueryClassify':
+    def classify(self) -> ['QueryClassify']:
         return self.classify
-    def gaiaQuery(self) -> Array<dict>:
+    def gaiaQuery(self) -> ['dict']:
         return self.gaiaQuery
 
 
 class QueryClassify:
-    def classify(self) -> 'QueryClassify':
-        return self.classify
-    def gaiaQuery(self) -> Array<dict>:
-        return self.gaiaQuery
+    def qualifier(self) -> str:
+        return self.qualifier
+    def reference(self) -> str:
+        return self.reference
+    def score(self) -> float:
+        return self.score
 
 
 class QueryData:    
-    def insights(self) -> 'QueryInsights':
+    def insights(self) -> ['QueryInsights']:
         return self.insights
 
 class RainQueryResponse(RainResponse):
@@ -24,7 +26,7 @@ class RainQueryResponse(RainResponse):
     def nluScore(self) -> float:
         return self.nluScore
     def nerScore(self) -> float:
-        return self.newScore
+        return self.nerScore
     def score(self) -> float:
         return self.score
     def logs(self) -> dict:
