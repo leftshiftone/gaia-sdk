@@ -30,6 +30,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
             
             class Lex : ArrayList<(VariableRegistry) -> String>() {
                 fun lemma() = add { "lemma" }
+                fun phonetic() = add { "phonetic" }
                 fun pos() = add { "pos" }
                 fun base() = add { "base" }
                 fun flexions() = add { "flexions" }

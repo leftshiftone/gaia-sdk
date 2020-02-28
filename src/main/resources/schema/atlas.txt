@@ -5,9 +5,10 @@ query {
     list(nlu(text:string, merge:boolean = false)) {
        txt:string
        raw:string
-       cls(qualifier:string = "default"):string
+       cls(qualifier:string = "default"):list(string)
        list(lex) {
           lemma:string
+          phonetic:number
           pos:string
           base:string
           flexions:list(ref(lex))
@@ -41,7 +42,7 @@ query {
           rawRelation:string
        }
        ner {
-          datetime {
+          list(datetime) {
              date:date
              date1:date
              date2:date
@@ -49,7 +50,7 @@ query {
              fuzzy:boolean
              indices:list(int)
           }
-          duration {
+          list(duration) {
              amount:int
              amountMin:int
              amountMax:int
@@ -57,33 +58,33 @@ query {
              negation:boolean
              indices:list(int)
           }
-          location(normalized:boolean = true) {
+          list(location(normalized:boolean = true)) {
              name:string
              type:string
              negation:boolean
              indices:list(int)
           }
-          organization {
+          list(organization) {
              name:string
              type:string
              negation:boolean
              indices:list(int)
           }
-          accommodation {
+          list(accommodation) {
              name:string
              type:string
              amount:int
              negation:boolean
              indices:list(int)
           }
-          person {
+          list(person) {
              name:string
              isAdult:boolean
              age:int
              negation:boolean
              indices:list(int)
           }
-          price {
+          list(price) {
              amount:float
              amountMin:float
              amountMax:float
@@ -95,15 +96,15 @@ query {
              indices:list(int)
           }
           @Deprecated("text")
-          age {
+          list(age) {
              age:int
              negation:boolean
              indices:list(int)
           }
-          bool:boolean
-          email:string
-          url:string
-          custom(qualifier:string) {
+          bool:list(boolean)
+          email:list(string)
+          url:list(string)
+          list(custom(qualifier:string)) {
              data:map
              negation:boolean
              indices:list(int)

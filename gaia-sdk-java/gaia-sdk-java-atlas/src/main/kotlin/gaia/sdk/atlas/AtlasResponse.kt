@@ -21,7 +21,7 @@ data class AtlasQueryResponse @JsonCreator constructor(
     data class Nlu @JsonCreator constructor(
         @JsonProperty("txt") val txt: String?, 
         @JsonProperty("raw") val raw: String?, 
-        @JsonProperty("cls") val cls: String?, 
+        @JsonProperty("cls") val cls: List<String>?, 
         @JsonProperty("lex") val lex: List<Lex>?, 
         @JsonProperty("dep") val dep: List<Dep>?, 
         @JsonProperty("ner") val ner: List<Ner>?
@@ -29,6 +29,7 @@ data class AtlasQueryResponse @JsonCreator constructor(
 
     data class Lex @JsonCreator constructor(
         @JsonProperty("lemma") val lemma: String?, 
+        @JsonProperty("phonetic") val phonetic: Number?, 
         @JsonProperty("pos") val pos: String?, 
         @JsonProperty("base") val base: String?, 
         @JsonProperty("flexions") val flexions: List<Lex>?, 
@@ -69,9 +70,9 @@ data class AtlasQueryResponse @JsonCreator constructor(
         @JsonProperty("person") val person: List<Person>?, 
         @JsonProperty("price") val price: List<Price>?, 
         @JsonProperty("age") val age: List<Age>?, 
-        @JsonProperty("bool") val bool: Boolean?, 
-        @JsonProperty("email") val email: String?, 
-        @JsonProperty("url") val url: String?, 
+        @JsonProperty("bool") val bool: List<Boolean>?, 
+        @JsonProperty("email") val email: List<String>?, 
+        @JsonProperty("url") val url: List<String>?, 
         @JsonProperty("custom") val custom: List<Custom>?
     )
 

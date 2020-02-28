@@ -14,7 +14,7 @@ export interface QueryData {
 export interface QueryNlu {
     txt?:string;
     raw?:string;
-    cls?:string;
+    cls?:Array<string>;
     lex?:Array<QueryLex>;
     dep?:Array<QueryDep>;
     ner?:Array<QueryNer>;
@@ -22,6 +22,7 @@ export interface QueryNlu {
 
 export interface QueryLex {
     lemma?:string;
+    phonetic?:QueryNumber;
     pos?:string;
     base?:string;
     flexions?:Array<QueryLex>;
@@ -125,8 +126,8 @@ export interface QueryNer {
     person?:Array<QueryPerson>;
     price?:Array<QueryPrice>;
     age?:Array<QueryAge>;
-    bool?:boolean;
-    email?:string;
-    url?:string;
+    bool?:Array<boolean>;
+    email?:Array<string>;
+    url?:Array<string>;
     custom?:Array<QueryCustom>;
 }

@@ -73,6 +73,7 @@ class QueryNlu extends Array<(_:VariableRegistry) => string> {
 
 class QueryLex extends Array<(_:VariableRegistry) => string> {
     public lemma = () => this.push(() => "lemma");
+    public phonetic = () => this.push(() => "phonetic");
     public pos = () => this.push(() => "pos");
     public base = () => this.push(() => "base");
     public flexions = () => this.push(() => "flexions");

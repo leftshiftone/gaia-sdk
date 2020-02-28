@@ -5,7 +5,7 @@ class QueryNlu:
         return self.txt
     def raw(self) -> str:
         return self.raw
-    def cls(self) -> str:
+    def cls(self) -> ['str']:
         return self.cls
     def lex(self) -> ['QueryLex']:
         return self.lex
@@ -18,6 +18,8 @@ class QueryNlu:
 class QueryLex:
     def lemma(self) -> str:
         return self.lemma
+    def phonetic(self) -> QueryNumber:
+        return self.phonetic
     def pos(self) -> str:
         return self.pos
     def base(self) -> str:
@@ -200,11 +202,11 @@ class QueryNer:
         return self.price
     def age(self) -> ['QueryAge']:
         return self.age
-    def bool(self) -> bool:
+    def bool(self) -> ['bool']:
         return self.bool
-    def email(self) -> str:
+    def email(self) -> ['str']:
         return self.email
-    def url(self) -> str:
+    def url(self) -> ['str']:
         return self.url
     def custom(self) -> ['QueryCustom']:
         return self.custom

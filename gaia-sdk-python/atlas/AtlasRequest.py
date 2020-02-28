@@ -82,6 +82,9 @@ class QueryLex(list):
     def lemma(self):
         self.append(lambda x: "lemma")
 
+    def phonetic(self):
+        self.append(lambda x: "phonetic")
+
     def pos(self):
         self.append(lambda x: "pos")
 
