@@ -18,7 +18,7 @@ class QueryNlu:
 class QueryLex:
     def lemma(self) -> str:
         return self.lemma
-    def phonetic(self) -> QueryNumber:
+    def phonetic(self) -> float:
         return self.phonetic
     def pos(self) -> str:
         return self.pos

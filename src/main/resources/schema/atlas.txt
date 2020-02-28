@@ -8,7 +8,7 @@ query {
        cls(qualifier:string = "default"):list(string)
        list(lex) {
           lemma:string
-          phonetic:number
+          phonetic:float
           pos:string
           base:string
           flexions:list(ref(lex))

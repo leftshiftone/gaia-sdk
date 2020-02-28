@@ -22,7 +22,7 @@ export interface QueryNlu {
 
 export interface QueryLex {
     lemma?:string;
-    phonetic?:QueryNumber;
+    phonetic?:number;
     pos?:string;
     base?:string;
     flexions?:Array<QueryLex>;

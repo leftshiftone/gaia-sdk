@@ -29,7 +29,7 @@ data class AtlasQueryResponse @JsonCreator constructor(
 
     data class Lex @JsonCreator constructor(
         @JsonProperty("lemma") val lemma: String?, 
-        @JsonProperty("phonetic") val phonetic: Number?, 
+        @JsonProperty("phonetic") val phonetic: Float?, 
         @JsonProperty("pos") val pos: String?, 
         @JsonProperty("base") val base: String?, 
         @JsonProperty("flexions") val flexions: List<Lex>?, 
