@@ -47,12 +47,12 @@
         *##renderRenderable($field $indent)#*
     *##end#*
     *#$newLine#*
-    *##tab($indent)fun render(registry:VariableRegistry): String {$newLine#*
+    *##tab($indent)fun render(registry:VariableRegistry, name:String = "${entity.name}"): String {$newLine#*
         *##set($indent =  $indent + 4)#*
         *##foreach($argument in $entity.arguments)#*
             *##tab($indent)val name$foreach.count = registry.register("$argument.name", $argument.name)$newLine#*
         *##end#*
-        *##tab($indent)return "${entity.name}#renderFieldArguments($entity) { #*
+        *##tab($indent)return "\$name#renderFieldArguments($entity) { #*
         *##print("$"){joinToString(" ") { it(registry) }} }"$newLine#*
         *##set($indent =  $indent - 4)#*
     *##tab($indent)}#*
@@ -87,7 +87,10 @@
     *##if($field.class.simpleName.equals("Field"))#*
         *##if($field.type.class.simpleName.equals("RefType"))#*
             *#fun ${field.name}(config: #capitalize(${field.type.name}).() -> Unit) = add { #*
-            *##capitalize(${field.type.name})().apply(config).render(it) }#*
+            *##capitalize(${field.type.name})().apply(config).render(it, "${field.name}") }#*
+        *##elseif($field.type.class.simpleName.equals("ListType") && $field.type.type.class.simpleName.equals("RefType"))#*
+            *#fun ${field.name}(config: #capitalize(${field.type.type.name}).() -> Unit) = add { #*
+            *##capitalize(${field.type.type.name})().apply(config).render(it, "${field.name}") }#*
         *##elseif (!$field.arguments.isEmpty())#*
             *#fun ${field.name}(#renderArgsDef($field)) = add { $newLine#*
                 *##set($indent =  $indent + 4)#*

@@ -33,18 +33,18 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 fun phonetic() = add { "phonetic" }
                 fun pos() = add { "pos" }
                 fun base() = add { "base" }
-                fun flexions() = add { "flexions" }
-                fun synonyms() = add { "synonyms" }
-                fun collocations() = add { "collocations" }
-                fun hyperonyms() = add { "hyperonyms" }
-                fun meronyms() = add { "meronyms" }
-                fun parts() = add { "parts" }
-                fun abbreviations() = add { "abbreviations" }
-                fun causations() = add { "causations" }
+                fun flexions(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "flexions") }
+                fun synonyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "synonyms") }
+                fun collocations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "collocations") }
+                fun hyperonyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "hyperonyms") }
+                fun meronyms(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "meronyms") }
+                fun parts(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "parts") }
+                fun abbreviations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "abbreviations") }
+                fun causations(config: Lex.() -> Unit) = add { Lex().apply(config).render(it, "causations") }
                 fun labels() = add { "labels" }
 
-                fun render(registry:VariableRegistry): String {
-                    return "lex { ${joinToString(" ") { it(registry) }} }"
+                fun render(registry:VariableRegistry, name:String = "lex"): String {
+                    return "$name { ${joinToString(" ") { it(registry) }} }"
                 }
             }
 
@@ -67,8 +67,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 fun relation() = add { "relation" }
                 fun rawRelation() = add { "rawRelation" }
 
-                fun render(registry:VariableRegistry): String {
-                    return "dep { ${joinToString(" ") { it(registry) }} }"
+                fun render(registry:VariableRegistry, name:String = "dep"): String {
+                    return "$name { ${joinToString(" ") { it(registry) }} }"
                 }
             }
 
@@ -84,8 +84,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun fuzzy() = add { "fuzzy" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "datetime { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "datetime"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -99,8 +99,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "duration { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "duration"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -112,9 +112,9 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
+                    fun render(registry:VariableRegistry, name:String = "location"): String {
                         val name1 = registry.register("normalized", normalized)
-                        return "location(normalized:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                        return "$name(normalized:\$$name1) { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -126,8 +126,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "organization { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "organization"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -140,8 +140,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "accommodation { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "accommodation"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -154,8 +154,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "person { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "person"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -172,8 +172,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "price { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "price"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -184,8 +184,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
-                        return "age { ${joinToString(" ") { it(registry) }} }"
+                    fun render(registry:VariableRegistry, name:String = "age"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
@@ -199,25 +199,25 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                     fun negation() = add { "negation" }
                     fun indices() = add { "indices" }
 
-                    fun render(registry:VariableRegistry): String {
+                    fun render(registry:VariableRegistry, name:String = "custom"): String {
                         val name1 = registry.register("qualifier", qualifier)
-                        return "custom(qualifier:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                        return "$name(qualifier:\$$name1) { ${joinToString(" ") { it(registry) }} }"
                     }
                 }
 
                 fun custom(qualifier:String, config: Custom.() -> Unit) = add {Custom(qualifier).apply(config).render(it) }
 
-                fun render(registry:VariableRegistry): String {
-                    return "ner { ${joinToString(" ") { it(registry) }} }"
+                fun render(registry:VariableRegistry, name:String = "ner"): String {
+                    return "$name { ${joinToString(" ") { it(registry) }} }"
                 }
             }
 
             fun ner(config: Ner.() -> Unit) = add {Ner().apply(config).render(it) }
 
-            fun render(registry:VariableRegistry): String {
+            fun render(registry:VariableRegistry, name:String = "nlu"): String {
                 val name1 = registry.register("text", text)
                 val name2 = registry.register("merge", merge)
-                return "nlu(text:\$$name1, merge:\$$name2) { ${joinToString(" ") { it(registry) }} }"
+                return "$name(text:\$$name1, merge:\$$name2) { ${joinToString(" ") { it(registry) }} }"
             }
         }
 

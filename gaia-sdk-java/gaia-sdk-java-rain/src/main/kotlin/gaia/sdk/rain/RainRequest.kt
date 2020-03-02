@@ -29,9 +29,9 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
                 fun reference() = add { "reference" }
                 fun score() = add { "score" }
 
-                fun render(registry:VariableRegistry): String {
+                fun render(registry:VariableRegistry, name:String = "classify"): String {
                     val name1 = registry.register("text", text)
-                    return "classify(text:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                    return "$name(text:\$$name1) { ${joinToString(" ") { it(registry) }} }"
                 }
             }
 
@@ -41,9 +41,9 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
                 "gaiaQuery(statement:\$$name1)" 
             }
 
-            fun render(registry:VariableRegistry): String {
+            fun render(registry:VariableRegistry, name:String = "insights"): String {
                 val name1 = registry.register("identity", identity)
-                return "insights(identity:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                return "$name(identity:\$$name1) { ${joinToString(" ") { it(registry) }} }"
             }
         }
 
