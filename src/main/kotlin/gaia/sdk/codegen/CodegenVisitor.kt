@@ -16,7 +16,7 @@ import gaia.sdk.codegen.extension.substringBetween
 
 class CodegenVisitor : GaiaSdkBaseVisitor<List<AbstractAST>>() {
     override fun visitIdentifier(ctx: IdentifierContext) = listOf(Identifier(ctx.text))
-    override fun visitEntity(ctx: EntityContext) = listOf(Entity(super.visitEntity(ctx), ctx.text.contains("list(")))
+    override fun visitEntity(ctx: EntityContext) = listOf(Entity(super.visitEntity(ctx), ctx.text.substring(0, ctx.text.indexOf("{")).contains("list(")))
     override fun visitField(ctx: FieldContext) = listOf(Field(super.visitField(ctx)))
     override fun visitSimpleType(ctx: SimpleTypeContext): List<AbstractAST> {
         return when(ctx.text) {

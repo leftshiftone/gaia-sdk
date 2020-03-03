@@ -9,10 +9,10 @@ export interface RainQueryResponse extends RainResponse {
 }
 export interface QueryData {
     
-    insights?:Array<QueryInsights>;
+    insights?:QueryInsights;
 }
 export interface QueryInsights {
-    classify?:Array<QueryClassify>;
+    classify?:QueryClassify;
     gaiaQuery?:Array<Map<string, any>>;
 }
 

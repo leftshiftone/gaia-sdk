@@ -1,7 +1,7 @@
 class RainResponse:
     None
 class QueryInsights:
-    def classify(self) -> ['QueryClassify']:
+    def classify(self) -> 'QueryClassify':
         return self.classify
     def gaiaQuery(self) -> ['dict']:
         return self.gaiaQuery
@@ -17,7 +17,7 @@ class QueryClassify:
 
 
 class QueryData:    
-    def insights(self) -> ['QueryInsights']:
+    def insights(self) -> 'QueryInsights':
         return self.insights
 
 class RainQueryResponse(RainResponse):

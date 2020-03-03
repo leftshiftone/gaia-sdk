@@ -24,7 +24,7 @@ data class AtlasQueryResponse @JsonCreator constructor(
         @JsonProperty("cls") val cls: List<String>?, 
         @JsonProperty("lex") val lex: List<Lex>?, 
         @JsonProperty("dep") val dep: List<Dep>?, 
-        @JsonProperty("ner") val ner: List<Ner>?
+        @JsonProperty("ner") val ner: Ner?
     )
 
     data class Lex @JsonCreator constructor(
