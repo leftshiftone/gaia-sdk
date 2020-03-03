@@ -101,9 +101,21 @@ query {
              negation:boolean
              indices:list(int)
           }
-          bool:list(boolean)
-          email:list(string)
-          url:list(string)
+          list(bool) {
+             value:boolean
+             negation:boolean
+             indices:list(int)
+          }
+          list(email) {
+             lemma:string
+             negation:boolean
+             indices:list(int)
+          }
+          list(url) {
+             lemma:string
+             negation:boolean
+             indices:list(int)
+          }
           list(custom(qualifier:string)) {
              data:map
              negation:boolean

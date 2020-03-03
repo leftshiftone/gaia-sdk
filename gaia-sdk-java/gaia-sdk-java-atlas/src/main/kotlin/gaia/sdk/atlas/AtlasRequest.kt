@@ -190,9 +190,42 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun age(config: Age.() -> Unit) = add {Age().apply(config).render(it) }
-                fun bool() = add { "bool" }
-                fun email() = add { "email" }
-                fun url() = add { "url" }
+                
+                class Bool : ArrayList<(VariableRegistry) -> String>() {
+                    fun value() = add { "value" }
+                    fun negation() = add { "negation" }
+                    fun indices() = add { "indices" }
+
+                    fun render(registry:VariableRegistry, name:String = "bool"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
+                    }
+                }
+
+                fun bool(config: Bool.() -> Unit) = add {Bool().apply(config).render(it) }
+                
+                class Email : ArrayList<(VariableRegistry) -> String>() {
+                    fun lemma() = add { "lemma" }
+                    fun negation() = add { "negation" }
+                    fun indices() = add { "indices" }
+
+                    fun render(registry:VariableRegistry, name:String = "email"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
+                    }
+                }
+
+                fun email(config: Email.() -> Unit) = add {Email().apply(config).render(it) }
+                
+                class Url : ArrayList<(VariableRegistry) -> String>() {
+                    fun lemma() = add { "lemma" }
+                    fun negation() = add { "negation" }
+                    fun indices() = add { "indices" }
+
+                    fun render(registry:VariableRegistry, name:String = "url"): String {
+                        return "$name { ${joinToString(" ") { it(registry) }} }"
+                    }
+                }
+
+                fun url(config: Url.() -> Unit) = add {Url().apply(config).render(it) }
                 
                 class Custom(private val qualifier:Any) : ArrayList<(VariableRegistry) -> String>() {
                     fun data() = add { "data" }

@@ -154,9 +154,21 @@ class QueryNer extends Array<(_:VariableRegistry) => string> {
         config(entity);
         return entity.render(registry);
     });
-    public bool = () => this.push(() => "bool");
-    public email = () => this.push(() => "email");
-    public url = () => this.push(() => "url");
+    public bool = (config:(_:QueryBool) => void) => this.push((registry) => {
+        const entity = new QueryBool();
+        config(entity);
+        return entity.render(registry);
+    });
+    public email = (config:(_:QueryEmail) => void) => this.push((registry) => {
+        const entity = new QueryEmail();
+        config(entity);
+        return entity.render(registry);
+    });
+    public url = (config:(_:QueryUrl) => void) => this.push((registry) => {
+        const entity = new QueryUrl();
+        config(entity);
+        return entity.render(registry);
+    });
     public custom = (qualifier:string, config:(_:QueryCustom) => void) => this.push((registry) => {
         const entity = new QueryCustom(qualifier);
         config(entity);
@@ -271,6 +283,36 @@ class QueryAge extends Array<(_:VariableRegistry) => string> {
 
     public render = (registry:VariableRegistry): string => {
         return "age { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class QueryBool extends Array<(_:VariableRegistry) => string> {
+    public value = () => this.push(() => "value");
+    public negation = () => this.push(() => "negation");
+    public indices = () => this.push(() => "indices");
+
+    public render = (registry:VariableRegistry): string => {
+        return "bool { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class QueryEmail extends Array<(_:VariableRegistry) => string> {
+    public lemma = () => this.push(() => "lemma");
+    public negation = () => this.push(() => "negation");
+    public indices = () => this.push(() => "indices");
+
+    public render = (registry:VariableRegistry): string => {
+        return "email { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class QueryUrl extends Array<(_:VariableRegistry) => string> {
+    public lemma = () => this.push(() => "lemma");
+    public negation = () => this.push(() => "negation");
+    public indices = () => this.push(() => "indices");
+
+    public render = (registry:VariableRegistry): string => {
+        return "url { " + this.map((e) => e(registry)).join(" ") + " }";
     }
 }
 

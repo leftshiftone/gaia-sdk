@@ -177,6 +177,30 @@ class QueryAge:
     def indices(self) -> ['int']:
         return self.indices
 
+class QueryBool:
+    def value(self) -> bool:
+        return self.value
+    def negation(self) -> bool:
+        return self.negation
+    def indices(self) -> ['int']:
+        return self.indices
+
+class QueryEmail:
+    def lemma(self) -> str:
+        return self.lemma
+    def negation(self) -> bool:
+        return self.negation
+    def indices(self) -> ['int']:
+        return self.indices
+
+class QueryUrl:
+    def lemma(self) -> str:
+        return self.lemma
+    def negation(self) -> bool:
+        return self.negation
+    def indices(self) -> ['int']:
+        return self.indices
+
 class QueryCustom:
     def data(self) -> dict:
         return self.data
@@ -202,11 +226,11 @@ class QueryNer:
         return self.price
     def age(self) -> ['QueryAge']:
         return self.age
-    def bool(self) -> ['bool']:
+    def bool(self) -> ['QueryBool']:
         return self.bool
-    def email(self) -> ['str']:
+    def email(self) -> ['QueryEmail']:
         return self.email
-    def url(self) -> ['str']:
+    def url(self) -> ['QueryUrl']:
         return self.url
     def custom(self) -> ['QueryCustom']:
         return self.custom

@@ -112,6 +112,21 @@ export interface QueryAge {
     negation?:boolean;
     indices?:Array<number>;
 }
+export interface QueryBool {
+    value?:boolean;
+    negation?:boolean;
+    indices?:Array<number>;
+}
+export interface QueryEmail {
+    lemma?:string;
+    negation?:boolean;
+    indices?:Array<number>;
+}
+export interface QueryUrl {
+    lemma?:string;
+    negation?:boolean;
+    indices?:Array<number>;
+}
 export interface QueryCustom {
     data?:Map<string, any>;
     negation?:boolean;
@@ -126,8 +141,8 @@ export interface QueryNer {
     person?:Array<QueryPerson>;
     price?:Array<QueryPrice>;
     age?:Array<QueryAge>;
-    bool?:Array<boolean>;
-    email?:Array<string>;
-    url?:Array<string>;
+    bool?:Array<QueryBool>;
+    email?:Array<QueryEmail>;
+    url?:Array<QueryUrl>;
     custom?:Array<QueryCustom>;
 }

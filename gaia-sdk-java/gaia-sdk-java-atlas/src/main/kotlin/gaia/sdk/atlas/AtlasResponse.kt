@@ -70,9 +70,9 @@ data class AtlasQueryResponse @JsonCreator constructor(
         @JsonProperty("person") val person: List<Person>?, 
         @JsonProperty("price") val price: List<Price>?, 
         @JsonProperty("age") val age: List<Age>?, 
-        @JsonProperty("bool") val bool: List<Boolean>?, 
-        @JsonProperty("email") val email: List<String>?, 
-        @JsonProperty("url") val url: List<String>?, 
+        @JsonProperty("bool") val bool: List<Bool>?, 
+        @JsonProperty("email") val email: List<Email>?, 
+        @JsonProperty("url") val url: List<Url>?, 
         @JsonProperty("custom") val custom: List<Custom>?
     )
 
@@ -138,6 +138,24 @@ data class AtlasQueryResponse @JsonCreator constructor(
 
     data class Age @JsonCreator constructor(
         @JsonProperty("age") val age: Int?, 
+        @JsonProperty("negation") val negation: Boolean?, 
+        @JsonProperty("indices") val indices: List<Int>?
+    )
+
+    data class Bool @JsonCreator constructor(
+        @JsonProperty("value") val value: Boolean?, 
+        @JsonProperty("negation") val negation: Boolean?, 
+        @JsonProperty("indices") val indices: List<Int>?
+    )
+
+    data class Email @JsonCreator constructor(
+        @JsonProperty("lemma") val lemma: String?, 
+        @JsonProperty("negation") val negation: Boolean?, 
+        @JsonProperty("indices") val indices: List<Int>?
+    )
+
+    data class Url @JsonCreator constructor(
+        @JsonProperty("lemma") val lemma: String?, 
         @JsonProperty("negation") val negation: Boolean?, 
         @JsonProperty("indices") val indices: List<Int>?
     )

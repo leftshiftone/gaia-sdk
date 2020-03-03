@@ -223,15 +223,24 @@ class QueryNer(list):
             config(entity)
             return entity.render(registry)
         self.append(callback)
-    def bool(self):
-        self.append(lambda x: "bool")
-
-    def email(self):
-        self.append(lambda x: "email")
-
-    def url(self):
-        self.append(lambda x: "url")
-
+    def bool(self, config:Callable[['QueryBool'], None]):
+        def callback(registry:VariableRegistry):
+            entity = QueryBool()
+            config(entity)
+            return entity.render(registry)
+        self.append(callback)
+    def email(self, config:Callable[['QueryEmail'], None]):
+        def callback(registry:VariableRegistry):
+            entity = QueryEmail()
+            config(entity)
+            return entity.render(registry)
+        self.append(callback)
+    def url(self, config:Callable[['QueryUrl'], None]):
+        def callback(registry:VariableRegistry):
+            entity = QueryUrl()
+            config(entity)
+            return entity.render(registry)
+        self.append(callback)
     def custom(self, qualifier:str, config:Callable[['QueryCustom'], None]):
         def callback(registry:VariableRegistry):
             entity = QueryCustom(qualifier)
@@ -420,6 +429,51 @@ class QueryAge(list):
 
     def render(self, registry:VariableRegistry):
         return "age { " + " ".join(map(lambda e: e(registry), self)) + " }"
+
+
+class QueryBool(list):
+    def value(self):
+        self.append(lambda x: "value")
+
+    def negation(self):
+        self.append(lambda x: "negation")
+
+    def indices(self):
+        self.append(lambda x: "indices")
+
+
+    def render(self, registry:VariableRegistry):
+        return "bool { " + " ".join(map(lambda e: e(registry), self)) + " }"
+
+
+class QueryEmail(list):
+    def lemma(self):
+        self.append(lambda x: "lemma")
+
+    def negation(self):
+        self.append(lambda x: "negation")
+
+    def indices(self):
+        self.append(lambda x: "indices")
+
+
+    def render(self, registry:VariableRegistry):
+        return "email { " + " ".join(map(lambda e: e(registry), self)) + " }"
+
+
+class QueryUrl(list):
+    def lemma(self):
+        self.append(lambda x: "lemma")
+
+    def negation(self):
+        self.append(lambda x: "negation")
+
+    def indices(self):
+        self.append(lambda x: "indices")
+
+
+    def render(self, registry:VariableRegistry):
+        return "url { " + " ".join(map(lambda e: e(registry), self)) + " }"
 
 
 class QueryCustom(list):
