@@ -38,15 +38,16 @@ class HttpTransport(val url: String, val httpClient: HttpClient) : gaia.sdk.api.
             it.add("X-GAIA-APIKEY", options.apiKey)
             it.add("X-GAIA-SIGNATURE", options.secret.hash(payload.base64()))
         }
+                .followRedirect(true)
                 .post()
                 .uri(url)
                 .send(Mono.just(Unpooled.copiedBuffer(payload)))
                 .responseConnection { t, u ->
-                    if (t.status().code() >= 300) {
+                    if (t.status().code() >= 400) {
                         val tuple = Tuples.of(t.status(), ByteArray(0))
                         return@responseConnection Flux.just(tuple)
                     }
-                    val publisher1: Flux<HttpResponseStatus> = Flux.just(t.status());
+                    val publisher1: Flux<HttpResponseStatus> = Flux.just(t.status())
                     val publisher2: Flux<ByteArray> = u.inbound().receive().asByteArray().buffer().map { list ->
                         val bos = ByteArrayOutputStream()
                         list.forEach(bos::write)
@@ -56,8 +57,8 @@ class HttpTransport(val url: String, val httpClient: HttpClient) : gaia.sdk.api.
                     publisher1.zipWith(publisher2, this.zip())
                 }
                 .flatMap { tuple ->
-                    if (tuple.t1.code() >= 300) {
-                        val msg = "http status: ${tuple.t1.code()}: ${tuple.t1.reasonPhrase()}"
+                    if (tuple.t1.code() >= 400) {
+                        val msg = "Error with status code ${tuple.t1.code()} (${tuple.t1.reasonPhrase()} and payload ${String(tuple.t2)}"
                         return@flatMap Flux.error<RuntimeException>(HttpTransportException(msg))
                     }
                     return@flatMap Flux.just(jsonparser.readValue(tuple.t2, type))
