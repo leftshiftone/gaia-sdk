@@ -18,8 +18,8 @@ export abstract class RainRequest extends Array<(_:VariableRegistry) => string> 
 export class RainQueryRequest extends RainRequest {
     public preprocessors:Array<string> = new Array<string>();
 
-    public insights = (identity:string, config:(_:QueryInsights) => void) => this.push((registry) => {
-        const entity = new QueryInsights(identity);
+    public insights = (identityId:string, config:(_:QueryInsights) => void) => this.push((registry) => {
+        const entity = new QueryInsights(identityId);
         config(entity);
         return entity.render(registry);
     });
@@ -33,11 +33,11 @@ export class RainQueryRequest extends RainRequest {
 }
 
 class QueryInsights extends Array<(_:VariableRegistry) => string> {
-    private identity:string;
+    private identityId:string;
 
-    constructor(identity:string) {
+    constructor(identityId:string) {
         super();
-        this.identity = identity;
+        this.identityId = identityId;
     }
 
     public classify = (text:string, config:(_:QueryClassify) => void) => this.push((registry) => {
@@ -51,8 +51,8 @@ class QueryInsights extends Array<(_:VariableRegistry) => string> {
     });
 
     public render = (registry:VariableRegistry): string => {
-        const name1 = registry.register("identity", this.identity);
-        return "insights(identity:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+        const name1 = registry.register("identityId", this.identityId);
+        return "insights(identityId:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
     }
 }
 

@@ -27,9 +27,9 @@ class RainQueryRequest(list):
         super().__init__()
         self.preprocessors = []
 
-    def insights(self, identity:str, config:Callable[['QueryInsights'], None]):
+    def insights(self, identityId:str, config:Callable[['QueryInsights'], None]):
         def callback(registry:VariableRegistry):
-            entity = QueryInsights(identity)
+            entity = QueryInsights(identityId)
             config(entity)
             return entity.render(registry)
         self.append(callback)
@@ -41,9 +41,9 @@ class RainQueryRequest(list):
         return (statement, registry.getVariables())
 
 class QueryInsights(list):
-    def __init__(self, identity:str):
+    def __init__(self, identityId:str):
         super().__init__()
-        self.identity = identity
+        self.identityId = identityId
 
     def classify(self, text:str, config:Callable[['QueryClassify'], None]):
         def callback(registry:VariableRegistry):
@@ -59,8 +59,8 @@ class QueryInsights(list):
 
 
     def render(self, registry:VariableRegistry):
-        name1 = registry.register("identity", self.identity)
-        return "insights(identity:$" + name1 + ") { " + " ".join(map(lambda e: e(registry), self)) + " }"
+        name1 = registry.register("identityId", self.identityId)
+        return "insights(identityId:$" + name1 + ") { " + " ".join(map(lambda e: e(registry), self)) + " }"
 
 
 class QueryClassify(list):

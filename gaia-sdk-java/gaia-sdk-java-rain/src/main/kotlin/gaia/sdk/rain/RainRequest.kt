@@ -22,7 +22,7 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
     abstract fun getStatement():Pair<String, Map<String, Any>>
     class RainQueryRequest: RainRequest() {
         
-        class Insights(private val identity:Any) : ArrayList<(VariableRegistry) -> String>() {
+        class Insights(private val identityId:Any) : ArrayList<(VariableRegistry) -> String>() {
             
             class Classify(private val text:Any) : ArrayList<(VariableRegistry) -> String>() {
                 fun qualifier() = add { "qualifier" }
@@ -42,12 +42,12 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
             }
 
             fun render(registry:VariableRegistry, name:String = "insights"): String {
-                val name1 = registry.register("identity", identity)
-                return "$name(identity:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                val name1 = registry.register("identityId", identityId)
+                return "$name(identityId:\$$name1) { ${joinToString(" ") { it(registry) }} }"
             }
         }
 
-        fun insights(identity:String, config: Insights.() -> Unit) = add {Insights(identity).apply(config).render(it) }
+        fun insights(identityId:String, config: Insights.() -> Unit) = add {Insights(identityId).apply(config).render(it) }
 
         override fun getStatement():Pair<String, Map<String, Any>> {
             val registry = VariableRegistry()

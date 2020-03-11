@@ -1,5 +1,5 @@
 query {
-    insights(identity:string) {
+    insights(identityId:string) {
        classify(text:string) {
           qualifier:string
           reference:string
