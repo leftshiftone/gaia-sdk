@@ -10,6 +10,7 @@ export interface RainQueryResponse extends RainResponse {
 export interface QueryData {
     
     insights?:QueryInsights;
+    skills?:QuerySkills;
 }
 export interface QueryInsights {
     classify?:QueryClassify;
@@ -20,6 +21,9 @@ export interface QueryClassify {
     qualifier?:string;
     reference?:string;
     score?:number;
+}
+export interface QuerySkills {
+    status?:Map<string, any>;
 }
 export interface RainMutationResponse extends RainResponse {
     data?:MutationData;

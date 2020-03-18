@@ -15,10 +15,16 @@ class QueryClassify:
     def score(self) -> float:
         return self.score
 
+class QuerySkills:
+    def status(self) -> dict:
+        return self.status
+
 
 class QueryData:    
     def insights(self) -> 'QueryInsights':
         return self.insights
+    def skills(self) -> 'QuerySkills':
+        return self.skills
 
 class RainQueryResponse(RainResponse):
     def data(self) -> QueryData:

@@ -24,6 +24,12 @@ export class RainQueryRequest extends RainRequest {
         return entity.render(registry);
     });
 
+    public skills = (config:(_:QuerySkills) => void) => this.push((registry) => {
+        const entity = new QuerySkills();
+        config(entity);
+        return entity.render(registry);
+    });
+
     public getStatement = ():[string, {}] => {
         const registry = new VariableRegistry();
         const fields = this.map((e) => e(registry)).join(" ");
@@ -71,6 +77,17 @@ class QueryClassify extends Array<(_:VariableRegistry) => string> {
     public render = (registry:VariableRegistry): string => {
         const name1 = registry.register("text", this.text);
         return "classify(text:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class QuerySkills extends Array<(_:VariableRegistry) => string> {
+    public status = (name:string) => this.push((registry) => {
+        const name1 = registry.register("name", name);
+        return "status(name:$" + name1 + ")";
+    });
+
+    public render = (registry:VariableRegistry): string => {
+        return "skills { " + this.map((e) => e(registry)).join(" ") + " }";
     }
 }
 

@@ -34,6 +34,13 @@ class RainQueryRequest(list):
             return entity.render(registry)
         self.append(callback)
 
+    def skills(self, config:Callable[['QuerySkills'], None]):
+        def callback(registry:VariableRegistry):
+            entity = QuerySkills()
+            config(entity)
+            return entity.render(registry)
+        self.append(callback)
+
     def getStatement(self):
         registry = VariableRegistry()
         fields = " ".join(map(lambda e: e(registry), self))
@@ -81,6 +88,18 @@ class QueryClassify(list):
     def render(self, registry:VariableRegistry):
         name1 = registry.register("text", self.text)
         return "classify(text:$" + name1 + ") { " + " ".join(map(lambda e: e(registry), self)) + " }"
+
+
+class QuerySkills(list):
+    def status(self, name:str):
+        def callback(registry:VariableRegistry):
+            name1 = registry.register("name", name)
+            return "status(name:$" + name1 + ")"
+        self.append(callback)
+
+
+    def render(self, registry:VariableRegistry):
+        return "skills { " + " ".join(map(lambda e: e(registry), self)) + " }"
 
 
 class RainMutationRequest(RainRequest):

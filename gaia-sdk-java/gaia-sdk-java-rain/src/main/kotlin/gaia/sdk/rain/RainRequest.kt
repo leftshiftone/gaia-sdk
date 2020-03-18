@@ -48,6 +48,19 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
         }
 
         fun insights(identityId:String, config: Insights.() -> Unit) = add {Insights(identityId).apply(config).render(it) }
+        
+        class Skills : ArrayList<(VariableRegistry) -> String>() {
+            fun status(name:String) = add { 
+                val name1 = it.register("name", name)
+                "status(name:\$$name1)" 
+            }
+
+            fun render(registry:VariableRegistry, name:String = "skills"): String {
+                return "$name { ${joinToString(" ") { it(registry) }} }"
+            }
+        }
+
+        fun skills(config: Skills.() -> Unit) = add {Skills().apply(config).render(it) }
 
         override fun getStatement():Pair<String, Map<String, Any>> {
             val registry = VariableRegistry()

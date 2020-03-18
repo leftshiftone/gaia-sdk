@@ -7,6 +7,9 @@ query {
        }
        gaiaQuery(statement:string):list(map)
     }
+    skills {
+        status(name:string):map
+    }
 }
 mutation {
     @IncomingType
