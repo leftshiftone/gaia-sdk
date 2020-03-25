@@ -6,9 +6,12 @@
     #if ($type.class.simpleName.equals("StringType"))String##
     #elseif ($type.class.simpleName.equals("IntType"))Int##
     #elseif ($type.class.simpleName.equals("FloatType"))Float##
+    #elseif ($type.class.simpleName.equals("LongType"))Long##
     #elseif ($type.class.simpleName.equals("BooleanType"))Boolean##
     #elseif ($type.class.simpleName.equals("MapType"))Map#print("<")String, Any#print(">")##
     #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))ByteArray##
+    #elseif ($type.class.simpleName.equals("ListType"))List#print("<")#toKotlinType($type.type)#print(">")##
+    #elseif ($type.class.simpleName.equals("DateType"))Date##
     #else #capitalize($type.name)##
     #end
 #end
@@ -163,7 +166,7 @@
     *##foreach($field in $entity.fields)#*
         *##if($field.class.simpleName.equals("Field"))#*
             *##tab($indent)#*
-            *#lateinit var ${field.name}:#toKotlinType(${field.type})#*
+            *##if($field.defaultValue) var ${field.name}:#toKotlinType(${field.type}) = ${field.defaultValue.value} #else lateinit var ${field.name}:#toKotlinType(${field.type})#end#*
             *#$newLine#*
         *##else#*
             *##tab($indent)#*

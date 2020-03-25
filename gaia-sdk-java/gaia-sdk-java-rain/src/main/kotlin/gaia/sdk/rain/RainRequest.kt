@@ -49,18 +49,28 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
 
         fun insights(identityId:String, config: Insights.() -> Unit) = add {Insights(identityId).apply(config).render(it) }
         
-        class Skills : ArrayList<(VariableRegistry) -> String>() {
-            fun status(name:String) = add { 
-                val name1 = it.register("name", name)
-                "status(name:\$$name1)" 
+        class Skills(private val tenantId:Any) : ArrayList<(VariableRegistry) -> String>() {
+            
+            class Status(private val skillName:Any) : ArrayList<(VariableRegistry) -> String>() {
+                fun name() = add { "name" }
+                fun status() = add { "status" }
+                fun created() = add { "created" }
+
+                fun render(registry:VariableRegistry, name:String = "status"): String {
+                    val name1 = registry.register("skillName", skillName)
+                    return "$name(skillName:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                }
             }
 
+            fun status(skillName:String, config: Status.() -> Unit) = add {Status(skillName).apply(config).render(it) }
+
             fun render(registry:VariableRegistry, name:String = "skills"): String {
-                return "$name { ${joinToString(" ") { it(registry) }} }"
+                val name1 = registry.register("tenantId", tenantId)
+                return "$name(tenantId:\$$name1) { ${joinToString(" ") { it(registry) }} }"
             }
         }
 
-        fun skills(config: Skills.() -> Unit) = add {Skills().apply(config).render(it) }
+        fun skills(tenantId:String, config: Skills.() -> Unit) = add {Skills(tenantId).apply(config).render(it) }
 
         override fun getStatement():Pair<String, Map<String, Any>> {
             val registry = VariableRegistry()
@@ -72,42 +82,42 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
 
     class RainMutationRequest: RainRequest() {
         class ReceptionImpulse {
-            lateinit var identityId:String
-            lateinit var clientId:String
-            lateinit var userId:String
-            lateinit var attributes:Map<String, Any>
+             lateinit var identityId:String
+             lateinit var clientId:String
+             lateinit var userId:String
+             lateinit var attributes:Map<String, Any>
         }
 
 
         class ButtonImpulse {
-            lateinit var identityId:String
-            lateinit var clientId:String
-            lateinit var userId:String
-            lateinit var attributes:Map<String, Any>
+             lateinit var identityId:String
+             lateinit var clientId:String
+             lateinit var userId:String
+             lateinit var attributes:Map<String, Any>
         }
 
 
         class SubmitImpulse {
-            lateinit var identityId:String
-            lateinit var clientId:String
-            lateinit var userId:String
-            lateinit var attributes:Map<String, Any>
+             lateinit var identityId:String
+             lateinit var clientId:String
+             lateinit var userId:String
+             lateinit var attributes:Map<String, Any>
         }
 
 
         class SuggestionImpulse {
-            lateinit var identityId:String
-            lateinit var clientId:String
-            lateinit var userId:String
-            lateinit var attributes:Map<String, Any>
+             lateinit var identityId:String
+             lateinit var clientId:String
+             lateinit var userId:String
+             lateinit var attributes:Map<String, Any>
         }
 
 
         class UtteranceImpulse {
-            lateinit var identityId:String
-            lateinit var clientId:String
-            lateinit var userId:String
-            lateinit var payload:String
+             lateinit var identityId:String
+             lateinit var clientId:String
+             lateinit var userId:String
+             lateinit var payload:String
         }
 
 
@@ -131,6 +141,95 @@ abstract class RainRequest : ArrayList<(VariableRegistry) -> String>() {
             val name1 = it.register("impulse", impulse)
             "handleSubmit(impulse:\$$name1)" 
         }
+        class InitiateUploadImpulse {
+             lateinit var fileName:String
+        }
+
+
+        class TransferChunkImpulse {
+             lateinit var key:String
+             lateinit var transportId:String
+             var partNumber:Int = 0 
+             var partSize:Long = 0 
+             lateinit var encodedBytes:String
+        }
+
+
+        class CompleteUploadImpulse {
+             lateinit var key:String
+             lateinit var transportId:String
+             lateinit var etags:List<Map<String, Any>>
+        }
+
+
+        class AbortUploadImpulse {
+             lateinit var key:String
+             lateinit var transportId:String
+        }
+
+
+        class HazeArtifact {
+             lateinit var qualifier:String
+             lateinit var appendent:String
+             lateinit var labelList:List<String>
+             lateinit var type:String
+        }
+
+
+        
+        class Artifacts(private val tenantId:Any) : ArrayList<(VariableRegistry) -> String>() {
+            
+            class InitiateUpload(private val impulse:Any) : ArrayList<(VariableRegistry) -> String>() {
+                fun transportId() = add { "transportId" }
+                fun key() = add { "key" }
+
+                fun render(registry:VariableRegistry, name:String = "initiateUpload"): String {
+                    val name1 = registry.register("impulse", impulse)
+                    return "$name(impulse:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                }
+            }
+
+            fun initiateUpload(impulse:InitiateUploadImpulse, config: InitiateUpload.() -> Unit) = add {InitiateUpload(impulse).apply(config).render(it) }
+            
+            class TransferChunk(private val impulse:Any) : ArrayList<(VariableRegistry) -> String>() {
+                fun transportId() = add { "transportId" }
+                fun key() = add { "key" }
+                fun partNumber() = add { "partNumber" }
+                fun etag() = add { "etag" }
+
+                fun render(registry:VariableRegistry, name:String = "transferChunk"): String {
+                    val name1 = registry.register("impulse", impulse)
+                    return "$name(impulse:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+                }
+            }
+
+            fun transferChunk(impulse:TransferChunkImpulse, config: TransferChunk.() -> Unit) = add {TransferChunk(impulse).apply(config).render(it) }
+            
+            class CompleteUpload(private val impulse:Any, private val artifact:Any) : ArrayList<(VariableRegistry) -> String>() {
+                fun location() = add { "location" }
+                fun key() = add { "key" }
+                fun etag() = add { "etag" }
+
+                fun render(registry:VariableRegistry, name:String = "completeUpload"): String {
+                    val name1 = registry.register("impulse", impulse)
+                    val name2 = registry.register("artifact", artifact)
+                    return "$name(impulse:\$$name1, artifact:\$$name2) { ${joinToString(" ") { it(registry) }} }"
+                }
+            }
+
+            fun completeUpload(impulse:CompleteUploadImpulse, artifact:HazeArtifact, config: CompleteUpload.() -> Unit) = add {CompleteUpload(impulse, artifact).apply(config).render(it) }
+            fun abortUpload(impulse:AbortUploadImpulse) = add { 
+                val name1 = it.register("impulse", impulse)
+                "abortUpload(impulse:\$$name1)" 
+            }
+
+            fun render(registry:VariableRegistry, name:String = "artifacts"): String {
+                val name1 = registry.register("tenantId", tenantId)
+                return "$name(tenantId:\$$name1) { ${joinToString(" ") { it(registry) }} }"
+            }
+        }
+
+        fun artifacts(tenantId:String, config: Artifacts.() -> Unit) = add {Artifacts(tenantId).apply(config).render(it) }
 
 
         override fun getStatement():Pair<String, Map<String, Any>> {

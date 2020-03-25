@@ -19,52 +19,52 @@ abstract class HeimdallRequest : ArrayList<(VariableRegistry) -> String>() {
 
     class HeimdallMutationRequest: HeimdallRequest() {
         class Impulse {
-            lateinit var impulsePayload:ByteArray
+             lateinit var impulsePayload:ByteArray
             lateinit var impulseHeader:ImpulseHeader
 
             class ImpulseHeader {
-                lateinit var identityId:String
-                lateinit var clientId:String
-                lateinit var userId:String
+                 lateinit var identityId:String
+                 lateinit var clientId:String
+                 lateinit var userId:String
             }
 
         }
 
 
         class ImpulseContext {
-            lateinit var impulseContextPayload:ByteArray
+             lateinit var impulseContextPayload:ByteArray
             lateinit var impulseContextHeader:ImpulseContextHeader
 
             class ImpulseContextHeader {
-                lateinit var identityId:String
-                lateinit var clientId:String
-                lateinit var userId:String
+                 lateinit var identityId:String
+                 lateinit var clientId:String
+                 lateinit var userId:String
             }
 
         }
 
 
         class ImpulseNotification {
-            lateinit var impulseNotificationPayload:ByteArray
+             lateinit var impulseNotificationPayload:ByteArray
             lateinit var impulseNotificationHeader:ImpulseNotificationHeader
 
             class ImpulseNotificationHeader {
-                lateinit var identityId:String
-                lateinit var clientId:String
-                lateinit var userId:String
+                 lateinit var identityId:String
+                 lateinit var clientId:String
+                 lateinit var userId:String
             }
 
         }
 
 
         class ImpulseLog {
-            lateinit var impulseLogPayload:ByteArray
+             lateinit var impulseLogPayload:ByteArray
             lateinit var impulseLogHeader:ImpulseLogHeader
 
             class ImpulseLogHeader {
-                lateinit var identityId:String
-                lateinit var clientId:String
-                lateinit var userId:String
+                 lateinit var identityId:String
+                 lateinit var clientId:String
+                 lateinit var userId:String
             }
 
         }

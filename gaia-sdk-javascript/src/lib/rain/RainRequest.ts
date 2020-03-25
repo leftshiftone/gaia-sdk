@@ -24,8 +24,8 @@ export class RainQueryRequest extends RainRequest {
         return entity.render(registry);
     });
 
-    public skills = (config:(_:QuerySkills) => void) => this.push((registry) => {
-        const entity = new QuerySkills();
+    public skills = (tenantId:string, config:(_:QuerySkills) => void) => this.push((registry) => {
+        const entity = new QuerySkills(tenantId);
         config(entity);
         return entity.render(registry);
     });
@@ -81,19 +81,52 @@ class QueryClassify extends Array<(_:VariableRegistry) => string> {
 }
 
 class QuerySkills extends Array<(_:VariableRegistry) => string> {
-    public status = (name:string) => this.push((registry) => {
-        const name1 = registry.register("name", name);
-        return "status(name:$" + name1 + ")";
+    private tenantId:string;
+
+    constructor(tenantId:string) {
+        super();
+        this.tenantId = tenantId;
+    }
+
+    public status = (skillName:string, config:(_:QueryStatus) => void) => this.push((registry) => {
+        const entity = new QueryStatus(skillName);
+        config(entity);
+        return entity.render(registry);
     });
 
     public render = (registry:VariableRegistry): string => {
-        return "skills { " + this.map((e) => e(registry)).join(" ") + " }";
+        const name1 = registry.register("tenantId", this.tenantId);
+        return "skills(tenantId:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class QueryStatus extends Array<(_:VariableRegistry) => string> {
+    private skillName:string;
+
+    constructor(skillName:string) {
+        super();
+        this.skillName = skillName;
+    }
+
+    public name = () => this.push(() => "name");
+    public status = () => this.push(() => "status");
+    public created = () => this.push(() => "created");
+
+    public render = (registry:VariableRegistry): string => {
+        const name1 = registry.register("skillName", this.skillName);
+        return "status(skillName:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
     }
 }
 
 export class RainMutationRequest extends RainRequest {
     public preprocessors:Array<string> = new Array<string>();
 
+
+    public artifacts = (tenantId:string, config:(_:MutationArtifacts) => void) => this.push((registry) => {
+        const entity = new MutationArtifacts(tenantId);
+        config(entity);
+        return entity.render(registry);
+    });
     public handleReception = (impulse:ReceptionImpulse) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         return "handleReception(impulse:$" + name1 + ")";
@@ -120,6 +153,97 @@ export class RainMutationRequest extends RainRequest {
         const fields = this.map((e) => e(registry)).join(" ");
         const statement = `mutation rain(${registry.getDatatypes().join(", ")}) { ${fields} }`;
         return [statement, registry.getVariables()]
+    }
+}
+
+class MutationArtifacts extends Array<(_:VariableRegistry) => string> {
+    private tenantId:string;
+
+    constructor(tenantId:string) {
+        super();
+        this.tenantId = tenantId;
+    }
+
+    public initiateUpload = (impulse:InitiateUploadImpulse, config:(_:MutationInitiateUpload) => void) => this.push((registry) => {
+        const entity = new MutationInitiateUpload(impulse);
+        config(entity);
+        return entity.render(registry);
+    });
+    public transferChunk = (impulse:TransferChunkImpulse, config:(_:MutationTransferChunk) => void) => this.push((registry) => {
+        const entity = new MutationTransferChunk(impulse);
+        config(entity);
+        return entity.render(registry);
+    });
+    public completeUpload = (impulse:CompleteUploadImpulse, artifact:HazeArtifact, config:(_:MutationCompleteUpload) => void) => this.push((registry) => {
+        const entity = new MutationCompleteUpload(impulse, artifact);
+        config(entity);
+        return entity.render(registry);
+    });
+    public abortUpload = (impulse:AbortUploadImpulse) => this.push((registry) => {
+        const name1 = registry.register("impulse", impulse);
+        return "abortUpload(impulse:$" + name1 + ")";
+    });
+
+    public render = (registry:VariableRegistry): string => {
+        const name1 = registry.register("tenantId", this.tenantId);
+        return "artifacts(tenantId:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class MutationInitiateUpload extends Array<(_:VariableRegistry) => string> {
+    private impulse:InitiateUploadImpulse;
+
+    constructor(impulse:InitiateUploadImpulse) {
+        super();
+        this.impulse = impulse;
+    }
+
+    public transportId = () => this.push(() => "transportId");
+    public key = () => this.push(() => "key");
+
+    public render = (registry:VariableRegistry): string => {
+        const name1 = registry.register("impulse", this.impulse);
+        return "initiateUpload(impulse:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class MutationTransferChunk extends Array<(_:VariableRegistry) => string> {
+    private impulse:TransferChunkImpulse;
+
+    constructor(impulse:TransferChunkImpulse) {
+        super();
+        this.impulse = impulse;
+    }
+
+    public transportId = () => this.push(() => "transportId");
+    public key = () => this.push(() => "key");
+    public partNumber = () => this.push(() => "partNumber");
+    public etag = () => this.push(() => "etag");
+
+    public render = (registry:VariableRegistry): string => {
+        const name1 = registry.register("impulse", this.impulse);
+        return "transferChunk(impulse:$" + name1 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
+    }
+}
+
+class MutationCompleteUpload extends Array<(_:VariableRegistry) => string> {
+    private impulse:CompleteUploadImpulse;
+    private artifact:HazeArtifact;
+
+    constructor(impulse:CompleteUploadImpulse, artifact:HazeArtifact) {
+        super();
+        this.impulse = impulse;
+        this.artifact = artifact;
+    }
+
+    public location = () => this.push(() => "location");
+    public key = () => this.push(() => "key");
+    public etag = () => this.push(() => "etag");
+
+    public render = (registry:VariableRegistry): string => {
+        const name1 = registry.register("impulse", this.impulse);
+        const name2 = registry.register("artifact", this.artifact);
+        return "completeUpload(impulse:$" + name1 + ", artifact:$" + name2 + ") { " + this.map((e) => e(registry)).join(" ") + " }";
     }
 }
 
@@ -152,4 +276,29 @@ export class UtteranceImpulse {
     clientId?: string;
     userId?: string;
     payload?: string;
+}
+export class InitiateUploadImpulse {
+    fileName?: string;
+}
+export class TransferChunkImpulse {
+    key?: string;
+    transportId?: string;
+    partNumber?: number;
+    partSize?: number;
+    encodedBytes?: string;
+}
+export class CompleteUploadImpulse {
+    key?: string;
+    transportId?: string;
+    etags?: Map<String, any>[];
+}
+export class AbortUploadImpulse {
+    key?: string;
+    transportId?: string;
+}
+export class HazeArtifact {
+    qualifier?: string;
+    appendent?: string;
+    labelList?: string[];
+    type?: string;
 }

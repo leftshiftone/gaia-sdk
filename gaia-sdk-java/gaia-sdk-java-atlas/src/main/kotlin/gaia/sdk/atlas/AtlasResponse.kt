@@ -15,7 +15,9 @@ data class AtlasQueryResponse @JsonCreator constructor(
     @JsonProperty("score") val score: Double?,
     @JsonProperty("errors") val errors: List<String>?): AtlasResponse() {
 
-    data class Data @JsonCreator constructor(@JsonProperty("nlu") val nlu: List<Nlu>?
+    data class Data @JsonCreator constructor(@JsonProperty("addPunctuationPreprocessor") val addPunctuationPreprocessor: Boolean?
+, @JsonProperty("removeSignaturePreprocessor") val removeSignaturePreprocessor: Boolean?
+, @JsonProperty("nlu") val nlu: List<Nlu>?
 )
 
     data class Nlu @JsonCreator constructor(

@@ -17,8 +17,8 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
 
     abstract fun getStatement():Pair<String, Map<String, Any>>
     class AtlasQueryRequest: AtlasRequest() {
-        var addPunctuationPreprocessor : Boolean = false
-        var removeSignaturePreprocessor : Boolean = false
+        fun addPunctuationPreprocessor() = add { "addPunctuationPreprocessor" }
+        fun removeSignaturePreprocessor() = add { "removeSignaturePreprocessor" }
         
         class Nlu(private val text:Any, private val merge:Any) : ArrayList<(VariableRegistry) -> String>() {
             fun txt() = add { "txt" }

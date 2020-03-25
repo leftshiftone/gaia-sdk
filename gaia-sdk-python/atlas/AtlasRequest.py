@@ -22,7 +22,7 @@ class AtlasQueryRequest(list):
         super().__init__()
         self.preprocessors = []
 
-    def nlu(self, text:str, merge:object, config:Callable[['QueryNlu'], None]):
+    def nlu(self, text:str, merge:bool, config:Callable[['QueryNlu'], None]):
         def callback(registry:VariableRegistry):
             entity = QueryNlu(text, merge)
             config(entity)
@@ -36,7 +36,7 @@ class AtlasQueryRequest(list):
         return (statement, registry.getVariables())
 
 class QueryNlu(list):
-    def __init__(self, text:str, merge:object):
+    def __init__(self, text:str, merge:bool):
         super().__init__()
         self.text = text
         self.merge = merge
@@ -187,7 +187,7 @@ class QueryNer(list):
             config(entity)
             return entity.render(registry)
         self.append(callback)
-    def location(self, normalized:object, config:Callable[['QueryLocation'], None]):
+    def location(self, normalized:bool, config:Callable[['QueryLocation'], None]):
         def callback(registry:VariableRegistry):
             entity = QueryLocation(normalized)
             config(entity)
@@ -301,7 +301,7 @@ class QueryDuration(list):
 
 
 class QueryLocation(list):
-    def __init__(self, normalized:object):
+    def __init__(self, normalized:bool):
         super().__init__()
         self.normalized = normalized
 

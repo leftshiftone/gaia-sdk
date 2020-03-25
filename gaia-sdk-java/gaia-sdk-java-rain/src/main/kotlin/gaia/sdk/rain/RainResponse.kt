@@ -30,7 +30,13 @@ data class RainQueryResponse @JsonCreator constructor(
 
 
     data class Skills @JsonCreator constructor(
-        @JsonProperty("status") val status: Map<String, Any>?
+        @JsonProperty("status") val status: Status?
+    )
+
+    data class Status @JsonCreator constructor(
+        @JsonProperty("name") val name: String?, 
+        @JsonProperty("status") val status: String?, 
+        @JsonProperty("created") val created: String?
     )
 
 
@@ -46,6 +52,32 @@ data class RainMutationResponse @JsonCreator constructor(
 , @JsonProperty("handleSuggestion") val handleSuggestion: Boolean?
 , @JsonProperty("handleButton") val handleButton: Boolean?
 , @JsonProperty("handleSubmit") val handleSubmit: Boolean?
-)
+, @JsonProperty("artifacts") val artifacts: Artifacts?
+)    data class Artifacts @JsonCreator constructor(
+        @JsonProperty("initiateUpload") val initiateUpload: InitiateUpload?, 
+        @JsonProperty("transferChunk") val transferChunk: TransferChunk?, 
+        @JsonProperty("completeUpload") val completeUpload: CompleteUpload?, 
+        @JsonProperty("abortUpload") val abortUpload: Boolean?
+    )
+
+    data class InitiateUpload @JsonCreator constructor(
+        @JsonProperty("transportId") val transportId: String?, 
+        @JsonProperty("key") val key: String?
+    )
+
+    data class TransferChunk @JsonCreator constructor(
+        @JsonProperty("transportId") val transportId: String?, 
+        @JsonProperty("key") val key: String?, 
+        @JsonProperty("partNumber") val partNumber: Int?, 
+        @JsonProperty("etag") val etag: String?
+    )
+
+    data class CompleteUpload @JsonCreator constructor(
+        @JsonProperty("location") val location: String?, 
+        @JsonProperty("key") val key: String?, 
+        @JsonProperty("etag") val etag: String?
+    )
+
+
     }
 }

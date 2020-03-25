@@ -2,9 +2,12 @@
     #if ($type.class.simpleName.equals("StringType"))str##
     #elseif ($type.class.simpleName.equals("IntType"))int##
     #elseif ($type.class.simpleName.equals("FloatType"))float##
-    #elseif ($type.class.simpleName.equals("BooleanType"))object##
+    #elseif ($type.class.simpleName.equals("LongType"))int##
+    #elseif ($type.class.simpleName.equals("BooleanType"))bool##
     #elseif ($type.class.simpleName.equals("MapType"))dict##
+    #elseif ($type.class.simpleName.equals("ListType"))#print("['")#toKotlinType($type.type)#print("']")##
     #elseif ($type.class.simpleName.equals("ArrayType") && $type.type.class.simpleName.equals("ByteType"))Uint8Array##
+    #elseif ($type.class.simpleName.equals("DateType"))datetime##
     #else #capitalize($type.name)##
     #end
 #end

@@ -11,7 +11,7 @@ export default class VariableRegistry {
         const varName = name + this.counters[name];
 
         this.variables[varName] = value;
-        this.datatypes.push("$" + varName + ":" + this.toType(typeof(value)));
+        this.datatypes.push("$" + varName + ":" + this.toType(value));
 
         return varName;
     }
@@ -19,12 +19,18 @@ export default class VariableRegistry {
     public getVariables = () => this.variables;
     public getDatatypes = () => this.datatypes;
 
-    private toType(value:string):string {
-        switch (value) {
+    private toType(value:any):string {
+        switch (typeof(value)) {
             case "string": return "String!";
             case "boolean": return "Boolean!";
+            case "object":
+                return this.objectName(value);
             default: return value;
         }
+    }
+
+    private objectName(obj: object) {
+        return obj.constructor.name + "!"
     }
 
 }

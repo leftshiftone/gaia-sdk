@@ -14,7 +14,7 @@ export interface QueryData {
 export interface QueryNlu {
     txt?:string;
     raw?:string;
-    cls?:Array<string>;
+    cls?:string[];
     lex?:Array<QueryLex>;
     dep?:Array<QueryDep>;
     ner?:Array<QueryNer>;
@@ -25,15 +25,15 @@ export interface QueryLex {
     phonetic?:number;
     pos?:string;
     base?:string;
-    flexions?:Array<QueryLex>;
-    synonyms?:Array<QueryLex>;
-    collocations?:Array<QueryLex>;
-    hyperonyms?:Array<QueryLex>;
-    meronyms?:Array<QueryLex>;
-    parts?:Array<QueryLex>;
-    abbreviations?:Array<QueryLex>;
-    causations?:Array<QueryLex>;
-    labels?:Array<string>;
+    flexions?:QueryLex[];
+    synonyms?:QueryLex[];
+    collocations?:QueryLex[];
+    hyperonyms?:QueryLex[];
+    meronyms?:QueryLex[];
+    parts?:QueryLex[];
+    abbreviations?:QueryLex[];
+    causations?:QueryLex[];
+    labels?:string[];
 }
 
 export interface QueryDep {
@@ -60,7 +60,7 @@ export interface QueryDatetime {
     date2?:Date;
     negation?:boolean;
     fuzzy?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryDuration {
     amount?:number;
@@ -68,33 +68,33 @@ export interface QueryDuration {
     amountMax?:number;
     unit?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryLocation {
     name?:string;
     type?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryOrganization {
     name?:string;
     type?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryAccommodation {
     name?:string;
     type?:string;
     amount?:number;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryPerson {
     name?:string;
     isAdult?:boolean;
     age?:number;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryPrice {
     amount?:number;
@@ -105,32 +105,32 @@ export interface QueryPrice {
     sensibility?:string;
     scope?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryAge {
     age?:number;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryBool {
     value?:boolean;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryEmail {
     lemma?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryUrl {
     lemma?:string;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryCustom {
     data?:Map<string, any>;
     negation?:boolean;
-    indices?:Array<number>;
+    indices?:number[];
 }
 export interface QueryNer {
     datetime?:Array<QueryDatetime>;

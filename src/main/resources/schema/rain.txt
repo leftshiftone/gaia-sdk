@@ -7,10 +7,15 @@ query {
        }
        gaiaQuery(statement:string):list(map)
     }
-    skills {
-        status(name:string):map
+    skills(tenantId:string) {
+        status(skillName:string) {
+            name: string
+            status: string
+            created: string
+        }
     }
 }
+
 mutation {
     @IncomingType
     receptionImpulse {
@@ -53,4 +58,58 @@ mutation {
     handleSuggestion(impulse:suggestionImpulse):boolean
     handleButton(impulse:buttonImpulse):boolean
     handleSubmit(impulse:submitImpulse):boolean
+
+    @IncomingType
+    initiateUploadImpulse {
+        fileName: string
+    }
+
+    @IncomingType
+    transferChunkImpulse {
+        key: string
+        transportId: string
+        partNumber: int = 0
+        partSize: long = 0
+        encodedBytes: string
+    }
+
+    @IncomingType
+    completeUploadImpulse {
+        key: string
+        transportId: string
+        etags: list(map)
+    }
+
+    @IncomingType
+    abortUploadImpulse {
+        key: string
+        transportId: string
+    }
+
+    @IncomingType
+    hazeArtifact {
+        qualifier: string
+        appendent: string
+        labelList: list(string)
+        type: string
+    }
+
+    artifacts(tenantId:string) {
+        initiateUpload(impulse: initiateUploadImpulse) {
+            transportId:string
+            key: string
+        }
+        transferChunk(impulse: transferChunkImpulse) {
+            transportId:string
+            key: string
+            partNumber:int
+            etag:string
+        }
+        completeUpload(impulse: completeUploadImpulse, artifact: hazeArtifact) {
+            location:string
+            key:string
+            etag:string
+        }
+        abortUpload(impulse: abortUploadImpulse):boolean
+    }
 }

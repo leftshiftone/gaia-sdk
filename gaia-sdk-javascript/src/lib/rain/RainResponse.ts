@@ -14,7 +14,7 @@ export interface QueryData {
 }
 export interface QueryInsights {
     classify?:QueryClassify;
-    gaiaQuery?:Array<Map<string, any>>;
+    gaiaQuery?:Map<string, any>[];
 }
 
 export interface QueryClassify {
@@ -23,7 +23,13 @@ export interface QueryClassify {
     score?:number;
 }
 export interface QuerySkills {
-    status?:Map<string, any>;
+    status?:QueryStatus;
+}
+
+export interface QueryStatus {
+    name?:string;
+    status?:string;
+    created?:string;
 }
 export interface RainMutationResponse extends RainResponse {
     data?:MutationData;
@@ -36,6 +42,12 @@ export interface MutationData {
     submitImpulse?:MutationSubmitImpulse;
     suggestionImpulse?:MutationSuggestionImpulse;
     utteranceImpulse?:MutationUtteranceImpulse;
+    initiateUploadImpulse?:MutationInitiateUploadImpulse;
+    transferChunkImpulse?:MutationTransferChunkImpulse;
+    completeUploadImpulse?:MutationCompleteUploadImpulse;
+    abortUploadImpulse?:MutationAbortUploadImpulse;
+    hazeArtifact?:MutationHazeArtifact;
+    artifacts?:MutationArtifacts;
 }
 export interface MutationReceptionImpulse {
     identityId?:string;
@@ -66,4 +78,53 @@ export interface MutationUtteranceImpulse {
     clientId?:string;
     userId?:string;
     payload?:string;
+}
+export interface MutationInitiateUploadImpulse {
+    fileName?:string;
+}
+export interface MutationTransferChunkImpulse {
+    key?:string;
+    transportId?:string;
+    partNumber?:number;
+    partSize?:number;
+    encodedBytes?:string;
+}
+export interface MutationCompleteUploadImpulse {
+    key?:string;
+    transportId?:string;
+    etags?:Map<string, any>[];
+}
+export interface MutationAbortUploadImpulse {
+    key?:string;
+    transportId?:string;
+}
+export interface MutationHazeArtifact {
+    qualifier?:string;
+    appendent?:string;
+    labelList?:string[];
+    type?:string;
+}
+export interface MutationArtifacts {
+    initiateUpload?:MutationInitiateUpload;
+    transferChunk?:MutationTransferChunk;
+    completeUpload?:MutationCompleteUpload;
+    abortUpload?:boolean;
+}
+
+export interface MutationInitiateUpload {
+    transportId?:string;
+    key?:string;
+}
+
+export interface MutationTransferChunk {
+    transportId?:string;
+    key?:string;
+    partNumber?:number;
+    etag?:string;
+}
+
+export interface MutationCompleteUpload {
+    location?:string;
+    key?:string;
+    etag?:string;
 }

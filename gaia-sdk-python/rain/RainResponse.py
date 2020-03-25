@@ -16,8 +16,17 @@ class QueryClassify:
         return self.score
 
 class QuerySkills:
-    def status(self) -> dict:
+    def status(self) -> 'QueryStatus':
         return self.status
+
+
+class QueryStatus:
+    def name(self) -> str:
+        return self.name
+    def status(self) -> str:
+        return self.status
+    def created(self) -> str:
+        return self.created
 
 
 class QueryData:    
@@ -56,6 +65,18 @@ class MutationData
         return self.suggestionImpulse
     def utteranceImpulse(self) -> 'MutationUtteranceImpulse':
         return self.utteranceImpulse
+    def initiateUploadImpulse(self) -> 'MutationInitiateUploadImpulse':
+        return self.initiateUploadImpulse
+    def transferChunkImpulse(self) -> 'MutationTransferChunkImpulse':
+        return self.transferChunkImpulse
+    def completeUploadImpulse(self) -> 'MutationCompleteUploadImpulse':
+        return self.completeUploadImpulse
+    def abortUploadImpulse(self) -> 'MutationAbortUploadImpulse':
+        return self.abortUploadImpulse
+    def hazeArtifact(self) -> 'MutationHazeArtifact':
+        return self.hazeArtifact
+    def artifacts(self) -> 'MutationArtifacts':
+        return self.artifacts
 
 class MutationReceptionImpulse:
     def identityId(self) -> str:
@@ -106,4 +127,81 @@ class MutationUtteranceImpulse:
         return self.userId
     def payload(self) -> str:
         return self.payload
+
+class MutationInitiateUploadImpulse:
+    def fileName(self) -> str:
+        return self.fileName
+
+class MutationTransferChunkImpulse:
+    def key(self) -> str:
+        return self.key
+    def transportId(self) -> str:
+        return self.transportId
+    def partNumber(self) -> int:
+        return self.partNumber
+    def partSize(self) -> Mutation${str.substring(0, 1).toUpperCase()}${str.substring(1)}:
+        return self.partSize
+    def encodedBytes(self) -> str:
+        return self.encodedBytes
+
+class MutationCompleteUploadImpulse:
+    def key(self) -> str:
+        return self.key
+    def transportId(self) -> str:
+        return self.transportId
+    def etags(self) -> ['dict']:
+        return self.etags
+
+class MutationAbortUploadImpulse:
+    def key(self) -> str:
+        return self.key
+    def transportId(self) -> str:
+        return self.transportId
+
+class MutationHazeArtifact:
+    def qualifier(self) -> str:
+        return self.qualifier
+    def appendent(self) -> str:
+        return self.appendent
+    def labelList(self) -> ['str']:
+        return self.labelList
+    def type(self) -> str:
+        return self.type
+
+class MutationArtifacts:
+    def initiateUpload(self) -> 'MutationInitiateUpload':
+        return self.initiateUpload
+    def transferChunk(self) -> 'MutationTransferChunk':
+        return self.transferChunk
+    def completeUpload(self) -> 'MutationCompleteUpload':
+        return self.completeUpload
+    def abortUpload(self) -> bool:
+        return self.abortUpload
+
+
+class MutationInitiateUpload:
+    def transportId(self) -> str:
+        return self.transportId
+    def key(self) -> str:
+        return self.key
+
+
+class MutationTransferChunk:
+    def transportId(self) -> str:
+        return self.transportId
+    def key(self) -> str:
+        return self.key
+    def partNumber(self) -> int:
+        return self.partNumber
+    def etag(self) -> str:
+        return self.etag
+
+
+class MutationCompleteUpload:
+    def location(self) -> str:
+        return self.location
+    def key(self) -> str:
+        return self.key
+    def etag(self) -> str:
+        return self.etag
 
