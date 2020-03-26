@@ -57,8 +57,8 @@ class RainClientTest {
     @Test
     fun `upload completion`() {
         val client = RainClientBuilder.custom(AssertionTransporter(
-                expectedVariables = mapOf("skillName1" to "someName", "tenantId1" to "someId"),
-                expectedStatement = "query rain(\$tenantId1: String!, \$skillName1: String!) { skills(tenantId:\$tenantId1) { status(skillName:\$skillName1) { name status created } } }"
+                expectedVariables = mapOf("artifact1" to mapOf("appendent" to "test", "labelList" to listOf("#spacy"), "qualifier" to "test-artifact", "type" to "ner"), "impulse1" to mapOf("etags" to listOf(mapOf("etag" to "1", "partNumber" to 0), mapOf("etag" to "2", "partNumber" to 1)), "key" to "a", "transportId" to "b"), "tenantId1" to "xyz"),
+                expectedStatement = "mutation rain(\$tenantId1: String!, \$impulse1: CompleteUploadImpulse!, \$artifact1: HazeArtifact!) { artifacts(tenantId:\$tenantId1) { completeUpload(impulse:\$impulse1, artifact:\$artifact1) { location key etag } } }"
         )).withSecret("asd").withApiKey("sadsad").build()
 
         val request = RainRequest.mutation {
@@ -85,7 +85,7 @@ class RainClientTest {
     }
 
     private class AssertionTransporter(
-            val expectedVariables: Map<String, String>,
+            val expectedVariables: Map<String, Any>,
             val expectedStatement: String
     ) : ITransporter {
         override fun <T> transport(options: ClientOptions, type: Class<T>, payload: ByteArray): Publisher<T> {
