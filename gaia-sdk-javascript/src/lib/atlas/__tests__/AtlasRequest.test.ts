@@ -17,6 +17,7 @@ describe('AtlasRequestTest', () => {
         const [statement, variables] = request.getStatement();
         expect(statement).toEqual('query atlas($text1:String!, $merge1:Boolean!, $qualifier1:String!) { nlu(text:$text1, merge:$merge1) { ner { custom(qualifier:$qualifier1) { data indices } } } }');
         expect(variables).toEqual({"merge1":false, "qualifier1":"some-qualifier", "text1":"text"});
+        expect(request.preprocessors).toEqual([])
     });
 
     test('builds multiple ner custom queries', () => {

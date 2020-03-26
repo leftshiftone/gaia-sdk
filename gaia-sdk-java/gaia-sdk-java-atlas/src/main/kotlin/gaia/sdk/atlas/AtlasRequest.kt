@@ -17,17 +17,17 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
 
     abstract fun getStatement():Pair<String, Map<String, Any>>
     class AtlasQueryRequest: AtlasRequest() {
-        fun addPunctuationPreprocessor() = add { "addPunctuationPreprocessor" }
-        fun removeSignaturePreprocessor() = add { "removeSignaturePreprocessor" }
-        
+        fun addPunctuationPreprocessor() = if (preprocessors.contains("addPunctuationPreprocessor")) true else preprocessors.add("addPunctuationPreprocessor")
+        fun removeSignaturePreprocessor() = if (preprocessors.contains("removeSignaturePreprocessor")) true else preprocessors.add("removeSignaturePreprocessor")
+
         class Nlu(private val text:Any, private val merge:Any) : ArrayList<(VariableRegistry) -> String>() {
             fun txt() = add { "txt" }
             fun raw() = add { "raw" }
-            fun cls(qualifier:String = "default") = add { 
+            fun cls(qualifier:String = "default") = add {
                 val name1 = it.register("qualifier", qualifier)
-                "cls(qualifier:\$$name1)" 
+                "cls(qualifier:\$$name1)"
             }
-            
+
             class Lex : ArrayList<(VariableRegistry) -> String>() {
                 fun lemma() = add { "lemma" }
                 fun phonetic() = add { "phonetic" }
@@ -49,7 +49,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
             }
 
             fun lex(config: Lex.() -> Unit) = add {Lex().apply(config).render(it) }
-            
+
             class Dep : ArrayList<(VariableRegistry) -> String>() {
                 fun sourcePos() = add { "sourcePos" }
                 fun targetPos() = add { "targetPos" }
@@ -73,9 +73,9 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
             }
 
             fun dep(config: Dep.() -> Unit) = add {Dep().apply(config).render(it) }
-            
+
             class Ner : ArrayList<(VariableRegistry) -> String>() {
-                
+
                 class Datetime : ArrayList<(VariableRegistry) -> String>() {
                     fun date() = add { "date" }
                     fun date1() = add { "date1" }
@@ -90,7 +90,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun datetime(config: Datetime.() -> Unit) = add {Datetime().apply(config).render(it) }
-                
+
                 class Duration : ArrayList<(VariableRegistry) -> String>() {
                     fun amount() = add { "amount" }
                     fun amountMin() = add { "amountMin" }
@@ -105,7 +105,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun duration(config: Duration.() -> Unit) = add {Duration().apply(config).render(it) }
-                
+
                 class Location(private val normalized:Any) : ArrayList<(VariableRegistry) -> String>() {
                     fun name() = add { "name" }
                     fun type() = add { "type" }
@@ -119,7 +119,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun location(normalized:Boolean = true, config: Location.() -> Unit) = add {Location(normalized).apply(config).render(it) }
-                
+
                 class Organization : ArrayList<(VariableRegistry) -> String>() {
                     fun name() = add { "name" }
                     fun type() = add { "type" }
@@ -132,7 +132,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun organization(config: Organization.() -> Unit) = add {Organization().apply(config).render(it) }
-                
+
                 class Accommodation : ArrayList<(VariableRegistry) -> String>() {
                     fun name() = add { "name" }
                     fun type() = add { "type" }
@@ -146,7 +146,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun accommodation(config: Accommodation.() -> Unit) = add {Accommodation().apply(config).render(it) }
-                
+
                 class Person : ArrayList<(VariableRegistry) -> String>() {
                     fun name() = add { "name" }
                     fun isAdult() = add { "isAdult" }
@@ -160,7 +160,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun person(config: Person.() -> Unit) = add {Person().apply(config).render(it) }
-                
+
                 class Price : ArrayList<(VariableRegistry) -> String>() {
                     fun amount() = add { "amount" }
                     fun amountMin() = add { "amountMin" }
@@ -178,7 +178,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun price(config: Price.() -> Unit) = add {Price().apply(config).render(it) }
-                
+
                 class Age : ArrayList<(VariableRegistry) -> String>() {
                     fun age() = add { "age" }
                     fun negation() = add { "negation" }
@@ -190,7 +190,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun age(config: Age.() -> Unit) = add {Age().apply(config).render(it) }
-                
+
                 class Bool : ArrayList<(VariableRegistry) -> String>() {
                     fun value() = add { "value" }
                     fun negation() = add { "negation" }
@@ -202,7 +202,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun bool(config: Bool.() -> Unit) = add {Bool().apply(config).render(it) }
-                
+
                 class Email : ArrayList<(VariableRegistry) -> String>() {
                     fun lemma() = add { "lemma" }
                     fun negation() = add { "negation" }
@@ -214,7 +214,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun email(config: Email.() -> Unit) = add {Email().apply(config).render(it) }
-                
+
                 class Url : ArrayList<(VariableRegistry) -> String>() {
                     fun lemma() = add { "lemma" }
                     fun negation() = add { "negation" }
@@ -226,7 +226,7 @@ abstract class AtlasRequest : ArrayList<(VariableRegistry) -> String>() {
                 }
 
                 fun url(config: Url.() -> Unit) = add {Url().apply(config).render(it) }
-                
+
                 class Custom(private val qualifier:Any) : ArrayList<(VariableRegistry) -> String>() {
                     fun data() = add { "data" }
                     fun negation() = add { "negation" }
