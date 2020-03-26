@@ -76,6 +76,7 @@ describe("RainRequestTest", () => {
 
     test('builds expected queries for artifacts CompleteUpload', () => {
         const impulse = new CompleteUploadImpulse();
+        // @ts-ignore
         impulse.etags = [{"partNumber": 0, "etag": "hello"} as Map<string, any>, {
             "partNumber": 1,
             "etag": "world"
