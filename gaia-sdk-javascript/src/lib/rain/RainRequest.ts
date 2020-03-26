@@ -121,12 +121,6 @@ class QueryStatus extends Array<(_:VariableRegistry) => string> {
 export class RainMutationRequest extends RainRequest {
     public preprocessors:Array<string> = new Array<string>();
 
-
-    public artifacts = (tenantId:string, config:(_:MutationArtifacts) => void) => this.push((registry) => {
-        const entity = new MutationArtifacts(tenantId);
-        config(entity);
-        return entity.render(registry);
-    });
     public handleReception = (impulse:ReceptionImpulse) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         return "handleReception(impulse:$" + name1 + ")";
@@ -146,6 +140,11 @@ export class RainMutationRequest extends RainRequest {
     public handleSubmit = (impulse:SubmitImpulse) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         return "handleSubmit(impulse:$" + name1 + ")";
+    });
+    public artifacts = (tenantId:string, config:(_:MutationArtifacts) => void) => this.push((registry) => {
+        const entity = new MutationArtifacts(tenantId);
+        config(entity);
+        return entity.render(registry);
     });
 
     public getStatement = ():[string, {}] => {

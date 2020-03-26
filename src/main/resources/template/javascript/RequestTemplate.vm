@@ -46,9 +46,6 @@ export class #capitalize($name)MutationRequest extends #capitalize($name)Request
         *##foreach($ast in $list)#*
             *##if($ast.class.simpleName.equals("Mutation"))#*
                 *##foreach($renderable in $ast.list)#*
-                    *##renderEntityAsField($renderable, "Mutation")#*
-                *##end#*
-                *##foreach($renderable in $ast.list)#*
                     *##renderField($renderable, "Mutation")#*
                 *##end#*
             *##end##
