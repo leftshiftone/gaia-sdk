@@ -8,7 +8,7 @@ webhook-failed: &webhook-failed
   command: |
     curl $BUILD_STATUS_URL\?flow\=circleci-completed\&status\=FAILED -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
 
-version: 2.1
+version: 2
 jobs:
   webhook-completed:
     docker:
@@ -115,6 +115,25 @@ jobs:
           command: git push -d origin $CIRCLE_TAG || true
       - run:
           <<: *webhook-failed
+  code-analytics:
+    docker:
+      - image: circleci/node:10-browsers
+    environment:
+      TZ: "/usr/share/zoneinfo/Europe/Vienna"
+      TEST_RESULTS_PATH: build/circleci/test-results
+    steps:
+      - run:
+          <<: *webhook-created
+      - checkout
+      - run: |
+          curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip -o sonar-scanner.zip
+          unzip sonar-scanner.zip
+          sonarqube=$(unzip -l sonar-scanner.zip | awk '{print $4}' | grep "^\([a-z0-9.-]*\/\)$")/bin/sonar-scanner
+          ./$sonarqube -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=one.leftshift.gaia-sdk -Dsonar.projectName=gaia-sdk
+      - store_test_results:
+          path: build/circleci/test-results
+      - run:
+          <<: *webhook-failed
 
 workflows:
   version: 2
@@ -161,3 +180,17 @@ workflows:
               only: /^trigger-release-(major|minor|patch)$/
           requires:
             - release-javascript
+  code-analytics:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - code-analytics:
+          context: leftshiftone-sonar
+      - webhook-completed:
+          requires:
+            - code-analytics
