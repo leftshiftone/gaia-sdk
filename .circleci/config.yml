@@ -35,7 +35,10 @@ jobs:
       - run: ./gradlew dependencies
       - run: mkdir -p $TEST_RESULTS_PATH
       - run: ./gradlew test --stacktrace
-      - run: find . -type f -regex ".*/build/test-results/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
+      - run:
+          name: Collect test results
+          command: find . -type f -regex ".*/build/test-results/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
+          when: always
       - run: ./gradlew assemble --stacktrace
       - save_cache:
           paths:
