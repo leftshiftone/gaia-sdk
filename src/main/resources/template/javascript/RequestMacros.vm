@@ -22,7 +22,7 @@
 #end
 #macro(renderEntity $renderable $prefix)#*
     *##if($renderable.class.simpleName.equals("Entity") && !$isIncomingType.apply($renderable))#*
-        *#class $prefix#capitalize($renderable.name) extends #print("Array<(_:VariableRegistry) => string>") {$newLine#*
+        *#export class $prefix#capitalize($renderable.name) extends #print("Array<(_:VariableRegistry) => string>") {$newLine#*
         *##renderConstructor($renderable)#*
         *##renderFields($renderable, $prefix)#*
         *#$newLine#tab(4)public render = (registry:VariableRegistry): string #print("=>") {$newLine#*
@@ -149,11 +149,14 @@
 #end
 #macro(renderIncomingType $renderable $nested)#*
     *##if($renderable.class.simpleName.equals("Entity") && ($nested || $isIncomingType.apply($renderable)))#*
-        *#export class #capitalize($renderable.name) {$newLine#*
+        *#export class #capitalize($renderable.name) implements NameAware {$newLine#*
         *##foreach($field in $renderable.fields)#*
             *##tab(4)$field.name?: #if($field.type)#toKotlinType($field.type)#else#capitalize($field.name)#end;#*
             *#$newLine#*
         *##end#*
+        *#      public name(): string {$newLine#*
+        *#          return '#capitalize($renderable.name)';$newLine#*
+        *#      }$newLine#*
         *#}$newLine#*
         *##foreach($field in $renderable.fields)#*
             *##if($field.class.simpleName.equals("Entity"))#*

@@ -15,6 +15,10 @@ export abstract class HeimdallRequest extends Array<(_:VariableRegistry) => stri
     abstract getStatement():[string, {}];
 }
 
+export interface NameAware {
+    name(): string
+}
+
 export class HeimdallQueryRequest extends HeimdallRequest {
     public preprocessors:Array<string> = new Array<string>();
 
@@ -54,39 +58,63 @@ export class HeimdallMutationRequest extends HeimdallRequest {
     }
 }
 
-export class Impulse {
+export class Impulse implements NameAware {
     impulsePayload?: Uint8Array;
     impulseHeader?: ImpulseHeader;
+      public name(): string {
+          return 'Impulse';
+      }
 }
-export class ImpulseHeader {
+export class ImpulseHeader implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
+      public name(): string {
+          return 'ImpulseHeader';
+      }
 }
-export class ImpulseContext {
+export class ImpulseContext implements NameAware {
     impulseContextPayload?: Uint8Array;
     impulseContextHeader?: ImpulseContextHeader;
+      public name(): string {
+          return 'ImpulseContext';
+      }
 }
-export class ImpulseContextHeader {
+export class ImpulseContextHeader implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
+      public name(): string {
+          return 'ImpulseContextHeader';
+      }
 }
-export class ImpulseNotification {
+export class ImpulseNotification implements NameAware {
     impulseNotificationPayload?: Uint8Array;
     impulseNotificationHeader?: ImpulseNotificationHeader;
+      public name(): string {
+          return 'ImpulseNotification';
+      }
 }
-export class ImpulseNotificationHeader {
+export class ImpulseNotificationHeader implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
+      public name(): string {
+          return 'ImpulseNotificationHeader';
+      }
 }
-export class ImpulseLog {
+export class ImpulseLog implements NameAware {
     impulseLogPayload?: Uint8Array;
     impulseLogHeader?: ImpulseLogHeader;
+      public name(): string {
+          return 'ImpulseLog';
+      }
 }
-export class ImpulseLogHeader {
+export class ImpulseLogHeader implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
+      public name(): string {
+          return 'ImpulseLogHeader';
+      }
 }

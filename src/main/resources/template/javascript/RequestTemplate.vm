@@ -16,6 +16,10 @@ export abstract class #capitalize($name)Request extends #print("Array<(_:Variabl
 #tab(4)abstract getStatement():[string, {}];
 }
 
+export interface NameAware {
+    name(): string
+}
+
 export class #capitalize($name)QueryRequest extends #capitalize($name)Request {$newLine#*
 *##tab(4)public preprocessors:Array<string> = new Array<string>();$newLine#*
 *##foreach($ast in $list)#*

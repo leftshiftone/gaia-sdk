@@ -15,6 +15,10 @@ export abstract class AtlasRequest extends Array<(_:VariableRegistry) => string>
     abstract getStatement():[string, {}];
 }
 
+export interface NameAware {
+    name(): string
+}
+
 export class AtlasQueryRequest extends AtlasRequest {
     public preprocessors:Array<string> = new Array<string>();
 
@@ -32,7 +36,7 @@ export class AtlasQueryRequest extends AtlasRequest {
     }
 }
 
-class QueryNlu extends Array<(_:VariableRegistry) => string> {
+export class QueryNlu extends Array<(_:VariableRegistry) => string> {
     private text:string;
     private merge:boolean;
 
@@ -71,7 +75,7 @@ class QueryNlu extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryLex extends Array<(_:VariableRegistry) => string> {
+export class QueryLex extends Array<(_:VariableRegistry) => string> {
     public lemma = () => this.push(() => "lemma");
     public phonetic = () => this.push(() => "phonetic");
     public pos = () => this.push(() => "pos");
@@ -91,7 +95,7 @@ class QueryLex extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryDep extends Array<(_:VariableRegistry) => string> {
+export class QueryDep extends Array<(_:VariableRegistry) => string> {
     public sourcePos = () => this.push(() => "sourcePos");
     public targetPos = () => this.push(() => "targetPos");
     public sourceTag = () => this.push(() => "sourceTag");
@@ -113,7 +117,7 @@ class QueryDep extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryNer extends Array<(_:VariableRegistry) => string> {
+export class QueryNer extends Array<(_:VariableRegistry) => string> {
     public datetime = (config:(_:QueryDatetime) => void) => this.push((registry) => {
         const entity = new QueryDatetime();
         config(entity);
@@ -180,7 +184,7 @@ class QueryNer extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryDatetime extends Array<(_:VariableRegistry) => string> {
+export class QueryDatetime extends Array<(_:VariableRegistry) => string> {
     public date = () => this.push(() => "date");
     public date1 = () => this.push(() => "date1");
     public date2 = () => this.push(() => "date2");
@@ -193,7 +197,7 @@ class QueryDatetime extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryDuration extends Array<(_:VariableRegistry) => string> {
+export class QueryDuration extends Array<(_:VariableRegistry) => string> {
     public amount = () => this.push(() => "amount");
     public amountMin = () => this.push(() => "amountMin");
     public amountMax = () => this.push(() => "amountMax");
@@ -206,7 +210,7 @@ class QueryDuration extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryLocation extends Array<(_:VariableRegistry) => string> {
+export class QueryLocation extends Array<(_:VariableRegistry) => string> {
     private normalized:boolean;
 
     constructor(normalized:boolean) {
@@ -225,7 +229,7 @@ class QueryLocation extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryOrganization extends Array<(_:VariableRegistry) => string> {
+export class QueryOrganization extends Array<(_:VariableRegistry) => string> {
     public name = () => this.push(() => "name");
     public type = () => this.push(() => "type");
     public negation = () => this.push(() => "negation");
@@ -236,7 +240,7 @@ class QueryOrganization extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryAccommodation extends Array<(_:VariableRegistry) => string> {
+export class QueryAccommodation extends Array<(_:VariableRegistry) => string> {
     public name = () => this.push(() => "name");
     public type = () => this.push(() => "type");
     public amount = () => this.push(() => "amount");
@@ -248,7 +252,7 @@ class QueryAccommodation extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryPerson extends Array<(_:VariableRegistry) => string> {
+export class QueryPerson extends Array<(_:VariableRegistry) => string> {
     public name = () => this.push(() => "name");
     public isAdult = () => this.push(() => "isAdult");
     public age = () => this.push(() => "age");
@@ -260,7 +264,7 @@ class QueryPerson extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryPrice extends Array<(_:VariableRegistry) => string> {
+export class QueryPrice extends Array<(_:VariableRegistry) => string> {
     public amount = () => this.push(() => "amount");
     public amountMin = () => this.push(() => "amountMin");
     public amountMax = () => this.push(() => "amountMax");
@@ -276,7 +280,7 @@ class QueryPrice extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryAge extends Array<(_:VariableRegistry) => string> {
+export class QueryAge extends Array<(_:VariableRegistry) => string> {
     public age = () => this.push(() => "age");
     public negation = () => this.push(() => "negation");
     public indices = () => this.push(() => "indices");
@@ -286,7 +290,7 @@ class QueryAge extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryBool extends Array<(_:VariableRegistry) => string> {
+export class QueryBool extends Array<(_:VariableRegistry) => string> {
     public value = () => this.push(() => "value");
     public negation = () => this.push(() => "negation");
     public indices = () => this.push(() => "indices");
@@ -296,7 +300,7 @@ class QueryBool extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryEmail extends Array<(_:VariableRegistry) => string> {
+export class QueryEmail extends Array<(_:VariableRegistry) => string> {
     public lemma = () => this.push(() => "lemma");
     public negation = () => this.push(() => "negation");
     public indices = () => this.push(() => "indices");
@@ -306,7 +310,7 @@ class QueryEmail extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryUrl extends Array<(_:VariableRegistry) => string> {
+export class QueryUrl extends Array<(_:VariableRegistry) => string> {
     public lemma = () => this.push(() => "lemma");
     public negation = () => this.push(() => "negation");
     public indices = () => this.push(() => "indices");
@@ -316,7 +320,7 @@ class QueryUrl extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryCustom extends Array<(_:VariableRegistry) => string> {
+export class QueryCustom extends Array<(_:VariableRegistry) => string> {
     private qualifier:string;
 
     constructor(qualifier:string) {

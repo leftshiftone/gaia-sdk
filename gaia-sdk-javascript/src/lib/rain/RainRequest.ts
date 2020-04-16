@@ -15,6 +15,10 @@ export abstract class RainRequest extends Array<(_:VariableRegistry) => string> 
     abstract getStatement():[string, {}];
 }
 
+export interface NameAware {
+    name(): string
+}
+
 export class RainQueryRequest extends RainRequest {
     public preprocessors:Array<string> = new Array<string>();
 
@@ -38,7 +42,7 @@ export class RainQueryRequest extends RainRequest {
     }
 }
 
-class QueryInsights extends Array<(_:VariableRegistry) => string> {
+export class QueryInsights extends Array<(_:VariableRegistry) => string> {
     private identityId:string;
 
     constructor(identityId:string) {
@@ -62,7 +66,7 @@ class QueryInsights extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryClassify extends Array<(_:VariableRegistry) => string> {
+export class QueryClassify extends Array<(_:VariableRegistry) => string> {
     private text:string;
 
     constructor(text:string) {
@@ -80,7 +84,7 @@ class QueryClassify extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QuerySkills extends Array<(_:VariableRegistry) => string> {
+export class QuerySkills extends Array<(_:VariableRegistry) => string> {
     private tenantId:string;
 
     constructor(tenantId:string) {
@@ -100,7 +104,7 @@ class QuerySkills extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class QueryStatus extends Array<(_:VariableRegistry) => string> {
+export class QueryStatus extends Array<(_:VariableRegistry) => string> {
     private skillName:string;
 
     constructor(skillName:string) {
@@ -155,7 +159,7 @@ export class RainMutationRequest extends RainRequest {
     }
 }
 
-class MutationArtifacts extends Array<(_:VariableRegistry) => string> {
+export class MutationArtifacts extends Array<(_:VariableRegistry) => string> {
     private tenantId:string;
 
     constructor(tenantId:string) {
@@ -189,7 +193,7 @@ class MutationArtifacts extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class MutationInitiateUpload extends Array<(_:VariableRegistry) => string> {
+export class MutationInitiateUpload extends Array<(_:VariableRegistry) => string> {
     private impulse:InitiateUploadImpulse;
 
     constructor(impulse:InitiateUploadImpulse) {
@@ -206,7 +210,7 @@ class MutationInitiateUpload extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class MutationTransferChunk extends Array<(_:VariableRegistry) => string> {
+export class MutationTransferChunk extends Array<(_:VariableRegistry) => string> {
     private impulse:TransferChunkImpulse;
 
     constructor(impulse:TransferChunkImpulse) {
@@ -225,7 +229,7 @@ class MutationTransferChunk extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-class MutationCompleteUpload extends Array<(_:VariableRegistry) => string> {
+export class MutationCompleteUpload extends Array<(_:VariableRegistry) => string> {
     private impulse:CompleteUploadImpulse;
     private artifact:HazeArtifact;
 
@@ -246,58 +250,88 @@ class MutationCompleteUpload extends Array<(_:VariableRegistry) => string> {
     }
 }
 
-export class ReceptionImpulse {
+export class ReceptionImpulse implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
     attributes?: Map<String, any>;
+      public name(): string {
+          return 'ReceptionImpulse';
+      }
 }
-export class ButtonImpulse {
+export class ButtonImpulse implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
     attributes?: Map<String, any>;
+      public name(): string {
+          return 'ButtonImpulse';
+      }
 }
-export class SubmitImpulse {
+export class SubmitImpulse implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
     attributes?: Map<String, any>;
+      public name(): string {
+          return 'SubmitImpulse';
+      }
 }
-export class SuggestionImpulse {
+export class SuggestionImpulse implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
     attributes?: Map<String, any>;
+      public name(): string {
+          return 'SuggestionImpulse';
+      }
 }
-export class UtteranceImpulse {
+export class UtteranceImpulse implements NameAware {
     identityId?: string;
     clientId?: string;
     userId?: string;
     payload?: string;
+      public name(): string {
+          return 'UtteranceImpulse';
+      }
 }
-export class InitiateUploadImpulse {
+export class InitiateUploadImpulse implements NameAware {
     fileName?: string;
+      public name(): string {
+          return 'InitiateUploadImpulse';
+      }
 }
-export class TransferChunkImpulse {
+export class TransferChunkImpulse implements NameAware {
     key?: string;
     transportId?: string;
     partNumber?: number;
     partSize?: number;
     encodedBytes?: string;
+      public name(): string {
+          return 'TransferChunkImpulse';
+      }
 }
-export class CompleteUploadImpulse {
+export class CompleteUploadImpulse implements NameAware {
     key?: string;
     transportId?: string;
     etags?: Map<String, any>[];
+      public name(): string {
+          return 'CompleteUploadImpulse';
+      }
 }
-export class AbortUploadImpulse {
+export class AbortUploadImpulse implements NameAware {
     key?: string;
     transportId?: string;
+      public name(): string {
+          return 'AbortUploadImpulse';
+      }
 }
-export class HazeArtifact {
+export class HazeArtifact implements NameAware {
     qualifier?: string;
     appendent?: string;
     labelList?: string[];
     type?: string;
+      public name(): string {
+          return 'HazeArtifact';
+      }
 }
