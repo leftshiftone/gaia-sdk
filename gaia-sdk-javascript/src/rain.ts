@@ -18,3 +18,4 @@ export {InitiateUploadImpulse} from './lib/rain/RainRequest';
 export {AbortUploadImpulse} from './lib/rain/RainRequest';
 export {CompleteUploadImpulse} from './lib/rain/RainRequest';
 export {TransferChunkImpulse} from './lib/rain/RainRequest';
+export {HazeArtifact} from './lib/rain/RainRequest';

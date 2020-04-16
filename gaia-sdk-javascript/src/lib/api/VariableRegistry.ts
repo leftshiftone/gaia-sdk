@@ -30,15 +30,14 @@ export default class VariableRegistry {
     }
 
     private objectName(obj: object) {
-        // @ts-ignore
-        const name = obj.name() + "!";
-        if (name === undefined || name === null) {
-            const fallBackName = obj.constructor.name + "!";
-            if (fallBackName === undefined || fallBackName === null) {
-                throw new Error(`Could not extract name from: ${obj}}`);
-            }
+        try {
+            // @ts-ignore
+            return obj.name() + "!";
+        } catch (e) {
+            const fallback =  obj.constructor.name + "!";
+            if (fallback === null || fallback === undefined) throw new Error('Could not extract name');
+            return fallback;
         }
-        return name;
     }
 
 }
