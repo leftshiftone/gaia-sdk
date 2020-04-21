@@ -1,11 +1,11 @@
-import calendar
+from api.VariableRegistry import VariableRegistry
 import itertools
 import random
-import time
+from typing import List, Callable
 
 from api.transporter.abstract_transporter import ITransporter
-from graphql.GaiaRequest import GaiaRequest
-from graphql.GaiaResponse import GaiaResponse
+from graphql.GaiaResponse import QueryResponse
+from graphql.request.type import Query
 
 
 class GaiaClient(object):
@@ -14,19 +14,20 @@ class GaiaClient(object):
         self.transporter = transporter
         self.counter = itertools.count(random.randint(0, 1000000))
 
-    def execute_native(self, statement, variables, preprocessors):
-        payload = {
-            "statement": statement,
-            "variables": variables,
-            "timestamp": calendar.timegm(time.gmtime()),
-            "nonce": self.counter.__next__(),
-            "preprocessors": preprocessors
-        }
+    def execute_native(self, statement: str, variables: dict):
+        payload = {"statement": statement, "variables": variables}
+        return self.transporter.transport(payload)
 
-        return GaiaResponse(self.transporter.transport(payload))
+    def execute_query(self, request: Query) -> QueryResponse:
+        statement, variables = self.get_statement("query", request)
+        return self.execute_native(statement, variables)
 
-    def execute(self, request:GaiaRequest):
-        statement = "query atlas($text: String!, $merge: Boolean!) { ver nlu(text: $text, merge: $merge) { " + (" ".join(request)) + "}}"
-        variables = {"text": request.text, "merge": request.merge}
+    def get_statement(self, name: str, values: List[Callable[[VariableRegistry], str]]):
+        registry = VariableRegistry()
+        fields = " ".join(map(lambda x: x(registry), values))
+        if len(registry.getDatatypes()) == 0:
+            statement = f'${name} gaia ' + '{ ' + fields + ' }'
+            return statement, registry.getVariables()
 
-        return self.execute_native(statement, variables, [])
+        statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + '}  {' + fields + ' }'
+        return statement, registry.getVariables()

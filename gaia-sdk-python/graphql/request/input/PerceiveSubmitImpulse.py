@@ -13,6 +13,6 @@ class PerceiveSubmitImpulse():
     Input for submit perception impulse
     """
 
-    name: String
-    value: String
+    name: str
+    value: str
 

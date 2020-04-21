@@ -22,10 +22,11 @@ class Introspection(list):
     def started(self):
         self.append(lambda x: "started")
 
-    def skills(selfconfig: (_:SkillIntrospection) => void) => this.push((registry) => {
-        const entity = new SkillIntrospection();
-        config(entity);
-        return "skills { " + entity.render(registry) + " }";
-    });
+    def skills(self, config: Callable[['SkillIntrospection'], None]):
+        def callback(_: VariableRegistry):
+            entity = SkillIntrospection()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

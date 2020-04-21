@@ -13,5 +13,5 @@ class PerceiveReceptionImpulse():
     Input for reception perception impulse
     """
 
-    data: Struct
+    data: dict
 

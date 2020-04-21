@@ -4,7 +4,7 @@ from graphql.response.type.AsyncSkillEvaluation import AsyncSkillEvaluation
 
 
 class SkillEvaluation:
-    def sync(self) -> SyncSkillEvaluation:
-        return self.sync
-    def async(self) -> AsyncSkillEvaluation:
-        return self.async
+    def syncEval(self) -> SyncSkillEvaluation:
+        return self.syncEval
+    def asyncEval(self) -> AsyncSkillEvaluation:
+        return self.asyncEval

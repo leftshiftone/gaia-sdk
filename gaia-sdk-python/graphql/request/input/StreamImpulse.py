@@ -10,5 +10,5 @@ from dataclasses import dataclass
 @dataclass
 class StreamImpulse():
 
-    id: Uuid
+    id: str
 

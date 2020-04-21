@@ -8,15 +8,17 @@ from api.VariableRegistry import VariableRegistry
 
 class Evaluation(list):
 
-    def skill(selfconfig: (_:SkillEvaluation) => void) => this.push((registry) => {
-        const entity = new SkillEvaluation();
-        config(entity);
-        return "skill { " + entity.render(registry) + " }";
-    });
-    def build_in(selfconfig: (_:BuildInEvaluation) => void) => this.push((registry) => {
-        const entity = new BuildInEvaluation();
-        config(entity);
-        return "buildIn { " + entity.render(registry) + " }";
-    });
+    def skill(self, config: Callable[['SkillEvaluation'], None]):
+        def callback(_: VariableRegistry):
+            entity = SkillEvaluation()
+            config(entity)
+        self.append(callback)
+
+    def build_in(self, config: Callable[['BuildInEvaluation'], None]):
+        def callback(_: VariableRegistry):
+            entity = BuildInEvaluation()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

@@ -13,8 +13,8 @@ class PerceiveStreamImpulse():
     Input for stream perception impulse
     """
 
-    broadcast: Boolean
-    identityId: Uuid
-    type: String
-    data: Struct
+    broadcast: bool
+    identityId: str
+    type: str
+    data: dict
 

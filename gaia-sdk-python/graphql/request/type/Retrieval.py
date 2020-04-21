@@ -11,18 +11,20 @@ class Retrieval(list):
     """
     Container element which collects all information static data
     """
-    def knowledge(selfconfig: (_:Knowledge) => void) => this.push((registry) => {
-        const entity = new Knowledge();
-        config(entity);
-        return "knowledge { " + entity.render(registry) + " }";
-    });
+    def knowledge(self, config: Callable[['Knowledge'], None]):
+        def callback(_: VariableRegistry):
+            entity = Knowledge()
+            config(entity)
+        self.append(callback)
+
     """
     Container element which collects all information about runtime data
     """
-    def experience(selfconfig: (_:Experience) => void) => this.push((registry) => {
-        const entity = new Experience();
-        config(entity);
-        return "experience { " + entity.render(registry) + " }";
-    });
+    def experience(self, config: Callable[['Experience'], None]):
+        def callback(_: VariableRegistry):
+            entity = Experience()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

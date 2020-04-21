@@ -13,5 +13,5 @@ class PerceiveSuggestionImpulse():
     Input for suggestion perception impulse
     """
 
-    data: Struct
+    data: dict
 

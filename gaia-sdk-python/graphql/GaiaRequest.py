@@ -4,7 +4,7 @@ from graphql.request.type.Mutation import Mutation
 from graphql.request.type.Subscription import Subscription
 
 
-class GaiaRequest(list):
+class GaiaRequest:
 
     @staticmethod
     def query(config: Callable[[Query], None]):

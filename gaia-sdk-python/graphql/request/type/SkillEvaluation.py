@@ -8,20 +8,20 @@ from api.VariableRegistry import VariableRegistry
 
 class SkillEvaluation(list):
 
-    def sync(self, impulse: String, config: Callable[['SyncSkillEvaluation'], None]):
+    def sync_eval(self, impulse: str, config: Callable[['SyncSkillEvaluation'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("impulse", impulse)
             entity = SyncSkillEvaluation()
             config(entity)
-            return f'sync(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'syncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def async(self, impulse: String, config: Callable[['AsyncSkillEvaluation'], None]):
+    def async_eval(self, impulse: str, config: Callable[['AsyncSkillEvaluation'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("impulse", impulse)
             entity = AsyncSkillEvaluation()
             config(entity)
-            return f'async(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'asyncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

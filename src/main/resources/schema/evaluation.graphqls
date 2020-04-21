@@ -9,8 +9,8 @@ type BuildInEvaluation {
 }
 
 type SkillEvaluation {
-    sync(impulse: String): SyncSkillEvaluation
-    async(impulse: String): AsyncSkillEvaluation
+    syncEval(impulse: String): SyncSkillEvaluation
+    asyncEval(impulse: String): AsyncSkillEvaluation
 }
 
 type SyncSkillEvaluation {

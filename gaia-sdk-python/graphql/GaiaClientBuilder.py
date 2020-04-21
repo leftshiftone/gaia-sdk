@@ -1,5 +1,5 @@
 from api.client_options import ClientOptions
-from api.transporter.http_transport import HttpTransport
+from http.http_transport import HttpTransport
 from graphql.GaiaClient import GaiaClient
 
 

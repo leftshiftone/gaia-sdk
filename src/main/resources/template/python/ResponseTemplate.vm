@@ -2,27 +2,28 @@ from graphql.response.type.Query import Query
 from graphql.response.type.Mutation import Mutation
 from graphql.response.type.Subscription import Subscription
 
-class QueryResponse():#*
+
+class QueryResponse:#*
     *#$newLine#tab(4)def data(self) -> Query:#*
-    *#$newLine#tab(8)return self.data#*
+    *#$newLine#tab(8)return self.data$newLine#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
-    *#$newLine#tab(8)return self.extensions#*
+    *#$newLine#tab(8)return self.extensions$newLine#*
     *#$newLine#tab(4)def errors(self) -> list:#*
     *#$newLine#tab(8)return self.errors##
 $newLine
-class MutationResponse():#*
+class MutationResponse:#*
     *#$newLine#tab(4)def data(self) -> Mutation:#*
-    *#$newLine#tab(8)return self.data#*
+    *#$newLine#tab(8)return self.data$newLine#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
-    *#$newLine#tab(8)return self.extensions#*
+    *#$newLine#tab(8)return self.extensions$newLine#*
     *#$newLine#tab(4)def errors(self) -> list:#*
     *#$newLine#tab(8)return self.errors##
 $newLine
-class SubscriptionResponse():#*
+class SubscriptionResponse:#*
     *#$newLine#tab(4)def data(self) -> Subscription:#*
-    *#$newLine#tab(8)return self.data#*
+    *#$newLine#tab(8)return self.data$newLine#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
-    *#$newLine#tab(8)return self.extensions#*
+    *#$newLine#tab(8)return self.extensions$newLine#*
     *#$newLine#tab(4)def errors(self) -> list:#*
     *#$newLine#tab(8)return self.errors##
 $newLine

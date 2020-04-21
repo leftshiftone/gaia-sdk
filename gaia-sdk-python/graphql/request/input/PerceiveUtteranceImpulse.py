@@ -13,5 +13,5 @@ class PerceiveUtteranceImpulse():
     Input for utterance perception impulse
     """
 
-    utterance: String
+    utterance: str
 

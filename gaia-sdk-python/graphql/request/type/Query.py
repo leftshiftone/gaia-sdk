@@ -14,18 +14,20 @@ class Query(list):
     """
     Container element for all introspect sensor fields
     """
-    def introspect(selfconfig: (_:Introspection) => void) => this.push((registry) => {
-        const entity = new Introspection();
-        config(entity);
-        return "introspect { " + entity.render(registry) + " }";
-    });
+    def introspect(self, config: Callable[['Introspection'], None]):
+        def callback(_: VariableRegistry):
+            entity = Introspection()
+            config(entity)
+        self.append(callback)
+
     """
     Container element for all retrieve sensor fields
     """
-    def retrieve(selfconfig: (_:Retrieval) => void) => this.push((registry) => {
-        const entity = new Retrieval();
-        config(entity);
-        return "retrieve { " + entity.render(registry) + " }";
-    });
+    def retrieve(self, config: Callable[['Retrieval'], None]):
+        def callback(_: VariableRegistry):
+            entity = Retrieval()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

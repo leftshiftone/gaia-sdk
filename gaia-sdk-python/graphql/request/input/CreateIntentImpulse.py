@@ -13,10 +13,10 @@ class CreateIntentImpulse():
     The specification to create an intent instance
     """
 
-    identityId: Uuid
-    qualifier: String
-    appendent: String
-    utterance: Struct
-    labellist: Struct
-    version: String
+    identityId: str
+    qualifier: str
+    appendent: str
+    utterance: dict
+    labellist: dict
+    version: str
 

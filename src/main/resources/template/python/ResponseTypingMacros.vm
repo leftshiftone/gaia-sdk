@@ -38,6 +38,14 @@
         *#from graphql.response.input.$import import $import#*
     *##end##
 #end##
+## *************************
+## Renders the argument type
+## *************************
+#macro(renderArgumentType $type)#*
+    *##if($type.name().equals("String"))str#*
+    *##else#**#$type.name()#*
+    *##end##
+#end##
 #macro(tab $indent)${tab.invoke($indent)}#end
 #macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end
 #macro(print $text)${print.invoke($text)}#end

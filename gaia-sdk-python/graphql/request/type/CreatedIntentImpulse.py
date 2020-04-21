@@ -16,10 +16,11 @@ class CreatedIntentImpulse(list):
     """
     the intent instance
     """
-    def intent(selfconfig: (_:Intent) => void) => this.push((registry) => {
-        const entity = new Intent();
-        config(entity);
-        return "intent { " + entity.render(registry) + " }";
-    });
+    def intent(self, config: Callable[['Intent'], None]):
+        def callback(_: VariableRegistry):
+            entity = Intent()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

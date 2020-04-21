@@ -19,11 +19,12 @@ class Perception(list):
     """
     Contains all perception fields needed for a conversation.
     """
-    def conversational(selfconfig: (_:Conversational) => void) => this.push((registry) => {
-        const entity = new Conversational();
-        config(entity);
-        return "conversational { " + entity.render(registry) + " }";
-    });
+    def conversational(self, config: Callable[['Conversational'], None]):
+        def callback(_: VariableRegistry):
+            entity = Conversational()
+            config(entity)
+        self.append(callback)
+
     """
     Data perception impulse used to invoke a data transformation behaviour
     """

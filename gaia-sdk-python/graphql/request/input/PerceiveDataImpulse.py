@@ -13,6 +13,6 @@ class PerceiveDataImpulse():
     Input for data perception impulse.
     """
 
-    name: String
-    data: Struct
+    name: str
+    data: dict
 

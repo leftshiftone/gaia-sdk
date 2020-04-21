@@ -9,7 +9,7 @@
         *##tab($indent)self.append(lambda x: "$field.name")$newLine#*
         *##set($indent =  $indent - 4)#*
     *##elseif($field.arguments)#*
-        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field)#if($field.arguments), #end#**#config: Callable[['${field.type.name()}'], None]):$newLine#*
+        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field), config: Callable[['${field.type.name()}'], None]):$newLine#*
         *##set($indent =  $indent + 4)#*
         *##tab($indent)def callback(registry: VariableRegistry):$newLine#*
         *##set($indent =  $indent + 4)#*
@@ -25,13 +25,15 @@
         *##tab($indent)self.append(callback)$newLine#*
         *##set($indent =  $indent - 4)#*
     *##else#*
-        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field)#if($field.arguments), #end#**#config: (_:${field.type.name()}) => void) => this.push((registry) => {$newLine#*
+        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field), config: Callable[['${field.type.name()}'], None]):$newLine#*
         *##set($indent =  $indent + 4)#*
-        *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
-        *##tab($indent)config(entity);$newLine#*
-        *##tab($indent)return "${field.name} { " + entity.render(registry) + " }";$newLine#*
+        *##tab($indent)def callback(_: VariableRegistry):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)entity = ${field.type.name()}()$newLine#*
+        *##tab($indent)config(entity)$newLine#*
         *##set($indent =  $indent - 4)#*
-        *##tab($indent)});#*
+        *##tab($indent)self.append(callback)$newLine#*
+        *##set($indent =  $indent - 4)#*
     *##end##
 #end##
 ## ***************************
@@ -39,7 +41,7 @@
 ## ***************************
 #macro(renderArguments $field)#*
     *##foreach($argument in $field.arguments)#*
-        *#, $argument.name: $argument.type.name()#*
+        *#, $argument.name: #renderArgumentType($argument.type)#*
     *##end##
 #end##
 ## *******************************
@@ -85,7 +87,7 @@
 #macro(renderConstructor $type $indent)#*
     *#$newLine#*
     *##foreach($field in $type.fields)#*
-    *##tab($indent)$field.name: $field.type.name()$newLine#*
+    *##tab($indent)$field.name: #renderArgumentType($field.type)$newLine#*
     *##end##
 #end##
 ## **************************
@@ -109,6 +111,19 @@
     *##end#*
     *##foreach($import in ${getInputImports.apply($type)})$newLine#*
         *#from graphql.request.input.$import import $import#*
+    *##end##
+#end##
+## *************************
+## Renders the argument type
+## *************************
+#macro(renderArgumentType $type)#*
+    *##if($type.name().equals("String"))str#*
+    *##elseif($type.name().equals("Boolean"))bool#*
+    *##elseif($type.name().equals("Struct"))dict#*
+    *##elseif($type.name().equals("Timestamp"))str#*
+    *##elseif($type.name().equals("Long"))str#*
+    *##elseif($type.name().equals("Uuid"))str#*
+    *##else#**#$type.name()#*
     *##end##
 #end##
 #macro(tab $indent)${tab.invoke($indent)}#end

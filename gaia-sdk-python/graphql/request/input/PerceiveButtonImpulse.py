@@ -13,6 +13,6 @@ class PerceiveButtonImpulse():
     Input for button perception impulse
     """
 
-    name: String
-    value: String
+    name: str
+    value: str
 

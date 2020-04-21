@@ -11,30 +11,35 @@ from api.VariableRegistry import VariableRegistry
 
 class Knowledge(list):
 
-    def intents(selfconfig: (_:Intent) => void) => this.push((registry) => {
-        const entity = new Intent();
-        config(entity);
-        return "intents { " + entity.render(registry) + " }";
-    });
-    def prompts(selfconfig: (_:Prompt) => void) => this.push((registry) => {
-        const entity = new Prompt();
-        config(entity);
-        return "prompts { " + entity.render(registry) + " }";
-    });
-    def fulfilments(selfconfig: (_:Fulfilment) => void) => this.push((registry) => {
-        const entity = new Fulfilment();
-        config(entity);
-        return "fulfilments { " + entity.render(registry) + " }";
-    });
-    def statements(selfconfig: (_:Statement) => void) => this.push((registry) => {
-        const entity = new Statement();
-        config(entity);
-        return "statements { " + entity.render(registry) + " }";
-    });
-    def edge(selfconfig: (_:KnowledgeEdge) => void) => this.push((registry) => {
-        const entity = new KnowledgeEdge();
-        config(entity);
-        return "edge { " + entity.render(registry) + " }";
-    });
+    def intents(self, config: Callable[['Intent'], None]):
+        def callback(_: VariableRegistry):
+            entity = Intent()
+            config(entity)
+        self.append(callback)
+
+    def prompts(self, config: Callable[['Prompt'], None]):
+        def callback(_: VariableRegistry):
+            entity = Prompt()
+            config(entity)
+        self.append(callback)
+
+    def fulfilments(self, config: Callable[['Fulfilment'], None]):
+        def callback(_: VariableRegistry):
+            entity = Fulfilment()
+            config(entity)
+        self.append(callback)
+
+    def statements(self, config: Callable[['Statement'], None]):
+        def callback(_: VariableRegistry):
+            entity = Statement()
+            config(entity)
+        self.append(callback)
+
+    def edge(self, config: Callable[['KnowledgeEdge'], None]):
+        def callback(_: VariableRegistry):
+            entity = KnowledgeEdge()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

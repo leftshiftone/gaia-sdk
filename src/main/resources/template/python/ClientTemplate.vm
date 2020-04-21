@@ -1,11 +1,11 @@
-import calendar
+from api.VariableRegistry import VariableRegistry
 import itertools
 import random
-import time
+from typing import List, Callable
 
 from api.transporter.abstract_transporter import ITransporter
-from graphql.#capitalize($name)Request import #capitalize($name)Request
-from graphql.#capitalize($name)Response import #capitalize($name)Response
+from graphql.GaiaResponse import QueryResponse
+from graphql.request.type import Query
 
 
 class #capitalize($name)Client(object):
@@ -14,22 +14,23 @@ class #capitalize($name)Client(object):
 #tab(8)self.transporter = transporter
 #tab(8)self.counter = itertools.count(random.randint(0, 1000000))
 
-#tab(4)def execute_native(self, statement, variables, preprocessors):
-#tab(8)payload = {
-#tab(12)"statement": statement,
-#tab(12)"variables": variables,
-#tab(12)"timestamp": calendar.timegm(time.gmtime()),
-#tab(12)"nonce": self.counter.__next__(),
-#tab(12)"preprocessors": preprocessors
-#tab(8)}
+#tab(4)def execute_native(self, statement: str, variables: dict):
+#tab(8)payload = {"statement": statement, "variables": variables}
+#tab(8)return self.transporter.transport(payload)
 
-#tab(8)return #capitalize($name)Response(self.transporter.transport(payload))
+#tab(4)def execute_query(self, request: Query) -> QueryResponse:
+#tab(8)statement, variables = self.get_statement("query", request)
+#tab(8)return self.execute_native(statement, variables)
 
-#tab(4)def execute(self, request:#capitalize($name)Request):
-#tab(8)statement = "query atlas($text: String!, $merge: Boolean!) { ver nlu(text: $text, merge: $merge) { " + (" ".join(request)) + "}}"
-#tab(8)variables = {"text": request.text, "merge": request.merge}
+#tab(4)def get_statement(self, name: str, values: List[Callable[[VariableRegistry], str]]):
+#tab(8)registry = VariableRegistry()
+#tab(8)fields = " ".join(map(lambda x: x(registry), values))
+#tab(8)if len(registry.getDatatypes()) == 0:
+#tab(12)statement = f'#print("$"){name} gaia ' + '{ ' + fields + ' }'
+#tab(12)return statement, registry.getVariables()
 
-#tab(8)return self.execute_native(statement, variables, [])
+#tab(8)statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + '}  {' + fields + ' }'
+#tab(8)return statement, registry.getVariables()
 #macro(capitalize $str)#*
     *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
 #end

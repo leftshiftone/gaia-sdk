@@ -12,23 +12,26 @@ class Subscription(list):
     the top level subscription type
     """
 
-    def interact(selfconfig: (_:Interaction) => void) => this.push((registry) => {
-        const entity = new Interaction();
-        config(entity);
-        return "interact { " + entity.render(registry) + " }";
-    });
-    def notify(selfconfig: (_:Notification) => void) => this.push((registry) => {
-        const entity = new Notification();
-        config(entity);
-        return "notify { " + entity.render(registry) + " }";
-    });
+    def interact(self, config: Callable[['Interaction'], None]):
+        def callback(_: VariableRegistry):
+            entity = Interaction()
+            config(entity)
+        self.append(callback)
+
+    def notify(self, config: Callable[['Notification'], None]):
+        def callback(_: VariableRegistry):
+            entity = Notification()
+            config(entity)
+        self.append(callback)
+
     """
     Container element for all introspect sensor fields
     """
-    def introspect(selfconfig: (_:Introspection) => void) => this.push((registry) => {
-        const entity = new Introspection();
-        config(entity);
-        return "introspect { " + entity.render(registry) + " }";
-    });
+    def introspect(self, config: Callable[['Introspection'], None]):
+        def callback(_: VariableRegistry):
+            entity = Introspection()
+            config(entity)
+        self.append(callback)
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))
