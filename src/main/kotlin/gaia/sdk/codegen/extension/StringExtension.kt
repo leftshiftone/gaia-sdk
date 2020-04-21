@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.cast
 
 fun String.substringBetween(str1:String, str2:String):String {
-    val index1 = this.indexOf(str1)
+    val index1 = this.indexOf(str1) + 1
     val index2 = this.lastIndexOf(str2)
 
     return this.substring(index1, index2)

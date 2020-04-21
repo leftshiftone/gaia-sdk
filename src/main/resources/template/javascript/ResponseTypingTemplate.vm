@@ -1,0 +1,5 @@
+#parse("/template/javascript/ResponseTypingMacros.vm")
+#renderImports($ast)$newLine
+import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+
+#renderType($ast 0)

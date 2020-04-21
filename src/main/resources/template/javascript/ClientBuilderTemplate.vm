@@ -1,4 +1,3 @@
-#parse("/template/javascript/ClientBuilderMacros.vm")
 import {ITransporter} from '../api/ITransporter';
 import {ClientOptions} from '../api/ClientOptions';
 import {#capitalize($name)Client} from './#capitalize($name)Client';
@@ -34,3 +33,12 @@ export class #capitalize($name)ClientBuilder {
 #tab(4)}
 
 }
+#macro(capitalize $str)#*
+    *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
+#end
+#macro(tab $indent)#*
+    *#${tab.invoke($indent)}##
+#end
+#macro(print $text)#*
+    *#${print.invoke($text)}##
+#end

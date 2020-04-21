@@ -1,0 +1,6 @@
+#parse("/template/javascript/RequestTypingMacros.vm")
+#renderImports($ast)$newLine
+import VariableRegistry from "../../../api/VariableRegistry"
+import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+
+#renderClasses($ast 0)

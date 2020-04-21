@@ -1,0 +1,4 @@
+#parse("/template/python/ResponseTypingMacros.vm")
+#renderImports($ast)$newLine
+
+#renderType($ast 0)

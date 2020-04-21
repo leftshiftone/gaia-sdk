@@ -1,0 +1,103 @@
+# ***************
+# Knowledge types
+# ***************
+
+"this type represents the intent information"
+type Intent {
+    "The identity id"
+    identityId: Uuid
+    "The intent reference id"
+    reference: Uuid
+    "The name of the intent"
+    qualifier: String
+    "Detailed description about the intent"
+    appendent: String
+    "The utterance dictionary. The key is a language key and the value is a list of utterances"
+    utterance: Struct
+    "The list of labels of the intent"
+    labellist: [String]
+    "The version of the intent"
+    version: String
+}
+
+"this type represents the statement information"
+type Statement {
+    "The statement id"
+    identityId: Uuid
+    "The statement reference id"
+    reference: Uuid
+    "The name of the statement"
+    qualifier: String
+    "Detailed description about the statement"
+    appendent: String
+    "The utterance dictionary. The key is a language key and the value is a list of utterances"
+    utterance: Struct
+    "The list of labels of the statement"
+    labellist: [String]
+    "The version of the statement"
+    version: String
+}
+
+"this type represents the fulfilment information"
+type Fulfilment {
+    "The fulfilment id"
+    identityId: Uuid
+    "The fulfilment reference id"
+    reference: Uuid
+    "The name of the fulfilment"
+    qualifier: String
+    "Detailed description about the fulfilment"
+    appendent: String
+    "The utterance dictionary. The key is a language key and the value is a list of utterances"
+    utterance: Struct
+    "The list of labels of the fulfilment"
+    labellist: [String]
+    "The version of the fulfilment"
+    version: String
+}
+
+"this type represents the prompt information"
+type Prompt {
+    "The prompt id"
+    identityId: Uuid
+    "The prompt reference id"
+    reference: Uuid
+    "The name of the prompt"
+    qualifier: String
+    "Detailed description about the prompt"
+    appendent: String
+    "The utterance dictionary. The key is a language key and the value is a list of utterances"
+    utterance: Struct
+    "The list of labels of the prompt"
+    labellist: [String]
+    "The version of the prompt"
+    version: String
+}
+
+# ****************
+# Experience types
+# ****************
+
+type BehaviourExecution {
+    processInstanceId: Uuid
+    state: String
+    timestamp: Long
+    duration: Long
+    startEventType: String
+    startEventId: Uuid
+    initAttributes: Struct
+    processId: Uuid
+    parentProcessId: Uuid
+}
+type BehaviourNodeExecution {
+    processInstanceId: Uuid
+    nodeInstanceId: Uuid
+    state: String
+    executionGroupId: Uuid
+    nodeId: Uuid
+    processId: Uuid
+    type: String
+    transitions: Struct
+    timestamp: Long
+    parentProcessId: Uuid
+}

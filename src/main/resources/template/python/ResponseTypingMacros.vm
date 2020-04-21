@@ -1,0 +1,43 @@
+## ******************
+## Renders a type AST
+## ******************
+#macro(renderType $type $indent)#*
+    *##tab($indent)class ${type.name}:$newLine#*
+    *##renderDescription($type 4)#*
+    *##set($indent = $indent + 4)#*
+    *##foreach($field in $type.fields)#*
+        *##renderDescription($field $indent)#*
+        *##tab($indent)#renderField($field)$newLine#*
+    *##end#*#*
+    *##set($indent = $indent - 4)##
+#end##
+#macro(renderField $field)#*
+    *#def ${field.name}(self) -> $field.type.name():$newLine#*
+    *##tab(8)return self.$field.name##
+#end
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)"""$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent)$line$newLine#*
+        *##end#*
+        *##tab($indent)"""$newLine#*
+    *##end##
+#end##
+## *************************
+## Renders the class imports
+## *************************
+#macro(renderImports $type)#*
+    *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
+        *#from graphql.response.type.$import import $import#*
+    *##end#*
+    *##foreach($import in ${getInputImports.apply($type)})$newLine#*
+        *#from graphql.response.input.$import import $import#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end
+#macro(print $text)${print.invoke($text)}#end

@@ -1,0 +1,28 @@
+type Retrieval {
+    "Container element which collects all information static data"
+    knowledge: Knowledge
+    "Container element which collects all information about runtime data"
+    experience: Experience
+}
+
+type Knowledge {
+    intents: [Intent]
+    prompts: [Prompt]
+    fulfilments: [Fulfilment]
+    statements: [Statement]
+    edge: [KnowledgeEdge]
+}
+
+"Container type for static information"
+type KnowledgeEdge {
+    source: Struct
+    target: Struct
+    type: String
+    weight: Float
+}
+
+"Container type for runtime information"
+type Experience {
+    behaviourExecutions: [BehaviourExecution]
+    behaviourNodeExecutions: [BehaviourNodeExecution]
+}

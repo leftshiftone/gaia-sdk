@@ -1,0 +1,128 @@
+## *********************
+## Renders a class field
+## *********************
+#macro(renderField $field $indent)#*
+    *##renderDescription($field $indent)#*
+    *##if ($field.type.isScalar($list))#*
+        *##tab($indent)public ${field.name} = (#renderArguments($field)) => { $newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)this.push(_ => "$field.name")$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)};#*
+    *##elseif($field.arguments)#*
+        *##tab($indent)public ${field.name} = (#renderArguments($field)#if($field.arguments), #end#**#config: (_:${field.type.name()}) => void) => this.push((registry) => {$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##foreach($argument in $field.arguments)#*
+        *##tab($indent)const name$foreach.count = registry.register("$argument.name", $argument.name);$newLine#*
+        *##end#*
+        *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
+        *##tab($indent)config(entity);$newLine#*
+        *##tab($indent)return `${field.name}(#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#end#*
+        *#){` + entity.render(registry) + "}"$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)});#*
+    *##else#*
+        *##tab($indent)public ${field.name} = (#renderArguments($field)#if($field.arguments), #end#**#config: (_:${field.type.name()}) => void) => this.push((registry) => {$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
+        *##tab($indent)config(entity);$newLine#*
+        *##tab($indent)return "${field.name} { " + entity.render(registry) + " }";$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)});#*
+    *##end##
+#end##
+## ***************************
+## Renders all field arguments
+## ***************************
+#macro(renderArguments $field)#*
+    *##foreach($argument in $field.arguments)#*
+        *##if($foreach.count > 1), #end#*
+        *#$argument.name : $argument.type.name()#*
+    *##end##
+#end##
+## *******************************
+## Renders the class field classes
+## *******************************
+#macro(renderClasses $type $indent)#*
+    *##if ($isType.apply($type) || $isInterface.apply($type))#*
+        *##renderType($type $indent)$newLine#*
+    *##end#*
+    *##if ($isInput.apply($type))#*
+        *##renderInput($type $indent)$newLine#*
+    *##end##
+#end##
+## ********************
+## Renders a type class
+## ********************
+#macro(renderType $type $indent)#*
+    *##renderDescription($type $indent)#*
+    *##tab($indent)export default class ${type.name} extends Array<(_:VariableRegistry) => string> {
+    #set($indent =  $indent + 4)#*
+    *##foreach($field in $type.fields)$newLine#*
+        *##renderField($field $indent)$newLine#*
+    *##end#*
+    *##set($indent =  $indent - 4)#*
+    *#$newLine#tab(4)public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");##
+    #tab($indent)$newLine}
+#end##
+## **********************
+## Renders an input class
+## **********************
+#macro(renderInput $type $indent)#*
+    *##renderDescription($type $indent)#*
+    *##tab($indent)export default class ${type.name} {$newLine#*
+    *##set($indent = $indent + 4)#*
+    *##renderConstructor($type $indent)#*
+    *##set($indent = $indent - 4)#*
+    *#$newLine#tab($indent)}##
+#end##
+## ***************************
+## Renders a class constructor
+## ***************************
+#macro(renderConstructor $type $indent)#*
+    *#$newLine#*
+    *##foreach($field in $type.fields)#*
+    *##tab($indent)private $field.name:$field.type.name();$newLine#*
+    *##end#*
+    *#$newLine#*
+    *##if ($isInput.apply($type))#*
+        *##tab($indent)constructor (#*
+        *##foreach($field in $type.fields)#*
+            *##if($foreach.count > 1), #end#*
+            *#$field.name:$field.type.name()#*
+        *##end) {$newLine#*
+        *##set($indent = $indent + 4)#*
+        *##foreach($field in $type.fields)#*
+        *##tab($indent)this.$field.name = $field.name;$newLine#*
+        *##end#*
+        *##set($indent = $indent - 4)#*
+        *##tab($indent)}#*
+    *##end##
+#end##
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)/**$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent) * $line$newLine#*
+        *##end#*
+        *##tab($indent) */$newLine#*
+    *##end##
+#end##
+## *************************
+## Renders the class imports
+## *************************
+#macro(renderImports $type)#*
+    *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
+        *#import $import from "./$import";#*
+    *##end#*
+    *##foreach($import in ${getInputImports.apply($type)})$newLine#*
+        *#import $import from "../input/$import";#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(print $text)${print.invoke($text)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end

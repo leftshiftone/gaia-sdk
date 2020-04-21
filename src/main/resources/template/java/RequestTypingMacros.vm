@@ -1,0 +1,95 @@
+## *********************
+## Renders a class field
+## *********************
+#macro(renderField $field $indent)#*
+    *##renderDescription($field $indent)#*
+    *##if ($field.type.isScalar($list))#*
+        *##tab($indent)fun ${field.name}(#renderArguments($field)) { $newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)add {"$field.name" } $newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)}#*
+    *##elseif($field.arguments)#*
+        *##tab($indent)fun ${field.name}(#renderArguments($field)#if($field.arguments), #end#**#config: ${field.type.name()}.() -> Unit) = add {$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##foreach($argument in $field.arguments)#*
+        *##tab($indent)val name$foreach.count = it.register("$argument.name", $argument.name)$newLine#*
+        *##end#*
+        *##tab($indent)"${field.name}(#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$$")name$foreach.count#end#*
+        *#){" + ${field.type.name()}().apply(config).render(it) + "}"$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)}#*
+    *##else#*
+        *##tab($indent)fun ${field.name}(#renderArguments($field)#if($field.arguments), #end#**#config: ${field.type.name()}.() -> Unit) = $newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)add { "${field.name}{ " + ${field.type.name()}().apply(config).render(it) + "}"}$newLine#*
+        *##set($indent =  $indent - 4)#*
+    *##end##
+#end##
+## ***************************
+## Renders all field arguments
+## ***************************
+#macro(renderArguments $field)#*
+    *##foreach($argument in $field.arguments)#*
+        *##if($foreach.count > 1), #end#*
+        *#$argument.name : $argument.type.name()#*
+    *##end##
+#end##
+## *******************************
+## Renders the class field classes
+## *******************************
+#macro(renderClasses $type $indent)#*
+    *##if ($isType.apply($type) || $isInterface.apply($type))#*
+        *##renderType($type $indent)$newLine#*
+    *##end#*
+    *##if ($isInput.apply($type))#*
+        *##renderInput($type $indent)$newLine#*
+    *##end##
+#end##
+## ********************
+## Renders a type class
+## ********************
+#macro(renderType $type $indent)#*
+    *##renderDescription($type $indent)#*
+    *##tab($indent)class ${type.name}#renderConstructor($type): Type() {
+    #set($indent =  $indent + 4)#*
+    *##foreach($field in $type.fields)$newLine#*
+        *##renderField($field $indent)$newLine#*
+    *##end##
+    #set($indent =  $indent - 4)
+    #tab($indent)}
+#end##
+## **********************
+## Renders an input class
+## **********************
+#macro(renderInput $type $indent)#*
+    *##renderDescription($type $indent)#*
+    *##tab($indent)class ${type.name}#renderConstructor($type) : Input()
+#end##
+## ***************************
+## Renders a class constructor
+## ***************************
+#macro(renderConstructor $type)#*
+    *##if ($isInput.apply($type))#*
+        *#(#foreach($field in $type.fields)#*
+            *##if($foreach.count > 1), $newLine#end#*
+            *##if($foreach.count > 1)   #end#**#val $field.name:$field.type.name()#*
+        *##end)#*
+    *##end##
+#end##
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)/**$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent) * $line$newLine#*
+        *##end#*
+        *##tab($indent) */$newLine#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(print $text)${print.invoke($text)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end

@@ -14,10 +14,7 @@
     "declaration": true
   },
     "files": [
-        "./src/all.ts",
-        "./src/atlas.ts",
-        "./src/heimdall.ts",
-        "./src/rain.ts"
+        "./src/gaia.ts"
     ],
     "compileOnSave": false,
     "buildOnSave": false

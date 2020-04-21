@@ -1,0 +1,22 @@
+type Evaluation {
+    skill: SkillEvaluation
+    buildIn: BuildInEvaluation
+}
+
+type BuildInEvaluation {
+    behaviour: String
+    gaiaquery: String
+}
+
+type SkillEvaluation {
+    sync(impulse: String): SyncSkillEvaluation
+    async(impulse: String): AsyncSkillEvaluation
+}
+
+type SyncSkillEvaluation {
+    tbd: String
+}
+
+type AsyncSkillEvaluation {
+    tbd: String
+}
