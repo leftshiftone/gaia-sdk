@@ -1,6 +1,6 @@
 {
-    "name": "gaia-sdk",
-    "version": "0.16.0",
+    "name": "@leftshiftone/gaia-sdk",
+    "version": "0.18.0",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
@@ -18,6 +18,7 @@
         "jest-junit": "5.1.0",
         "release-it": "^10.3.1",
         "sinon": "^7.2.3",
+        "shx": "^0.3.2",
         "sonarqube-scanner": "2.1.2",
         "style-loader": "^0.22.1",
         "stylelint": "^9.5.0",
@@ -37,36 +38,34 @@
     "jest-junit": {
         "suiteName": "Frontend Tests",
         "suiteNameTemplate": "{filename}",
-        "output": "./test-results/test/TEST-Frontend.xml",
+        "output": "build/test/TEST-junit.xml",
         "classNameTemplate": "{classname}-{title}",
         "titleTemplate": "{classname}-{title}"
     },
     "scripts": {
         "webpack:dev": "webpack-dev-server --open --mode=development",
         "webpack:build": "webpack --mode=production",
+        "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
         "lint": "stylelint tslint src/**/*.ts",
-        "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN",
-        "release:major": "release-it major --no-git.requireCleanWorkingDir",
-        "release:minor": "release-it minor --no-git.requireCleanWorkingDir",
-        "release:patch": "release-it patch --no-git.requireCleanWorkingDir --no-git.requireUpstream"
+        "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/leftshiftone/gaia-js-sdk.git"
+        "url": "git+https://github.com/leftshiftone/gaia-sdk.git"
     },
     "keywords": [
         "sdk",
         "gaia",
         "leftshiftone"
     ],
-    "author": "Leftshift One Software GmbH <core-devs@leftshift.one>",
+    "author": "Leftshift One Software GmbH <contact@leftshift.one>",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/leftshiftone/gaia-js-sdk/issues"
+        "url": "https://github.com/leftshiftone/gaia-sdk/issues"
     },
-    "homepage": "https://github.com/leftshiftone/gaia-js-sdk",
+    "homepage": "https://github.com/leftshiftone/gaia-sdk",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     }

@@ -1,0 +1,75 @@
+import groovy.util.Node
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.Jar
+
+apply plugin: "java"
+apply plugin: "one.leftshift.asteria-docs"
+apply plugin: "one.leftshift.asteria-publish"
+
+asteriaDocs {
+    documents = ["index.adoc"]
+}
+
+sourceSets {
+    docs {
+        java {
+            srcDir "src/docs/asciidoc"
+        }
+        resources {
+            srcDir "src/docs/resources"
+        }
+    }
+}
+
+publish.dependsOn docsJar
+publish.dependsOn docsZip
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = project.name
+            from components.java
+            artifact docsJar
+            artifact docsZip
+            pom.withXml {
+                Node root = asNode()
+                root.appendNode("name", "GAIA SDK")
+                root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
+                root.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+
+                Node licenses = root.appendNode("licenses")
+                Node license = licenses.appendNode("license")
+                license.appendNode("name", "MIT")
+                license.appendNode("url", "https://github.com/leftshiftone/gaia-sdk/blob/master/LICENSE")
+
+                Node developers = root.appendNode("developers")
+                Node developer = developers.appendNode("developer")
+                developer.appendNode("id", "leftshiftone")
+                developer.appendNode("name", "Leftshift One")
+                developer.appendNode("email", "contact@leftshift.one")
+                developer.appendNode("organization", "Leftshift One Software GmbH")
+                developer.appendNode("organizationUrl", "https://www.leftshift.one")
+
+                Node scm = root.appendNode("scm")
+                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/gaia-sdk.git")
+                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/gaia-sdk.git")
+                scm.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+            }
+        }
+    }
+}
+
+bintray {
+    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publish = true
+    pkg {
+        repo = "gaia-sdk"
+        name = "${project.group}.${project.name}"
+        userOrg = "leftshiftone"
+        licenses = ["MIT"]
+        vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
+        publications = ["mavenJava"]
+    }
+}

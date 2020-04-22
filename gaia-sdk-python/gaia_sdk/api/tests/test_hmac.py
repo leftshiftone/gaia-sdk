@@ -10,5 +10,6 @@ class TestHMAC(unittest.TestCase):
         self.assertEqual(hmac.hash("data"), 'GywWt1vSqHDBFBU8zaW8/KYzFLxyL6Fg1pDeEzzLuds=')
         self.assertEqual(hmac.hash("data"), 'GywWt1vSqHDBFBU8zaW8/KYzFLxyL6Fg1pDeEzzLuds=')
 
+
 if __name__ == '__main__':
     unittest.main()

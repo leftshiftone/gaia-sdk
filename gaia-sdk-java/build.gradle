@@ -15,9 +15,11 @@
  */
 
 allprojects {
+    apply plugin: "kotlin"
+    apply plugin: "one.leftshift.asteria-code-analytics"
+
     repositories {
         jcenter()
-        mavenCentral()
     }
 
     dependencies {
@@ -37,32 +39,37 @@ allprojects {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-
     test {
         useJUnitPlatform()
     }
+
     tasks.withType(Test) { testTask ->
-        minHeapSize = "1G"
-        maxHeapSize = "2G"
+        maxHeapSize = "1G"
         testTask.beforeTest { descriptor ->
             logger.lifecycle(descriptor.toString())
         }
+    }
+
+    asteriaCodeAnalytics {
+        sonarUrl = System.getenv("SONAR_HOST_URL")
+        sonarLoginToken = System.getenv("SONAR_LOGIN")
+        xmlCoverageReportEnabled = true
+        coverageExcludes = [
+                "**/*Kt.class",
+                "**/gaia/sdk/api/**",
+        ]
     }
 }
 
 
 subprojects {
     apply plugin: "org.jetbrains.dokka"
-    apply plugin: "maven-publish"
     apply plugin: "com.jfrog.bintray"
+    apply plugin: "one.leftshift.asteria-publish"
 
     task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
         outputFormat = "javadoc"
         outputDirectory = "${buildDir}/dokkaJavadoc"
-    }
-    task sourceJar(type: Jar) {
-        from sourceSets.main.allSource
-        classifier "sources"
     }
     task javadocJar(type: Jar) {
         from dokkaJavadoc

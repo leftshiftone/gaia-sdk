@@ -24,7 +24,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
     private companion object {
         private val JAVA = getProperty("user.dir") + "/gaia-sdk-java/gaia-sdk-graphql/src/main/kotlin/gaia/sdk/"
         private val JAVASCRIPT = getProperty("user.dir") + "/gaia-sdk-javascript/src/graphql/"
-        private val PYTHON = getProperty("user.dir") + "/gaia-sdk-python/graphql/"
+        private val PYTHON = getProperty("user.dir") + "/gaia-sdk-python/gaia_sdk/graphql/"
     }
 
     fun generate() {
@@ -50,29 +50,29 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
         list.filter { it is Type }.forEach {
             // java
             generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/java/RequestTypingTemplate.vm", JAVA + "/request/type/" + (it as Type).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/java/ResponseTypingTemplate.vm", JAVA + "/response/type/" + (it as Type).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/type/" + (it as Type).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/javascript/ResponseTypingTemplate.vm", JAVASCRIPT + "/response/type/" + (it as Type).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/type/" + (it as Type).name + ".py")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/python/ResponseTypingTemplate.vm", PYTHON + "/response/type/" + (it as Type).name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/java/ResponseTypingTemplate.vm", JAVA + "/response/type/" + it.name + ".kt")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/type/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/javascript/ResponseTypingTemplate.vm", JAVASCRIPT + "/response/type/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/type/" + it.name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "type")), "/template/python/ResponseTypingTemplate.vm", PYTHON + "/response/type/" + it.name + ".py")
         }
         list.filter { it is Interface }.forEach {
             generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/java/RequestTypingTemplate.vm", JAVA + "/request/intf/" + (it as Interface).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/java/ResponseTypingTemplate.vm", JAVA + "/response/intf/" + (it as Interface).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/intf/" + (it as Interface).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/javascript/ResponseTypingTemplate.vm", JAVASCRIPT + "/response/intf/" + (it as Interface).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/intf/" + (it as Interface).name + ".py")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/python/ResponseTypingTemplate.vm", PYTHON + "/response/intf/" + (it as Interface).name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/java/ResponseTypingTemplate.vm", JAVA + "/response/intf/" + it.name + ".kt")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/intf/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/javascript/ResponseTypingTemplate.vm", JAVASCRIPT + "/response/intf/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/intf/" + it.name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "intf")), "/template/python/ResponseTypingTemplate.vm", PYTHON + "/response/intf/" + it.name + ".py")
         }
         list.filter { it is Input }.forEach {
             generate(engine(), getContext(mapOf("ast" to it, "path" to "input")), "/template/java/RequestTypingTemplate.vm", JAVA + "/request/input/" + (it as Input).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "input")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/input/" + (it as Input).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "input")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/input/" + (it as Input).name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "input")), "/template/javascript/RequestTypingTemplate.vm", JAVASCRIPT + "/request/input/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "input")), "/template/python/RequestTypingTemplate.vm", PYTHON + "/request/input/" + it.name + ".py")
         }
         list.filter { it is Enum }.forEach {
             generate(engine(), getContext(mapOf("ast" to it, "path" to "enumeration")), "/template/java/EnumTemplate.vm", JAVA + "/request/enumeration/" + (it as Enum).name + ".kt")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "enumeration")), "/template/javascript/EnumTemplate.vm", JAVASCRIPT + "/request/enumeration/" + (it as Enum).name + ".ts")
-            generate(engine(), getContext(mapOf("ast" to it, "path" to "enumeration")), "/template/python/EnumTemplate.vm", PYTHON + "/request/enumeration/" + (it as Enum).name + ".py")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "enumeration")), "/template/javascript/EnumTemplate.vm", JAVASCRIPT + "/request/enumeration/" + it.name + ".ts")
+            generate(engine(), getContext(mapOf("ast" to it, "path" to "enumeration")), "/template/python/EnumTemplate.vm", PYTHON + "/request/enumeration/" + it.name + ".py")
         }
     }
 
@@ -172,7 +172,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             override fun apply(ast: AbstractAST): Set<String> {
                 val result = HashSet<String>()
                 if (ast is Type) {
-                    (ast as Type).fields.forEach {
+                    ast.fields.forEach {
                         if (!it.type.isScalar(list)) {
                             result.add(it.type.name())
                         }
@@ -185,7 +185,7 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
             override fun apply(ast: AbstractAST): Set<String> {
                 val result = HashSet<String>()
                 if (ast is Type) {
-                    (ast as Type).fields.forEach {
+                    ast.fields.forEach {
                         it.arguments.forEach { arg ->
                             if (!arg.type.isScalar(list)) {
                                 result.add(arg.type.name())

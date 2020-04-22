@@ -6,7 +6,6 @@ import {ClientOptions} from "../../api/ClientOptions";
 import {ITransporter} from "../../api/ITransporter";
 import {HttpTransport} from "../../http/HttpTransport";
 import PerceiveDataImpulse from "../request/input/PerceiveDataImpulse";
-import {Struct} from "../../api/scalar/Struct";
 import Mutation from "../request/type/Mutation";
 
 describe("GaiaRequestTest", () => {

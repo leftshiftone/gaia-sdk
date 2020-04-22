@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "gaia-sdk"
+version = "0.18.0"
+description = "Python SDK for the GAIA ecosystem."
+authors = ["Leftshift One <contact@leftshift.one>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+pytest-timeout = "^1.3"
+toml = "^0.10.0"
+
+[tool.poetry.scripts]
+clean = "poetry_scripts:clean"
+install = "poetry_scripts:install"
+test = "poetry_scripts:test"
+build = "poetry_scripts:build"
+publish = "poetry_scripts:publish"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
