@@ -4,8 +4,8 @@ import {Knowledge} from "./Knowledge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "./request/enumeration/RuntimeState";
-import {SkillState} from "./request/enumeration/SkillState";
+import {RuntimeState} from "../enumeration/RuntimeState";
+import {SkillState} from "../enumeration/SkillState";
 
 export class Retrieval extends Array<(_:VariableRegistry) => string> {
 

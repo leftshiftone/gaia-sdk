@@ -6,8 +6,8 @@ import {PerceiveActionImpulse} from "../input/PerceiveActionImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "./request/enumeration/RuntimeState";
-import {SkillState} from "./request/enumeration/SkillState";
+import {RuntimeState} from "../enumeration/RuntimeState";
+import {SkillState} from "../enumeration/SkillState";
 
 /**
  * This type contains all perception sensor impulses which are used to invoke

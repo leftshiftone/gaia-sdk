@@ -8,8 +8,8 @@ import {PerceiveSubmitImpulse} from "../input/PerceiveSubmitImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "./request/enumeration/RuntimeState";
-import {SkillState} from "./request/enumeration/SkillState";
+import {RuntimeState} from "../enumeration/RuntimeState";
+import {SkillState} from "../enumeration/SkillState";
 
 /**
  * Type which contains all impulses needed for the maintainence of a conversation
