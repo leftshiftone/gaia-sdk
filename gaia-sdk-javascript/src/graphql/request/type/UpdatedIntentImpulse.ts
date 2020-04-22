@@ -1,13 +1,15 @@
 
-import Intent from "./Intent";
+import {Intent} from "./Intent";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * Impulse which indicates the resulf of a update intent impulse
  */
-export default class UpdatedIntentImpulse extends Array<(_:VariableRegistry) => string> {
+export class UpdatedIntentImpulse extends Array<(_:VariableRegistry) => string> {
 
     public id = () => { 
         this.push(_ => "id")

@@ -7,6 +7,8 @@ import {PerceiveUtteranceImpulse} from "../../request/input/PerceiveUtteranceImp
 import {PerceiveSubmitImpulse} from "../../request/input/PerceiveSubmitImpulse";
 
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "../../request/enumeration/RuntimeState";
+import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
 * Type which contains all impulses needed for the maintainence of a conversation

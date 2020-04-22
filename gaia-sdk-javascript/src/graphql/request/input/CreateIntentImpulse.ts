@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * The specification to create an intent instance
  */
-export default class CreateIntentImpulse {
+export class CreateIntentImpulse {
 
     private identityId:Uuid;
     private qualifier:String;

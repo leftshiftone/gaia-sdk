@@ -2,8 +2,8 @@ package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.api.transmitter.ClientOptions
-import gaia.sdk.api.transmitter.ITransporter
+import gaia.sdk.spi.ClientOptions
+import gaia.sdk.spi.ITransporter
 import io.netty.buffer.Unpooled
 import io.netty.handler.codec.http.HttpResponseStatus
 import org.reactivestreams.Publisher

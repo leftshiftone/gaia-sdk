@@ -1,10 +1,12 @@
 
-import SkillIntrospection from "./SkillIntrospection";
+import {SkillIntrospection} from "./SkillIntrospection";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class Introspection extends Array<(_:VariableRegistry) => string> {
+export class Introspection extends Array<(_:VariableRegistry) => string> {
 
     public cpu = () => { 
         this.push(_ => "cpu")

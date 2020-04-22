@@ -1,8 +1,6 @@
 
 from graphql.request.type.Conversational import Conversational
-from graphql.request.type.StreamingImpulse import StreamingImpulse
 from graphql.request.type.PerceivedImpulse import PerceivedImpulse
-from graphql.request.input.PerceiveStreamImpulse import PerceiveStreamImpulse
 from graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
 from graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
@@ -45,19 +43,6 @@ class Perception(list):
             entity = PerceivedImpulse()
             config(entity)
             return f'perceiveAction(impulse:{name1})' + '{' + entity.render(registry) + '}'
-        self.append(callback)
-
-    """
-    Stream perception impulse used to invoke a data transformation behaviour.
-        This perception impulse do not invoke the data transmission but establishes
-        a connection to the streaming api.
-    """
-    def perceive_stream(self, impulse: PerceiveStreamImpulse, config: Callable[['StreamingImpulse'], None]):
-        def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
-            entity = StreamingImpulse()
-            config(entity)
-            return f'perceiveStream(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

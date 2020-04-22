@@ -4,18 +4,12 @@ read/write/delete memory functions in gaia.
 """
 type Preservation {
     # INTENT
-    "creates an intent with the given specification"
-    createIntent(impulse: CreateIntentImpulse): CreatedIntentImpulse
-    "updates an intent with the given specification"
-    updateIntent(impulse: UpdateIntentImpulse): UpdatedIntentImpulse
-    "deletes an intent with the given specification"
-    deleteIntent(impulse: DeleteIntentImpulse): DeletedIntentImpulse
     "creates a list of intents with the given specifications"
-    createIntents(impulse: [CreateIntentImpulse]): [CreatedIntentImpulse]
+    createIntents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "updates a list of intents with the given specifications"
-    updateIntents(impulse: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
+    updateIntents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "deletes a list of intents with the given specifications"
-    deleteIntents(impulse: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+    deleteIntents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
 }
 
 "The specification to create an intent instance"
@@ -30,6 +24,7 @@ input CreateIntentImpulse {
 "The specification to update an intent instance"
 input UpdateIntentImpulse {
     identityId: Uuid
+    reference: Uuid
     qualifier: String
     appendent: String
     utterance: Struct
@@ -44,13 +39,6 @@ input DeleteIntentImpulse {
     utterance: Struct
     labellist: Struct
     version: String
-}
-
-"This impulse returns the result of a skill practice query request"
-type SkillPracticedImpulse implements Impulse {
-    id: Uuid!
-    "The result of the skill practice"
-    data: Struct
 }
 
 "Impulse which indicates the result of a perceive impulse."

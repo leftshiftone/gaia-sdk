@@ -1,15 +1,17 @@
 
-import Interaction from "./Interaction";
-import Introspection from "./Introspection";
-import Notification from "./Notification";
+import {Interaction} from "./Interaction";
+import {Introspection} from "./Introspection";
+import {Notification} from "./Notification";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * the top level subscription type
  */
-export default class Subscription extends Array<(_:VariableRegistry) => string> {
+export class Subscription extends Array<(_:VariableRegistry) => string> {
 
     public interact = (config: (_:Interaction) => void) => this.push((registry) => {
         const entity = new Interaction();

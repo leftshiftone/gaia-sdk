@@ -1,15 +1,17 @@
 
-import StreamingImpulse from "./StreamingImpulse";
-import StreamImpulse from "../input/StreamImpulse";
+import {StreamingImpulse} from "./StreamingImpulse";
+import {StreamImpulse} from "../input/StreamImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * This type contains all practice sensor impulses which are used to support
  * practice in gaia.
  */
-export default class Practice extends Array<(_:VariableRegistry) => string> {
+export class Practice extends Array<(_:VariableRegistry) => string> {
 
     /**
      * Stream practice preparation impulse used to transfer a skill to gaia.

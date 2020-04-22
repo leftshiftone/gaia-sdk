@@ -33,7 +33,10 @@
 #macro(renderArguments $field)#*
     *##foreach($argument in $field.arguments)#*
         *##if($foreach.count > 1), #end#*
-        *#$argument.name : $argument.type.name()#*
+        *#$argument.name : #*
+        *##if($argument.type.isList())#print("Array<out ")#end#*
+        *#$argument.type.name()#*
+        *##if($argument.type.isList())#print(">")#end#*
     *##end##
 #end##
 ## *******************************

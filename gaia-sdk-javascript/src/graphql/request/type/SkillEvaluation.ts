@@ -1,11 +1,13 @@
 
-import SyncSkillEvaluation from "./SyncSkillEvaluation";
-import AsyncSkillEvaluation from "./AsyncSkillEvaluation";
+import {SyncSkillEvaluation} from "./SyncSkillEvaluation";
+import {AsyncSkillEvaluation} from "./AsyncSkillEvaluation";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class SkillEvaluation extends Array<(_:VariableRegistry) => string> {
+export class SkillEvaluation extends Array<(_:VariableRegistry) => string> {
 
     public syncEval = (impulse : String, config: (_:SyncSkillEvaluation) => void) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);

@@ -1,7 +1,9 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.api.scalar.*
-import gaia.sdk.api.transmitter.*
+import gaia.sdk.Uuid
+import gaia.sdk.Timestamp
+import gaia.sdk.Long
+import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator

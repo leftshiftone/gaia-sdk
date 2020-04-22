@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * Input for action perception impulse
  */
-export default class PerceiveActionImpulse {
+export class PerceiveActionImpulse {
 
     private broadcast:Boolean;
     private identityId:Uuid;

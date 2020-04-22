@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * this type represents the prompt information
  */
-export default class Prompt extends Array<(_:VariableRegistry) => string> {
+export class Prompt extends Array<(_:VariableRegistry) => string> {
 
     /**
      * The prompt id

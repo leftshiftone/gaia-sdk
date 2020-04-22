@@ -1,11 +1,13 @@
 
-import Experience from "./Experience";
-import Knowledge from "./Knowledge";
+import {Experience} from "./Experience";
+import {Knowledge} from "./Knowledge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class Retrieval extends Array<(_:VariableRegistry) => string> {
+export class Retrieval extends Array<(_:VariableRegistry) => string> {
 
     /**
      * Container element which collects all information static data

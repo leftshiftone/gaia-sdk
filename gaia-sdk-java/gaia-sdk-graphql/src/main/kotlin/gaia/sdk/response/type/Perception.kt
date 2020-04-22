@@ -1,7 +1,9 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.api.scalar.*
-import gaia.sdk.api.transmitter.*
+import gaia.sdk.Uuid
+import gaia.sdk.Timestamp
+import gaia.sdk.Long
+import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -23,11 +25,5 @@ data class Perception @JsonCreator constructor(
     /**
     * Action perception impulse used to invoke a data transformation behaviour
     */
-    @JsonProperty("perceiveAction") val perceiveAction:PerceivedImpulse?, 
-    /**
-    * Stream perception impulse used to invoke a data transformation behaviour.
-    *     This perception impulse do not invoke the data transmission but establishes
-    *     a connection to the streaming api.
-    */
-    @JsonProperty("perceiveStream") val perceiveStream:StreamingImpulse?
+    @JsonProperty("perceiveAction") val perceiveAction:PerceivedImpulse?
 )

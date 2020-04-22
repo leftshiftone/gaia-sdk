@@ -1,4 +1,4 @@
-package gaia.sdk.api.client
+package gaia.sdk.client
 
 import java.util.concurrent.atomic.AtomicInteger
 

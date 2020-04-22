@@ -13,21 +13,6 @@ class Preservation:
     read/write/delete memory functions in gaia.
     """
     """
-    creates an intent with the given specification
-    """
-    def createIntent(self) -> CreatedIntentImpulse:
-        return self.createIntent
-    """
-    updates an intent with the given specification
-    """
-    def updateIntent(self) -> UpdatedIntentImpulse:
-        return self.updateIntent
-    """
-    deletes an intent with the given specification
-    """
-    def deleteIntent(self) -> DeletedIntentImpulse:
-        return self.deleteIntent
-    """
     creates a list of intents with the given specifications
     """
     def createIntents(self) -> CreatedIntentImpulse:

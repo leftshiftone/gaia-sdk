@@ -10,7 +10,9 @@ type Knowledge {
     prompts: [Prompt]
     fulfilments: [Fulfilment]
     statements: [Statement]
-    edge: [KnowledgeEdge]
+    codes: [Code]
+    behaviours: [Behaviour]
+    edges: [KnowledgeEdge]
 }
 
 "Container type for static information"

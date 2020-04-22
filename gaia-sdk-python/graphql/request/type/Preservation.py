@@ -17,69 +17,36 @@ class Preservation(list):
     """
 
     """
-    creates an intent with the given specification
-    """
-    def create_intent(self, impulse: CreateIntentImpulse, config: Callable[['CreatedIntentImpulse'], None]):
-        def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
-            entity = CreatedIntentImpulse()
-            config(entity)
-            return f'createIntent(impulse:{name1})' + '{' + entity.render(registry) + '}'
-        self.append(callback)
-
-    """
-    updates an intent with the given specification
-    """
-    def update_intent(self, impulse: UpdateIntentImpulse, config: Callable[['UpdatedIntentImpulse'], None]):
-        def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
-            entity = UpdatedIntentImpulse()
-            config(entity)
-            return f'updateIntent(impulse:{name1})' + '{' + entity.render(registry) + '}'
-        self.append(callback)
-
-    """
-    deletes an intent with the given specification
-    """
-    def delete_intent(self, impulse: DeleteIntentImpulse, config: Callable[['DeletedIntentImpulse'], None]):
-        def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
-            entity = DeletedIntentImpulse()
-            config(entity)
-            return f'deleteIntent(impulse:{name1})' + '{' + entity.render(registry) + '}'
-        self.append(callback)
-
-    """
     creates a list of intents with the given specifications
     """
-    def create_intents(self, impulse: CreateIntentImpulse, config: Callable[['CreatedIntentImpulse'], None]):
+    def create_intents(self, impulses: CreateIntentImpulse, config: Callable[['CreatedIntentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = CreatedIntentImpulse()
             config(entity)
-            return f'createIntents(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'createIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of intents with the given specifications
     """
-    def update_intents(self, impulse: UpdateIntentImpulse, config: Callable[['UpdatedIntentImpulse'], None]):
+    def update_intents(self, impulses: UpdateIntentImpulse, config: Callable[['UpdatedIntentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedIntentImpulse()
             config(entity)
-            return f'updateIntents(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'updateIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of intents with the given specifications
     """
-    def delete_intents(self, impulse: DeleteIntentImpulse, config: Callable[['DeletedIntentImpulse'], None]):
+    def delete_intents(self, impulses: DeleteIntentImpulse, config: Callable[['DeletedIntentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedIntentImpulse()
             config(entity)
-            return f'deleteIntents(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'deleteIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

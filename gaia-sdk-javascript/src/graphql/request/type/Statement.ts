@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * this type represents the statement information
  */
-export default class Statement extends Array<(_:VariableRegistry) => string> {
+export class Statement extends Array<(_:VariableRegistry) => string> {
 
     /**
      * The statement id

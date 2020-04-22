@@ -14,6 +14,7 @@ class UpdateIntentImpulse():
     """
 
     identityId: str
+    reference: str
     qualifier: str
     appendent: str
     utterance: dict

@@ -2,8 +2,10 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class OnDeleted extends Array<(_:VariableRegistry) => string> {
+export class OnDeleted extends Array<(_:VariableRegistry) => string> {
 
     public id = () => { 
         this.push(_ => "id")

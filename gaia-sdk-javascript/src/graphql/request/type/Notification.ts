@@ -1,12 +1,14 @@
 
-import OnUpdated from "./OnUpdated";
-import OnDeleted from "./OnDeleted";
-import OnCreated from "./OnCreated";
+import {OnUpdated} from "./OnUpdated";
+import {OnDeleted} from "./OnDeleted";
+import {OnCreated} from "./OnCreated";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class Notification extends Array<(_:VariableRegistry) => string> {
+export class Notification extends Array<(_:VariableRegistry) => string> {
 
     public onCreated = (config: (_:OnCreated) => void) => this.push((registry) => {
         const entity = new OnCreated();

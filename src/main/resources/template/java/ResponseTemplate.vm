@@ -8,18 +8,29 @@ import com.fasterxml.jackson.annotation.JsonCreator
 abstract class #capitalize($name)Response {
 
 #if ($hasQuery)#*
-    *##tab(4)data class #capitalize($name)QueryResponse @JsonCreator constructor($newLine#*
+    *##tab(4)data class QueryResponse @JsonCreator constructor($newLine#*
     *##tab(8)@JsonProperty("data") val data: Query?,$newLine#*
     *##tab(8)@JsonProperty("extensions")val extensions: #print("Map<String, Any>?"),$newLine#*
-    *##tab(8)@JsonProperty("errors")val errors: #print("List<Map<String, Any>>?")): #capitalize($name)Response()$newLine##
+    *##tab(8)@JsonProperty("errors")val errors: #print("List<Error>?")): #capitalize($name)Response()$newLine##
 #end
 
 #if ($hasMutation)#*
-    *##tab(4)data class #capitalize($name)MutationResponse @JsonCreator constructor($newLine#*
+    *##tab(4)data class MutationResponse @JsonCreator constructor($newLine#*
     *##tab(8)@JsonProperty("data") val data: Mutation?,$newLine#*
     *##tab(8)@JsonProperty("extensions") val extensions: #print("Map<String, Any>?"),$newLine#*
-    *##tab(8)@JsonProperty("errors") val errors: #print("List<Map<String, Any>>?")): #capitalize($name)Response()$newLine##
+    *##tab(8)@JsonProperty("errors") val errors: #print("List<Error>?")): #capitalize($name)Response()$newLine##
 #end
+
+#tab(4)data class Error @JsonCreator constructor(
+#tab(8)@JsonProperty("message") val message: String,
+#tab(8)@JsonProperty("locations") val locations: Array<Location>,
+#tab(8)@JsonProperty("path") val path: Array<Any>
+#tab(4))
+
+#tab(4)data class Location @JsonCreator constructor(
+#tab(8)@JsonProperty("line") val line: Int,
+#tab(8)@JsonProperty("column") val column: Int
+#tab(4))
 
 }
 #macro(tab $indent)${tab.invoke($indent)}#end

@@ -1,12 +1,14 @@
 
-import Query from "./Query";
-import Mutation from "./Mutation";
-import Subscription from "./Subscription";
+import {Query} from "./Query";
+import {Mutation} from "./Mutation";
+import {Subscription} from "./Subscription";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
-export default class Schema extends Array<(_:VariableRegistry) => string> {
+export class Schema extends Array<(_:VariableRegistry) => string> {
 
     public query = (config: (_:Query) => void) => this.push((registry) => {
         const entity = new Query();

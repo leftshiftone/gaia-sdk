@@ -1,9 +1,9 @@
 package gaia.sdk
 
-import gaia.sdk.api.client.Type
-import gaia.sdk.api.client.VariableRegistry
-import gaia.sdk.api.transmitter.ClientOptions
-import gaia.sdk.api.transmitter.ITransporter
+import gaia.sdk.client.Type
+import gaia.sdk.client.VariableRegistry
+import gaia.sdk.spi.ClientOptions
+import gaia.sdk.spi.ITransporter
 import gaia.sdk.request.type.Mutation
 import gaia.sdk.request.type.Query
 import org.reactivestreams.Publisher

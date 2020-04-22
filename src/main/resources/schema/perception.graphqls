@@ -9,12 +9,6 @@ type Perception {
     perceiveData(impulse: PerceiveDataImpulse): PerceivedImpulse
     "Action perception impulse used to invoke a data transformation behaviour"
     perceiveAction(impulse: PerceiveActionImpulse): PerceivedImpulse
-    """
-    Stream perception impulse used to invoke a data transformation behaviour.
-    This perception impulse do not invoke the data transmission but establishes
-    a connection to the streaming api.
-    """
-    perceiveStream(impulse: PerceiveStreamImpulse): StreamingImpulse
 }
 
 "Type which contains all impulses needed for the maintainence of a conversation"
@@ -75,14 +69,6 @@ input PerceiveDataImpulse {
 
 "Input for action perception impulse"
 input PerceiveActionImpulse {
-    broadcast: Boolean
-    identityId: Uuid
-    type: String
-    data: Struct
-}
-
-"Input for stream perception impulse"
-input PerceiveStreamImpulse {
     broadcast: Boolean
     identityId: Uuid
     type: String

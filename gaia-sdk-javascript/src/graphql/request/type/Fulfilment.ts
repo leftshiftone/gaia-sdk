@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * this type represents the fulfilment information
  */
-export default class Fulfilment extends Array<(_:VariableRegistry) => string> {
+export class Fulfilment extends Array<(_:VariableRegistry) => string> {
 
     /**
      * The fulfilment id

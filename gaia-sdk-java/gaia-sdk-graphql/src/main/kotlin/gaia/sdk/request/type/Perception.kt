@@ -1,9 +1,12 @@
 package gaia.sdk.request.type
 
-import gaia.sdk.api.client.Type
+import gaia.sdk.client.Type
 import gaia.sdk.request.intf.*
-import gaia.sdk.api.client.Input
-import gaia.sdk.api.scalar.*
+import gaia.sdk.client.Input
+import gaia.sdk.Uuid
+import gaia.sdk.Timestamp
+import gaia.sdk.Long
+import gaia.sdk.Struct
 import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
@@ -34,16 +37,6 @@ class Perception: Type() {
     fun perceiveAction(impulse : PerceiveActionImpulse, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
         "perceiveAction(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
-    }
-
-    /**
-     * Stream perception impulse used to invoke a data transformation behaviour.
-     *     This perception impulse do not invoke the data transmission but establishes
-     *     a connection to the streaming api.
-     */
-    fun perceiveStream(impulse : PerceiveStreamImpulse, config: StreamingImpulse.() -> Unit) = add {
-        val name1 = it.register("impulse", impulse)
-        "perceiveStream(impulse:$$name1){" + StreamingImpulse().apply(config).render(it) + "}"
     }
 }
 

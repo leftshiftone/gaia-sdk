@@ -1,9 +1,11 @@
 
 from graphql.request.type.Fulfilment import Fulfilment
+from graphql.request.type.Behaviour import Behaviour
 from graphql.request.type.Statement import Statement
 from graphql.request.type.KnowledgeEdge import KnowledgeEdge
 from graphql.request.type.Intent import Intent
 from graphql.request.type.Prompt import Prompt
+from graphql.request.type.Code import Code
 
 from typing import Callable
 from api.VariableRegistry import VariableRegistry
@@ -35,7 +37,19 @@ class Knowledge(list):
             config(entity)
         self.append(callback)
 
-    def edge(self, config: Callable[['KnowledgeEdge'], None]):
+    def codes(self, config: Callable[['Code'], None]):
+        def callback(_: VariableRegistry):
+            entity = Code()
+            config(entity)
+        self.append(callback)
+
+    def behaviours(self, config: Callable[['Behaviour'], None]):
+        def callback(_: VariableRegistry):
+            entity = Behaviour()
+            config(entity)
+        self.append(callback)
+
+    def edges(self, config: Callable[['KnowledgeEdge'], None]):
         def callback(_: VariableRegistry):
             entity = KnowledgeEdge()
             config(entity)

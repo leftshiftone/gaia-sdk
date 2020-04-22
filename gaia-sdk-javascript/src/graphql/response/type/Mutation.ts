@@ -6,6 +6,8 @@ import {Perception} from "./Perception";
 import {Activation} from "./Activation";
 
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "../../request/enumeration/RuntimeState";
+import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
 * The top level mutation type

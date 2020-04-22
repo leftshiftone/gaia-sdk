@@ -1,12 +1,12 @@
 
 import {Conversational} from "./Conversational";
-import {StreamingImpulse} from "./StreamingImpulse";
 import {PerceivedImpulse} from "./PerceivedImpulse";
-import {PerceiveStreamImpulse} from "../../request/input/PerceiveStreamImpulse";
 import {PerceiveDataImpulse} from "../../request/input/PerceiveDataImpulse";
 import {PerceiveActionImpulse} from "../../request/input/PerceiveActionImpulse";
 
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "../../request/enumeration/RuntimeState";
+import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
 * This type contains all perception sensor impulses which are used to invoke
@@ -24,11 +24,5 @@ export interface Perception {
     /**
     * Action perception impulse used to invoke a data transformation behaviour
     */
-    perceiveAction?:PerceivedImpulse, 
-    /**
-    * Stream perception impulse used to invoke a data transformation behaviour.
-    *     This perception impulse do not invoke the data transmission but establishes
-    *     a connection to the streaming api.
-    */
-    perceiveStream?:StreamingImpulse
+    perceiveAction?:PerceivedImpulse
 }

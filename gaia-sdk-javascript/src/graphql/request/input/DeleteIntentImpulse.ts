@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * The specification to delete an intent instance
  */
-export default class DeleteIntentImpulse {
+export class DeleteIntentImpulse {
 
     private identityId:Uuid;
     private qualifier:String;

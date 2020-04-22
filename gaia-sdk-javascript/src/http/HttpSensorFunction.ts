@@ -1,60 +1,210 @@
 import {ClientOptions} from "../api/ClientOptions";
 import {GaiaClient} from "../graphql/GaiaClient";
 import {HttpTransport} from "./HttpTransport";
-import Retrieval from "../graphql/request/type/Retrieval";
+import {
+    BehaviourReq,
+    BehaviourRes,
+    CodeReq,
+    CodeRes,
+    CreatedIntentImpulse,
+    CreateIntentImpulse,
+    DeletedIntentImpulse,
+    DeleteIntentImpulse,
+    ExperienceReq,
+    ExperienceRes,
+    FulfilmentReq,
+    FulfilmentRes,
+    IntentReq,
+    IntentRes,
+    IntrospectionReq,
+    IntrospectionRes,
+    KnowledgeEdgeReq,
+    KnowledgeEdgeRes,
+    KnowledgeReq,
+    KnowledgeRes,
+    PerceiveActionImpulse,
+    PerceiveDataImpulse,
+    PerceivedImpulse,
+    PerceptionReq,
+    PerceptionRes,
+    PreservationReq,
+    PreservationRes,
+    PromptReq,
+    PromptRes,
+    RetrievalReq,
+    RetrievalRes,
+    SkillIntrospectionReq,
+    SkillIntrospectionRes,
+    StatementReq,
+    StatementRes,
+    UpdatedIntentImpulse,
+    UpdateIntentImpulse
+} from "../graphql";
 import {GaiaRequest} from "../graphql/GaiaRequest";
-import Knowledge from "../graphql/request/type/Knowledge";
-import Experience from "../graphql/request/type/Experience";
-import Introspection from "../graphql/request/type/Introspection";
-import Preservation from "../graphql/request/type/Preservation";
-import Perception from "../graphql/request/type/Perception";
-import PerceiveActionImpulse from "../graphql/request/input/PerceiveActionImpulse";
-import PerceiveDataImpulse from "../graphql/request/input/PerceiveDataImpulse";
+import {ISensorFunction} from "../api/ISensorFunction";
+import {from, Observable, of, throwError} from "rxjs";
+import {flatMap} from "rxjs/operators"
+import {Retrieval as RetrievalOut} from "../graphql/response/type/Retrieval";
+import {MutationResponse, QueryResponse} from "../graphql/GaiaResponse";
+import {Query} from "../graphql/response/type/Query";
+import {Mutation} from "../graphql/response/type/Mutation";
 
-// TODO: use rxjs
-export class HttpSensorFunction {
+export class HttpSensorFunction implements ISensorFunction {
 
     private options = new ClientOptions("", "");
     private client = new GaiaClient(this.options, new HttpTransport("http://localhost:8080/api/sync"));
 
-    public retrieve = (config: (_:Retrieval) => void) => {
-        return this.client.query(GaiaRequest.query(q => q.retrieve(config)))
+    public retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(config))));
+        return this.mapQ<RetrievalOut>(observable, (e) => e.retrieve!);
+    }
+
+    public retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
+            r.knowledge(config)
+        }))));
+        return this.mapQ<KnowledgeRes>(observable, (e) => e.retrieve!.knowledge!);
+    }
+
+    public retrieveExperience(config: (x: ExperienceReq) => void): Observable<ExperienceRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => r.experience(config)))));
+        return this.mapQ<ExperienceRes>(observable, (e) => e.retrieve!.experience!);
     };
 
-    public retrieveKnowledge = (config: (_:Knowledge) => void) => {
-        return this.client.query(GaiaRequest.query(q => q.retrieve(e => e.knowledge(config))))
+    public retrieveKnowledgeEdge(config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
+            r.knowledge(k => k.edges(config))
+        }))));
+        return this.flatMapQ<KnowledgeEdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
+    }
+
+    public retrieveIntents(config: (x: IntentReq) => void): Observable<IntentRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.intents(config))
+        }))));
+        return this.flatMapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intents!);
+    }
+
+    public retrievePrompts(config: (x: PromptReq) => void): Observable<PromptRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.prompts(config))
+        }))));
+        return this.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
+    }
+
+    public retrieveStatements(config: (x: StatementReq) => void): Observable<StatementRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.statements(config))
+        }))));
+        return this.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
+    }
+
+    public retrieveFulfilments(config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.fulfilments(config))
+        }))));
+        return this.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
+    }
+
+    public retrieveCodes(config: (x: CodeReq) => void): Observable<CodeRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.codes(config))
+        }))));
+        return this.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
+    }
+
+    public retrieveBehaviours(config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.behaviours(config))
+        }))));
+        return this.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
+    }
+
+    public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(config))));
+        return this.mapQ<IntrospectionRes>(observable, (e) => e.introspect!);
     };
 
-    public retrieveExperience = (config: (_:Experience) => void) => {
-        return this.client.query(GaiaRequest.query(q => q.retrieve(e => e.experience(config))))
-    };
+    public introspectSkills(config: (x: SkillIntrospectionReq) => void): Observable<SkillIntrospectionRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(g => g.skills(config)))));
+        return this.mapQ<SkillIntrospectionRes>(observable, (e) => e.introspect!);
+    }
 
-    public introspect = (config: (_:Introspection) => void) => {
-        return this.client.query(GaiaRequest.query(q => q.introspect(config)))
-    };
+    public preserve(config: (x: PreservationReq) => void): Observable<PreservationRes> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(config))));
+        return this.mapM<PreservationRes>(observable, (e) => e.preserve!);
+    }
 
-    public preserve = (config: (_:Preservation) => void) => {
-        return this.client.mutation(GaiaRequest.mutation(m => m.preserve(config)))
-    };
+    public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.createIntents(impulses, i => i.id())
+        }))));
+        return this.flatMapM<CreatedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+    }
 
-    public perceive = (config: (_:Perception) => void) => {
-        return this.client.mutation(GaiaRequest.mutation(m => m.perceive(config)))
-    };
+    public preserveUpdateIntents(...impulses: [UpdateIntentImpulse]): Observable<UpdatedIntentImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.updateIntents(impulses, i => i.id())
+        }))));
+        return this.flatMapM<UpdatedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+    }
 
-    public perceiveAction = (impulse: PerceiveActionImpulse) => {
-        return this.client.mutation(GaiaRequest.mutation(m => m.perceive(p => {
-            p.perceiveAction(impulse, e => {
-                e.id()
-            })
-        })))
-    };
+    public preserveDeleteIntents(...impulses: [DeleteIntentImpulse]): Observable<DeletedIntentImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.deleteIntents(impulses, i => i.id())
+        }))));
+        return this.flatMapM<DeletedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+    }
 
-    public perceiveData = (impulse: PerceiveDataImpulse) => {
-        return this.client.mutation(GaiaRequest.mutation(m => m.perceive(p => {
-            p.perceiveData(impulse, e => {
-                e.id()
-            })
-        })))
-    };
+    public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.perceive(config))));
+        return this.mapM<PerceptionRes>(observable, (e) => e.perceive!);
+    }
+
+    public perceiveAction(impulse: PerceiveActionImpulse): Observable<PerceivedImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => {
+            q.perceive(p => p.perceiveAction(impulse, a => a.id()))
+        })));
+        return this.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveAction!);
+    }
+
+    public perceiveData(impulse: PerceiveDataImpulse): Observable<PerceivedImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => {
+            q.perceive(p => p.perceiveData(impulse, a => a.id()))
+        })));
+        return this.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveData!);
+    }
+
+    private mapQ<T>(observable: Observable<QueryResponse>, mapper: (_: Query) => T): Observable<T> {
+        return observable.pipe(flatMap(e => {
+            if (e.errors && e.errors.length > 0)
+                return throwError(Error(e.errors[0].message));
+            return of(mapper(e.data as Query));
+        }))
+    }
+
+    private flatMapQ<T>(observable: Observable<QueryResponse>, mapper: (_: Query) => [T]): Observable<T> {
+        return observable.pipe(flatMap(e => {
+            if (e.errors && e.errors.length > 0)
+                return throwError(Error(e.errors[0].message));
+            return from(mapper(e.data as Query));
+        }))
+    }
+
+    private mapM<T>(observable: Observable<MutationResponse>, mapper: (_: Mutation) => T): Observable<T> {
+        return observable.pipe(flatMap(e => {
+            if (e.errors && e.errors.length > 0)
+                return throwError(Error(e.errors[0].message));
+            return of(mapper(e.data as Mutation));
+        }))
+    }
+
+    private flatMapM<T>(observable: Observable<MutationResponse>, mapper: (_: Mutation) => [T]): Observable<T> {
+        return observable.pipe(flatMap(e => {
+            if (e.errors && e.errors.length > 0)
+                return throwError(Error(e.errors[0].message));
+            return from(mapper(e.data as Mutation));
+        }))
+    }
 
 }

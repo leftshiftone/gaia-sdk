@@ -1,17 +1,19 @@
 
-import Evaluation from "./Evaluation";
-import Preservation from "./Preservation";
-import Practice from "./Practice";
-import Perception from "./Perception";
-import Activation from "./Activation";
+import {Evaluation} from "./Evaluation";
+import {Preservation} from "./Preservation";
+import {Practice} from "./Practice";
+import {Perception} from "./Perception";
+import {Activation} from "./Activation";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * The top level mutation type
  */
-export default class Mutation extends Array<(_:VariableRegistry) => string> {
+export class Mutation extends Array<(_:VariableRegistry) => string> {
 
     /**
      * Sensor impulses for all perception based functions.

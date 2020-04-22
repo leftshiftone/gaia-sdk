@@ -1,6 +1,6 @@
-import Query from "./request/type/Query";
-import Mutation from "./request/type/Mutation";
-import Subscription from "./request/type/Subscription";
+import {Query} from "./request/type/Query";
+import {Mutation} from "./request/type/Mutation";
+import {Subscription} from "./request/type/Subscription";
 
 export class GaiaRequest {
     public static query(config:(_:Query) => void) {

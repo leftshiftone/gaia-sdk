@@ -1,7 +1,9 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.api.scalar.*
-import gaia.sdk.api.transmitter.*
+import gaia.sdk.Uuid
+import gaia.sdk.Timestamp
+import gaia.sdk.Long
+import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -12,18 +14,6 @@ import gaia.sdk.request.enumeration.*
 * read/write/delete memory functions in gaia.
 */
 data class Preservation @JsonCreator constructor(
-    /**
-    * creates an intent with the given specification
-    */
-    @JsonProperty("createIntent") val createIntent:CreatedIntentImpulse?, 
-    /**
-    * updates an intent with the given specification
-    */
-    @JsonProperty("updateIntent") val updateIntent:UpdatedIntentImpulse?, 
-    /**
-    * deletes an intent with the given specification
-    */
-    @JsonProperty("deleteIntent") val deleteIntent:DeletedIntentImpulse?, 
     /**
     * creates a list of intents with the given specifications
     */

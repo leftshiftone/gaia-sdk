@@ -1,4 +1,4 @@
-package gaia.sdk.api.transmitter
+package gaia.sdk.spi
 
 import org.reactivestreams.Publisher
 

@@ -1,18 +1,20 @@
 
-import PerceivedImpulse from "./PerceivedImpulse";
-import PerceiveReceptionImpulse from "../input/PerceiveReceptionImpulse";
-import PerceiveSuggestionImpulse from "../input/PerceiveSuggestionImpulse";
-import PerceiveButtonImpulse from "../input/PerceiveButtonImpulse";
-import PerceiveUtteranceImpulse from "../input/PerceiveUtteranceImpulse";
-import PerceiveSubmitImpulse from "../input/PerceiveSubmitImpulse";
+import {PerceivedImpulse} from "./PerceivedImpulse";
+import {PerceiveReceptionImpulse} from "../input/PerceiveReceptionImpulse";
+import {PerceiveSuggestionImpulse} from "../input/PerceiveSuggestionImpulse";
+import {PerceiveButtonImpulse} from "../input/PerceiveButtonImpulse";
+import {PerceiveUtteranceImpulse} from "../input/PerceiveUtteranceImpulse";
+import {PerceiveSubmitImpulse} from "../input/PerceiveSubmitImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * Type which contains all impulses needed for the maintainence of a conversation
  */
-export default class Conversational extends Array<(_:VariableRegistry) => string> {
+export class Conversational extends Array<(_:VariableRegistry) => string> {
 
     /**
      * Utterance perception impulse used to send an utterance text to gaia

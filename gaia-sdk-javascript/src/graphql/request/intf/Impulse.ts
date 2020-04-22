@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * Each message returned from GAIA implements this interface
  */
-export default class Impulse extends Array<(_:VariableRegistry) => string> {
+export class Impulse extends Array<(_:VariableRegistry) => string> {
 
     /**
      * The id of the impulse

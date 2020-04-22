@@ -1,9 +1,12 @@
 package gaia.sdk.request.type
 
-import gaia.sdk.api.client.Type
+import gaia.sdk.client.Type
 import gaia.sdk.request.intf.*
-import gaia.sdk.api.client.Input
-import gaia.sdk.api.scalar.*
+import gaia.sdk.client.Input
+import gaia.sdk.Uuid
+import gaia.sdk.Timestamp
+import gaia.sdk.Long
+import gaia.sdk.Struct
 import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
@@ -25,8 +28,16 @@ class Knowledge: Type() {
         add { "statements{ " + Statement().apply(config).render(it) + "}"}
 
 
-    fun edge(config: KnowledgeEdge.() -> Unit) = 
-        add { "edge{ " + KnowledgeEdge().apply(config).render(it) + "}"}
+    fun codes(config: Code.() -> Unit) = 
+        add { "codes{ " + Code().apply(config).render(it) + "}"}
+
+
+    fun behaviours(config: Behaviour.() -> Unit) = 
+        add { "behaviours{ " + Behaviour().apply(config).render(it) + "}"}
+
+
+    fun edges(config: KnowledgeEdge.() -> Unit) = 
+        add { "edges{ " + KnowledgeEdge().apply(config).render(it) + "}"}
 
 }
 

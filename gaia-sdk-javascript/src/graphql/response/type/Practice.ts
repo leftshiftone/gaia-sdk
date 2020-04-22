@@ -3,6 +3,8 @@ import {StreamingImpulse} from "./StreamingImpulse";
 import {StreamImpulse} from "../../request/input/StreamImpulse";
 
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "../../request/enumeration/RuntimeState";
+import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
 * This type contains all practice sensor impulses which are used to support

@@ -2,11 +2,13 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {RuntimeState} from "./request/enumeration/RuntimeState";
+import {SkillState} from "./request/enumeration/SkillState";
 
 /**
  * this type represents the intent information
  */
-export default class Intent extends Array<(_:VariableRegistry) => string> {
+export class Intent extends Array<(_:VariableRegistry) => string> {
 
     /**
      * The identity id

@@ -38,7 +38,10 @@
 #macro(renderArguments $field)#*
     *##foreach($argument in $field.arguments)#*
         *##if($foreach.count > 1), #end#*
-        *#$argument.name : $argument.type.name()#*
+        *#$argument.name : #*
+        *##if($argument.type.isList())#print("[")#end#*
+        *#$argument.type.name()#*
+        *##if($argument.type.isList())#print("]")#end#*
     *##end##
 #end##
 ## *******************************
@@ -57,7 +60,7 @@
 ## ********************
 #macro(renderType $type $indent)#*
     *##renderDescription($type $indent)#*
-    *##tab($indent)export default class ${type.name} extends Array<(_:VariableRegistry) => string> {
+    *##tab($indent)export class ${type.name} extends Array<(_:VariableRegistry) => string> {
     #set($indent =  $indent + 4)#*
     *##foreach($field in $type.fields)$newLine#*
         *##renderField($field $indent)$newLine#*
@@ -71,7 +74,7 @@
 ## **********************
 #macro(renderInput $type $indent)#*
     *##renderDescription($type $indent)#*
-    *##tab($indent)export default class ${type.name} {$newLine#*
+    *##tab($indent)export class ${type.name} {$newLine#*
     *##set($indent = $indent + 4)#*
     *##renderConstructor($type $indent)#*
     *##set($indent = $indent - 4)#*
@@ -117,10 +120,10 @@
 ## *************************
 #macro(renderImports $type)#*
     *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
-        *#import $import from "./$import";#*
+        *#import {$import} from "./$import";#*
     *##end#*
     *##foreach($import in ${getInputImports.apply($type)})$newLine#*
-        *#import $import from "../input/$import";#*
+        *#import {$import} from "../input/$import";#*
     *##end##
 #end##
 #macro(tab $indent)${tab.invoke($indent)}#end
