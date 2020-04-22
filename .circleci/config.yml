@@ -74,6 +74,45 @@ jobs:
       - run:
           <<: *webhook-failed
 
+  release:
+    docker:
+      - image: atlassian/default-image:2
+    environment:
+      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+    steps:
+      - run:
+          <<: *webhook-created
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+      - checkout
+      - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
+      - run: chmod a+x gradlew
+      - run: ./gradlew test --stacktrace
+      - run: ./gradlew final publish -Prelease.useLastTag=true --stacktrace
+      - run:
+          <<: *webhook-failed
+
+#  code-analytics:
+#    docker:
+#      - image: circleci/node:10-browsers
+#    environment:
+#      TZ: "/usr/share/zoneinfo/Europe/Vienna"
+#      TEST_RESULTS_PATH: build/circleci/test-results
+#    steps:
+#      - run:
+#          <<: *webhook-created
+#      - checkout
+#      - run: |
+#          curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip -o sonar-scanner.zip
+#          unzip sonar-scanner.zip
+#          sonarqube=$(unzip -l sonar-scanner.zip | awk '{print $4}' | grep "^\([a-z0-9.-]*\/\)$")/bin/sonar-scanner
+#          ./$sonarqube -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=one.leftshift.gaia-sdk -Dsonar.projectName=gaia-sdk
+#      - store_test_results:
+#          path: build/circleci/test-results
+#      - run:
+#          <<: *webhook-failed
+
   # todo: release
   #release:
   #  docker:

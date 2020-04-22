@@ -23,6 +23,7 @@ sourceSets {
 
 publish.dependsOn docsJar
 publish.dependsOn docsZip
+publish.finalizedBy bintrayUpload
 
 publishing {
     publications {

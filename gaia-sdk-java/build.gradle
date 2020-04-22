@@ -124,4 +124,6 @@ subprojects {
             publications = ["mavenJava"]
         }
     }
+
+    publish.finalizedBy bintrayUpload
 }

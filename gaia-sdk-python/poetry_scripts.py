@@ -27,26 +27,6 @@ def publish():
     _execute(["poetry", "publish"])
 
 
-# todo: remove release
-#
-# def release():
-#     scope = sys.argv[1:][0]
-#
-#     check_call(["git", "pull", "--tags"])
-#     check_call(["poetry", "version", scope])
-#     check_call(["git", "add", "*.toml"])
-#     version = _get_version(True)
-#     print(f"Releasing {version}")
-#     check_call(["git", "commit", "-m", f"Release {version}"])
-#     check_call(["git", "tag", "-a", "-m", f"Release {version}", f"v{version}"])
-#
-#     _docker_build(True)
-#     _docker_publish()
-#
-#     check_call(["git", "push"])
-#     check_call(["git", "push", "--tags"])
-
-
 def _execute(command, exec_dir=None):
     cmd = command.copy()
     print(f"Executing: {' '.join(cmd)}")
