@@ -16,7 +16,6 @@
 
 allprojects {
     apply plugin: "kotlin"
-    apply plugin: "one.leftshift.asteria-code-analytics"
 
     repositories {
         jcenter()
@@ -48,16 +47,6 @@ allprojects {
         testTask.beforeTest { descriptor ->
             logger.lifecycle(descriptor.toString())
         }
-    }
-
-    asteriaCodeAnalytics {
-        sonarUrl = System.getenv("SONAR_HOST_URL")
-        sonarLoginToken = System.getenv("SONAR_LOGIN")
-        xmlCoverageReportEnabled = true
-        coverageExcludes = [
-                "**/*Kt.class",
-                "**/gaia/sdk/api/**",
-        ]
     }
 }
 

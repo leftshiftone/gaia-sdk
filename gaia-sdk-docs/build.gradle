@@ -5,6 +5,7 @@ import org.gradle.api.tasks.bundling.Jar
 apply plugin: "java"
 apply plugin: "one.leftshift.asteria-docs"
 apply plugin: "one.leftshift.asteria-publish"
+apply plugin: "com.jfrog.bintray"
 
 asteriaDocs {
     documents = ["index.adoc"]

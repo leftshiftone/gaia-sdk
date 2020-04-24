@@ -50,8 +50,9 @@
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
+        "coverage": "jest --coverage",
         "lint": "stylelint tslint src/**/*.ts",
-        "sonarqube": "jest --env=jsdom --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
+        "sonarqube": "jest --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
     },
     "repository": {
         "type": "git",
