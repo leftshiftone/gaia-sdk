@@ -42,15 +42,15 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(4)}
 
 #if($hasQuery)
-    #tab(4)fun query(request: Query): Publisher${lt}#capitalize($name)Response.#capitalize($name)QueryResponse${gt} {
+    #tab(4)fun query(request: Query): Publisher${lt}#capitalize($name)Response.QueryResponse${gt} {
     #tab(8)val (statement, variables) = getStatement("query", request)
-    #tab(8)return executeNative(statement, variables, #capitalize($name)Response.#capitalize($name)QueryResponse::class)
+    #tab(8)return executeNative(statement, variables, #capitalize($name)Response.QueryResponse::class)
     #tab(4)}
 #end
 #if($hasMutation)
-    #tab(4)fun mutation(request: Mutation): Publisher${lt}#capitalize($name)Response.#capitalize($name)MutationResponse${gt} {
+    #tab(4)fun mutation(request: Mutation): Publisher${lt}#capitalize($name)Response.MutationResponse${gt} {
     #tab(8)val (statement, variables) = getStatement("mutation", request)
-    #tab(8)return executeNative(statement, variables, #capitalize($name)Response.#capitalize($name)MutationResponse::class)
+    #tab(8)return executeNative(statement, variables, #capitalize($name)Response.MutationResponse::class)
     #tab(4)}
 #end
 

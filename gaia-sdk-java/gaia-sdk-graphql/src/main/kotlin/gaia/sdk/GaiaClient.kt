@@ -37,13 +37,13 @@ class GaiaClient(private val options: ClientOptions, private val transporter: IT
         return transporter.transport(options, type.java, body);
     }
 
-    fun query(request: Query): Publisher<GaiaResponse.GaiaQueryResponse> {
+    fun query(request: Query): Publisher<GaiaResponse.QueryResponse> {
         val (statement, variables) = getStatement("query", request)
-        return executeNative(statement, variables, GaiaResponse.GaiaQueryResponse::class)
+        return executeNative(statement, variables, GaiaResponse.QueryResponse::class)
     }
-    fun mutation(request: Mutation): Publisher<GaiaResponse.GaiaMutationResponse> {
+    fun mutation(request: Mutation): Publisher<GaiaResponse.MutationResponse> {
         val (statement, variables) = getStatement("mutation", request)
-        return executeNative(statement, variables, GaiaResponse.GaiaMutationResponse::class)
+        return executeNative(statement, variables, GaiaResponse.MutationResponse::class)
     }
 
     private fun getStatement(name: String, type: Type):Pair<String, Map<String, Any>> {

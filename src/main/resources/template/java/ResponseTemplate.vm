@@ -23,8 +23,8 @@ abstract class #capitalize($name)Response {
 
 #tab(4)data class Error @JsonCreator constructor(
 #tab(8)@JsonProperty("message") val message: String,
-#tab(8)@JsonProperty("locations") val locations: Array<Location>,
-#tab(8)@JsonProperty("path") val path: Array<Any>
+#tab(8)@JsonProperty("locations") val locations: Array<Location>?,
+#tab(8)@JsonProperty("path") val path: Array<Any>?
 #tab(4))
 
 #tab(4)data class Location @JsonCreator constructor(

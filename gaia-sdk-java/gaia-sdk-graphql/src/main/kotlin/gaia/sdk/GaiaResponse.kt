@@ -19,8 +19,8 @@ abstract class GaiaResponse {
 
     data class Error @JsonCreator constructor(
         @JsonProperty("message") val message: String,
-        @JsonProperty("locations") val locations: Array<Location>,
-        @JsonProperty("path") val path: Array<Any>
+        @JsonProperty("locations") val locations: Array<Location>?,
+        @JsonProperty("path") val path: Array<Any>?
     )
 
     data class Location @JsonCreator constructor(

@@ -1,4 +1,4 @@
-package gaia.sdk.api.support
+package gaia.sdk.client
 
 import com.sun.crypto.provider.SunJCE
 import java.nio.charset.StandardCharsets

@@ -1,6 +1,6 @@
 package gaia.sdk
 
-import gaia.sdk.api.support.HMAC
+import gaia.sdk.client.HMAC
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 

@@ -13,11 +13,11 @@ import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 import java.lang.RuntimeException
 
-class HttpSensorFunction : ISensorFunction {
+class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISensorFunction {
 
-    private val client = GaiaClientBuilder(HttpTransport("", HttpClient.create()))
-            .withApiKey("")
-            .withSecret("")
+    private val client = GaiaClientBuilder(HttpTransport(url + "/api/sync", HttpClient.create()))
+            .withApiKey(apiKey)
+            .withSecret(apiSecret)
             .build()
 
     override fun retrieve(config: Retrieval.() -> Unit) =
@@ -59,13 +59,13 @@ class HttpSensorFunction : ISensorFunction {
     override fun preserve(config: Preservation.() -> Unit) =
             mapM(client.mutation(GaiaRequest.mutation { preserve(config) })) {it.preserve!!}
 
-    override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) =
+    override fun preserveDeleteIntents(vararg impulses: CreateIntentImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { createIntents(impulses) {id()} } })) {it.preserve?.createIntents!!}
 
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { updateIntents(impulses) {id()} } })) {it.preserve?.updateIntents!!}
 
-    override fun preserveCreateIntents(vararg impulses: DeleteIntentImpulse) =
+    override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { deleteIntents(impulses) {id()} } })) {it.preserve?.deleteIntents!!}
 
     override fun perceive(config: Perception.() -> Unit) =
