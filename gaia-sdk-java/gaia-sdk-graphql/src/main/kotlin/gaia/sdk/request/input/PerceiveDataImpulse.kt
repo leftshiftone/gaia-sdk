@@ -13,6 +13,7 @@ import gaia.sdk.request.enumeration.*
 /**
  * Input for data perception impulse.
  */
-class PerceiveDataImpulse(val name:String, 
-   val data:Struct) : Input()
+class PerceiveDataImpulse(val identityId:Uuid, 
+   val eventName:String, 
+   val eventData:Struct) : Input()
 

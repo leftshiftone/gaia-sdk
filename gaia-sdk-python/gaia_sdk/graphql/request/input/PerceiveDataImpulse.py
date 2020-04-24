@@ -13,6 +13,7 @@ class PerceiveDataImpulse():
     Input for data perception impulse.
     """
 
-    name: str
-    data: dict
+    identityId: str
+    eventName: str
+    eventData: dict
 

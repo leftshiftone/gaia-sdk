@@ -10,11 +10,13 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class PerceiveDataImpulse {
 
-    private name:String;
-    private data:Struct;
+    private identityId:Uuid;
+    private eventName:String;
+    private eventData:Struct;
 
-    constructor (name:String, data:Struct) {
-        this.name = name;
-        this.data = data;
+    constructor (identityId:Uuid, eventName:String, eventData:Struct) {
+        this.identityId = identityId;
+        this.eventName = eventName;
+        this.eventData = eventData;
     }
 }

@@ -1,5 +1,4 @@
-import {ClientOptions} from "../api/ClientOptions";
-import {GaiaClient} from "../graphql/GaiaClient";
+import {ClientOptions, GaiaClient} from "..";
 import {HttpTransport} from "./HttpTransport";
 import {
     BehaviourReq,
@@ -43,7 +42,7 @@ import {
 import {GaiaRequest} from "../graphql/GaiaRequest";
 import {ISensorFunction} from "../api/ISensorFunction";
 import {from, Observable, of, throwError} from "rxjs";
-import {flatMap} from "rxjs/operators"
+import {flatMap, map} from "rxjs/operators"
 import {Retrieval as RetrievalOut} from "../graphql/response/type/Retrieval";
 import {MutationResponse, QueryResponse} from "../graphql/GaiaResponse";
 import {Query} from "../graphql/response/type/Query";
@@ -51,8 +50,12 @@ import {Mutation} from "../graphql/response/type/Mutation";
 
 export class HttpSensorFunction implements ISensorFunction {
 
-    private options = new ClientOptions("", "");
-    private client = new GaiaClient(this.options, new HttpTransport("http://localhost:8080/api/sync"));
+    private readonly client: GaiaClient;
+
+    constructor(url: string, apiKey: string, apiSecret: string) {
+        const options = new ClientOptions(apiKey, apiSecret);
+        this.client = new GaiaClient(options, new HttpTransport(url + "/api/sync"));
+    }
 
     public retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(config))));
@@ -127,7 +130,7 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public introspectSkills(config: (x: SkillIntrospectionReq) => void): Observable<SkillIntrospectionRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(g => g.skills(config)))));
-        return this.mapQ<SkillIntrospectionRes>(observable, (e) => e.introspect!);
+        return this.flatMapQ<SkillIntrospectionRes>(observable, (e) => e.introspect!.skills!);
     }
 
     public preserve(config: (x: PreservationReq) => void): Observable<PreservationRes> {
@@ -176,35 +179,43 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     private mapQ<T>(observable: Observable<QueryResponse>, mapper: (_: Query) => T): Observable<T> {
-        return observable.pipe(flatMap(e => {
-            if (e.errors && e.errors.length > 0)
-                return throwError(Error(e.errors[0].message));
-            return of(mapper(e.data as Query));
-        }))
+        return observable.pipe(
+            map(e => JSON.parse(e as string)),
+            flatMap(e => {
+                if (e.errors && e.errors.length > 0)
+                    return throwError(Error(e.errors[0].message));
+                return of(mapper(e.data as Query));
+            }))
     }
 
     private flatMapQ<T>(observable: Observable<QueryResponse>, mapper: (_: Query) => [T]): Observable<T> {
-        return observable.pipe(flatMap(e => {
-            if (e.errors && e.errors.length > 0)
-                return throwError(Error(e.errors[0].message));
-            return from(mapper(e.data as Query));
-        }))
+        return observable.pipe(
+            map(e => JSON.parse(e as string)),
+            flatMap(e => {
+                if (e.errors && e.errors.length > 0)
+                    return throwError(Error(e.errors[0].message));
+                return from(mapper(e.data as Query));
+            }))
     }
 
     private mapM<T>(observable: Observable<MutationResponse>, mapper: (_: Mutation) => T): Observable<T> {
-        return observable.pipe(flatMap(e => {
-            if (e.errors && e.errors.length > 0)
-                return throwError(Error(e.errors[0].message));
-            return of(mapper(e.data as Mutation));
-        }))
+        return observable.pipe(
+            map(e => JSON.parse(e as string)),
+            flatMap(e => {
+                if (e.errors && e.errors.length > 0)
+                    return throwError(Error(e.errors[0].message));
+                return of(mapper(e.data as Mutation));
+            }))
     }
 
     private flatMapM<T>(observable: Observable<MutationResponse>, mapper: (_: Mutation) => [T]): Observable<T> {
-        return observable.pipe(flatMap(e => {
-            if (e.errors && e.errors.length > 0)
-                return throwError(Error(e.errors[0].message));
-            return from(mapper(e.data as Mutation));
-        }))
+        return observable.pipe(
+            map(e => JSON.parse(e as string)),
+            flatMap(e => {
+                if (e.errors && e.errors.length > 0)
+                    return throwError(Error(e.errors[0].message));
+                return from(mapper(e.data as Mutation));
+            }))
     }
 
 }

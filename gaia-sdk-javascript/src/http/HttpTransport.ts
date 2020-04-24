@@ -18,9 +18,6 @@ export class HttpTransport implements ITransporter {
             'X-GAIA-SIGNATURE': HttpTransport.hash(body, options.apiSecret)
         };
 
-        console.log("body");
-        console.log(body);
-
         return new Promise<T>((resolve, reject) => {
             const request = new XMLHttpRequest();
             request.open("post", this.url);
@@ -45,9 +42,6 @@ export class HttpTransport implements ITransporter {
             request.ontimeout = () => {
                 reject(Error("timeout"));
             };
-
-            console.log("Send");
-            console.log(JSON.stringify(body));
 
             request.send(JSON.stringify(body));
         });

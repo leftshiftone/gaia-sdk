@@ -1,12 +1,12 @@
 import {GaiaRequest} from "../GaiaRequest";
-import Query from "../request/type/Query";
-import Introspection from "../request/type/Introspection";
 import {GaiaClient} from "../GaiaClient";
 import {ClientOptions} from "../../api/ClientOptions";
 import {ITransporter} from "../../api/ITransporter";
 import {HttpTransport} from "../../http/HttpTransport";
-import PerceiveDataImpulse from "../request/input/PerceiveDataImpulse";
-import Mutation from "../request/type/Mutation";
+import {Query} from "../request/type/Query";
+import {Introspection} from "../request/type/Introspection";
+import {PerceiveDataImpulse} from "..";
+import {Mutation} from "../request/type/Mutation";
 
 describe("GaiaRequestTest", () => {
 
@@ -30,7 +30,7 @@ describe("GaiaRequestTest", () => {
     test('simple preserve invocation', () => {
         const request = GaiaRequest.mutation((m: Mutation) => {
             m.perceive(p => {
-                p.perceiveData(new PerceiveDataImpulse("test", {"a":"b"}), e => e.id())
+                p.perceiveData(new PerceiveDataImpulse("", "test", {"a":"b"}), e => e.id())
             })
         });
 

@@ -35,3 +35,4 @@ export {Perception as PerceptionRes} from "./response/type/Perception";
 export {PerceiveActionImpulse} from "./request/input/PerceiveActionImpulse";
 export {PerceivedImpulse} from "./response/type/PerceivedImpulse";
 export {PerceiveDataImpulse} from "./request/input/PerceiveDataImpulse";
+export {Gaia} from "../gaia"
