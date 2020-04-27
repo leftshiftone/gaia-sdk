@@ -1,7 +1,7 @@
 #parse("/template/python/RequestTypingMacros.vm")
 #renderImports($ast)$newLine
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 ##import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
 
 

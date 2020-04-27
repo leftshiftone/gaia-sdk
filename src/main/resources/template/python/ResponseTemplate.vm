@@ -1,29 +1,43 @@
-from graphql.response.type.Query import Query
-from graphql.response.type.Mutation import Mutation
-from graphql.response.type.Subscription import Subscription
+from dataclasses import dataclass
+from gaia_sdk.graphql.response.type.Query import Query
+from gaia_sdk.graphql.response.type.Mutation import Mutation
+from gaia_sdk.graphql.response.type.Subscription import Subscription
 
 
-class QueryResponse:#*
+@dataclass
+class QueryResponse:$newLine#*
+    *##tab(4)dictionary: dict$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def data(self) -> Query:#*
-    *#$newLine#tab(8)return self.data$newLine#*
+    *#$newLine#tab(8)return Query(self.dictionary.get("data"))$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
-    *#$newLine#tab(8)return self.extensions$newLine#*
+    *#$newLine#tab(8)return self.dictionary.get("extensions")$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def errors(self) -> list:#*
-    *#$newLine#tab(8)return self.errors##
-$newLine
-class MutationResponse:#*
+    *#$newLine#tab(8)return self.dictionary.get("errors")##
+$newLine$newLine
+@dataclass
+class MutationResponse:$newLine#*
+    *##tab(4)dictionary: dict$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def data(self) -> Mutation:#*
-    *#$newLine#tab(8)return self.data$newLine#*
+    *#$newLine#tab(8)return Mutation(self.dictionary.get("data"))$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
-    *#$newLine#tab(8)return self.extensions$newLine#*
+    *#$newLine#tab(8)return self.dictionary.get("extensions")$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def errors(self) -> list:#*
-    *#$newLine#tab(8)return self.errors##
-$newLine
+    *#$newLine#tab(8)return self.dictionary.get("errors")##
+$newLine$newLine
 class SubscriptionResponse:#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def data(self) -> Subscription:#*
     *#$newLine#tab(8)return self.data$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def extensions(self) -> dict:#*
     *#$newLine#tab(8)return self.extensions$newLine#*
+    *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def errors(self) -> list:#*
     *#$newLine#tab(8)return self.errors##
 $newLine

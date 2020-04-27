@@ -19,7 +19,7 @@
         *##tab($indent)entity = ${field.type.name()}()$newLine#*
         *##tab($indent)config(entity)$newLine#*
         *##tab($indent)return f'${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("{")name$foreach.count#print("}")#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$")#print("{")name$foreach.count#print("}")#end#*
         *#)' + '{' + entity.render(registry) + '}'$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)self.append(callback)$newLine#*
@@ -27,10 +27,11 @@
     *##else#*
         *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field), config: Callable[['${field.type.name()}'], None]):$newLine#*
         *##set($indent =  $indent + 4)#*
-        *##tab($indent)def callback(_: VariableRegistry):$newLine#*
+        *##tab($indent)def callback(registry: VariableRegistry):$newLine#*
         *##set($indent =  $indent + 4)#*
         *##tab($indent)entity = ${field.type.name()}()$newLine#*
         *##tab($indent)config(entity)$newLine#*
+        *##tab($indent)return "$toLowercaseWithUnderscores.apply(${field.name}) {" + entity.render(registry) + "}"$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)self.append(callback)$newLine#*
         *##set($indent =  $indent - 4)#*
@@ -107,10 +108,10 @@
 ## *************************
 #macro(renderImports $type)#*
     *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
-        *#from graphql.request.type.$import import $import#*
+        *#from gaia_sdk.graphql.request.type.$import import $import#*
     *##end#*
     *##foreach($import in ${getInputImports.apply($type)})$newLine#*
-        *#from graphql.request.input.$import import $import#*
+        *#from gaia_sdk.graphql.request.input.$import import $import#*
     *##end##
 #end##
 ## *************************

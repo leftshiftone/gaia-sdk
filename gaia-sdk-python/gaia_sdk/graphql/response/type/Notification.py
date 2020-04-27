@@ -1,13 +1,27 @@
 
-from graphql.response.type.OnUpdated import OnUpdated
-from graphql.response.type.OnDeleted import OnDeleted
-from graphql.response.type.OnCreated import OnCreated
+from gaia_sdk.graphql.response.type.OnUpdated import OnUpdated
+from gaia_sdk.graphql.response.type.OnDeleted import OnDeleted
+from gaia_sdk.graphql.response.type.OnCreated import OnCreated
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class Notification:
-    def onCreated(self) -> OnCreated:
-        return self.onCreated
-    def onUpdated(self) -> OnUpdated:
-        return self.onUpdated
-    def onDeleted(self) -> OnDeleted:
-        return self.onDeleted
+    dictionary: dict
+    @property
+    def on_created(self) -> OnCreated:
+        return OnCreated(self.dictionary.get("onCreated"))
+    @property
+    def on_updated(self) -> OnUpdated:
+        return OnUpdated(self.dictionary.get("onUpdated"))
+    @property
+    def on_deleted(self) -> OnDeleted:
+        return OnDeleted(self.dictionary.get("onDeleted"))

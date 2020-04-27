@@ -5,13 +5,13 @@ class VariableRegistry:
         self.datatypes = []
         self.counters = dict()
 
-    def register(self, name:str, value):
+    def register(self, name: str, value):
         if name not in self.counters:
             self.counters[name] = 0
         self.counters[name] = self.counters[name] + 1
         varName = name + str(self.counters[name])
 
-        self.variables[varName] = value
+        self.variables[varName] = self.to_value(value)
         self.datatypes.append("$" + varName + ":" + self.toType(value))
 
         return varName
@@ -32,4 +32,16 @@ class VariableRegistry:
         if (type(obj) is bool):
             return "bool"
         else:
-            return type(obj)
+            return type(obj).__name__
+
+    def to_value(self, obj) -> str:
+        if (type(obj) is str):
+            return obj
+        if (type(obj) is int):
+            return obj
+        if (type(obj) is float):
+            return obj
+        if (type(obj) is bool):
+            return obj
+        else:
+            return obj.__dict__

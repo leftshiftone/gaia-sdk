@@ -1,13 +1,27 @@
 
-from graphql.response.type.Query import Query
-from graphql.response.type.Mutation import Mutation
-from graphql.response.type.Subscription import Subscription
+from gaia_sdk.graphql.response.type.Query import Query
+from gaia_sdk.graphql.response.type.Mutation import Mutation
+from gaia_sdk.graphql.response.type.Subscription import Subscription
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class Schema:
+    dictionary: dict
+    @property
     def query(self) -> Query:
-        return self.query
+        return Query(self.dictionary.get("query"))
+    @property
     def mutation(self) -> Mutation:
-        return self.mutation
+        return Mutation(self.dictionary.get("mutation"))
+    @property
     def subscription(self) -> Subscription:
-        return self.subscription
+        return Subscription(self.dictionary.get("subscription"))

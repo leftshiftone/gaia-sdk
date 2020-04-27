@@ -1,24 +1,45 @@
 
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class BehaviourNodeExecution:
-    def processInstanceId(self) -> Uuid:
-        return self.processInstanceId
-    def nodeInstanceId(self) -> Uuid:
-        return self.nodeInstanceId
+    dictionary: dict
+    @property
+    def process_instance_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("processInstanceId"))
+    @property
+    def node_instance_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("nodeInstanceId"))
+    @property
     def state(self) -> String:
-        return self.state
-    def executionGroupId(self) -> Uuid:
-        return self.executionGroupId
-    def nodeId(self) -> Uuid:
-        return self.nodeId
-    def processId(self) -> Uuid:
-        return self.processId
+        return String(self.dictionary.get("state"))
+    @property
+    def execution_group_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("executionGroupId"))
+    @property
+    def node_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("nodeId"))
+    @property
+    def process_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("processId"))
+    @property
     def type(self) -> String:
-        return self.type
+        return String(self.dictionary.get("type"))
+    @property
     def transitions(self) -> Struct:
-        return self.transitions
+        return Struct(self.dictionary.get("transitions"))
+    @property
     def timestamp(self) -> Long:
-        return self.timestamp
-    def parentProcessId(self) -> Uuid:
-        return self.parentProcessId
+        return Long(self.dictionary.get("timestamp"))
+    @property
+    def parent_process_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("parentProcessId"))

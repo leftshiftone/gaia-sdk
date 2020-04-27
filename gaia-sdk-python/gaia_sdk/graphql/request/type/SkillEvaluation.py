@@ -1,9 +1,9 @@
 
-from graphql.request.type.SyncSkillEvaluation import SyncSkillEvaluation
-from graphql.request.type.AsyncSkillEvaluation import AsyncSkillEvaluation
+from gaia_sdk.graphql.request.type.SyncSkillEvaluation import SyncSkillEvaluation
+from gaia_sdk.graphql.request.type.AsyncSkillEvaluation import AsyncSkillEvaluation
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class SkillEvaluation(list):
@@ -13,7 +13,7 @@ class SkillEvaluation(list):
             name1 = registry.register("impulse", impulse)
             entity = SyncSkillEvaluation()
             config(entity)
-            return f'syncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'syncEval(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def async_eval(self, impulse: str, config: Callable[['AsyncSkillEvaluation'], None]):
@@ -21,7 +21,7 @@ class SkillEvaluation(list):
             name1 = registry.register("impulse", impulse)
             entity = AsyncSkillEvaluation()
             config(entity)
-            return f'asyncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'asyncEval(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

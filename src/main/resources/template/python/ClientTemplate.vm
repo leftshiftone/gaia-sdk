@@ -1,25 +1,33 @@
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 import itertools
 import random
 from typing import List, Callable
+from dataclasses import dataclass
 
-from api.transporter.abstract_transporter import ITransporter
-from graphql.GaiaResponse import QueryResponse
-from graphql.request.type import Query
+from gaia_sdk.api.transporter.abstract_transporter import ITransporter
+from gaia_sdk.graphql.GaiaResponse import QueryResponse
+from gaia_sdk.graphql.request.type import Query
+from gaia_sdk.graphql.GaiaResponse import MutationResponse
+from gaia_sdk.graphql.request.type import Mutation
+from gaia_sdk.api.client_options import ClientOptions
 
 
+@dataclass
 class #capitalize($name)Client(object):
 
-#tab(4)def __init__(self, transporter: ITransporter):
-#tab(8)self.transporter = transporter
-#tab(8)self.counter = itertools.count(random.randint(0, 1000000))
+#tab(4)transporter: ITransporter
+#tab(4)options: ClientOptions
 
 #tab(4)def execute_native(self, statement: str, variables: dict):
 #tab(8)payload = {"statement": statement, "variables": variables}
-#tab(8)return self.transporter.transport(payload)
+#tab(8)return self.transporter.transport(self.options, payload)
 
-#tab(4)def execute_query(self, request: Query) -> QueryResponse:
+#tab(4)def query(self, request: Query) -> QueryResponse:
 #tab(8)statement, variables = self.get_statement("query", request)
+#tab(8)return self.execute_native(statement, variables)
+
+#tab(4)def mutation(self, request: Mutation) -> MutationResponse:
+#tab(8)statement, variables = self.get_statement("mutation", request)
 #tab(8)return self.execute_native(statement, variables)
 
 #tab(4)def get_statement(self, name: str, values: List[Callable[[VariableRegistry], str]]):
@@ -29,7 +37,7 @@ class #capitalize($name)Client(object):
 #tab(12)statement = f'#print("$"){name} gaia ' + '{ ' + fields + ' }'
 #tab(12)return statement, registry.getVariables()
 
-#tab(8)statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + '}  {' + fields + ' }'
+#tab(8)statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + ')  {' + fields + ' }'
 #tab(8)return statement, registry.getVariables()
 #macro(capitalize $str)#*
     *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##

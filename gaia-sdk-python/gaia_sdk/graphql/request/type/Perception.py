@@ -1,11 +1,11 @@
 
-from graphql.request.type.Conversational import Conversational
-from graphql.request.type.PerceivedImpulse import PerceivedImpulse
-from graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
-from graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
+from gaia_sdk.graphql.request.type.Conversational import Conversational
+from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
+from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
+from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Perception(list):
@@ -18,9 +18,10 @@ class Perception(list):
     Contains all perception fields needed for a conversation.
     """
     def conversational(self, config: Callable[['Conversational'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Conversational()
             config(entity)
+            return "conversational {" + entity.render(registry) + "}"
         self.append(callback)
 
     """
@@ -31,7 +32,7 @@ class Perception(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveData(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveData(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -42,7 +43,7 @@ class Perception(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveAction(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveAction(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

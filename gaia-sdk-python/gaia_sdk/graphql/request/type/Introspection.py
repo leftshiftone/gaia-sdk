@@ -1,8 +1,8 @@
 
-from graphql.request.type.SkillIntrospection import SkillIntrospection
+from gaia_sdk.graphql.request.type.SkillIntrospection import SkillIntrospection
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Introspection(list):
@@ -23,9 +23,10 @@ class Introspection(list):
         self.append(lambda x: "started")
 
     def skills(self, config: Callable[['SkillIntrospection'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = SkillIntrospection()
             config(entity)
+            return "skills {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

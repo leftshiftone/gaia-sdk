@@ -1,15 +1,28 @@
 
-from graphql.response.type.Intent import Intent
+from gaia_sdk.graphql.response.type.Intent import Intent
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class DeletedIntentImpulse:
     """
     Impulse which indicates the resulf of a delete intent impulse
     """
+    dictionary: dict
+    @property
     def id(self) -> Uuid:
-        return self.id
+        return Uuid(self.dictionary.get("id"))
     """
     the intent instance
     """
+    @property
     def intent(self) -> Intent:
-        return self.intent
+        return Intent(self.dictionary.get("intent"))

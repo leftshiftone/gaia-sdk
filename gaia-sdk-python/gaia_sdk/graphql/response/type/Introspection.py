@@ -1,17 +1,34 @@
 
-from graphql.response.type.SkillIntrospection import SkillIntrospection
+from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class Introspection:
+    dictionary: dict
+    @property
     def cpu(self) -> String:
-        return self.cpu
+        return String(self.dictionary.get("cpu"))
+    @property
     def gpu(self) -> String:
-        return self.gpu
+        return String(self.dictionary.get("gpu"))
+    @property
     def memory(self) -> String:
-        return self.memory
+        return String(self.dictionary.get("memory"))
+    @property
     def state(self) -> RuntimeState:
-        return self.state
+        return RuntimeState(self.dictionary.get("state"))
+    @property
     def started(self) -> Timestamp:
-        return self.started
+        return Timestamp(self.dictionary.get("started"))
+    @property
     def skills(self) -> SkillIntrospection:
-        return self.skills
+        return SkillIntrospection(self.dictionary.get("skills"))

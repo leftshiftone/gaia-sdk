@@ -2,8 +2,10 @@
 ## Renders a type AST
 ## ******************
 #macro(renderType $type $indent)#*
+    *##tab($indent)@dataclass$newLine#*
     *##tab($indent)class ${type.name}:$newLine#*
     *##renderDescription($type 4)#*
+    *##tab(4)dictionary: dict$newLine#*
     *##set($indent = $indent + 4)#*
     *##foreach($field in $type.fields)#*
         *##renderDescription($field $indent)#*
@@ -12,8 +14,9 @@
     *##set($indent = $indent - 4)##
 #end##
 #macro(renderField $field)#*
-    *#def ${field.name}(self) -> $field.type.name():$newLine#*
-    *##tab(8)return self.$field.name##
+    *#@property$newLine#*
+    *##tab(4)def $toLowercaseWithUnderscores.apply(${field.name})(self) -> $field.type.name():$newLine#*
+    *##tab(8)return $field.type.name()(self.dictionary.get("$field.name"))##
 #end
 ## **************************
 ## Renders a description text
@@ -32,10 +35,10 @@
 ## *************************
 #macro(renderImports $type)#*
     *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
-        *#from graphql.response.type.$import import $import#*
+        *#from gaia_sdk.graphql.response.type.$import import $import#*
     *##end#*
     *##foreach($import in ${getInputImports.apply($type)})$newLine#*
-        *#from graphql.response.input.$import import $import#*
+        *#from gaia_sdk.graphql.request.input.$import import $import#*
     *##end##
 #end##
 ## *************************

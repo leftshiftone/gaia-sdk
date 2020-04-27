@@ -1,7 +1,7 @@
 
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class PerceivedImpulse(list):

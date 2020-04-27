@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
+from gaia_sdk.api.client_options import ClientOptions
+
 
 class ITransporter:
     """
@@ -8,4 +10,4 @@ class ITransporter:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def transport(self, payload: {}): raise NotImplementedError
+    def transport(self, options: ClientOptions, payload: dict): raise NotImplementedError

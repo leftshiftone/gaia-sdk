@@ -1,13 +1,13 @@
 
-from graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
-from graphql.request.type.CreatedIntentImpulse import CreatedIntentImpulse
-from graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
-from graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
-from graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
-from graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
+from gaia_sdk.graphql.request.type.CreatedIntentImpulse import CreatedIntentImpulse
+from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
+from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
+from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
+from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Preservation(list):
@@ -24,7 +24,7 @@ class Preservation(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedIntentImpulse()
             config(entity)
-            return f'createIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
+            return f'createIntents(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -35,7 +35,7 @@ class Preservation(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedIntentImpulse()
             config(entity)
-            return f'updateIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
+            return f'updateIntents(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -46,7 +46,7 @@ class Preservation(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedIntentImpulse()
             config(entity)
-            return f'deleteIntents(impulses:{name1})' + '{' + entity.render(registry) + '}'
+            return f'deleteIntents(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

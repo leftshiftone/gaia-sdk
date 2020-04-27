@@ -1,16 +1,29 @@
 
-from graphql.response.type.Experience import Experience
-from graphql.response.type.Knowledge import Knowledge
+from gaia_sdk.graphql.response.type.Experience import Experience
+from gaia_sdk.graphql.response.type.Knowledge import Knowledge
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class Retrieval:
+    dictionary: dict
     """
     Container element which collects all information static data
     """
+    @property
     def knowledge(self) -> Knowledge:
-        return self.knowledge
+        return Knowledge(self.dictionary.get("knowledge"))
     """
     Container element which collects all information about runtime data
     """
+    @property
     def experience(self) -> Experience:
-        return self.experience
+        return Experience(self.dictionary.get("experience"))

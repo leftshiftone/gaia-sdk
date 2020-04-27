@@ -1,7 +1,7 @@
 from typing import Callable
-from graphql.request.type.Query import Query
-from graphql.request.type.Mutation import Mutation
-from graphql.request.type.Subscription import Subscription
+from gaia_sdk.graphql.request.type.Query import Query
+from gaia_sdk.graphql.request.type.Mutation import Mutation
+from gaia_sdk.graphql.request.type.Subscription import Subscription
 
 
 class #capitalize($name)Request:

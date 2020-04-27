@@ -1,9 +1,9 @@
 
-from graphql.request.type.StreamingImpulse import StreamingImpulse
-from graphql.request.input.StreamImpulse import StreamImpulse
+from gaia_sdk.graphql.request.type.StreamingImpulse import StreamingImpulse
+from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Practice(list):
@@ -22,7 +22,7 @@ class Practice(list):
             name1 = registry.register("impulse", impulse)
             entity = StreamingImpulse()
             config(entity)
-            return f'prepare(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'prepare(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

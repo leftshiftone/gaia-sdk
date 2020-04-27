@@ -1,13 +1,13 @@
 
-from graphql.request.type.PerceivedImpulse import PerceivedImpulse
-from graphql.request.input.PerceiveReceptionImpulse import PerceiveReceptionImpulse
-from graphql.request.input.PerceiveSuggestionImpulse import PerceiveSuggestionImpulse
-from graphql.request.input.PerceiveButtonImpulse import PerceiveButtonImpulse
-from graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
-from graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
+from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
+from gaia_sdk.graphql.request.input.PerceiveReceptionImpulse import PerceiveReceptionImpulse
+from gaia_sdk.graphql.request.input.PerceiveSuggestionImpulse import PerceiveSuggestionImpulse
+from gaia_sdk.graphql.request.input.PerceiveButtonImpulse import PerceiveButtonImpulse
+from gaia_sdk.graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
+from gaia_sdk.graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Conversational(list):
@@ -23,7 +23,7 @@ class Conversational(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveUtterance(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveUtterance(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -34,7 +34,7 @@ class Conversational(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveButton(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveButton(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -45,7 +45,7 @@ class Conversational(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveSubmit(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveSubmit(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -56,7 +56,7 @@ class Conversational(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveReception(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveReception(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -67,7 +67,7 @@ class Conversational(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveSuggestion(impulse:{name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveSuggestion(impulse:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

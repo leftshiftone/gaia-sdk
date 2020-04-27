@@ -1,12 +1,27 @@
 
 
+from dataclasses import dataclass
+Uuid = str
+String = str
+Long = str
+Timestamp = str
+Struct = dict
+Float = float
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
+@dataclass
 class OnCreated:
+    dictionary: dict
+    @property
     def id(self) -> Uuid:
-        return self.id
-    def identityId(self) -> Uuid:
-        return self.identityId
+        return Uuid(self.dictionary.get("id"))
+    @property
+    def identity_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("identityId"))
+    @property
     def reference(self) -> Uuid:
-        return self.reference
+        return Uuid(self.dictionary.get("reference"))
+    @property
     def type(self) -> String:
-        return self.type
+        return String(self.dictionary.get("type"))

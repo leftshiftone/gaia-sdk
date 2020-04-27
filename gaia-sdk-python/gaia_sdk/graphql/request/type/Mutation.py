@@ -1,12 +1,12 @@
 
-from graphql.request.type.Evaluation import Evaluation
-from graphql.request.type.Preservation import Preservation
-from graphql.request.type.Practice import Practice
-from graphql.request.type.Perception import Perception
-from graphql.request.type.Activation import Activation
+from gaia_sdk.graphql.request.type.Evaluation import Evaluation
+from gaia_sdk.graphql.request.type.Preservation import Preservation
+from gaia_sdk.graphql.request.type.Practice import Practice
+from gaia_sdk.graphql.request.type.Perception import Perception
+from gaia_sdk.graphql.request.type.Activation import Activation
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Mutation(list):
@@ -19,9 +19,10 @@ class Mutation(list):
         Perceptions are used to invoke events within gaia.
     """
     def perceive(self, config: Callable[['Perception'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Perception()
             config(entity)
+            return "perceive {" + entity.render(registry) + "}"
         self.append(callback)
 
     """
@@ -29,9 +30,10 @@ class Mutation(list):
         Practices are used to transfer skills to gaia and to train them.
     """
     def practice(self, config: Callable[['Practice'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Practice()
             config(entity)
+            return "practice {" + entity.render(registry) + "}"
         self.append(callback)
 
     """
@@ -39,9 +41,10 @@ class Mutation(list):
         Preservations are used to invoke create/update/delete functions.
     """
     def preserve(self, config: Callable[['Preservation'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Preservation()
             config(entity)
+            return "preserve {" + entity.render(registry) + "}"
         self.append(callback)
 
     """
@@ -49,9 +52,10 @@ class Mutation(list):
         Evaluations are used to invoke skills and to return the result.
     """
     def evaluate(self, config: Callable[['Evaluation'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Evaluation()
             config(entity)
+            return "evaluate {" + entity.render(registry) + "}"
         self.append(callback)
 
     """
@@ -59,9 +63,10 @@ class Mutation(list):
         The activation can be used to unseal the vault or to grant access to an user.
     """
     def activate(self, config: Callable[['Activation'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = Activation()
             config(entity)
+            return "activate {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

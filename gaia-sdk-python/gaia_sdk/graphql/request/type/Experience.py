@@ -1,9 +1,9 @@
 
-from graphql.request.type.BehaviourExecution import BehaviourExecution
-from graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
+from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
+from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 
 from typing import Callable
-from api.VariableRegistry import VariableRegistry
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Experience(list):
@@ -12,15 +12,17 @@ class Experience(list):
     """
 
     def behaviour_executions(self, config: Callable[['BehaviourExecution'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = BehaviourExecution()
             config(entity)
+            return "behaviour_executions {" + entity.render(registry) + "}"
         self.append(callback)
 
     def behaviour_node_executions(self, config: Callable[['BehaviourNodeExecution'], None]):
-        def callback(_: VariableRegistry):
+        def callback(registry: VariableRegistry):
             entity = BehaviourNodeExecution()
             config(entity)
+            return "behaviour_node_executions {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):
