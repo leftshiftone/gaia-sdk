@@ -1,5 +1,6 @@
 rootProject.name = rootProjectName
 
+include "gaia-sdk-docs"
 include "gaia-sdk-java:gaia-sdk-api"
 include "gaia-sdk-java:gaia-sdk-http"
 include "gaia-sdk-java:gaia-sdk-graphql"
