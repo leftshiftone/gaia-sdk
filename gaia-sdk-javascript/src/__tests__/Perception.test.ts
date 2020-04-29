@@ -5,7 +5,7 @@ describe("perception tests:", () => {
 
     test('test perceive data', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const impulse = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.perceiveData(impulse);
@@ -32,7 +32,7 @@ describe("perception tests:", () => {
     test('test perceive', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
         const impulse1 = new PerceiveActionImpulse(false, uuid(), "{eventName}", {});
-        const impulse2 = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const impulse2 = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.perceive(p => {
