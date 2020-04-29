@@ -118,7 +118,8 @@
 ## Renders the argument type
 ## *************************
 #macro(renderArgumentType $type)#*
-    *##if($type.name().equals("String"))str#*
+    *##if($type.isList())#print("List[")#renderArgumentType($type.type)#print("]")#*
+    *##elseif($type.name().equals("String"))str#*
     *##elseif($type.name().equals("Boolean"))bool#*
     *##elseif($type.name().equals("Struct"))dict#*
     *##elseif($type.name().equals("Timestamp"))str#*

@@ -22,8 +22,8 @@ class DeletedIntentImpulse: Type() {
     /**
      * the intent instance
      */
-    fun intent(config: Intent.() -> Unit) = 
-        add { "intent{ " + Intent().apply(config).render(it) + "}"}
+    fun intents(config: Intent.() -> Unit) = 
+        add { "intents{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

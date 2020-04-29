@@ -14,9 +14,5 @@ import gaia.sdk.request.enumeration.*
  * The specification to delete an intent instance
  */
 class DeleteIntentImpulse(val identityId:Uuid, 
-   val qualifier:String, 
-   val appendent:String, 
-   val utterance:Struct, 
-   val labellist:Struct, 
-   val version:String) : Input()
+   val reference:Uuid) : Input()
 

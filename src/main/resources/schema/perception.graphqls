@@ -62,9 +62,9 @@ input PerceiveSuggestionImpulse {
 "Input for data perception impulse."
 input PerceiveDataImpulse {
     "The identity id"
-    identityId: Uuid
+    identityId: Uuid!
     "The name of the data endpoint"
-    eventName: String
+    eventName: String!
     "The invocation data for the data endpoint"
     eventData: Struct
 }
@@ -72,7 +72,12 @@ input PerceiveDataImpulse {
 "Input for action perception impulse"
 input PerceiveActionImpulse {
     broadcast: Boolean
-    identityId: Uuid
-    type: String
+    identityId: Uuid!
+    type: String!
     data: Struct
+}
+
+"Impulse which indicates the result of a perceive impulse."
+type PerceivedImpulse implements Impulse {
+    id: Uuid!
 }

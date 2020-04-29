@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.Intent import Intent
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

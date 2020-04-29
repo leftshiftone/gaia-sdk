@@ -14,10 +14,10 @@ export class CreateIntentImpulse {
     private qualifier:String;
     private appendent:String;
     private utterance:Struct;
-    private labellist:Struct;
+    private labellist:Array<String>;
     private version:String;
 
-    constructor (identityId:Uuid, qualifier:String, appendent:String, utterance:Struct, labellist:Struct, version:String) {
+    constructor (identityId:Uuid, qualifier:String, appendent:String, utterance:Struct, labellist:Array<String>, version:String) {
         this.identityId = identityId;
         this.qualifier = qualifier;
         this.appendent = appendent;

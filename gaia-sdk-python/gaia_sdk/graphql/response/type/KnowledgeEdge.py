@@ -1,6 +1,7 @@
 
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -17,11 +18,11 @@ class KnowledgeEdge:
     """
     dictionary: dict
     @property
-    def source(self) -> Struct:
-        return Struct(self.dictionary.get("source"))
+    def source(self) -> Uuid:
+        return Uuid(self.dictionary.get("source"))
     @property
-    def target(self) -> Struct:
-        return Struct(self.dictionary.get("target"))
+    def target(self) -> Uuid:
+        return Uuid(self.dictionary.get("target"))
     @property
     def type(self) -> String:
         return String(self.dictionary.get("type"))

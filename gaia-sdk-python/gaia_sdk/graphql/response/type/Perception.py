@@ -5,6 +5,7 @@ from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpul
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

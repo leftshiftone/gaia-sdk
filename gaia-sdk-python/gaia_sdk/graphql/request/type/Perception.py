@@ -4,7 +4,7 @@ from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
 from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

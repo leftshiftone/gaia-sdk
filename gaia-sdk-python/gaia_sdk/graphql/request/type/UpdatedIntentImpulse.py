@@ -1,7 +1,7 @@
 
 from gaia_sdk.graphql.request.type.Intent import Intent
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
@@ -16,11 +16,11 @@ class UpdatedIntentImpulse(list):
     """
     the intent instance
     """
-    def intent(self, config: Callable[['Intent'], None]):
+    def intents(self, config: Callable[['Intent'], None]):
         def callback(registry: VariableRegistry):
             entity = Intent()
             config(entity)
-            return "intent {" + entity.render(registry) + "}"
+            return "intents {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

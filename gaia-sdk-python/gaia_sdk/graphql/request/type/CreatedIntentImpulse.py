@@ -1,7 +1,7 @@
 
 from gaia_sdk.graphql.request.type.Intent import Intent
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

@@ -86,14 +86,14 @@
 #macro(renderConstructor $type $indent)#*
     *#$newLine#*
     *##foreach($field in $type.fields)#*
-    *##tab($indent)private $field.name:$field.type.name();$newLine#*
+    *##tab($indent)private $field.name:#renderFieldType($field.type);$newLine#*
     *##end#*
     *#$newLine#*
     *##if ($isInput.apply($type))#*
         *##tab($indent)constructor (#*
         *##foreach($field in $type.fields)#*
             *##if($foreach.count > 1), #end#*
-            *#$field.name:$field.type.name()#*
+            *#$field.name:#renderFieldType($field.type)#*
         *##end) {$newLine#*
         *##set($indent = $indent + 4)#*
         *##foreach($field in $type.fields)#*
@@ -102,6 +102,14 @@
         *##set($indent = $indent - 4)#*
         *##tab($indent)}#*
     *##end##
+#end##
+## ********************
+## Renders a field type
+## ********************
+#macro(renderFieldType $type)#*
+    *##if($type.isList())#print("Array<")#end#*
+    *#$type.name()#*
+    *##if($type.isList())#print(">")#end##
 #end##
 ## **************************
 ## Renders a description text

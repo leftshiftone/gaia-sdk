@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.OnConversed import OnConversed
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

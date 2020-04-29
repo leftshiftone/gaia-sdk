@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.BuildInEvaluation import BuildInEvaluation
 from gaia_sdk.graphql.response.type.SkillEvaluation import SkillEvaluation
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

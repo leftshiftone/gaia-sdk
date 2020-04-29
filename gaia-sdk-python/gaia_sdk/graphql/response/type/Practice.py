@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.StreamingImpulse import StreamingImpulse
 from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

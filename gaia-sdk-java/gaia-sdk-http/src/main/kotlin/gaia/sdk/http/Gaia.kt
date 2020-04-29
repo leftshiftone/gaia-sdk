@@ -6,8 +6,6 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.KnowledgeEdge
 import gaia.sdk.request.type.Retrieval
-import gaia.sdk.response.type.*
-import org.reactivestreams.Publisher
 
 class Gaia {
     companion object {
@@ -39,7 +37,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
     override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)
-    override fun preserveDeleteIntents(vararg impulses: CreateIntentImpulse) = fProc.preserveDeleteIntents(*impulses)
+    override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) = fProc.preserveCreateIntents(*impulses)
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) = fProc.preserveUpdateIntents(*impulses)
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) = fProc.preserveDeleteIntents(*impulses)
     override fun perceive(config: gaia.sdk.request.type.Perception.() -> Unit) = fProc.perceive(config)

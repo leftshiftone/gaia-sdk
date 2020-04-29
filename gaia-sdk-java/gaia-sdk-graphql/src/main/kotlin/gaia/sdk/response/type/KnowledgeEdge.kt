@@ -13,8 +13,8 @@ import gaia.sdk.request.enumeration.*
 * Container type for static information
 */
 data class KnowledgeEdge @JsonCreator constructor(
-    @JsonProperty("source") val source:Struct?, 
-    @JsonProperty("target") val target:Struct?, 
+    @JsonProperty("source") val source:Uuid?, 
+    @JsonProperty("target") val target:Uuid?, 
     @JsonProperty("type") val type:String?, 
     @JsonProperty("weight") val weight:Float?
 )

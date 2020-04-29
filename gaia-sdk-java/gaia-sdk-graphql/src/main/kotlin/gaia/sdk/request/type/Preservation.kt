@@ -16,28 +16,16 @@ import gaia.sdk.request.enumeration.*
  */
 class Preservation: Type() {
 
-    /**
-     * creates a list of intents with the given specifications
-     */
-    fun createIntents(impulses : Array<out CreateIntentImpulse>, config: CreatedIntentImpulse.() -> Unit) = add {
-        val name1 = it.register("impulses", impulses)
-        "createIntents(impulses:$$name1){" + CreatedIntentImpulse().apply(config).render(it) + "}"
-    }
+    fun create(config: CreateKnowledge.() -> Unit) = 
+        add { "create{ " + CreateKnowledge().apply(config).render(it) + "}"}
 
-    /**
-     * updates a list of intents with the given specifications
-     */
-    fun updateIntents(impulses : Array<out UpdateIntentImpulse>, config: UpdatedIntentImpulse.() -> Unit) = add {
-        val name1 = it.register("impulses", impulses)
-        "updateIntents(impulses:$$name1){" + UpdatedIntentImpulse().apply(config).render(it) + "}"
-    }
 
-    /**
-     * deletes a list of intents with the given specifications
-     */
-    fun deleteIntents(impulses : Array<out DeleteIntentImpulse>, config: DeletedIntentImpulse.() -> Unit) = add {
-        val name1 = it.register("impulses", impulses)
-        "deleteIntents(impulses:$$name1){" + DeletedIntentImpulse().apply(config).render(it) + "}"
-    }
+    fun update(config: UpdateKnowledge.() -> Unit) = 
+        add { "update{ " + UpdateKnowledge().apply(config).render(it) + "}"}
+
+
+    fun delete(config: DeleteKnowledge.() -> Unit) = 
+        add { "delete{ " + DeleteKnowledge().apply(config).render(it) + "}"}
+
 }
 

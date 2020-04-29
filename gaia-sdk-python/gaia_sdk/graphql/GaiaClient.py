@@ -34,7 +34,7 @@ class GaiaClient(object):
         registry = VariableRegistry()
         fields = " ".join(map(lambda x: x(registry), values))
         if len(registry.getDatatypes()) == 0:
-            statement = f'${name} gaia ' + '{ ' + fields + ' }'
+            statement = f'{name} gaia ' + '{ ' + fields + ' }'
             return statement, registry.getVariables()
 
         statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + ')  {' + fields + ' }'

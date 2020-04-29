@@ -18,7 +18,7 @@ interface ISensorFunction {
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>
-    fun preserveDeleteIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
+    fun preserveCreateIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
     fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse): Publisher<gaia.sdk.response.type.UpdatedIntentImpulse>
     fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse): Publisher<gaia.sdk.response.type.DeletedIntentImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>

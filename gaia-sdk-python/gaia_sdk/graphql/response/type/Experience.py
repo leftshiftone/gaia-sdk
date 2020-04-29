@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -19,8 +20,8 @@ class Experience:
     """
     dictionary: dict
     @property
-    def behaviour_executions(self) -> BehaviourExecution:
-        return BehaviourExecution(self.dictionary.get("behaviourExecutions"))
+    def behaviour_executions(self) -> List[BehaviourExecution]:
+        return list(map(lambda x: BehaviourExecution(x), self.dictionary.get("behaviourExecutions")))
     @property
-    def behaviour_node_executions(self) -> BehaviourNodeExecution:
-        return BehaviourNodeExecution(self.dictionary.get("behaviourNodeExecutions"))
+    def behaviour_node_executions(self) -> List[BehaviourNodeExecution]:
+        return list(map(lambda x: BehaviourNodeExecution(x), self.dictionary.get("behaviourNodeExecutions")))

@@ -1,10 +1,7 @@
 
-import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
-import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
-import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
-import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
-import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
-import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
+import {DeleteKnowledge} from "./DeleteKnowledge";
+import {UpdateKnowledge} from "./UpdateKnowledge";
+import {CreateKnowledge} from "./CreateKnowledge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
@@ -17,34 +14,22 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class Preservation extends Array<(_:VariableRegistry) => string> {
 
-    /**
-     * creates a list of intents with the given specifications
-     */
-    public createIntents = (impulses : [CreateIntentImpulse], config: (_:CreatedIntentImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulses", impulses);
-        const entity = new CreatedIntentImpulse();
+    public create = (config: (_:CreateKnowledge) => void) => this.push((registry) => {
+        const entity = new CreateKnowledge();
         config(entity);
-        return `createIntents(impulses:$${name1}){` + entity.render(registry) + "}"
+        return "create { " + entity.render(registry) + " }";
     });
 
-    /**
-     * updates a list of intents with the given specifications
-     */
-    public updateIntents = (impulses : [UpdateIntentImpulse], config: (_:UpdatedIntentImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulses", impulses);
-        const entity = new UpdatedIntentImpulse();
+    public update = (config: (_:UpdateKnowledge) => void) => this.push((registry) => {
+        const entity = new UpdateKnowledge();
         config(entity);
-        return `updateIntents(impulses:$${name1}){` + entity.render(registry) + "}"
+        return "update { " + entity.render(registry) + " }";
     });
 
-    /**
-     * deletes a list of intents with the given specifications
-     */
-    public deleteIntents = (impulses : [DeleteIntentImpulse], config: (_:DeletedIntentImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulses", impulses);
-        const entity = new DeletedIntentImpulse();
+    public delete = (config: (_:DeleteKnowledge) => void) => this.push((registry) => {
+        const entity = new DeleteKnowledge();
         config(entity);
-        return `deleteIntents(impulses:$${name1}){` + entity.render(registry) + "}"
+        return "delete { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

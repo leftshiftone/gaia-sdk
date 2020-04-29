@@ -140,23 +140,23 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.createIntents(impulses, i => i.id())
+            p.create(_ => _.intents(impulses, i => i.id()))
         }))));
-        return this.flatMapM<CreatedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+        return this.flatMapM<CreatedIntentImpulse>(observable, (e) => e.preserve!.create!.intents!);
     }
 
     public preserveUpdateIntents(...impulses: [UpdateIntentImpulse]): Observable<UpdatedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.updateIntents(impulses, i => i.id())
+            p.update(_ => _.intents(impulses, i => i.id()))
         }))));
-        return this.flatMapM<UpdatedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+        return this.flatMapM<UpdatedIntentImpulse>(observable, (e) => e.preserve!.update!.intents!);
     }
 
     public preserveDeleteIntents(...impulses: [DeleteIntentImpulse]): Observable<DeletedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.deleteIntents(impulses, i => i.id())
+            p.delete(_ => _.intents(impulses, i => i.id()))
         }))));
-        return this.flatMapM<DeletedIntentImpulse>(observable, (e) => e.preserve!.createIntents!);
+        return this.flatMapM<DeletedIntentImpulse>(observable, (e) => e.preserve!.delete!.intents!);
     }
 
     public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {

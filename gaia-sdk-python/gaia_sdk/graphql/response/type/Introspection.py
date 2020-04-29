@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -30,5 +31,5 @@ class Introspection:
     def started(self) -> Timestamp:
         return Timestamp(self.dictionary.get("started"))
     @property
-    def skills(self) -> SkillIntrospection:
-        return SkillIntrospection(self.dictionary.get("skills"))
+    def skills(self) -> List[SkillIntrospection]:
+        return list(map(lambda x: SkillIntrospection(x), self.dictionary.get("skills")))

@@ -4,6 +4,7 @@ from gaia_sdk.graphql.response.type.Introspection import Introspection
 from gaia_sdk.graphql.response.type.Notification import Notification
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

@@ -3,7 +3,7 @@ from gaia_sdk.graphql.request.type.Interaction import Interaction
 from gaia_sdk.graphql.request.type.Introspection import Introspection
 from gaia_sdk.graphql.request.type.Notification import Notification
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

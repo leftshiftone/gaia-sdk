@@ -18,6 +18,6 @@ class UpdateIntentImpulse(val identityId:Uuid,
    val qualifier:String, 
    val appendent:String, 
    val utterance:Struct, 
-   val labellist:Struct, 
+   val labellist:Array<out String>, 
    val version:String) : Input()
 

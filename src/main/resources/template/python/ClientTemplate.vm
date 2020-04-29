@@ -34,7 +34,7 @@ class #capitalize($name)Client(object):
 #tab(8)registry = VariableRegistry()
 #tab(8)fields = " ".join(map(lambda x: x(registry), values))
 #tab(8)if len(registry.getDatatypes()) == 0:
-#tab(12)statement = f'#print("$"){name} gaia ' + '{ ' + fields + ' }'
+#tab(12)statement = f'{name} gaia ' + '{ ' + fields + ' }'
 #tab(12)return statement, registry.getVariables()
 
 #tab(8)statement = name + ' gaia(' + ", ".join(registry.getDatatypes()) + ')  {' + fields + ' }'

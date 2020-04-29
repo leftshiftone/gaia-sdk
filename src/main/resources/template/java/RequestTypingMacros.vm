@@ -77,7 +77,10 @@
     *##if ($isInput.apply($type))#*
         *#(#foreach($field in $type.fields)#*
             *##if($foreach.count > 1), $newLine#end#*
-            *##if($foreach.count > 1)   #end#**#val $field.name:$field.type.name()#*
+            *##if($foreach.count > 1)   #end#**#val $field.name:#*
+            *##if($field.type.isList())#print("Array<out ")#end#*
+            *#$field.type.name()#*
+            *##if($field.type.isList())#print(">")#end#*
         *##end)#*
     *##end##
 #end##

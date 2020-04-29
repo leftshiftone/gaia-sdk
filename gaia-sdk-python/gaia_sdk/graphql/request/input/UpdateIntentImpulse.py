@@ -1,6 +1,6 @@
 
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
@@ -18,6 +18,6 @@ class UpdateIntentImpulse():
     qualifier: str
     appendent: str
     utterance: dict
-    labellist: dict
+    labellist: List[str]
     version: str
 

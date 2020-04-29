@@ -5,7 +5,7 @@ from gaia_sdk.graphql.request.type.Practice import Practice
 from gaia_sdk.graphql.request.type.Perception import Perception
 from gaia_sdk.graphql.request.type.Activation import Activation
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

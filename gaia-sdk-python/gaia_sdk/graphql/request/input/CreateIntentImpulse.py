@@ -1,6 +1,6 @@
 
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class CreateIntentImpulse():
+class CreateIntentImpulse:
     """
     The specification to create an intent instance
     """
@@ -17,6 +17,6 @@ class CreateIntentImpulse():
     qualifier: str
     appendent: str
     utterance: dict
-    labellist: dict
+    labellist: List[str]
     version: str
 

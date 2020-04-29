@@ -3,7 +3,7 @@ from gaia_sdk.graphql.request.type.OnUpdated import OnUpdated
 from gaia_sdk.graphql.request.type.OnDeleted import OnDeleted
 from gaia_sdk.graphql.request.type.OnCreated import OnCreated
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

@@ -3,7 +3,7 @@ from gaia_sdk.graphql.request.type.Query import Query
 from gaia_sdk.graphql.request.type.Mutation import Mutation
 from gaia_sdk.graphql.request.type.Subscription import Subscription
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

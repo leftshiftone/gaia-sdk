@@ -1,6 +1,6 @@
 
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
@@ -14,9 +14,5 @@ class DeleteIntentImpulse():
     """
 
     identityId: str
-    qualifier: str
-    appendent: str
-    utterance: dict
-    labellist: dict
-    version: str
+    reference: str
 

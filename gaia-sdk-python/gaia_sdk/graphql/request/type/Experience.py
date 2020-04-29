@@ -2,7 +2,7 @@
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

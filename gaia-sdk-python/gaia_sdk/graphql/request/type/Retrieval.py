@@ -2,7 +2,7 @@
 from gaia_sdk.graphql.request.type.Experience import Experience
 from gaia_sdk.graphql.request.type.Knowledge import Knowledge
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

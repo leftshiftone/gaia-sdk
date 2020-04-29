@@ -4,6 +4,7 @@ from gaia_sdk.graphql.response.type.OnDeleted import OnDeleted
 from gaia_sdk.graphql.response.type.OnCreated import OnCreated
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

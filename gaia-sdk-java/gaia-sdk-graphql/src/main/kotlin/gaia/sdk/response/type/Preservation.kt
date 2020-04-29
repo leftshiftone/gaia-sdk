@@ -14,16 +14,7 @@ import gaia.sdk.request.enumeration.*
 * read/write/delete memory functions in gaia.
 */
 data class Preservation @JsonCreator constructor(
-    /**
-    * creates a list of intents with the given specifications
-    */
-    @JsonProperty("createIntents") val createIntents:List<CreatedIntentImpulse>?, 
-    /**
-    * updates a list of intents with the given specifications
-    */
-    @JsonProperty("updateIntents") val updateIntents:List<UpdatedIntentImpulse>?, 
-    /**
-    * deletes a list of intents with the given specifications
-    */
-    @JsonProperty("deleteIntents") val deleteIntents:List<DeletedIntentImpulse>?
+    @JsonProperty("create") val create:CreateKnowledge?, 
+    @JsonProperty("update") val update:UpdateKnowledge?, 
+    @JsonProperty("delete") val delete:DeleteKnowledge?
 )

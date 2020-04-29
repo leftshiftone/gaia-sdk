@@ -8,6 +8,7 @@ from gaia_sdk.graphql.response.type.Prompt import Prompt
 from gaia_sdk.graphql.response.type.Code import Code
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -21,23 +22,23 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 class Knowledge:
     dictionary: dict
     @property
-    def intents(self) -> Intent:
-        return Intent(self.dictionary.get("intents"))
+    def intents(self) -> List[Intent]:
+        return list(map(lambda x: Intent(x), self.dictionary.get("intents")))
     @property
-    def prompts(self) -> Prompt:
-        return Prompt(self.dictionary.get("prompts"))
+    def prompts(self) -> List[Prompt]:
+        return list(map(lambda x: Prompt(x), self.dictionary.get("prompts")))
     @property
-    def fulfilments(self) -> Fulfilment:
-        return Fulfilment(self.dictionary.get("fulfilments"))
+    def fulfilments(self) -> List[Fulfilment]:
+        return list(map(lambda x: Fulfilment(x), self.dictionary.get("fulfilments")))
     @property
-    def statements(self) -> Statement:
-        return Statement(self.dictionary.get("statements"))
+    def statements(self) -> List[Statement]:
+        return list(map(lambda x: Statement(x), self.dictionary.get("statements")))
     @property
-    def codes(self) -> Code:
-        return Code(self.dictionary.get("codes"))
+    def codes(self) -> List[Code]:
+        return list(map(lambda x: Code(x), self.dictionary.get("codes")))
     @property
-    def behaviours(self) -> Behaviour:
-        return Behaviour(self.dictionary.get("behaviours"))
+    def behaviours(self) -> List[Behaviour]:
+        return list(map(lambda x: Behaviour(x), self.dictionary.get("behaviours")))
     @property
-    def edges(self) -> KnowledgeEdge:
-        return KnowledgeEdge(self.dictionary.get("edges"))
+    def edges(self) -> List[KnowledgeEdge]:
+        return list(map(lambda x: KnowledgeEdge(x), self.dictionary.get("edges")))

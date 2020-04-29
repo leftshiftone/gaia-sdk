@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.Retrieval import Retrieval
 from gaia_sdk.graphql.response.type.Introspection import Introspection
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

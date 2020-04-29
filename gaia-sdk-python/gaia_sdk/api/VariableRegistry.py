@@ -1,3 +1,5 @@
+from typing import List
+
 class VariableRegistry:
 
     def __init__(self):
@@ -23,6 +25,8 @@ class VariableRegistry:
         return self.datatypes
 
     def toType(self, obj) -> str:
+        if isinstance(obj, list):
+            return "[" + str(self.toType(obj[0])) + "]"
         if (type(obj) is str):
             return "str"
         if (type(obj) is int):
@@ -34,7 +38,10 @@ class VariableRegistry:
         else:
             return type(obj).__name__
 
-    def to_value(self, obj) -> str:
+    def to_value(self, obj):
+        if isinstance(obj, list):
+            return list(map(lambda x: self.to_value(x), obj))
+
         if (type(obj) is str):
             return obj
         if (type(obj) is int):

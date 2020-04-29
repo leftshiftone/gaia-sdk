@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.Intent import Intent
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -24,5 +25,5 @@ class DeletedIntentImpulse:
     the intent instance
     """
     @property
-    def intent(self) -> Intent:
-        return Intent(self.dictionary.get("intent"))
+    def intents(self) -> Intent:
+        return Intent(self.dictionary.get("intents"))

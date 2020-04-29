@@ -14,9 +14,15 @@
     *##set($indent = $indent - 4)##
 #end##
 #macro(renderField $field)#*
+    *##if($field.type.isList())#*
+    *#@property$newLine#*
+    *##tab(4)def $toLowercaseWithUnderscores.apply(${field.name})(self) -> List[$field.type.name()]:$newLine#*
+    *##tab(8)return list(map(lambda x: $field.type.name()(x), self.dictionary.get("$field.name")))#*
+    *##else#*
     *#@property$newLine#*
     *##tab(4)def $toLowercaseWithUnderscores.apply(${field.name})(self) -> $field.type.name():$newLine#*
-    *##tab(8)return $field.type.name()(self.dictionary.get("$field.name"))##
+    *##tab(8)return $field.type.name()(self.dictionary.get("$field.name"))#*
+    *##end##
 #end
 ## **************************
 ## Renders a description text

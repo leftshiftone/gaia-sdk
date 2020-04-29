@@ -20,8 +20,6 @@ export default class VariableRegistry {
     public getDatatypes = () => this.datatypes;
 
     private toType(value:any):string {
-        console.log("Type");
-        console.log(value);
         switch (typeof(value)) {
             case "string": return "String!";
             case "boolean": return "Boolean!";
@@ -36,8 +34,13 @@ export default class VariableRegistry {
             // @ts-ignore
             return obj.name() + "!";
         } catch (e) {
+            if (Array.isArray(obj)) {
+                return "[" + obj[0].constructor.name + "]";
+            }
+
             const fallback =  obj.constructor.name + "!";
             if (fallback === null || fallback === undefined) throw new Error('Could not extract name');
+
             return fallback;
         }
     }

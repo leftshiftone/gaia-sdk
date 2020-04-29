@@ -6,6 +6,7 @@ from gaia_sdk.graphql.response.type.Perception import Perception
 from gaia_sdk.graphql.response.type.Activation import Activation
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

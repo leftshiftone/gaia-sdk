@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.SyncSkillEvaluation import SyncSkillEvaluati
 from gaia_sdk.graphql.response.type.AsyncSkillEvaluation import AsyncSkillEvaluation
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

@@ -2,7 +2,7 @@
 from gaia_sdk.graphql.request.type.BuildInEvaluation import BuildInEvaluation
 from gaia_sdk.graphql.request.type.SkillEvaluation import SkillEvaluation
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

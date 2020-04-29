@@ -1,12 +1,10 @@
 
-from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
-from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
-from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
-from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
-from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
-from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.response.type.DeleteKnowledge import DeleteKnowledge
+from gaia_sdk.graphql.response.type.UpdateKnowledge import UpdateKnowledge
+from gaia_sdk.graphql.response.type.CreateKnowledge import CreateKnowledge
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -23,21 +21,12 @@ class Preservation:
     read/write/delete memory functions in gaia.
     """
     dictionary: dict
-    """
-    creates a list of intents with the given specifications
-    """
     @property
-    def create_intents(self) -> CreatedIntentImpulse:
-        return CreatedIntentImpulse(self.dictionary.get("createIntents"))
-    """
-    updates a list of intents with the given specifications
-    """
+    def create(self) -> CreateKnowledge:
+        return CreateKnowledge(self.dictionary.get("create"))
     @property
-    def update_intents(self) -> UpdatedIntentImpulse:
-        return UpdatedIntentImpulse(self.dictionary.get("updateIntents"))
-    """
-    deletes a list of intents with the given specifications
-    """
+    def update(self) -> UpdateKnowledge:
+        return UpdateKnowledge(self.dictionary.get("update"))
     @property
-    def delete_intents(self) -> DeletedIntentImpulse:
-        return DeletedIntentImpulse(self.dictionary.get("deleteIntents"))
+    def delete(self) -> DeleteKnowledge:
+        return DeleteKnowledge(self.dictionary.get("delete"))

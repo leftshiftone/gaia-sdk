@@ -17,8 +17,8 @@ type Knowledge {
 
 "Container type for static information"
 type KnowledgeEdge {
-    source: Struct
-    target: Struct
+    source: Uuid
+    target: Uuid
     type: String
     weight: Float
 }

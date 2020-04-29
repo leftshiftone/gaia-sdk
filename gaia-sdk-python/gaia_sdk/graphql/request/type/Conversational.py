@@ -6,7 +6,7 @@ from gaia_sdk.graphql.request.input.PerceiveButtonImpulse import PerceiveButtonI
 from gaia_sdk.graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
 from gaia_sdk.graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

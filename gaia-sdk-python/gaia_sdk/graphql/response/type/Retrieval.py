@@ -3,6 +3,7 @@ from gaia_sdk.graphql.response.type.Experience import Experience
 from gaia_sdk.graphql.response.type.Knowledge import Knowledge
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

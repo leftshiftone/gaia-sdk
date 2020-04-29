@@ -2,7 +2,7 @@
 from gaia_sdk.graphql.request.type.StreamingImpulse import StreamingImpulse
 from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
 
-from typing import Callable
+from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 

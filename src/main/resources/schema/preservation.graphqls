@@ -3,22 +3,30 @@ This type contains all preservation sensor impulses which are used to support
 read/write/delete memory functions in gaia.
 """
 type Preservation {
-    # INTENT
-    "creates a list of intents with the given specifications"
-    createIntents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
-    "updates a list of intents with the given specifications"
-    updateIntents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
-    "deletes a list of intents with the given specifications"
-    deleteIntents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+    create: CreateKnowledge
+    update: UpdateKnowledge
+    delete: DeleteKnowledge
 }
 
+type CreateKnowledge {
+    "creates a list of intents with the given specifications"
+    intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
+}
+type UpdateKnowledge {
+    "updates a list of intents with the given specifications"
+    intents(impulse: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
+}
+type DeleteKnowledge {
+    "deletes a list of intents with the given specifications"
+    intents(impulse: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+}
 "The specification to create an intent instance"
 input CreateIntentImpulse {
     identityId: Uuid
     qualifier: String
     appendent: String
     utterance: Struct
-    labellist: Struct
+    labellist: [String]
     version: String
 }
 "The specification to update an intent instance"
@@ -28,41 +36,29 @@ input UpdateIntentImpulse {
     qualifier: String
     appendent: String
     utterance: Struct
-    labellist: Struct
+    labellist: [String]
     version: String
 }
 "The specification to delete an intent instance"
 input DeleteIntentImpulse {
-    identityId: Uuid
-    qualifier: String
-    appendent: String
-    utterance: Struct
-    labellist: Struct
-    version: String
+    identityId: Uuid!
+    reference: Uuid!
 }
-
-"Impulse which indicates the result of a perceive impulse."
-type PerceivedImpulse implements Impulse {
-    id: Uuid!
-}
-
 "Impulse which indicates the resulf of a create intent impulse"
 type CreatedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
     intent: Intent
 }
-
 "Impulse which indicates the resulf of a update intent impulse"
 type UpdatedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intent: Intent
+    intents: Intent
 }
-
 "Impulse which indicates the resulf of a delete intent impulse"
 type DeletedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intent: Intent
+    intents: Intent
 }

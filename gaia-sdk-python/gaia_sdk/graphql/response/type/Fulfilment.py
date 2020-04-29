@@ -1,6 +1,7 @@
 
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str
@@ -50,8 +51,8 @@ class Fulfilment:
     The list of labels of the fulfilment
     """
     @property
-    def labellist(self) -> String:
-        return String(self.dictionary.get("labellist"))
+    def labellist(self) -> List[String]:
+        return list(map(lambda x: String(x), self.dictionary.get("labellist")))
     """
     The version of the fulfilment
     """

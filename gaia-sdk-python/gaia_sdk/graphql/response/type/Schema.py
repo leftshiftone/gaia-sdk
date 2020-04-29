@@ -4,6 +4,7 @@ from gaia_sdk.graphql.response.type.Mutation import Mutation
 from gaia_sdk.graphql.response.type.Subscription import Subscription
 
 from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 Long = str

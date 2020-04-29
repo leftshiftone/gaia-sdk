@@ -21,10 +21,8 @@ class HttpTransporter(ITransporter):
             "X-GAIA-SIGNATURE": options.secret
         }
 
-        self.logger.debug("request header:{} payload:{}", headers, payload)
+        self.logger.debug("request header:%s payload:%r", headers, payload)
         response = requests.post(self.url, json=payload, headers=headers)
-        self.logger.debug("response: {}", response)
-
-        print(payload)
+        self.logger.debug("response: %r", response)
 
         return response.json()
