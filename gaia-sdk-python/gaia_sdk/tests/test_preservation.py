@@ -2,6 +2,8 @@ import logging
 import unittest
 from uuid import uuid4
 
+from pytest import mark
+
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
@@ -11,6 +13,7 @@ from gaia_sdk.graphql.request.type import Behaviour
 logging.basicConfig(level=logging.DEBUG)
 
 
+@mark.skip(reason="enable testing when mock server is ready") #todo: enable
 class TestHMAC(unittest.TestCase):
 
     def test_preserve_create_intent(self):

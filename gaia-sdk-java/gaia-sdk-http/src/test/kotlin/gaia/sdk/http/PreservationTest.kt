@@ -4,10 +4,12 @@ import gaia.sdk.request.input.CreateIntentImpulse
 import gaia.sdk.request.input.DeleteIntentImpulse
 import gaia.sdk.request.input.UpdateIntentImpulse
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import java.util.*
 
+@Disabled("enable testing when mock server is ready") //todo: enable
 class PreservationTest {
 
     @Test

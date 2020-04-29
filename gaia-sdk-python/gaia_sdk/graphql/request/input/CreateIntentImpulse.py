@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class CreateIntentImpulse:
+class CreateIntentImpulse():
     """
     The specification to create an intent instance
     """

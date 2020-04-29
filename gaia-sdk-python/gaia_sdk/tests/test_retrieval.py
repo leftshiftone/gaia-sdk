@@ -1,12 +1,15 @@
 import logging
 import unittest
 
+from pytest import mark
+
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql.request.type import Behaviour
 
 logging.basicConfig(level=logging.DEBUG)
 
 
+@mark.skip(reason="enable testing when mock server is ready") #todo: enable
 class TestHMAC(unittest.TestCase):
 
     def test_retrieve_behaviour(self):

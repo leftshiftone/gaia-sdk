@@ -2,6 +2,8 @@ import unittest
 import logging
 import uuid
 
+from pytest import mark
+
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql import PerceiveDataImpulse
 from concurrent.futures import Future
@@ -14,6 +16,8 @@ logging.basicConfig(level=logging.DEBUG)
 from rx import of
 from rx.testing import TestScheduler, ReactiveTest
 
+
+@mark.skip(reason="enable testing when mock server is ready") #todo: enable
 class TestHMAC(unittest.TestCase):
 
     def test_perceive_data(self):
