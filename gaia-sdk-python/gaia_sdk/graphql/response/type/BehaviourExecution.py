@@ -4,8 +4,7 @@ from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
-Long = str
-Timestamp = str
+ISO8601 = str
 Struct = dict
 Float = float
 from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
@@ -21,11 +20,11 @@ class BehaviourExecution:
     def state(self) -> String:
         return String(self.dictionary.get("state"))
     @property
-    def timestamp(self) -> Long:
-        return Long(self.dictionary.get("timestamp"))
+    def timestamp(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("timestamp"))
     @property
-    def duration(self) -> Long:
-        return Long(self.dictionary.get("duration"))
+    def duration(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("duration"))
     @property
     def start_event_type(self) -> String:
         return String(self.dictionary.get("startEventType"))

@@ -28,8 +28,6 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(8)val body = HashMap${lt}String, Any${gt}()
 #tab(8)body["statement"] = statement
 #tab(8)body["variables"] = variables
-##tab(8)body["timestamp"] = System.currentTimeMillis()
-##tab(8)body["nonce"] = java.lang.Long.toString(nonce.getAndIncrement())
 
 #tab(8)if (log.isDebugEnabled) {
 #tab(12)log.debug("Statement: #print("$")statement")

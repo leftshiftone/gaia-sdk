@@ -5,8 +5,7 @@ from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
-Long = str
-Timestamp = str
+ISO8601 = str
 Struct = dict
 Float = float
 from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
@@ -28,8 +27,8 @@ class Introspection:
     def state(self) -> RuntimeState:
         return RuntimeState(self.dictionary.get("state"))
     @property
-    def started(self) -> Timestamp:
-        return Timestamp(self.dictionary.get("started"))
+    def started(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("started"))
     @property
     def skills(self) -> List[SkillIntrospection]:
         return list(map(lambda x: SkillIntrospection(x), self.dictionary.get("skills")))

@@ -1,8 +1,7 @@
 package gaia.sdk.response.type
 
 import gaia.sdk.Uuid
-import gaia.sdk.Timestamp
-import gaia.sdk.Long
+import gaia.sdk.ISO8601
 import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -14,6 +13,6 @@ data class Introspection @JsonCreator constructor(
     @JsonProperty("gpu") val gpu:String?, 
     @JsonProperty("memory") val memory:String?, 
     @JsonProperty("state") val state:RuntimeState?, 
-    @JsonProperty("started") val started:Timestamp?, 
+    @JsonProperty("started") val started:ISO8601?, 
     @JsonProperty("skills") val skills:List<SkillIntrospection>?
 )

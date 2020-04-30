@@ -63,6 +63,5 @@ export class GaiaClient {
 }
 
 export type Struct = Record<string, any>
-export type Long = String
-export type Timestamp = String
-export type Uuid = String
+export type ISO8601 = string
+export type Uuid = string

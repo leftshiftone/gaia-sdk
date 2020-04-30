@@ -3,7 +3,7 @@ import {BehaviourExecution} from "./BehaviourExecution";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 

@@ -11,8 +11,7 @@ from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
-Long = str
-Timestamp = str
+ISO8601 = str
 Struct = dict
 Float = float
 from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState

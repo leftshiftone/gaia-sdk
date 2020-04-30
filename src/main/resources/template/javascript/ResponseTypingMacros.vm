@@ -13,7 +13,12 @@
     *##tab($indent)}##
 #end##
 #macro(renderField $field)#*
-    *#$field.name?:#if($field.type.isList())#print("[")#end$field.type.name()#if($field.type.isList())#print("]")#end##
+    *#$field.name?:#if($field.type.isList())#print("[")#end$#*
+    *##if($field.type.name().equals("String"))string#*
+    *##elseif($field.type.name().equals("Float"))number#*
+    *##else#**#$field.type.name()#*
+    *##end#*
+    *##if($field.type.isList())#print("]")#end##
 #end
 ## **************************
 ## Renders a description text

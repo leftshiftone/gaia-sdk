@@ -6,8 +6,7 @@ type Schema {
 
 scalar Uuid
 scalar Struct
-scalar Long
-scalar Timestamp
+scalar ISO8601
 
 "Each message returned from GAIA implements this interface"
 interface Impulse {

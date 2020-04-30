@@ -2,7 +2,7 @@
 import {SyncSkillEvaluation} from "./SyncSkillEvaluation";
 import {AsyncSkillEvaluation} from "./AsyncSkillEvaluation";
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 

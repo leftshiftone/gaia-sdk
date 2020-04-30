@@ -6,7 +6,7 @@ import {PerceiveButtonImpulse} from "../../request/input/PerceiveButtonImpulse";
 import {PerceiveUtteranceImpulse} from "../../request/input/PerceiveUtteranceImpulse";
 import {PerceiveSubmitImpulse} from "../../request/input/PerceiveSubmitImpulse";
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 

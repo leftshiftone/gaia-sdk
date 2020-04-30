@@ -1,6 +1,6 @@
 
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -19,11 +19,11 @@ export interface Fulfilment {
     /**
     * The name of the fulfilment
     */
-    qualifier?:String, 
+    qualifier?:string, 
     /**
     * Detailed description about the fulfilment
     */
-    appendent?:String, 
+    appendent?:string, 
     /**
     * The utterance dictionary. The key is a language key and the value is a list of utterances
     */
@@ -31,9 +31,9 @@ export interface Fulfilment {
     /**
     * The list of labels of the fulfilment
     */
-    labellist?:[String], 
+    labellist?:[string], 
     /**
     * The version of the fulfilment
     */
-    version?:String
+    version?:string
 }

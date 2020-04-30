@@ -4,8 +4,7 @@ from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
-Long = str
-Timestamp = str
+ISO8601 = str
 Struct = dict
 Float = float
 from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
@@ -39,8 +38,8 @@ class BehaviourNodeExecution:
     def transitions(self) -> Struct:
         return Struct(self.dictionary.get("transitions"))
     @property
-    def timestamp(self) -> Long:
-        return Long(self.dictionary.get("timestamp"))
+    def timestamp(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("timestamp"))
     @property
     def parent_process_id(self) -> Uuid:
         return Uuid(self.dictionary.get("parentProcessId"))

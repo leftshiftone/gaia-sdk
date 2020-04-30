@@ -117,8 +117,8 @@ type Behaviour {
 type BehaviourExecution {
     processInstanceId: Uuid
     state: String
-    timestamp: Long
-    duration: Long
+    timestamp: ISO8601
+    duration: ISO8601
     startEventType: String
     startEventId: Uuid
     initAttributes: Struct
@@ -134,6 +134,6 @@ type BehaviourNodeExecution {
     processId: Uuid
     type: String
     transitions: Struct
-    timestamp: Long
+    timestamp: ISO8601
     parentProcessId: Uuid
 }

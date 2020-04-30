@@ -39,12 +39,12 @@ import {
     UpdatedIntentImpulse,
     UpdateIntentImpulse
 } from "../graphql";
-import {GaiaRequest} from "../graphql/GaiaRequest";
+import {GaiaRequest} from "..";
 import {ISensorFunction} from "../api/ISensorFunction";
 import {from, Observable, of, throwError} from "rxjs";
 import {flatMap, map} from "rxjs/operators"
 import {Retrieval as RetrievalOut} from "../graphql/response/type/Retrieval";
-import {MutationResponse, QueryResponse} from "../graphql/GaiaResponse";
+import {MutationResponse, QueryResponse} from "..";
 import {Query} from "../graphql/response/type/Query";
 import {Mutation} from "../graphql/response/type/Mutation";
 

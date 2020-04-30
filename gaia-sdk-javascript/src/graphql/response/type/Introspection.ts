@@ -1,15 +1,15 @@
 
 import {SkillIntrospection} from "./SkillIntrospection";
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface Introspection {
-    cpu?:String, 
-    gpu?:String, 
-    memory?:String, 
+    cpu?:string, 
+    gpu?:string, 
+    memory?:string, 
     state?:RuntimeState, 
-    started?:Timestamp, 
+    started?:ISO8601, 
     skills?:[SkillIntrospection]
 }

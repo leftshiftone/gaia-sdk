@@ -1,6 +1,6 @@
 
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -19,11 +19,11 @@ export interface Intent {
     /**
     * The name of the intent
     */
-    qualifier?:String, 
+    qualifier?:string, 
     /**
     * Detailed description about the intent
     */
-    appendent?:String, 
+    appendent?:string, 
     /**
     * The utterance dictionary. The key is a language key and the value is a list of utterances
     */
@@ -31,9 +31,9 @@ export interface Intent {
     /**
     * The list of labels of the intent
     */
-    labellist?:[String], 
+    labellist?:[string], 
     /**
     * The version of the intent
     */
-    version?:String
+    version?:string
 }

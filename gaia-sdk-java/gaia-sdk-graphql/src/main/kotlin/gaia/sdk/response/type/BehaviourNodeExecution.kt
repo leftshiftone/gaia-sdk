@@ -1,8 +1,7 @@
 package gaia.sdk.response.type
 
 import gaia.sdk.Uuid
-import gaia.sdk.Timestamp
-import gaia.sdk.Long
+import gaia.sdk.ISO8601
 import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -18,6 +17,6 @@ data class BehaviourNodeExecution @JsonCreator constructor(
     @JsonProperty("processId") val processId:Uuid?, 
     @JsonProperty("type") val type:String?, 
     @JsonProperty("transitions") val transitions:Struct?, 
-    @JsonProperty("timestamp") val timestamp:Long?, 
+    @JsonProperty("timestamp") val timestamp:ISO8601?, 
     @JsonProperty("parentProcessId") val parentProcessId:Uuid?
 )

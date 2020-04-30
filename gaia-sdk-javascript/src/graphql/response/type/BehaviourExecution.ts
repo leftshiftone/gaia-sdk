@@ -1,15 +1,15 @@
 
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface BehaviourExecution {
     processInstanceId?:Uuid, 
-    state?:String, 
-    timestamp?:Long, 
-    duration?:Long, 
-    startEventType?:String, 
+    state?:string, 
+    timestamp?:ISO8601, 
+    duration?:ISO8601, 
+    startEventType?:string, 
     startEventId?:Uuid, 
     initAttributes?:Struct, 
     processId?:Uuid, 

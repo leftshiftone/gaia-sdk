@@ -1,8 +1,7 @@
 package gaia.sdk.response.intf
 
 import gaia.sdk.Uuid
-import gaia.sdk.Timestamp
-import gaia.sdk.Long
+import gaia.sdk.ISO8601
 import gaia.sdk.Struct
 import gaia.sdk.response.intf.*
 import com.fasterxml.jackson.annotation.JsonProperty

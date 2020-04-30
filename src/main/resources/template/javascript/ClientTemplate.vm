@@ -63,9 +63,8 @@ export class #capitalize($name)Client {
 }
 
 export type Struct = Record<string, any>
-export type Long = String
-export type Timestamp = String
-export type Uuid = String
+export type ISO8601 = string
+export type Uuid = string
 #macro(capitalize $str)#*
     *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
 #end

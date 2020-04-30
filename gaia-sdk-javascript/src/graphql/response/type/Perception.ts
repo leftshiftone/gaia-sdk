@@ -4,7 +4,7 @@ import {PerceivedImpulse} from "./PerceivedImpulse";
 import {PerceiveDataImpulse} from "../../request/input/PerceiveDataImpulse";
 import {PerceiveActionImpulse} from "../../request/input/PerceiveActionImpulse";
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 

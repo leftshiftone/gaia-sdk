@@ -3,13 +3,13 @@ type Introspection {
     gpu: String
     memory: String
     state: RuntimeState
-    started: Timestamp
+    started: ISO8601
     skills: [SkillIntrospection]
 }
 type SkillIntrospection {
     name: String
     state: SkillState
-    started: Timestamp
+    started: ISO8601
 }
 
 enum SkillState {

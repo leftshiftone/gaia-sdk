@@ -1,6 +1,6 @@
 
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -19,11 +19,11 @@ export interface Statement {
     /**
     * The name of the statement
     */
-    qualifier?:String, 
+    qualifier?:string, 
     /**
     * Detailed description about the statement
     */
-    appendent?:String, 
+    appendent?:string, 
     /**
     * The utterance dictionary. The key is a language key and the value is a list of utterances
     */
@@ -31,9 +31,9 @@ export interface Statement {
     /**
     * The list of labels of the statement
     */
-    labellist?:[String], 
+    labellist?:[string], 
     /**
     * The version of the statement
     */
-    version?:String
+    version?:string
 }
