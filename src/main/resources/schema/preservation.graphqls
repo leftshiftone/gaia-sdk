@@ -11,14 +11,44 @@ type Preservation {
 type CreateKnowledge {
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
+    "creates a list of prompts with the given specifications"
+    prompts(impulses: [CreatePromptImpulse]): [CreatedPromptImpulse]
+    "creates a list of statements with the given specifications"
+    statements(impulses: [CreateStatementImpulse]): [CreatedStatementImpulse]
+    "creates a list of fulfilments with the given specifications"
+    fulfilments(impulses: [CreateFulfilmentImpulse]): [CreatedFulfilmentImpulse]
+    "creates a list of behaviours with the given specifications"
+    behaviours(impulses: [CreateBehaviourImpulse]): [CreatedBehaviourImpulse]
+    "creates a list of codes with the given specifications"
+    codes(impulses: [CreateCodeImpulse]): [CreatedCodeImpulse]
 }
 type UpdateKnowledge {
     "updates a list of intents with the given specifications"
     intents(impulse: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
+    "updates a list of prompts with the given specifications"
+    prompts(impulse: [UpdatePromptImpulse]): [UpdatedPromptImpulse]
+    "updates a list of statements with the given specifications"
+    statements(impulse: [UpdateStatementImpulse]): [UpdatedStatementImpulse]
+    "updates a list of fulfilments with the given specifications"
+    fulfilments(impulse: [UpdateFulfilmentImpulse]): [UpdatedFulfilmentImpulse]
+    "updates a list of behaviours with the given specifications"
+    behaviours(impulse: [UpdateBehaviourImpulse]): [UpdatedBehaviourImpulse]
+    "updates a list of codes with the given specifications"
+    codes(impulse: [UpdateCodeImpulse]): [UpdatedCodeImpulse]
 }
 type DeleteKnowledge {
     "deletes a list of intents with the given specifications"
     intents(impulse: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+    "deletes a list of prompts with the given specifications"
+    prompts(impulse: [DeletePromptImpulse]): [DeletedPromptImpulse]
+    "deletes a list of statements with the given specifications"
+    statements(impulse: [DeleteStatementImpulse]): [DeletedStatementImpulse]
+    "deletes a list of fulfilments with the given specifications"
+    fulfilments(impulse: [DeleteFulfilmentImpulse]): [DeletedFulfilmentImpulse]
+    "deletes a list of behaviours with the given specifications"
+    behaviours(impulse: [DeleteBehaviourImpulse]): [DeletedBehaviourImpulse]
+    "deletes a list of codes with the given specifications"
+    codes(impulse: [DeleteCodeImpulse]): [DeletedCodeImpulse]
 }
 "The specification to create an intent instance"
 input CreateIntentImpulse {
@@ -54,11 +84,223 @@ type CreatedIntentImpulse implements Impulse {
 type UpdatedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intents: Intent
+    intent: Intent
 }
 "Impulse which indicates the resulf of a delete intent impulse"
 type DeletedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intents: Intent
+    intent: Intent
+}
+
+"The specification to create a prompt instance"
+input CreatePromptImpulse {
+    identityId: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to update a prompt instance"
+input UpdatePromptImpulse {
+    identityId: Uuid
+    reference: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to delete a prompt instance"
+input DeletePromptImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the resulf of a create prompt impulse"
+type CreatedPromptImpulse implements Impulse {
+    id: Uuid!
+    "the prompt instance"
+    prompt: Prompt
+}
+"Impulse which indicates the resulf of a update prompt impulse"
+type UpdatedPromptImpulse implements Impulse {
+    id: Uuid!
+    "the prompt instance"
+    prompt: Prompt
+}
+"Impulse which indicates the resulf of a delete prompt impulse"
+type DeletedPromptImpulse implements Impulse {
+    id: Uuid!
+    "the prompt instance"
+    prompt: Intent
+}
+
+"The specification to create a statement instance"
+input CreateStatementImpulse {
+    identityId: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to update a statement instance"
+input UpdateStatementImpulse {
+    identityId: Uuid
+    reference: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to delete a statement instance"
+input DeleteStatementImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the resulf of a create statement impulse"
+type CreatedStatementImpulse implements Impulse {
+    id: Uuid!
+    "the statement instance"
+    statement: Statement
+}
+"Impulse which indicates the resulf of a update statement impulse"
+type UpdatedStatementImpulse implements Impulse {
+    id: Uuid!
+    "the statement instance"
+    statement: Statement
+}
+"Impulse which indicates the resulf of a delete statement impulse"
+type DeletedStatementImpulse implements Impulse {
+    id: Uuid!
+    "the statement instance"
+    statement: Intent
+}
+"The specification to create a fulfilment instance"
+input CreateFulfilmentImpulse {
+    identityId: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to update a fulfilment instance"
+input UpdateFulfilmentImpulse {
+    identityId: Uuid
+    reference: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to delete a fulfilment instance"
+input DeleteFulfilmentImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the resulf of a create fulfilment impulse"
+type CreatedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    "the fulfilment instance"
+    fulfilment: Fulfilment
+}
+"Impulse which indicates the resulf of a update fulfilment impulse"
+type UpdatedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    "the fulfilment instance"
+    fulfilment: Fulfilment
+}
+"Impulse which indicates the resulf of a delete fulfilment impulse"
+type DeletedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    "the fulfilment instance"
+    fulfilment: Intent
+}
+"The specification to create a behaviour instance"
+input CreateBehaviourImpulse {
+    identityId: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to update a behaviour instance"
+input UpdateBehaviourImpulse {
+    identityId: Uuid
+    reference: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to delete a behaviour instance"
+input DeleteBehaviourImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the resulf of a create behaviour impulse"
+type CreatedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    "the behaviour instance"
+    behaviour: Behaviour
+}
+"Impulse which indicates the resulf of a update behaviour impulse"
+type UpdatedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    "the behaviour instance"
+    behaviour: Behaviour
+}
+"Impulse which indicates the resulf of a delete behaviour impulse"
+type DeletedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    "the behaviour instance"
+    behaviour: Intent
+}
+"The specification to create a code instance"
+input CreateCodeImpulse {
+    identityId: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to update a code instance"
+input UpdateCodeImpulse {
+    identityId: Uuid
+    reference: Uuid
+    qualifier: String
+    appendent: String
+    utterance: Struct
+    labellist: [String]
+    version: String
+}
+"The specification to delete a code instance"
+input DeleteCodeImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the resulf of a create code impulse"
+type CreatedCodeImpulse implements Impulse {
+    id: Uuid!
+    "the code instance"
+    code: Code
+}
+"Impulse which indicates the resulf of a update code impulse"
+type UpdatedCodeImpulse implements Impulse {
+    id: Uuid!
+    "the code instance"
+    code: Code
+}
+"Impulse which indicates the resulf of a delete code impulse"
+type DeletedCodeImpulse implements Impulse {
+    id: Uuid!
+    "the code instance"
+    code: Intent
 }

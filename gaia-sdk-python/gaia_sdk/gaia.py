@@ -11,7 +11,14 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     ExperienceRes, KnowledgeEdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
     PerceiveDataImpulse, PerceiveActionImpulse, DeleteIntentImpulse, \
-    UpdateIntentImpulse, CreateIntentImpulse
+    UpdateIntentImpulse, CreateIntentImpulse, \
+    CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
+    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
+    CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
+    UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
+    DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
+    CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 
 
@@ -82,6 +89,51 @@ class GaiaRef(ISensorFunction):
 
     def preserve_delete_intents(self, impulses: List[DeleteIntentImpulse]) -> Observable[DeletedIntentImpulse]:
         return self.f_proc.preserve_delete_intents(impulses)
+
+    def preserve_create_prompts(self, impulses: List[CreatePromptImpulse]) -> Observable[CreatedPromptImpulse]:
+        return self.f_proc.preserve_create_prompts(impulses)
+
+    def preserve_update_prompts(self, impulses: List[UpdatePromptImpulse]) -> Observable[UpdatedPromptImpulse]:
+        return self.f_proc.preserve_update_prompts(impulses)
+
+    def preserve_delete_prompts(self, impulses: List[DeletePromptImpulse]) -> Observable[DeletedPromptImpulse]:
+        return self.f_proc.preserve_delete_prompts(impulses)
+
+    def preserve_create_statements(self, impulses: List[CreateStatementImpulse]) -> Observable[CreatedStatementImpulse]:
+        return self.f_proc.preserve_create_statements(impulses)
+
+    def preserve_update_statements(self, impulses: List[UpdateStatementImpulse]) -> Observable[UpdatedStatementImpulse]:
+        return self.f_proc.preserve_update_statements(impulses)
+
+    def preserve_delete_statements(self, impulses: List[DeleteStatementImpulse]) -> Observable[DeletedStatementImpulse]:
+        return self.f_proc.preserve_delete_statements(impulses)
+
+    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[CreatedFulfilmentImpulse]:
+        return self.f_proc.preserve_create_fulfilments(impulses)
+
+    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[UpdatedFulfilmentImpulse]:
+        return self.f_proc.preserve_update_fulfilments(impulses)
+
+    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[DeletedFulfilmentImpulse]:
+        return self.f_proc.preserve_delete_fulfilments(impulses)
+
+    def preserve_create_behaviours(self, impulses: List[CreateBehaviourImpulse]) -> Observable[CreatedBehaviourImpulse]:
+        return self.f_proc.preserve_create_behaviours(impulses)
+
+    def preserve_update_behaviours(self, impulses: List[UpdateBehaviourImpulse]) -> Observable[UpdatedBehaviourImpulse]:
+        return self.f_proc.preserve_update_behaviours(impulses)
+
+    def preserve_delete_behaviours(self, impulses: List[DeleteBehaviourImpulse]) -> Observable[DeletedBehaviourImpulse]:
+        return self.f_proc.preserve_delete_behaviours(impulses)
+
+    def preserve_create_codes(self, impulses: List[CreateCodeImpulse]) -> Observable[CreatedCodeImpulse]:
+        return self.f_proc.preserve_create_codes(impulses)
+
+    def preserve_update_codes(self, impulses: List[UpdateCodeImpulse]) -> Observable[UpdatedCodeImpulse]:
+        return self.f_proc.preserve_update_codes(impulses)
+
+    def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
+        return self.f_proc.preserve_delete_codes(impulses)
 
     def perceive(self, config: Callable[[PerceptionReq], None]) -> Observable[PerceptionRes]:
         return self.f_proc.perceive(config)

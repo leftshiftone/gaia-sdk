@@ -6,6 +6,8 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.KnowledgeEdge
 import gaia.sdk.request.type.Retrieval
+import gaia.sdk.response.type.*
+import org.reactivestreams.Publisher
 
 class Gaia {
     companion object {
@@ -21,7 +23,6 @@ class GaiaConfig(val url: String,
                  val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret))
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
-
     private val fProc: ISensorFunction = config.functionProcessor
 
     override fun retrieve(config: Retrieval.() -> Unit) = fProc.retrieve(config)
@@ -40,6 +41,21 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) = fProc.preserveCreateIntents(*impulses)
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) = fProc.preserveUpdateIntents(*impulses)
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) = fProc.preserveDeleteIntents(*impulses)
+    override fun preserveCreatePrompts(vararg impulses: CreatePromptImpulse) = fProc.preserveCreatePrompts(*impulses)
+    override fun preserveUpdatePrompts(vararg impulses: UpdatePromptImpulse) = fProc.preserveUpdatePrompts(*impulses)
+    override fun preserveDeletePrompts(vararg impulses: DeletePromptImpulse) = fProc.preserveDeletePrompts(*impulses)
+    override fun preserveCreateStatements(vararg impulses: CreateStatementImpulse) = fProc.preserveCreateStatements(*impulses)
+    override fun preserveUpdateStatements(vararg impulses: UpdateStatementImpulse) = fProc.preserveUpdateStatements(*impulses)
+    override fun preserveDeleteStatements(vararg impulses: DeleteStatementImpulse) = fProc.preserveDeleteStatements(*impulses)
+    override fun preserveCreateFulfilments(vararg impulses: CreateFulfilmentImpulse) = fProc.preserveCreateFulfilments(*impulses)
+    override fun preserveUpdateFulfilments(vararg impulses: UpdateFulfilmentImpulse) = fProc.preserveUpdateFulfilments(*impulses)
+    override fun preserveDeleteFulfilments(vararg impulses: DeleteFulfilmentImpulse) = fProc.preserveDeleteFulfilments(*impulses)
+    override fun preserveCreateBehaviours(vararg impulses: CreateBehaviourImpulse) = fProc.preserveCreateBehaviours(*impulses)
+    override fun preserveUpdateBehaviours(vararg impulses: UpdateBehaviourImpulse) = fProc.preserveUpdateBehaviours(*impulses)
+    override fun preserveDeleteBehaviours(vararg impulses: DeleteBehaviourImpulse) = fProc.preserveDeleteBehaviours(*impulses)
+    override fun preserveCreateCodes(vararg impulses: CreateCodeImpulse) = fProc.preserveCreateCodes(*impulses)
+    override fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse) = fProc.preserveUpdateCodes(*impulses)
+    override fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse) = fProc.preserveDeleteCodes(*impulses)
     override fun perceive(config: gaia.sdk.request.type.Perception.() -> Unit) = fProc.perceive(config)
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)

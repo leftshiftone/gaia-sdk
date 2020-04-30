@@ -13,5 +13,5 @@ export interface UpdatedIntentImpulse {
     /**
     * the intent instance
     */
-    intents?:Intent
+    intent?:Intent
 }

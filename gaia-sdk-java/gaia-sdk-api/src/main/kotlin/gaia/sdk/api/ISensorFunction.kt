@@ -21,6 +21,21 @@ interface ISensorFunction {
     fun preserveCreateIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
     fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse): Publisher<gaia.sdk.response.type.UpdatedIntentImpulse>
     fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse): Publisher<gaia.sdk.response.type.DeletedIntentImpulse>
+    fun preserveCreatePrompts(vararg impulses: CreatePromptImpulse): Publisher<gaia.sdk.response.type.CreatedPromptImpulse>
+    fun preserveUpdatePrompts(vararg impulses: UpdatePromptImpulse): Publisher<gaia.sdk.response.type.UpdatedPromptImpulse>
+    fun preserveDeletePrompts(vararg impulses: DeletePromptImpulse): Publisher<gaia.sdk.response.type.DeletedPromptImpulse>
+    fun preserveCreateStatements(vararg impulses: CreateStatementImpulse): Publisher<gaia.sdk.response.type.CreatedStatementImpulse>
+    fun preserveUpdateStatements(vararg impulses: UpdateStatementImpulse): Publisher<gaia.sdk.response.type.UpdatedStatementImpulse>
+    fun preserveDeleteStatements(vararg impulses: DeleteStatementImpulse): Publisher<gaia.sdk.response.type.DeletedStatementImpulse>
+    fun preserveCreateFulfilments(vararg impulses: CreateFulfilmentImpulse): Publisher<gaia.sdk.response.type.CreatedFulfilmentImpulse>
+    fun preserveUpdateFulfilments(vararg impulses: UpdateFulfilmentImpulse): Publisher<gaia.sdk.response.type.UpdatedFulfilmentImpulse>
+    fun preserveDeleteFulfilments(vararg impulses: DeleteFulfilmentImpulse): Publisher<gaia.sdk.response.type.DeletedFulfilmentImpulse>
+    fun preserveCreateBehaviours(vararg impulses: CreateBehaviourImpulse): Publisher<gaia.sdk.response.type.CreatedBehaviourImpulse>
+    fun preserveUpdateBehaviours(vararg impulses: UpdateBehaviourImpulse): Publisher<gaia.sdk.response.type.UpdatedBehaviourImpulse>
+    fun preserveDeleteBehaviours(vararg impulses: DeleteBehaviourImpulse): Publisher<gaia.sdk.response.type.DeletedBehaviourImpulse>
+    fun preserveCreateCodes(vararg impulses: CreateCodeImpulse): Publisher<gaia.sdk.response.type.CreatedCodeImpulse>
+    fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse): Publisher<gaia.sdk.response.type.UpdatedCodeImpulse>
+    fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse): Publisher<gaia.sdk.response.type.DeletedCodeImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>

@@ -2,14 +2,13 @@ package gaia.sdk.http
 
 import gaia.sdk.GaiaClientBuilder
 import gaia.sdk.GaiaRequest
-import gaia.sdk.GaiaResponse
 import gaia.sdk.api.ISensorFunction
+import gaia.sdk.api.extension.flatMap
+import gaia.sdk.api.extension.flatMapM
+import gaia.sdk.api.extension.map
+import gaia.sdk.api.extension.mapM
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
-import gaia.sdk.response.type.Mutation
-import gaia.sdk.response.type.Query
-import org.reactivestreams.Publisher
-import reactor.core.publisher.Flux
 import reactor.netty.http.client.HttpClient
 
 class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISensorFunction {
@@ -69,8 +68,84 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
             }
 
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { intents (impulses) { id() } } }})) {
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { intents(impulses) { id() } } } })) {
                 it.preserve?.delete?.intents!!
+            }
+
+    override fun preserveCreatePrompts(vararg impulses: CreatePromptImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { prompts(impulses) { id() } } } })) {
+                it.preserve?.create?.prompts!!
+            }
+
+    override fun preserveUpdatePrompts(vararg impulses: UpdatePromptImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { prompts(impulses) { id() } } } })) {
+                it.preserve?.update?.prompts!!
+            }
+
+    override fun preserveDeletePrompts(vararg impulses: DeletePromptImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { prompts(impulses) { id() } } } })) {
+                it.preserve?.delete?.prompts!!
+            }
+
+
+    override fun preserveCreateStatements(vararg impulses: CreateStatementImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { statements(impulses) { id() } } } })) {
+                it.preserve?.create?.statements!!
+            }
+
+    override fun preserveUpdateStatements(vararg impulses: UpdateStatementImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { statements(impulses) { id() } } } })) {
+                it.preserve?.update?.statements!!
+            }
+
+    override fun preserveDeleteStatements(vararg impulses: DeleteStatementImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { statements(impulses) { id() } } } })) {
+                it.preserve?.delete?.statements!!
+            }
+
+    override fun preserveCreateFulfilments(vararg impulses: CreateFulfilmentImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { fulfilments(impulses) { id() } } } })) {
+                it.preserve?.create?.fulfilments!!
+            }
+
+    override fun preserveUpdateFulfilments(vararg impulses: UpdateFulfilmentImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { fulfilments(impulses) { id() } } } })) {
+                it.preserve?.update?.fulfilments!!
+            }
+
+    override fun preserveDeleteFulfilments(vararg impulses: DeleteFulfilmentImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { fulfilments(impulses) { id() } } } })) {
+                it.preserve?.delete?.fulfilments!!
+            }
+
+    override fun preserveCreateBehaviours(vararg impulses: CreateBehaviourImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { behaviours(impulses) { id() } } } })) {
+                it.preserve?.create?.behaviours!!
+            }
+
+    override fun preserveUpdateBehaviours(vararg impulses: UpdateBehaviourImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { behaviours(impulses) { id() } } } })) {
+                it.preserve?.update?.behaviours!!
+            }
+
+    override fun preserveDeleteBehaviours(vararg impulses: DeleteBehaviourImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { behaviours(impulses) { id() } } } })) {
+                it.preserve?.delete?.behaviours!!
+            }
+
+    override fun preserveCreateCodes(vararg impulses: CreateCodeImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { codes(impulses) { id() } } } })) {
+                it.preserve?.create?.codes!!
+            }
+
+    override fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { codes(impulses) { id() } } } })) {
+                it.preserve?.update?.codes!!
+            }
+
+    override fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { codes(impulses) { id() } } } })) {
+                it.preserve?.delete?.codes!!
             }
 
     override fun perceive(config: Perception.() -> Unit) =
@@ -85,51 +160,5 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
             mapM(client.mutation(GaiaRequest.mutation { perceive { perceiveData(impulse) { id() } } })) {
                 it.perceive?.perceiveData!!
             }
-
-    private fun <T> map(publisher: Publisher<GaiaResponse.QueryResponse>, mapper: (Query) -> T): Publisher<T> {
-        return Flux.from(publisher)
-                .flatMap {
-                    if ((it.errors ?: emptyList<Error>()).isNotEmpty()) {
-                        val error = it.errors?.first()
-                        return@flatMap Flux.error<T>(RuntimeException(error?.message))
-                    }
-                    return@flatMap Flux.just(mapper(it.data!!))
-                }
-    }
-
-    private fun <T> mapM(publisher: Publisher<GaiaResponse.MutationResponse>, mapper: (Mutation) -> T): Publisher<T> {
-        return Flux.from(publisher)
-                .flatMap {
-                    if ((it.errors ?: emptyList<Error>()).isNotEmpty()) {
-                        val error = it.errors?.first()
-                        return@flatMap Flux.error<T>(RuntimeException(error?.message))
-                    }
-                    return@flatMap Flux.just(mapper(it.data!!))
-                }
-    }
-
-    private fun <T> flatMap(publisher: Publisher<GaiaResponse.QueryResponse>, mapper: (Query) -> List<T>): Publisher<T> {
-        return Flux.from(publisher)
-                .flatMap {
-                    if ((it.errors ?: emptyList<Error>()).isNotEmpty()) {
-                        val error = it.errors?.first()
-                        Flux.error<T>(RuntimeException(error?.message))
-                    } else {
-                        Flux.fromIterable(mapper(it.data!!))
-                    }
-                }
-    }
-
-    private fun <T> flatMapM(publisher: Publisher<GaiaResponse.MutationResponse>, mapper: (Mutation) -> List<T>): Publisher<T> {
-        return Flux.from(publisher)
-                .flatMap {
-                    if ((it.errors ?: emptyList<Error>()).isNotEmpty()) {
-                        val error = it.errors?.first()
-                        Flux.error<T>(RuntimeException(error?.message))
-                    } else {
-                        Flux.fromIterable(mapper(it.data!!))
-                    }
-                }
-    }
 
 }

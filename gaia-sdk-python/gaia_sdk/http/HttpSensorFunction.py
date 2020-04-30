@@ -11,7 +11,14 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     ExperienceRes, KnowledgeEdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
     MutationReq, MutationRes, PerceiveDataImpulse, PerceiveActionImpulse, DeleteIntentImpulse, \
-    UpdateIntentImpulse, CreateIntentImpulse
+    UpdateIntentImpulse, CreateIntentImpulse, CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, \
+    CreatedPromptImpulse, UpdatedPromptImpulse, \
+    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
+    CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
+    UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
+    DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
+    CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
 from gaia_sdk.graphql.GaiaClient import GaiaClient
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 from gaia_sdk.http.HttpTransporter import HttpTransporter
@@ -154,6 +161,141 @@ class HttpSensorFunction(ISensorFunction):
         delete_intents: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.intents(impulses, intent_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_intents)
         mutation_res: Callable[[MutationRes], DeletedIntentImpulse] = lambda x: x.preserve.delete.intents
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_create_prompts(self, impulses: List[CreatePromptImpulse]) -> Observable[CreatedPromptImpulse]:
+        prompt_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.prompts(impulses, prompt_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedPromptImpulse] = lambda x: x.preserve.create.prompts
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_prompts(self, impulses: List[UpdatePromptImpulse]) -> Observable[UpdatedPromptImpulse]:
+        prompt_req = lambda x: x.id()
+        update_prompts: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.prompts(impulses, prompt_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_prompts)
+        mutation_res: Callable[[MutationRes], UpdatedPromptImpulse] = lambda x: x.preserve.update.prompts
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_prompts(self, impulses: List[DeletePromptImpulse]) -> Observable[DeletedPromptImpulse]:
+        prompt_req = lambda x: x.id()
+        delete_prompts: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.prompts(impulses, prompt_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_prompts)
+        mutation_res: Callable[[MutationRes], DeletedPromptImpulse] = lambda x: x.preserve.delete.prompts
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_create_statements(self, impulses: List[CreateStatementImpulse]) -> Observable[CreatedStatementImpulse]:
+        statement_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.statements(impulses, statement_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedStatementImpulse] = lambda x: x.preserve.create.statements
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_statements(self, impulses: List[UpdateStatementImpulse]) -> Observable[UpdatedStatementImpulse]:
+        statement_req = lambda x: x.id()
+        update_statements: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.statements(impulses, statement_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_statements)
+        mutation_res: Callable[[MutationRes], UpdatedStatementImpulse] = lambda x: x.preserve.update.statements
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_statements(self, impulses: List[DeleteStatementImpulse]) -> Observable[DeletedStatementImpulse]:
+        statement_req = lambda x: x.id()
+        delete_statements: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.statements(impulses, statement_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_statements)
+        mutation_res: Callable[[MutationRes], DeletedStatementImpulse] = lambda x: x.preserve.delete.statements
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[CreatedFulfilmentImpulse]:
+        fulfilment_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.fulfilments(impulses, fulfilment_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedFulfilmentImpulse] = lambda x: x.preserve.create.fulfilments
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[UpdatedFulfilmentImpulse]:
+        fulfilment_req = lambda x: x.id()
+        update_fulfilments: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.fulfilments(impulses, fulfilment_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_fulfilments)
+        mutation_res: Callable[[MutationRes], UpdatedFulfilmentImpulse] = lambda x: x.preserve.update.fulfilments
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[DeletedFulfilmentImpulse]:
+        fulfilment_req = lambda x: x.id()
+        delete_fulfilments: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.fulfilments(impulses, fulfilment_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_fulfilments)
+        mutation_res: Callable[[MutationRes], DeletedFulfilmentImpulse] = lambda x: x.preserve.delete.fulfilments
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_create_behaviours(self, impulses: List[CreateBehaviourImpulse]) -> Observable[CreatedBehaviourImpulse]:
+        behaviour_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.behaviours(impulses, behaviour_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedBehaviourImpulse] = lambda x: x.preserve.create.behaviours
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_behaviours(self, impulses: List[UpdateBehaviourImpulse]) -> Observable[UpdatedBehaviourImpulse]:
+        behaviour_req = lambda x: x.id()
+        update_behaviours: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.behaviours(impulses, behaviour_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_behaviours)
+        mutation_res: Callable[[MutationRes], UpdatedBehaviourImpulse] = lambda x: x.preserve.update.behaviours
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_behaviours(self, impulses: List[DeleteBehaviourImpulse]) -> Observable[DeletedBehaviourImpulse]:
+        behaviour_req = lambda x: x.id()
+        delete_behaviours: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.behaviours(impulses, behaviour_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_behaviours)
+        mutation_res: Callable[[MutationRes], DeletedBehaviourImpulse] = lambda x: x.preserve.delete.behaviours
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_create_codes(self, impulses: List[CreateCodeImpulse]) -> Observable[CreatedCodeImpulse]:
+        code_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.codes(impulses, code_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedCodeImpulse] = lambda x: x.preserve.create.codes
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_codes(self, impulses: List[UpdateCodeImpulse]) -> Observable[UpdatedCodeImpulse]:
+        code_req = lambda x: x.id()
+        update_codes: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.codes(impulses, code_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_codes)
+        mutation_res: Callable[[MutationRes], UpdatedCodeImpulse] = lambda x: x.preserve.update.codes
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
+        code_req = lambda x: x.id()
+        delete_codes: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.codes(impulses, code_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_codes)
+        mutation_res: Callable[[MutationRes], DeletedCodeImpulse] = lambda x: x.preserve.delete.codes
 
         observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
         return flat_mapM(observable, mutation_res)

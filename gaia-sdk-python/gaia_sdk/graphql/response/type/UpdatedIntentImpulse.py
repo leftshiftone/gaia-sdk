@@ -24,5 +24,5 @@ class UpdatedIntentImpulse:
     the intent instance
     """
     @property
-    def intents(self) -> Intent:
-        return Intent(self.dictionary.get("intents"))
+    def intent(self) -> Intent:
+        return Intent(self.dictionary.get("intent"))
