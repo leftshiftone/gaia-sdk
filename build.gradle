@@ -55,8 +55,33 @@ asteriaReport {
     }.flatten())
 }
 
+repositories {
+    jcenter()
+    maven {
+        credentials(AwsCredentials) {
+            accessKey gradle.awsAccessKey
+            secretKey gradle.awsSecretKey
+        }
+        url gradle.releasesRepositoryUrl
+    }
+    maven {
+        credentials(AwsCredentials) {
+            accessKey gradle.awsAccessKey
+            secretKey gradle.awsSecretKey
+        }
+        url gradle.snapshotsRepositoryUrl
+    }
+}
+
+configurations {
+    mockServer
+}
+
 dependencies {
     antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
+
+    mockServer "one.leftshift.heimdall:heimdall-mock:latest.integration:all"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     implementation "org.apache.velocity:velocity-engine-core:2.1"
@@ -67,6 +92,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+task prepareMockServer(type: Copy) {
+    from configurations.mockServer.filter { it.name.contains("heimdall-mock") }
+    into "${rootProject.buildDir}/mock"
+    rename(/.*/, "heimdall-mock.jar")
 }
 
 sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
@@ -118,7 +148,7 @@ subprojects {
         sonarProperties = [
                 "sonar.javascript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
                 "sonar.typescript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
-                "sonar.python.coverage.reportPath": "${project(":gaia-sdk-python").projectDir}/build/coverage/coverage.xml",
+                "sonar.python.coverage.reportPath" : "${project(":gaia-sdk-python").projectDir}/build/coverage/coverage.xml",
         ]
         coverageExcludes = [
                 "**/*Kt.class",

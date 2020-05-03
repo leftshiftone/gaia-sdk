@@ -17,7 +17,6 @@ from rx import of
 from rx.testing import TestScheduler, ReactiveTest
 
 
-@mark.skip(reason="enable testing when mock server is ready") #todo: enable
 class TestHMAC(unittest.TestCase):
 
     def test_perceive_data(self):

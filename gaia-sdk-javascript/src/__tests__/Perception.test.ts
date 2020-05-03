@@ -1,8 +1,7 @@
 import {Gaia, PerceiveActionImpulse, PerceiveDataImpulse} from "../graphql";
 import { v4 as uuid } from 'uuid';
 
-//todo: enable testing when mock server is ready
-describe.skip("perception tests:", () => {
+describe("perception tests:", () => {
 
     test('test perceive data', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");

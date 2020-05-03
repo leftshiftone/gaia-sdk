@@ -8,8 +8,7 @@ import {Introspection} from "../request/type/Introspection";
 import {PerceiveDataImpulse} from "..";
 import {Mutation} from "../request/type/Mutation";
 
-//todo: enable testing when mock server is ready
-describe.skip("GaiaRequestTest", () => {
+describe("GaiaRequestTest", () => {
 
     test('builds expected queries', () => {
         const request = GaiaRequest.query((it: Query) => {

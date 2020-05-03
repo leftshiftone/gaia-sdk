@@ -9,7 +9,6 @@ import reactor.core.publisher.Flux
 import java.util.*
 import kotlin.collections.HashMap
 
-@Disabled("enable testing when mock server is ready") //todo: enable
 class PerceptionTest {
 
     @Test

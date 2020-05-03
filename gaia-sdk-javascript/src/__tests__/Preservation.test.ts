@@ -16,8 +16,7 @@ import {CreateCodeImpulse} from "../graphql/request/input/CreateCodeImpulse";
 import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
 
-//todo: enable testing when mock server is ready
-describe.skip("perception tests:", () => {
+describe("perception tests:", () => {
 
     test('test preserve create intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");

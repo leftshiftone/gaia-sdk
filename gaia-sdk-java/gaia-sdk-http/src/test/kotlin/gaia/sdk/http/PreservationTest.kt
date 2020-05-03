@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import java.util.*
 
-@Disabled("enable testing when mock server is ready") //todo: enable
 class PreservationTest {
 
     @Test

@@ -27,7 +27,6 @@ from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 logging.basicConfig(level=logging.DEBUG)
 
 
-@mark.skip(reason="enable testing when mock server is ready") #todo: enable
 class TestHMAC(unittest.TestCase):
 
     def test_preserve_create_intent(self):
