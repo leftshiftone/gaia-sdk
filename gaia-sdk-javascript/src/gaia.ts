@@ -22,20 +22,20 @@ import {KnowledgeEdge} from "./graphql/request/type/KnowledgeEdge";
 import {Prompt} from "./graphql/request/type/Prompt";
 import {Statement} from "./graphql/request/type/Statement";
 import {CreateBehaviourImpulse} from "./graphql/request/input/CreateBehaviourImpulse";
-import {CreateFulfilmentImpulse} from "./graphql/request/input/CreateFulfilmentImpulse";
-import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {CreatePromptImpulse} from "./graphql/request/input/CreatePromptImpulse";
-import {CreateStatementImpulse} from "./graphql/request/input/CreateStatementImpulse";
-import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImpulse";
-import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
-import {DeleteFulfilmentImpulse} from "./graphql/request/input/DeleteFulfilmentImpulse";
 import {DeletePromptImpulse} from "./graphql/request/input/DeletePromptImpulse";
-import {DeleteStatementImpulse} from "./graphql/request/input/DeleteStatementImpulse";
-import {UpdateBehaviourImpulse} from "./graphql/request/input/UpdateBehaviourImpulse";
-import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
-import {UpdateFulfilmentImpulse} from "./graphql/request/input/UpdateFulfilmentImpulse";
 import {UpdatePromptImpulse} from "./graphql/request/input/UpdatePromptImpulse";
 import {UpdateStatementImpulse} from "./graphql/request/input/UpdateStatementImpulse";
+import {DeleteStatementImpulse} from "./graphql/request/input/DeleteStatementImpulse";
+import {CreateStatementImpulse} from "./graphql/request/input/CreateStatementImpulse";
+import {CreateFulfilmentImpulse} from "./graphql/request/input/CreateFulfilmentImpulse";
+import {DeleteFulfilmentImpulse} from "./graphql/request/input/DeleteFulfilmentImpulse";
+import {UpdateFulfilmentImpulse} from "./graphql/request/input/UpdateFulfilmentImpulse";
+import {UpdateBehaviourImpulse} from "./graphql/request/input/UpdateBehaviourImpulse";
+import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImpulse";
+import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
+import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
+import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
 
 export class Gaia {
     public static connect(url: string, apiKey: string, apiSecret: string): GaiaRef {
@@ -76,21 +76,21 @@ export class GaiaRef implements ISensorFunction {
     public preserveCreateIntents = (...impulses: [CreateIntentImpulse]) => this.fProc.preserveCreateIntents(...impulses);
     public preserveDeleteIntents = (...impulses: [DeleteIntentImpulse]) => this.fProc.preserveDeleteIntents(...impulses);
     public preserveUpdateIntents = (...impulses: [UpdateIntentImpulse]) => this.fProc.preserveUpdateIntents(...impulses);
-    public preserveCreateBehaviours = (...impulses: [CreateBehaviourImpulse]) => this.fProc.preserveCreateBehaviours(...impulses)
-    public preserveCreateCodes = (...impulses: [CreateCodeImpulse]) => this.fProc.preserveCreateCodes(...impulses)
-    public preserveCreateFulfilments = (...impulses: [CreateFulfilmentImpulse]) => this.fProc.preserveCreateFulfilments(...impulses)
-    public preserveCreatePrompts = (...impulses: [CreatePromptImpulse]) => this.fProc.preserveCreatePrompts(...impulses)
-    public preserveCreateStatements = (...impulses: [CreateStatementImpulse]) => this.fProc.preserveCreateStatements(...impulses)
-    public preserveDeleteBehaviours = (...impulses: [DeleteBehaviourImpulse]) => this.fProc.preserveDeleteBehaviours(...impulses)
-    public preserveDeleteCodes = (...impulses: [DeleteCodeImpulse]) => this.fProc.preserveDeleteCodes(...impulses)
-    public preserveDeleteFulfilments = (...impulses: [DeleteFulfilmentImpulse]) => this.fProc.preserveDeleteFulfilments(...impulses)
-    public preserveDeletePrompts = (...impulses: [DeletePromptImpulse]) => this.fProc.preserveDeletePrompts(...impulses)
-    public preserveDeleteStatements = (...impulses: [DeleteStatementImpulse]) => this.fProc.preserveDeleteStatements(...impulses)
-    public preserveUpdateBehaviours = (...impulses: [UpdateBehaviourImpulse]) => this.fProc.preserveUpdateBehaviours(...impulses)
-    public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses)
-    public preserveUpdateFulfilments = (...impulses: [UpdateFulfilmentImpulse]) => this.fProc.preserveUpdateFulfilments(...impulses)
-    public preserveUpdatePrompts = (...impulses: [UpdatePromptImpulse]) => this.fProc.preserveUpdatePrompts(...impulses)
-    public preserveUpdateStatements = (...impulses: [UpdateStatementImpulse]) => this.fProc.preserveUpdateStatements(...impulses)
+    public preserveCreatePrompts = (...impulses: [CreatePromptImpulse]) => this.fProc.preserveCreatePrompts(...impulses);
+    public preserveDeletePrompts = (...impulses: [DeletePromptImpulse]) => this.fProc.preserveDeletePrompts(...impulses);
+    public preserveUpdatePrompts = (...impulses: [UpdatePromptImpulse]) => this.fProc.preserveUpdatePrompts(...impulses);
+    public preserveCreateStatements = (...impulses: [CreateStatementImpulse]) => this.fProc.preserveCreateStatements(...impulses);
+    public preserveDeleteStatements = (...impulses: [DeleteStatementImpulse]) => this.fProc.preserveDeleteStatements(...impulses);
+    public preserveUpdateStatements = (...impulses: [UpdateStatementImpulse]) => this.fProc.preserveUpdateStatements(...impulses);
+    public preserveCreateFulfilments = (...impulses: [CreateFulfilmentImpulse]) => this.fProc.preserveCreateFulfilments(...impulses);
+    public preserveDeleteFulfilments = (...impulses: [DeleteFulfilmentImpulse]) => this.fProc.preserveDeleteFulfilments(...impulses);
+    public preserveUpdateFulfilments = (...impulses: [UpdateFulfilmentImpulse]) => this.fProc.preserveUpdateFulfilments(...impulses);
+    public preserveCreateBehaviours = (...impulses: [CreateBehaviourImpulse]) => this.fProc.preserveCreateBehaviours(...impulses);
+    public preserveDeleteBehaviours = (...impulses: [DeleteBehaviourImpulse]) => this.fProc.preserveDeleteBehaviours(...impulses);
+    public preserveUpdateBehaviours = (...impulses: [UpdateBehaviourImpulse]) => this.fProc.preserveUpdateBehaviours(...impulses);
+    public preserveCreateCodes = (...impulses: [CreateCodeImpulse]) => this.fProc.preserveCreateCodes(...impulses);
+    public preserveDeleteCodes = (...impulses: [DeleteCodeImpulse]) => this.fProc.preserveDeleteCodes(...impulses);
+    public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (config: (x: Behaviour) => void) => this.fProc.retrieveBehaviours(config);
     public retrieveCodes = (config: (x: Code) => void) => this.fProc.retrieveCodes(config);
