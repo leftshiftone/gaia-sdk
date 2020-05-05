@@ -11,52 +11,45 @@ import {SkillState} from "../enumeration/SkillState";
 export class Behaviour extends Array<(_:VariableRegistry) => string> {
 
     /**
-     * The prompt id
+     * The behaviour id
      */
     public identityId = () => { 
         this.push(_ => "identityId")
     };
 
     /**
-     * The prompt reference id
+     * The behaviour reference id
      */
     public reference = () => { 
         this.push(_ => "reference")
     };
 
     /**
-     * The name of the prompt
+     * The name of the behaviour
      */
     public qualifier = () => { 
         this.push(_ => "qualifier")
     };
 
     /**
-     * Detailed description about the prompt
+     * Detailed description about the behaviour
      */
     public appendent = () => { 
         this.push(_ => "appendent")
     };
 
     /**
-     * The utterance dictionary. The key is a language key and the value is a list of utterances
-     */
-    public utterance = () => { 
-        this.push(_ => "utterance")
-    };
-
-    /**
-     * The list of labels of the prompt
+     * The list of labels of the behaviour
      */
     public labellist = () => { 
         this.push(_ => "labellist")
     };
 
     /**
-     * The version of the prompt
+     * The behaviour xml
      */
-    public version = () => { 
-        this.push(_ => "version")
+    public behaviour = () => { 
+        this.push(_ => "behaviour")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

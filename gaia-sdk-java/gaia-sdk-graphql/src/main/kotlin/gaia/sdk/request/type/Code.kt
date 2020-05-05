@@ -15,52 +15,52 @@ import gaia.sdk.request.enumeration.*
 class Code: Type() {
 
     /**
-     * The prompt id
+     * The code id
      */
     fun identityId() { 
         add {"identityId" } 
     }
 
     /**
-     * The prompt reference id
+     * The code reference id
      */
     fun reference() { 
         add {"reference" } 
     }
 
     /**
-     * The name of the prompt
+     * The name of the code
      */
     fun qualifier() { 
         add {"qualifier" } 
     }
 
     /**
-     * Detailed description about the prompt
+     * Detailed description about the code
      */
     fun appendent() { 
         add {"appendent" } 
     }
 
     /**
-     * The utterance dictionary. The key is a language key and the value is a list of utterances
+     * The code dictionary. The key is a file name and the value is the code
      */
-    fun utterance() { 
-        add {"utterance" } 
+    fun code() { 
+        add {"code" } 
     }
 
     /**
-     * The list of labels of the prompt
+     * The list of labels of the code
      */
     fun labellist() { 
         add {"labellist" } 
     }
 
     /**
-     * The version of the prompt
+     * The type of the code
      */
-    fun version() { 
-        add {"version" } 
+    fun type() { 
+        add {"type" } 
     }
 }
 

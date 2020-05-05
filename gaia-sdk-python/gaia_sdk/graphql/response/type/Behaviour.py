@@ -17,44 +17,38 @@ class Behaviour:
     """
     dictionary: dict
     """
-    The prompt id
+    The behaviour id
     """
     @property
     def identity_id(self) -> Uuid:
         return Uuid(self.dictionary.get("identityId"))
     """
-    The prompt reference id
+    The behaviour reference id
     """
     @property
     def reference(self) -> Uuid:
         return Uuid(self.dictionary.get("reference"))
     """
-    The name of the prompt
+    The name of the behaviour
     """
     @property
     def qualifier(self) -> String:
         return String(self.dictionary.get("qualifier"))
     """
-    Detailed description about the prompt
+    Detailed description about the behaviour
     """
     @property
     def appendent(self) -> String:
         return String(self.dictionary.get("appendent"))
     """
-    The utterance dictionary. The key is a language key and the value is a list of utterances
-    """
-    @property
-    def utterance(self) -> Struct:
-        return Struct(self.dictionary.get("utterance"))
-    """
-    The list of labels of the prompt
+    The list of labels of the behaviour
     """
     @property
     def labellist(self) -> List[String]:
         return list(map(lambda x: String(x), self.dictionary.get("labellist")))
     """
-    The version of the prompt
+    The behaviour xml
     """
     @property
-    def version(self) -> String:
-        return String(self.dictionary.get("version"))
+    def behaviour(self) -> String:
+        return String(self.dictionary.get("behaviour"))

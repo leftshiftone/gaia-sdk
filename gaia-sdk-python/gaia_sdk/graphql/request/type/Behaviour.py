@@ -10,46 +10,40 @@ class Behaviour(list):
     """
 
     """
-    The prompt id
+    The behaviour id
     """
     def identity_id(self):
         self.append(lambda x: "identityId")
 
     """
-    The prompt reference id
+    The behaviour reference id
     """
     def reference(self):
         self.append(lambda x: "reference")
 
     """
-    The name of the prompt
+    The name of the behaviour
     """
     def qualifier(self):
         self.append(lambda x: "qualifier")
 
     """
-    Detailed description about the prompt
+    Detailed description about the behaviour
     """
     def appendent(self):
         self.append(lambda x: "appendent")
 
     """
-    The utterance dictionary. The key is a language key and the value is a list of utterances
-    """
-    def utterance(self):
-        self.append(lambda x: "utterance")
-
-    """
-    The list of labels of the prompt
+    The list of labels of the behaviour
     """
     def labellist(self):
         self.append(lambda x: "labellist")
 
     """
-    The version of the prompt
+    The behaviour xml
     """
-    def version(self):
-        self.append(lambda x: "version")
+    def behaviour(self):
+        self.append(lambda x: "behaviour")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

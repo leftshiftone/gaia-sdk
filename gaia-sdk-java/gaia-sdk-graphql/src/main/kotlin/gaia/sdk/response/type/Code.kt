@@ -13,31 +13,31 @@ import gaia.sdk.request.enumeration.*
 */
 data class Code @JsonCreator constructor(
     /**
-    * The prompt id
+    * The code id
     */
     @JsonProperty("identityId") val identityId:Uuid?, 
     /**
-    * The prompt reference id
+    * The code reference id
     */
     @JsonProperty("reference") val reference:Uuid?, 
     /**
-    * The name of the prompt
+    * The name of the code
     */
     @JsonProperty("qualifier") val qualifier:String?, 
     /**
-    * Detailed description about the prompt
+    * Detailed description about the code
     */
     @JsonProperty("appendent") val appendent:String?, 
     /**
-    * The utterance dictionary. The key is a language key and the value is a list of utterances
+    * The code dictionary. The key is a file name and the value is the code
     */
-    @JsonProperty("utterance") val utterance:Struct?, 
+    @JsonProperty("code") val code:Struct?, 
     /**
-    * The list of labels of the prompt
+    * The list of labels of the code
     */
     @JsonProperty("labellist") val labellist:List<String>?, 
     /**
-    * The version of the prompt
+    * The type of the code
     */
-    @JsonProperty("version") val version:String?
+    @JsonProperty("type") val type:String?
 )

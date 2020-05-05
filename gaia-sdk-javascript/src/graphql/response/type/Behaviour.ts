@@ -9,31 +9,27 @@ import {SkillState} from "../../request/enumeration/SkillState";
 */
 export interface Behaviour {
     /**
-    * The prompt id
+    * The behaviour id
     */
     identityId?:Uuid, 
     /**
-    * The prompt reference id
+    * The behaviour reference id
     */
     reference?:Uuid, 
     /**
-    * The name of the prompt
+    * The name of the behaviour
     */
     qualifier?:string, 
     /**
-    * Detailed description about the prompt
+    * Detailed description about the behaviour
     */
     appendent?:string, 
     /**
-    * The utterance dictionary. The key is a language key and the value is a list of utterances
-    */
-    utterance?:Struct, 
-    /**
-    * The list of labels of the prompt
+    * The list of labels of the behaviour
     */
     labellist?:[string], 
     /**
-    * The version of the prompt
+    * The behaviour xml
     */
-    version?:string
+    behaviour?:string
 }

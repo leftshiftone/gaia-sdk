@@ -11,52 +11,52 @@ import {SkillState} from "../enumeration/SkillState";
 export class Code extends Array<(_:VariableRegistry) => string> {
 
     /**
-     * The prompt id
+     * The code id
      */
     public identityId = () => { 
         this.push(_ => "identityId")
     };
 
     /**
-     * The prompt reference id
+     * The code reference id
      */
     public reference = () => { 
         this.push(_ => "reference")
     };
 
     /**
-     * The name of the prompt
+     * The name of the code
      */
     public qualifier = () => { 
         this.push(_ => "qualifier")
     };
 
     /**
-     * Detailed description about the prompt
+     * Detailed description about the code
      */
     public appendent = () => { 
         this.push(_ => "appendent")
     };
 
     /**
-     * The utterance dictionary. The key is a language key and the value is a list of utterances
+     * The code dictionary. The key is a file name and the value is the code
      */
-    public utterance = () => { 
-        this.push(_ => "utterance")
+    public code = () => { 
+        this.push(_ => "code")
     };
 
     /**
-     * The list of labels of the prompt
+     * The list of labels of the code
      */
     public labellist = () => { 
         this.push(_ => "labellist")
     };
 
     /**
-     * The version of the prompt
+     * The type of the code
      */
-    public version = () => { 
-        this.push(_ => "version")
+    public type = () => { 
+        this.push(_ => "type")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

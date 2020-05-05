@@ -15,52 +15,45 @@ import gaia.sdk.request.enumeration.*
 class Behaviour: Type() {
 
     /**
-     * The prompt id
+     * The behaviour id
      */
     fun identityId() { 
         add {"identityId" } 
     }
 
     /**
-     * The prompt reference id
+     * The behaviour reference id
      */
     fun reference() { 
         add {"reference" } 
     }
 
     /**
-     * The name of the prompt
+     * The name of the behaviour
      */
     fun qualifier() { 
         add {"qualifier" } 
     }
 
     /**
-     * Detailed description about the prompt
+     * Detailed description about the behaviour
      */
     fun appendent() { 
         add {"appendent" } 
     }
 
     /**
-     * The utterance dictionary. The key is a language key and the value is a list of utterances
-     */
-    fun utterance() { 
-        add {"utterance" } 
-    }
-
-    /**
-     * The list of labels of the prompt
+     * The list of labels of the behaviour
      */
     fun labellist() { 
         add {"labellist" } 
     }
 
     /**
-     * The version of the prompt
+     * The behaviour xml
      */
-    fun version() { 
-        add {"version" } 
+    fun behaviour() { 
+        add {"behaviour" } 
     }
 }
 
