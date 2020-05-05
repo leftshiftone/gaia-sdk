@@ -146,14 +146,12 @@ subprojects {
         sonarLoginToken = System.getenv("SONAR_LOGIN")
         xmlCoverageReportEnabled = true
         sonarProperties = [
+                "sonar.test.inclusions": "**/*Test.*,**/*.test.ts,**/tests/test_*.py",
                 "sonar.javascript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
                 "sonar.typescript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
                 "sonar.python.coverage.reportPath" : "${project(":gaia-sdk-python").projectDir}/build/coverage/coverage.xml",
         ]
-        coverageExcludes = [
-                "**/*Kt.class",
-                "**/gaia/sdk/api/**",
-        ]
+        coverageExcludes = ["**/*Kt.class"]
     }
 }
 
