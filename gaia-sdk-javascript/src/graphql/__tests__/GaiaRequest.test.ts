@@ -46,7 +46,7 @@ describe("GaiaRequestTest", () => {
             const variables = payload.variables;
 
             expect(statement).toEqual("mutation gaia($impulse1:PerceiveDataImpulse!) { perceive { perceiveData(impulse:$impulse1){id} } }");
-            expect(variables).toEqual({"impulse1": {"data": {"a": "b"}, "name": "test"}});
+            expect(variables).toEqual({"impulse1": {"eventData": {"a": "b"}, "eventName": "test", "identityId": ""}});
         }));
 
         client.mutation(request)
