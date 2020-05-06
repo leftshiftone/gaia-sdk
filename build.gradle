@@ -190,20 +190,20 @@ task commitVersions() {
     doLast {
         // javascript
         String packageJsonPath = "${project(":gaia-sdk-javascript").projectDir}/package.json"
-        execute(["git", "add", packageJsonPath])
+        executeAssertExitCode(["git", "add", packageJsonPath])
         // python
         String pyprojectTomlPath = "${project(":gaia-sdk-python").projectDir}/pyproject.toml"
-        execute(["git", "add", pyprojectTomlPath])
+        executeAssertExitCode(["git", "add", pyprojectTomlPath])
 
         String commitMessage = "set version to ${version.toString()}"
-        execute(["git", "commit", "-m", "'$commitMessage'", "||", "true"])
+        executeWarnExitCode(["git", "commit", "-m", "'$commitMessage'"])
     }
 }
 commitVersions.dependsOn setVersionJavascript, setVersionPython
 
 task pushVersions() {
     doLast {
-        execute(["git", "push"])
+        executeAssertExitCode(["git", "push"])
     }
 }
 pushVersions.dependsOn commitVersions
@@ -211,11 +211,23 @@ if (System.getenv("CI") == null || System.getenv("CI") != "true") {
     afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
 }
 
-private void execute(List<String> command) {
+private void executeAssertExitCode(List<String> command) {
+    int exitCode = execute(command)
+    if (exitCode != 0) throw new RuntimeException("Command '${command.join(" ")}' failed with code ${exitCode}")
+    logger.debug("Executed command '${command.join(" ")}'")
+}
+
+private void executeWarnExitCode(List<String> command) {
+    int exitCode = execute(command)
+    if (exitCode != 0) logger.warn("Command failed with code ${exitCode}")
+    logger.debug("Executed command '${command.join(" ")}'")
+}
+
+private int execute(List<String> command) {
     logger.debug("Executing command '${command.join(" ")}'")
     def process = new ProcessBuilder(command).directory(projectDir).start()
     process.consumeProcessOutput(System.out, System.err)
     process.waitFor()
-    if (process.exitValue() != 0) throw new RuntimeException("Command '${command.join(" ")}' failed with code ${process.exitValue()}")
     logger.debug("Executed command '${command.join(" ")}'")
+    return process.exitValue()
 }
