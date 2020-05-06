@@ -207,7 +207,9 @@ task pushVersions() {
     }
 }
 pushVersions.dependsOn commitVersions
-afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
+}
 
 private void execute(List<String> command) {
     logger.debug("Executing command '${command.join(" ")}'")
