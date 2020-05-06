@@ -196,7 +196,7 @@ task commitVersions() {
         execute(["git", "add", pyprojectTomlPath])
 
         String commitMessage = "set version to ${version.toString()}"
-        execute(["git", "commit", "-m", commitMessage])
+        execute(["git", "commit", "-m", "'$commitMessage'", "||", "true"])
     }
 }
 commitVersions.dependsOn setVersionJavascript, setVersionPython
