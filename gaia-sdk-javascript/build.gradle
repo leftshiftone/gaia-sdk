@@ -29,9 +29,8 @@ task build() {
 task publish() {
     doLast {
         execute(["npm", "set", "registry", "https://registry.npmjs.org/"])
-        execute(["echo", "//registry.npmjs.org/:_authToken=${System.getenv("NPM_TOKEN")}".toString(), ">", "~/.npmrc"])
-        execute(["npm", "publish"])
-        //execute(["yarn", "npm", "publish", "--tolerate-republish"])
+        execute(["echo", "//registry.npmjs.org/:_authToken=${System.getenv("NPM_TOKEN")}".toString(), ">", ".npmrc"])
+        execute(["npm", "publish", "--access", "public"])
     }
 }
 publish.dependsOn assemble
@@ -41,6 +40,6 @@ private void execute(List<String> command) {
     def process = new ProcessBuilder(command).directory(projectDir).start()
     process.consumeProcessOutput(System.out, System.err)
     process.waitFor()
-    if (process.exitValue() != 0) throw new RuntimeException("Command '${command.join(" ")}' failed with code ${process.exitValue()}")
+    if (process.exitValue() != 0) throw new RuntimeException("Command failed with code ${process.exitValue()}")
     logger.debug("Executed command '${command.join(" ")}'")
 }
