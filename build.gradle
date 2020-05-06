@@ -189,10 +189,10 @@ task setVersionPython() {
 task commitVersions() {
     doLast {
         // javascript
-        String packageJsonPath = project(":gaia-sdk-javascript").projectDir + "/package.json"
+        String packageJsonPath = "${project(":gaia-sdk-javascript").projectDir}/package.json"
         execute(["git", "add", packageJsonPath])
         // python
-        String pyprojectTomlPath = project(":gaia-sdk-python").projectDir + "/pyproject.toml"
+        String pyprojectTomlPath = "${project(":gaia-sdk-python").projectDir}/pyproject.toml"
         execute(["git", "add", pyprojectTomlPath])
 
         String commitMessage = "set version to ${version.toString()}"
