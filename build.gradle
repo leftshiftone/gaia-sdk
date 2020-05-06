@@ -196,7 +196,7 @@ task commitVersions() {
         executeAssertExitCode(["git", "add", pyprojectTomlPath])
 
         String commitMessage = "set version to ${version.toString()}"
-        executeWarnExitCode(["git", "commit", "-m", "'$commitMessage'"])
+        executeWarnExitCode(["git", "commit", "-m", commitMessage])
     }
 }
 commitVersions.dependsOn setVersionJavascript, setVersionPython
