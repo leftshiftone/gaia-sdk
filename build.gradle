@@ -131,10 +131,11 @@ allprojects {
         }
     }
 
-    afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
-
-    if (tasks.findByName("publish")) {
-        afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
+    if (System.getenv("CI")) {
+        afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
+        if (tasks.findByName("publish")) {
+            afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
+        }
     }
 }
 
@@ -146,7 +147,7 @@ subprojects {
         sonarLoginToken = System.getenv("SONAR_LOGIN")
         xmlCoverageReportEnabled = true
         sonarProperties = [
-                "sonar.test.inclusions": "**/*Test.*,**/*.test.ts,**/tests/test_*.py",
+                "sonar.test.inclusions"            : "**/*Test.*,**/*.test.ts,**/tests/test_*.py",
                 "sonar.javascript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
                 "sonar.typescript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
                 "sonar.python.coverage.reportPath" : "${project(":gaia-sdk-python").projectDir}/build/coverage/coverage.xml",
