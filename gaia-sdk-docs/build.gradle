@@ -24,7 +24,9 @@ sourceSets {
 
 publish.dependsOn docsJar
 publish.dependsOn docsZip
-publish.finalizedBy bintrayUpload
+if (System.getenv("CI")) {
+    publish.finalizedBy bintrayUpload
+}
 
 publishing {
     publications {

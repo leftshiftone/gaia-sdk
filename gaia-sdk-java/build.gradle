@@ -114,5 +114,7 @@ subprojects {
         }
     }
 
-    publish.finalizedBy bintrayUpload
+    if (System.getenv("CI")) {
+        publish.finalizedBy bintrayUpload
+    }
 }
