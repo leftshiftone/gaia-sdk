@@ -1,0 +1,1562 @@
+{
+    "compileClasspath": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "default": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "implementationDependenciesMetadata": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "jacocoAgent": {
+        "org.jacoco:org.jacoco.agent": {
+            "locked": "0.8.5"
+        }
+    },
+    "jacocoAnt": {
+        "org.jacoco:org.jacoco.agent": {
+            "locked": "0.8.5",
+            "transitive": [
+                "org.jacoco:org.jacoco.ant"
+            ]
+        },
+        "org.jacoco:org.jacoco.ant": {
+            "locked": "0.8.5"
+        },
+        "org.jacoco:org.jacoco.core": {
+            "locked": "0.8.5",
+            "transitive": [
+                "org.jacoco:org.jacoco.ant",
+                "org.jacoco:org.jacoco.report"
+            ]
+        },
+        "org.jacoco:org.jacoco.report": {
+            "locked": "0.8.5",
+            "transitive": [
+                "org.jacoco:org.jacoco.ant"
+            ]
+        },
+        "org.ow2.asm:asm": {
+            "locked": "7.2",
+            "transitive": [
+                "org.jacoco:org.jacoco.core",
+                "org.ow2.asm:asm-commons",
+                "org.ow2.asm:asm-tree"
+            ]
+        },
+        "org.ow2.asm:asm-analysis": {
+            "locked": "7.2",
+            "transitive": [
+                "org.ow2.asm:asm-commons"
+            ]
+        },
+        "org.ow2.asm:asm-commons": {
+            "locked": "7.2",
+            "transitive": [
+                "org.jacoco:org.jacoco.core"
+            ]
+        },
+        "org.ow2.asm:asm-tree": {
+            "locked": "7.2",
+            "transitive": [
+                "org.jacoco:org.jacoco.core",
+                "org.ow2.asm:asm-analysis",
+                "org.ow2.asm:asm-commons"
+            ]
+        }
+    },
+    "kotlinCompilerClasspath": {
+        "org.jetbrains.intellij.deps:trove4j": {
+            "locked": "1.0.20181211",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-compiler-embeddable": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-script-runtime": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable",
+                "org.jetbrains.kotlin:kotlin-reflect"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        }
+    },
+    "kotlinCompilerPluginClasspath": {
+        "org.jetbrains.kotlin:kotlin-script-runtime": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-jvm"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-scripting-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable",
+                "org.jetbrains.kotlin:kotlin-scripting-jvm"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable": {
+            "locked": "1.3.41",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-scripting-jvm": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-common",
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable",
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable",
+                "org.jetbrains.kotlin:kotlin-scripting-jvm"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "1.3.5",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-scripting-common",
+                "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable"
+            ]
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        }
+    },
+    "runtimeClasspath": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "testCompileClasspath": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.apiguardian:apiguardian-api": {
+            "locked": "1.1.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.jupiter:junit-jupiter-engine",
+                "org.junit.platform:junit-platform-commons",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.assertj:assertj-core": {
+            "locked": "3.11.1",
+            "requested": "3.11.1"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-api": {
+            "locked": "5.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-engine": {
+            "locked": "5.5.1",
+            "requested": "5.5.1"
+        },
+        "org.junit.platform:junit-platform-commons": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.junit.platform:junit-platform-engine": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.opentest4j:opentest4j": {
+            "locked": "1.2.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "testImplementationDependenciesMetadata": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.apiguardian:apiguardian-api": {
+            "locked": "1.1.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.jupiter:junit-jupiter-engine",
+                "org.junit.platform:junit-platform-commons",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.assertj:assertj-core": {
+            "locked": "3.11.1",
+            "requested": "3.11.1"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-api": {
+            "locked": "5.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-engine": {
+            "locked": "5.5.1",
+            "requested": "5.5.1"
+        },
+        "org.junit.platform:junit-platform-commons": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.junit.platform:junit-platform-engine": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.opentest4j:opentest4j": {
+            "locked": "1.2.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "testRuntime": {
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.30",
+            "transitive": [
+                "org.slf4j:slf4j-simple"
+            ]
+        },
+        "org.slf4j:slf4j-simple": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    },
+    "testRuntimeClasspath": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.10.3",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0"
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.48.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.4.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "org.apiguardian:apiguardian-api": {
+            "locked": "1.1.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.jupiter:junit-jupiter-engine",
+                "org.junit.platform:junit-platform-commons",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.assertj:assertj-core": {
+            "locked": "3.11.1",
+            "requested": "3.11.1"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.71",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-api": {
+            "locked": "5.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-engine": {
+            "locked": "5.5.1",
+            "requested": "5.5.1"
+        },
+        "org.junit.platform:junit-platform-commons": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.junit.platform:junit-platform-engine": {
+            "locked": "1.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.opentest4j:opentest4j": {
+            "locked": "1.2.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.platform:junit-platform-engine"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28",
+            "transitive": [
+                "org.slf4j:slf4j-simple"
+            ]
+        },
+        "org.slf4j:slf4j-simple": {
+            "locked": "1.7.28",
+            "requested": "1.7.28"
+        }
+    }
+}
