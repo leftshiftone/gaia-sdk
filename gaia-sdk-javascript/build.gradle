@@ -29,7 +29,7 @@ task build() {
 task publish() {
     doLast {
         execute(["npm", "set", "registry", "https://registry.npmjs.org/"])
-        execute(["echo", "//registry.npmjs.org/:_authToken=${System.getenv("NPM_TOKEN")}".toString(), ">", ".npmrc"])
+        execute(["npm", "set", "//registry.npmjs.org/:_authToken", System.getenv("NPM_TOKEN")])
         execute(["npm", "publish", "--access", "public"])
     }
 }
