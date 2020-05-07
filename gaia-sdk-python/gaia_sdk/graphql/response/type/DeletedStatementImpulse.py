@@ -24,5 +24,5 @@ class DeletedStatementImpulse:
     the statement instance
     """
     @property
-    def statement(self) -> Intent:
-        return Intent(self.dictionary.get("statement"))
+    def data(self) -> Intent:
+        return Intent(self.dictionary.get("data"))

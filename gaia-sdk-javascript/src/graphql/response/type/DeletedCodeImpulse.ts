@@ -13,5 +13,5 @@ export interface DeletedCodeImpulse {
     /**
     * the code instance
     */
-    code?:Intent
+    data?:Intent
 }

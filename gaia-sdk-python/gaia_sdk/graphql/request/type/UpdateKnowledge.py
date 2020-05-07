@@ -21,67 +21,67 @@ class UpdateKnowledge(list):
     """
     updates a list of intents with the given specifications
     """
-    def intents(self, impulse: List[UpdateIntentImpulse], config: Callable[['UpdatedIntentImpulse'], None]):
+    def intents(self, impulses: List[UpdateIntentImpulse], config: Callable[['UpdatedIntentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedIntentImpulse()
             config(entity)
-            return f'intents(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'intents(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of prompts with the given specifications
     """
-    def prompts(self, impulse: List[UpdatePromptImpulse], config: Callable[['UpdatedPromptImpulse'], None]):
+    def prompts(self, impulses: List[UpdatePromptImpulse], config: Callable[['UpdatedPromptImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedPromptImpulse()
             config(entity)
-            return f'prompts(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prompts(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of statements with the given specifications
     """
-    def statements(self, impulse: List[UpdateStatementImpulse], config: Callable[['UpdatedStatementImpulse'], None]):
+    def statements(self, impulses: List[UpdateStatementImpulse], config: Callable[['UpdatedStatementImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedStatementImpulse()
             config(entity)
-            return f'statements(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'statements(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of fulfilments with the given specifications
     """
-    def fulfilments(self, impulse: List[UpdateFulfilmentImpulse], config: Callable[['UpdatedFulfilmentImpulse'], None]):
+    def fulfilments(self, impulses: List[UpdateFulfilmentImpulse], config: Callable[['UpdatedFulfilmentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedFulfilmentImpulse()
             config(entity)
-            return f'fulfilments(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'fulfilments(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of behaviours with the given specifications
     """
-    def behaviours(self, impulse: List[UpdateBehaviourImpulse], config: Callable[['UpdatedBehaviourImpulse'], None]):
+    def behaviours(self, impulses: List[UpdateBehaviourImpulse], config: Callable[['UpdatedBehaviourImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedBehaviourImpulse()
             config(entity)
-            return f'behaviours(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviours(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     updates a list of codes with the given specifications
     """
-    def codes(self, impulse: List[UpdateCodeImpulse], config: Callable[['UpdatedCodeImpulse'], None]):
+    def codes(self, impulses: List[UpdateCodeImpulse], config: Callable[['UpdatedCodeImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = UpdatedCodeImpulse()
             config(entity)
-            return f'codes(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

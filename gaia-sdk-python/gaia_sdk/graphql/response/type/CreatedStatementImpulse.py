@@ -24,5 +24,5 @@ class CreatedStatementImpulse:
     the statement instance
     """
     @property
-    def statement(self) -> Statement:
-        return Statement(self.dictionary.get("statement"))
+    def data(self) -> Statement:
+        return Statement(self.dictionary.get("data"))

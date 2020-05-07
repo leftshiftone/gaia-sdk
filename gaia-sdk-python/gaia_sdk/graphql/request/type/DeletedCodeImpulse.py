@@ -16,11 +16,11 @@ class DeletedCodeImpulse(list):
     """
     the code instance
     """
-    def code(self, config: Callable[['Intent'], None]):
+    def data(self, config: Callable[['Intent'], None]):
         def callback(registry: VariableRegistry):
             entity = Intent()
             config(entity)
-            return "code {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

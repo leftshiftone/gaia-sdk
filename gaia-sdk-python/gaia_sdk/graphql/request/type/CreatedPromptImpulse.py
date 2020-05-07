@@ -16,11 +16,11 @@ class CreatedPromptImpulse(list):
     """
     the prompt instance
     """
-    def prompt(self, config: Callable[['Prompt'], None]):
+    def data(self, config: Callable[['Prompt'], None]):
         def callback(registry: VariableRegistry):
             entity = Prompt()
             config(entity)
-            return "prompt {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

@@ -21,8 +21,8 @@ class UpdatedStatementImpulse: Type() {
     /**
      * the statement instance
      */
-    fun statement(config: Statement.() -> Unit) = 
-        add { "statement{ " + Statement().apply(config).render(it) + "}"}
+    fun data(config: Statement.() -> Unit) = 
+        add { "data{ " + Statement().apply(config).render(it) + "}"}
 
 }
 

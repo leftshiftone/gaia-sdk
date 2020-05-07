@@ -21,8 +21,8 @@ class CreatedPromptImpulse: Type() {
     /**
      * the prompt instance
      */
-    fun prompt(config: Prompt.() -> Unit) = 
-        add { "prompt{ " + Prompt().apply(config).render(it) + "}"}
+    fun data(config: Prompt.() -> Unit) = 
+        add { "data{ " + Prompt().apply(config).render(it) + "}"}
 
 }
 

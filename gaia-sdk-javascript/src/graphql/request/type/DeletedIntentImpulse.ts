@@ -18,10 +18,10 @@ export class DeletedIntentImpulse extends Array<(_:VariableRegistry) => string> 
     /**
      * the intent instance
      */
-    public intent = (config: (_:Intent) => void) => this.push((registry) => {
+    public data = (config: (_:Intent) => void) => this.push((registry) => {
         const entity = new Intent();
         config(entity);
-        return "intent { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

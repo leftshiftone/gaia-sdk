@@ -16,5 +16,5 @@ data class DeletedStatementImpulse @JsonCreator constructor(
     /**
     * the statement instance
     */
-    @JsonProperty("statement") val statement:Intent?
+    @JsonProperty("data") val data:Intent?
 )

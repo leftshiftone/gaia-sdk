@@ -18,10 +18,10 @@ export class CreatedPromptImpulse extends Array<(_:VariableRegistry) => string> 
     /**
      * the prompt instance
      */
-    public prompt = (config: (_:Prompt) => void) => this.push((registry) => {
+    public data = (config: (_:Prompt) => void) => this.push((registry) => {
         const entity = new Prompt();
         config(entity);
-        return "prompt { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

@@ -16,11 +16,11 @@ class CreatedCodeImpulse(list):
     """
     the code instance
     """
-    def code(self, config: Callable[['Code'], None]):
+    def data(self, config: Callable[['Code'], None]):
         def callback(registry: VariableRegistry):
             entity = Code()
             config(entity)
-            return "code {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

@@ -21,8 +21,8 @@ class UpdatedBehaviourImpulse: Type() {
     /**
      * the behaviour instance
      */
-    fun behaviour(config: Behaviour.() -> Unit) = 
-        add { "behaviour{ " + Behaviour().apply(config).render(it) + "}"}
+    fun data(config: Behaviour.() -> Unit) = 
+        add { "data{ " + Behaviour().apply(config).render(it) + "}"}
 
 }
 

@@ -16,5 +16,5 @@ data class CreatedIntentImpulse @JsonCreator constructor(
     /**
     * the intent instance
     */
-    @JsonProperty("intent") val intent:Intent?
+    @JsonProperty("data") val data:Intent?
 )

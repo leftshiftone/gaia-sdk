@@ -18,10 +18,10 @@ export class UpdatedFulfilmentImpulse extends Array<(_:VariableRegistry) => stri
     /**
      * the fulfilment instance
      */
-    public fulfilment = (config: (_:Fulfilment) => void) => this.push((registry) => {
+    public data = (config: (_:Fulfilment) => void) => this.push((registry) => {
         const entity = new Fulfilment();
         config(entity);
-        return "fulfilment { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

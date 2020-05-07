@@ -18,10 +18,10 @@ export class DeletedBehaviourImpulse extends Array<(_:VariableRegistry) => strin
     /**
      * the behaviour instance
      */
-    public behaviour = (config: (_:Intent) => void) => this.push((registry) => {
+    public data = (config: (_:Intent) => void) => this.push((registry) => {
         const entity = new Intent();
         config(entity);
-        return "behaviour { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

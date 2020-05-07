@@ -21,8 +21,8 @@ class CreatedFulfilmentImpulse: Type() {
     /**
      * the fulfilment instance
      */
-    fun fulfilment(config: Fulfilment.() -> Unit) = 
-        add { "fulfilment{ " + Fulfilment().apply(config).render(it) + "}"}
+    fun data(config: Fulfilment.() -> Unit) = 
+        add { "data{ " + Fulfilment().apply(config).render(it) + "}"}
 
 }
 

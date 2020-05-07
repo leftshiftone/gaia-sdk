@@ -16,5 +16,5 @@ data class CreatedPromptImpulse @JsonCreator constructor(
     /**
     * the prompt instance
     */
-    @JsonProperty("prompt") val prompt:Prompt?
+    @JsonProperty("data") val data:Prompt?
 )

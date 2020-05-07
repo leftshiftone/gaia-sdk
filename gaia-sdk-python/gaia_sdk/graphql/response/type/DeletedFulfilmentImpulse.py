@@ -24,5 +24,5 @@ class DeletedFulfilmentImpulse:
     the fulfilment instance
     """
     @property
-    def fulfilment(self) -> Intent:
-        return Intent(self.dictionary.get("fulfilment"))
+    def data(self) -> Intent:
+        return Intent(self.dictionary.get("data"))

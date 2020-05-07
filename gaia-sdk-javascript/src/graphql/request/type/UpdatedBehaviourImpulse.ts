@@ -18,10 +18,10 @@ export class UpdatedBehaviourImpulse extends Array<(_:VariableRegistry) => strin
     /**
      * the behaviour instance
      */
-    public behaviour = (config: (_:Behaviour) => void) => this.push((registry) => {
+    public data = (config: (_:Behaviour) => void) => this.push((registry) => {
         const entity = new Behaviour();
         config(entity);
-        return "behaviour { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

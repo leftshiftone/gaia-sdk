@@ -13,5 +13,5 @@ export interface DeletedIntentImpulse {
     /**
     * the intent instance
     */
-    intent?:Intent
+    data?:Intent
 }

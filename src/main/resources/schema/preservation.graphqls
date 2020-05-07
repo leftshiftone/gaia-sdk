@@ -24,31 +24,31 @@ type CreateKnowledge {
 }
 type UpdateKnowledge {
     "updates a list of intents with the given specifications"
-    intents(impulse: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
+    intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
-    prompts(impulse: [UpdatePromptImpulse]): [UpdatedPromptImpulse]
+    prompts(impulses: [UpdatePromptImpulse]): [UpdatedPromptImpulse]
     "updates a list of statements with the given specifications"
-    statements(impulse: [UpdateStatementImpulse]): [UpdatedStatementImpulse]
+    statements(impulses: [UpdateStatementImpulse]): [UpdatedStatementImpulse]
     "updates a list of fulfilments with the given specifications"
-    fulfilments(impulse: [UpdateFulfilmentImpulse]): [UpdatedFulfilmentImpulse]
+    fulfilments(impulses: [UpdateFulfilmentImpulse]): [UpdatedFulfilmentImpulse]
     "updates a list of behaviours with the given specifications"
-    behaviours(impulse: [UpdateBehaviourImpulse]): [UpdatedBehaviourImpulse]
+    behaviours(impulses: [UpdateBehaviourImpulse]): [UpdatedBehaviourImpulse]
     "updates a list of codes with the given specifications"
-    codes(impulse: [UpdateCodeImpulse]): [UpdatedCodeImpulse]
+    codes(impulses: [UpdateCodeImpulse]): [UpdatedCodeImpulse]
 }
 type DeleteKnowledge {
     "deletes a list of intents with the given specifications"
-    intents(impulse: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+    intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
-    prompts(impulse: [DeletePromptImpulse]): [DeletedPromptImpulse]
+    prompts(impulses: [DeletePromptImpulse]): [DeletedPromptImpulse]
     "deletes a list of statements with the given specifications"
-    statements(impulse: [DeleteStatementImpulse]): [DeletedStatementImpulse]
+    statements(impulses: [DeleteStatementImpulse]): [DeletedStatementImpulse]
     "deletes a list of fulfilments with the given specifications"
-    fulfilments(impulse: [DeleteFulfilmentImpulse]): [DeletedFulfilmentImpulse]
+    fulfilments(impulses: [DeleteFulfilmentImpulse]): [DeletedFulfilmentImpulse]
     "deletes a list of behaviours with the given specifications"
-    behaviours(impulse: [DeleteBehaviourImpulse]): [DeletedBehaviourImpulse]
+    behaviours(impulses: [DeleteBehaviourImpulse]): [DeletedBehaviourImpulse]
     "deletes a list of codes with the given specifications"
-    codes(impulse: [DeleteCodeImpulse]): [DeletedCodeImpulse]
+    codes(impulses: [DeleteCodeImpulse]): [DeletedCodeImpulse]
 }
 "The specification to create an intent instance"
 input CreateIntentImpulse {
@@ -78,19 +78,19 @@ input DeleteIntentImpulse {
 type CreatedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intent: Intent
+    data: Intent
 }
 "Impulse which indicates the resulf of a update intent impulse"
 type UpdatedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intent: Intent
+    data: Intent
 }
 "Impulse which indicates the resulf of a delete intent impulse"
 type DeletedIntentImpulse implements Impulse {
     id: Uuid!
     "the intent instance"
-    intent: Intent
+    data: Intent
 }
 
 "The specification to create a prompt instance"
@@ -121,19 +121,19 @@ input DeletePromptImpulse {
 type CreatedPromptImpulse implements Impulse {
     id: Uuid!
     "the prompt instance"
-    prompt: Prompt
+    data: Prompt
 }
 "Impulse which indicates the resulf of a update prompt impulse"
 type UpdatedPromptImpulse implements Impulse {
     id: Uuid!
     "the prompt instance"
-    prompt: Prompt
+    data: Prompt
 }
 "Impulse which indicates the resulf of a delete prompt impulse"
 type DeletedPromptImpulse implements Impulse {
     id: Uuid!
     "the prompt instance"
-    prompt: Intent
+    data: Intent
 }
 
 "The specification to create a statement instance"
@@ -164,19 +164,19 @@ input DeleteStatementImpulse {
 type CreatedStatementImpulse implements Impulse {
     id: Uuid!
     "the statement instance"
-    statement: Statement
+    data: Statement
 }
 "Impulse which indicates the resulf of a update statement impulse"
 type UpdatedStatementImpulse implements Impulse {
     id: Uuid!
     "the statement instance"
-    statement: Statement
+    data: Statement
 }
 "Impulse which indicates the resulf of a delete statement impulse"
 type DeletedStatementImpulse implements Impulse {
     id: Uuid!
     "the statement instance"
-    statement: Intent
+    data: Intent
 }
 "The specification to create a fulfilment instance"
 input CreateFulfilmentImpulse {
@@ -206,19 +206,19 @@ input DeleteFulfilmentImpulse {
 type CreatedFulfilmentImpulse implements Impulse {
     id: Uuid!
     "the fulfilment instance"
-    fulfilment: Fulfilment
+    data: Fulfilment
 }
 "Impulse which indicates the resulf of a update fulfilment impulse"
 type UpdatedFulfilmentImpulse implements Impulse {
     id: Uuid!
     "the fulfilment instance"
-    fulfilment: Fulfilment
+    data: Fulfilment
 }
 "Impulse which indicates the resulf of a delete fulfilment impulse"
 type DeletedFulfilmentImpulse implements Impulse {
     id: Uuid!
     "the fulfilment instance"
-    fulfilment: Intent
+    data: Intent
 }
 "The specification to create a behaviour instance"
 input CreateBehaviourImpulse {
@@ -248,19 +248,19 @@ input DeleteBehaviourImpulse {
 type CreatedBehaviourImpulse implements Impulse {
     id: Uuid!
     "the behaviour instance"
-    behaviour: Behaviour
+    data: Behaviour
 }
 "Impulse which indicates the resulf of a update behaviour impulse"
 type UpdatedBehaviourImpulse implements Impulse {
     id: Uuid!
     "the behaviour instance"
-    behaviour: Behaviour
+    data: Behaviour
 }
 "Impulse which indicates the resulf of a delete behaviour impulse"
 type DeletedBehaviourImpulse implements Impulse {
     id: Uuid!
     "the behaviour instance"
-    behaviour: Intent
+    data: Intent
 }
 "The specification to create a code instance"
 input CreateCodeImpulse {
@@ -290,17 +290,17 @@ input DeleteCodeImpulse {
 type CreatedCodeImpulse implements Impulse {
     id: Uuid!
     "the code instance"
-    code: Code
+    data: Code
 }
 "Impulse which indicates the resulf of a update code impulse"
 type UpdatedCodeImpulse implements Impulse {
     id: Uuid!
     "the code instance"
-    code: Code
+    data: Code
 }
 "Impulse which indicates the resulf of a delete code impulse"
 type DeletedCodeImpulse implements Impulse {
     id: Uuid!
     "the code instance"
-    code: Intent
+    data: Intent
 }

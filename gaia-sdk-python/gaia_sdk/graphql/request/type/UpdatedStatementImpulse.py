@@ -16,11 +16,11 @@ class UpdatedStatementImpulse(list):
     """
     the statement instance
     """
-    def statement(self, config: Callable[['Statement'], None]):
+    def data(self, config: Callable[['Statement'], None]):
         def callback(registry: VariableRegistry):
             entity = Statement()
             config(entity)
-            return "statement {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

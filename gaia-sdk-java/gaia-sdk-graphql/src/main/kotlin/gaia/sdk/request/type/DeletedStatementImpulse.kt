@@ -21,8 +21,8 @@ class DeletedStatementImpulse: Type() {
     /**
      * the statement instance
      */
-    fun statement(config: Intent.() -> Unit) = 
-        add { "statement{ " + Intent().apply(config).render(it) + "}"}
+    fun data(config: Intent.() -> Unit) = 
+        add { "data{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

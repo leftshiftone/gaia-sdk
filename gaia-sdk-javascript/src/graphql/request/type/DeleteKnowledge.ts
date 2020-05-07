@@ -22,61 +22,61 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
     /**
      * deletes a list of intents with the given specifications
      */
-    public intents = (impulse : [DeleteIntentImpulse], config: (_:DeletedIntentImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public intents = (impulses : [DeleteIntentImpulse], config: (_:DeletedIntentImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedIntentImpulse();
         config(entity);
-        return `intents(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `intents(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * deletes a list of prompts with the given specifications
      */
-    public prompts = (impulse : [DeletePromptImpulse], config: (_:DeletedPromptImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public prompts = (impulses : [DeletePromptImpulse], config: (_:DeletedPromptImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedPromptImpulse();
         config(entity);
-        return `prompts(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `prompts(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * deletes a list of statements with the given specifications
      */
-    public statements = (impulse : [DeleteStatementImpulse], config: (_:DeletedStatementImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public statements = (impulses : [DeleteStatementImpulse], config: (_:DeletedStatementImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedStatementImpulse();
         config(entity);
-        return `statements(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `statements(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * deletes a list of fulfilments with the given specifications
      */
-    public fulfilments = (impulse : [DeleteFulfilmentImpulse], config: (_:DeletedFulfilmentImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public fulfilments = (impulses : [DeleteFulfilmentImpulse], config: (_:DeletedFulfilmentImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedFulfilmentImpulse();
         config(entity);
-        return `fulfilments(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `fulfilments(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * deletes a list of behaviours with the given specifications
      */
-    public behaviours = (impulse : [DeleteBehaviourImpulse], config: (_:DeletedBehaviourImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public behaviours = (impulses : [DeleteBehaviourImpulse], config: (_:DeletedBehaviourImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedBehaviourImpulse();
         config(entity);
-        return `behaviours(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `behaviours(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * deletes a list of codes with the given specifications
      */
-    public codes = (impulse : [DeleteCodeImpulse], config: (_:DeletedCodeImpulse) => void) => this.push((registry) => {
-        const name1 = registry.register("impulse", impulse);
+    public codes = (impulses : [DeleteCodeImpulse], config: (_:DeletedCodeImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
         const entity = new DeletedCodeImpulse();
         config(entity);
-        return `codes(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `codes(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

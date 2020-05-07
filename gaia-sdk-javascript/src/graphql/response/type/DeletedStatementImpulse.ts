@@ -13,5 +13,5 @@ export interface DeletedStatementImpulse {
     /**
     * the statement instance
     */
-    statement?:Intent
+    data?:Intent
 }

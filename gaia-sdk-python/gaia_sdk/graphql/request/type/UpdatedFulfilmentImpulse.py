@@ -16,11 +16,11 @@ class UpdatedFulfilmentImpulse(list):
     """
     the fulfilment instance
     """
-    def fulfilment(self, config: Callable[['Fulfilment'], None]):
+    def data(self, config: Callable[['Fulfilment'], None]):
         def callback(registry: VariableRegistry):
             entity = Fulfilment()
             config(entity)
-            return "fulfilment {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

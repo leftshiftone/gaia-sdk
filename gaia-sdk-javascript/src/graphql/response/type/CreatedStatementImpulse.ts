@@ -13,5 +13,5 @@ export interface CreatedStatementImpulse {
     /**
     * the statement instance
     */
-    statement?:Statement
+    data?:Statement
 }

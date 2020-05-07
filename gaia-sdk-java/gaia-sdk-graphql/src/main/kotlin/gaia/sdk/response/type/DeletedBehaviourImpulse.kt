@@ -16,5 +16,5 @@ data class DeletedBehaviourImpulse @JsonCreator constructor(
     /**
     * the behaviour instance
     */
-    @JsonProperty("behaviour") val behaviour:Intent?
+    @JsonProperty("data") val data:Intent?
 )

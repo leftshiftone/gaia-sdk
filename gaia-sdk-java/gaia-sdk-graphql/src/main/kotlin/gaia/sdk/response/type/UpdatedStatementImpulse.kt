@@ -16,5 +16,5 @@ data class UpdatedStatementImpulse @JsonCreator constructor(
     /**
     * the statement instance
     */
-    @JsonProperty("statement") val statement:Statement?
+    @JsonProperty("data") val data:Statement?
 )

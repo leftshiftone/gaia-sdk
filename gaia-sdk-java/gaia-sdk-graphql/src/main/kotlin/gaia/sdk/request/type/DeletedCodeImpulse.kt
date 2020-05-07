@@ -21,8 +21,8 @@ class DeletedCodeImpulse: Type() {
     /**
      * the code instance
      */
-    fun code(config: Intent.() -> Unit) = 
-        add { "code{ " + Intent().apply(config).render(it) + "}"}
+    fun data(config: Intent.() -> Unit) = 
+        add { "data{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

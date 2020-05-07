@@ -21,8 +21,8 @@ class UpdatedCodeImpulse: Type() {
     /**
      * the code instance
      */
-    fun code(config: Code.() -> Unit) = 
-        add { "code{ " + Code().apply(config).render(it) + "}"}
+    fun data(config: Code.() -> Unit) = 
+        add { "data{ " + Code().apply(config).render(it) + "}"}
 
 }
 

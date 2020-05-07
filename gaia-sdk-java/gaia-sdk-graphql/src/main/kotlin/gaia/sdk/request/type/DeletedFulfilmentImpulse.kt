@@ -21,8 +21,8 @@ class DeletedFulfilmentImpulse: Type() {
     /**
      * the fulfilment instance
      */
-    fun fulfilment(config: Intent.() -> Unit) = 
-        add { "fulfilment{ " + Intent().apply(config).render(it) + "}"}
+    fun data(config: Intent.() -> Unit) = 
+        add { "data{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

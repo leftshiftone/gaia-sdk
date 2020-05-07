@@ -16,11 +16,11 @@ class CreatedBehaviourImpulse(list):
     """
     the behaviour instance
     """
-    def behaviour(self, config: Callable[['Behaviour'], None]):
+    def data(self, config: Callable[['Behaviour'], None]):
         def callback(registry: VariableRegistry):
             entity = Behaviour()
             config(entity)
-            return "behaviour {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

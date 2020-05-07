@@ -24,5 +24,5 @@ class UpdatedPromptImpulse:
     the prompt instance
     """
     @property
-    def prompt(self) -> Prompt:
-        return Prompt(self.dictionary.get("prompt"))
+    def data(self) -> Prompt:
+        return Prompt(self.dictionary.get("data"))

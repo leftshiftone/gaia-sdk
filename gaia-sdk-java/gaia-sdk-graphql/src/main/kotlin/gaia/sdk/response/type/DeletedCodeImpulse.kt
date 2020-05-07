@@ -16,5 +16,5 @@ data class DeletedCodeImpulse @JsonCreator constructor(
     /**
     * the code instance
     */
-    @JsonProperty("code") val code:Intent?
+    @JsonProperty("data") val data:Intent?
 )

@@ -13,5 +13,5 @@ export interface CreatedBehaviourImpulse {
     /**
     * the behaviour instance
     */
-    behaviour?:Behaviour
+    data?:Behaviour
 }

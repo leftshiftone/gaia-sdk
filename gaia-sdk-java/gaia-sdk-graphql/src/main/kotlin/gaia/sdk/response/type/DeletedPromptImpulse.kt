@@ -16,5 +16,5 @@ data class DeletedPromptImpulse @JsonCreator constructor(
     /**
     * the prompt instance
     */
-    @JsonProperty("prompt") val prompt:Intent?
+    @JsonProperty("data") val data:Intent?
 )

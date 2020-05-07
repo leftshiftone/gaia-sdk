@@ -24,5 +24,5 @@ class CreatedFulfilmentImpulse:
     the fulfilment instance
     """
     @property
-    def fulfilment(self) -> Fulfilment:
-        return Fulfilment(self.dictionary.get("fulfilment"))
+    def data(self) -> Fulfilment:
+        return Fulfilment(self.dictionary.get("data"))

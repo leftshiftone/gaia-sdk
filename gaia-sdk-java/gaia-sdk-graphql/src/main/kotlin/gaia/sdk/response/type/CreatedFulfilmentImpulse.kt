@@ -16,5 +16,5 @@ data class CreatedFulfilmentImpulse @JsonCreator constructor(
     /**
     * the fulfilment instance
     */
-    @JsonProperty("fulfilment") val fulfilment:Fulfilment?
+    @JsonProperty("data") val data:Fulfilment?
 )

@@ -13,5 +13,5 @@ export interface UpdatedCodeImpulse {
     /**
     * the code instance
     */
-    code?:Code
+    data?:Code
 }

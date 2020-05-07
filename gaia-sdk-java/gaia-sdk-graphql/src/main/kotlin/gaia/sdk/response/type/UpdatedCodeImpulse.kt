@@ -16,5 +16,5 @@ data class UpdatedCodeImpulse @JsonCreator constructor(
     /**
     * the code instance
     */
-    @JsonProperty("code") val code:Code?
+    @JsonProperty("data") val data:Code?
 )

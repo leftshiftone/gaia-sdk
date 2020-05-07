@@ -13,5 +13,5 @@ export interface CreatedFulfilmentImpulse {
     /**
     * the fulfilment instance
     */
-    fulfilment?:Fulfilment
+    data?:Fulfilment
 }

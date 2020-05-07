@@ -16,5 +16,5 @@ data class DeletedFulfilmentImpulse @JsonCreator constructor(
     /**
     * the fulfilment instance
     */
-    @JsonProperty("fulfilment") val fulfilment:Intent?
+    @JsonProperty("data") val data:Intent?
 )

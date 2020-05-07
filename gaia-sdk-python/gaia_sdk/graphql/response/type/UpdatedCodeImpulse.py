@@ -24,5 +24,5 @@ class UpdatedCodeImpulse:
     the code instance
     """
     @property
-    def code(self) -> Code:
-        return Code(self.dictionary.get("code"))
+    def data(self) -> Code:
+        return Code(self.dictionary.get("data"))

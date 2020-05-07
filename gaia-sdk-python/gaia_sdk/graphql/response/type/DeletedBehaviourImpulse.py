@@ -24,5 +24,5 @@ class DeletedBehaviourImpulse:
     the behaviour instance
     """
     @property
-    def behaviour(self) -> Intent:
-        return Intent(self.dictionary.get("behaviour"))
+    def data(self) -> Intent:
+        return Intent(self.dictionary.get("data"))

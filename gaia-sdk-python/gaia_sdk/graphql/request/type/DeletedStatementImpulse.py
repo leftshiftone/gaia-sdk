@@ -16,11 +16,11 @@ class DeletedStatementImpulse(list):
     """
     the statement instance
     """
-    def statement(self, config: Callable[['Intent'], None]):
+    def data(self, config: Callable[['Intent'], None]):
         def callback(registry: VariableRegistry):
             entity = Intent()
             config(entity)
-            return "statement {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

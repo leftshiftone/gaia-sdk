@@ -24,5 +24,5 @@ class CreatedBehaviourImpulse:
     the behaviour instance
     """
     @property
-    def behaviour(self) -> Behaviour:
-        return Behaviour(self.dictionary.get("behaviour"))
+    def data(self) -> Behaviour:
+        return Behaviour(self.dictionary.get("data"))

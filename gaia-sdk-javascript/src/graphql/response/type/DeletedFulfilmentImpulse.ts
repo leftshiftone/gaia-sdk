@@ -13,5 +13,5 @@ export interface DeletedFulfilmentImpulse {
     /**
     * the fulfilment instance
     */
-    fulfilment?:Intent
+    data?:Intent
 }

@@ -21,67 +21,67 @@ class DeleteKnowledge(list):
     """
     deletes a list of intents with the given specifications
     """
-    def intents(self, impulse: List[DeleteIntentImpulse], config: Callable[['DeletedIntentImpulse'], None]):
+    def intents(self, impulses: List[DeleteIntentImpulse], config: Callable[['DeletedIntentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedIntentImpulse()
             config(entity)
-            return f'intents(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'intents(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of prompts with the given specifications
     """
-    def prompts(self, impulse: List[DeletePromptImpulse], config: Callable[['DeletedPromptImpulse'], None]):
+    def prompts(self, impulses: List[DeletePromptImpulse], config: Callable[['DeletedPromptImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedPromptImpulse()
             config(entity)
-            return f'prompts(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prompts(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of statements with the given specifications
     """
-    def statements(self, impulse: List[DeleteStatementImpulse], config: Callable[['DeletedStatementImpulse'], None]):
+    def statements(self, impulses: List[DeleteStatementImpulse], config: Callable[['DeletedStatementImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedStatementImpulse()
             config(entity)
-            return f'statements(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'statements(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of fulfilments with the given specifications
     """
-    def fulfilments(self, impulse: List[DeleteFulfilmentImpulse], config: Callable[['DeletedFulfilmentImpulse'], None]):
+    def fulfilments(self, impulses: List[DeleteFulfilmentImpulse], config: Callable[['DeletedFulfilmentImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedFulfilmentImpulse()
             config(entity)
-            return f'fulfilments(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'fulfilments(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of behaviours with the given specifications
     """
-    def behaviours(self, impulse: List[DeleteBehaviourImpulse], config: Callable[['DeletedBehaviourImpulse'], None]):
+    def behaviours(self, impulses: List[DeleteBehaviourImpulse], config: Callable[['DeletedBehaviourImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedBehaviourImpulse()
             config(entity)
-            return f'behaviours(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviours(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
     deletes a list of codes with the given specifications
     """
-    def codes(self, impulse: List[DeleteCodeImpulse], config: Callable[['DeletedCodeImpulse'], None]):
+    def codes(self, impulses: List[DeleteCodeImpulse], config: Callable[['DeletedCodeImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("impulse", impulse)
+            name1 = registry.register("impulses", impulses)
             entity = DeletedCodeImpulse()
             config(entity)
-            return f'codes(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

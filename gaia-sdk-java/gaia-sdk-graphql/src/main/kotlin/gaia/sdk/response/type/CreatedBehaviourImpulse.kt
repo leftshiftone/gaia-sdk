@@ -16,5 +16,5 @@ data class CreatedBehaviourImpulse @JsonCreator constructor(
     /**
     * the behaviour instance
     */
-    @JsonProperty("behaviour") val behaviour:Behaviour?
+    @JsonProperty("data") val data:Behaviour?
 )

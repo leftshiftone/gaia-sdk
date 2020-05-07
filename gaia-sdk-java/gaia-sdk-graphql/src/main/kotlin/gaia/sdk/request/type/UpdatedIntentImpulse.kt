@@ -21,8 +21,8 @@ class UpdatedIntentImpulse: Type() {
     /**
      * the intent instance
      */
-    fun intent(config: Intent.() -> Unit) = 
-        add { "intent{ " + Intent().apply(config).render(it) + "}"}
+    fun data(config: Intent.() -> Unit) = 
+        add { "data{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

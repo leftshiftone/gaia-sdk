@@ -13,5 +13,5 @@ export interface DeletedBehaviourImpulse {
     /**
     * the behaviour instance
     */
-    behaviour?:Intent
+    data?:Intent
 }

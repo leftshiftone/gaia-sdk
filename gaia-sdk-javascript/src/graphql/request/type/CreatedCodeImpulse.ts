@@ -18,10 +18,10 @@ export class CreatedCodeImpulse extends Array<(_:VariableRegistry) => string> {
     /**
      * the code instance
      */
-    public code = (config: (_:Code) => void) => this.push((registry) => {
+    public data = (config: (_:Code) => void) => this.push((registry) => {
         const entity = new Code();
         config(entity);
-        return "code { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

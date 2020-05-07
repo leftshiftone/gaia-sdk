@@ -18,10 +18,10 @@ export class DeletedStatementImpulse extends Array<(_:VariableRegistry) => strin
     /**
      * the statement instance
      */
-    public statement = (config: (_:Intent) => void) => this.push((registry) => {
+    public data = (config: (_:Intent) => void) => this.push((registry) => {
         const entity = new Intent();
         config(entity);
-        return "statement { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

@@ -13,5 +13,5 @@ export interface DeletedPromptImpulse {
     /**
     * the prompt instance
     */
-    prompt?:Intent
+    data?:Intent
 }

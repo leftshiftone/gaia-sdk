@@ -24,5 +24,5 @@ class DeletedCodeImpulse:
     the code instance
     """
     @property
-    def code(self) -> Intent:
-        return Intent(self.dictionary.get("code"))
+    def data(self) -> Intent:
+        return Intent(self.dictionary.get("data"))

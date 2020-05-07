@@ -18,10 +18,10 @@ export class CreatedStatementImpulse extends Array<(_:VariableRegistry) => strin
     /**
      * the statement instance
      */
-    public statement = (config: (_:Statement) => void) => this.push((registry) => {
+    public data = (config: (_:Statement) => void) => this.push((registry) => {
         const entity = new Statement();
         config(entity);
-        return "statement { " + entity.render(registry) + " }";
+        return "data { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

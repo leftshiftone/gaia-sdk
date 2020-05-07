@@ -21,8 +21,8 @@ class DeletedBehaviourImpulse: Type() {
     /**
      * the behaviour instance
      */
-    fun behaviour(config: Intent.() -> Unit) = 
-        add { "behaviour{ " + Intent().apply(config).render(it) + "}"}
+    fun data(config: Intent.() -> Unit) = 
+        add { "data{ " + Intent().apply(config).render(it) + "}"}
 
 }
 

@@ -13,5 +13,5 @@ export interface CreatedPromptImpulse {
     /**
     * the prompt instance
     */
-    prompt?:Prompt
+    data?:Prompt
 }

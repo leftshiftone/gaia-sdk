@@ -24,5 +24,5 @@ class DeletedPromptImpulse:
     the prompt instance
     """
     @property
-    def prompt(self) -> Intent:
-        return Intent(self.dictionary.get("prompt"))
+    def data(self) -> Intent:
+        return Intent(self.dictionary.get("data"))

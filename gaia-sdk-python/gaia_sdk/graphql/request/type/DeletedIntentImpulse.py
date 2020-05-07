@@ -16,11 +16,11 @@ class DeletedIntentImpulse(list):
     """
     the intent instance
     """
-    def intent(self, config: Callable[['Intent'], None]):
+    def data(self, config: Callable[['Intent'], None]):
         def callback(registry: VariableRegistry):
             entity = Intent()
             config(entity)
-            return "intent {" + entity.render(registry) + "}"
+            return "data {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):
