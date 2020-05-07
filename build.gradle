@@ -82,7 +82,9 @@ configurations {
 dependencies {
     antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
 
-    mockServer "one.leftshift.heimdall:heimdall-mock:latest.integration:all"
+    mockServer("one.leftshift.heimdall:heimdall-mock:latest.integration:all") {
+        transitive false
+    }
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
