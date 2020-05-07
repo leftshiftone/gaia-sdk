@@ -118,4 +118,8 @@ subprojects {
     if (System.getenv("CI")) {
         publish.finalizedBy bintrayUpload
     }
+    if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+        rootProject.tasks.release.dependsOn tasks.generateLock
+        rootProject.tasks.release.dependsOn tasks.saveLock
+    }
 }

@@ -288,3 +288,9 @@ bintray {
 if (System.getenv("CI")) {
     publish.finalizedBy bintrayUpload
 }
+
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    tasks.release.dependsOn tasks.generateLock
+    tasks.release.dependsOn tasks.saveLock
+    tasks.release.dependsOn tasks.persistDependencyLock
+}
