@@ -116,35 +116,35 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public retrievePrompts(config: (x: PromptReq) => void): Observable<PromptRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.prompts(config))
+            g.knowledge(k => k.prompts(x.identityId, config))
         }))));
         return Rx.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
     }
 
     public retrieveStatements(config: (x: StatementReq) => void): Observable<StatementRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.statements(config))
+            g.knowledge(k => k.statements(x.identityId, config))
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
     }
 
     public retrieveFulfilments(config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.fulfilments(config))
+            g.knowledge(k => k.fulfilments(x.identityId, config))
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
     }
 
     public retrieveCodes(config: (x: CodeReq) => void): Observable<CodeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.codes(config))
+            g.knowledge(k => k.codes(x.identityId, config))
         }))));
         return Rx.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
     }
 
     public retrieveBehaviours(config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.behaviours(config))
+            g.knowledge(k => k.behaviours(x.identityId, config))
         }))));
         return Rx.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
     }

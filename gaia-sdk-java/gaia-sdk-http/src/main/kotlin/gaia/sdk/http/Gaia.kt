@@ -1,5 +1,6 @@
 package gaia.sdk.http
 
+import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.Experience
@@ -29,12 +30,18 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun retrieveExperience(config: Experience.() -> Unit) = fProc.retrieveExperience(config)
     override fun retrieveKnowledge(config: Knowledge.() -> Unit) = fProc.retrieveKnowledge(config)
     override fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit) = fProc.retrieveKnowledgeEdge(config)
-    override fun retrieveIntents(config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntents(config)
-    override fun retrievePrompts(config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompts(config)
-    override fun retrieveStatements(config: gaia.sdk.request.type.Statement.() -> Unit) = fProc.retrieveStatements(config)
-    override fun retrieveFulfilments(config: gaia.sdk.request.type.Fulfilment.() -> Unit) = fProc.retrieveFulfilments(config)
-    override fun retrieveCode(config: gaia.sdk.request.type.Code.() -> Unit) = fProc.retrieveCode(config)
-    override fun retrieveBehaviour(config: gaia.sdk.request.type.Behaviour.() -> Unit) = fProc.retrieveBehaviour(config)
+    override fun retrieveIntents(identityId: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntents(identityId, config)
+    override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntent(identityId, reference, config)
+    override fun retrievePrompts(identityId: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompts(identityId, config)
+    override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompt(identityId, reference, config)
+    override fun retrieveStatements(identityId: Uuid, config: gaia.sdk.request.type.Statement.() -> Unit) = fProc.retrieveStatements(identityId, config)
+    override fun retrieveStatement(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Statement.() -> Unit) = fProc.retrieveStatement(identityId, reference, config)
+    override fun retrieveFulfilments(identityId: Uuid, config: gaia.sdk.request.type.Fulfilment.() -> Unit) = fProc.retrieveFulfilments(identityId, config)
+    override fun retrieveFulfilment(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Fulfilment.() -> Unit) = fProc.retrieveFulfilment(identityId, reference, config)
+    override fun retrieveCodes(identityId: Uuid, config: gaia.sdk.request.type.Code.() -> Unit) = fProc.retrieveCodes(identityId, config)
+    override fun retrieveCode(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Code.() -> Unit) = fProc.retrieveCode(identityId, reference, config)
+    override fun retrieveBehaviours(identityId: Uuid, config: gaia.sdk.request.type.Behaviour.() -> Unit) = fProc.retrieveBehaviours(identityId, config)
+    override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Behaviour.() -> Unit) = fProc.retrieveBehaviour(identityId, reference, config)
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
     override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)

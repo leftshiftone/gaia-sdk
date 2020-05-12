@@ -2,6 +2,7 @@ package gaia.sdk.http
 
 import gaia.sdk.GaiaClientBuilder
 import gaia.sdk.GaiaRequest
+import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.extension.flatMap
 import gaia.sdk.api.extension.flatMapM
@@ -30,23 +31,41 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
     override fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(config) } } })) { it.retrieve?.knowledge?.edges!! }
 
-    override fun retrieveIntents(config: Intent.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(config) } } })) { it.retrieve?.knowledge?.intents!! }
+    override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
-    override fun retrievePrompts(config: Prompt.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompts(config) } } })) { it.retrieve?.knowledge?.prompts!! }
+    override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intent(identityId, reference, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
-    override fun retrieveStatements(config: Statement.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statements(config) } } })) { it.retrieve?.knowledge?.statements!! }
+    override fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompts(identityId, config) } } })) { it.retrieve?.knowledge?.prompts!! }
 
-    override fun retrieveFulfilments(config: Fulfilment.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilments(config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+    override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: Prompt.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompt(identityId, reference, config) } } })) { it.retrieve?.knowledge?.prompts!! }
 
-    override fun retrieveCode(config: Code.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { codes(config) } } })) { it.retrieve?.knowledge?.codes!! }
+    override fun retrieveStatements(identityId: Uuid, config: Statement.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statements(identityId, config) } } })) { it.retrieve?.knowledge?.statements!! }
 
-    override fun retrieveBehaviour(config: Behaviour.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviours(config) } } })) { it.retrieve?.knowledge?.behaviours!! }
+    override fun retrieveStatement(identityId: Uuid, reference: Uuid, config: Statement.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statement(identityId, reference, config) } } })) { it.retrieve?.knowledge?.statements!! }
+
+    override fun retrieveFulfilments(identityId: Uuid, config: Fulfilment.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilments(identityId, config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+
+    override fun retrieveFulfilment(identityId: Uuid, reference: Uuid, config: Fulfilment.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilment(identityId, reference, config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+
+    override fun retrieveCodes(identityId: Uuid, config: Code.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { codes(identityId, config) } } })) { it.retrieve?.knowledge?.codes!! }
+
+    override fun retrieveCode(identityId: Uuid, reference: Uuid, config: Code.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { code(identityId, reference, config) } } })) { it.retrieve?.knowledge?.codes!! }
+
+    override fun retrieveBehaviours(identityId: Uuid, config: Behaviour.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviours(identityId, config) } } })) { it.retrieve?.knowledge?.behaviours!! }
+
+    override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviours!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }

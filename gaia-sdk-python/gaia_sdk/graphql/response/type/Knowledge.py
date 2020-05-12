@@ -24,20 +24,38 @@ class Knowledge:
     def intents(self) -> List[Intent]:
         return list(map(lambda x: Intent(x), self.dictionary.get("intents")))
     @property
+    def intent(self) -> Intent:
+        return Intent(self.dictionary.get("intent"))
+    @property
     def prompts(self) -> List[Prompt]:
         return list(map(lambda x: Prompt(x), self.dictionary.get("prompts")))
+    @property
+    def prompt(self) -> Prompt:
+        return Prompt(self.dictionary.get("prompt"))
     @property
     def fulfilments(self) -> List[Fulfilment]:
         return list(map(lambda x: Fulfilment(x), self.dictionary.get("fulfilments")))
     @property
+    def fulfilment(self) -> Fulfilment:
+        return Fulfilment(self.dictionary.get("fulfilment"))
+    @property
     def statements(self) -> List[Statement]:
         return list(map(lambda x: Statement(x), self.dictionary.get("statements")))
+    @property
+    def statement(self) -> Statement:
+        return Statement(self.dictionary.get("statement"))
     @property
     def codes(self) -> List[Code]:
         return list(map(lambda x: Code(x), self.dictionary.get("codes")))
     @property
+    def code(self) -> Code:
+        return Code(self.dictionary.get("code"))
+    @property
     def behaviours(self) -> List[Behaviour]:
         return list(map(lambda x: Behaviour(x), self.dictionary.get("behaviours")))
+    @property
+    def behaviour(self) -> Behaviour:
+        return Behaviour(self.dictionary.get("behaviour"))
     @property
     def edges(self) -> List[KnowledgeEdge]:
         return list(map(lambda x: KnowledgeEdge(x), self.dictionary.get("edges")))

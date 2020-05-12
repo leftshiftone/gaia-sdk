@@ -14,40 +14,94 @@ import {SkillState} from "../enumeration/SkillState";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
 
-    public intents = (config: (_:Intent) => void) => this.push((registry) => {
+    public intents = (identityId : Uuid, config: (_:Intent) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Intent();
         config(entity);
-        return "intents { " + entity.render(registry) + " }";
+        return `intents(identityId:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public prompts = (config: (_:Prompt) => void) => this.push((registry) => {
+    public intent = (identityId : Uuid, reference : Uuid, config: (_:Intent) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Intent();
+        config(entity);
+        return `intent(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
+    });
+
+    public prompts = (identityId : Uuid, config: (_:Prompt) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Prompt();
         config(entity);
-        return "prompts { " + entity.render(registry) + " }";
+        return `prompts(identityId:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public fulfilments = (config: (_:Fulfilment) => void) => this.push((registry) => {
+    public prompt = (identityId : Uuid, reference : Uuid, config: (_:Prompt) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Prompt();
+        config(entity);
+        return `prompt(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
+    });
+
+    public fulfilments = (identityId : Uuid, config: (_:Fulfilment) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Fulfilment();
         config(entity);
-        return "fulfilments { " + entity.render(registry) + " }";
+        return `fulfilments(identityId:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public statements = (config: (_:Statement) => void) => this.push((registry) => {
+    public fulfilment = (identityId : Uuid, reference : Uuid, config: (_:Fulfilment) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Fulfilment();
+        config(entity);
+        return `fulfilment(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
+    });
+
+    public statements = (identityId : Uuid, config: (_:Statement) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Statement();
         config(entity);
-        return "statements { " + entity.render(registry) + " }";
+        return `statements(identityId:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public codes = (config: (_:Code) => void) => this.push((registry) => {
+    public statement = (identityId : Uuid, reference : Uuid, config: (_:Statement) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Statement();
+        config(entity);
+        return `statement(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
+    });
+
+    public codes = (identityId : Uuid, config: (_:Code) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Code();
         config(entity);
-        return "codes { " + entity.render(registry) + " }";
+        return `codes(identityId:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public behaviours = (config: (_:Behaviour) => void) => this.push((registry) => {
+    public code = (identityId : Uuid, reference : Uuid, config: (_:Code) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Code();
+        config(entity);
+        return `code(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
+    });
+
+    public behaviours = (identityId : Uuid, config: (_:Behaviour) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
         const entity = new Behaviour();
         config(entity);
-        return "behaviours { " + entity.render(registry) + " }";
+        return `behaviours(identityId:$${name1}){` + entity.render(registry) + "}"
+    });
+
+    public behaviour = (identityId : Uuid, reference : Uuid, config: (_:Behaviour) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Behaviour();
+        config(entity);
+        return `behaviour(identityId:$${name1}reference:$${name2}){` + entity.render(registry) + "}"
     });
 
     public edges = (config: (_:KnowledgeEdge) => void) => this.push((registry) => {
