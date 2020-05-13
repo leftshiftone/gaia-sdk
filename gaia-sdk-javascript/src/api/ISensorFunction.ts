@@ -68,6 +68,7 @@ import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {UpdatedCodeImpulse} from "../graphql/response/type/UpdatedCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
 import {DeletedCodeImpulse} from "../graphql/response/type/DeletedCodeImpulse";
+import {Uuid} from "../graphql/GaiaClient";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -78,17 +79,29 @@ export interface ISensorFunction {
 
     retrieveKnowledgeEdge(config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
 
-    retrieveIntents(config: (x: IntentReq) => void): Observable<IntentRes>
+    retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes>
 
-    retrievePrompts(config: (x: PromptReq) => void): Observable<PromptRes>
+    retrieveIntent(identityId: Uuid, reference, config: (x: IntentReq) => void): Observable<IntentRes>
 
-    retrieveStatements(config: (x: StatementReq) => void): Observable<StatementRes>
+    retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
 
-    retrieveFulfilments(config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+    retrievePrompt(identityId: Uuid, reference: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
 
-    retrieveCodes(config: (x: CodeReq) => void): Observable<CodeRes>
+    retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
 
-    retrieveBehaviours(config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+    retrieveStatement(identityId: Uuid, reference: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
+
+    retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+
+    retrieveFulfilment(identityId: Uuid, reference: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+
+    retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
+
+    retrieveCode(identityId: Uuid, reference: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
+
+    retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+
+    retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 

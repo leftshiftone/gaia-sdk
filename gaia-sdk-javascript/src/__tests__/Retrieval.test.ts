@@ -5,10 +5,10 @@ describe("perception tests:", () => {
 
     test('test retrieve behaviour', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveBehaviours(_ => {
+            const observable = gaiaRef.retrieveBehaviours(identityId,_ => {
                 _.identityId();
                 _.reference();
             });
@@ -22,10 +22,10 @@ describe("perception tests:", () => {
 
     test('test retrieve code', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveCodes(_ => {
+            const observable = gaiaRef.retrieveCodes(identityId,_ => {
                 _.identityId();
                 _.reference();
             });
@@ -39,10 +39,10 @@ describe("perception tests:", () => {
 
     test('test retrieve intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveIntents(_ => {
+            const observable = gaiaRef.retrieveIntents(identityId,_ => {
                 _.identityId();
                 _.reference();
             });
@@ -56,10 +56,10 @@ describe("perception tests:", () => {
 
     test('test retrieve prompt', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrievePrompts(_ => {
+            const observable = gaiaRef.retrievePrompts(identityId,_ => {
                 _.identityId();
                 _.reference();
             });
@@ -73,10 +73,10 @@ describe("perception tests:", () => {
 
     test('test retrieve fulfilment', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveFulfilments(_ => {
+            const observable = gaiaRef.retrieveFulfilments(identityId,_ => {
                 _.identityId();
                 _.reference();
             });
@@ -90,10 +90,10 @@ describe("perception tests:", () => {
 
     test('test retrieve statement', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveStatements(_ => {
+            const observable = gaiaRef.retrieveStatements(identityId,_ => {
                 _.identityId();
                 _.reference();
             });

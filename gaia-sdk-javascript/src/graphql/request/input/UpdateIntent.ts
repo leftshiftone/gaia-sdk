@@ -15,16 +15,16 @@ export class UpdateIntent {
     private qualifier:String;
     private appendent:String;
     private utterance:Struct;
-    private labellist:Struct;
+    private labelList:Array<String>;
     private version:String;
 
-    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, utterance:Struct, labellist:Struct, version:String) {
+    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, utterance:Struct, labelList:Array<String>, version:String) {
         this.identityId = identityId;
         this.reference = reference;
         this.qualifier = qualifier;
         this.appendent = appendent;
         this.utterance = utterance;
-        this.labellist = labellist;
+        this.labelList = labelList;
         this.version = version;
     }
 }

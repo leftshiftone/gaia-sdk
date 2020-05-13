@@ -73,6 +73,7 @@ import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {UpdatedCodeImpulse} from "../graphql/response/type/UpdatedCodeImpulse";
 import {DeletedCodeImpulse} from "../graphql/response/type/DeletedCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
+import {Uuid} from "../graphql/GaiaClient";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -102,49 +103,91 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public retrieveKnowledgeEdge(config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
-            r.knowledge(k => k.edges(config))
+            r.knowledge(k => k.edges(config));
         }))));
         return Rx.flatMapQ<KnowledgeEdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
     }
 
-    public retrieveIntents(config: (x: IntentReq) => void): Observable<IntentRes> {
+    public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(g => g.intents(config))
+            g.knowledge(g => g.intents(identityId, config));
         }))));
         return Rx.flatMapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intents!);
     }
 
-    public retrievePrompts(config: (x: PromptReq) => void): Observable<PromptRes> {
+    public retrieveIntent(identityId: Uuid, reference: Uuid, config: (x: IntentReq) => void): Observable<IntentRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.prompts(x.identityId, config))
+            g.knowledge(g => g.intent(identityId, reference, config));
+        }))));
+        return Rx.flatMapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intents!);
+    }
+
+    public retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void): Observable<PromptRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.prompts(identityId, config));
         }))));
         return Rx.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
     }
 
-    public retrieveStatements(config: (x: StatementReq) => void): Observable<StatementRes> {
+    public retrievePrompt(identityId: Uuid, reference: Uuid, config: (x: PromptReq) => void): Observable<PromptRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.statements(x.identityId, config))
+            g.knowledge(k => k.prompt(identityId, reference, config));
+        }))));
+        return Rx.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
+    }
+
+    public retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void): Observable<StatementRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.statements(identityId, config));
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
     }
 
-    public retrieveFulfilments(config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
+    public retrieveStatement(identityId: Uuid, reference: Uuid, config: (x: StatementReq) => void): Observable<StatementRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.fulfilments(x.identityId, config))
+            g.knowledge(k => k.statement(identityId, reference, config));
+        }))));
+        return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
+    }
+
+    public retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.fulfilments(identityId, config));
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
     }
 
-    public retrieveCodes(config: (x: CodeReq) => void): Observable<CodeRes> {
+    public retrieveFulfilment(identityId: Uuid, reference: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.codes(x.identityId, config))
+            g.knowledge(k => k.fulfilment(identityId, reference, config));
+        }))));
+        return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
+    }
+
+    public retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void): Observable<CodeRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.codes(identityId, config));
         }))));
         return Rx.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
     }
 
-    public retrieveBehaviours(config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
+    public retrieveCode(identityId: Uuid, reference: Uuid, config: (x: CodeReq) => void): Observable<CodeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(k => k.behaviours(x.identityId, config))
+            g.knowledge(k => k.code(identityId, reference, config));
+        }))));
+        return Rx.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
+    }
+
+    public retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.behaviours(identityId, config));
+        }))));
+        return Rx.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
+    }
+
+    public retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.behaviour(identityId, reference, config));
         }))));
         return Rx.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
     }

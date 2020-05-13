@@ -18,6 +18,6 @@ class UpdateIntent():
     qualifier: str
     appendent: str
     utterance: dict
-    labellist: dict
+    labelList: List[str]
     version: str
 
