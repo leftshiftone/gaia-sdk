@@ -31,7 +31,7 @@ export interface Intent {
     /**
     * The list of labels of the intent
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The version of the intent
     */

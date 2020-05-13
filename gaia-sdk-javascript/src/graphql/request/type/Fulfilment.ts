@@ -48,8 +48,8 @@ export class Fulfilment extends Array<(_:VariableRegistry) => string> {
     /**
      * The list of labels of the fulfilment
      */
-    public labellist = () => { 
-        this.push(_ => "labellist")
+    public labelList = () => { 
+        this.push(_ => "labelList")
     };
 
     /**

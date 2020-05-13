@@ -31,7 +31,7 @@ data class Behaviour @JsonCreator constructor(
     /**
     * The list of labels of the behaviour
     */
-    @JsonProperty("labellist") val labellist:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>?, 
     /**
     * The behaviour xml
     */

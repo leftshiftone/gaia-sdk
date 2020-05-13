@@ -44,8 +44,8 @@ class Behaviour:
     The list of labels of the behaviour
     """
     @property
-    def labellist(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("labellist")))
+    def label_list(self) -> List[String]:
+        return list(map(lambda x: String(x), self.dictionary.get("labelList")))
     """
     The behaviour xml
     """

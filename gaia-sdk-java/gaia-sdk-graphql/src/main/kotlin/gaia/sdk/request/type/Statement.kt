@@ -52,8 +52,8 @@ class Statement: Type() {
     /**
      * The list of labels of the statement
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

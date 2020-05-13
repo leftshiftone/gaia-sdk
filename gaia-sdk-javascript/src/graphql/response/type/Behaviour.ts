@@ -27,7 +27,7 @@ export interface Behaviour {
     /**
     * The list of labels of the behaviour
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The behaviour xml
     */

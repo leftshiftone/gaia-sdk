@@ -52,8 +52,8 @@ class Prompt: Type() {
     /**
      * The list of labels of the prompt
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

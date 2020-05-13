@@ -42,8 +42,8 @@ class Intent(list):
     """
     The list of labels of the intent
     """
-    def labellist(self):
-        self.append(lambda x: "labellist")
+    def label_list(self):
+        self.append(lambda x: "labelList")
 
     """
     The version of the intent

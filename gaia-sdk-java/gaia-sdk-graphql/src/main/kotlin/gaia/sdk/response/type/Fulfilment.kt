@@ -35,7 +35,7 @@ data class Fulfilment @JsonCreator constructor(
     /**
     * The list of labels of the fulfilment
     */
-    @JsonProperty("labellist") val labellist:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>?, 
     /**
     * The version of the fulfilment
     */

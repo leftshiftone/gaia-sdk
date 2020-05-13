@@ -35,7 +35,7 @@ data class Intent @JsonCreator constructor(
     /**
     * The list of labels of the intent
     */
-    @JsonProperty("labellist") val labellist:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>?, 
     /**
     * The version of the intent
     */

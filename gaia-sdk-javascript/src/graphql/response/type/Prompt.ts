@@ -31,7 +31,7 @@ export interface Prompt {
     /**
     * The list of labels of the prompt
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The version of the prompt
     */

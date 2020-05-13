@@ -48,8 +48,8 @@ export class Prompt extends Array<(_:VariableRegistry) => string> {
     /**
      * The list of labels of the prompt
      */
-    public labellist = () => { 
-        this.push(_ => "labellist")
+    public labelList = () => { 
+        this.push(_ => "labelList")
     };
 
     /**

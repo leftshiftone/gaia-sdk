@@ -35,7 +35,7 @@ data class Prompt @JsonCreator constructor(
     /**
     * The list of labels of the prompt
     */
-    @JsonProperty("labellist") val labellist:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>?, 
     /**
     * The version of the prompt
     */

@@ -42,8 +42,8 @@ class Code(list):
     """
     The list of labels of the code
     """
-    def labellist(self):
-        self.append(lambda x: "labellist")
+    def label_list(self):
+        self.append(lambda x: "labelList")
 
     """
     The type of the code
