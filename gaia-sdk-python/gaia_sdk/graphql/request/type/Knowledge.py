@@ -115,11 +115,21 @@ class Knowledge(list):
             return f'behaviour(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def edges(self, config: Callable[['KnowledgeEdge'], None]):
+    def edges(self, source: str, config: Callable[['KnowledgeEdge'], None]):
         def callback(registry: VariableRegistry):
+            name1 = registry.register("source", source)
             entity = KnowledgeEdge()
             config(entity)
-            return "edges {" + entity.render(registry) + "}"
+            return f'edges(source:${name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def edge(self, source: str, target: str, config: Callable[['KnowledgeEdge'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("source", source)
+            name2 = registry.register("target", target)
+            entity = KnowledgeEdge()
+            config(entity)
+            return f'edge(source:${name1}, target:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

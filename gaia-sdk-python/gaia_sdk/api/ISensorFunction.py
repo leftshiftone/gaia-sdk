@@ -1,22 +1,21 @@
 from abc import abstractmethod, ABC
-from typing import Callable, List
-
-import rx
 from rx.core.typing import Observable
+from typing import Callable, List
 
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, KnowledgeEdgeReq, \
     IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, KnowledgeEdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
-    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, PerceiveActionImpulse, PerceiveDataImpulse,\
+    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, PerceiveActionImpulse, PerceiveDataImpulse, \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
-    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse,\
+    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
     CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
+
 Uuid = str
 
 class ISensorFunction(ABC):
@@ -34,7 +33,11 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_knowledge_edge(self, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
         pass
 
     @abstractmethod

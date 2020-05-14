@@ -101,10 +101,19 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `behaviour(identityId:$${name1}, reference:$${name2}){` + entity.render(registry) + "}"
     });
 
-    public edges = (config: (_:KnowledgeEdge) => void) => this.push((registry) => {
+    public edges = (source : Uuid, config: (_:KnowledgeEdge) => void) => this.push((registry) => {
+        const name1 = registry.register("source", source);
         const entity = new KnowledgeEdge();
         config(entity);
-        return "edges { " + entity.render(registry) + " }";
+        return `edges(source:$${name1}){` + entity.render(registry) + "}"
+    });
+
+    public edge = (source : Uuid, target : Uuid, config: (_:KnowledgeEdge) => void) => this.push((registry) => {
+        const name1 = registry.register("source", source);
+        const name2 = registry.register("target", target);
+        const entity = new KnowledgeEdge();
+        config(entity);
+        return `edge(source:$${name1}, target:$${name2}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

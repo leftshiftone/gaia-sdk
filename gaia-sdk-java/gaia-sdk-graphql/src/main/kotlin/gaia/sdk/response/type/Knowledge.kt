@@ -1,12 +1,7 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.response.intf.*
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
-import gaia.sdk.request.enumeration.*
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Knowledge @JsonCreator constructor(
     @JsonProperty("intents") val intents:List<Intent>?, 
@@ -21,5 +16,6 @@ data class Knowledge @JsonCreator constructor(
     @JsonProperty("code") val code:Code?, 
     @JsonProperty("behaviours") val behaviours:List<Behaviour>?, 
     @JsonProperty("behaviour") val behaviour:Behaviour?, 
-    @JsonProperty("edges") val edges:List<KnowledgeEdge>?
+    @JsonProperty("edges") val edges:List<KnowledgeEdge>?, 
+    @JsonProperty("edge") val edge:KnowledgeEdge?
 )

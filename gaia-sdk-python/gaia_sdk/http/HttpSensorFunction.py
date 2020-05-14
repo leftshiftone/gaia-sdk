@@ -1,9 +1,9 @@
-from typing import Callable, List
-
 import rx
 from rx.core.typing import Observable
+from typing import Callable, List
 
 from gaia_sdk.api.ISensorFunction import ISensorFunction
+from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.rx.rx import mapQ, mapM, flat_mapM, flat_mapQ
 from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, KnowledgeReq, KnowledgeEdgeReq, \
     IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
@@ -22,7 +22,6 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
 from gaia_sdk.graphql.GaiaClient import GaiaClient
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 from gaia_sdk.http.HttpTransporter import HttpTransporter
-from gaia_sdk.api.client_options import ClientOptions
 
 Uuid = str
 
@@ -54,14 +53,23 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return mapQ(observable, query_res)
 
-    def retrieve_knowledge_edge(self, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
-        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(config)
+    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(source, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], KnowledgeEdgeRes] = lambda x: x.retrieve.knowledge.edges
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return flat_mapQ(observable, query_res)
+
+    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edge(source, target, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res: Callable[[QueryRes], KnowledgeEdgeRes] = lambda x: x.retrieve.knowledge.edge
+
+        observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
+        return mapQ(observable, query_res)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         intents_req: Callable[[IntentReq], None] = lambda x: x.intents(identityId, config)
@@ -76,10 +84,10 @@ class HttpSensorFunction(ISensorFunction):
         intents_req: Callable[[IntentReq], None] = lambda x: x.intent(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(intents_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], IntentRes] = lambda x: x.retrieve.knowledge.intents
+        query_res: Callable[[QueryRes], IntentRes] = lambda x: x.retrieve.knowledge.intent
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         prompts_req: Callable[[PromptReq], None] = lambda x: x.prompts(identityId, config)
@@ -94,10 +102,10 @@ class HttpSensorFunction(ISensorFunction):
         prompts_req: Callable[[PromptReq], None] = lambda x: x.prompt(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(prompts_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], PromptRes] = lambda x: x.retrieve.knowledge.prompts
+        query_res: Callable[[QueryRes], PromptRes] = lambda x: x.retrieve.knowledge.prompt
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def retrieve_statements(self,identityId: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
         statement_req: Callable[[StatementReq], None] = lambda x: x.statements(identityId, config)
@@ -112,10 +120,10 @@ class HttpSensorFunction(ISensorFunction):
         statement_req: Callable[[StatementReq], None] = lambda x: x.statement(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(statement_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], StatementRes] = lambda x: x.retrieve.knowledge.statements
+        query_res: Callable[[QueryRes], StatementRes] = lambda x: x.retrieve.knowledge.statement
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
         fulfilment_req: Callable[[FulfilmentReq], None] = lambda x: x.fulfilments(identityId, config)
@@ -130,10 +138,10 @@ class HttpSensorFunction(ISensorFunction):
         fulfilment_req: Callable[[FulfilmentReq], None] = lambda x: x.fulfilment(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(fulfilment_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], FulfilmentRes] = lambda x: x.retrieve.knowledge.fulfilments
+        query_res: Callable[[QueryRes], FulfilmentRes] = lambda x: x.retrieve.knowledge.fulfilment
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
         code_req: Callable[[CodeReq], None] = lambda x: x.codes(identityId, config)
@@ -148,10 +156,10 @@ class HttpSensorFunction(ISensorFunction):
         code_req: Callable[[CodeReq], None] = lambda x: x.code(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(code_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], CodeRes] = lambda x: x.retrieve.knowledge.codes
+        query_res: Callable[[QueryRes], CodeRes] = lambda x: x.retrieve.knowledge.code
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
         behaviour_req: Callable[[BehaviourReq], None] = lambda x: x.behaviours(identityId, config)
@@ -166,10 +174,10 @@ class HttpSensorFunction(ISensorFunction):
         behaviour_req: Callable[[BehaviourReq], None] = lambda x: x.behaviour(identityId, reference, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(behaviour_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], BehaviourRes] = lambda x: x.retrieve.knowledge.behaviours
+        query_res: Callable[[QueryRes], BehaviourRes] = lambda x: x.retrieve.knowledge.behaviour
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
-        return flat_mapQ(observable, query_res)
+        return mapQ(observable, query_res)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(config)

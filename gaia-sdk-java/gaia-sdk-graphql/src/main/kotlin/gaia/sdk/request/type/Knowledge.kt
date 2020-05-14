@@ -1,13 +1,7 @@
 package gaia.sdk.request.type
 
-import gaia.sdk.client.Type
-import gaia.sdk.request.intf.*
-import gaia.sdk.client.Input
 import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.request.input.*
-import gaia.sdk.request.enumeration.*
+import gaia.sdk.client.Type
 
 class Knowledge: Type() {
 
@@ -77,8 +71,15 @@ class Knowledge: Type() {
         "behaviour(identityId:$$name1, reference:$$name2){" + Behaviour().apply(config).render(it) + "}"
     }
 
-    fun edges(config: KnowledgeEdge.() -> Unit) = 
-        add { "edges{ " + KnowledgeEdge().apply(config).render(it) + "}"}
+    fun edges(source : Uuid, config: KnowledgeEdge.() -> Unit) = add {
+        val name1 = it.register("source", source)
+        "edges(source:$$name1){" + KnowledgeEdge().apply(config).render(it) + "}"
+    }
 
+    fun edge(source : Uuid, target : Uuid, config: KnowledgeEdge.() -> Unit) = add {
+        val name1 = it.register("source", source)
+        val name2 = it.register("target", target)
+        "edge(source:$$name1, target:$$name2){" + KnowledgeEdge().apply(config).render(it) + "}"
+    }
 }
 

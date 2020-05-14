@@ -28,8 +28,11 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
     override fun retrieveExperience(config: Experience.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { experience(config) } })) { it.retrieve?.experience!! }
 
-    override fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(config) } } })) { it.retrieve?.knowledge?.edges!! }
+    override fun retrieveKnowledgeEdges(source: Uuid, config: KnowledgeEdge.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(source, config) } } })) { it.retrieve?.knowledge?.edges!! }
+
+    override fun retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: KnowledgeEdge.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, target, config) } } })) { it.retrieve?.knowledge?.edge!! }
 
     override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, config) } } })) { it.retrieve?.knowledge?.intents!! }

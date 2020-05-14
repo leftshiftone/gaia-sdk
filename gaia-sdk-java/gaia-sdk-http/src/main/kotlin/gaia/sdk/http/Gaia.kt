@@ -7,8 +7,6 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.KnowledgeEdge
 import gaia.sdk.request.type.Retrieval
-import gaia.sdk.response.type.*
-import org.reactivestreams.Publisher
 
 class Gaia {
     companion object {
@@ -29,7 +27,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun retrieve(config: Retrieval.() -> Unit) = fProc.retrieve(config)
     override fun retrieveExperience(config: Experience.() -> Unit) = fProc.retrieveExperience(config)
     override fun retrieveKnowledge(config: Knowledge.() -> Unit) = fProc.retrieveKnowledge(config)
-    override fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit) = fProc.retrieveKnowledgeEdge(config)
+    override fun retrieveKnowledgeEdges(source: Uuid, config: KnowledgeEdge.() -> Unit) = fProc.retrieveKnowledgeEdges(source, config)
+    override fun retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: KnowledgeEdge.() -> Unit) = fProc.retrieveKnowledgeEdge(source, target, config)
     override fun retrieveIntents(identityId: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntents(identityId, config)
     override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntent(identityId, reference, config)
     override fun retrievePrompts(identityId: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompts(identityId, config)

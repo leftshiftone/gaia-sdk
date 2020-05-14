@@ -1,8 +1,6 @@
 from dataclasses import dataclass
-from typing import Callable, List
-
-import rx
 from rx.core.typing import Observable
+from typing import Callable, List
 
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, KnowledgeEdgeReq, \
@@ -20,6 +18,7 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
+
 Uuid = str
 
 class Gaia:
@@ -51,8 +50,11 @@ class GaiaRef(ISensorFunction):
     def retrieve_knowledge(self, config: Callable[[KnowledgeReq], None]) -> Observable[KnowledgeRes]:
         return self.f_proc.retrieve_knowledge(config)
 
-    def retrieve_knowledge_edge(self, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
-        return self.f_proc.retrieve_knowledge_edge(config)
+    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+        return self.f_proc.retrieve_knowledge_edges(source, config)
+
+    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+        return self.f_proc.retrieve_knowledge_edge(source, target, config)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         return self.f_proc.retrieve_intents(identityId, config)

@@ -233,10 +233,30 @@ class RetrievalTest {
     }
 
     @Test
+    fun `test retrieve knowledge edges`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val source = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveKnowledgeEdges(source) {
+            source()
+            target()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.source!=null && it.target!=null
+        }
+    }
+
+    @Test
     fun `test retrieve knowledge edge`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val source = UUID.randomUUID().toString()
+        val target = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveKnowledgeEdge {
+        val publisher = gaiaRef.retrieveKnowledgeEdge(source, target) {
             source()
             target()
         }

@@ -1,18 +1,13 @@
 import {Observable} from "rxjs";
 import {
-    CreateIntentImpulse,
-    CreatedIntentImpulse,
-    UpdateIntentImpulse,
-    DeleteIntentImpulse,
-    UpdatedIntentImpulse,
-    DeletedIntentImpulse,
-    PerceiveActionImpulse,
-    PerceiveDataImpulse,
-    PerceivedImpulse,
     BehaviourReq,
     BehaviourRes,
     CodeReq,
     CodeRes,
+    CreatedIntentImpulse,
+    CreateIntentImpulse,
+    DeletedIntentImpulse,
+    DeleteIntentImpulse,
     ExperienceReq,
     ExperienceRes,
     FulfilmentReq,
@@ -25,6 +20,9 @@ import {
     KnowledgeEdgeRes,
     KnowledgeReq,
     KnowledgeRes,
+    PerceiveActionImpulse,
+    PerceiveDataImpulse,
+    PerceivedImpulse,
     PerceptionReq,
     PerceptionRes,
     PreservationReq,
@@ -36,7 +34,9 @@ import {
     SkillIntrospectionReq,
     SkillIntrospectionRes,
     StatementReq,
-    StatementRes
+    StatementRes,
+    UpdatedIntentImpulse,
+    UpdateIntentImpulse
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -77,7 +77,9 @@ export interface ISensorFunction {
 
     retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes>
 
-    retrieveKnowledgeEdge(config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
+    retrieveKnowledgeEdges(source: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
+
+    retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes>
 

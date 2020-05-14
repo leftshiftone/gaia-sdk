@@ -1,21 +1,21 @@
 
-from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.response.type.Behaviour import Behaviour
-from gaia_sdk.graphql.response.type.Statement import Statement
-from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge
-from gaia_sdk.graphql.response.type.Intent import Intent
-from gaia_sdk.graphql.response.type.Prompt import Prompt
-from gaia_sdk.graphql.response.type.Code import Code
-
 from dataclasses import dataclass
 from typing import List
+
+from gaia_sdk.graphql.response.type.Behaviour import Behaviour
+from gaia_sdk.graphql.response.type.Code import Code
+from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
+from gaia_sdk.graphql.response.type.Intent import Intent
+from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge
+from gaia_sdk.graphql.response.type.Prompt import Prompt
+from gaia_sdk.graphql.response.type.Statement import Statement
+
 Uuid = str
 String = str
 ISO8601 = str
 Struct = dict
 Float = float
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
+
 
 @dataclass
 class Knowledge:
@@ -59,3 +59,6 @@ class Knowledge:
     @property
     def edges(self) -> List[KnowledgeEdge]:
         return list(map(lambda x: KnowledgeEdge(x), self.dictionary.get("edges")))
+    @property
+    def edge(self) -> KnowledgeEdge:
+        return KnowledgeEdge(self.dictionary.get("edge"))

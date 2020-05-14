@@ -1,4 +1,4 @@
-import {Gaia, PerceiveDataImpulse} from "../graphql";
+import {Gaia} from "../graphql";
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -214,12 +214,30 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve knowledge edge', () => {
+    test('test retrieve knowledge edges', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new PerceiveDataImpulse("{identityId}", "{eventName}", {});
+        const source = uuidv4()
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveKnowledgeEdge(_ => {
+            const observable = gaiaRef.retrieveKnowledgeEdges( source, _ => {
+                _.source();
+                _.target();
+            });
+            observable.subscribe(e => {
+                expect(e.source !== undefined).toBeTruthy();
+                expect(e.target !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve knowledge edge', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const source = uuidv4()
+        const target = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveKnowledgeEdge(source, target, _ => {
                 _.source();
                 _.target();
             });

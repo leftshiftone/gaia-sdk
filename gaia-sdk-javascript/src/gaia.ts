@@ -103,7 +103,8 @@ export class GaiaRef implements ISensorFunction {
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntents(identityId, config);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);
-    public retrieveKnowledgeEdge = (config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdge(config);
+    public retrieveKnowledgeEdges = (source: Uuid, config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdges(source, config);
+    public retrieveKnowledgeEdge = (source: Uuid, target: Uuid, config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdge(source, target, config);
     public retrievePrompts = (identityId: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompts(identityId, config);
     public retrievePrompt = (identityId: Uuid, reference: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompt(identityId, reference, config);
     public retrieveStatements = (identityId: Uuid, config: (x: Statement) => void) => this.fProc.retrieveStatements(identityId, config);

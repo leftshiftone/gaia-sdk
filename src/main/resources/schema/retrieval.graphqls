@@ -18,7 +18,8 @@ type Knowledge {
     code(identityId: Uuid, reference: Uuid): Code
     behaviours(identityId: Uuid): [Behaviour]
     behaviour(identityId: Uuid, reference: Uuid): Behaviour
-    edges: [KnowledgeEdge]
+    edges(source: Uuid): [KnowledgeEdge]
+    edge(source: Uuid, target: Uuid): KnowledgeEdge
 }
 
 "Container type for static information"
