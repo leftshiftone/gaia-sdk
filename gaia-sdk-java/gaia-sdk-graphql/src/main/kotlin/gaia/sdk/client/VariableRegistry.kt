@@ -32,8 +32,8 @@ class VariableRegistry {
         if (value is Array<*>)
             return "[" + value.javaClass.simpleName
                     .replace("[", "")
-                    .replace("]", "") + "]!"
-        return value.let { return if(isUuid(it))  "Uuid" else it.javaClass.simpleName+"!" }
+                    .replace("]", "") + "]"
+        return value.let { return if(isUuid(it))  "Uuid" else it.javaClass.simpleName }
     }
 
     private fun isUuid(value: Any) : Boolean{
@@ -42,7 +42,7 @@ class VariableRegistry {
                 UUID.fromString(value)
                 return true
             } catch (ex : IllegalArgumentException){
-                println("String value is no UUID")
+                println("String value: $value is no UUID")
             }
         }
         return false
