@@ -19,7 +19,7 @@
         *##tab($indent)entity = ${field.type.name()}()$newLine#*
         *##tab($indent)config(entity)$newLine#*
         *##tab($indent)return f'${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("$")#print("{")name$foreach.count#print("}")#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$")#print("{")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
         *#)' + '{' + entity.render(registry) + '}'$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)self.append(callback)$newLine#*

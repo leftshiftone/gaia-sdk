@@ -18,7 +18,7 @@
         *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
         *##tab($indent)config(entity);$newLine#*
         *##tab($indent)return `${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
         *#){` + entity.render(registry) + "}"$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)});#*

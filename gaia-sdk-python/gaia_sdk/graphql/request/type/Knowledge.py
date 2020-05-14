@@ -1,14 +1,14 @@
 
-from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.request.type.Behaviour import Behaviour
-from gaia_sdk.graphql.request.type.Statement import Statement
-from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
-from gaia_sdk.graphql.request.type.Intent import Intent
-from gaia_sdk.graphql.request.type.Prompt import Prompt
-from gaia_sdk.graphql.request.type.Code import Code
+from typing import Callable
 
-from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.type.Behaviour import Behaviour
+from gaia_sdk.graphql.request.type.Code import Code
+from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
+from gaia_sdk.graphql.request.type.Intent import Intent
+from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
+from gaia_sdk.graphql.request.type.Prompt import Prompt
+from gaia_sdk.graphql.request.type.Statement import Statement
 
 
 class Knowledge(list):
@@ -27,7 +27,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Intent()
             config(entity)
-            return f'intent(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'intent(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def prompts(self, identityId: str, config: Callable[['Prompt'], None]):
@@ -44,7 +44,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Prompt()
             config(entity)
-            return f'prompt(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'prompt(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def fulfilments(self, identityId: str, config: Callable[['Fulfilment'], None]):
@@ -61,7 +61,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Fulfilment()
             config(entity)
-            return f'fulfilment(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'fulfilment(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def statements(self, identityId: str, config: Callable[['Statement'], None]):
@@ -78,7 +78,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Statement()
             config(entity)
-            return f'statement(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'statement(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def codes(self, identityId: str, config: Callable[['Code'], None]):
@@ -95,7 +95,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Code()
             config(entity)
-            return f'code(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'code(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def behaviours(self, identityId: str, config: Callable[['Behaviour'], None]):
@@ -112,7 +112,7 @@ class Knowledge(list):
             name2 = registry.register("reference", reference)
             entity = Behaviour()
             config(entity)
-            return f'behaviour(identityId:${name1}reference:${name2})' + '{' + entity.render(registry) + '}'
+            return f'behaviour(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def edges(self, config: Callable[['KnowledgeEdge'], None]):
