@@ -1,110 +1,235 @@
 package gaia.sdk.http
 
-import gaia.sdk.request.input.PerceiveActionImpulse
-import gaia.sdk.request.input.PerceiveDataImpulse
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
+import io.reactivex.Flowable
 import org.junit.jupiter.api.Test
-import reactor.core.publisher.Flux
 import java.util.*
-import kotlin.collections.HashMap
+import java.util.concurrent.TimeUnit
 
 class RetrievalTest {
 
     @Test
-    fun `test retrieve behaviour`() {
+    fun `test retrieve behaviours`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveBehaviour {
+        val publisher = gaiaRef.retrieveBehaviours(identityId) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+    @Test
+    fun `test retrieve behaviour`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveBehaviour(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve codes`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveCodes(identityId) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
     }
 
     @Test
     fun `test retrieve code`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveCode {
+        val publisher = gaiaRef.retrieveCode(identityId, reference) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+    }
+
+    @Test
+    fun `test retrieve intents`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntents(identityId) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
     }
 
     @Test
     fun `test retrieve intent`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveIntents {
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+    @Test
+    fun `test retrieve prompts`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrievePrompts(identityId) {
+            identityId()
+            reference()
+        }
+
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+
     }
 
     @Test
     fun `test retrieve prompt`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrievePrompts {
+        val publisher = gaiaRef.retrievePrompt(identityId, reference) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+    @Test
+    fun `test retrieve fulfilments`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveFulfilments(identityId) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
     }
 
     @Test
     fun `test retrieve fulfilment`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveFulfilments {
+        val publisher = gaiaRef.retrieveFulfilment(identityId, reference) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+    @Test
+    fun `test retrieve statements`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveStatements(identityId) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
     }
 
     @Test
     fun `test retrieve statement`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveStatements {
+        val publisher = gaiaRef.retrieveStatement(identityId, reference) {
             identityId()
             reference()
         }
-        val result = Flux.from(publisher).blockFirst()
-
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.identityId)
-        Assertions.assertNotNull(result.reference)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
     }
 
     @Test
@@ -115,12 +240,13 @@ class RetrievalTest {
             source()
             target()
         }
-        val result = Flux.from(publisher).blockFirst()
-
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.source)
-        Assertions.assertNotNull(result.target)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.source!=null && it.target!=null
+        }
     }
 
 }

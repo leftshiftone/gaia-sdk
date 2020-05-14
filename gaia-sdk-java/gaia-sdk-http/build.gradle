@@ -1,4 +1,6 @@
 dependencies {
     compile project(":gaia-sdk-java:gaia-sdk-api")
     compile project(":gaia-sdk-java:gaia-sdk-graphql")
+    testImplementation "io.reactivex.rxjava2:rxjava"
+
 }

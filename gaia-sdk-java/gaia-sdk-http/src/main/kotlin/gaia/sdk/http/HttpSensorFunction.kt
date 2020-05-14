@@ -35,37 +35,37 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
     override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intent(identityId, reference, config) } } })) { it.retrieve?.knowledge?.intents!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { intent(identityId, reference, config) } } })) { it.retrieve?.knowledge?.intent!! }
 
     override fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompts(identityId, config) } } })) { it.retrieve?.knowledge?.prompts!! }
 
     override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: Prompt.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompt(identityId, reference, config) } } })) { it.retrieve?.knowledge?.prompts!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { prompt(identityId, reference, config) } } })) { it.retrieve?.knowledge?.prompt!! }
 
     override fun retrieveStatements(identityId: Uuid, config: Statement.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statements(identityId, config) } } })) { it.retrieve?.knowledge?.statements!! }
 
     override fun retrieveStatement(identityId: Uuid, reference: Uuid, config: Statement.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statement(identityId, reference, config) } } })) { it.retrieve?.knowledge?.statements!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { statement(identityId, reference, config) } } })) { it.retrieve?.knowledge?.statement!! }
 
     override fun retrieveFulfilments(identityId: Uuid, config: Fulfilment.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilments(identityId, config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
 
     override fun retrieveFulfilment(identityId: Uuid, reference: Uuid, config: Fulfilment.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilment(identityId, reference, config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { fulfilment(identityId, reference, config) } } })) { it.retrieve?.knowledge?.fulfilment!! }
 
     override fun retrieveCodes(identityId: Uuid, config: Code.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { codes(identityId, config) } } })) { it.retrieve?.knowledge?.codes!! }
 
     override fun retrieveCode(identityId: Uuid, reference: Uuid, config: Code.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { code(identityId, reference, config) } } })) { it.retrieve?.knowledge?.codes!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { code(identityId, reference, config) } } })) { it.retrieve?.knowledge?.code!! }
 
     override fun retrieveBehaviours(identityId: Uuid, config: Behaviour.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviours(identityId, config) } } })) { it.retrieve?.knowledge?.behaviours!! }
 
     override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviours!! }
+            map(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviour!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
