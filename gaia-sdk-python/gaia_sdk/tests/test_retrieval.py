@@ -6,6 +6,7 @@ from pytest import mark
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql.request.type import Behaviour
 
+
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -39,7 +40,7 @@ class TestHMAC(unittest.TestCase):
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_codes("000000-0000000-0000000-000000", config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_codes(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
