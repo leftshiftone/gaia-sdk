@@ -1,11 +1,12 @@
-import {Gaia, PerceiveActionImpulse, PerceiveDataImpulse} from "../graphql";
-import { v4 as uuid } from 'uuid';
+import {Gaia, PerceiveDataImpulse} from "../graphql";
+
+const { v4: uuidv4 } = require('uuid');
 
 describe("perception tests:", () => {
 
-    test('test retrieve behaviour', () => {
+    test('test retrieve behaviours', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveBehaviours(identityId,_ => {
@@ -20,9 +21,27 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve code', () => {
+    test('test retrieve behaviour', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviour(identityId, reference,_ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve codes', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveCodes(identityId,_ => {
@@ -37,9 +56,27 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve intent', () => {
+    test('test retrieve code', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveCode(identityId, reference,_ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve intents', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveIntents(identityId,_ => {
@@ -54,9 +91,27 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve prompt', () => {
+    test('test retrieve intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveIntent(identityId, reference, _ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve prompts', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrievePrompts(identityId,_ => {
@@ -71,9 +126,27 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve fulfilment', () => {
+    test('test retrieve prompt', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrievePrompt(identityId, reference,_ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve fulfilments', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveFulfilments(identityId,_ => {
@@ -88,12 +161,48 @@ describe("perception tests:", () => {
         });
     });
 
-    test('test retrieve statement', () => {
+    test('test retrieve fulfilment', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const identityId = "bc2dd2c5-eb5a-4295-8ad9-0df9958679aa"
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveFulfilment(identityId, reference, _ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve statements', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveStatements(identityId,_ => {
+                _.identityId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve statement', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const identityId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveStatement(identityId,reference, _ => {
                 _.identityId();
                 _.reference();
             });

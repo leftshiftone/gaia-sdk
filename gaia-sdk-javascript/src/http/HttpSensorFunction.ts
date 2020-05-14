@@ -119,7 +119,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.intent(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intents!);
+        return Rx.mapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intent!);
     }
 
     public retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void): Observable<PromptRes> {
@@ -133,7 +133,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.prompt(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
+        return Rx.mapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompt!);
     }
 
     public retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void): Observable<StatementRes> {
@@ -147,7 +147,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.statement(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
+        return Rx.mapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statement!);
     }
 
     public retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
@@ -161,7 +161,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.fulfilment(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
+        return Rx.mapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilment!);
     }
 
     public retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void): Observable<CodeRes> {
@@ -175,7 +175,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.code(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
+        return Rx.mapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.code!);
     }
 
     public retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
@@ -189,7 +189,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.behaviour(identityId, reference, config));
         }))));
-        return Rx.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
+        return Rx.mapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviour!);
     }
 
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {
