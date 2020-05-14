@@ -17,7 +17,7 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
-
+Uuid = str
 
 class ISensorFunction(ABC):
 
@@ -38,27 +38,51 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_intents(self, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         pass
 
     @abstractmethod
-    def retrieve_prompts(self, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
+    def retrieve_intent(self, identity_id: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         pass
 
     @abstractmethod
-    def retrieve_statements(self, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+    def retrieve_prompts(self, identity_id: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         pass
 
     @abstractmethod
-    def retrieve_fulfilments(self, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+    def retrieve_prompt(self, identity_id: Uuid, reference: Uuid,  config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         pass
 
     @abstractmethod
-    def retrieve_codes(self, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+    def retrieve_statements(self, identity_id: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
         pass
 
     @abstractmethod
-    def retrieve_behaviour(self, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+    def retrieve_statement(self, identity_id: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_fulfilments(self, identity_id: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_fulfilment(self, identity_id: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_codes(self, identity_id: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_code(self, identity_id: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_behaviours(self, identity_id: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_behaviour(self, identity_id: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
         pass
 
     @abstractmethod

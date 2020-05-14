@@ -1,6 +1,6 @@
 import logging
 import unittest
-
+from uuid import uuid4
 from pytest import mark
 
 from gaia_sdk.gaia import Gaia
@@ -24,7 +24,7 @@ class TestHMAC(unittest.TestCase):
         def config(x: Behaviour):
             x.identity_id()
 
-        gaia_ref.retrieve_behaviour(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_behaviours(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
@@ -39,7 +39,7 @@ class TestHMAC(unittest.TestCase):
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_codes(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_codes("000000-0000000-0000000-000000", config).subscribe(on_next, on_error)
 
     def test_retrieve_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
@@ -53,8 +53,9 @@ class TestHMAC(unittest.TestCase):
 
         def config(x):
             x.identity_id()
+            x.qualifier()
 
-        gaia_ref.retrieve_intents(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_intents(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_prompt(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
@@ -69,7 +70,7 @@ class TestHMAC(unittest.TestCase):
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_prompts(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_prompts(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_fulfilment(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
@@ -84,7 +85,7 @@ class TestHMAC(unittest.TestCase):
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_fulfilments(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_fulfilments(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_statement(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
@@ -99,7 +100,7 @@ class TestHMAC(unittest.TestCase):
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_statements(config).subscribe(on_next, on_error)
+        gaia_ref.retrieve_statements(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_knowledge_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")

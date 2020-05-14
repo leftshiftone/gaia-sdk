@@ -1,5 +1,5 @@
 from typing import List
-
+Uuid = str
 class VariableRegistry:
 
     def __init__(self):
@@ -27,6 +27,8 @@ class VariableRegistry:
     def toType(self, obj) -> str:
         if isinstance(obj, list):
             return "[" + str(self.toType(obj[0])) + "]"
+        if (type(obj) is Uuid):
+            return "Uuid"
         if (type(obj) is str):
             return "str"
         if (type(obj) is int):

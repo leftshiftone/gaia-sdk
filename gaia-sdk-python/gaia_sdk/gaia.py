@@ -20,7 +20,7 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
-
+Uuid = str
 
 class Gaia:
     @staticmethod
@@ -54,23 +54,41 @@ class GaiaRef(ISensorFunction):
     def retrieve_knowledge_edge(self, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
         return self.f_proc.retrieve_knowledge_edge(config)
 
-    def retrieve_intents(self, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
-        return self.f_proc.retrieve_intents(config)
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+        return self.f_proc.retrieve_intents(identityId, config)
 
-    def retrieve_prompts(self, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
-        return self.f_proc.retrieve_prompts(config)
+    def retrieve_intent(self, identityId: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+        return self.f_proc.retrieve_intent(identityId, reference, config)
 
-    def retrieve_statements(self, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
-        return self.f_proc.retrieve_statements(config)
+    def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
+        return self.f_proc.retrieve_prompts(identityId, config)
 
-    def retrieve_fulfilments(self, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
-        return self.f_proc.retrieve_fulfilments(config)
+    def retrieve_prompt(self, identityId: Uuid, reference: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
+        return self.f_proc.retrieve_prompt(identityId, reference,  config)
 
-    def retrieve_codes(self, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
-        return self.f_proc.retrieve_codes(config)
+    def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+        return self.f_proc.retrieve_statements(identityId, config)
 
-    def retrieve_behaviour(self, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
-        return self.f_proc.retrieve_behaviour(config)
+    def retrieve_statement(self, identityId: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+        return self.f_proc.retrieve_statement(identityId, reference,  config)
+
+    def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        return self.f_proc.retrieve_fulfilments(identityId, config)
+
+    def retrieve_fulfilment(self, identityId: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        return self.f_proc.retrieve_fulfilment(identityId, reference,  config)
+
+    def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        return self.f_proc.retrieve_codes(identityId, config)
+
+    def retrieve_code(self, identityId: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        return self.f_proc.retrieve_code(identityId, reference,  config)
+
+    def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+        return self.f_proc.retrieve_behaviours(identityId, config)
+
+    def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+        return self.f_proc.retrieve_behaviour(identityId, reference,  config)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         return self.f_proc.introspect(config)
