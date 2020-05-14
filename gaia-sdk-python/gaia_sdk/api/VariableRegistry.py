@@ -1,4 +1,4 @@
-from typing import List
+from uuid import UUID
 Uuid = str
 class VariableRegistry:
 
@@ -27,18 +27,29 @@ class VariableRegistry:
     def toType(self, obj) -> str:
         if isinstance(obj, list):
             return "[" + str(self.toType(obj[0])) + "]"
-        if (type(obj) is Uuid):
-            return "Uuid"
         if (type(obj) is str):
-            return "str"
+            return self.resolveString(obj)
         if (type(obj) is int):
             return "int"
         if (type(obj) is float):
             return "float"
         if (type(obj) is bool):
-            return "bool"
+            return "Boolean"
         else:
             return type(obj).__name__
+
+    def resolveString(self, obj):
+        if (self.isUUID(obj)):
+            return "Uuid"
+        else:
+            return "String"
+
+    def isUUID(self, obj):
+        try:
+            UUID(obj, version=4)
+            return True
+        except ValueError:
+            return False
 
     def to_value(self, obj):
         if isinstance(obj, list):

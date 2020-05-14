@@ -1,124 +1,79 @@
 import logging
 import unittest
+from rx import operators as ops
 from uuid import uuid4
-from pytest import mark
 
 from gaia_sdk.gaia import Gaia
-from gaia_sdk.graphql.request.type import Behaviour
-
 
 logging.basicConfig(level=logging.DEBUG)
 
+class RxException(Exception):
+    pass
 
-class TestHMAC(unittest.TestCase):
+# Helper function for raising exceptions within lambdas
+def _raise(ex):
+    raise RxException(ex)
 
-    def test_retrieve_behaviour(self):
-        gaia_ref = Gaia.connect("http://localhost:8080", "", "")
+class Testabc(unittest.TestCase):
 
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
-
-        def config(x: Behaviour):
-            x.identity_id()
-
-        gaia_ref.retrieve_behaviours(str(uuid4()), config).subscribe(on_next, on_error)
 
     def test_retrieve_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
-
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_codes(str(uuid4()), config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_codes(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
 
     def test_retrieve_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
-
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
 
         def config(x):
             x.identity_id()
             x.qualifier()
 
-        gaia_ref.retrieve_intents(str(uuid4()), config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_intents(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
 
     def test_retrieve_prompt(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
-
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_prompts(str(uuid4()), config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_prompts(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
 
     def test_retrieve_fulfilment(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
-
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_fulfilments(str(uuid4()), config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_fulfilments(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
 
     def test_retrieve_statement(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        def on_next(x):
-            self.assertIsNotNone(x.identity_id)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
-
         def config(x):
             x.identity_id()
 
-        gaia_ref.retrieve_statements(str(uuid4()), config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_statements(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
 
     def test_retrieve_knowledge_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        def on_next(x):
-            self.assertIsNotNone(x.source)
-            self.assertIsNotNone(x.target)
-
-        def on_error(x):
-            print("ON_ERROR: " + str(x))
-            self.fail(x)
 
         def config(x):
             x.source()
             x.target()
 
-        gaia_ref.retrieve_knowledge_edge(config).subscribe(on_next, on_error)
+        result = gaia_ref.retrieve_knowledge_edge(config).pipe(ops.first()).run()
+        assert result.dictionary.get("source") is not None, "source is in response"
+        assert result.dictionary.get("target") is not None, "target is in response"
 
 
 if __name__ == '__main__':
