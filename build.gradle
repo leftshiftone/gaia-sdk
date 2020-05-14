@@ -88,7 +88,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    implementation "org.apache.velocity:velocity-engine-core:2.1"
+    implementation "org.apache.velocity:velocity-engine-core"
 
     testImplementation "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "org.assertj:assertj-core"
@@ -132,6 +132,9 @@ allprojects {
             mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
                 bomProperty("kotlin.version", kotlinVersion)
             }
+        }
+        dependencies {
+            dependency "org.apache.velocity:velocity-engine-core:2.1"
         }
     }
 
