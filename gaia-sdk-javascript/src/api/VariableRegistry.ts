@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 export default class VariableRegistry {
     private variables = {};
     private datatypes = Array<string>();
@@ -21,7 +23,7 @@ export default class VariableRegistry {
 
     private toType(value:any):string {
         switch (typeof(value)) {
-            case "string": return "String!";
+            case "string": return this.resolveStringType(value);
             case "boolean": return "Boolean!";
             case "object":
                 return this.objectName(value);
@@ -43,6 +45,13 @@ export default class VariableRegistry {
 
             return fallback;
         }
+    }
+
+    private resolveStringType(obj: string) {
+            if(validator.isUUID(obj)){
+                return "Uuid";
+            }
+        return "String";
     }
 
 }
