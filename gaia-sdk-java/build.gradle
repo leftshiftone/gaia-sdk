@@ -64,6 +64,9 @@ subprojects {
         from dokkaJavadoc
         classifier "javadoc"
     }
+    asteriaPublish {
+        enableBranchSnapshotRepositories = true
+    }
     publishing {
         publications {
             mavenJava(MavenPublication) {

@@ -71,6 +71,9 @@ jobs:
       - run:
           name: Build all projects
           command: ./gradlew assemble --stacktrace
+      - run:
+          name: Publish Java snapshots
+          command: ./gradlew :gaia-sdk-java:publish -x bintrayUpload --stacktrace
       - save_cache:
           paths:
             - ~/.gradle
