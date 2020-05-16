@@ -120,13 +120,16 @@ generateSource.dependsOn generateGrammarSource
 
 
 allprojects {
+    apply plugin: "one.leftshift.asteria-dependency"
+    apply plugin: "one.leftshift.asteria-version"
+
     repositories {
         jcenter()
     }
 
-    apply plugin: "one.leftshift.asteria-dependency"
-    apply plugin: "one.leftshift.asteria-version"
-
+    asteriaDependency {
+        enableBranchSnapshotRepositories = true
+    }
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
