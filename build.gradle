@@ -65,6 +65,10 @@ allprojects {
         jcenter()
     }
 
+    asteriaPublish {
+        enableBranchSnapshotRepositories = true
+    }
+
     asteriaDependency {
         enableBranchSnapshotRepositories = true
     }

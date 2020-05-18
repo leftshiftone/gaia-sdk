@@ -50,9 +50,6 @@ jobs:
           name: Build all projects
           command: ./gradlew assemble --stacktrace
       - run:
-          name: Publish gaia-sdk
-          command: ./gradlew :publish -x bintrayUpload --debug
-      - run:
           name: Publish Java snapshots
           command: ./gradlew :publish :gaia-sdk-java:publish -x bintrayUpload --stacktrace
       - run:
