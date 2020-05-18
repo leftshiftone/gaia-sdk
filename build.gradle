@@ -57,16 +57,16 @@ asteriaReport {
     }.flatten())
 }
 
+asteriaPublish {
+    enableBranchSnapshotRepositories = true
+}
+
 allprojects {
     apply plugin: "one.leftshift.asteria-dependency"
     apply plugin: "one.leftshift.asteria-version"
 
     repositories {
         jcenter()
-    }
-
-    asteriaPublish {
-        enableBranchSnapshotRepositories = true
     }
 
     asteriaDependency {
