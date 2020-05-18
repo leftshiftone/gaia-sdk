@@ -51,7 +51,7 @@ jobs:
           command: ./gradlew assemble --stacktrace
       - run:
           name: Publish Java snapshots
-          command: ./gradlew :gaia-sdk-java:publish -x bintrayUpload --stacktrace
+          command: ./gradlew :gaia-sdk:publish :gaia-sdk-java:publish -x bintrayUpload --stacktrace
       - run:
           name: Download mock server
           command: ./gradlew prepareMockServer
