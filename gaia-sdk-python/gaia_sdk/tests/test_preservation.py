@@ -161,7 +161,7 @@ class TestHMAC(unittest.TestCase):
     def test_preserve_create_knowledge_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        impulses = CreateKnowledgeEdgeImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateKnowledgeEdgeImpulse(str(uuid4()), str(uuid4()), "sometype", 2.7)
         result = gaia_ref.preserve_create_knowledge_edges([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
