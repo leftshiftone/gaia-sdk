@@ -35,7 +35,11 @@
         *##if($foreach.count > 1), #end#*
         *#$argument.name : #*
         *##if($argument.type.isList())#print("Array<out ")#end#*
+        *##if($argument.type.name() == "Float")#*
+        *##print("Double")#*
+        *##else#*
         *#$argument.type.name()#*
+        *##end#*
         *##if($argument.type.isList())#print(">")#end#*
     *##end##
 #end##

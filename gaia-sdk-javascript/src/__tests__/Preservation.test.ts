@@ -15,6 +15,8 @@ import {DeleteBehaviourImpulse} from "../graphql/request/input/DeleteBehaviourIm
 import {CreateCodeImpulse} from "../graphql/request/input/CreateCodeImpulse";
 import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
+import {CreateKnowledgeEdgeImpulse} from "../graphql/request/input/CreateKnowledgeEdgeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "../graphql/request/input/DeleteKnowledgeEdgeImpulse";
 
 describe("perception tests:", () => {
 
@@ -245,6 +247,32 @@ describe("perception tests:", () => {
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveDeleteCodes(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve create edge', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const impulse = new CreateKnowledgeEdgeImpulse(uuid(), uuid(), "sometype", 2.7);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateKnowledgeEdges(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete edge', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const impulse = new DeleteKnowledgeEdgeImpulse(uuid(), uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteKnowledgeEdges(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
