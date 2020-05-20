@@ -16,5 +16,5 @@ class CreateKnowledgeEdgeImpulse():
     source: str
     target: str
     type: str
-    weight: Float
+    weight: float
 

@@ -124,6 +124,7 @@
     *##elseif($type.name().equals("Struct"))dict#*
     *##elseif($type.name().equals("ISO8601"))str#*
     *##elseif($type.name().equals("Uuid"))str#*
+    *##elseif($type.name().equals("Float"))float#*
     *##else#**#$type.name()#*
     *##end##
 #end##
