@@ -7,7 +7,7 @@ type Retrieval {
 
 type Knowledge {
     # TODO add identities()
-    # TODO add identity(identityId)
+    # TODO add identity(id)
 
     # TODO add users()
     # TODO add user(id)

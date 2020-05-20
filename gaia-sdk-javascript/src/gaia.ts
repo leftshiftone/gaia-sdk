@@ -37,6 +37,8 @@ import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
 import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
 import {Uuid} from "./graphql/GaiaClient";
+import {CreateKnowledgeEdgeImpulse} from "./graphql/request/input/CreateKnowledgeEdgeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "./graphql/request/input/DeleteKnowledgeEdgeImpulse";
 
 export class Gaia {
     public static connect(url: string, apiKey: string, apiSecret: string): GaiaRef {
@@ -92,6 +94,8 @@ export class GaiaRef implements ISensorFunction {
     public preserveCreateCodes = (...impulses: [CreateCodeImpulse]) => this.fProc.preserveCreateCodes(...impulses);
     public preserveDeleteCodes = (...impulses: [DeleteCodeImpulse]) => this.fProc.preserveDeleteCodes(...impulses);
     public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
+    public preserveCreateKnowledgeEdges = (...impulses: [CreateKnowledgeEdgeImpulse]) => this.fProc.preserveCreateKnowledgeEdges(...impulses);
+    public preserveDeleteKnowledgeEdges = (...impulses: [DeleteKnowledgeEdgeImpulse]) => this.fProc.preserveDeleteKnowledgeEdges(...impulses);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviours(identityId, config);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);

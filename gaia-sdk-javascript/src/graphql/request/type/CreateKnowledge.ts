@@ -4,12 +4,14 @@ import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedKnowledgeEdgeImpulse} from "./CreatedKnowledgeEdgeImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
 import {CreateCodeImpulse} from "../input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../input/CreateFulfilmentImpulse";
+import {CreateKnowledgeEdgeImpulse} from "../input/CreateKnowledgeEdgeImpulse";
 import {CreateStatementImpulse} from "../input/CreateStatementImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -77,6 +79,16 @@ export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new CreatedCodeImpulse();
         config(entity);
         return `codes(impulses:$${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of edges with the given specifications
+     */
+    public edges = (impulses : [CreateKnowledgeEdgeImpulse], config: (_:CreatedKnowledgeEdgeImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedKnowledgeEdgeImpulse();
+        config(entity);
+        return `edges(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

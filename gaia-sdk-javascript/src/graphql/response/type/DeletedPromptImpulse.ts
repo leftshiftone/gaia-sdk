@@ -6,7 +6,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* Impulse which indicates the resulf of a delete prompt impulse
+* Impulse which indicates the result of a delete prompt impulse
 */
 export interface DeletedPromptImpulse {
     id?:Uuid, 

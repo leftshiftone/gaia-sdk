@@ -18,6 +18,8 @@ from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviou
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
+from gaia_sdk.graphql.request.input.CreateKnowledgeEdgeImpulse import CreateKnowledgeEdgeImpulse
+from gaia_sdk.graphql.request.input.DeleteKnowledgeEdgeImpulse import DeleteKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.type.Experience import Experience as ExperienceReq
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment as FulfilmentReq
 from gaia_sdk.graphql.request.type.Intent import Intent as IntentReq
@@ -53,6 +55,8 @@ from gaia_sdk.graphql.response.type.DeletedBehaviourImpulse import DeletedBehavi
 from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
 from gaia_sdk.graphql.response.type.UpdatedCodeImpulse import UpdatedCodeImpulse
 from gaia_sdk.graphql.response.type.DeletedCodeImpulse import DeletedCodeImpulse
+from gaia_sdk.graphql.response.type.CreatedKnowledgeEdgeImpulse import CreatedKnowledgeEdgeImpulse
+from gaia_sdk.graphql.response.type.DeletedKnowledgeEdgeImpulse import DeletedKnowledgeEdgeImpulse
 from gaia_sdk.graphql.response.type.Preservation import Preservation as PreservationRes
 from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection as SkillIntrospectionRes
 from gaia_sdk.graphql.response.type.Introspection import Introspection as IntrospectionRes

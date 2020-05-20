@@ -1,3 +1,4 @@
+
 import {Fulfilment} from "./Fulfilment";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
@@ -7,7 +8,9 @@ import {Prompt} from "./Prompt";
 import {Code} from "./Code";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {RuntimeState} from "../enumeration/RuntimeState";
+import {SkillState} from "../enumeration/SkillState";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
 

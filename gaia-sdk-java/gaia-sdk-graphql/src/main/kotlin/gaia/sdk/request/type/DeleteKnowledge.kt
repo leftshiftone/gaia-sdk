@@ -58,5 +58,13 @@ class DeleteKnowledge: Type() {
         val name1 = it.register("impulses", impulses)
         "codes(impulses:$$name1){" + DeletedCodeImpulse().apply(config).render(it) + "}"
     }
+
+    /**
+     * deletes a list of edges with the given specifications
+     */
+    fun edges(impulses : Array<out DeleteKnowledgeEdgeImpulse>, config: DeletedKnowledgeEdgeImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "edges(impulses:$$name1){" + DeletedKnowledgeEdgeImpulse().apply(config).render(it) + "}"
+    }
 }
 

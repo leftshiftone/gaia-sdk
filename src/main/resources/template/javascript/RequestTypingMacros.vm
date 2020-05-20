@@ -107,9 +107,13 @@
 ## Renders a field type
 ## ********************
 #macro(renderFieldType $type)#*
-    *##if($type.isList())#print("Array<")#end#*
-    *#$type.name()#*
-    *##if($type.isList())#print(">")#end##
+    *##if($type.name() == "Float")#*
+        *##print("Number")#*
+    *##else#*
+        *##if($type.isList())#print("Array<")#end#*
+        *#$type.name()#*
+        *##if($type.isList())#print(">")#end#*
+    *##end##
 #end##
 ## **************************
 ## Renders a description text

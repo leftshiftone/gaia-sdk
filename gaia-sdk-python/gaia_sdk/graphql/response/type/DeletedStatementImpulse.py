@@ -14,7 +14,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class DeletedStatementImpulse:
     """
-    Impulse which indicates the resulf of a delete statement impulse
+    Impulse which indicates the result of a delete statement impulse
     """
     dictionary: dict
     @property

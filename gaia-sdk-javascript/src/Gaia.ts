@@ -36,6 +36,8 @@ import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImp
 import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
 import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
+import {CreateKnowledgeEdgeImpulse} from "./graphql/request/input/CreateKnowledgeEdgeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "./graphql/request/input/DeleteKnowledgeEdgeImpulse";
 import {Uuid} from "./graphql/GaiaClient";
 
 export class Gaia {
@@ -92,6 +94,8 @@ export class GaiaRef implements ISensorFunction {
     public preserveCreateCodes = (...impulses: [CreateCodeImpulse]) => this.fProc.preserveCreateCodes(...impulses);
     public preserveDeleteCodes = (...impulses: [DeleteCodeImpulse]) => this.fProc.preserveDeleteCodes(...impulses);
     public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
+    public preserveCreateKnowledgeEdges = (...impulses: [CreateKnowledgeEdgeImpulse]) => this.fProc.preserveCreateKnowledgeEdges(...impulses);
+    public preserveDeleteKnowledgeEdges = (...impulses: [DeleteKnowledgeEdgeImpulse]) => this.fProc.preserveDeleteKnowledgeEdges(...impulses);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviours(identityId, config);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);
@@ -103,7 +107,8 @@ export class GaiaRef implements ISensorFunction {
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntents(identityId, config);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);
-    public retrieveKnowledgeEdge = (config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdge(config);
+    public retrieveKnowledgeEdges = (source: Uuid, config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdges(source, config);
+    public retrieveKnowledgeEdge = (source: Uuid, target: Uuid, config: (x: KnowledgeEdge) => void) => this.fProc.retrieveKnowledgeEdge(source, target, config);
     public retrievePrompts = (identityId: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompts(identityId, config);
     public retrievePrompt = (identityId: Uuid, reference: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompt(identityId, reference, config);
     public retrieveStatements = (identityId: Uuid, config: (x: Statement) => void) => this.fProc.retrieveStatements(identityId, config);

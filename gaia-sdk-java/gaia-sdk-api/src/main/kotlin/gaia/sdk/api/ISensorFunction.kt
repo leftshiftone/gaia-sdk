@@ -44,6 +44,8 @@ interface ISensorFunction {
     fun preserveCreateCodes(vararg impulses: CreateCodeImpulse): Publisher<gaia.sdk.response.type.CreatedCodeImpulse>
     fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse): Publisher<gaia.sdk.response.type.UpdatedCodeImpulse>
     fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse): Publisher<gaia.sdk.response.type.DeletedCodeImpulse>
+    fun preserveCreateKnowledgeEdges(vararg impulses: CreateKnowledgeEdgeImpulse): Publisher<gaia.sdk.response.type.CreatedKnowledgeEdgeImpulse>
+    fun preserveDeleteKnowledgeEdges(vararg impulses: DeleteKnowledgeEdgeImpulse): Publisher<gaia.sdk.response.type.DeletedKnowledgeEdgeImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>

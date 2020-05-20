@@ -7,7 +7,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class DeletedPromptImpulse(list):
     """
-    Impulse which indicates the resulf of a delete prompt impulse
+    Impulse which indicates the result of a delete prompt impulse
     """
 
     def id(self):

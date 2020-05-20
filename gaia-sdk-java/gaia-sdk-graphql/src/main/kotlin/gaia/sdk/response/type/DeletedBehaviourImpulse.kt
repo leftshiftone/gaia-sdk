@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Impulse which indicates the resulf of a delete behaviour impulse
+* Impulse which indicates the result of a delete behaviour impulse
 */
 data class DeletedBehaviourImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 

@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Impulse which indicates the resulf of a create behaviour impulse
+ * Impulse which indicates the result of a create behaviour impulse
  */
 class CreatedBehaviourImpulse: Type() {
 

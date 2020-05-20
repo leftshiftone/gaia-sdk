@@ -1,14 +1,14 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.type.Behaviour import Behaviour
-from gaia_sdk.graphql.request.type.Code import Code
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.request.type.Intent import Intent
-from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
-from gaia_sdk.graphql.request.type.Prompt import Prompt
+from gaia_sdk.graphql.request.type.Behaviour import Behaviour
 from gaia_sdk.graphql.request.type.Statement import Statement
+from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
+from gaia_sdk.graphql.request.type.Intent import Intent
+from gaia_sdk.graphql.request.type.Prompt import Prompt
+from gaia_sdk.graphql.request.type.Code import Code
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Knowledge(list):

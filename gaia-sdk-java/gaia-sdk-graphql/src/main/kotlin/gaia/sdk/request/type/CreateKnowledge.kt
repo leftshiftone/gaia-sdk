@@ -58,5 +58,13 @@ class CreateKnowledge: Type() {
         val name1 = it.register("impulses", impulses)
         "codes(impulses:$$name1){" + CreatedCodeImpulse().apply(config).render(it) + "}"
     }
+
+    /**
+     * creates a list of edges with the given specifications
+     */
+    fun edges(impulses : Array<out CreateKnowledgeEdgeImpulse>, config: CreatedKnowledgeEdgeImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "edges(impulses:$$name1){" + CreatedKnowledgeEdgeImpulse().apply(config).render(it) + "}"
+    }
 }
 

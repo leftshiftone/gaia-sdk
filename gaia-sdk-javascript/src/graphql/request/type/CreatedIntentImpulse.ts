@@ -7,7 +7,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * Impulse which indicates the resulf of a create intent impulse
+ * Impulse which indicates the result of a create intent impulse
  */
 export class CreatedIntentImpulse extends Array<(_:VariableRegistry) => string> {
 

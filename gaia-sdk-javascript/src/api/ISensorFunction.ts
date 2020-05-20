@@ -68,6 +68,10 @@ import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {UpdatedCodeImpulse} from "../graphql/response/type/UpdatedCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
 import {DeletedCodeImpulse} from "../graphql/response/type/DeletedCodeImpulse";
+import {CreateKnowledgeEdgeImpulse} from "../graphql/request/input/CreateKnowledgeEdgeImpulse";
+import {CreatedKnowledgeEdgeImpulse} from "../graphql/response/type/CreatedKnowledgeEdgeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "../graphql/request/input/DeleteKnowledgeEdgeImpulse";
+import {DeletedKnowledgeEdgeImpulse} from "../graphql/response/type/DeletedKnowledgeEdgeImpulse";
 import {Uuid} from "../graphql/GaiaClient";
 
 export interface ISensorFunction {
@@ -146,6 +150,10 @@ export interface ISensorFunction {
     preserveUpdateCodes(...impulses: [UpdateCodeImpulse]): Observable<UpdatedCodeImpulse>
 
     preserveDeleteCodes(...impulses: [DeleteCodeImpulse]): Observable<DeletedCodeImpulse>
+
+    preserveCreateKnowledgeEdges(...impulses: [CreateKnowledgeEdgeImpulse]): Observable<CreatedKnowledgeEdgeImpulse>
+
+    preserveDeleteKnowledgeEdges(...impulses: [DeleteKnowledgeEdgeImpulse]): Observable<DeletedKnowledgeEdgeImpulse>
 
     perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes>
 

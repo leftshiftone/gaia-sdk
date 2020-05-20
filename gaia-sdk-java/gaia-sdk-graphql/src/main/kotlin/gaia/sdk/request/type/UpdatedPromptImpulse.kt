@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Impulse which indicates the resulf of a update prompt impulse
+ * Impulse which indicates the result of a update prompt impulse
  */
 class UpdatedPromptImpulse: Type() {
 

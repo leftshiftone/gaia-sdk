@@ -7,7 +7,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class CreatedPromptImpulse(list):
     """
-    Impulse which indicates the resulf of a create prompt impulse
+    Impulse which indicates the result of a create prompt impulse
     """
 
     def id(self):

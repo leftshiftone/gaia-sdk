@@ -4,9 +4,11 @@ import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
+import {DeletedKnowledgeEdgeImpulse} from "./DeletedKnowledgeEdgeImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeleteFulfilmentImpulse} from "../input/DeleteFulfilmentImpulse";
 import {DeleteCodeImpulse} from "../input/DeleteCodeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "../input/DeleteKnowledgeEdgeImpulse";
 import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
@@ -77,6 +79,16 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new DeletedCodeImpulse();
         config(entity);
         return `codes(impulses:$${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of edges with the given specifications
+     */
+    public edges = (impulses : [DeleteKnowledgeEdgeImpulse], config: (_:DeletedKnowledgeEdgeImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedKnowledgeEdgeImpulse();
+        config(entity);
+        return `edges(impulses:$${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

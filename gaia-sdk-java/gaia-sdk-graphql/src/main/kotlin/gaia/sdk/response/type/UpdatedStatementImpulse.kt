@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Impulse which indicates the resulf of a update statement impulse
+* Impulse which indicates the result of a update statement impulse
 */
 data class UpdatedStatementImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 

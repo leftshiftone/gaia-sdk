@@ -10,12 +10,14 @@ from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilm
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
+from gaia_sdk.graphql.request.input.CreateKnowledgeEdgeImpulse import CreateKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
+from gaia_sdk.graphql.request.input.DeleteKnowledgeEdgeImpulse import DeleteKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
@@ -154,6 +156,20 @@ class TestHMAC(unittest.TestCase):
 
         impulses = DeleteCodeImpulse(str(uuid4()), str(uuid4()))
         result = gaia_ref.preserve_delete_codes([impulses]).pipe(ops.first()).run()
+        assert result.dictionary.get("id") is not None, "ID  is in response"
+
+    def test_preserve_create_knowledge_edge(self):
+        gaia_ref = Gaia.connect("http://localhost:8080", "", "")
+
+        impulses = CreateKnowledgeEdgeImpulse(str(uuid4()), "", "", dict(), list(), "")
+        result = gaia_ref.preserve_create_knowledge_edges([impulses]).pipe(ops.first()).run()
+        assert result.dictionary.get("id") is not None, "ID  is in response"
+
+    def test_preserve_delete_knowledge_edge(self):
+        gaia_ref = Gaia.connect("http://localhost:8080", "", "")
+
+        impulses = DeleteKnowledgeEdgeImpulse(str(uuid4()), str(uuid4()))
+        result = gaia_ref.preserve_delete_knowledge_edges([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
 if __name__ == '__main__':

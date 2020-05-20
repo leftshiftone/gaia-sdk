@@ -14,7 +14,8 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
-    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateKnowledgeEdgeImpulse, \
+    DeleteKnowledgeEdgeImpulse, CreatedKnowledgeEdgeImpulse, DeletedKnowledgeEdgeImpulse
 
 Uuid = str
 
@@ -170,6 +171,14 @@ class ISensorFunction(ABC):
 
     @abstractmethod
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_create_knowledge_edges(self, impulses: List[CreateKnowledgeEdgeImpulse]) -> Observable[CreatedKnowledgeEdgeImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_delete_knowledge_edges(self, impulses: List[DeleteKnowledgeEdgeImpulse]) -> Observable[DeletedKnowledgeEdgeImpulse]:
         pass
 
     @abstractmethod
