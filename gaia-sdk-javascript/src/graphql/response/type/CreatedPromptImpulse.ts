@@ -6,7 +6,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* Impulse which indicates the resulf of a create prompt impulse
+* Impulse which indicates the result of a create prompt impulse
 */
 export interface CreatedPromptImpulse {
     id?:Uuid, 

@@ -48,8 +48,8 @@ export class Statement extends Array<(_:VariableRegistry) => string> {
     /**
      * The list of labels of the statement
      */
-    public labellist = () => { 
-        this.push(_ => "labellist")
+    public labelList = () => { 
+        this.push(_ => "labelList")
     };
 
     /**

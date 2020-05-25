@@ -41,8 +41,8 @@ export class Behaviour extends Array<(_:VariableRegistry) => string> {
     /**
      * The list of labels of the behaviour
      */
-    public labellist = () => { 
-        this.push(_ => "labellist")
+    public labelList = () => { 
+        this.push(_ => "labelList")
     };
 
     /**

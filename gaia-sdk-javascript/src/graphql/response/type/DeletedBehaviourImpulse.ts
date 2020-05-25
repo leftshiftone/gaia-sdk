@@ -6,7 +6,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* Impulse which indicates the resulf of a delete behaviour impulse
+* Impulse which indicates the result of a delete behaviour impulse
 */
 export interface DeletedBehaviourImpulse {
     id?:Uuid, 

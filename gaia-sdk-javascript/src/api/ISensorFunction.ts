@@ -1,18 +1,13 @@
 import {Observable} from "rxjs";
 import {
-    CreateIntentImpulse,
-    CreatedIntentImpulse,
-    UpdateIntentImpulse,
-    DeleteIntentImpulse,
-    UpdatedIntentImpulse,
-    DeletedIntentImpulse,
-    PerceiveActionImpulse,
-    PerceiveDataImpulse,
-    PerceivedImpulse,
     BehaviourReq,
     BehaviourRes,
     CodeReq,
     CodeRes,
+    CreatedIntentImpulse,
+    CreateIntentImpulse,
+    DeletedIntentImpulse,
+    DeleteIntentImpulse,
     ExperienceReq,
     ExperienceRes,
     FulfilmentReq,
@@ -25,6 +20,9 @@ import {
     KnowledgeEdgeRes,
     KnowledgeReq,
     KnowledgeRes,
+    PerceiveActionImpulse,
+    PerceiveDataImpulse,
+    PerceivedImpulse,
     PerceptionReq,
     PerceptionRes,
     PreservationReq,
@@ -36,7 +34,9 @@ import {
     SkillIntrospectionReq,
     SkillIntrospectionRes,
     StatementReq,
-    StatementRes
+    StatementRes,
+    UpdatedIntentImpulse,
+    UpdateIntentImpulse
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -68,6 +68,11 @@ import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {UpdatedCodeImpulse} from "../graphql/response/type/UpdatedCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
 import {DeletedCodeImpulse} from "../graphql/response/type/DeletedCodeImpulse";
+import {CreateKnowledgeEdgeImpulse} from "../graphql/request/input/CreateKnowledgeEdgeImpulse";
+import {CreatedKnowledgeEdgeImpulse} from "../graphql/response/type/CreatedKnowledgeEdgeImpulse";
+import {DeleteKnowledgeEdgeImpulse} from "../graphql/request/input/DeleteKnowledgeEdgeImpulse";
+import {DeletedKnowledgeEdgeImpulse} from "../graphql/response/type/DeletedKnowledgeEdgeImpulse";
+import {Uuid} from "../graphql/GaiaClient";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -76,19 +81,33 @@ export interface ISensorFunction {
 
     retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes>
 
-    retrieveKnowledgeEdge(config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
+    retrieveKnowledgeEdges(source: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
 
-    retrieveIntents(config: (x: IntentReq) => void): Observable<IntentRes>
+    retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
 
-    retrievePrompts(config: (x: PromptReq) => void): Observable<PromptRes>
+    retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes>
 
-    retrieveStatements(config: (x: StatementReq) => void): Observable<StatementRes>
+    retrieveIntent(identityId: Uuid, reference, config: (x: IntentReq) => void): Observable<IntentRes>
 
-    retrieveFulfilments(config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+    retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
 
-    retrieveCodes(config: (x: CodeReq) => void): Observable<CodeRes>
+    retrievePrompt(identityId: Uuid, reference: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
 
-    retrieveBehaviours(config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+    retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
+
+    retrieveStatement(identityId: Uuid, reference: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
+
+    retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+
+    retrieveFulfilment(identityId: Uuid, reference: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+
+    retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
+
+    retrieveCode(identityId: Uuid, reference: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
+
+    retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+
+    retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 
@@ -131,6 +150,10 @@ export interface ISensorFunction {
     preserveUpdateCodes(...impulses: [UpdateCodeImpulse]): Observable<UpdatedCodeImpulse>
 
     preserveDeleteCodes(...impulses: [DeleteCodeImpulse]): Observable<DeletedCodeImpulse>
+
+    preserveCreateKnowledgeEdges(...impulses: [CreateKnowledgeEdgeImpulse]): Observable<CreatedKnowledgeEdgeImpulse>
+
+    preserveDeleteKnowledgeEdges(...impulses: [DeleteKnowledgeEdgeImpulse]): Observable<DeletedKnowledgeEdgeImpulse>
 
     perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes>
 

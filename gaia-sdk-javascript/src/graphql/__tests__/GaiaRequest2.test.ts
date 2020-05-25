@@ -30,7 +30,7 @@ describe("GaiaRequestTest", () => {
     test('simple preserve invocation', () => {
         const request = GaiaRequest.mutation((m: Mutation) => {
             m.perceive(p => {
-                p.perceiveData(new PerceiveDataImpulse("", "test", {"a":"b"}), e => e.id())
+                p.perceiveData(new PerceiveDataImpulse("bc2dd2c5-eb5a-4295-8ad9-0df9958679aa", "test", {"a":"b"}), e => e.id())
             })
         });
 

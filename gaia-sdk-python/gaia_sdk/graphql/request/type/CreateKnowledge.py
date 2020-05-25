@@ -4,12 +4,14 @@ from gaia_sdk.graphql.request.type.CreatedPromptImpulse import CreatedPromptImpu
 from gaia_sdk.graphql.request.type.CreatedStatementImpulse import CreatedStatementImpulse
 from gaia_sdk.graphql.request.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.request.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.request.type.CreatedKnowledgeEdgeImpulse import CreatedKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateKnowledgeEdgeImpulse import CreateKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
 
 from typing import Callable, List
@@ -82,6 +84,17 @@ class CreateKnowledge(list):
             entity = CreatedCodeImpulse()
             config(entity)
             return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    creates a list of edges with the given specifications
+    """
+    def edges(self, impulses: List[CreateKnowledgeEdgeImpulse], config: Callable[['CreatedKnowledgeEdgeImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = CreatedKnowledgeEdgeImpulse()
+            config(entity)
+            return f'edges(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

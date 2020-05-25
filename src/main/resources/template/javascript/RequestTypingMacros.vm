@@ -18,7 +18,7 @@
         *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
         *##tab($indent)config(entity);$newLine#*
         *##tab($indent)return `${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
         *#){` + entity.render(registry) + "}"$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)});#*
@@ -107,9 +107,13 @@
 ## Renders a field type
 ## ********************
 #macro(renderFieldType $type)#*
-    *##if($type.isList())#print("Array<")#end#*
-    *#$type.name()#*
-    *##if($type.isList())#print(">")#end##
+    *##if($type.name() == "Float")#*
+        *##print("Number")#*
+    *##else#*
+        *##if($type.isList())#print("Array<")#end#*
+        *#$type.name()#*
+        *##if($type.isList())#print(">")#end#*
+    *##end##
 #end##
 ## **************************
 ## Renders a description text

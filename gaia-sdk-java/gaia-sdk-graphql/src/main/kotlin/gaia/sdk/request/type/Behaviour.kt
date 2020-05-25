@@ -45,8 +45,8 @@ class Behaviour: Type() {
     /**
      * The list of labels of the behaviour
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

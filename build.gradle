@@ -57,6 +57,40 @@ asteriaReport {
     }.flatten())
 }
 
+asteriaPublish {
+    enableBranchSnapshotRepositories = true
+}
+
+allprojects {
+    apply plugin: "one.leftshift.asteria-dependency"
+    apply plugin: "one.leftshift.asteria-version"
+
+    repositories {
+        jcenter()
+    }
+
+    asteriaDependency {
+        enableBranchSnapshotRepositories = true
+    }
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
+                bomProperty("kotlin.version", kotlinVersion)
+            }
+        }
+        dependencies {
+            dependency "org.apache.velocity:velocity-engine-core:2.1"
+        }
+    }
+
+    if (System.getenv("CI")) {
+        afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
+        if (tasks.findByName("publish")) {
+            afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
+        }
+    }
+}
+
 repositories {
     jcenter()
     maven {
@@ -88,7 +122,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    implementation "org.apache.velocity:velocity-engine-core:2.1"
+    implementation "org.apache.velocity:velocity-engine-core"
 
     testImplementation "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "org.assertj:assertj-core"
@@ -118,30 +152,6 @@ task generateSource(type: Test) {
 }
 generateSource.dependsOn generateGrammarSource
 
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-
-    apply plugin: "one.leftshift.asteria-dependency"
-    apply plugin: "one.leftshift.asteria-version"
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
-                bomProperty("kotlin.version", kotlinVersion)
-            }
-        }
-    }
-
-    if (System.getenv("CI")) {
-        afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
-        if (tasks.findByName("publish")) {
-            afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
-        }
-    }
-}
 
 subprojects {
     apply plugin: "one.leftshift.asteria-code-analytics"

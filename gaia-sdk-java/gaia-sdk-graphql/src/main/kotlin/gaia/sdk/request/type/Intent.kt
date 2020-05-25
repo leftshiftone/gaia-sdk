@@ -52,8 +52,8 @@ class Intent: Type() {
     /**
      * The list of labels of the intent
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

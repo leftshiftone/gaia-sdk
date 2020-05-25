@@ -31,7 +31,7 @@ export interface Statement {
     /**
     * The list of labels of the statement
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The version of the statement
     */

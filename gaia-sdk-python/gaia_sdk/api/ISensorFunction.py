@@ -1,23 +1,23 @@
 from abc import abstractmethod, ABC
-from typing import Callable, List
-
-import rx
 from rx.core.typing import Observable
+from typing import Callable, List
 
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, KnowledgeEdgeReq, \
     IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, KnowledgeEdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
-    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, PerceiveActionImpulse, PerceiveDataImpulse,\
+    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, PerceiveActionImpulse, PerceiveDataImpulse, \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
-    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse,\
+    DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
     CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
-    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateKnowledgeEdgeImpulse, \
+    DeleteKnowledgeEdgeImpulse, CreatedKnowledgeEdgeImpulse, DeletedKnowledgeEdgeImpulse
 
+Uuid = str
 
 class ISensorFunction(ABC):
 
@@ -34,31 +34,59 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_knowledge_edge(self, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
         pass
 
     @abstractmethod
-    def retrieve_intents(self, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
         pass
 
     @abstractmethod
-    def retrieve_prompts(self, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         pass
 
     @abstractmethod
-    def retrieve_statements(self, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+    def retrieve_intent(self, identity_id: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         pass
 
     @abstractmethod
-    def retrieve_fulfilments(self, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+    def retrieve_prompts(self, identity_id: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         pass
 
     @abstractmethod
-    def retrieve_codes(self, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+    def retrieve_prompt(self, identity_id: Uuid, reference: Uuid,  config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         pass
 
     @abstractmethod
-    def retrieve_behaviour(self, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+    def retrieve_statements(self, identity_id: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_statement(self, identity_id: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_fulfilments(self, identity_id: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_fulfilment(self, identity_id: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_codes(self, identity_id: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_code(self, identity_id: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_behaviours(self, identity_id: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_behaviour(self, identity_id: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
         pass
 
     @abstractmethod
@@ -143,6 +171,14 @@ class ISensorFunction(ABC):
 
     @abstractmethod
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_create_knowledge_edges(self, impulses: List[CreateKnowledgeEdgeImpulse]) -> Observable[CreatedKnowledgeEdgeImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_delete_knowledge_edges(self, impulses: List[DeleteKnowledgeEdgeImpulse]) -> Observable[DeletedKnowledgeEdgeImpulse]:
         pass
 
     @abstractmethod

@@ -52,8 +52,8 @@ class Code: Type() {
     /**
      * The list of labels of the code
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

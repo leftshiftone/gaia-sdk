@@ -4,9 +4,11 @@ from gaia_sdk.graphql.response.type.DeletedBehaviourImpulse import DeletedBehavi
 from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
 from gaia_sdk.graphql.response.type.DeletedPromptImpulse import DeletedPromptImpulse
 from gaia_sdk.graphql.response.type.DeletedStatementImpulse import DeletedStatementImpulse
+from gaia_sdk.graphql.response.type.DeletedKnowledgeEdgeImpulse import DeletedKnowledgeEdgeImpulse
 from gaia_sdk.graphql.response.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
+from gaia_sdk.graphql.request.input.DeleteKnowledgeEdgeImpulse import DeleteKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
@@ -61,3 +63,9 @@ class DeleteKnowledge:
     @property
     def codes(self) -> List[DeletedCodeImpulse]:
         return list(map(lambda x: DeletedCodeImpulse(x), self.dictionary.get("codes")))
+    """
+    deletes a list of edges with the given specifications
+    """
+    @property
+    def edges(self) -> List[DeletedKnowledgeEdgeImpulse]:
+        return list(map(lambda x: DeletedKnowledgeEdgeImpulse(x), self.dictionary.get("edges")))

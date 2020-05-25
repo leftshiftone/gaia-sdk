@@ -36,8 +36,8 @@ class Behaviour(list):
     """
     The list of labels of the behaviour
     """
-    def labellist(self):
-        self.append(lambda x: "labellist")
+    def label_list(self):
+        self.append(lambda x: "labelList")
 
     """
     The behaviour xml

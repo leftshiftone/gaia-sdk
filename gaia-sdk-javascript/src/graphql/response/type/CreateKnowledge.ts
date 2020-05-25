@@ -4,12 +4,14 @@ import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedKnowledgeEdgeImpulse} from "./CreatedKnowledgeEdgeImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../../request/input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../../request/input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../../request/input/CreateBehaviourImpulse";
 import {CreateCodeImpulse} from "../../request/input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../../request/input/CreateFulfilmentImpulse";
+import {CreateKnowledgeEdgeImpulse} from "../../request/input/CreateKnowledgeEdgeImpulse";
 import {CreateStatementImpulse} from "../../request/input/CreateStatementImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -40,5 +42,9 @@ export interface CreateKnowledge {
     /**
     * creates a list of codes with the given specifications
     */
-    codes?:[CreatedCodeImpulse]
+    codes?:[CreatedCodeImpulse], 
+    /**
+    * creates a list of edges with the given specifications
+    */
+    edges?:[CreatedKnowledgeEdgeImpulse]
 }

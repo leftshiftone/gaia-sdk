@@ -1,5 +1,6 @@
 package gaia.sdk.api
 
+import gaia.sdk.Uuid
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
 import org.reactivestreams.Publisher
@@ -8,13 +9,20 @@ interface ISensorFunction {
     fun retrieve(config: Retrieval.() -> Unit): Publisher<gaia.sdk.response.type.Retrieval>
     fun retrieveExperience(config: Experience.() -> Unit): Publisher<gaia.sdk.response.type.Experience>
     fun retrieveKnowledge(config: Knowledge.() -> Unit): Publisher<gaia.sdk.response.type.Knowledge>
-    fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit): Publisher<gaia.sdk.response.type.KnowledgeEdge>
-    fun retrieveIntents(config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
-    fun retrievePrompts(config: Prompt.() -> Unit): Publisher<gaia.sdk.response.type.Prompt>
-    fun retrieveStatements(config: Statement.() -> Unit): Publisher<gaia.sdk.response.type.Statement>
-    fun retrieveFulfilments(config: Fulfilment.() -> Unit): Publisher<gaia.sdk.response.type.Fulfilment>
-    fun retrieveCode(config: Code.() -> Unit): Publisher<gaia.sdk.response.type.Code>
-    fun retrieveBehaviour(config: Behaviour.() -> Unit): Publisher<gaia.sdk.response.type.Behaviour>
+    fun retrieveKnowledgeEdges(source: Uuid, config: KnowledgeEdge.() -> Unit): Publisher<gaia.sdk.response.type.KnowledgeEdge>
+    fun retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: KnowledgeEdge.() -> Unit): Publisher<gaia.sdk.response.type.KnowledgeEdge>
+    fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
+    fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
+    fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit): Publisher<gaia.sdk.response.type.Prompt>
+    fun retrievePrompt(identityId: Uuid, reference: Uuid, config: Prompt.() -> Unit): Publisher<gaia.sdk.response.type.Prompt>
+    fun retrieveStatements(identityId: Uuid, config: Statement.() -> Unit): Publisher<gaia.sdk.response.type.Statement>
+    fun retrieveStatement(identityId: Uuid, reference: Uuid, config: Statement.() -> Unit): Publisher<gaia.sdk.response.type.Statement>
+    fun retrieveFulfilments(identityId: Uuid, config: Fulfilment.() -> Unit): Publisher<gaia.sdk.response.type.Fulfilment>
+    fun retrieveFulfilment(identityId: Uuid, reference: Uuid, config: Fulfilment.() -> Unit): Publisher<gaia.sdk.response.type.Fulfilment>
+    fun retrieveCodes(identityId: Uuid, config: Code.() -> Unit): Publisher<gaia.sdk.response.type.Code>
+    fun retrieveCode(identityId: Uuid, reference: Uuid, config: Code.() -> Unit): Publisher<gaia.sdk.response.type.Code>
+    fun retrieveBehaviours(identityId: Uuid, config: Behaviour.() -> Unit): Publisher<gaia.sdk.response.type.Behaviour>
+    fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit): Publisher<gaia.sdk.response.type.Behaviour>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>
@@ -36,6 +44,8 @@ interface ISensorFunction {
     fun preserveCreateCodes(vararg impulses: CreateCodeImpulse): Publisher<gaia.sdk.response.type.CreatedCodeImpulse>
     fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse): Publisher<gaia.sdk.response.type.UpdatedCodeImpulse>
     fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse): Publisher<gaia.sdk.response.type.DeletedCodeImpulse>
+    fun preserveCreateKnowledgeEdges(vararg impulses: CreateKnowledgeEdgeImpulse): Publisher<gaia.sdk.response.type.CreatedKnowledgeEdgeImpulse>
+    fun preserveDeleteKnowledgeEdges(vararg impulses: DeleteKnowledgeEdgeImpulse): Publisher<gaia.sdk.response.type.DeletedKnowledgeEdgeImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>

@@ -17,6 +17,6 @@ class CreateIntent():
     qualifier: str
     appendent: str
     utterance: dict
-    labellist: str
+    labelList: List[str]
     version: str
 

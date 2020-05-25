@@ -32,5 +32,9 @@ data class CreateKnowledge @JsonCreator constructor(
     /**
     * creates a list of codes with the given specifications
     */
-    @JsonProperty("codes") val codes:List<CreatedCodeImpulse>?
+    @JsonProperty("codes") val codes:List<CreatedCodeImpulse>?, 
+    /**
+    * creates a list of edges with the given specifications
+    */
+    @JsonProperty("edges") val edges:List<CreatedKnowledgeEdgeImpulse>?
 )

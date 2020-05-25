@@ -7,7 +7,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class CreatedStatementImpulse(list):
     """
-    Impulse which indicates the resulf of a create statement impulse
+    Impulse which indicates the result of a create statement impulse
     """
 
     def id(self):

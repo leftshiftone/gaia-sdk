@@ -50,7 +50,6 @@ allprojects {
     }
 }
 
-
 subprojects {
     apply plugin: "org.jetbrains.dokka"
     apply plugin: "com.jfrog.bintray"
@@ -63,6 +62,9 @@ subprojects {
     task javadocJar(type: Jar) {
         from dokkaJavadoc
         classifier "javadoc"
+    }
+    asteriaPublish {
+        enableBranchSnapshotRepositories = true
     }
     publishing {
         publications {
@@ -123,3 +125,10 @@ subprojects {
         rootProject.tasks.release.dependsOn tasks.saveLock
     }
 }
+
+task publish {
+    doLast {
+        project.logger.info("Publishing sub projects")
+    }
+}
+subprojects.each { publish.dependsOn it.tasks.publish }

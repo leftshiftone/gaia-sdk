@@ -16,3 +16,5 @@ logs
 *.log
 # Python
 **/.python-version
+# GraphQL
+**/.graphqlconfig

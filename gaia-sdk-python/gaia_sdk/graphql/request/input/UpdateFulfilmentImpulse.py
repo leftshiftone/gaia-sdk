@@ -18,6 +18,6 @@ class UpdateFulfilmentImpulse():
     qualifier: str
     appendent: str
     utterance: dict
-    labellist: List[str]
+    labelList: List[str]
     version: str
 

@@ -7,7 +7,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * Impulse which indicates the resulf of a create behaviour impulse
+ * Impulse which indicates the result of a create behaviour impulse
  */
 export class CreatedBehaviourImpulse extends Array<(_:VariableRegistry) => string> {
 

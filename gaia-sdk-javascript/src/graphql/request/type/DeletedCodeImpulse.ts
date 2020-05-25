@@ -7,7 +7,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * Impulse which indicates the resulf of a delete code impulse
+ * Impulse which indicates the result of a delete code impulse
  */
 export class DeletedCodeImpulse extends Array<(_:VariableRegistry) => string> {
 

@@ -15,7 +15,7 @@ version: 2
 jobs:
   webhook-completed:
     docker:
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: curlimages/curl:7.70.0
     steps:
       - run:
           name: Webhook completed
@@ -47,6 +47,12 @@ jobs:
           name: Install dependencies for all projects
           command: ./gradlew dependencies installDependencies
       - run:
+          name: Build all projects
+          command: ./gradlew assemble --stacktrace
+      - run:
+          name: Publish Java snapshots
+          command: ./gradlew :publish :gaia-sdk-java:publish -x bintrayUpload --stacktrace
+      - run:
           name: Download mock server
           command: ./gradlew prepareMockServer
       - run:
@@ -68,9 +74,6 @@ jobs:
           name: Collect test results python
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
-      - run:
-          name: Build all projects
-          command: ./gradlew assemble --stacktrace
       - save_cache:
           paths:
             - ~/.gradle

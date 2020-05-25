@@ -14,7 +14,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class CreatedIntentImpulse:
     """
-    Impulse which indicates the resulf of a create intent impulse
+    Impulse which indicates the result of a create intent impulse
     """
     dictionary: dict
     @property

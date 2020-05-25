@@ -35,7 +35,7 @@ data class Code @JsonCreator constructor(
     /**
     * The list of labels of the code
     */
-    @JsonProperty("labellist") val labellist:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>?, 
     /**
     * The type of the code
     */

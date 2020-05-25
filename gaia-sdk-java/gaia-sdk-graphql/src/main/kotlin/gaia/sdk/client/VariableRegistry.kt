@@ -1,7 +1,10 @@
 package gaia.sdk.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class VariableRegistry {
     private val variables = HashMap<String, Any>()
@@ -29,8 +32,21 @@ class VariableRegistry {
         if (value is Array<*>)
             return "[" + value.javaClass.simpleName
                     .replace("[", "")
-                    .replace("]", "") + "]!"
-        return value.javaClass.simpleName + "!"
+                    .replace("]", "") + "]"
+        return value.let { return if(isUuid(it))  "Uuid" else it.javaClass.simpleName }
+    }
+
+    private fun isUuid(value: Any) : Boolean{
+        if(value is String){
+            try{
+                UUID.fromString(value)
+                return true
+            } catch (ex : IllegalArgumentException){
+                println("String value: $value is no UUID")
+            }
+        }
+        return false
+
     }
 
 }

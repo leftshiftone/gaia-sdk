@@ -4,12 +4,14 @@ from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImp
 from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
 from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.CreatedKnowledgeEdgeImpulse import CreatedKnowledgeEdgeImpulse
 from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateKnowledgeEdgeImpulse import CreateKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
 
 from dataclasses import dataclass
@@ -61,3 +63,9 @@ class CreateKnowledge:
     @property
     def codes(self) -> List[CreatedCodeImpulse]:
         return list(map(lambda x: CreatedCodeImpulse(x), self.dictionary.get("codes")))
+    """
+    creates a list of edges with the given specifications
+    """
+    @property
+    def edges(self) -> List[CreatedKnowledgeEdgeImpulse]:
+        return list(map(lambda x: CreatedKnowledgeEdgeImpulse(x), self.dictionary.get("edges")))

@@ -13,10 +13,17 @@ import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface Knowledge {
     intents?:[Intent], 
+    intent?:Intent, 
     prompts?:[Prompt], 
+    prompt?:Prompt, 
     fulfilments?:[Fulfilment], 
+    fulfilment?:Fulfilment, 
     statements?:[Statement], 
+    statement?:Statement, 
     codes?:[Code], 
+    code?:Code, 
     behaviours?:[Behaviour], 
-    edges?:[KnowledgeEdge]
+    behaviour?:Behaviour, 
+    edges?:[KnowledgeEdge], 
+    edge?:KnowledgeEdge
 }

@@ -7,7 +7,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * Impulse which indicates the resulf of a create prompt impulse
+ * Impulse which indicates the result of a create prompt impulse
  */
 export class CreatedPromptImpulse extends Array<(_:VariableRegistry) => string> {
 

@@ -2,6 +2,7 @@ package gaia.sdk.http
 
 import gaia.sdk.GaiaClientBuilder
 import gaia.sdk.GaiaRequest
+import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.extension.flatMap
 import gaia.sdk.api.extension.flatMapM
@@ -27,26 +28,47 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
     override fun retrieveExperience(config: Experience.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { experience(config) } })) { it.retrieve?.experience!! }
 
-    override fun retrieveKnowledgeEdge(config: KnowledgeEdge.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(config) } } })) { it.retrieve?.knowledge?.edges!! }
+    override fun retrieveKnowledgeEdges(source: Uuid, config: KnowledgeEdge.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(source, config) } } })) { it.retrieve?.knowledge?.edges!! }
 
-    override fun retrieveIntents(config: Intent.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(config) } } })) { it.retrieve?.knowledge?.intents!! }
+    override fun retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: KnowledgeEdge.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, target, config) } } })) { it.retrieve?.knowledge?.edge!! }
 
-    override fun retrievePrompts(config: Prompt.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompts(config) } } })) { it.retrieve?.knowledge?.prompts!! }
+    override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
-    override fun retrieveStatements(config: Statement.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statements(config) } } })) { it.retrieve?.knowledge?.statements!! }
+    override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { intent(identityId, reference, config) } } })) { it.retrieve?.knowledge?.intent!! }
 
-    override fun retrieveFulfilments(config: Fulfilment.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilments(config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+    override fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { prompts(identityId, config) } } })) { it.retrieve?.knowledge?.prompts!! }
 
-    override fun retrieveCode(config: Code.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { codes(config) } } })) { it.retrieve?.knowledge?.codes!! }
+    override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: Prompt.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { prompt(identityId, reference, config) } } })) { it.retrieve?.knowledge?.prompt!! }
 
-    override fun retrieveBehaviour(config: Behaviour.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviours(config) } } })) { it.retrieve?.knowledge?.behaviours!! }
+    override fun retrieveStatements(identityId: Uuid, config: Statement.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { statements(identityId, config) } } })) { it.retrieve?.knowledge?.statements!! }
+
+    override fun retrieveStatement(identityId: Uuid, reference: Uuid, config: Statement.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { statement(identityId, reference, config) } } })) { it.retrieve?.knowledge?.statement!! }
+
+    override fun retrieveFulfilments(identityId: Uuid, config: Fulfilment.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { fulfilments(identityId, config) } } })) { it.retrieve?.knowledge?.fulfilments!! }
+
+    override fun retrieveFulfilment(identityId: Uuid, reference: Uuid, config: Fulfilment.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { fulfilment(identityId, reference, config) } } })) { it.retrieve?.knowledge?.fulfilment!! }
+
+    override fun retrieveCodes(identityId: Uuid, config: Code.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { codes(identityId, config) } } })) { it.retrieve?.knowledge?.codes!! }
+
+    override fun retrieveCode(identityId: Uuid, reference: Uuid, config: Code.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { code(identityId, reference, config) } } })) { it.retrieve?.knowledge?.code!! }
+
+    override fun retrieveBehaviours(identityId: Uuid, config: Behaviour.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { behaviours(identityId, config) } } })) { it.retrieve?.knowledge?.behaviours!! }
+
+    override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviour!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
@@ -146,6 +168,16 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
     override fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { codes(impulses) { id() } } } })) {
                 it.preserve?.delete?.codes!!
+            }
+
+    override fun preserveCreateKnowledgeEdges(vararg impulses: CreateKnowledgeEdgeImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { edges(impulses) { id() } } } })) {
+                it.preserve?.create?.edges!!
+            }
+
+    override fun preserveDeleteKnowledgeEdges(vararg impulses: DeleteKnowledgeEdgeImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { edges(impulses) { id() } } } })) {
+                it.preserve?.delete?.edges!!
             }
 
     override fun perceive(config: Perception.() -> Unit) =

@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Impulse which indicates the resulf of a update code impulse
+ * Impulse which indicates the result of a update code impulse
  */
 class UpdatedCodeImpulse: Type() {
 

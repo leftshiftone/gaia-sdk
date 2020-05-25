@@ -15,7 +15,7 @@ type Intent {
     "The utterance dictionary. The key is a language key and the value is a list of utterances"
     utterance: Struct
     "The list of labels of the intent"
-    labellist: [String]
+    labelList: [String]
     "The version of the intent"
     version: String
 }
@@ -33,7 +33,7 @@ type Statement {
     "The utterance dictionary. The key is a language key and the value is a list of utterances"
     utterance: Struct
     "The list of labels of the statement"
-    labellist: [String]
+    labelList: [String]
     "The version of the statement"
     version: String
 }
@@ -51,7 +51,7 @@ type Fulfilment {
     "The utterance dictionary. The key is a language key and the value is a list of utterances"
     utterance: Struct
     "The list of labels of the fulfilment"
-    labellist: [String]
+    labelList: [String]
     "The version of the fulfilment"
     version: String
 }
@@ -69,7 +69,7 @@ type Prompt {
     "The utterance dictionary. The key is a language key and the value is a list of utterances"
     utterance: Struct
     "The list of labels of the prompt"
-    labellist: [String]
+    labelList: [String]
     "The version of the prompt"
     version: String
 }
@@ -87,7 +87,7 @@ type Code {
     "The code dictionary. The key is a file name and the value is the code"
     code: Struct
     "The list of labels of the code"
-    labellist: [String]
+    labelList: [String]
     "The type of the code"
     type: String
 }
@@ -103,7 +103,7 @@ type Behaviour {
     "Detailed description about the behaviour"
     appendent: String
     "The list of labels of the behaviour"
-    labellist: [String]
+    labelList: [String]
     "The behaviour xml"
     behaviour: String
 }

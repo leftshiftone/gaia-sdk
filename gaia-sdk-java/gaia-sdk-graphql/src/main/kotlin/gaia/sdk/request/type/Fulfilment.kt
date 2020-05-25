@@ -52,8 +52,8 @@ class Fulfilment: Type() {
     /**
      * The list of labels of the fulfilment
      */
-    fun labellist() { 
-        add {"labellist" } 
+    fun labelList() { 
+        add {"labelList" } 
     }
 
     /**

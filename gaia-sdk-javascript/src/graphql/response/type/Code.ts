@@ -31,7 +31,7 @@ export interface Code {
     /**
     * The list of labels of the code
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The type of the code
     */

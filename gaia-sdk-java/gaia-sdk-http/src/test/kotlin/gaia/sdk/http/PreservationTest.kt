@@ -225,5 +225,29 @@ class PreservationTest {
         Assertions.assertNotNull(result!!.id)
     }
 
+    @Test
+    fun `test preserve create edge`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val impulse = CreateKnowledgeEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "sometype", 2.5f)
+
+        val publisher = gaiaRef.preserveCreateKnowledgeEdges(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete edge`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val impulse = DeleteKnowledgeEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteKnowledgeEdges(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
 
 }

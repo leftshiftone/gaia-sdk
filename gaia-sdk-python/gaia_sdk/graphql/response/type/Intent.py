@@ -50,8 +50,8 @@ class Intent:
     The list of labels of the intent
     """
     @property
-    def labellist(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("labellist")))
+    def label_list(self) -> List[String]:
+        return list(map(lambda x: String(x), self.dictionary.get("labelList")))
     """
     The version of the intent
     """

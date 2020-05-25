@@ -31,7 +31,7 @@ export interface Fulfilment {
     /**
     * The list of labels of the fulfilment
     */
-    labellist?:[string], 
+    labelList?:[string], 
     /**
     * The version of the fulfilment
     */

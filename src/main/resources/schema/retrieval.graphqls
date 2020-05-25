@@ -6,13 +6,32 @@ type Retrieval {
 }
 
 type Knowledge {
-    intents: [Intent]
-    prompts: [Prompt]
-    fulfilments: [Fulfilment]
-    statements: [Statement]
-    codes: [Code]
-    behaviours: [Behaviour]
-    edges: [KnowledgeEdge]
+    # TODO add identities()
+    # TODO add identity(id)
+
+    # TODO add users()
+    # TODO add user(id)
+
+    # TODO add tenants()
+    # TODO add tenant(id)
+
+    # TODO add apiKeys()
+    # TODO add apiKey(id) maybe?
+
+    intents(identityId: Uuid): [Intent]
+    intent(identityId: Uuid, reference: Uuid): Intent
+    prompts(identityId: Uuid): [Prompt]
+    prompt(identityId: Uuid, reference: Uuid): Prompt
+    fulfilments(identityId: Uuid): [Fulfilment]
+    fulfilment(identityId: Uuid, reference: Uuid): Fulfilment
+    statements(identityId: Uuid): [Statement]
+    statement(identityId: Uuid, reference: Uuid): Statement
+    codes(identityId: Uuid): [Code]
+    code(identityId: Uuid, reference: Uuid): Code
+    behaviours(identityId: Uuid): [Behaviour]
+    behaviour(identityId: Uuid, reference: Uuid): Behaviour
+    edges(source: Uuid): [KnowledgeEdge]
+    edge(source: Uuid, target: Uuid): KnowledgeEdge
 }
 
 "Container type for static information"

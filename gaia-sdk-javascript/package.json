@@ -6,7 +6,8 @@
     "dependencies": {
         "crypto-js": "^3.1.9-1",
         "rxjs": "^6.5.5",
-        "uuid": "^7.0.3"
+        "uuid": "^7.0.3",
+        "validator": "^13.0.0"
     },
     "devDependencies": {
         "@types/uuid": "^7.0.3",
