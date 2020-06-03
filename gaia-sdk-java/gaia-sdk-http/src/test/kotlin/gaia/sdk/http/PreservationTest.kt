@@ -156,7 +156,7 @@ class PreservationTest {
     @Test
     fun `test preserve create behaviour`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
-        val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateBehaviours(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -168,7 +168,7 @@ class PreservationTest {
     @Test
     fun `test preserve update behaviour`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
-        val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateBehaviours(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -192,7 +192,7 @@ class PreservationTest {
     @Test
     fun `test preserve create code`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
-        val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateCodes(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -204,7 +204,7 @@ class PreservationTest {
     @Test
     fun `test preserve update code`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
-        val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateCodes(impulse)
         val result = Flux.from(publisher).blockFirst()
