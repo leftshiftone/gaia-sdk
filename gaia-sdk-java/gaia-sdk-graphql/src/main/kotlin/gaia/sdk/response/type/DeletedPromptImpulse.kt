@@ -13,8 +13,6 @@ import gaia.sdk.request.enumeration.*
 */
 data class DeletedPromptImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 
-    /**
-    * the prompt instance
-    */
-    @JsonProperty("data") val data:Intent?
+    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid?
 )

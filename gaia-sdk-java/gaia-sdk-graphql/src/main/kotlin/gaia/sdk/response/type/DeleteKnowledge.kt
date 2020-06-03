@@ -36,5 +36,5 @@ data class DeleteKnowledge @JsonCreator constructor(
     /**
     * deletes a list of edges with the given specifications
     */
-    @JsonProperty("edges") val edges:List<DeletedKnowledgeEdgeImpulse>?
+    @JsonProperty("edges") val edges:List<DeletedEdgeImpulse>?
 )

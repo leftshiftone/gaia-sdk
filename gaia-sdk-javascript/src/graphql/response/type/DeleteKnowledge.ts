@@ -4,11 +4,11 @@ import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
-import {DeletedKnowledgeEdgeImpulse} from "./DeletedKnowledgeEdgeImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
+import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeleteFulfilmentImpulse} from "../../request/input/DeleteFulfilmentImpulse";
 import {DeleteCodeImpulse} from "../../request/input/DeleteCodeImpulse";
-import {DeleteKnowledgeEdgeImpulse} from "../../request/input/DeleteKnowledgeEdgeImpulse";
+import {DeleteEdgeImpulse} from "../../request/input/DeleteEdgeImpulse";
 import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
@@ -46,5 +46,5 @@ export interface DeleteKnowledge {
     /**
     * deletes a list of edges with the given specifications
     */
-    edges?:[DeletedKnowledgeEdgeImpulse]
+    edges?:[DeletedEdgeImpulse]
 }

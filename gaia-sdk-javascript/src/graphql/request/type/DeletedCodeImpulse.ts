@@ -1,5 +1,4 @@
 
-import {Intent} from "./Intent";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -15,14 +14,13 @@ export class DeletedCodeImpulse extends Array<(_:VariableRegistry) => string> {
         this.push(_ => "id")
     };
 
-    /**
-     * the code instance
-     */
-    public data = (config: (_:Intent) => void) => this.push((registry) => {
-        const entity = new Intent();
-        config(entity);
-        return "data { " + entity.render(registry) + " }";
-    });
+    public identityId = () => { 
+        this.push(_ => "identityId")
+    };
+
+    public reference = () => { 
+        this.push(_ => "reference")
+    };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

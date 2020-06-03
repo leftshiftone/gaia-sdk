@@ -4,11 +4,11 @@ from gaia_sdk.graphql.request.type.DeletedBehaviourImpulse import DeletedBehavio
 from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
 from gaia_sdk.graphql.request.type.DeletedPromptImpulse import DeletedPromptImpulse
 from gaia_sdk.graphql.request.type.DeletedStatementImpulse import DeletedStatementImpulse
-from gaia_sdk.graphql.request.type.DeletedKnowledgeEdgeImpulse import DeletedKnowledgeEdgeImpulse
 from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
+from gaia_sdk.graphql.request.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
-from gaia_sdk.graphql.request.input.DeleteKnowledgeEdgeImpulse import DeleteKnowledgeEdgeImpulse
+from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
@@ -89,10 +89,10 @@ class DeleteKnowledge(list):
     """
     deletes a list of edges with the given specifications
     """
-    def edges(self, impulses: List[DeleteKnowledgeEdgeImpulse], config: Callable[['DeletedKnowledgeEdgeImpulse'], None]):
+    def edges(self, impulses: List[DeleteEdgeImpulse], config: Callable[['DeletedEdgeImpulse'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("impulses", impulses)
-            entity = DeletedKnowledgeEdgeImpulse()
+            entity = DeletedEdgeImpulse()
             config(entity)
             return f'edges(impulses:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)

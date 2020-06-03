@@ -36,9 +36,9 @@ import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImp
 import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
 import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
+import {Uuid} from "./graphql/GaiaClient";
 import {CreateKnowledgeEdgeImpulse} from "./graphql/request/input/CreateKnowledgeEdgeImpulse";
 import {DeleteKnowledgeEdgeImpulse} from "./graphql/request/input/DeleteKnowledgeEdgeImpulse";
-import {Uuid} from "./graphql/GaiaClient";
 
 export class Gaia {
     public static connect(url: string, apiKey: string, apiSecret: string): GaiaRef {

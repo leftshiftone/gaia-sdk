@@ -62,9 +62,9 @@ class DeleteKnowledge: Type() {
     /**
      * deletes a list of edges with the given specifications
      */
-    fun edges(impulses : Array<out DeleteKnowledgeEdgeImpulse>, config: DeletedKnowledgeEdgeImpulse.() -> Unit) = add {
+    fun edges(impulses : Array<out DeleteEdgeImpulse>, config: DeletedEdgeImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "edges(impulses:$$name1){" + DeletedKnowledgeEdgeImpulse().apply(config).render(it) + "}"
+        "edges(impulses:$$name1){" + DeletedEdgeImpulse().apply(config).render(it) + "}"
     }
 }
 

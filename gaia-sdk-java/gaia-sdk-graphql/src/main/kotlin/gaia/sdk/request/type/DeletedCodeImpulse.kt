@@ -18,11 +18,12 @@ class DeletedCodeImpulse: Type() {
         add {"id" } 
     }
 
-    /**
-     * the code instance
-     */
-    fun data(config: Intent.() -> Unit) = 
-        add { "data{ " + Intent().apply(config).render(it) + "}"}
+    fun identityId() { 
+        add {"identityId" } 
+    }
 
+    fun reference() { 
+        add {"reference" } 
+    }
 }
 

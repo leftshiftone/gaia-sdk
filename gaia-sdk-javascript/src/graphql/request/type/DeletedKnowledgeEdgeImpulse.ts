@@ -1,5 +1,4 @@
 
-import {KnowledgeEdge} from "./KnowledgeEdge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -15,14 +14,13 @@ export class DeletedKnowledgeEdgeImpulse extends Array<(_:VariableRegistry) => s
         this.push(_ => "id")
     };
 
-    /**
-     * the edge instance
-     */
-    public data = (config: (_:KnowledgeEdge) => void) => this.push((registry) => {
-        const entity = new KnowledgeEdge();
-        config(entity);
-        return "data { " + entity.render(registry) + " }";
-    });
+    public source = () => { 
+        this.push(_ => "source")
+    };
+
+    public target = () => { 
+        this.push(_ => "target")
+    };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

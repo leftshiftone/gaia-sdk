@@ -1,5 +1,4 @@
 
-from gaia_sdk.graphql.request.type.Intent import Intent
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -13,15 +12,11 @@ class DeletedBehaviourImpulse(list):
     def id(self):
         self.append(lambda x: "id")
 
-    """
-    the behaviour instance
-    """
-    def data(self, config: Callable[['Intent'], None]):
-        def callback(registry: VariableRegistry):
-            entity = Intent()
-            config(entity)
-            return "data {" + entity.render(registry) + "}"
-        self.append(callback)
+    def identity_id(self):
+        self.append(lambda x: "identityId")
+
+    def reference(self):
+        self.append(lambda x: "reference")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

@@ -13,8 +13,6 @@ import gaia.sdk.request.enumeration.*
 */
 data class DeletedBehaviourImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 
-    /**
-    * the behaviour instance
-    */
-    @JsonProperty("data") val data:Intent?
+    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid?
 )

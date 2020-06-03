@@ -62,9 +62,9 @@ class CreateKnowledge: Type() {
     /**
      * creates a list of edges with the given specifications
      */
-    fun edges(impulses : Array<out CreateKnowledgeEdgeImpulse>, config: CreatedKnowledgeEdgeImpulse.() -> Unit) = add {
+    fun edges(impulses : Array<out CreateEdgeImpulse>, config: CreatedEdgeImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "edges(impulses:$$name1){" + CreatedKnowledgeEdgeImpulse().apply(config).render(it) + "}"
+        "edges(impulses:$$name1){" + CreatedEdgeImpulse().apply(config).render(it) + "}"
     }
 }
 

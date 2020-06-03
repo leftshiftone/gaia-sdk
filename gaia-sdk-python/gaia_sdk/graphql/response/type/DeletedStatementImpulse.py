@@ -1,5 +1,4 @@
 
-from gaia_sdk.graphql.response.type.Intent import Intent
 
 from dataclasses import dataclass
 from typing import List
@@ -20,9 +19,9 @@ class DeletedStatementImpulse:
     @property
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
-    """
-    the statement instance
-    """
     @property
-    def data(self) -> Intent:
-        return Intent(self.dictionary.get("data"))
+    def identity_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("identityId"))
+    @property
+    def reference(self) -> Uuid:
+        return Uuid(self.dictionary.get("reference"))

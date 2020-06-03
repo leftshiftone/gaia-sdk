@@ -1,5 +1,4 @@
 
-from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge
 
 from dataclasses import dataclass
 from typing import List
@@ -20,9 +19,9 @@ class DeletedKnowledgeEdgeImpulse:
     @property
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
-    """
-    the edge instance
-    """
     @property
-    def data(self) -> KnowledgeEdge:
-        return KnowledgeEdge(self.dictionary.get("data"))
+    def source(self) -> Uuid:
+        return Uuid(self.dictionary.get("source"))
+    @property
+    def target(self) -> Uuid:
+        return Uuid(self.dictionary.get("target"))
