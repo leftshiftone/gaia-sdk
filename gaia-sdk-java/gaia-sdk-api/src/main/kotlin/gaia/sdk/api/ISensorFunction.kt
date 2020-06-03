@@ -9,8 +9,8 @@ interface ISensorFunction {
     fun retrieve(config: Retrieval.() -> Unit): Publisher<gaia.sdk.response.type.Retrieval>
     fun retrieveExperience(config: Experience.() -> Unit): Publisher<gaia.sdk.response.type.Experience>
     fun retrieveKnowledge(config: Knowledge.() -> Unit): Publisher<gaia.sdk.response.type.Knowledge>
-    fun retrieveKnowledgeEdges(source: Uuid, config: KnowledgeEdge.() -> Unit): Publisher<gaia.sdk.response.type.KnowledgeEdge>
-    fun retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: KnowledgeEdge.() -> Unit): Publisher<gaia.sdk.response.type.KnowledgeEdge>
+    fun retrieveEdges(source: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
+    fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit): Publisher<gaia.sdk.response.type.Prompt>

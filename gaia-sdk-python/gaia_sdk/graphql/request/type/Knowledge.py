@@ -2,10 +2,10 @@
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
 from gaia_sdk.graphql.request.type.Behaviour import Behaviour
 from gaia_sdk.graphql.request.type.Statement import Statement
-from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
 from gaia_sdk.graphql.request.type.Intent import Intent
 from gaia_sdk.graphql.request.type.Prompt import Prompt
 from gaia_sdk.graphql.request.type.Code import Code
+from gaia_sdk.graphql.request.type.Edge import Edge
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -115,19 +115,19 @@ class Knowledge(list):
             return f'behaviour(identityId:${name1}, reference:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def edges(self, source: str, config: Callable[['KnowledgeEdge'], None]):
+    def edges(self, source: str, config: Callable[['Edge'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("source", source)
-            entity = KnowledgeEdge()
+            entity = Edge()
             config(entity)
             return f'edges(source:${name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def edge(self, source: str, target: str, config: Callable[['KnowledgeEdge'], None]):
+    def edge(self, source: str, target: str, config: Callable[['Edge'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("source", source)
             name2 = registry.register("target", target)
-            entity = KnowledgeEdge()
+            entity = Edge()
             config(entity)
             return f'edge(source:${name1}, target:${name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)

@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge
+from gaia_sdk.graphql.request.type.Edge import Edge
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -16,9 +16,9 @@ class CreatedEdgeImpulse(list):
     """
     the edge instance
     """
-    def data(self, config: Callable[['KnowledgeEdge'], None]):
+    def data(self, config: Callable[['Edge'], None]):
         def callback(registry: VariableRegistry):
-            entity = KnowledgeEdge()
+            entity = Edge()
             config(entity)
             return "data {" + entity.render(registry) + "}"
         self.append(callback)

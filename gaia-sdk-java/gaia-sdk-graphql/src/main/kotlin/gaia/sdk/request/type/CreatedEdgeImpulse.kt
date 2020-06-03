@@ -21,8 +21,8 @@ class CreatedEdgeImpulse: Type() {
     /**
      * the edge instance
      */
-    fun data(config: KnowledgeEdge.() -> Unit) = 
-        add { "data{ " + KnowledgeEdge().apply(config).render(it) + "}"}
+    fun data(config: Edge.() -> Unit) = 
+        add { "data{ " + Edge().apply(config).render(it) + "}"}
 
 }
 

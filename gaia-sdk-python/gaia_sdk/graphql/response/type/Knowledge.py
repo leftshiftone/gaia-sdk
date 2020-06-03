@@ -2,10 +2,10 @@
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
 from gaia_sdk.graphql.response.type.Behaviour import Behaviour
 from gaia_sdk.graphql.response.type.Statement import Statement
-from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge
 from gaia_sdk.graphql.response.type.Intent import Intent
 from gaia_sdk.graphql.response.type.Prompt import Prompt
 from gaia_sdk.graphql.response.type.Code import Code
+from gaia_sdk.graphql.response.type.Edge import Edge
 
 from dataclasses import dataclass
 from typing import List
@@ -57,8 +57,8 @@ class Knowledge:
     def behaviour(self) -> Behaviour:
         return Behaviour(self.dictionary.get("behaviour"))
     @property
-    def edges(self) -> List[KnowledgeEdge]:
-        return list(map(lambda x: KnowledgeEdge(x), self.dictionary.get("edges")))
+    def edges(self) -> List[Edge]:
+        return list(map(lambda x: Edge(x), self.dictionary.get("edges")))
     @property
-    def edge(self) -> KnowledgeEdge:
-        return KnowledgeEdge(self.dictionary.get("edge"))
+    def edge(self) -> Edge:
+        return Edge(self.dictionary.get("edge"))

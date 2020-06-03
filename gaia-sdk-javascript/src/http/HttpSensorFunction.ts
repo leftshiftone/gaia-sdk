@@ -18,8 +18,8 @@ import {
     IntentRes,
     IntrospectionReq,
     IntrospectionRes,
-    KnowledgeEdgeReq,
-    KnowledgeEdgeRes,
+    EdgeReq,
+    EdgeRes,
     KnowledgeReq,
     KnowledgeRes,
     PerceiveActionImpulse,
@@ -105,18 +105,18 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapQ<ExperienceRes>(observable, (e) => e.retrieve!.experience!);
     };
 
-    public retrieveKnowledgeEdges(source: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes> {
+    public retrieveEdges(source: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
             r.knowledge(k => k.edges(source, config));
         }))));
-        return Rx.flatMapQ<KnowledgeEdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
+        return Rx.flatMapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
     }
 
-    public retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes> {
+    public retrieveEdge(source: Uuid, target: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
             r.knowledge(k => k.edge(source, target, config));
         }))));
-        return Rx.mapQ<KnowledgeEdgeRes>(observable, (e) => e.retrieve!.knowledge!.edge!);
+        return Rx.mapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edge!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes> {

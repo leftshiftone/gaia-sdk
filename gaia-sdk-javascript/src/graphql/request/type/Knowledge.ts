@@ -2,10 +2,10 @@
 import {Fulfilment} from "./Fulfilment";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
-import {KnowledgeEdge} from "./KnowledgeEdge";
 import {Intent} from "./Intent";
 import {Prompt} from "./Prompt";
 import {Code} from "./Code";
+import {Edge} from "./Edge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -104,17 +104,17 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `behaviour(identityId:$${name1}, reference:$${name2}){` + entity.render(registry) + "}"
     });
 
-    public edges = (source : Uuid, config: (_:KnowledgeEdge) => void) => this.push((registry) => {
+    public edges = (source : Uuid, config: (_:Edge) => void) => this.push((registry) => {
         const name1 = registry.register("source", source);
-        const entity = new KnowledgeEdge();
+        const entity = new Edge();
         config(entity);
         return `edges(source:$${name1}){` + entity.render(registry) + "}"
     });
 
-    public edge = (source : Uuid, target : Uuid, config: (_:KnowledgeEdge) => void) => this.push((registry) => {
+    public edge = (source : Uuid, target : Uuid, config: (_:Edge) => void) => this.push((registry) => {
         const name1 = registry.register("source", source);
         const name2 = registry.register("target", target);
-        const entity = new KnowledgeEdge();
+        const entity = new Edge();
         config(entity);
         return `edge(source:$${name1}, target:$${name2}){` + entity.render(registry) + "}"
     });

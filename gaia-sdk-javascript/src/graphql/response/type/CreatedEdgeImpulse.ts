@@ -1,5 +1,5 @@
 
-import {KnowledgeEdge} from "./KnowledgeEdge";
+import {Edge} from "./Edge";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -13,5 +13,5 @@ export interface CreatedEdgeImpulse {
     /**
     * the edge instance
     */
-    data?:KnowledgeEdge
+    data?:Edge
 }

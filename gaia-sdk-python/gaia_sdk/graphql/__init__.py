@@ -25,7 +25,7 @@ from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment as FulfilmentReq
 from gaia_sdk.graphql.request.type.Intent import Intent as IntentReq
 from gaia_sdk.graphql.request.type.Introspection import Introspection as IntrospectionReq
 from gaia_sdk.graphql.request.type.Knowledge import Knowledge as KnowledgeReq
-from gaia_sdk.graphql.request.type.KnowledgeEdge import KnowledgeEdge as KnowledgeEdgeReq
+from gaia_sdk.graphql.request.type.Edge import Edge as EdgeReq
 from gaia_sdk.graphql.request.type.Perception import Perception as PerceptionReq
 from gaia_sdk.graphql.request.type.Preservation import Preservation as PreservationReq
 from gaia_sdk.graphql.request.type.Prompt import Prompt as PromptReq
@@ -66,7 +66,7 @@ from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment as FulfilmentRe
 from gaia_sdk.graphql.response.type.Statement import Statement as StatementRes
 from gaia_sdk.graphql.response.type.Prompt import Prompt as PromptRes
 from gaia_sdk.graphql.response.type.Intent import Intent as IntentRes
-from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge as KnowledgeEdgeRes
+from gaia_sdk.graphql.response.type.Edge import Edge as EdgeRes
 from gaia_sdk.graphql.response.type.Knowledge import Knowledge as KnowledgeRes
 from gaia_sdk.graphql.response.type.Experience import Experience as ExperienceRes
 from gaia_sdk.graphql.response.type.Retrieval import Retrieval as RetrievalRes

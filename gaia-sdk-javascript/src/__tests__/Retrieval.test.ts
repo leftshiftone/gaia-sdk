@@ -219,7 +219,7 @@ describe("perception tests:", () => {
         const source = uuidv4()
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveKnowledgeEdges( source, _ => {
+            const observable = gaiaRef.retrieveEdges( source, _ => {
                 _.source();
                 _.target();
             });
@@ -237,7 +237,7 @@ describe("perception tests:", () => {
         const target = uuidv4()
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveKnowledgeEdge(source, target, _ => {
+            const observable = gaiaRef.retrieveEdge(source, target, _ => {
                 _.source();
                 _.target();
             });

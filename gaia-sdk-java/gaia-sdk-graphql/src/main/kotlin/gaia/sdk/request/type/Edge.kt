@@ -12,7 +12,7 @@ import gaia.sdk.request.enumeration.*
 /**
  * Container type for static information
  */
-class KnowledgeEdge: Type() {
+class Edge: Type() {
 
     fun source() { 
         add {"source" } 

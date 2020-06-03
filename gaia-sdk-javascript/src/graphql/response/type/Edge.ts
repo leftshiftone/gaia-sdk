@@ -7,7 +7,7 @@ import {SkillState} from "../../request/enumeration/SkillState";
 /**
 * Container type for static information
 */
-export interface KnowledgeEdge {
+export interface Edge {
     source?:Uuid, 
     target?:Uuid, 
     type?:string, 

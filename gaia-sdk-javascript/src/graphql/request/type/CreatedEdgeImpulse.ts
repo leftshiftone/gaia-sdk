@@ -1,5 +1,5 @@
 
-import {KnowledgeEdge} from "./KnowledgeEdge";
+import {Edge} from "./Edge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -18,8 +18,8 @@ export class CreatedEdgeImpulse extends Array<(_:VariableRegistry) => string> {
     /**
      * the edge instance
      */
-    public data = (config: (_:KnowledgeEdge) => void) => this.push((registry) => {
-        const entity = new KnowledgeEdge();
+    public data = (config: (_:Edge) => void) => this.push((registry) => {
+        const entity = new Edge();
         config(entity);
         return "data { " + entity.render(registry) + " }";
     });

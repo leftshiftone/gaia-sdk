@@ -11,7 +11,7 @@ import gaia.sdk.request.enumeration.*
 /**
 * Container type for static information
 */
-data class KnowledgeEdge @JsonCreator constructor(
+data class Edge @JsonCreator constructor(
     @JsonProperty("source") val source:Uuid?, 
     @JsonProperty("target") val target:Uuid?, 
     @JsonProperty("type") val type:String?, 

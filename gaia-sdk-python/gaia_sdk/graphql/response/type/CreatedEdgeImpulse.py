@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.response.type.KnowledgeEdge import KnowledgeEdge
+from gaia_sdk.graphql.response.type.Edge import Edge
 
 from dataclasses import dataclass
 from typing import List
@@ -24,5 +24,5 @@ class CreatedEdgeImpulse:
     the edge instance
     """
     @property
-    def data(self) -> KnowledgeEdge:
-        return KnowledgeEdge(self.dictionary.get("data"))
+    def data(self) -> Edge:
+        return Edge(self.dictionary.get("data"))

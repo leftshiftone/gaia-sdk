@@ -77,15 +77,15 @@ class Knowledge: Type() {
         "behaviour(identityId:$$name1, reference:$$name2){" + Behaviour().apply(config).render(it) + "}"
     }
 
-    fun edges(source : Uuid, config: KnowledgeEdge.() -> Unit) = add {
+    fun edges(source : Uuid, config: Edge.() -> Unit) = add {
         val name1 = it.register("source", source)
-        "edges(source:$$name1){" + KnowledgeEdge().apply(config).render(it) + "}"
+        "edges(source:$$name1){" + Edge().apply(config).render(it) + "}"
     }
 
-    fun edge(source : Uuid, target : Uuid, config: KnowledgeEdge.() -> Unit) = add {
+    fun edge(source : Uuid, target : Uuid, config: Edge.() -> Unit) = add {
         val name1 = it.register("source", source)
         val name2 = it.register("target", target)
-        "edge(source:$$name1, target:$$name2){" + KnowledgeEdge().apply(config).render(it) + "}"
+        "edge(source:$$name1, target:$$name2){" + Edge().apply(config).render(it) + "}"
     }
 }
 

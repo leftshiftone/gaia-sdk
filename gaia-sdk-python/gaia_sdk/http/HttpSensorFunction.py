@@ -5,10 +5,10 @@ from typing import Callable, List
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.rx.rx import mapQ, mapM, flat_mapM, flat_mapQ
-from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, KnowledgeReq, KnowledgeEdgeReq, \
+from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
     IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
-    ExperienceRes, KnowledgeEdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
+    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
     MutationReq, MutationRes, PerceiveDataImpulse, PerceiveActionImpulse, DeleteIntentImpulse, \
     UpdateIntentImpulse, CreateIntentImpulse, CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, \
@@ -54,20 +54,20 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return mapQ(observable, query_res)
 
-    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(source, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], KnowledgeEdgeRes] = lambda x: x.retrieve.knowledge.edges
+        query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edges
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return flat_mapQ(observable, query_res)
 
-    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[KnowledgeEdgeReq], None]) -> Observable[KnowledgeEdgeRes]:
+    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edge(source, target, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], KnowledgeEdgeRes] = lambda x: x.retrieve.knowledge.edge
+        query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edge
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return mapQ(observable, query_res)

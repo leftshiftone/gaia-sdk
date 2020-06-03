@@ -16,5 +16,5 @@ data class CreatedEdgeImpulse @JsonCreator constructor(
     /**
     * the edge instance
     */
-    @JsonProperty("data") val data:KnowledgeEdge?
+    @JsonProperty("data") val data:Edge?
 )

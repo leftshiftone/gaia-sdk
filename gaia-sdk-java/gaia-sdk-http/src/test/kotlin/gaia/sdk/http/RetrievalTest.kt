@@ -233,11 +233,11 @@ class RetrievalTest {
     }
 
     @Test
-    fun `test retrieve knowledge edges`() {
+    fun `test retrieve edges`() {
         val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
         val source = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveKnowledgeEdges(source) {
+        val publisher = gaiaRef.retrieveEdges(source) {
             source()
             target()
         }
@@ -256,7 +256,7 @@ class RetrievalTest {
         val source = UUID.randomUUID().toString()
         val target = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveKnowledgeEdge(source, target) {
+        val publisher = gaiaRef.retrieveEdge(source, target) {
             source()
             target()
         }

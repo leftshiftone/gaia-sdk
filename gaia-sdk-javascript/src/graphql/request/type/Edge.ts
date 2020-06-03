@@ -8,7 +8,7 @@ import {SkillState} from "../enumeration/SkillState";
 /**
  * Container type for static information
  */
-export class KnowledgeEdge extends Array<(_:VariableRegistry) => string> {
+export class Edge extends Array<(_:VariableRegistry) => string> {
 
     public source = () => { 
         this.push(_ => "source")

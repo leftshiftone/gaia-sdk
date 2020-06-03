@@ -4,7 +4,7 @@ from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
-class KnowledgeEdge(list):
+class Edge(list):
     """
     Container type for static information
     """

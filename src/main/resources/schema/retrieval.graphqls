@@ -30,12 +30,12 @@ type Knowledge {
     code(identityId: Uuid, reference: Uuid): Code
     behaviours(identityId: Uuid): [Behaviour]
     behaviour(identityId: Uuid, reference: Uuid): Behaviour
-    edges(source: Uuid): [KnowledgeEdge]
-    edge(source: Uuid, target: Uuid): KnowledgeEdge
+    edges(source: Uuid): [Edge]
+    edge(source: Uuid, target: Uuid): Edge
 }
 
 "Container type for static information"
-type KnowledgeEdge {
+type Edge {
     source: Uuid
     target: Uuid
     type: String

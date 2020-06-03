@@ -16,8 +16,8 @@ import {
     IntentRes,
     IntrospectionReq,
     IntrospectionRes,
-    KnowledgeEdgeReq,
-    KnowledgeEdgeRes,
+    EdgeReq,
+    EdgeRes,
     KnowledgeReq,
     KnowledgeRes,
     PerceiveActionImpulse,
@@ -81,9 +81,9 @@ export interface ISensorFunction {
 
     retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes>
 
-    retrieveKnowledgeEdges(source: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
+    retrieveEdges(source: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
 
-    retrieveKnowledgeEdge(source: Uuid, target: Uuid, config: (x: KnowledgeEdgeReq) => void): Observable<KnowledgeEdgeRes>
+    retrieveEdge(source: Uuid, target: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes>
 

@@ -11,7 +11,7 @@ from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
 from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
 @dataclass
-class KnowledgeEdge:
+class Edge:
     """
     Container type for static information
     """
