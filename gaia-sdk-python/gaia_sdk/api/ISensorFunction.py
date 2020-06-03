@@ -34,11 +34,11 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         pass
 
     @abstractmethod
-    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         pass
 
     @abstractmethod
@@ -174,11 +174,11 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def preserve_create_knowledge_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
+    def preserve_create_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
         pass
 
     @abstractmethod
-    def preserve_delete_knowledge_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
+    def preserve_delete_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
         pass
 
     @abstractmethod

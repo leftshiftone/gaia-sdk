@@ -119,14 +119,14 @@ class TestHMAC(unittest.TestCase):
     def test_preserve_create_behaviour(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        impulses = CreateBehaviourImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateBehaviourImpulse(str(uuid4()), "", "", "", list(), "")
         result = gaia_ref.preserve_create_behaviours([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_behaviour(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        impulses = UpdateBehaviourImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdateBehaviourImpulse(str(uuid4()), str(uuid4()), "", "", "", list(), "")
         result = gaia_ref.preserve_update_behaviours([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -140,14 +140,14 @@ class TestHMAC(unittest.TestCase):
     def test_preserve_create_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        impulses = CreateCodeImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateCodeImpulse(str(uuid4()), "", "", dict(), "", list(), "")
         result = gaia_ref.preserve_create_codes([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
-        impulses = UpdateCodeImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdateCodeImpulse(str(uuid4()), str(uuid4()), "", "", dict(), "", list(), "")
         result = gaia_ref.preserve_update_codes([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -158,18 +158,18 @@ class TestHMAC(unittest.TestCase):
         result = gaia_ref.preserve_delete_codes([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
-    def test_preserve_create_knowledge_edge(self):
+    def test_preserve_create_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
         impulses = CreateEdgeImpulse(str(uuid4()), str(uuid4()), "sometype", 2.7)
-        result = gaia_ref.preserve_create_knowledge_edges([impulses]).pipe(ops.first()).run()
+        result = gaia_ref.preserve_create_edges([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
-    def test_preserve_delete_knowledge_edge(self):
+    def test_preserve_delete_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
         impulses = DeleteEdgeImpulse(str(uuid4()), str(uuid4()))
-        result = gaia_ref.preserve_delete_knowledge_edges([impulses]).pipe(ops.first()).run()
+        result = gaia_ref.preserve_delete_edges([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
 if __name__ == '__main__':

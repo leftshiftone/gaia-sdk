@@ -54,7 +54,7 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return mapQ(observable, query_res)
 
-    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(source, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
@@ -63,7 +63,7 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return flat_mapQ(observable, query_res)
 
-    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edge(source, target, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
@@ -364,19 +364,19 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
         return flat_mapM(observable, mutation_res)
 
-    def preserve_create_knowledge_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
-        knowledge_edge_req = lambda x: x.id()
-        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.edges(impulses, knowledge_edge_req))
+    def preserve_create_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
+        edge_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.edges(impulses, edge_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
         mutation_res: Callable[[MutationRes], CreatedEdgeImpulse] = lambda x: x.preserve.create.edges
 
         observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
         return flat_mapM(observable, mutation_res)
 
-    def preserve_delete_knowledge_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
-        knowledge_edge_req = lambda x: x.id()
-        delete_knowledge_edges: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.edges(impulses, knowledge_edge_req))
-        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_knowledge_edges)
+    def preserve_delete_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
+        edge_req = lambda x: x.id()
+        delete_edges: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.edges(impulses, edge_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_edges)
         mutation_res: Callable[[MutationRes], DeletedEdgeImpulse] = lambda x: x.preserve.delete.edges
 
         observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))

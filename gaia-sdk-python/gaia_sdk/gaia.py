@@ -51,11 +51,11 @@ class GaiaRef(ISensorFunction):
     def retrieve_knowledge(self, config: Callable[[KnowledgeReq], None]) -> Observable[KnowledgeRes]:
         return self.f_proc.retrieve_knowledge(config)
 
-    def retrieve_knowledge_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
-        return self.f_proc.retrieve_knowledge_edges(source, config)
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+        return self.f_proc.retrieve_edges(source, config)
 
-    def retrieve_knowledge_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
-        return self.f_proc.retrieve_knowledge_edge(source, target, config)
+    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+        return self.f_proc.retrieve_edge(source, target, config)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         return self.f_proc.retrieve_intents(identityId, config)
@@ -156,11 +156,11 @@ class GaiaRef(ISensorFunction):
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
         return self.f_proc.preserve_delete_codes(impulses)
 
-    def preserve_create_knowledge_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
-        return self.f_proc.preserve_create_knowledge_edges(impulses)
+    def preserve_create_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
+        return self.f_proc.preserve_create_edges(impulses)
 
-    def preserve_delete_knowledge_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
-        return self.f_proc.preserve_delete_knowledge_edges(impulses)
+    def preserve_delete_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
+        return self.f_proc.preserve_delete_edges(impulses)
 
     def perceive(self, config: Callable[[PerceptionReq], None]) -> Observable[PerceptionRes]:
         return self.f_proc.perceive(config)

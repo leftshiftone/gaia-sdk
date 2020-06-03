@@ -119,7 +119,7 @@ class TestRetrieval(unittest.TestCase):
         assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
         assert result.dictionary.get("reference") is not None, "Reference is in response"
 
-    def test_retrieve_knowledge_edges(self):
+    def test_retrieve_edges(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
 
@@ -127,11 +127,11 @@ class TestRetrieval(unittest.TestCase):
             x.source()
             x.target()
 
-        result = gaia_ref.retrieve_knowledge_edges(str(uuid4()), config).pipe(ops.first()).run()
+        result = gaia_ref.retrieve_edges(str(uuid4()), config).pipe(ops.first()).run()
         assert result.dictionary.get("source") is not None, "source is in response"
         assert result.dictionary.get("target") is not None, "target is in response"
 
-    def test_retrieve_knowledge_edge(self):
+    def test_retrieve_edge(self):
         gaia_ref = Gaia.connect("http://localhost:8080", "", "")
 
 
@@ -139,7 +139,7 @@ class TestRetrieval(unittest.TestCase):
             x.source()
             x.target()
 
-        result = gaia_ref.retrieve_knowledge_edge(str(uuid4()), str(uuid4()), config).pipe(ops.first()).run()
+        result = gaia_ref.retrieve_edge(str(uuid4()), str(uuid4()), config).pipe(ops.first()).run()
         assert result.dictionary.get("source") is not None, "source is in response"
         assert result.dictionary.get("target") is not None, "target is in response"
 
