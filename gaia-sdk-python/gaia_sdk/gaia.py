@@ -16,8 +16,8 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
-    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateKnowledgeEdgeImpulse,  \
-    DeleteKnowledgeEdgeImpulse, CreatedKnowledgeEdgeImpulse, DeletedKnowledgeEdgeImpulse
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse,  \
+    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 
 Uuid = str
@@ -156,10 +156,10 @@ class GaiaRef(ISensorFunction):
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
         return self.f_proc.preserve_delete_codes(impulses)
 
-    def preserve_create_knowledge_edges(self, impulses: List[CreateKnowledgeEdgeImpulse]) -> Observable[CreatedKnowledgeEdgeImpulse]:
+    def preserve_create_knowledge_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
         return self.f_proc.preserve_create_knowledge_edges(impulses)
 
-    def preserve_delete_knowledge_edges(self, impulses: List[DeleteKnowledgeEdgeImpulse]) -> Observable[DeletedKnowledgeEdgeImpulse]:
+    def preserve_delete_knowledge_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
         return self.f_proc.preserve_delete_knowledge_edges(impulses)
 
     def perceive(self, config: Callable[[PerceptionReq], None]) -> Observable[PerceptionRes]:

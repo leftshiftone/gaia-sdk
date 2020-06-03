@@ -15,8 +15,8 @@ import {DeleteBehaviourImpulse} from "../graphql/request/input/DeleteBehaviourIm
 import {CreateCodeImpulse} from "../graphql/request/input/CreateCodeImpulse";
 import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
-import {CreateKnowledgeEdgeImpulse} from "../graphql/request/input/CreateKnowledgeEdgeImpulse";
-import {DeleteKnowledgeEdgeImpulse} from "../graphql/request/input/DeleteKnowledgeEdgeImpulse";
+import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
+import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 
 describe("perception tests:", () => {
 
@@ -256,10 +256,10 @@ describe("perception tests:", () => {
 
     test('test preserve create edge', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new CreateKnowledgeEdgeImpulse(uuid(), uuid(), "sometype", 2.7);
+        const impulse = new CreateEdgeImpulse(uuid(), uuid(), "sometype", 2.7);
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveCreateKnowledgeEdges(impulse);
+            const observable = gaiaRef.preserveCreateEdges(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
@@ -269,10 +269,10 @@ describe("perception tests:", () => {
 
     test('test preserve delete edge', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
-        const impulse = new DeleteKnowledgeEdgeImpulse(uuid(), uuid());
+        const impulse = new DeleteEdgeImpulse(uuid(), uuid());
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveDeleteKnowledgeEdges(impulse);
+            const observable = gaiaRef.preserveDeleteEdges(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);

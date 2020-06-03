@@ -170,12 +170,12 @@ class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISens
                 it.preserve?.delete?.codes!!
             }
 
-    override fun preserveCreateKnowledgeEdges(vararg impulses: CreateKnowledgeEdgeImpulse) =
+    override fun preserveCreateEdges(vararg impulses: CreateEdgeImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { edges(impulses) { id() } } } })) {
                 it.preserve?.create?.edges!!
             }
 
-    override fun preserveDeleteKnowledgeEdges(vararg impulses: DeleteKnowledgeEdgeImpulse) =
+    override fun preserveDeleteEdges(vararg impulses: DeleteEdgeImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { edges(impulses) { id() } } } })) {
                 it.preserve?.delete?.edges!!
             }

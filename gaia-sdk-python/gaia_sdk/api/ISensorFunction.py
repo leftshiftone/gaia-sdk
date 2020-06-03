@@ -14,8 +14,8 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, Knowledg
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
-    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateKnowledgeEdgeImpulse, \
-    DeleteKnowledgeEdgeImpulse, CreatedKnowledgeEdgeImpulse, DeletedKnowledgeEdgeImpulse
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
+    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
 
 Uuid = str
 
@@ -174,11 +174,11 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def preserve_create_knowledge_edges(self, impulses: List[CreateKnowledgeEdgeImpulse]) -> Observable[CreatedKnowledgeEdgeImpulse]:
+    def preserve_create_knowledge_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
         pass
 
     @abstractmethod
-    def preserve_delete_knowledge_edges(self, impulses: List[DeleteKnowledgeEdgeImpulse]) -> Observable[DeletedKnowledgeEdgeImpulse]:
+    def preserve_delete_knowledge_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
         pass
 
     @abstractmethod

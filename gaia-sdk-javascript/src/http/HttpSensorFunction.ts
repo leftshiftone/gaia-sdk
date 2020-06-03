@@ -73,10 +73,10 @@ import {UpdateCodeImpulse} from "../graphql/request/input/UpdateCodeImpulse";
 import {UpdatedCodeImpulse} from "../graphql/response/type/UpdatedCodeImpulse";
 import {DeletedCodeImpulse} from "../graphql/response/type/DeletedCodeImpulse";
 import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
-import {CreateKnowledgeEdgeImpulse} from "../graphql/request/input/CreateKnowledgeEdgeImpulse";
-import {CreatedKnowledgeEdgeImpulse} from "../graphql/response/type/CreatedKnowledgeEdgeImpulse"
-import {DeletedKnowledgeEdgeImpulse} from "../graphql/response/type/DeletedKnowledgeEdgeImpulse";
-import {DeleteKnowledgeEdgeImpulse} from "../graphql/request/input/DeleteKnowledgeEdgeImpulse";
+import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
+import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse"
+import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
+import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {Uuid} from "../graphql/GaiaClient";
 
 export class HttpSensorFunction implements ISensorFunction {
@@ -344,18 +344,18 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.flatMapM<DeletedCodeImpulse>(observable, (e) => e.preserve!.delete!.codes!);
     }
 
-    public preserveCreateKnowledgeEdges(...impulses: [CreateKnowledgeEdgeImpulse]): Observable<CreatedKnowledgeEdgeImpulse> {
+    public preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.edges(impulses, i => i.id()))
         }))));
-        return Rx.flatMapM<CreatedKnowledgeEdgeImpulse>(observable, (e) => e.preserve!.create!.edges!);
+        return Rx.flatMapM<CreatedEdgeImpulse>(observable, (e) => e.preserve!.create!.edges!);
     }
 
-    public preserveDeleteKnowledgeEdges(...impulses: [DeleteKnowledgeEdgeImpulse]): Observable<DeletedKnowledgeEdgeImpulse> {
+    public preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.edges(impulses, i => i.id()))
         }))));
-        return Rx.flatMapM<DeletedKnowledgeEdgeImpulse>(observable, (e) => e.preserve!.delete!.edges!);
+        return Rx.flatMapM<DeletedEdgeImpulse>(observable, (e) => e.preserve!.delete!.edges!);
     }
 
     public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {
