@@ -10,12 +10,8 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * The specification to create a behaviour instance
+ * The specification to delete an edge instance
  */
-class CreateBehaviourImpulse(val identityId:Uuid, 
-   val qualifier:String, 
-   val appendent:String, 
-   val behaviour:String, 
-   val labelList:Array<out String>, 
-   val version:String) : Input()
+class DeleteEdgeImpulse(val source:Uuid, 
+   val target:Uuid) : Input()
 

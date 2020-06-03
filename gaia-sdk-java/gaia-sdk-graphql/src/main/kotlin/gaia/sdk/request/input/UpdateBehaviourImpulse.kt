@@ -16,7 +16,7 @@ class UpdateBehaviourImpulse(val identityId:Uuid,
    val reference:Uuid, 
    val qualifier:String, 
    val appendent:String, 
-   val utterance:Struct, 
+   val behaviour:String, 
    val labelList:Array<out String>, 
    val version:String) : Input()
 

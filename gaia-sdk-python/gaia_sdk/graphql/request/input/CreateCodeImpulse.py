@@ -16,7 +16,8 @@ class CreateCodeImpulse():
     identityId: str
     qualifier: str
     appendent: str
-    utterance: dict
+    code: dict
+    type: str
     labelList: List[str]
     version: str
 

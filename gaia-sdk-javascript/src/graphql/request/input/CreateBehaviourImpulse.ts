@@ -13,15 +13,15 @@ export class CreateBehaviourImpulse {
     private identityId:Uuid;
     private qualifier:String;
     private appendent:String;
-    private utterance:Struct;
+    private behaviour:String;
     private labelList:Array<String>;
     private version:String;
 
-    constructor (identityId:Uuid, qualifier:String, appendent:String, utterance:Struct, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, qualifier:String, appendent:String, behaviour:String, labelList:Array<String>, version:String) {
         this.identityId = identityId;
         this.qualifier = qualifier;
         this.appendent = appendent;
-        this.utterance = utterance;
+        this.behaviour = behaviour;
         this.labelList = labelList;
         this.version = version;
     }

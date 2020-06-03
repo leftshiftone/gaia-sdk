@@ -230,7 +230,7 @@ input CreateBehaviourImpulse {
     identityId: Uuid!
     qualifier: String!
     appendent: String
-    utterance: Struct!
+    behaviour: String!
     labelList: [String]
     version: String
 }
@@ -240,7 +240,7 @@ input UpdateBehaviourImpulse {
     reference: Uuid!
     qualifier: String!
     appendent: String
-    utterance: Struct!
+    behaviour: String!
     labelList: [String]
     version: String
 }
@@ -272,7 +272,8 @@ input CreateCodeImpulse {
     identityId: Uuid!
     qualifier: String!
     appendent: String
-    utterance: Struct!
+    code: Struct!
+    type: String!
     labelList: [String]
     version: String
 }
@@ -282,7 +283,8 @@ input UpdateCodeImpulse {
     reference: Uuid!
     qualifier: String!
     appendent: String
-    utterance: Struct!
+    code: Struct!
+    type: String!
     labelList: [String]
     version: String
 }

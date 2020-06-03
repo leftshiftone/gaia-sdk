@@ -15,7 +15,8 @@ import gaia.sdk.request.enumeration.*
 class CreateCodeImpulse(val identityId:Uuid, 
    val qualifier:String, 
    val appendent:String, 
-   val utterance:Struct, 
+   val code:Struct, 
+   val type:String, 
    val labelList:Array<out String>, 
    val version:String) : Input()
 

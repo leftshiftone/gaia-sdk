@@ -17,7 +17,7 @@ class UpdateBehaviourImpulse():
     reference: str
     qualifier: str
     appendent: str
-    utterance: dict
+    behaviour: str
     labelList: List[str]
     version: str
 

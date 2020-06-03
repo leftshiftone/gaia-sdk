@@ -10,14 +10,10 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * The specification to update a code instance
+ * The specification to create an edge instance
  */
-class UpdateCodeImpulse(val identityId:Uuid, 
-   val reference:Uuid, 
-   val qualifier:String, 
-   val appendent:String, 
-   val code:Struct, 
+class CreateEdgeImpulse(val source:Uuid, 
+   val target:Uuid, 
    val type:String, 
-   val labelList:Array<out String>, 
-   val version:String) : Input()
+   val weight:Float) : Input()
 

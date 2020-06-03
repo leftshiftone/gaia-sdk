@@ -14,16 +14,18 @@ export class UpdateCodeImpulse {
     private reference:Uuid;
     private qualifier:String;
     private appendent:String;
-    private utterance:Struct;
+    private code:Struct;
+    private type:String;
     private labelList:Array<String>;
     private version:String;
 
-    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, utterance:Struct, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, code:Struct, type:String, labelList:Array<String>, version:String) {
         this.identityId = identityId;
         this.reference = reference;
         this.qualifier = qualifier;
         this.appendent = appendent;
-        this.utterance = utterance;
+        this.code = code;
+        this.type = type;
         this.labelList = labelList;
         this.version = version;
     }
