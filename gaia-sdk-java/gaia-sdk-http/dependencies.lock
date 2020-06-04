@@ -1721,6 +1721,9 @@
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19"
+        },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
             "project": true
         },
@@ -1811,7 +1814,8 @@
             "locked": "1.0.3",
             "requested": "1.0.3",
             "transitive": [
-                "io.projectreactor:reactor-core"
+                "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -1952,6 +1956,9 @@
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19"
+        },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
             "project": true
         },
@@ -2042,7 +2049,8 @@
             "locked": "1.0.3",
             "requested": "1.0.3",
             "transitive": [
-                "io.projectreactor:reactor-core"
+                "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -2400,6 +2408,9 @@
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19"
+        },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
             "project": true
         },
@@ -2499,6 +2510,7 @@
             "requested": "1.0.3",
             "transitive": [
                 "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
