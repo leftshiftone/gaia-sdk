@@ -171,8 +171,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.glassfish:javax.json": {
             "locked": "1.0.4",
@@ -264,8 +263,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.glassfish:javax.json": {
             "locked": "1.0.4",
@@ -357,8 +355,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.glassfish:javax.json": {
             "locked": "1.0.4",
@@ -600,8 +597,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.glassfish:javax.json": {
             "locked": "1.0.4",
@@ -779,8 +775,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.apiguardian:apiguardian-api": {
             "locked": "1.1.0",
@@ -913,8 +908,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.apiguardian:apiguardian-api": {
             "locked": "1.1.0",
@@ -1090,8 +1084,7 @@
             ]
         },
         "org.apache.velocity:velocity-engine-core": {
-            "locked": "2.1",
-            "requested": "2.1"
+            "locked": "2.1"
         },
         "org.apiguardian:apiguardian-api": {
             "locked": "1.1.0",
