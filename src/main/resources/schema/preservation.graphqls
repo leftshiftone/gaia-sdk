@@ -94,8 +94,7 @@ type UpdatedIntentImpulse implements Impulse {
 "Impulse which indicates the result of a delete intent impulse"
 type DeletedIntentImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 
 "The specification to create a prompt instance"
@@ -137,8 +136,7 @@ type UpdatedPromptImpulse implements Impulse {
 "Impulse which indicates the result of a delete prompt impulse"
 type DeletedPromptImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 
 "The specification to create a statement instance"
@@ -180,8 +178,7 @@ type UpdatedStatementImpulse implements Impulse {
 "Impulse which indicates the result of a delete statement impulse"
 type DeletedStatementImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 "The specification to create a fulfilment instance"
 input CreateFulfilmentImpulse {
@@ -222,8 +219,7 @@ type UpdatedFulfilmentImpulse implements Impulse {
 "Impulse which indicates the result of a delete fulfilment impulse"
 type DeletedFulfilmentImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 "The specification to create a behaviour instance"
 input CreateBehaviourImpulse {
@@ -264,8 +260,7 @@ type UpdatedBehaviourImpulse implements Impulse {
 "Impulse which indicates the result of a delete behaviour impulse"
 type DeletedBehaviourImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 "The specification to create a code instance"
 input CreateCodeImpulse {
@@ -308,8 +303,7 @@ type UpdatedCodeImpulse implements Impulse {
 "Impulse which indicates the result of a delete code impulse"
 type DeletedCodeImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid
-    reference: Uuid
+    data: KeyOne
 }
 
 
@@ -334,6 +328,10 @@ type CreatedEdgeImpulse implements Impulse {
 "Impulse which indicates the result of a delete edge impulse"
 type DeletedEdgeImpulse implements Impulse {
     id: Uuid!
-    source: Uuid
-    target: Uuid
+    data: KeyOne
+}
+"This entity represents the output of a delete impulse"
+type KeyOne {
+    identityId: Uuid
+    reference: Uuid
 }

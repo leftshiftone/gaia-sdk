@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Impulse which indicates the result of a delete intent impulse
+* This entity represents the output of a delete impulse
 */
-data class DeletedIntentImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:KeyOne?
+data class KeyOne @JsonCreator constructor(
+    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid?
 )

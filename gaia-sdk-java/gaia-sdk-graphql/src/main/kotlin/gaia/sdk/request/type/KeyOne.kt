@@ -10,16 +10,16 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Impulse which indicates the result of a delete prompt impulse
+ * This entity represents the output of a delete impulse
  */
-class DeletedPromptImpulse: Type() {
+class KeyOne: Type() {
 
-    fun id() { 
-        add {"id" } 
+    fun identityId() { 
+        add {"identityId" } 
     }
 
-    fun data(config: KeyOne.() -> Unit) = 
-        add { "data{ " + KeyOne().apply(config).render(it) + "}"}
-
+    fun reference() { 
+        add {"reference" } 
+    }
 }
 

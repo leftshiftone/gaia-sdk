@@ -18,12 +18,8 @@ class DeletedEdgeImpulse: Type() {
         add {"id" } 
     }
 
-    fun source() { 
-        add {"source" } 
-    }
+    fun data(config: KeyOne.() -> Unit) = 
+        add { "data{ " + KeyOne().apply(config).render(it) + "}"}
 
-    fun target() { 
-        add {"target" } 
-    }
 }
 
