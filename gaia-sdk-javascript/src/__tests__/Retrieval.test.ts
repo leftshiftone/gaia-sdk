@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 describe("perception tests:", () => {
 
     test('test retrieve behaviours', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve behaviour', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -40,7 +40,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve codes', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve code', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -75,7 +75,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve intents', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -92,7 +92,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve intent', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -110,7 +110,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve prompts', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -127,7 +127,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve prompt', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -145,7 +145,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve fulfilments', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -162,7 +162,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve fulfilment', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -180,7 +180,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve statements', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -197,7 +197,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve statement', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const identityId = uuidv4()
         const reference = uuidv4()
 
@@ -215,7 +215,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve knowledge edges', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const source = uuidv4()
 
         return new Promise((resolve, reject) => {
@@ -232,7 +232,7 @@ describe("perception tests:", () => {
     });
 
     test('test retrieve knowledge edge', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const source = uuidv4()
         const target = uuidv4()
 

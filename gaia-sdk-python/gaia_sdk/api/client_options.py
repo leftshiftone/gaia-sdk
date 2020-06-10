@@ -7,3 +7,4 @@ class ClientOptions:
     def __init__(self, apikey, secret):
         self.apikey = apikey
         self.secret = secret
+        self.content_type = "application/json"

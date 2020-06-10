@@ -1,7 +1,6 @@
 package gaia.sdk.client
 
 import com.sun.crypto.provider.SunJCE
-import java.nio.charset.StandardCharsets
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -17,19 +16,18 @@ class HMAC(secret: String) {
         threadLocal.set(mac)
     }
 
-    fun hash(data: String): String {
+    fun hash(data: ByteArray): ByteArray {
         if (threadLocal.get() == null) {
             threadLocal.set(this.mac.clone() as Mac);
         }
 
-        val bytes = threadLocal.get().doFinal(data.toByteArray(StandardCharsets.US_ASCII))
+        val bytes = threadLocal.get().doFinal(data)
         val formatter = Formatter()
         bytes.forEach { formatter.format("%02x", it) }
-        return formatter.toString()
+        return formatter.toString().toByteArray()
     }
 
     private fun initMac(key: String): Mac {
-        // TODO: HmacSHA256
         val secretKeySpec = SecretKeySpec(key.toByteArray(), "HmacSHA512")
         val mac = Mac.getInstance("HmacSHA512", SunJCE())
         mac.init(secretKeySpec)

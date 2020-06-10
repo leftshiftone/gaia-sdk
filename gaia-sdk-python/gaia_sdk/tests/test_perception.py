@@ -10,8 +10,10 @@ from gaia_sdk.graphql.request.type import Perception
 logging.basicConfig(level=logging.DEBUG)
 from rx import operators as ops
 
+
 class RxException(Exception):
     pass
+
 
 class TestHMAC(unittest.TestCase):
 

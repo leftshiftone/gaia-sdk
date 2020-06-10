@@ -2,4 +2,4 @@ package gaia.sdk.spi
 
 import gaia.sdk.client.HMAC
 
-class ClientOptions(val apiKey: String, val secret: HMAC)
+class ClientOptions(val apiKey: String, val secret: HMAC, val contentType: String = "application/json")

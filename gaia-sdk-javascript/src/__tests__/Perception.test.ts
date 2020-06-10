@@ -1,10 +1,10 @@
 import {Gaia, PerceiveActionImpulse, PerceiveDataImpulse} from "../graphql";
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 
 describe("perception tests:", () => {
 
     test('test perceive data', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", uuid(), uuid());
         const impulse = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ describe("perception tests:", () => {
     });
 
     test('test perceive action', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const impulse = new PerceiveActionImpulse(false, uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
@@ -30,7 +30,7 @@ describe("perception tests:", () => {
     });
 
     test('test perceive', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", "{apiKey}", "{apiSecret}");
+        const gaiaRef = Gaia.connect("http://localhost:8080", "uuid()", "uuid()");
         const impulse1 = new PerceiveActionImpulse(false, uuid(), "{eventName}", {});
         const impulse2 = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 

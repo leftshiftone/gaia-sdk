@@ -14,6 +14,7 @@ import reactor.netty.http.client.HttpClient
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer.allocate
 import java.util.*
 import java.util.function.BiFunction
 
@@ -33,10 +34,9 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         }
 
         return httpClient.headers {
-            it.add("Content-Type", "application/json")
+            it.add("Content-Type", options.contentType)
             // it.add("Accept-Encoding", "gzip")
-            it.add("X-GAIA-APIKEY", options.apiKey)
-            it.add("X-GAIA-SIGNATURE", options.secret.hash(bytes.base64()))
+            it.add("Authorization", hmacHeader(options, bytes))
         }
                 .followRedirect(true)
                 .post()
@@ -69,6 +69,23 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
 
     fun zip(): BiFunction<HttpResponseStatus, ByteArray, Tuple2<HttpResponseStatus, ByteArray>> {
         return BiFunction { a, b -> Tuples.of(a, b) }
+    }
+
+    /**
+     * Authorization: "HMAC-SHA512 " + API_KEY + "," +
+     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "," + timestamp + "," + nonce
+     */
+    private fun hmacHeader(options: ClientOptions, payload: ByteArray):String {
+        val timestamp = System.currentTimeMillis() / 1000
+        val nonce:String = UUID.randomUUID().toString()
+        val contentType = options.contentType.toByteArray()
+        val sensorType = "http".toByteArray()
+
+        val buffer = allocate(payload.size + contentType.size + sensorType.size + 8 + nonce.toByteArray().size)
+        buffer.put(payload).put(contentType).put(sensorType).putLong(timestamp).put(nonce.toByteArray())
+
+        val content = options.secret.hash(buffer.array()).base64()
+       return "HMAC-SHA512 " + options.apiKey + "_" + content + "_" + timestamp + "_" + nonce
     }
 
 }
