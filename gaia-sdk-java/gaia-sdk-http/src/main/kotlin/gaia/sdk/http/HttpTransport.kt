@@ -17,7 +17,7 @@ import reactor.netty.http.client.HttpClient
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer.allocate
+import java.time.Instant
 import java.util.*
 import java.util.function.BiFunction
 
@@ -25,6 +25,8 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
 
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
+
+        const val HTTP_SENSOR_TYPE = "http"
     }
 
     private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -75,20 +77,20 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
     }
 
     /**
-     * Authorization: "HMAC-SHA512 " + API_KEY + "," +
-     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "," + timestamp + "," + nonce
+     * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
+     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
-    private fun hmacHeader(credentials: HMacCredentials, contentType: String, payload: ByteArray):String {
-        val timestamp = System.currentTimeMillis() / 1000
-        val nonce:String = UUID.randomUUID().toString()
-        val contentType = contentType.toByteArray()
-        val sensorType = "http".toByteArray()
+    private fun hmacHeader(credentials: HMacCredentials, contentType: String, payload: ByteArray): String {
+        val sep = "_"
+        val headerScheme = "HMAC-SHA512"
+        val timestamp = Instant.now().epochSecond
+        val nonce: String = UUID.randomUUID().toString()
+        val sensorType = HTTP_SENSOR_TYPE
 
-        val buffer = allocate(payload.size + contentType.size + sensorType.size + 8 + nonce.toByteArray().size)
-        buffer.put(payload).put(contentType).put(sensorType).putLong(timestamp).put(nonce.toByteArray())
-
-        val content = HMAC(credentials.apiSecret).hash(buffer.array()).base64()
-       return "HMAC-SHA512 " + credentials.apiKey + "_" + content + "_" + timestamp + "_" + nonce
+        val toBeHashed = arrayOf(payload, contentType, sensorType, timestamp, nonce).joinToString(sep)
+        val signature = options.secret.hash(toBeHashed.toByteArray()).base64()
+        val token = arrayOf(options.apiKey, signature, timestamp, nonce).joinToString(sep)
+        return "$headerScheme $token"
     }
 
 
