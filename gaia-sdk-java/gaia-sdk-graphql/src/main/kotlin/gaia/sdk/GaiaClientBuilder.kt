@@ -1,33 +1,24 @@
 package gaia.sdk
 
-import gaia.sdk.client.HMAC
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 
 class GaiaClientBuilder (private val transporter: ITransporter) {
 
-    lateinit var apiKey: String;
-    lateinit var secret: String;
-    lateinit var bearer: String;
+    lateinit var credentials: GaiaCredentials;
 
-    fun withApiKey(apiKey: String): GaiaClientBuilder {
-        this.apiKey = apiKey
-        return this
-    }
-
-    fun withSecret(secret: String): GaiaClientBuilder {
-        this.secret = secret
-        return this
-    }
-
-    fun withBearer(bearer: String): GaiaClientBuilder {
-        this.bearer = bearer
+    fun withCredentials(credentials: GaiaCredentials): GaiaClientBuilder {
+       this.credentials=credentials
         return this
     }
 
     fun build(): GaiaClient {
-        val options = ClientOptions(apiKey, HMAC(secret))
+        val options = ClientOptions(credentials)
         return GaiaClient(options, transporter)
     }
 
 }
+
+interface GaiaCredentials
+class HMacCredentials(val apiKey: String, val apiSecret: String) : GaiaCredentials
+class JWTTokenCredentials(val token: String) : GaiaCredentials

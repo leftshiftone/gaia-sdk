@@ -1,5 +1,5 @@
 package gaia.sdk.spi
 
-import gaia.sdk.client.HMAC
+import gaia.sdk.GaiaCredentials
 
-class ClientOptions(val apiKey: String, val secret: HMAC, val contentType: String = "application/json")
+class ClientOptions(val credentials: GaiaCredentials, val contentType: String = "application/json")

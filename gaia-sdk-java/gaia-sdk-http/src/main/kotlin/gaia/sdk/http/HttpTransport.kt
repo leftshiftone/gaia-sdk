@@ -2,6 +2,9 @@ package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import gaia.sdk.HMacCredentials
+import gaia.sdk.JWTTokenCredentials
+import gaia.sdk.client.HMAC
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 import io.netty.buffer.Unpooled
@@ -36,7 +39,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         return httpClient.headers {
             it.add("Content-Type", options.contentType)
             // it.add("Accept-Encoding", "gzip")
-            it.add("Authorization", hmacHeader(options, bytes))
+            it.add("Authorization", buildAuthorizationHeader(options, bytes))
         }
                 .followRedirect(true)
                 .post()
@@ -75,17 +78,42 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
      * Authorization: "HMAC-SHA512 " + API_KEY + "," +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "," + timestamp + "," + nonce
      */
-    private fun hmacHeader(options: ClientOptions, payload: ByteArray):String {
+    private fun hmacHeader(credentials: HMacCredentials, contentType: String, payload: ByteArray):String {
         val timestamp = System.currentTimeMillis() / 1000
         val nonce:String = UUID.randomUUID().toString()
-        val contentType = options.contentType.toByteArray()
+        val contentType = contentType.toByteArray()
         val sensorType = "http".toByteArray()
 
         val buffer = allocate(payload.size + contentType.size + sensorType.size + 8 + nonce.toByteArray().size)
         buffer.put(payload).put(contentType).put(sensorType).putLong(timestamp).put(nonce.toByteArray())
 
-        val content = options.secret.hash(buffer.array()).base64()
-       return "HMAC-SHA512 " + options.apiKey + "_" + content + "_" + timestamp + "_" + nonce
+        val content = HMAC(credentials.apiSecret).hash(buffer.array()).base64()
+       return "HMAC-SHA512 " + credentials.apiKey + "_" + content + "_" + timestamp + "_" + nonce
+    }
+
+
+
+    /**
+     * Authorization: "Bearer"
+     */
+    private fun bearerHeader(credentials: JWTTokenCredentials, contentType: String, payload: ByteArray):String {
+        val contentType = contentType.toByteArray()
+        return "JWT"
+    }
+
+
+    private fun buildAuthorizationHeader(options: ClientOptions, payload: ByteArray):String {
+        when(options.credentials){
+            is HMacCredentials -> {
+                val hmacCredentials= options.credentials as HMacCredentials
+                return hmacHeader(hmacCredentials, options.contentType,payload)
+            }
+            is JWTTokenCredentials -> {
+                val jwtTokenCredentials= options.credentials as JWTTokenCredentials
+                return bearerHeader(jwtTokenCredentials,options.contentType,payload)
+            }
+            else -> throw IllegalArgumentException("Credentials of type ${options.credentials.javaClass} not allowed")
+        }
     }
 
 }
