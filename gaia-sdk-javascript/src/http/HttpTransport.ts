@@ -48,11 +48,11 @@ export class HttpTransport implements ITransporter {
     }
 
     /**
-     * Authorization: "HMAC-SHA512 " + API_KEY + "," +
-     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "," + timestamp + "," + nonce
+     * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
+     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
     private static hmacHeader(options: ClientOptions, payload: any): string {
-        const timestamp = Math.floor(Date.now() / 1000);
+        const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
         const nonce = UUID.randomUUID().toString();
 
         var ByteBuffer = require("bytebuffer");

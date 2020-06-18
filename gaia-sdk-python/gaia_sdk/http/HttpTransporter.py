@@ -1,15 +1,14 @@
 import hashlib
 import hmac
-import json
 import logging
-import time
-
 import requests
+import time
+from gaia_sdk.graphql.GaiaScalars import UUID
 
+import json
 from gaia_sdk.api.ByteBuffer import ByteBuffer
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
-from gaia_sdk.graphql.GaiaScalars import UUID
 
 
 class HttpTransporter(ITransporter):
@@ -33,14 +32,13 @@ class HttpTransporter(ITransporter):
 
         return response.json()
 
-    """
-    Authorization: "HMAC-SHA512 " + API_KEY + "," +
-    base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "," + timestamp + "," + nonce
-    """
-
     @staticmethod
     def hmac_header(options: ClientOptions, payload: dict) -> str:
-        timestamp = int(round(time.time()))
+        """
+        Authorization: "HMAC-SHA512 " + API_KEY + "_" +
+        base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
+        """
+        timestamp = int(round(time.time()))  # todo: if this is a UTC timestamp
         nonce = UUID.random_uuid().value
 
         buffer = ByteBuffer()
