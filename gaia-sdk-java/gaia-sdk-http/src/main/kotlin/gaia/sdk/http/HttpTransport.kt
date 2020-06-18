@@ -17,6 +17,7 @@ import reactor.netty.http.client.HttpClient
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 import java.time.Instant
 import java.util.*
 import java.util.function.BiFunction
@@ -88,8 +89,8 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         val sensorType = HTTP_SENSOR_TYPE
 
         val toBeHashed = arrayOf(payload, contentType, sensorType, timestamp, nonce).joinToString(sep)
-        val signature = options.secret.hash(toBeHashed.toByteArray()).base64()
-        val token = arrayOf(options.apiKey, signature, timestamp, nonce).joinToString(sep)
+        val signature = HMAC(credentials.apiSecret).hash(toBeHashed.toByteArray()).base64()
+        val token = arrayOf(credentials.apiKey, signature, timestamp, nonce).joinToString(sep)
         return "$headerScheme $token"
     }
 
