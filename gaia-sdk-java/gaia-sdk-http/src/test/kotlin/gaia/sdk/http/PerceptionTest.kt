@@ -3,7 +3,6 @@ package gaia.sdk.http
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import java.util.*

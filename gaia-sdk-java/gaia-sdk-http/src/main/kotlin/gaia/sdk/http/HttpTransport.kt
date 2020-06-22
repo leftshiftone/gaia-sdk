@@ -17,7 +17,6 @@ import reactor.netty.http.client.HttpClient
 import reactor.util.function.Tuple2
 import reactor.util.function.Tuples
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
 import java.time.Instant
 import java.util.*
 import java.util.function.BiFunction
@@ -99,22 +98,16 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
     /**
      * Authorization: "Bearer"
      */
-    private fun bearerHeader(credentials: JWTTokenCredentials, contentType: String, payload: ByteArray):String {
-        val contentType = contentType.toByteArray()
-        return "JWT"
+    private fun bearerHeader(credentials: JWTTokenCredentials):String {
+        val headerScheme = "Bearer"
+        return "$headerScheme ${credentials.token}"
     }
 
 
     private fun buildAuthorizationHeader(options: ClientOptions, payload: ByteArray):String {
         when(options.credentials){
-            is HMacCredentials -> {
-                val hmacCredentials= options.credentials as HMacCredentials
-                return hmacHeader(hmacCredentials, options.contentType,payload)
-            }
-            is JWTTokenCredentials -> {
-                val jwtTokenCredentials= options.credentials as JWTTokenCredentials
-                return bearerHeader(jwtTokenCredentials,options.contentType,payload)
-            }
+            is HMacCredentials -> return hmacHeader(options.credentials as HMacCredentials, options.contentType,payload)
+            is JWTTokenCredentials -> return bearerHeader(options.credentials as JWTTokenCredentials)
             else -> throw IllegalArgumentException("Credentials of type ${options.credentials.javaClass} not allowed")
         }
     }

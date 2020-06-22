@@ -8,7 +8,7 @@ class GaiaClientBuilder (private val transporter: ITransporter) {
     lateinit var credentials: GaiaCredentials;
 
     fun withCredentials(credentials: GaiaCredentials): GaiaClientBuilder {
-       this.credentials=credentials
+        this.credentials=credentials
         return this
     }
 
