@@ -33,7 +33,6 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
 
     override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any>): Publisher<T> {
         val bytes = jsonparser.writeValueAsBytes(payload)
-
         if (log.isTraceEnabled) {
             log.debug("Payload to send: '${String(bytes)}'")
         }
@@ -87,7 +86,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         val nonce: String = UUID.randomUUID().toString()
         val sensorType = HTTP_SENSOR_TYPE
 
-        val toBeHashed = arrayOf(payload, contentType, sensorType, timestamp, nonce).joinToString(sep)
+        val toBeHashed = arrayOf(payload.base64(), contentType, sensorType, timestamp, nonce).joinToString(sep)
         val signature = HMAC(credentials.apiSecret).hash(toBeHashed.toByteArray()).base64()
         val token = arrayOf(credentials.apiKey, signature, timestamp, nonce).joinToString(sep)
         return "$headerScheme $token"
