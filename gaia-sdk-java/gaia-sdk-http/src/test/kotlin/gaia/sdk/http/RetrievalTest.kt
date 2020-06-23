@@ -9,7 +9,25 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve behaviours`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveBehaviours(identityId) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve behaviours JWT`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveBehaviours(identityId) {
@@ -27,7 +45,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve behaviour`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -46,7 +64,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve codes`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveCodes(identityId) {
@@ -64,7 +82,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve code`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -84,7 +102,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve intents`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveIntents(identityId) {
@@ -102,7 +120,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve intent`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -121,7 +139,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve prompts`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrievePrompts(identityId) {
@@ -141,7 +159,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve prompt`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -160,7 +178,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve fulfilments`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveFulfilments(identityId) {
@@ -178,7 +196,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve fulfilment`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -197,7 +215,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve statements`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveStatements(identityId) {
@@ -215,7 +233,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve statement`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -234,7 +252,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve edges`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val source = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveEdges(source) {
@@ -252,7 +270,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve knowledge edge`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val source = UUID.randomUUID().toString()
         val target = UUID.randomUUID().toString()
 

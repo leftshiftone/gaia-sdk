@@ -12,7 +12,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive data`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = PerceiveDataImpulse(UUID.randomUUID().toString(), "test", HashMap())
 
         val publisher = gaiaRef.perceiveData(impulse)
@@ -24,7 +24,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive action`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = PerceiveActionImpulse(false, UUID.randomUUID().toString(), "test", HashMap())
 
         val publisher = gaiaRef.perceiveAction(impulse)
@@ -36,7 +36,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse1 = PerceiveActionImpulse(false, UUID.randomUUID().toString(), "test", HashMap())
         val impulse2 = PerceiveDataImpulse(UUID.randomUUID().toString(), "test", HashMap())
 

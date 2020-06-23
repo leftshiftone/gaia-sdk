@@ -2,7 +2,6 @@ package gaia.sdk.http
 
 import gaia.sdk.request.input.*
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import java.util.*
@@ -11,7 +10,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create intent`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateIntents(impulse)
@@ -23,7 +22,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update intent`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdateIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateIntents(impulse)
@@ -35,7 +34,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete intent`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteIntents(impulse)
@@ -47,7 +46,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create prompt`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreatePromptImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreatePrompts(impulse)
@@ -59,7 +58,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update prompt`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdatePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdatePrompts(impulse)
@@ -71,7 +70,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete prompt`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeletePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeletePrompts(impulse)
@@ -83,7 +82,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create statement`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateStatementImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateStatements(impulse)
@@ -95,7 +94,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update statement`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdateStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateStatements(impulse)
@@ -107,7 +106,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete statement`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteStatements(impulse)
@@ -119,7 +118,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create fulfilment`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateFulfilmentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateFulfilments(impulse)
@@ -131,7 +130,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update fulfilment`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdateFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateFulfilments(impulse)
@@ -143,7 +142,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete fulfilment`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteFulfilments(impulse)
@@ -155,7 +154,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create behaviour`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateBehaviours(impulse)
@@ -167,7 +166,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update behaviour`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateBehaviours(impulse)
@@ -179,7 +178,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete behaviour`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteBehaviours(impulse)
@@ -191,7 +190,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create code`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveCreateCodes(impulse)
@@ -203,7 +202,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve update code`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
 
         val publisher = gaiaRef.preserveUpdateCodes(impulse)
@@ -215,7 +214,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete code`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteCodes(impulse)
@@ -227,7 +226,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve create edge`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = CreateEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "sometype", 2.5f)
 
         val publisher = gaiaRef.preserveCreateEdges(impulse)
@@ -239,7 +238,7 @@ class PreservationTest {
 
     @Test
     fun `test preserve delete edge`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080", "apiKey", "apiSecret")
+        val gaiaRef = Gaia.connect("http://localhost:8080", "mockedApiKey", "mockedApiSecret")
         val impulse = DeleteEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteEdges(impulse)
