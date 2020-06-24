@@ -3,6 +3,8 @@ import {#capitalize($name)Client} from './#capitalize($name)Client';
 
 export class #capitalize($name)ClientBuilder {
 #tab(4)private transporter: ITransporter;
+#tab(4)private apiKey?: string;
+#tab(4)private secret?: string;
 
 #tab(4)private constructor(transporter: ITransporter) {
 #tab(8)this.transporter = transporter;
@@ -12,20 +14,20 @@ export class #capitalize($name)ClientBuilder {
 #tab(8)return new #capitalize($name)ClientBuilder(new HttpTransport(url));
 #tab(4)}
 
-#tab(4)public withCredentials(credentials: #capitalize($name)Credentials) {
-#tab(8)this.credentials = credentials;
+#tab(4)public withApiKey(apiKey: string) {
+#tab(8)this.apiKey = apiKey;
 #tab(8)return this;
-
-#tab(4)public build() {
-#tab(8)const options = new ClientOptions(this.credentials);
-#tab(8)return new #capitalize($name)Client(options, this.transporter);
 #tab(4)}
 
-}
+#tab(4)public withSecret(secret: string) {
+#tab(8)this.secret = secret;
+#tab(8)return this;
+#tab(4)}
 
-export interface #capitalize($name)Credentials
-export class HMacCredentials(val apiKey: String, val apiSecret: String) implements #capitalize($name)Credentials
-export class JWTTokenCredentials(val token: String)  implements #capitalize($name)Credentials
+#tab(4)public build() {
+#tab(8)const options = new ClientOptions(this.apiKey, this.secret);
+#tab(8)return new #capitalize($name)Client(options, this.transporter);
+#tab(4)}
 
 }
 #macro(capitalize $str)#*
