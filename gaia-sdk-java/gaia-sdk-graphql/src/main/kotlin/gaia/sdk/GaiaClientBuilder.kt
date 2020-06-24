@@ -5,7 +5,7 @@ import gaia.sdk.spi.ITransporter
 
 class GaiaClientBuilder (private val transporter: ITransporter) {
 
-    lateinit var credentials: GaiaCredentials;
+    lateinit var credentials: GaiaCredentials
 
     fun withCredentials(credentials: GaiaCredentials): GaiaClientBuilder {
         this.credentials=credentials
@@ -22,3 +22,4 @@ class GaiaClientBuilder (private val transporter: ITransporter) {
 interface GaiaCredentials
 class HMacCredentials(val apiKey: String, val apiSecret: String) : GaiaCredentials
 class JWTTokenCredentials(val token: String) : GaiaCredentials
+

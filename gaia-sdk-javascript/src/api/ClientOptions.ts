@@ -1,11 +1,11 @@
-export class ClientOptions {
-    apiKey?:string;
-    apiSecret?:string;
-    contentType:string;
+import {GaiaCredentials} from "./GaiaCredentials";
 
-    constructor(apiKey?:string, apiSecret?:string) {
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
+export class ClientOptions {
+    credentials?: GaiaCredentials;
+    contentType:string;
+//TODO add possibility to set contentType
+    constructor(credentials: GaiaCredentials) {
+        this.credentials = credentials;
         this.contentType = "application/json"
     }
 }

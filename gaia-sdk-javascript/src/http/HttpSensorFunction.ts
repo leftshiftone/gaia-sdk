@@ -10,6 +10,8 @@ import {
     CreateIntentImpulse,
     DeletedIntentImpulse,
     DeleteIntentImpulse,
+    EdgeReq,
+    EdgeRes,
     ExperienceReq,
     ExperienceRes,
     FulfilmentReq,
@@ -18,8 +20,6 @@ import {
     IntentRes,
     IntrospectionReq,
     IntrospectionRes,
-    EdgeReq,
-    EdgeRes,
     KnowledgeReq,
     KnowledgeRes,
     PerceiveActionImpulse,
@@ -78,13 +78,14 @@ import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse"
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {Uuid} from "../graphql/GaiaClient";
+import {GaiaCredentials} from "../api/GaiaCredentials";
 
 export class HttpSensorFunction implements ISensorFunction {
 
     private readonly client: GaiaClient;
 
-    constructor(url: string, apiKey: string, apiSecret: string) {
-        const options = new ClientOptions(apiKey, apiSecret);
+    constructor(url: string, credentials: GaiaCredentials) {
+        const options = new ClientOptions(credentials);
         this.client = new GaiaClient(options, new HttpTransport(url + "/api/sync"));
     }
 

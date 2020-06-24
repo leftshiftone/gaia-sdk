@@ -39,24 +39,29 @@ import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
 import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
+import {GaiaCredentials, HMacCredentials, JWTTokenCredentials} from "./api/GaiaCredentials";
 
 export class Gaia {
-    public static connect(url: string, apiKey: string, apiSecret: string): GaiaRef {
-        return new GaiaRef(new GaiaConfig(url, apiKey, apiSecret));
+    public static connectWithHMAC(url: string, apiKey: string, apiSecret: string): GaiaRef {
+        return Gaia.connect(url, new HMacCredentials(apiKey,apiSecret));
+    }
+    public static connectWithJWT(url: string, token: string): GaiaRef {
+        return Gaia.connect(url, new JWTTokenCredentials(token))
+    }
+    public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
+        return new GaiaRef(new GaiaConfig(url,credentials));
     }
 }
 
 export class GaiaConfig {
     readonly url: string;
-    readonly apiKey: string;
-    readonly apiSecret: string;
+    readonly credentials: GaiaCredentials;
     readonly functionProcessor: ISensorFunction;
 
-    constructor(url: string, apiKey: string, apiSecret: string,
-                functionProcessor: ISensorFunction = new HttpSensorFunction(url, apiKey, apiSecret)) {
+    constructor(url: string, credentials: GaiaCredentials,
+                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials)) {
         this.url = url;
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
+        this.credentials = credentials;
         this.functionProcessor = functionProcessor
     }
 }

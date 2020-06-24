@@ -2,6 +2,7 @@
 import * as CryptoJS from 'crypto-js';
 import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
+import {HMacCredentials} from "../api/GaiaCredentials";
 
 export class HttpTransport implements ITransporter {
 
@@ -42,11 +43,6 @@ export class HttpTransport implements ITransporter {
         });
     }
 
-    private static hmac(data: ArrayBuffer, secret: string): string {
-        const wordArray = CryptoJS.lib.WordArray.create(data);
-        return CryptoJS.HmacSHA512(wordArray, secret).toString();
-    }
-
     /**
      * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
@@ -54,18 +50,15 @@ export class HttpTransport implements ITransporter {
     private static hmacHeader(options: ClientOptions, payload: any): string {
         const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
         const nonce = UUID.randomUUID().toString();
+        var credentials = options.credentials as HMacCredentials
 
-        var ByteBuffer = require("bytebuffer");
+        const base64EncodedPayload= btoa(JSON.stringify(payload))
+        let prepareToHash = [base64EncodedPayload,options.contentType,"http",timestamp,nonce].join("_")
+        const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
+        const signature = btoa(hmac);
 
-        const buffer = new ByteBuffer();
-        buffer.writeString(JSON.stringify(payload));
-        buffer.writeString(options.contentType);
-        buffer.writeString("http");
-        buffer.writeLong(timestamp);
-        buffer.writeString(nonce);
+        return "HMAC-SHA512 " + [credentials.apiKey,signature,timestamp,nonce].join("_")
 
-        const content = btoa(this.hmac(buffer.toArrayBuffer, options.apiSecret!));
-        return "HMAC-SHA512 " + options.apiKey + "_" + content + "_" + timestamp + "_" + nonce
     }
 
 }
