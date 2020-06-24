@@ -108,8 +108,8 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
         return clientBuilder
                 .executorConfig()
                 .nettyExecutor(newFixedThreadPool(options.clientThreads, SdkThreadFactory.INSTANCE))
-                .applicationScheduler(Schedulers.io())
-                .nettyThreads(5)
+                .applicationScheduler(options.clientScheduler)
+                .nettyThreads(options.clientThreads)
                 .applyExecutorConfig()
                 .addConnectedListener { logger.info("connected to " + it.clientConfig.serverAddress) }
                 .addDisconnectedListener { logger.error("error while connecting to mqtt broker", it.cause) }
