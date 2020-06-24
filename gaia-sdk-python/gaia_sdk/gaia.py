@@ -24,17 +24,23 @@ Uuid = str
 
 class Gaia:
     @staticmethod
-    def connect(url: str, apiKey: str, apiSecret: str) -> 'GaiaRef':
-        config = GaiaConfig(url, apiSecret, apiSecret, HttpSensorFunction(url, apiKey, apiSecret))
+    def connect(url: str, credentials) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials))
         return GaiaRef(config, config.functionProcessor)
 
 
 @dataclass
 class GaiaConfig:
     url: str
+    functionProcessor: ISensorFunction
+
+@dataclass
+class HMacCredentials:
     apiKey: str
     apiSecret: str
-    functionProcessor: ISensorFunction
+@dataclass
+class JWTTokenCredentials:
+    token : str
 
 
 @dataclass

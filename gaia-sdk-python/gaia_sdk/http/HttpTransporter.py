@@ -1,5 +1,5 @@
-import hashlib
-import hmac
+import base64
+from api.crypto import HMAC
 import logging
 import requests
 import time
@@ -40,14 +40,20 @@ class HttpTransporter(ITransporter):
         """
         timestamp = int(round(time.time()))  # todo: if this is a UTC timestamp
         nonce = UUID.random_uuid().value
+        return HttpTransporter.generate_token(options, json.dumps(payload),timestamp,nonce)
 
-        buffer = ByteBuffer()
 
-        buffer.put(json.dumps(payload).encode("utf-8"))
-        buffer.put(options.content_type.encode("utf-8"))
-        buffer.put("http".encode("utf-8"))
-        buffer.put_long(timestamp)
-        buffer.put(nonce.encode("utf-8"))
+    @staticmethod
+    def generate_token(options: ClientOptions, payloadAsString: str, timestamp, nonce) -> str:
+        """
+        Authorization: "HMAC-SHA512 " + API_KEY + "_" +
+        base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
+        """
+        arrayToHash = [base64.b64encode(payloadAsString.encode("utf-8")).decode(), options.content_type, "http", timestamp, nonce]
+        prepareToHash= '_'.join([str(x) for x in arrayToHash])
+        hmac = HMAC(options.credentials.apiSecret)
 
-        content = hmac.new(options.secret.encode("utf-8"), buffer.to_bytes(), hashlib.sha512).hexdigest()
-        return "HMAC-SHA512 " + options.apikey + "_" + content + "_" + str(timestamp) + "_" + nonce
+        signature = hmac.hash512(prepareToHash)
+        token = "HMAC-SHA512 " + options.credentials.apiKey + "_" + signature + "_" + str(timestamp) + "_" + nonce
+        return token
+
