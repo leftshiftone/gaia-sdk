@@ -3,4 +3,9 @@ dependencies {
     compile project(":gaia-sdk-java:gaia-sdk-graphql")
     testImplementation "io.reactivex.rxjava2:rxjava"
 
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.5.1"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = 1.8
 }
