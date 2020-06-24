@@ -34,7 +34,7 @@ class HttpTransporter(ITransporter):
 
     @staticmethod
     def generate_hmac_token(options: ClientOptions, payload: dict) -> str:
-        timestamp = int(round(time.time()))  # todo: if this is a UTC timestamp
+        timestamp = int(round(time.time()))
         nonce = UUID.random_uuid().value
         return HttpTransporter.build_hmac_token(options, json.dumps(payload),timestamp,nonce)
 
