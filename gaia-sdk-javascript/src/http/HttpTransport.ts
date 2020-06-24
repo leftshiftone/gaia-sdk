@@ -43,22 +43,32 @@ export class HttpTransport implements ITransporter {
         });
     }
 
+    private static hmacHeader(options: ClientOptions, payload: any): string {
+        const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
+        const nonce = UUID.randomUUID().toString();
+        const payloadAsString = JSON.stringify(payload);
+        const token = this.buildHmacHeader(options,payloadAsString,timestamp,nonce)
+        return token
+
+    }
     /**
      * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
-    private static hmacHeader(options: ClientOptions, payload: any): string {
-        const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
-        const nonce = UUID.randomUUID().toString();
+    static buildHmacHeader(options: ClientOptions, payloadAsString: string, timestamp: number, nonce: string): string {
         var credentials = options.credentials as HMacCredentials
+        const sep = "_"
+        const HTTP_SENSOR_TYPE = "http"
 
-        const base64EncodedPayload= btoa(JSON.stringify(payload))
-        let prepareToHash = [base64EncodedPayload,options.contentType,"http",timestamp,nonce].join("_")
+        const base64EncodedPayload= btoa(payloadAsString)
+        let prepareToHash = [base64EncodedPayload,options.contentType,HTTP_SENSOR_TYPE,timestamp,nonce].join(sep)
         const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
         const signature = btoa(hmac);
 
-        return "HMAC-SHA512 " + [credentials.apiKey,signature,timestamp,nonce].join("_")
+        return "HMAC-SHA512 " + [credentials.apiKey,signature,timestamp,nonce].join(sep)
 
     }
+
+
 
 }

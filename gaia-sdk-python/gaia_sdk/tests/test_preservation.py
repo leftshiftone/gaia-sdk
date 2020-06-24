@@ -31,7 +31,7 @@ logging.basicConfig(level=logging.DEBUG)
 class RxException(Exception):
     pass
 
-class TestHMAC(unittest.TestCase):
+class TestPreservation(unittest.TestCase):
 
     def test_preserve_create_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))

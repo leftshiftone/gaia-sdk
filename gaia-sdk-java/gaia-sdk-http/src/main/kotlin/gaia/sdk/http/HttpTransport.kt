@@ -40,7 +40,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         return httpClient.headers {
             it.add("Content-Type", options.contentType)
             // it.add("Accept-Encoding", "gzip")
-            it.add("Authorization", buildAuthorizationHeader(options, bytes))
+            it.add("Authorization", buildAuthorizationHeader(options, String(bytes)))
         }
                 .followRedirect(true)
                 .post()
@@ -79,20 +79,30 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
      * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
-    private fun hmacHeader(credentials: HMacCredentials, contentType: String, payload: ByteArray): String {
-        val sep = "_"
-        val headerScheme = "HMAC-SHA512"
+    private fun hmacHeader(options: ClientOptions, payload: String): String {
+
         val timestamp = Instant.now().epochSecond
         val nonce: String = UUID.randomUUID().toString()
-        val sensorType = HTTP_SENSOR_TYPE
+        val token = buildHmacToken(options, payload, timestamp, nonce)
+        return token
+    }
 
-        val toBeHashed = arrayOf(payload.base64(), contentType, sensorType, timestamp, nonce).joinToString(sep)
+    /**
+     * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
+     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
+     */
+    fun buildHmacToken(options: ClientOptions, payloadAsString: String, timestamp: Long, nonce: String): String {
+        val sep = "_"
+        val headerScheme = "HMAC-SHA512"
+        val sensorType = HTTP_SENSOR_TYPE
+        val payload = payloadAsString.toByteArray()
+        val credentials = options.credentials as HMacCredentials
+
+        val toBeHashed = arrayOf(payload.base64(), options.contentType, sensorType, timestamp, nonce).joinToString(sep)
         val signature = HMAC(credentials.apiSecret).hash(toBeHashed.toByteArray()).base64()
         val token = arrayOf(credentials.apiKey, signature, timestamp, nonce).joinToString(sep)
         return "$headerScheme $token"
     }
-
-
 
     /**
      * Authorization: "Bearer"
@@ -103,9 +113,9 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
     }
 
 
-    private fun buildAuthorizationHeader(options: ClientOptions, payload: ByteArray):String {
+    private fun buildAuthorizationHeader(options: ClientOptions, payload: String):String {
         when(options.credentials){
-            is HMacCredentials -> return hmacHeader(options.credentials as HMacCredentials, options.contentType,payload)
+            is HMacCredentials -> return hmacHeader(options,payload)
             is JWTTokenCredentials -> return bearerHeader(options.credentials as JWTTokenCredentials)
             else -> throw IllegalArgumentException("Credentials of type ${options.credentials.javaClass} not allowed")
         }

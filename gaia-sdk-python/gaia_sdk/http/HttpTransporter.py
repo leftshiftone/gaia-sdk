@@ -23,7 +23,7 @@ class HttpTransporter(ITransporter):
     def transport(self, options: ClientOptions, payload: dict):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": HttpTransporter.hmac_header(options, payload)
+            "Authorization": HttpTransporter.generate_hmac_token(options, payload)
         }
 
         self.logger.debug("request header:%s payload:%r", headers, payload)
@@ -33,27 +33,26 @@ class HttpTransporter(ITransporter):
         return response.json()
 
     @staticmethod
-    def hmac_header(options: ClientOptions, payload: dict) -> str:
-        """
-        Authorization: "HMAC-SHA512 " + API_KEY + "_" +
-        base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
-        """
+    def generate_hmac_token(options: ClientOptions, payload: dict) -> str:
         timestamp = int(round(time.time()))  # todo: if this is a UTC timestamp
         nonce = UUID.random_uuid().value
-        return HttpTransporter.generate_token(options, json.dumps(payload),timestamp,nonce)
+        return HttpTransporter.build_hmac_token(options, json.dumps(payload),timestamp,nonce)
 
 
     @staticmethod
-    def generate_token(options: ClientOptions, payloadAsString: str, timestamp, nonce) -> str:
+    def build_hmac_token(options: ClientOptions, payloadAsString: str, timestamp, nonce) -> str:
         """
         Authorization: "HMAC-SHA512 " + API_KEY + "_" +
         base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
         """
-        arrayToHash = [base64.b64encode(payloadAsString.encode("utf-8")).decode(), options.content_type, "http", timestamp, nonce]
+        HTTP_SENSOR_TYPE = "http"
+        sep = "_"
+
+        arrayToHash = [base64.b64encode(payloadAsString.encode("utf-8")).decode(), options.content_type, HTTP_SENSOR_TYPE, timestamp, nonce]
         prepareToHash= '_'.join([str(x) for x in arrayToHash])
         hmac = HMAC(options.credentials.apiSecret)
 
         signature = hmac.hash512(prepareToHash)
-        token = "HMAC-SHA512 " + options.credentials.apiKey + "_" + signature + "_" + str(timestamp) + "_" + nonce
+        token = "HMAC-SHA512 " + options.credentials.apiKey + sep + signature + sep + str(timestamp) + sep + nonce
         return token
 
