@@ -5,7 +5,7 @@ import gaia.sdk.spi.ITransporter
 
 class #capitalize($name)ClientBuilder (private val transporter: ITransporter) {
 
-#tab(4)lateinit var credentials: GaiaCredentials;
+#tab(4)lateinit var credentials: GaiaCredentials
 
 #tab(4)fun withCredentials(credentials: GaiaCredentials): GaiaClientBuilder {
 #tab(8)this.credentials=credentials
