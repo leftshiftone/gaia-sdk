@@ -1,8 +1,6 @@
 package gaia.sdk.http
 
 import gaia.sdk.GaiaCredentials
-import gaia.sdk.HMacCredentials
-import gaia.sdk.JWTTokenCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.request.input.*
@@ -13,12 +11,6 @@ import gaia.sdk.request.type.Retrieval
 
 class Gaia {
     companion object {
-        fun connect(url: String, apiKey: String, apiSecret: String): GaiaRef {
-            return connect(url, HMacCredentials(apiKey,apiSecret))
-        }
-        fun connect(url: String, token: String): GaiaRef {
-            return connect(url, JWTTokenCredentials(token))
-        }
         fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
             return GaiaRef(GaiaConfig(url, credentials))
         }

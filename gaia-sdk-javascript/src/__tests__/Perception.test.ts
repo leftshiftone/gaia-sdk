@@ -1,10 +1,11 @@
 import {Gaia, PerceiveActionImpulse, PerceiveDataImpulse} from "../graphql";
 import {v4 as uuid} from 'uuid';
+import {HMacCredentials} from "../api/GaiaCredentials";
 
 describe("perception tests:", () => {
 
     test('test perceive data', () => {
-        const gaiaRef = Gaia.connectWithHMAC("http://localhost:8080", "mockedApiKey", "mockedApiSecret");
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMacCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
@@ -17,7 +18,7 @@ describe("perception tests:", () => {
     });
 
     test('test perceive action', () => {
-        const gaiaRef = Gaia.connectWithHMAC("http://localhost:8080", "mockedApiKey", "mockedApiSecret");
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMacCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new PerceiveActionImpulse(false, uuid(), "{eventName}", {});
 
         return new Promise((resolve, reject) => {
@@ -30,7 +31,7 @@ describe("perception tests:", () => {
     });
 
     test('test perceive', () => {
-        const gaiaRef = Gaia.connectWithHMAC("http://localhost:8080", "mockedApiKey", "mockedApiSecret");
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMacCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse1 = new PerceiveActionImpulse(false, uuid(), "{eventName}", {});
         const impulse2 = new PerceiveDataImpulse(uuid(), "{eventName}", {});
 

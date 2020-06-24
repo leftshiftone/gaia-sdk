@@ -39,15 +39,9 @@ import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
 import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
-import {GaiaCredentials, HMacCredentials, JWTTokenCredentials} from "./api/GaiaCredentials";
+import {GaiaCredentials} from "./api/GaiaCredentials";
 
 export class Gaia {
-    public static connectWithHMAC(url: string, apiKey: string, apiSecret: string): GaiaRef {
-        return Gaia.connect(url, new HMacCredentials(apiKey,apiSecret));
-    }
-    public static connectWithJWT(url: string, token: string): GaiaRef {
-        return Gaia.connect(url, new JWTTokenCredentials(token))
-    }
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
         return new GaiaRef(new GaiaConfig(url,credentials));
     }
