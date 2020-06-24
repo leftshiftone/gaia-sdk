@@ -1,6 +1,7 @@
 package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.hivemq.client.mqtt.MqttGlobalPublishFilter.SUBSCRIBED
 import com.hivemq.client.mqtt.MqttWebSocketConfig
 import com.hivemq.client.mqtt.lifecycle.MqttClientAutoReconnect
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
@@ -31,18 +32,22 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
     fun connect(): Completable {
         return client.connect(Mqtt5Connect.builder().cleanStart(false)
                 .noSessionExpiry().keepAlive(10).build())
+                .doOnSuccess { handle() }
                 .ignoreElement()
-                // .toFlowable()
-                // .flatMap { client.publishes(MqttGlobalPublishFilter.SUBSCRIBED) }
-                // .onErrorResumeNext(Flowable.defer { Flowable.empty<Mqtt5Publish>() })
-                // .map { QueueMessage(it) }
-                // .doOnNext {
-                //     if (callbacks.contains(it.getTopic())) {
-                //         val contentType = it.getContentType().orElse("application/json")
-                //         val payload = QueuePayload(contentType, it.getPayloadAsBytes())
-                //         callbacks[it.getTopic()]!!(payload)
-                //     }
-                // }
+    }
+
+    private fun handle() {
+        client.publishes(SUBSCRIBED)
+                .onErrorResumeNext(Flowable.empty())
+                .map { QueueMessage(it) }
+                .subscribeOn(options.subscriptionScheduler)
+                .subscribe({
+                    if (callbacks.containsKey(it.getTopic())) {
+                        val contentType = it.getContentType().orElse("application/json")
+                        val payload = QueuePayload(contentType, it.getPayloadAsBytes())
+                        callbacks[it.getTopic()]!!(payload)
+                    }
+                }) { it.printStackTrace() }
     }
 
     fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable {
@@ -75,8 +80,8 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
         val publish = Mqtt5Publish.builder()
                 .topic(getTopic(type, header))
                 .userProperties()
-                .add("identityId", header.identityId)
-                .add("userId", header.userId?.toString() ?: UUID.randomUUID().toString())
+                .add("identityId", header.identityId.toString())
+                .add("userId", UUID.randomUUID().toString())
                 .add("deviceId", options.deviceId)
                 .add("deviceInstanceId", options.deviceInstanceId)
                 .add("channelId", header.channelId?.toString() ?: UUID.randomUUID().toString())
@@ -106,7 +111,7 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .applicationScheduler(Schedulers.io())
                 .nettyThreads(5)
                 .applyExecutorConfig()
-                .addConnectedListener { logger.info("connected to " + it.clientConfig.getServerAddress()) }
+                .addConnectedListener { logger.info("connected to " + it.clientConfig.serverAddress) }
                 .addDisconnectedListener { logger.error("error while connecting to mqtt broker", it.cause) }
                 .buildRx()
     }
@@ -125,32 +130,32 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
         throw IllegalArgumentException("cannot handle queue type $type")
     }
 
-    fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit):Completable {
+    fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit): Completable {
         return subscribe(ConversationQueueType.CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvContext::class.java)))
         }
     }
 
-    fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit):Completable {
+    fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit): Completable {
         return subscribe(ConversationQueueType.CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvLogging::class.java)))
         }
     }
 
-    fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit):Completable {
+    fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit): Completable {
         return subscribe(ConversationQueueType.CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvNotification::class.java)))
         }
     }
 
-    fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit):Completable {
+    fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit): Completable {
         return subscribe(ConversationQueueType.CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvInteraction::class.java)))
         }
     }
 
-    fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction):Completable {
-        val content = QueuePayload("application/json", objectMapper.writeValueAsBytes(payload))
+    fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction): Completable {
+        val content = QueuePayload("application/json", objectMapper.writeValueAsBytes(payload.content))
         return publish(ConversationQueueType.INTERACTION, header, content)
     }
 

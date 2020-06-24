@@ -2,6 +2,5 @@ package gaia.sdk.http.queue
 
 import java.util.*
 
-data class QueueHeader(val identityId: String,
-                       val userId: UUID?,
+data class QueueHeader(val identityId: UUID,
                        val channelId: UUID?)
