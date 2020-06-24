@@ -7,6 +7,8 @@ from gaia_sdk.graphql.GaiaScalars import UUID
 
 import json
 from gaia_sdk.api.ByteBuffer import ByteBuffer
+from gaia_sdk.api.GaiaCredentials import JWTTokenCredentials
+from gaia_sdk.api.GaiaCredentials import HMacCredentials
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 
@@ -23,7 +25,7 @@ class HttpTransporter(ITransporter):
     def transport(self, options: ClientOptions, payload: dict):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": HttpTransporter.generate_hmac_token(options, payload)
+            "Authorization": HttpTransporter.buildAuthorizationHeader(options, payload)
         }
 
         self.logger.debug("request header:%s payload:%r", headers, payload)
@@ -33,7 +35,19 @@ class HttpTransporter(ITransporter):
         return response.json()
 
     @staticmethod
-    def generate_hmac_token(options: ClientOptions, payload: dict) -> str:
+    def buildAuthorizationHeader(options: ClientOptions, payload: dict) -> str:
+        if (type(options.credentials) is HMacCredentials):
+            return HttpTransporter.build_hmac_header(options,payload)
+        else: #//TODO check if is JWT Token and otherwise exception
+            return HttpTransporter.build_bearer_header(options)
+
+    @staticmethod
+    def build_bearer_header(options: ClientOptions) -> str:
+        token = "Bearer " + options.credentials.token
+        return token
+
+    @staticmethod
+    def build_hmac_header(options: ClientOptions, payload: dict) -> str:
         timestamp = int(round(time.time()))
         nonce = UUID.random_uuid().value
         return HttpTransporter.build_hmac_token(options, json.dumps(payload),timestamp,nonce)

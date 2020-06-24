@@ -3,7 +3,7 @@ import base64
 import time
 from gaia_sdk.graphql.GaiaScalars import UUID
 from api.crypto import HMAC
-from gaia_sdk.gaia import HMacCredentials
+from gaia_sdk.api.GaiaCredentials import HMacCredentials
 from gaia_sdk.http.HttpTransporter import HttpTransporter
 from gaia_sdk.api.client_options import ClientOptions
 

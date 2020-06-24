@@ -35,15 +35,6 @@ class GaiaConfig:
     functionProcessor: ISensorFunction
 
 @dataclass
-class HMacCredentials:
-    apiKey: str
-    apiSecret: str
-@dataclass
-class JWTTokenCredentials:
-    token : str
-
-
-@dataclass
 class GaiaRef(ISensorFunction):
     config: GaiaConfig
     f_proc: ISensorFunction

@@ -4,8 +4,7 @@ from rx import operators as ops
 from uuid import uuid4
 
 from gaia_sdk.gaia import Gaia
-from gaia_sdk.gaia import HMacCredentials
-
+from gaia_sdk.api.GaiaCredentials import HMacCredentials
 logging.basicConfig(level=logging.DEBUG)
 
 class RxException(Exception):

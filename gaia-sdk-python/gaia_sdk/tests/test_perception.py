@@ -5,7 +5,7 @@ import uuid
 
 from gaia_sdk.graphql.GaiaScalars import UUID
 from gaia_sdk.gaia import Gaia
-from gaia_sdk.gaia import HMacCredentials
+from gaia_sdk.api.GaiaCredentials import HMacCredentials
 from gaia_sdk.graphql import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 from gaia_sdk.graphql.request.type import Perception

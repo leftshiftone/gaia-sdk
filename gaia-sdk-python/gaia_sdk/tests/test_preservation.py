@@ -4,7 +4,7 @@ from rx import operators as ops
 from uuid import uuid4
 
 from gaia_sdk.gaia import Gaia
-from gaia_sdk.gaia import HMacCredentials
+from gaia_sdk.api.GaiaCredentials import HMacCredentials
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
