@@ -2,8 +2,8 @@ package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.HMacCredentials
-import gaia.sdk.JWTTokenCredentials
+import gaia.sdk.HMACCredentials
+import gaia.sdk.JWTCredentials
 import gaia.sdk.client.HMAC
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
@@ -62,7 +62,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
                 }
                 .flatMap { tuple ->
                     if (tuple.t1.code() >= 400) {
-                        val msg = "Error with status code ${tuple.t1.code()} (${tuple.t1.reasonPhrase()} and payload ${String(tuple.t2)}"
+                        val msg = "Error with status code ${tuple.t1.code()} (${tuple.t1.reasonPhrase()} and payload ${String(tuple.t2)})"
                         return@flatMap Flux.error<RuntimeException>(HttpTransportException(msg))
                     }
                     return@flatMap Flux.just(jsonparser.readValue(tuple.t2, type))
@@ -96,7 +96,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
         val headerScheme = "HMAC-SHA512"
         val sensorType = HTTP_SENSOR_TYPE
         val payload = payloadAsString.toByteArray()
-        val credentials = options.credentials as HMacCredentials
+        val credentials = options.credentials as HMACCredentials
 
         val toBeHashed = arrayOf(payload.base64(), options.contentType, sensorType, timestamp, nonce).joinToString(sep)
         val signature = HMAC(credentials.apiSecret).hash(toBeHashed.toByteArray()).base64()
@@ -107,7 +107,7 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
     /**
      * Authorization: "Bearer"
      */
-    private fun bearerHeader(credentials: JWTTokenCredentials):String {
+    private fun bearerHeader(credentials: JWTCredentials):String {
         val headerScheme = "Bearer"
         return "$headerScheme ${credentials.token}"
     }
@@ -115,8 +115,8 @@ class HttpTransport(private val url: String, private val httpClient: HttpClient)
 
     private fun buildAuthorizationHeader(options: ClientOptions, payload: String):String {
         when(options.credentials){
-            is HMacCredentials -> return hmacHeader(options,payload)
-            is JWTTokenCredentials -> return bearerHeader(options.credentials as JWTTokenCredentials)
+            is HMACCredentials -> return hmacHeader(options,payload)
+            is JWTCredentials -> return bearerHeader(options.credentials as JWTCredentials)
             else -> throw IllegalArgumentException("Credentials of type ${options.credentials.javaClass} not allowed")
         }
     }

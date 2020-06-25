@@ -20,8 +20,8 @@ class #capitalize($name)ClientBuilder (private val transporter: ITransporter) {
 }
 
 interface #capitalize($name)Credentials
-class HMacCredentials(val apiKey: String, val apiSecret: String) : #capitalize($name)Credentials
-class JWTTokenCredentials(val token: String) : #capitalize($name)Credentials
+class HMACCredentials(val apiKey: String, val apiSecret: String) : #capitalize($name)Credentials
+class JWTCredentials(val token: String) : #capitalize($name)Credentials
 
 #macro(tab $indent)${tab.invoke($indent)}#end
 #macro(print $text)${print.invoke($text)}#end

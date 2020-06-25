@@ -2,7 +2,7 @@
 import * as CryptoJS from 'crypto-js';
 import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
-import {HMacCredentials, JWTTokenCredentials} from "../api/GaiaCredentials";
+import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
 
 export class HttpTransport implements ITransporter {
 
@@ -44,16 +44,22 @@ export class HttpTransport implements ITransporter {
     }
 
     private static buildAuthorizationHeader(options: ClientOptions, payload: any): string {
-        if(options.credentials instanceof HMacCredentials){
+        var credentials= options.credentials
+        if (credentials==null){
+            throw new Error("Authorization Header cannot be generated because no credentials are set")
+        }
+        if(credentials instanceof HMACCredentials){
             return this.buildHmacHeader(options,payload)
-        }else { //TODO check if is JWT Token and otherwise exception
+        }else if (credentials instanceof JWTCredentials){
             return this.buildBearerHeader(options)
+        }else {
+            throw new Error("Authorization Header for credentials of type "+ credentials.constructor+" cannot be generated")
         }
 
     }
 
     private static buildBearerHeader(options: ClientOptions): string {
-        const jwt = options.credentials as JWTTokenCredentials
+        const jwt = options.credentials as JWTCredentials
         return  "Bearer " + jwt.token
     }
 
@@ -68,7 +74,7 @@ export class HttpTransport implements ITransporter {
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
     static buildHmacToken(options: ClientOptions, payloadAsString: string, timestamp: number, nonce: string): string {
-        var credentials = options.credentials as HMacCredentials
+        var credentials = options.credentials as HMACCredentials
         const sep = "_"
         const HTTP_SENSOR_TYPE = "http"
         const base64EncodedPayload= btoa(payloadAsString)

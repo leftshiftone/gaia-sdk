@@ -1,6 +1,6 @@
 import {ClientOptions, HttpTransport, ITransporter} from '..';
 import {#capitalize($name)Client} from './#capitalize($name)Client';
-import {HMacCredentials} from "../api/#capitalize($name)Credentials";
+import {HMACCredentials} from "../api/#capitalize($name)Credentials";
 
 export class #capitalize($name)ClientBuilder {
 #tab(4)private transporter: ITransporter;
@@ -26,7 +26,7 @@ export class #capitalize($name)ClientBuilder {
 #tab(4)}
 
 #tab(4)public build() {
-#tab(8)const options = new ClientOptions(new HMacCredentials(this.apiKey!, this.secret!));
+#tab(8)const options = new ClientOptions(new HMACCredentials(this.apiKey!, this.secret!));
 #tab(8)return new #capitalize($name)Client(options, this.transporter);
 #tab(4)}
 

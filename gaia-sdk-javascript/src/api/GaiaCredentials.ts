@@ -2,7 +2,7 @@ export interface GaiaCredentials {
 
 }
 
-export class HMacCredentials implements GaiaCredentials {
+export class HMACCredentials implements GaiaCredentials {
     apiKey:string;
     apiSecret:string;
     constructor(apiKey:string, apiSecret:string) {
@@ -11,7 +11,7 @@ export class HMacCredentials implements GaiaCredentials {
     }
 }
 
-export class JWTTokenCredentials implements GaiaCredentials {
+export class JWTCredentials implements GaiaCredentials {
     token:string;
     constructor(token:string) {
         this.token = token

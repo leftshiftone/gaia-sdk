@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
 @dataclass
-class HMacCredentials:
+class HMACCredentials:
     apiKey: str
     apiSecret: str
 
 @dataclass
-class JWTTokenCredentials:
+class JWTCredentials:
     token : str

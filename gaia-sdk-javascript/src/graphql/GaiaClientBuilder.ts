@@ -1,6 +1,6 @@
 import {ClientOptions, HttpTransport, ITransporter} from '..';
 import {GaiaClient} from './GaiaClient';
-import {HMacCredentials} from "../api/GaiaCredentials";
+import {HMACCredentials} from "../api/GaiaCredentials";
 
 export class GaiaClientBuilder {
     private transporter: ITransporter;
@@ -26,7 +26,7 @@ export class GaiaClientBuilder {
     }
 
     public build() {
-        const options = new ClientOptions(new HMacCredentials(this.apiKey!, this.secret!));
+        const options = new ClientOptions(new HMACCredentials(this.apiKey!, this.secret!));
         return new GaiaClient(options, this.transporter);
     }
 

@@ -1,6 +1,6 @@
 package gaia.sdk.http
 
-import gaia.sdk.HMacCredentials
+import gaia.sdk.HMACCredentials
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
 import org.junit.jupiter.api.Assertions
@@ -13,7 +13,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive data`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val impulse = PerceiveDataImpulse(UUID.randomUUID().toString(), "test", HashMap())
 
         val publisher = gaiaRef.perceiveData(impulse)
@@ -25,7 +25,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive action`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val impulse = PerceiveActionImpulse(false, UUID.randomUUID().toString(), "test", HashMap())
 
         val publisher = gaiaRef.perceiveAction(impulse)
@@ -37,7 +37,7 @@ class PerceptionTest {
 
     @Test
     fun `test perceive`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val impulse1 = PerceiveActionImpulse(false, UUID.randomUUID().toString(), "test", HashMap())
         val impulse2 = PerceiveDataImpulse(UUID.randomUUID().toString(), "test", HashMap())
 

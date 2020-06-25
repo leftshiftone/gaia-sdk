@@ -7,8 +7,8 @@ from gaia_sdk.graphql.GaiaScalars import UUID
 
 import json
 from gaia_sdk.api.ByteBuffer import ByteBuffer
-from gaia_sdk.api.GaiaCredentials import JWTTokenCredentials
-from gaia_sdk.api.GaiaCredentials import HMacCredentials
+from gaia_sdk.api.GaiaCredentials import JWTCredentials
+from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 
@@ -36,10 +36,14 @@ class HttpTransporter(ITransporter):
 
     @staticmethod
     def buildAuthorizationHeader(options: ClientOptions, payload: dict) -> str:
-        if (type(options.credentials) is HMacCredentials):
+        if (type(options.credentials) is None):
+            raise ValueError("Authorization Header cannot be generated because no credentials are set")
+        elif (type(options.credentials) is HMACCredentials):
             return HttpTransporter.build_hmac_header(options,payload)
-        else: #//TODO check if is JWT Token and otherwise exception
+        elif (type(options.credentials) is JWTCredentials):
             return HttpTransporter.build_bearer_header(options)
+        else:
+            raise ValueError("Authorization Header cannot be generated because illegal credential type")
 
     @staticmethod
     def build_bearer_header(options: ClientOptions) -> str:

@@ -1,6 +1,6 @@
 package gaia.sdk.http
 
-import gaia.sdk.HMacCredentials
+import gaia.sdk.HMACCredentials
 import io.reactivex.Flowable
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -10,7 +10,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve behaviours`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveBehaviours(identityId) {
@@ -28,7 +28,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve behaviours JWT`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveBehaviours(identityId) {
@@ -46,7 +46,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve behaviour`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -65,7 +65,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve codes`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveCodes(identityId) {
@@ -83,7 +83,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve code`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -103,7 +103,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve intents`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveIntents(identityId) {
@@ -121,7 +121,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve intent`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -140,7 +140,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve prompts`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrievePrompts(identityId) {
@@ -160,7 +160,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve prompt`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -179,7 +179,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve fulfilments`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveFulfilments(identityId) {
@@ -197,7 +197,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve fulfilment`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -216,7 +216,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve statements`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveStatements(identityId) {
@@ -234,7 +234,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve statement`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -253,7 +253,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve edges`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val source = UUID.randomUUID().toString()
 
         val publisher = gaiaRef.retrieveEdges(source) {
@@ -271,7 +271,7 @@ class RetrievalTest {
 
     @Test
     fun `test retrieve knowledge edge`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  HMacCredentials("mockedApiKey", "mockedApiSecret"))
+        val gaiaRef = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         val source = UUID.randomUUID().toString()
         val target = UUID.randomUUID().toString()
 

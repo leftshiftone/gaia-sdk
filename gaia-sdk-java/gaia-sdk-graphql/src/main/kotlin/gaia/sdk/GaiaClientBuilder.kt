@@ -20,6 +20,6 @@ class GaiaClientBuilder (private val transporter: ITransporter) {
 }
 
 interface GaiaCredentials
-class HMacCredentials(val apiKey: String, val apiSecret: String) : GaiaCredentials
-class JWTTokenCredentials(val token: String) : GaiaCredentials
+class HMACCredentials(val apiKey: String, val apiSecret: String) : GaiaCredentials
+class JWTCredentials(val token: String) : GaiaCredentials
 
