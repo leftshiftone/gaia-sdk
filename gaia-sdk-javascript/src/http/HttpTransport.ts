@@ -1,8 +1,8 @@
 // @ts-ignore
-import * as CryptoJS from 'crypto-js';
 import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
 import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
+import {HMACTokenBuilder} from "./HMACTokenBuilder";
 
 export class HttpTransport implements ITransporter {
 
@@ -49,42 +49,19 @@ export class HttpTransport implements ITransporter {
             throw new Error("Authorization Header cannot be generated because no credentials are set")
         }
         if(credentials instanceof HMACCredentials){
-            return this.buildHmacHeader(options,payload)
+            return new HMACTokenBuilder()
+                .withClientOptions(options)
+                .withTimestamp( Math.floor(Date.now() / 1000))
+                .withNonce(UUID.randomUUID().toString())
+                .withPayload(JSON.stringify(payload))
+                .build()
         }else if (credentials instanceof JWTCredentials){
-            return this.buildBearerHeader(options)
+            const jwt = options.credentials as JWTCredentials
+            return  "Bearer " + jwt.token
         }else {
             throw new Error("Authorization Header for credentials of type "+ credentials.constructor+" cannot be generated")
         }
 
     }
-
-    private static buildBearerHeader(options: ClientOptions): string {
-        const jwt = options.credentials as JWTCredentials
-        return  "Bearer " + jwt.token
-    }
-
-    private static buildHmacHeader(options: ClientOptions, payload: any): string {
-        const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
-        const nonce = UUID.randomUUID().toString();
-        const payloadAsString = JSON.stringify(payload);
-        return this.buildHmacToken(options,payloadAsString,timestamp,nonce)
-    }
-    /**
-     * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
-     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
-     */
-    static buildHmacToken(options: ClientOptions, payloadAsString: string, timestamp: number, nonce: string): string {
-        var credentials = options.credentials as HMACCredentials
-        const sep = "_"
-        const HTTP_SENSOR_TYPE = "http"
-        const base64EncodedPayload= btoa(payloadAsString)
-        let prepareToHash = [base64EncodedPayload,options.contentType,HTTP_SENSOR_TYPE,timestamp,nonce].join(sep)
-        const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
-        const signature = btoa(hmac);
-
-        return "HMAC-SHA512 " + [credentials.apiKey,signature,timestamp,nonce].join(sep)
-    }
-
-
 
 }
