@@ -1,5 +1,5 @@
 export {ClientOptions} from './api/ClientOptions';
-export {HttpTransport} from './http/HttpTransport';
+export {HttpTransporter} from './http/HttpTransporter';
 export {ITransporter} from './api/ITransporter';
 export {GaiaRequest} from './graphql/GaiaRequest';
 export {QueryResponse} from './graphql/GaiaResponse';

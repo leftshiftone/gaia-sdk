@@ -4,7 +4,7 @@ import {UUID} from "../graphql/GaiaScalars";
 import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "./HMACTokenBuilder";
 
-export class HttpTransport implements ITransporter {
+export class HttpTransporter implements ITransporter {
 
     private url: string;
 
@@ -20,7 +20,7 @@ export class HttpTransport implements ITransporter {
             request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
             request.setRequestHeader('Access-Control-Allow-Methods', 'POST');
             request.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');
-            request.setRequestHeader("Authorization", HttpTransport.buildAuthorizationHeader(options, body));
+            request.setRequestHeader("Authorization", HttpTransporter.buildAuthorizationHeader(options, body));
 
             request.withCredentials = true;
             request.timeout = 10000;

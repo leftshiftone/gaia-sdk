@@ -22,7 +22,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-class HttpTransportTest {
+class HttpTransporterTest {
 
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))
 

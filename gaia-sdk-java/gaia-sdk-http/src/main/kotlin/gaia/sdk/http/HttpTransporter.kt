@@ -20,7 +20,7 @@ import java.time.Instant
 import java.util.*
 import java.util.function.BiFunction
 
-class HttpTransport(private val url: String, private val httpClient: HttpClient) : ITransporter {
+class HttpTransporter(private val url: String, private val httpClient: HttpClient) : ITransporter {
 
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)

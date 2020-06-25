@@ -1,5 +1,5 @@
 import {ClientOptions, GaiaClient, GaiaRequest} from "..";
-import {HttpTransport} from "./HttpTransport";
+import {HttpTransporter} from "./HttpTransporter";
 import {Rx} from "../api/rx"
 import {
     BehaviourReq,
@@ -86,7 +86,7 @@ export class HttpSensorFunction implements ISensorFunction {
 
     constructor(url: string, credentials: GaiaCredentials) {
         const options = new ClientOptions(credentials);
-        this.client = new GaiaClient(options, new HttpTransport(url + "/api/sync"));
+        this.client = new GaiaClient(options, new HttpTransporter(url + "/api/sync"));
     }
 
     public retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes> {
