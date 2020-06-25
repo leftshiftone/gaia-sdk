@@ -1,15 +1,28 @@
 package gaia.sdk.http
 
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.HMACCredentials
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import reactor.core.publisher.Flux
 import java.util.*
 import kotlin.collections.HashMap
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+abstract class PerceptionTest {
 
-class PerceptionTest {
+    lateinit var credentials : GaiaCredentials
+
+    @BeforeAll
+    fun beforeAll() {
+        credentials= retrieveCredentials()
+    }
+
+    abstract fun retrieveCredentials(): GaiaCredentials
+
 
     @Test
     fun `test perceive data`() {

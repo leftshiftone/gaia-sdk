@@ -1,13 +1,28 @@
 package gaia.sdk.http
 
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.HMACCredentials
 import gaia.sdk.request.input.*
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import reactor.core.publisher.Flux
 import java.util.*
 
-class PreservationTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+abstract class PreservationTest {
+
+    lateinit var credentials : GaiaCredentials
+
+    @BeforeAll
+    fun beforeAll() {
+        credentials= retrieveCredentials()
+    }
+
+    abstract fun retrieveCredentials(): GaiaCredentials
+
+
 
     @Test
     fun `test preserve create intent`() {
