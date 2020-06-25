@@ -40,7 +40,7 @@ class HttpTransporterTest {
                         )
                 ))
     }
-    private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+    private val jsonParser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
     @BeforeEach
     fun setup() {
@@ -57,7 +57,7 @@ class HttpTransporterTest {
                 .withHeader("Authorization", matching("$authSchema.*"))
                 .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(errorCode)
-                        .withBody(jsonparser.writeValueAsString(A_STANDARD_RESPONSE)))
+                        .withBody(jsonParser.writeValueAsString(A_STANDARD_RESPONSE)))
         if (authSchema=="HMAC"){
             stub.andMatching("HMAC-Authorization-Header-Matcher", Parameters.one("clientOptions", API_SECRET))
         }
