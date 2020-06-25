@@ -19,7 +19,7 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"));
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
         const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
@@ -40,7 +40,7 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"));
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
         const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
