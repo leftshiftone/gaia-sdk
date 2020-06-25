@@ -14,7 +14,7 @@ export class HMACTokenBuilder {
         this.payload = ""
         this.nonce = ""
         this.timestamp = 0
-        this.clientOptions = new ClientOptions(new HMACCredentials("",""))
+        this.clientOptions = new ClientOptions(new HMACCredentials("",""),"application/json")
     }
 
     public withPayload(payload: string): HMACTokenBuilder{
