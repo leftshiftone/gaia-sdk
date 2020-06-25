@@ -7,4 +7,4 @@ export {MutationResponse} from './graphql/GaiaResponse';
 export {GaiaClient} from './graphql/GaiaClient';
 export {GaiaClientBuilder} from './graphql/GaiaClientBuilder';
 export {HttpSensorFunction} from './http/HttpSensorFunction';
-export {Gaia, GaiaRef, GaiaConfig} from "./gaia";
+export {Gaia, GaiaRef, GaiaConfig} from "./Gaia";
