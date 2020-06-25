@@ -29,6 +29,7 @@ allprojects {
         implementation "org.reactivestreams:reactive-streams:1.0.3"
         implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
         implementation "io.projectreactor.netty:reactor-netty:0.8.4.RELEASE"
+        implementation "com.hivemq:hivemq-mqtt-client:1.2.0"
 
         testImplementation "org.junit.jupiter:junit-jupiter"
         testImplementation "org.assertj:assertj-core:3.11.1"
