@@ -1,11 +1,12 @@
-package gaia.sdk.http
+package gaia.sdk.http.hmac
 
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.http.AuthorizationHelper
+import gaia.sdk.http.PreservationTest
 
-class HMACPerceptionTest : PerceptionTest(){
+class HMACPreservationTest : PreservationTest(){
 
     override fun retrieveCredentials() : GaiaCredentials {
         return AuthorizationHelper.getValidHMACCredentials()
     }
-
 }

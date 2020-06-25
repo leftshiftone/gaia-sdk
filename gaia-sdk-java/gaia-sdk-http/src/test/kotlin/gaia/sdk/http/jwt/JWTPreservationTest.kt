@@ -1,6 +1,8 @@
-package gaia.sdk.http
+package gaia.sdk.http.jwt
 
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.http.AuthorizationHelper
+import gaia.sdk.http.PreservationTest
 
 class JWTPreservationTest : PreservationTest(){
 
