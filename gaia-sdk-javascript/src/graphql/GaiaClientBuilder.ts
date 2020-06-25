@@ -1,4 +1,4 @@
-import {ClientOptions, HttpTransport, ITransporter} from '..';
+import {ClientOptions, HttpTransporter, ITransporter} from '..';
 import {GaiaClient} from './GaiaClient';
 import {HMACCredentials} from "../api/GaiaCredentials";
 
@@ -12,7 +12,7 @@ export class GaiaClientBuilder {
     }
 
     public static http(url: string) {
-        return new GaiaClientBuilder(new HttpTransport(url));
+        return new GaiaClientBuilder(new HttpTransporter(url));
     }
 
     public withApiKey(apiKey: string) {

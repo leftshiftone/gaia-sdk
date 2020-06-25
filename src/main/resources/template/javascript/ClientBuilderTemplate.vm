@@ -1,4 +1,4 @@
-import {ClientOptions, HttpTransport, ITransporter} from '..';
+import {ClientOptions, HttpTransporter, ITransporter} from '..';
 import {#capitalize($name)Client} from './#capitalize($name)Client';
 import {HMACCredentials} from "../api/#capitalize($name)Credentials";
 
@@ -12,7 +12,7 @@ export class #capitalize($name)ClientBuilder {
 #tab(4)}
 
 #tab(4)public static http(url: string) {
-#tab(8)return new #capitalize($name)ClientBuilder(new HttpTransport(url));
+#tab(8)return new #capitalize($name)ClientBuilder(new HttpTransporter(url));
 #tab(4)}
 
 #tab(4)public withApiKey(apiKey: string) {
