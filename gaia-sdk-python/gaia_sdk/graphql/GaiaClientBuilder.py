@@ -1,7 +1,8 @@
 from api.client_options import ClientOptions
-from http.http_transport import HttpTransport
+from gaia_sdk.http.HttpTransporter import HttpTransporter
 from graphql.GaiaClient import GaiaClient
 
+#Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
 
 class GaiaClientBuilder(object):
 
@@ -12,13 +13,9 @@ class GaiaClientBuilder(object):
     def __init__(self, url):
         self.url = url
 
-    def with_apikey(self, apikey):
-        self.apikey = apikey
-        return self
-
-    def with_secret(self, secret):
-        self.secret = secret
+    def with_credentials(self, credentials):
+        self.credentials = credentials
         return self
 
     def build(self):
-        return GaiaClient(HttpTransport(self.url, ClientOptions(self.apikey, self.secret)))
+        return GaiaClient(HttpTransporter(self.url), ClientOptions(self.credentials))

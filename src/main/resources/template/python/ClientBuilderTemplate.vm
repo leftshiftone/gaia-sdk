@@ -1,7 +1,8 @@
 from api.client_options import ClientOptions
-from http.http_transport import HttpTransport
+from gaia_sdk.http.HttpTransporter import HttpTransporter
 from graphql.#capitalize($name)Client import #capitalize($name)Client
 
+#Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
 
 class #capitalize($name)ClientBuilder(object):
 
@@ -12,16 +13,12 @@ class #capitalize($name)ClientBuilder(object):
 #tab(4)def __init__(self, url):
 #tab(8)self.url = url
 
-#tab(4)def with_apikey(self, apikey):
-#tab(8)self.apikey = apikey
-#tab(8)return self
-
-#tab(4)def with_secret(self, secret):
-#tab(8)self.secret = secret
+#tab(4)def with_credentials(self, credentials):
+#tab(8)self.credentials = credentials
 #tab(8)return self
 
 #tab(4)def build(self):
-#tab(8)return #capitalize($name)Client(HttpTransport(self.url, ClientOptions(self.apikey, self.secret)))
+#tab(8)return #capitalize($name)Client(HttpTransporter(self.url), ClientOptions(self.credentials))
 #macro(capitalize $str)#*
     *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
 #end

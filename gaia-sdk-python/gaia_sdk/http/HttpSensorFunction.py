@@ -21,6 +21,7 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
 from gaia_sdk.graphql.GaiaClient import GaiaClient
+from gaia_sdk.graphql.GaiaClientBuilder import GaiaClientBuilder
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 from gaia_sdk.http.HttpTransporter import HttpTransporter
 
@@ -29,7 +30,7 @@ Uuid = str
 class HttpSensorFunction(ISensorFunction):
 
     def __init__(self, url: str, credentials):
-        self.client = GaiaClient(HttpTransporter(url + "/api/sync"), ClientOptions(credentials))
+        self.client = GaiaClientBuilder.http(url + "/api/sync").with_credentials(credentials).build()
 
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(config)

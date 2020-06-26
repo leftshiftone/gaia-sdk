@@ -3,6 +3,8 @@ package gaia.sdk
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 
+//Class generated from template src/main/resources/template/java/ClientBuilderTemplate.vm
+
 class GaiaClientBuilder (private val transporter: ITransporter) {
 
     lateinit var credentials: GaiaCredentials
@@ -19,9 +21,10 @@ class GaiaClientBuilder (private val transporter: ITransporter) {
     }
 
     fun build(): GaiaClient {
-        val options = ClientOptions(credentials,contentType)
+        val options = ClientOptions(credentials, contentType)
         return GaiaClient(options, transporter)
     }
+
 
 }
 

@@ -2,6 +2,8 @@ import {ClientOptions, HttpTransporter, ITransporter} from '..';
 import {GaiaClient} from './GaiaClient';
 import {GaiaCredentials} from "../api/GaiaCredentials";
 
+//Class generated from template src/main/resources/template/javascript/ClientBuilderTemplate.vm
+
 export class GaiaClientBuilder {
     private transporter: ITransporter;
     private credentials?: GaiaCredentials

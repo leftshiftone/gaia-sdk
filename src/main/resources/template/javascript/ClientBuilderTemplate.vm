@@ -2,6 +2,8 @@ import {ClientOptions, HttpTransporter, ITransporter} from '..';
 import {#capitalize($name)Client} from './#capitalize($name)Client';
 import {GaiaCredentials} from "../api/#capitalize($name)Credentials";
 
+//Class generated from template src/main/resources/template/javascript/ClientBuilderTemplate.vm
+
 export class #capitalize($name)ClientBuilder {
 #tab(4)private transporter: ITransporter;
 #tab(4)private credentials?: GaiaCredentials
