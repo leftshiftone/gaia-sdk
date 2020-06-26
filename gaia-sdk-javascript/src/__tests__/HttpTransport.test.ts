@@ -9,7 +9,7 @@ describe("HttpTransport Test:", () => {
         const timestamp = 1592924470
         const nonce = "353823db-c12b-44b2-b0dc-c4d813c74b24"
         const payloadAsString = "hi"
-        const options = new ClientOptions(new HMACCredentials("apiKey", "secret"),"application/json")
+        const options = new ClientOptions(new HMACCredentials("apiKey", "secret"))
         const token = new HMACTokenBuilder()
             .withPayload(payloadAsString)
             .withNonce(nonce)

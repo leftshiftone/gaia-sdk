@@ -22,24 +22,6 @@ class RxException(Exception):
 
 class TestPerception(unittest.TestCase):
 
-#     def test_token_generation(self):
-#         options = ClientOptions(HMACCredentials("apiKey", "secret"))
-#         result = HttpTransporter.generate_token(options, "hi",1592924470 ,"353823db-c12b-44b2-b0dc-c4d813c74b24")
-#
-#         self.assertEqual(result, 'HMAC-SHA512 apiKey_MzE5ZjQyNzg3ZTgyZGJhNmE3YTBiNjI5ODA5MjIzMzk2YzRhMTg1MmNlOWUwYzhiYTNiZmQ0MTkxY2NlMDg1YTVlMWM0Y2UwM2QzNzNlM2NhYWIxMzcxMTU5MTQxNTJkNzFhMmEwMmY3OGIwNTZmNjA0NTJkZDJlYzg2ZDE1MjU=_1592924470_353823db-c12b-44b2-b0dc-c4d813c74b24')
-
-#     def test_token_generation_a(self):
-#         encodedPayload = base64.b64encode("hi".encode("utf-8")).decode()
-#         arrayToHash = [encodedPayload, "application/json", "http", 1592924470 ,"353823db-c12b-44b2-b0dc-c4d813c74b24"]
-#         prepareToHash= '_'.join([str(x) for x in arrayToHash])
-#         hmac = HMAC("secret")
-#         signature = hmac.hash(prepareToHash)
-#         self.assertEqual(signature, 'MzE5ZjQyNzg3ZTgyZGJhNmE3YTBiNjI5ODA5MjIzMzk2YzRhMTg1MmNlOWUwYzhiYTNiZmQ0MTkxY2NlMDg1YTVlMWM0Y2UwM2QzNzNlM2NhYWIxMzcxMTU5MTQxNTJkNzFhMmEwMmY3OGIwNTZmNjA0NTJkZDJlYzg2ZDE1MjU=')
-#
-
-
-
-
     def test_perceive_data(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
         impulse = PerceiveDataImpulse(str(uuid.uuid4()), "", {})

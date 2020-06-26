@@ -6,16 +6,23 @@ import gaia.sdk.spi.ITransporter
 class #capitalize($name)ClientBuilder (private val transporter: ITransporter) {
 
 #tab(4)lateinit var credentials: GaiaCredentials
+#tab(4)var contentType: String = "application/json"
 
 #tab(4)fun withCredentials(credentials: GaiaCredentials): GaiaClientBuilder {
 #tab(8)this.credentials=credentials
 #tab(8)return this
 #tab(4)}
 
+#tab(4)fun withContentType(contentType: String) : GaiaClientBuilder {
+#tab(8)this.contentType = contentType
+#tab(8)return this
+#tab(4)}
+
 #tab(4)fun build(): #capitalize($name)Client {
-#tab(8)val options = ClientOptions(credentials)
+#tab(8)val options = ClientOptions(credentials, contentType)
 #tab(8)return #capitalize($name)Client(options, transporter)
 #tab(4)}
+
 
 }
 
