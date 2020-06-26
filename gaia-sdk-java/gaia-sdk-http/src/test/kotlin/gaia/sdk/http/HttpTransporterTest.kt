@@ -26,6 +26,7 @@ class HttpTransporterTest {
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))
 
     companion object{
+        val jsonParser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         val HMAC_CREDENTIALS =HMACCredentials("mockedApiKey","mockedApiSecret")
         val API_SECRET= ClientOptions(HMAC_CREDENTIALS)
         val A_STANDARD_RESPONSE =
@@ -39,7 +40,6 @@ class HttpTransporterTest {
                         )
                 ))
     }
-    private val jsonParser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
     @BeforeEach
     fun setup() {

@@ -40,24 +40,6 @@ abstract class RetrievalTest() {
     }
 
     @Test
-    fun `test retrieve behaviours JWT`() {
-        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val identityId = UUID.randomUUID().toString()
-
-        val publisher = gaiaRef.retrieveBehaviours(identityId) {
-            identityId()
-            reference()
-        }
-        val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5,TimeUnit.SECONDS)
-        ts.assertNoErrors()
-        ts.assertValueCount(1)
-        ts.assertValueAt(0){
-            it.identityId!=null && it.reference!=null
-        }
-    }
-
-    @Test
     fun `test retrieve behaviour`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
