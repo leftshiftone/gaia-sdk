@@ -15,7 +15,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-class AuthorizationHelper {
+class AuthorizationTestHelper {
     companion object{
 
         //This values have been enabled for testing in the mock server via JWT Auth
