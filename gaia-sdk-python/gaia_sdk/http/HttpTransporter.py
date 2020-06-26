@@ -11,6 +11,7 @@ from gaia_sdk.api.GaiaCredentials import JWTCredentials
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
+from gaia_sdk.http.HMACTokenBuilder import HMACTokenBuilder
 
 
 class HttpTransporter(ITransporter):
@@ -54,23 +55,7 @@ class HttpTransporter(ITransporter):
     def build_hmac_header(options: ClientOptions, payload: dict) -> str:
         timestamp = int(round(time.time()))
         nonce = UUID.random_uuid().value
-        return HttpTransporter.build_hmac_token(options, json.dumps(payload),timestamp,nonce)
+        return HMACTokenBuilder().with_timestamp(timestamp).with_client_options(options).with_nonce(nonce).with_payload(json.dumps(payload)).build()
 
 
-    @staticmethod
-    def build_hmac_token(options: ClientOptions, payloadAsString: str, timestamp, nonce) -> str:
-        """
-        Authorization: "HMAC-SHA512 " + API_KEY + "_" +
-        base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
-        """
-        HTTP_SENSOR_TYPE = "http"
-        sep = "_"
-
-        arrayToHash = [base64.b64encode(payloadAsString.encode("utf-8")).decode(), options.content_type, HTTP_SENSOR_TYPE, timestamp, nonce]
-        prepareToHash= '_'.join([str(x) for x in arrayToHash])
-        hmac = HMAC(options.credentials.apiSecret)
-
-        signature = hmac.hash512(prepareToHash)
-        token = "HMAC-SHA512 " + options.credentials.apiKey + sep + signature + sep + str(timestamp) + sep + nonce
-        return token
 
