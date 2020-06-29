@@ -24,18 +24,15 @@ Uuid = str
 
 class Gaia:
     @staticmethod
-    def connect(url: str, apiKey: str, apiSecret: str) -> 'GaiaRef':
-        config = GaiaConfig(url, apiSecret, apiSecret, HttpSensorFunction(url, apiKey, apiSecret))
+    def connect(url: str, credentials) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials))
         return GaiaRef(config, config.functionProcessor)
 
 
 @dataclass
 class GaiaConfig:
     url: str
-    apiKey: str
-    apiSecret: str
     functionProcessor: ISensorFunction
-
 
 @dataclass
 class GaiaRef(ISensorFunction):

@@ -1,25 +1,27 @@
 package gaia.sdk.http
 
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.request.input.*
+import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
-import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Retrieval
 
 class Gaia {
     companion object {
-        fun connect(url: String, apiKey: String, apiSecret: String): GaiaRef {
-            return GaiaRef(GaiaConfig(url, apiKey, apiSecret))
+        fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
+            return GaiaRef(GaiaConfig(url, credentials))
         }
     }
 }
 
+
+
 class GaiaConfig(val url: String,
-                 val apiKey: String,
-                 val apiSecret: String,
-                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret))
+                 val credentials: GaiaCredentials,
+                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials))
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor

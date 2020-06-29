@@ -1,9 +1,10 @@
 // @ts-ignore
-import * as CryptoJS from 'crypto-js';
 import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
+import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
+import {HMACTokenBuilder} from "./HMACTokenBuilder";
 
-export class HttpTransport implements ITransporter {
+export class HttpTransporter implements ITransporter {
 
     private url: string;
 
@@ -19,7 +20,7 @@ export class HttpTransport implements ITransporter {
             request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
             request.setRequestHeader('Access-Control-Allow-Methods', 'POST');
             request.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');
-            request.setRequestHeader("Authorization", HttpTransport.hmacHeader(options, body));
+            request.setRequestHeader("Authorization", HttpTransporter.buildAuthorizationHeader(options, body));
 
             request.withCredentials = true;
             request.timeout = 10000;
@@ -42,30 +43,25 @@ export class HttpTransport implements ITransporter {
         });
     }
 
-    private static hmac(data: ArrayBuffer, secret: string): string {
-        const wordArray = CryptoJS.lib.WordArray.create(data);
-        return CryptoJS.HmacSHA512(wordArray, secret).toString();
-    }
+    private static buildAuthorizationHeader(options: ClientOptions, payload: any): string {
+        var credentials= options.credentials
+        if (credentials==null){
+            throw new Error("Authorization Header cannot be generated because no credentials are set")
+        }
+        if(credentials instanceof HMACCredentials){
+            return new HMACTokenBuilder()
+                .withClientOptions(options)
+                .withTimestamp( Math.floor(Date.now() / 1000))
+                .withNonce(UUID.randomUUID().toString())
+                .withPayload(JSON.stringify(payload))
+                .build()
+        }else if (credentials instanceof JWTCredentials){
+            const jwt = options.credentials as JWTCredentials
+            return  "Bearer " + jwt.token
+        }else {
+            throw new Error("Authorization Header for credentials of type "+ credentials.constructor+" cannot be generated")
+        }
 
-    /**
-     * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
-     * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
-     */
-    private static hmacHeader(options: ClientOptions, payload: any): string {
-        const timestamp = Math.floor(Date.now() / 1000); //todo: check if this is a UTC timestamp
-        const nonce = UUID.randomUUID().toString();
-
-        var ByteBuffer = require("bytebuffer");
-
-        const buffer = new ByteBuffer();
-        buffer.writeString(JSON.stringify(payload));
-        buffer.writeString(options.contentType);
-        buffer.writeString("http");
-        buffer.writeLong(timestamp);
-        buffer.writeString(nonce);
-
-        const content = btoa(this.hmac(buffer.toArrayBuffer, options.apiSecret!));
-        return "HMAC-SHA512 " + options.apiKey + "_" + content + "_" + timestamp + "_" + nonce
     }
 
 }

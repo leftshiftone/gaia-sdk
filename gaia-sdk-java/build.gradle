@@ -24,7 +24,6 @@ allprojects {
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
         implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-
         implementation "org.slf4j:slf4j-api:1.7.28"
         implementation "org.reactivestreams:reactive-streams:1.0.3"
         implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
@@ -32,8 +31,8 @@ allprojects {
         implementation "com.hivemq:hivemq-mqtt-client:1.2.0"
 
         testImplementation "org.junit.jupiter:junit-jupiter"
-
         testImplementation "org.assertj:assertj-core:3.11.1"
+
         testRuntime "org.slf4j:slf4j-simple:1.7.28"
     }
 

@@ -1,5 +1,4 @@
-import {ClientOptions, GaiaClient, GaiaRequest} from "..";
-import {HttpTransport} from "./HttpTransport";
+import {GaiaClient, GaiaClientBuilder, GaiaRequest} from "..";
 import {Rx} from "../api/rx"
 import {
     BehaviourReq,
@@ -10,6 +9,8 @@ import {
     CreateIntentImpulse,
     DeletedIntentImpulse,
     DeleteIntentImpulse,
+    EdgeReq,
+    EdgeRes,
     ExperienceReq,
     ExperienceRes,
     FulfilmentReq,
@@ -18,8 +19,6 @@ import {
     IntentRes,
     IntrospectionReq,
     IntrospectionRes,
-    EdgeReq,
-    EdgeRes,
     KnowledgeReq,
     KnowledgeRes,
     PerceiveActionImpulse,
@@ -78,14 +77,17 @@ import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse"
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {Uuid} from "../graphql/GaiaClient";
+import {GaiaCredentials} from "../api/GaiaCredentials";
 
 export class HttpSensorFunction implements ISensorFunction {
 
     private readonly client: GaiaClient;
 
-    constructor(url: string, apiKey: string, apiSecret: string) {
-        const options = new ClientOptions(apiKey, apiSecret);
-        this.client = new GaiaClient(options, new HttpTransport(url + "/api/sync"));
+    constructor(url: string, credentials: GaiaCredentials) {
+        this.client = GaiaClientBuilder.http(url + "/api/sync")
+            .withCredentials(credentials)
+            .build()
+
     }
 
     public retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes> {
