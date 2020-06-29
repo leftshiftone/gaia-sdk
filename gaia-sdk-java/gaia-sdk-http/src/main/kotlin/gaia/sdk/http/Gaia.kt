@@ -26,7 +26,7 @@ class Gaia {
 
 class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
-                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret),
+                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
                  val streamProcessor: ISensorStream = HttpSensorStream())
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
