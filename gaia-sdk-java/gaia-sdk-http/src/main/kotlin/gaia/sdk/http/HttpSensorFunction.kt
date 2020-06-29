@@ -14,7 +14,7 @@ import reactor.netty.http.client.HttpClient
 
 class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISensorFunction {
 
-    private val client = GaiaClientBuilder(HttpTransport(url + "/api/sync", HttpClient.create()))
+    private val client = GaiaClientBuilder(HttpTransport("$url/api/sync", HttpClient.create()))
             .withApiKey(apiKey)
             .withSecret(apiSecret)
             .build()

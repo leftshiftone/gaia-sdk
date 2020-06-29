@@ -2,10 +2,15 @@ package gaia.sdk.http
 
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
+import gaia.sdk.api.ISensorStream
+import gaia.sdk.api.skill.ISkillSpec
+import gaia.sdk.api.skill.ProvisionedSkillSpec
+import gaia.sdk.api.skill.SkillRef
+import gaia.sdk.api.skill.UnprovisionedSkillSpec
 import gaia.sdk.request.input.*
+import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
-import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Retrieval
 
 class Gaia {
@@ -19,10 +24,12 @@ class Gaia {
 class GaiaConfig(val url: String,
                  val apiKey: String,
                  val apiSecret: String,
-                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret))
+                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret),
+                 val streamProcessor: ISensorStream = HttpSensorStream())
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor
+    private val sProc: ISensorStream = config.streamProcessor
 
     override fun retrieve(config: Retrieval.() -> Unit) = fProc.retrieve(config)
     override fun retrieveExperience(config: Experience.() -> Unit) = fProc.retrieveExperience(config)
@@ -68,4 +75,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
 
+    // skill api
+    fun skill(url: String) = SkillRef(ISkillSpec.toSkillSpec(url), sProc)
+    fun skill(spec: UnprovisionedSkillSpec) = SkillRef(spec, sProc)
+    fun skill(spec: ProvisionedSkillSpec) = SkillRef(spec, sProc)
 }
