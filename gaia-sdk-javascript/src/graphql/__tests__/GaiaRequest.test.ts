@@ -2,11 +2,11 @@ import {GaiaRequest} from "../GaiaRequest";
 import {GaiaClient} from "../GaiaClient";
 import {ClientOptions} from "../../api/ClientOptions";
 import {ITransporter} from "../../api/ITransporter";
-import {HttpTransport} from "../../http/HttpTransport";
 import {Query} from "../request/type/Query";
 import {Introspection} from "../request/type/Introspection";
 import {PerceiveDataImpulse} from "..";
 import {Mutation} from "../request/type/Mutation";
+import {HMACCredentials} from "../../api/GaiaCredentials";
 
 describe("GaiaRequestTest", () => {
 
@@ -19,7 +19,7 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions("", "");
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
         const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
@@ -40,7 +40,7 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions("", "");
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
         const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;

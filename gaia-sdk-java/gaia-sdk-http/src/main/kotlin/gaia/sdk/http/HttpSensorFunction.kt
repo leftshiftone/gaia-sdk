@@ -1,6 +1,7 @@
 package gaia.sdk.http
 
 import gaia.sdk.GaiaClientBuilder
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaRequest
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
@@ -12,11 +13,10 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
 import reactor.netty.http.client.HttpClient
 
-class HttpSensorFunction(url: String, apiKey: String, apiSecret: String) : ISensorFunction {
+class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFunction {
 
-    private val client = GaiaClientBuilder(HttpTransport("$url/api/sync", HttpClient.create()))
-            .withApiKey(apiKey)
-            .withSecret(apiSecret)
+    private val client = GaiaClientBuilder(HttpTransporter(url + "/api/sync", HttpClient.create()))
+            .withCredentials(credentials)
             .build()
 
     override fun retrieve(config: Retrieval.() -> Unit) =

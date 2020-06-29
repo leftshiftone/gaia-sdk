@@ -1,5 +1,6 @@
 package gaia.sdk.http
 
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorStream
@@ -15,15 +16,16 @@ import gaia.sdk.request.type.Retrieval
 
 class Gaia {
     companion object {
-        fun connect(url: String, apiKey: String, apiSecret: String): GaiaRef {
-            return GaiaRef(GaiaConfig(url, apiKey, apiSecret))
+        fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
+            return GaiaRef(GaiaConfig(url, credentials))
         }
     }
 }
 
+
+
 class GaiaConfig(val url: String,
-                 val apiKey: String,
-                 val apiSecret: String,
+                 val credentials: GaiaCredentials,
                  val functionProcessor: ISensorFunction = HttpSensorFunction(url, apiKey, apiSecret),
                  val streamProcessor: ISensorStream = HttpSensorStream())
 

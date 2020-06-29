@@ -1,5 +1,5 @@
-import hashlib
-import hmac
+import base64
+from api.crypto import HMAC
 import logging
 import requests
 import time
@@ -7,8 +7,11 @@ from gaia_sdk.graphql.GaiaScalars import UUID
 
 import json
 from gaia_sdk.api.ByteBuffer import ByteBuffer
+from gaia_sdk.api.GaiaCredentials import JWTCredentials
+from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
+from gaia_sdk.http.HMACTokenBuilder import HMACTokenBuilder
 
 
 class HttpTransporter(ITransporter):
@@ -23,7 +26,7 @@ class HttpTransporter(ITransporter):
     def transport(self, options: ClientOptions, payload: dict):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": HttpTransporter.hmac_header(options, payload)
+            "Authorization": HttpTransporter.buildAuthorizationHeader(options, payload)
         }
 
         self.logger.debug("request header:%s payload:%r", headers, payload)
@@ -33,21 +36,26 @@ class HttpTransporter(ITransporter):
         return response.json()
 
     @staticmethod
-    def hmac_header(options: ClientOptions, payload: dict) -> str:
-        """
-        Authorization: "HMAC-SHA512 " + API_KEY + "_" +
-        base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
-        """
-        timestamp = int(round(time.time()))  # todo: if this is a UTC timestamp
+    def buildAuthorizationHeader(options: ClientOptions, payload: dict) -> str:
+        if (type(options.credentials) is None):
+            raise ValueError("Authorization Header cannot be generated because no credentials are set")
+        elif (type(options.credentials) is HMACCredentials):
+            return HttpTransporter.build_hmac_header(options,payload)
+        elif (type(options.credentials) is JWTCredentials):
+            return HttpTransporter.build_bearer_header(options)
+        else:
+            raise ValueError("Authorization Header cannot be generated because illegal credential type")
+
+    @staticmethod
+    def build_bearer_header(options: ClientOptions) -> str:
+        token = "Bearer " + options.credentials.token
+        return token
+
+    @staticmethod
+    def build_hmac_header(options: ClientOptions, payload: dict) -> str:
+        timestamp = int(round(time.time()))
         nonce = UUID.random_uuid().value
+        return HMACTokenBuilder().with_timestamp(timestamp).with_client_options(options).with_nonce(nonce).with_payload(json.dumps(payload)).build()
 
-        buffer = ByteBuffer()
 
-        buffer.put(json.dumps(payload).encode("utf-8"))
-        buffer.put(options.content_type.encode("utf-8"))
-        buffer.put("http".encode("utf-8"))
-        buffer.put_long(timestamp)
-        buffer.put(nonce.encode("utf-8"))
 
-        content = hmac.new(options.secret.encode("utf-8"), buffer.to_bytes(), hashlib.sha512).hexdigest()
-        return "HMAC-SHA512 " + options.apikey + "_" + content + "_" + str(timestamp) + "_" + nonce
