@@ -112,16 +112,27 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
     }
 
     private fun initClient(): Mqtt5RxClient {
-        var clientBuilder = Mqtt5Client.builder().identifier(options.deviceInstanceId).serverHost(options.host)
-                .serverPort(options.port).automaticReconnect(MqttClientAutoReconnect.builder().build())
+        var clientBuilder = Mqtt5Client.builder()
+                .identifier(options.deviceInstanceId)
+                .serverHost(options.host)
+                .serverPort(options.port)
+                .automaticReconnect(MqttClientAutoReconnect.builder().build())
 
-        if (options.username != null && options.password != null) {
-            clientBuilder = clientBuilder.simpleAuth().username(options.username!!)
-                    .password(options.password!!.toByteArray()).applySimpleAuth()
+        if (!options.username.isNullOrEmpty() && !options.password.isNullOrEmpty()) {
+            clientBuilder = clientBuilder.simpleAuth()
+                    .username(options.username!!)
+                    .password(options.password!!.toByteArray())
+                    .applySimpleAuth()
         }
-        if (options.port == 443 || options.port == 8081) {
-            clientBuilder = clientBuilder.sslWithDefaultConfig()
-                    .webSocketConfig(MqttWebSocketConfig.builder().serverPath("mqtt").build())
+
+        if (options.isSsl) {
+            clientBuilder = clientBuilder
+                    .sslWithDefaultConfig()
+        }
+
+        if (options.isWebsocket) {
+            clientBuilder = clientBuilder
+                    .webSocketConfig(MqttWebSocketConfig.builder().serverPath(options.websocketPath).build())
         }
 
         return clientBuilder
@@ -130,8 +141,8 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .applicationScheduler(options.clientScheduler)
                 .nettyThreads(options.clientThreads)
                 .applyExecutorConfig()
-                .addConnectedListener { logger.info("connected to " + it.clientConfig.serverAddress) }
-                .addDisconnectedListener { logger.error("error while connecting to mqtt broker", it.cause) }
+                .addConnectedListener { logger.info("Connected to {}", it.clientConfig.serverAddress) }
+                .addDisconnectedListener { logger.error("Error while connecting to mqtt broker", it.cause) }
                 .buildRx()
     }
 
