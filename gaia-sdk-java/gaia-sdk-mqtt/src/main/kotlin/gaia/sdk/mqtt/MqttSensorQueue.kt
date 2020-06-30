@@ -1,4 +1,20 @@
-package gaia.sdk.http
+/*
+ * Copyright (c) 2016-2020, Leftshift One
+ * __________________
+ * [2020] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
+package gaia.sdk.mqtt
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.hivemq.client.mqtt.MqttGlobalPublishFilter.SUBSCRIBED
@@ -9,22 +25,25 @@ import com.hivemq.client.mqtt.mqtt5.Mqtt5RxClient
 import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5Connect
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish
 import gaia.sdk.api.ISensorQueue
-import gaia.sdk.http.async.SdkThreadFactory
-import gaia.sdk.http.queue.*
+import gaia.sdk.mqtt.async.SdkThreadFactory
+import gaia.sdk.mqtt.queue.*
+import gaia.sdk.mqtt.queue.ConversationQueueType.*
 import gaia.sdk.spi.QueueOptions
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.schedulers.Schedulers
 import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors.newFixedThreadPool
 import java.util.concurrent.TimeUnit
 
-class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
+class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
+    companion object {
+        const val GAIA_ROOT_TOPIC = "gaia"
+    }
 
     private val callbacks = ConcurrentHashMap<String, (QueuePayload<ByteArray>) -> Unit>()
-    private val logger = LoggerFactory.getLogger(HttpSensorQueue::class.java)
+    private val logger = LoggerFactory.getLogger(MqttSensorQueue::class.java)
     private val objectMapper = ObjectMapper()
 
     private val client = initClient()
@@ -121,42 +140,42 @@ class HttpSensorQueue(private val options: QueueOptions) : ISensorQueue {
             val deviceInstanceId = options.deviceInstanceId
             val channelId = header.channelId
             return when (type) {
-                ConversationQueueType.NOTIFICATION -> "conversation/$deviceInstanceId/$channelId/notification"
-                ConversationQueueType.INTERACTION -> "conversation/$deviceInstanceId/$channelId/interaction"
-                ConversationQueueType.CONTEXT -> "conversation/$deviceInstanceId/$channelId/context"
-                ConversationQueueType.LOGGING -> "conversation/$deviceInstanceId/$channelId/logging"
+                NOTIFICATION -> "$GAIA_ROOT_TOPIC/conversation/$deviceInstanceId/$channelId/notification"
+                INTERACTION -> "$GAIA_ROOT_TOPIC/conversation/$deviceInstanceId/$channelId/interaction"
+                CONTEXT -> "$GAIA_ROOT_TOPIC/conversation/$deviceInstanceId/$channelId/context"
+                LOGGING -> "$GAIA_ROOT_TOPIC/conversation/$deviceInstanceId/$channelId/logging"
             }
         }
         throw IllegalArgumentException("cannot handle queue type $type")
     }
 
     fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit): Completable {
-        return subscribe(ConversationQueueType.CONTEXT, header) {
+        return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvContext::class.java)))
         }
     }
 
     fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit): Completable {
-        return subscribe(ConversationQueueType.CONTEXT, header) {
+        return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvLogging::class.java)))
         }
     }
 
     fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit): Completable {
-        return subscribe(ConversationQueueType.CONTEXT, header) {
+        return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvNotification::class.java)))
         }
     }
 
     fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit): Completable {
-        return subscribe(ConversationQueueType.CONTEXT, header) {
+        return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvInteraction::class.java)))
         }
     }
 
     fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction): Completable {
         val content = QueuePayload("application/json", objectMapper.writeValueAsBytes(payload.content))
-        return publish(ConversationQueueType.INTERACTION, header, content)
+        return publish(INTERACTION, header, content)
     }
 
 }
