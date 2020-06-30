@@ -3,6 +3,7 @@ package gaia.sdk.http
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
+import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.ProvisionedSkillSpec
@@ -13,6 +14,7 @@ import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.Retrieval
+import gaia.sdk.spi.QueueOptions
 
 class Gaia {
     companion object {
@@ -27,10 +29,12 @@ class Gaia {
 class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
                  val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
+                 val queueProcessor: ISensorQueue = HttpSensorQueue(QueueOptions("", 0)),
                  val streamProcessor: ISensorStream = HttpSensorStream())
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor
+    private val qProc: ISensorQueue = config.queueProcessor
     private val sProc: ISensorStream = config.streamProcessor
 
     override fun retrieve(config: Retrieval.() -> Unit) = fProc.retrieve(config)
