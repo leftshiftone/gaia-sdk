@@ -9,6 +9,7 @@ import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.ProvisionedSkillSpec
 import gaia.sdk.api.skill.SkillRef
 import gaia.sdk.api.skill.UnprovisionedSkillSpec
+import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
@@ -32,7 +33,7 @@ class Gaia {
 class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
                  val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
-                 val queueProcessor: ISensorQueue = HttpSensorQueue(QueueOptions("", 0)),
+                 val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
                  val streamProcessor: ISensorStream = HttpSensorStream())
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {

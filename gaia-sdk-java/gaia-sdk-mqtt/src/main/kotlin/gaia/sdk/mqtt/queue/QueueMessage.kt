@@ -1,4 +1,4 @@
-package gaia.sdk.http.queue
+package gaia.sdk.mqtt.queue
 
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish
 

@@ -2,10 +2,11 @@ package gaia.sdk.http.queue
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.http.HttpSensorQueue
-import gaia.sdk.http.queue.ConversationQueueType.INTERACTION
+import gaia.sdk.mqtt.MqttSensorQueue
+import gaia.sdk.mqtt.queue.ConvInteraction
+import gaia.sdk.mqtt.queue.ConversationQueueType.INTERACTION
+import gaia.sdk.mqtt.queue.QueueHeader
 import gaia.sdk.spi.QueueOptions
-import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -15,7 +16,7 @@ class HttpSensorQueueTest {
 
     // @Test
     fun test() {
-        val queue = HttpSensorQueue(QueueOptions("mqtt.beta.gaia.leftshift.one", 443))
+        val queue = MqttSensorQueue(QueueOptions("mqtt.beta.gaia.leftshift.one", 443))
         val header = QueueHeader(UUID.fromString("4a87c137-3894-4580-ae20-8a4f621b75fd"), UUID.randomUUID())
 
         queue.connect()
