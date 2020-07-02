@@ -1,33 +1,46 @@
 {
     "apiDependenciesMetadata": {
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         }
     },
     "compile": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "com.google.dagger:dagger": {
@@ -40,11 +53,13 @@
             "locked": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -59,7 +74,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -70,7 +85,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -78,19 +93,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -107,7 +122,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -116,20 +131,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -143,26 +158,28 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
         },
         "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.9.6.RELEASE",
+            "locked": "0.9.8.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -180,13 +197,24 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
@@ -195,14 +223,16 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -210,26 +240,28 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -241,26 +273,30 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.30",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         }
     },
     "compileClasspath": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
@@ -274,7 +310,7 @@
             "requested": "1.2.0"
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec",
                 "io.netty:netty-codec-http",
@@ -288,7 +324,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http",
                 "io.netty:netty-codec-http2",
@@ -298,7 +334,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -306,19 +342,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-buffer",
                 "io.netty:netty-codec",
@@ -334,7 +370,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http",
                 "io.netty:netty-codec-http2",
@@ -342,20 +378,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec",
                 "io.netty:netty-codec-http",
@@ -368,13 +404,13 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
@@ -384,7 +420,7 @@
             "requested": "0.8.4.RELEASE"
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -396,20 +432,31 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
             "requested": "1.3.41"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -417,13 +464,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
@@ -453,13 +500,13 @@
     },
     "default": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
@@ -469,7 +516,9 @@
             "requested": "2.10.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "com.google.dagger:dagger": {
@@ -483,11 +532,13 @@
             "requested": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -502,7 +553,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -513,7 +564,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -521,19 +572,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -550,7 +601,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -559,20 +610,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -586,13 +637,13 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
@@ -602,11 +653,13 @@
             "requested": "0.8.4.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -624,13 +677,24 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
@@ -643,11 +707,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -655,13 +721,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
@@ -671,11 +737,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -688,7 +756,9 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -696,19 +766,21 @@
             "requested": "1.7.28",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         }
     },
     "implementationDependenciesMetadata": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
@@ -722,7 +794,7 @@
             "requested": "1.2.0"
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec",
                 "io.netty:netty-codec-http",
@@ -736,7 +808,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http",
                 "io.netty:netty-codec-http2",
@@ -746,7 +818,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -754,19 +826,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-buffer",
                 "io.netty:netty-codec",
@@ -782,7 +854,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http",
                 "io.netty:netty-codec-http2",
@@ -790,20 +862,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec",
                 "io.netty:netty-codec-http",
@@ -816,13 +888,13 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
@@ -832,7 +904,7 @@
             "requested": "0.8.4.RELEASE"
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -844,20 +916,31 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
             "requested": "1.3.41"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -865,13 +948,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
@@ -968,26 +1051,26 @@
             "requested": "1.3.41"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-compiler-embeddable"
             ]
         },
         "org.jetbrains.kotlin:kotlin-script-runtime": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-compiler-embeddable"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-compiler-embeddable",
                 "org.jetbrains.kotlin:kotlin-reflect"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
@@ -1001,13 +1084,13 @@
     },
     "kotlinCompilerPluginClasspath": {
         "org.jetbrains.kotlin:kotlin-script-runtime": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-jvm"
             ]
         },
         "org.jetbrains.kotlin:kotlin-scripting-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable",
                 "org.jetbrains.kotlin:kotlin-scripting-jvm"
@@ -1024,13 +1107,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-scripting-jvm": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-common",
                 "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable",
@@ -1039,13 +1122,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
-            "locked": "1.3.5",
+            "locked": "1.3.7",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-common",
                 "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable"
@@ -1060,22 +1143,24 @@
     },
     "runtime": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "com.google.dagger:dagger": {
@@ -1088,11 +1173,13 @@
             "locked": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1107,7 +1194,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1118,7 +1205,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -1126,19 +1213,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -1155,7 +1242,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1164,20 +1251,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1191,26 +1278,28 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
         },
         "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.9.6.RELEASE",
+            "locked": "0.9.8.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1228,13 +1317,24 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
@@ -1243,14 +1343,16 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -1258,26 +1360,28 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -1289,26 +1393,30 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.30",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         }
     },
     "runtimeClasspath": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
@@ -1318,7 +1426,9 @@
             "requested": "2.10.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "com.google.dagger:dagger": {
@@ -1332,11 +1442,13 @@
             "requested": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1351,7 +1463,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1362,7 +1474,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -1370,19 +1482,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -1399,7 +1511,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1408,20 +1520,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1435,13 +1547,13 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
@@ -1451,11 +1563,13 @@
             "requested": "0.8.4.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1473,13 +1587,24 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
@@ -1492,11 +1617,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -1504,13 +1631,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
@@ -1520,11 +1647,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -1537,7 +1666,9 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -1545,39 +1676,54 @@
             "requested": "1.7.28",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         }
     },
     "testApiDependenciesMetadata": {
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         }
     },
     "testCompile": {
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind"
             ]
         },
         "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "com.google.dagger:dagger": {
@@ -1590,11 +1736,13 @@
             "locked": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1609,7 +1757,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1620,7 +1768,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -1628,19 +1776,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -1657,7 +1805,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -1666,20 +1814,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -1693,26 +1841,28 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
         },
         "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.9.6.RELEASE",
+            "locked": "0.9.8.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1730,13 +1880,24 @@
             ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
             ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
         },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
@@ -1745,14 +1906,16 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -1760,26 +1923,28 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -1791,727 +1956,9 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "org.slf4j:slf4j-api": {
-            "locked": "1.7.30",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        }
-    },
-    "testCompileClasspath": {
-        "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.0",
-            "requested": "2.10.0"
-        },
-        "com.hivemq:hivemq-mqtt-client": {
-            "locked": "1.2.0",
-            "requested": "1.2.0"
-        },
-        "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-handler-proxy",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-buffer",
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-resolver",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler",
-                "io.netty:netty-transport"
-            ]
-        },
-        "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-transport-native-epoll"
-            ]
-        },
-        "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
-        },
-        "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.reactivex.rxjava2:rxjava": {
-            "locked": "2.2.19",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client"
-            ]
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
-            "project": true,
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
-            ]
-        },
-        "org.apiguardian:apiguardian-api": {
-            "locked": "1.1.0",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.jupiter:junit-jupiter-params",
-                "org.junit.platform:junit-platform-commons"
-            ]
-        },
-        "org.assertj:assertj-core": {
-            "locked": "3.11.1",
-            "requested": "3.11.1"
-        },
-        "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.41",
-            "requested": "1.3.41"
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-reflect",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.41",
-            "requested": "1.3.41"
-        },
-        "org.jetbrains:annotations": {
-            "locked": "13.0",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.junit.jupiter:junit-jupiter": {
-            "locked": "5.6.2"
-        },
-        "org.junit.jupiter:junit-jupiter-api": {
-            "locked": "5.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter",
-                "org.junit.jupiter:junit-jupiter-params"
-            ]
-        },
-        "org.junit.jupiter:junit-jupiter-params": {
-            "locked": "5.6.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter"
-            ]
-        },
-        "org.junit.platform:junit-platform-commons": {
-            "locked": "1.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api"
-            ]
-        },
-        "org.opentest4j:opentest4j": {
-            "locked": "1.2.0",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api"
-            ]
-        },
-        "org.reactivestreams:reactive-streams": {
-            "locked": "1.0.3",
-            "requested": "1.0.3",
-            "transitive": [
-                "io.projectreactor:reactor-core",
-                "io.reactivex.rxjava2:rxjava"
-            ]
-        },
-        "org.slf4j:slf4j-api": {
-            "locked": "1.7.28",
-            "requested": "1.7.28"
-        }
-    },
-    "testImplementationDependenciesMetadata": {
-        "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.0",
-            "requested": "2.10.0"
-        },
-        "com.hivemq:hivemq-mqtt-client": {
-            "locked": "1.2.0",
-            "requested": "1.2.0"
-        },
-        "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-handler-proxy",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-buffer",
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-resolver",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler",
-                "io.netty:netty-transport"
-            ]
-        },
-        "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-transport-native-epoll"
-            ]
-        },
-        "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
-        },
-        "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.reactivex.rxjava2:rxjava": {
-            "locked": "2.2.19",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client"
-            ]
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
-            "project": true,
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
-            ]
-        },
-        "org.apiguardian:apiguardian-api": {
-            "locked": "1.1.0",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.jupiter:junit-jupiter-params",
-                "org.junit.platform:junit-platform-commons"
-            ]
-        },
-        "org.assertj:assertj-core": {
-            "locked": "3.11.1",
-            "requested": "3.11.1"
-        },
-        "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.41",
-            "requested": "1.3.41"
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-reflect",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.41",
-            "requested": "1.3.41"
-        },
-        "org.jetbrains:annotations": {
-            "locked": "13.0",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.junit.jupiter:junit-jupiter": {
-            "locked": "5.6.2"
-        },
-        "org.junit.jupiter:junit-jupiter-api": {
-            "locked": "5.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter",
-                "org.junit.jupiter:junit-jupiter-params"
-            ]
-        },
-        "org.junit.jupiter:junit-jupiter-params": {
-            "locked": "5.6.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter"
-            ]
-        },
-        "org.junit.platform:junit-platform-commons": {
-            "locked": "1.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api"
-            ]
-        },
-        "org.opentest4j:opentest4j": {
-            "locked": "1.2.0",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-api"
-            ]
-        },
-        "org.reactivestreams:reactive-streams": {
-            "locked": "1.0.3",
-            "requested": "1.0.3",
-            "transitive": [
-                "io.projectreactor:reactor-core",
-                "io.reactivex.rxjava2:rxjava"
-            ]
-        },
-        "org.slf4j:slf4j-api": {
-            "locked": "1.7.28",
-            "requested": "1.7.28"
-        }
-    },
-    "testRuntime": {
-        "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.10.3",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "com.google.dagger:dagger": {
-            "locked": "2.27",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client"
-            ]
-        },
-        "com.hivemq:hivemq-mqtt-client": {
-            "locked": "1.2.0",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-handler-proxy",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler-proxy"
-            ]
-        },
-        "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "io.netty:netty-buffer",
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-resolver",
-                "io.netty:netty-transport",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-handler",
-                "io.netty:netty-transport"
-            ]
-        },
-        "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "io.netty:netty-codec",
-                "io.netty:netty-codec-http",
-                "io.netty:netty-codec-http2",
-                "io.netty:netty-codec-socks",
-                "io.netty:netty-handler",
-                "io.netty:netty-handler-proxy",
-                "io.netty:netty-transport-native-epoll",
-                "io.netty:netty-transport-native-unix-common"
-            ]
-        },
-        "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
-            "transitive": [
-                "io.netty:netty-transport-native-epoll"
-            ]
-        },
-        "io.projectreactor.netty:reactor-netty": {
-            "locked": "0.9.6.RELEASE",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
-            "transitive": [
-                "io.projectreactor.netty:reactor-netty"
-            ]
-        },
-        "io.reactivex.rxjava2:rxjava": {
-            "locked": "2.2.19",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client"
-            ]
-        },
-        "javax.inject:javax.inject": {
-            "locked": "1",
-            "transitive": [
-                "com.google.dagger:dagger"
-            ]
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
-        },
-        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
-            "project": true,
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
-            ]
-        },
-        "org.jctools:jctools-core": {
-            "locked": "2.1.2",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.3.71",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-reflect",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
-            "transitive": [
-                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            ]
-        },
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
-            "locked": "1.3.71",
-            "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
-            ]
-        },
-        "org.jetbrains:annotations": {
-            "locked": "13.0",
-            "transitive": [
-                "com.hivemq:hivemq-mqtt-client",
-                "org.jetbrains.kotlin:kotlin-stdlib"
-            ]
-        },
-        "org.reactivestreams:reactive-streams": {
-            "locked": "1.0.3",
-            "transitive": [
-                "io.projectreactor:reactor-core",
-                "io.reactivex.rxjava2:rxjava",
-                "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -2519,6 +1966,1205 @@
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        }
+    },
+    "testCompileClasspath": {
+        "com.auth0:java-jwt": {
+            "locked": "3.10.3",
+            "requested": "3.10.3"
+        },
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0",
+            "transitive": [
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.flipkart.zjsonpatch:zjsonpatch": {
+            "locked": "0.4.4",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.jknack:handlebars-helpers",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars-helpers": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.tomakehurst:wiremock": {
+            "locked": "2.24.1",
+            "requested": "2.24.1"
+        },
+        "com.google.guava:guava": {
+            "locked": "20.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.hivemq:hivemq-mqtt-client": {
+            "locked": "1.2.0",
+            "requested": "1.2.0"
+        },
+        "com.jayway.jsonpath:json-path": {
+            "locked": "2.4.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "commons-codec:commons-codec": {
+            "locked": "1.14",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "commons-logging:commons-logging": {
+            "locked": "1.2",
+            "requested": "1.2",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.6.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client"
+            ]
+        },
+        "javax.servlet:javax.servlet-api": {
+            "locked": "4.0.1",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server"
+            ]
+        },
+        "junit:junit": {
+            "locked": "4.13",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy"
+            ]
+        },
+        "net.minidev:accessors-smart": {
+            "locked": "1.2",
+            "transitive": [
+                "net.minidev:json-smart"
+            ]
+        },
+        "net.minidev:json-smart": {
+            "locked": "2.3",
+            "transitive": [
+                "com.jayway.jsonpath:json-path"
+            ]
+        },
+        "net.sf.jopt-simple:jopt-simple": {
+            "locked": "5.0.3",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-api": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
+        },
+        "org.antlr:antlr4-runtime": {
+            "locked": "4.7.1",
+            "transitive": [
+                "com.github.jknack:handlebars"
+            ]
+        },
+        "org.apache.commons:commons-lang3": {
+            "locked": "3.10",
+            "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpclient": {
+            "locked": "4.5.12",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpcore": {
+            "locked": "4.4.13",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "org.apiguardian:apiguardian-api": {
+            "locked": "1.1.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.jupiter:junit-jupiter-params",
+                "org.junit.platform:junit-platform-commons"
+            ]
+        },
+        "org.assertj:assertj-core": {
+            "locked": "3.11.1",
+            "requested": "3.11.1"
+        },
+        "org.eclipse.jetty:jetty-continuation": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-http": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-io": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-security": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlet"
+            ]
+        },
+        "org.eclipse.jetty:jetty-server": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-security"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlet": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlets": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-util": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-io",
+                "org.eclipse.jetty:jetty-servlets",
+                "org.eclipse.jetty:jetty-xml"
+            ]
+        },
+        "org.eclipse.jetty:jetty-webapp": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-xml": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter": {
+            "locked": "5.6.2"
+        },
+        "org.junit.jupiter:junit-jupiter-api": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-params": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
+        },
+        "org.junit.platform:junit-platform-commons": {
+            "locked": "1.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.opentest4j:opentest4j": {
+            "locked": "1.2.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.ow2.asm:asm": {
+            "locked": "7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "net.minidev:accessors-smart"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28",
+            "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock",
+                "com.jayway.jsonpath:json-path"
+            ]
+        },
+        "org.xmlunit:xmlunit-core": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy",
+                "org.xmlunit:xmlunit-placeholders"
+            ]
+        },
+        "org.xmlunit:xmlunit-legacy": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.xmlunit:xmlunit-placeholders": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        }
+    },
+    "testImplementationDependenciesMetadata": {
+        "com.auth0:java-jwt": {
+            "locked": "3.10.3",
+            "requested": "3.10.3"
+        },
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.10.0",
+            "requested": "2.10.0",
+            "transitive": [
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.flipkart.zjsonpatch:zjsonpatch": {
+            "locked": "0.4.4",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.jknack:handlebars-helpers",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars-helpers": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.tomakehurst:wiremock": {
+            "locked": "2.24.1",
+            "requested": "2.24.1"
+        },
+        "com.google.guava:guava": {
+            "locked": "20.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.hivemq:hivemq-mqtt-client": {
+            "locked": "1.2.0",
+            "requested": "1.2.0"
+        },
+        "com.jayway.jsonpath:json-path": {
+            "locked": "2.4.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "commons-codec:commons-codec": {
+            "locked": "1.14",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "commons-logging:commons-logging": {
+            "locked": "1.2",
+            "requested": "1.2",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.8.4.RELEASE",
+            "requested": "0.8.4.RELEASE"
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.6.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client"
+            ]
+        },
+        "javax.servlet:javax.servlet-api": {
+            "locked": "4.0.1",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server"
+            ]
+        },
+        "junit:junit": {
+            "locked": "4.13",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy"
+            ]
+        },
+        "net.minidev:accessors-smart": {
+            "locked": "1.2",
+            "transitive": [
+                "net.minidev:json-smart"
+            ]
+        },
+        "net.minidev:json-smart": {
+            "locked": "2.3",
+            "transitive": [
+                "com.jayway.jsonpath:json-path"
+            ]
+        },
+        "net.sf.jopt-simple:jopt-simple": {
+            "locked": "5.0.3",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-api": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
+        },
+        "org.antlr:antlr4-runtime": {
+            "locked": "4.7.1",
+            "transitive": [
+                "com.github.jknack:handlebars"
+            ]
+        },
+        "org.apache.commons:commons-lang3": {
+            "locked": "3.10",
+            "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpclient": {
+            "locked": "4.5.12",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpcore": {
+            "locked": "4.4.13",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "org.apiguardian:apiguardian-api": {
+            "locked": "1.1.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.junit.jupiter:junit-jupiter-params",
+                "org.junit.platform:junit-platform-commons"
+            ]
+        },
+        "org.assertj:assertj-core": {
+            "locked": "3.11.1",
+            "requested": "3.11.1"
+        },
+        "org.eclipse.jetty:jetty-continuation": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-http": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-io": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-security": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlet"
+            ]
+        },
+        "org.eclipse.jetty:jetty-server": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-security"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlet": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlets": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-util": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-io",
+                "org.eclipse.jetty:jetty-servlets",
+                "org.eclipse.jetty:jetty-xml"
+            ]
+        },
+        "org.eclipse.jetty:jetty-webapp": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-xml": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.41",
+            "requested": "1.3.41"
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter": {
+            "locked": "5.6.2"
+        },
+        "org.junit.jupiter:junit-jupiter-api": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-params": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
+        },
+        "org.junit.platform:junit-platform-commons": {
+            "locked": "1.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.opentest4j:opentest4j": {
+            "locked": "1.2.0",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.ow2.asm:asm": {
+            "locked": "7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "net.minidev:accessors-smart"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "requested": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.28",
+            "requested": "1.7.28",
+            "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock",
+                "com.jayway.jsonpath:json-path"
+            ]
+        },
+        "org.xmlunit:xmlunit-core": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy",
+                "org.xmlunit:xmlunit-placeholders"
+            ]
+        },
+        "org.xmlunit:xmlunit-legacy": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.xmlunit:xmlunit-placeholders": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        }
+    },
+    "testRuntime": {
+        "com.fasterxml.jackson.core:jackson-annotations": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-core": {
+            "locked": "2.11.0",
+            "transitive": [
+                "com.fasterxml.jackson.core:jackson-databind"
+            ]
+        },
+        "com.fasterxml.jackson.core:jackson-databind": {
+            "locked": "2.11.0",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "com.google.dagger:dagger": {
+            "locked": "2.27",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client"
+            ]
+        },
+        "com.hivemq:hivemq-mqtt-client": {
+            "locked": "1.2.0",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "io.netty:netty-buffer": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-codec": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-codec-http": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-handler-proxy",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-http2": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-codec-socks": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler-proxy"
+            ]
+        },
+        "io.netty:netty-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "io.netty:netty-buffer",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-resolver",
+                "io.netty:netty-transport",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-handler": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-handler-proxy": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-resolver": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-handler",
+                "io.netty:netty-transport"
+            ]
+        },
+        "io.netty:netty-transport": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "io.netty:netty-codec",
+                "io.netty:netty-codec-http",
+                "io.netty:netty-codec-http2",
+                "io.netty:netty-codec-socks",
+                "io.netty:netty-handler",
+                "io.netty:netty-handler-proxy",
+                "io.netty:netty-transport-native-epoll",
+                "io.netty:netty-transport-native-unix-common"
+            ]
+        },
+        "io.netty:netty-transport-native-epoll": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.netty:netty-transport-native-unix-common": {
+            "locked": "4.1.50.Final",
+            "transitive": [
+                "io.netty:netty-transport-native-epoll"
+            ]
+        },
+        "io.projectreactor.netty:reactor-netty": {
+            "locked": "0.9.8.RELEASE",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "io.projectreactor:reactor-core": {
+            "locked": "3.3.6.RELEASE",
+            "transitive": [
+                "io.projectreactor.netty:reactor-netty"
+            ]
+        },
+        "io.reactivex.rxjava2:rxjava": {
+            "locked": "2.2.19",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client"
+            ]
+        },
+        "javax.inject:javax.inject": {
+            "locked": "1",
+            "transitive": [
+                "com.google.dagger:dagger"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-api": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
+        },
+        "org.jctools:jctools-core": {
+            "locked": "2.1.2",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.3.72",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-reflect",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+            "locked": "1.3.72",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+            "locked": "1.3.72",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "org.jetbrains:annotations": {
+            "locked": "16.0.3",
+            "transitive": [
+                "com.hivemq:hivemq-mqtt-client",
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        },
+        "org.reactivestreams:reactive-streams": {
+            "locked": "1.0.3",
+            "transitive": [
+                "io.projectreactor:reactor-core",
+                "io.reactivex.rxjava2:rxjava",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "org.slf4j:slf4j-api": {
+            "locked": "1.7.30",
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt",
                 "org.slf4j:slf4j-simple"
             ]
         },
@@ -2528,25 +3174,60 @@
         }
     },
     "testRuntimeClasspath": {
+        "com.auth0:java-jwt": {
+            "locked": "3.10.3",
+            "requested": "3.10.3"
+        },
         "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.github.tomakehurst:wiremock"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.10.3",
+            "locked": "2.11.0",
             "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock"
             ]
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
             "requested": "2.10.0",
             "transitive": [
+                "com.auth0:java-jwt",
+                "com.flipkart.zjsonpatch:zjsonpatch",
+                "com.github.tomakehurst:wiremock",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
+        },
+        "com.flipkart.zjsonpatch:zjsonpatch": {
+            "locked": "0.4.4",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.jknack:handlebars-helpers",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.jknack:handlebars-helpers": {
+            "locked": "4.0.7",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "com.github.tomakehurst:wiremock": {
+            "locked": "2.24.1",
+            "requested": "2.24.1"
         },
         "com.google.dagger:dagger": {
             "locked": "2.27",
@@ -2554,16 +3235,44 @@
                 "com.hivemq:hivemq-mqtt-client"
             ]
         },
+        "com.google.guava:guava": {
+            "locked": "20.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
         "com.hivemq:hivemq-mqtt-client": {
             "locked": "1.2.0",
             "requested": "1.2.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
+        },
+        "com.jayway.jsonpath:json-path": {
+            "locked": "2.4.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "commons-codec:commons-codec": {
+            "locked": "1.14",
+            "transitive": [
+                "com.auth0:java-jwt",
+                "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "commons-logging:commons-logging": {
+            "locked": "1.2",
+            "requested": "1.2",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
             ]
         },
         "io.netty:netty-buffer": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -2578,7 +3287,7 @@
             ]
         },
         "io.netty:netty-codec": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -2589,7 +3298,7 @@
             ]
         },
         "io.netty:netty-codec-http": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-codec-http2",
                 "io.netty:netty-handler-proxy",
@@ -2597,19 +3306,19 @@
             ]
         },
         "io.netty:netty-codec-http2": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-codec-socks": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler-proxy"
             ]
         },
         "io.netty:netty-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-buffer",
@@ -2626,7 +3335,7 @@
             ]
         },
         "io.netty:netty-handler": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec-http",
@@ -2635,20 +3344,20 @@
             ]
         },
         "io.netty:netty-handler-proxy": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-resolver": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-handler",
                 "io.netty:netty-transport"
             ]
         },
         "io.netty:netty-transport": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "io.netty:netty-codec",
@@ -2662,13 +3371,13 @@
             ]
         },
         "io.netty:netty-transport-native-epoll": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
         },
         "io.netty:netty-transport-native-unix-common": {
-            "locked": "4.1.48.Final",
+            "locked": "4.1.50.Final",
             "transitive": [
                 "io.netty:netty-transport-native-epoll"
             ]
@@ -2678,11 +3387,13 @@
             "requested": "0.8.4.RELEASE",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "io.projectreactor:reactor-core": {
-            "locked": "3.3.4.RELEASE",
+            "locked": "3.3.6.RELEASE",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -2699,13 +3410,80 @@
                 "com.google.dagger:dagger"
             ]
         },
+        "javax.servlet:javax.servlet-api": {
+            "locked": "4.0.1",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server"
+            ]
+        },
+        "junit:junit": {
+            "locked": "4.13",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy"
+            ]
+        },
+        "net.minidev:accessors-smart": {
+            "locked": "1.2",
+            "transitive": [
+                "net.minidev:json-smart"
+            ]
+        },
+        "net.minidev:json-smart": {
+            "locked": "2.3",
+            "transitive": [
+                "com.jayway.jsonpath:json-path"
+            ]
+        },
+        "net.sf.jopt-simple:jopt-simple": {
+            "locked": "5.0.3",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
         "one.leftshift.gaia-sdk:gaia-sdk-api": {
-            "project": true
+            "project": true,
+            "transitive": [
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
+            ]
         },
         "one.leftshift.gaia-sdk:gaia-sdk-graphql": {
             "project": true,
             "transitive": [
-                "one.leftshift.gaia-sdk:gaia-sdk-api"
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-http"
+            ]
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-http": {
+            "project": true
+        },
+        "one.leftshift.gaia-sdk:gaia-sdk-mqtt": {
+            "project": true
+        },
+        "org.antlr:antlr4-runtime": {
+            "locked": "4.7.1",
+            "transitive": [
+                "com.github.jknack:handlebars"
+            ]
+        },
+        "org.apache.commons:commons-lang3": {
+            "locked": "3.10",
+            "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpclient": {
+            "locked": "4.5.12",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.apache.httpcomponents:httpcore": {
+            "locked": "4.4.13",
+            "transitive": [
+                "org.apache.httpcomponents:httpclient"
             ]
         },
         "org.apiguardian:apiguardian-api": {
@@ -2722,6 +3500,74 @@
             "locked": "3.11.1",
             "requested": "3.11.1"
         },
+        "org.eclipse.jetty:jetty-continuation": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-http": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-io": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-server",
+                "org.eclipse.jetty:jetty-servlets"
+            ]
+        },
+        "org.eclipse.jetty:jetty-security": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-servlet"
+            ]
+        },
+        "org.eclipse.jetty:jetty-server": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-security"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlet": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
+        "org.eclipse.jetty:jetty-servlets": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-util": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-http",
+                "org.eclipse.jetty:jetty-io",
+                "org.eclipse.jetty:jetty-servlets",
+                "org.eclipse.jetty:jetty-xml"
+            ]
+        },
+        "org.eclipse.jetty:jetty-webapp": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.eclipse.jetty:jetty-xml": {
+            "locked": "9.4.29.v20200521",
+            "transitive": [
+                "org.eclipse.jetty:jetty-webapp"
+            ]
+        },
         "org.jctools:jctools-core": {
             "locked": "2.1.2",
             "transitive": [
@@ -2733,11 +3579,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-reflect",
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
@@ -2745,13 +3593,13 @@
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-common": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
-            "locked": "1.3.71",
+            "locked": "1.3.72",
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
             ]
@@ -2761,11 +3609,13 @@
             "requested": "1.3.41",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.jetbrains:annotations": {
-            "locked": "13.0",
+            "locked": "16.0.3",
             "transitive": [
                 "com.hivemq:hivemq-mqtt-client",
                 "org.jetbrains.kotlin:kotlin-stdlib"
@@ -2775,7 +3625,7 @@
             "locked": "5.6.2"
         },
         "org.junit.jupiter:junit-jupiter-api": {
-            "locked": "5.5.2",
+            "locked": "5.6.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter",
                 "org.junit.jupiter:junit-jupiter-engine",
@@ -2783,7 +3633,7 @@
             ]
         },
         "org.junit.jupiter:junit-jupiter-engine": {
-            "locked": "5.5.1",
+            "locked": "5.6.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter"
             ]
@@ -2795,14 +3645,14 @@
             ]
         },
         "org.junit.platform:junit-platform-commons": {
-            "locked": "1.5.2",
+            "locked": "1.6.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api",
                 "org.junit.platform:junit-platform-engine"
             ]
         },
         "org.junit.platform:junit-platform-engine": {
-            "locked": "1.5.2",
+            "locked": "1.6.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-engine"
             ]
@@ -2814,6 +3664,13 @@
                 "org.junit.platform:junit-platform-engine"
             ]
         },
+        "org.ow2.asm:asm": {
+            "locked": "7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "net.minidev:accessors-smart"
+            ]
+        },
         "org.reactivestreams:reactive-streams": {
             "locked": "1.0.3",
             "requested": "1.0.3",
@@ -2821,21 +3678,48 @@
                 "io.projectreactor:reactor-core",
                 "io.reactivex.rxjava2:rxjava",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
-                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt"
             ]
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.28",
             "requested": "1.7.28",
             "transitive": [
+                "com.github.jknack:handlebars",
+                "com.github.tomakehurst:wiremock",
+                "com.jayway.jsonpath:json-path",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql",
+                "one.leftshift.gaia-sdk:gaia-sdk-http",
+                "one.leftshift.gaia-sdk:gaia-sdk-mqtt",
                 "org.slf4j:slf4j-simple"
             ]
         },
         "org.slf4j:slf4j-simple": {
             "locked": "1.7.28",
             "requested": "1.7.28"
+        },
+        "org.xmlunit:xmlunit-core": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock",
+                "org.xmlunit:xmlunit-legacy",
+                "org.xmlunit:xmlunit-placeholders"
+            ]
+        },
+        "org.xmlunit:xmlunit-legacy": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
+        },
+        "org.xmlunit:xmlunit-placeholders": {
+            "locked": "2.7.0",
+            "transitive": [
+                "com.github.tomakehurst:wiremock"
+            ]
         }
     }
 }

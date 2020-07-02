@@ -781,9 +781,8 @@
             "locked": "1.1.0",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.jupiter:junit-jupiter-engine",
-                "org.junit.platform:junit-platform-commons",
-                "org.junit.platform:junit-platform-engine"
+                "org.junit.jupiter:junit-jupiter-params",
+                "org.junit.platform:junit-platform-commons"
             ]
         },
         "org.assertj:assertj-core": {
@@ -829,33 +828,32 @@
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
+        "org.junit.jupiter:junit-jupiter": {
+            "locked": "5.6.2"
+        },
         "org.junit.jupiter:junit-jupiter-api": {
             "locked": "5.5.2",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-engine"
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
-        "org.junit.jupiter:junit-jupiter-engine": {
-            "locked": "5.5.2"
+        "org.junit.jupiter:junit-jupiter-params": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
         },
         "org.junit.platform:junit-platform-commons": {
             "locked": "1.5.2",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.platform:junit-platform-engine"
-            ]
-        },
-        "org.junit.platform:junit-platform-engine": {
-            "locked": "1.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-engine"
+                "org.junit.jupiter:junit-jupiter-api"
             ]
         },
         "org.opentest4j:opentest4j": {
             "locked": "1.2.0",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.platform:junit-platform-engine"
+                "org.junit.jupiter:junit-jupiter-api"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -914,9 +912,8 @@
             "locked": "1.1.0",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.jupiter:junit-jupiter-engine",
-                "org.junit.platform:junit-platform-commons",
-                "org.junit.platform:junit-platform-engine"
+                "org.junit.jupiter:junit-jupiter-params",
+                "org.junit.platform:junit-platform-commons"
             ]
         },
         "org.assertj:assertj-core": {
@@ -962,33 +959,32 @@
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
+        "org.junit.jupiter:junit-jupiter": {
+            "locked": "5.6.2"
+        },
         "org.junit.jupiter:junit-jupiter-api": {
             "locked": "5.5.2",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-engine"
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
-        "org.junit.jupiter:junit-jupiter-engine": {
-            "locked": "5.5.2"
+        "org.junit.jupiter:junit-jupiter-params": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
         },
         "org.junit.platform:junit-platform-commons": {
             "locked": "1.5.2",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.platform:junit-platform-engine"
-            ]
-        },
-        "org.junit.platform:junit-platform-engine": {
-            "locked": "1.5.2",
-            "transitive": [
-                "org.junit.jupiter:junit-jupiter-engine"
+                "org.junit.jupiter:junit-jupiter-api"
             ]
         },
         "org.opentest4j:opentest4j": {
             "locked": "1.2.0",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-api",
-                "org.junit.platform:junit-platform-engine"
+                "org.junit.jupiter:junit-jupiter-api"
             ]
         },
         "org.slf4j:slf4j-api": {
@@ -1091,6 +1087,7 @@
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api",
                 "org.junit.jupiter:junit-jupiter-engine",
+                "org.junit.jupiter:junit-jupiter-params",
                 "org.junit.platform:junit-platform-commons",
                 "org.junit.platform:junit-platform-engine"
             ]
@@ -1138,14 +1135,28 @@
                 "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
+        "org.junit.jupiter:junit-jupiter": {
+            "locked": "5.6.2"
+        },
         "org.junit.jupiter:junit-jupiter-api": {
             "locked": "5.5.2",
             "transitive": [
-                "org.junit.jupiter:junit-jupiter-engine"
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-engine",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
         "org.junit.jupiter:junit-jupiter-engine": {
-            "locked": "5.5.2"
+            "locked": "5.5.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
+        },
+        "org.junit.jupiter:junit-jupiter-params": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter"
+            ]
         },
         "org.junit.platform:junit-platform-commons": {
             "locked": "1.5.2",
