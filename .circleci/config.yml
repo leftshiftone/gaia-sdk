@@ -91,6 +91,35 @@ jobs:
       - run:
           <<: *webhook-failed
 
+  release-candidate:
+    docker:
+      - image: python:3.7-stretch
+    environment:
+      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      NODE_VERSION: '10.20.1'
+      YARN_VERSION: '1.22.4'
+      TEST_RESULTS_PATH: build/circleci/test-results
+    steps:
+      - run:
+          <<: *webhook-created
+      - run:
+          <<: *prepare-image
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+      - checkout
+      - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
+      - run: chmod a+x gradlew
+      - run: ./gradlew dependencies installDependencies
+      - run: ./gradlew prepareMockServer
+      - run:
+          command: java -jar -Xmx512m build/mock/heimdall-mock.jar
+          background: true
+      - run: ./gradlew build --stacktrace
+      - run: ./gradlew candidate publish -Prelease.useLastTag=true --stacktrace
+      - run:
+          <<: *webhook-failed
+
   release:
     docker:
       - image: python:3.7-stretch
@@ -199,6 +228,24 @@ workflows:
               ignore: /.*/
           requires:
             - build
+  release-candidate:
+    jobs:
+      - release-candidate:
+          context: asteria
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+-rc\.\d+$/
+      - webhook-completed:
+          context: asteria
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+-rc\.\d+$/
+          requires:
+            - release-candidate
   release:
     jobs:
       - release:
