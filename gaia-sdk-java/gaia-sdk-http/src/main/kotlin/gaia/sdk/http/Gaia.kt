@@ -21,6 +21,9 @@ class Gaia {
         fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
             return GaiaRef(GaiaConfig(url, credentials))
         }
+        fun connect(config: GaiaConfig): GaiaRef {
+            return GaiaRef(config)
+        }
     }
 }
 
@@ -80,6 +83,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun perceive(config: gaia.sdk.request.type.Perception.() -> Unit) = fProc.perceive(config)
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
+
 
     // skill api
     fun skill(url: String) = SkillRef(ISkillSpec.toSkillSpec(url), sProc)
