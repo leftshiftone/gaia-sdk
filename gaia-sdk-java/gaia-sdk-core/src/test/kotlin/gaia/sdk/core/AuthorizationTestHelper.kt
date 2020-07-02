@@ -1,4 +1,4 @@
-package gaia.sdk.http
+package gaia.sdk.core
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

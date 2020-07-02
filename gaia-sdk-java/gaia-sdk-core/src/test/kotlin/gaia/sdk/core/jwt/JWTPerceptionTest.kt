@@ -1,8 +1,8 @@
-package gaia.sdk.http.jwt
+package gaia.sdk.core.jwt
 
 import gaia.sdk.GaiaCredentials
-import gaia.sdk.http.AuthorizationTestHelper
-import gaia.sdk.http.PerceptionTest
+import gaia.sdk.core.AuthorizationTestHelper
+import gaia.sdk.core.PerceptionTest
 
 class JWTPerceptionTest : PerceptionTest(){
 

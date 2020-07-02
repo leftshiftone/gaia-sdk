@@ -1,4 +1,4 @@
-package gaia.sdk.http
+package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.request.input.*

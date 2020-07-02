@@ -1,8 +1,8 @@
-package gaia.sdk.http.jwt
+package gaia.sdk.core.jwt
 
 import gaia.sdk.GaiaCredentials
-import gaia.sdk.http.AuthorizationTestHelper
-import gaia.sdk.http.RetrievalTest
+import gaia.sdk.core.AuthorizationTestHelper
+import gaia.sdk.core.RetrievalTest
 
 class JWTRetrievalTest : RetrievalTest(){
 

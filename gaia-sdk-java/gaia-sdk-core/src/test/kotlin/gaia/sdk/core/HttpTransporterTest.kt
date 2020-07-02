@@ -1,4 +1,4 @@
-package gaia.sdk.http
+package gaia.sdk.core
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -12,6 +12,7 @@ import com.github.tomakehurst.wiremock.matching.MatchResult
 import com.github.tomakehurst.wiremock.matching.RequestMatcherExtension
 import gaia.sdk.HMACCredentials
 import gaia.sdk.JWTCredentials
+import gaia.sdk.http.HMACTokenBuilder
 import gaia.sdk.spi.ClientOptions
 import io.reactivex.Flowable
 import org.junit.jupiter.api.AfterEach
@@ -25,10 +26,10 @@ class HttpTransporterTest {
 
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))
 
-    companion object{
+    companion object {
         val jsonParser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        val HMAC_CREDENTIALS =HMACCredentials("mockedApiKey","mockedApiSecret")
-        val API_SECRET= ClientOptions(HMAC_CREDENTIALS)
+        val HMAC_CREDENTIALS = HMACCredentials("mockedApiKey", "mockedApiSecret")
+        val API_SECRET = ClientOptions(HMAC_CREDENTIALS)
         val A_STANDARD_RESPONSE =
                 mapOf("data" to mapOf(
                         "retrieve" to mapOf(
@@ -51,13 +52,13 @@ class HttpTransporterTest {
         wireMockServer.stop()
     }
 
-    fun configureStub(authSchema: String, errorCode: Int=200) {
+    fun configureStub(authSchema: String, errorCode: Int = 200) {
         val stub = post(urlEqualTo("/api/sync"))
                 .withHeader("Authorization", matching("$authSchema.*"))
                 .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(errorCode)
                         .withBody(jsonParser.writeValueAsString(A_STANDARD_RESPONSE)))
-        if (authSchema=="HMAC"){
+        if (authSchema == "HMAC") {
             stub.andMatching("HMAC-Authorization-Header-Matcher", Parameters.one("clientOptions", API_SECRET))
         }
         wireMockServer.stubFor(stub)
@@ -66,7 +67,7 @@ class HttpTransporterTest {
     @Test
     fun `successful request with HMAC Credentials`() {
         configureStub("HMAC")
-        val gaiaRef = Gaia.connect("http://localhost:8083",  HMAC_CREDENTIALS)
+        val gaiaRef = Gaia.connect("http://localhost:8083", HMAC_CREDENTIALS)
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -78,15 +79,15 @@ class HttpTransporterTest {
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
-        ts.assertValueAt(0){
-            it.qualifier=="qualifierOfIntent"
+        ts.assertValueAt(0) {
+            it.qualifier == "qualifierOfIntent"
         }
     }
 
     @Test
     fun `failed request with HMAC Credentials`() {
-        configureStub("HMAC",errorCode = 400)
-        val gaiaRef = Gaia.connect("http://localhost:8083",  HMAC_CREDENTIALS)
+        configureStub("HMAC", errorCode = 400)
+        val gaiaRef = Gaia.connect("http://localhost:8083", HMAC_CREDENTIALS)
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -97,14 +98,14 @@ class HttpTransporterTest {
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertError {
-            it.message=="Error with status code 400 (Bad Request and payload )"
+            it.message == "Error with status code 400 (Bad Request and payload )"
         }
     }
 
     @Test
     fun `successful request with with JWT`() {
         configureStub("Bearer")
-        val gaiaRef = Gaia.connect("http://localhost:8083",  JWTCredentials("685168496841"))
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("685168496841"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -116,15 +117,15 @@ class HttpTransporterTest {
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
-        ts.assertValueAt(0){
-            it.qualifier=="qualifierOfIntent"
+        ts.assertValueAt(0) {
+            it.qualifier == "qualifierOfIntent"
         }
     }
 
     @Test
     fun `failed request with JWT`() {
-        configureStub("Bearer",errorCode = 400)
-        val gaiaRef = Gaia.connect("http://localhost:8083",  JWTCredentials("684684"))
+        configureStub("Bearer", errorCode = 400)
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
 
@@ -135,7 +136,7 @@ class HttpTransporterTest {
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertError {
-            it.message=="Error with status code 400 (Bad Request and payload )"
+            it.message == "Error with status code 400 (Bad Request and payload )"
         }
     }
 }
@@ -148,21 +149,21 @@ class HMACAuthHeaderMatcher : RequestMatcherExtension() {
 
     override fun match(request: Request, parameters: Parameters): MatchResult {
         val clientOptions: ClientOptions = parameters.get("clientOptions") as ClientOptions
-        return MatchResult.of(verifyHMACToken(request.headers.getHeader("Authorization"),request.body, clientOptions))
+        return MatchResult.of(verifyHMACToken(request.headers.getHeader("Authorization"), request.body, clientOptions))
     }
 
-    fun verifyHMACToken(authHeader: HttpHeader, requestBody: ByteArray, clientOptions: ClientOptions): Boolean{
+    fun verifyHMACToken(authHeader: HttpHeader, requestBody: ByteArray, clientOptions: ClientOptions): Boolean {
         val authHeaderValue = authHeader.firstValue()
-        val splitToken =authHeaderValue.split("_")
-        DecodedToken(splitToken.get(0),splitToken.get(1),splitToken.get(2).toLong(),splitToken.get(3))
-        return verify(authHeaderValue.split(" ").get(1),requestBody, clientOptions)
+        val splitToken = authHeaderValue.split("_")
+        DecodedToken(splitToken.get(0), splitToken.get(1), splitToken.get(2).toLong(), splitToken.get(3))
+        return verify(authHeaderValue.split(" ").get(1), requestBody, clientOptions)
     }
 
     fun extractToken(token: String): DecodedToken {
         val splits = token.split("_")
         try {
             return DecodedToken(splits.get(0), splits.get(1), splits.get(2).toLong(), splits.get(3))
-        } catch (ex : Exception) {
+        } catch (ex: Exception) {
             throw Exception("Token elements cannot be extracted")
         }
     }
@@ -186,6 +187,6 @@ class HMACAuthHeaderMatcher : RequestMatcherExtension() {
         return true
     }
 
-    data class DecodedToken(val apiKeyName: String, val signatureAsBase64: String, val  timestamp: Long, val nonce: String)
+    data class DecodedToken(val apiKeyName: String, val signatureAsBase64: String, val timestamp: Long, val nonce: String)
 
 }

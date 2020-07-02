@@ -1,4 +1,4 @@
-package gaia.sdk.http
+package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.Uuid
@@ -9,6 +9,8 @@ import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.ProvisionedSkillSpec
 import gaia.sdk.api.skill.SkillRef
 import gaia.sdk.api.skill.UnprovisionedSkillSpec
+import gaia.sdk.http.HttpSensorFunction
+import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.Edge
