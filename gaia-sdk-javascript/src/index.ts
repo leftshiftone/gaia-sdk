@@ -8,3 +8,10 @@ export {GaiaClient} from './graphql/GaiaClient';
 export {GaiaClientBuilder} from './graphql/GaiaClientBuilder';
 export {HttpSensorFunction} from './http/HttpSensorFunction';
 export {Gaia, GaiaRef, GaiaConfig} from "./Gaia";
+
+/* mqtt */
+export {ConversationQueueType} from "./mqtt/ConversationQueueType"
+export {MqttSensorQueue} from "./mqtt/MqttSensorQueue"
+export {QueueHeader} from "./mqtt/QueueHeader"
+export {QueueOptions} from "./mqtt/QueueOptions"
+export {QueueCallback} from "./mqtt/MqttSensorQueue"
