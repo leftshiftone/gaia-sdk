@@ -10,9 +10,10 @@ export interface IQueueOptions {
     deviceId: string
     deviceInstanceId: string
     subscribeTimeout: number
+    protocolVersion: number
 }
 
-export class QueueOptions implements mqtt.IClientOptions, IQueueOptions {
+export class QueueOptions implements IQueueOptions, mqtt.IClientOptions {
     public host: string;
     public port: number;
     public clientThreads: number;
@@ -21,6 +22,7 @@ export class QueueOptions implements mqtt.IClientOptions, IQueueOptions {
     public deviceId: string;
     public deviceInstanceId: string;
     public subscribeTimeout: number;
+    public protocolVersion: number = 5;
 
     constructor(host: string,
                 port: number,

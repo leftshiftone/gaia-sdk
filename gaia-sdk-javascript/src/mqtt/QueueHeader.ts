@@ -8,7 +8,7 @@ export interface IQueueHeader {
 export class QueueHeader implements IQueueHeader {
 
     public identityId: string;
-    public channelId?: string;
+    public channelId: string;
 
     constructor(identityId: string, channelId: string = UUID.randomUUID().toString()) {
         this.identityId = identityId;

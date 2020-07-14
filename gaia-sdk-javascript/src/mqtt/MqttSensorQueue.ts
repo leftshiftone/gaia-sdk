@@ -2,6 +2,7 @@ import * as mqtt from "mqtt"
 import {IQueueOptions} from "./QueueOptions"
 import {IQueueHeader} from "./QueueHeader";
 import {ConversationQueueType} from "./ConversationQueueType";
+import {UUID} from "../graphql/GaiaScalars";
 
 export class MqttSensorQueue {
 
@@ -24,12 +25,13 @@ export class MqttSensorQueue {
         this.client.end(force, callback)
     }
 
-    public publish(type: ConversationQueueType, header: IQueueHeader, payload: object) {
-        const topic = this.getTopic(type, header);
+    public publish(conversationQueueType: ConversationQueueType, header: IQueueHeader, payload: object, attributes: object, type: string) {
+        const topic = this.getTopic(conversationQueueType, header);
         console.debug(`Sending message to topic ${topic}`);
-
-        const body = payload instanceof Array ? payload[0] : payload;
-        this.client.publish(topic, JSON.stringify({body, header}), this.mqttCallback(body));
+        let payloadStr = JSON.stringify({attributes, payload: payload instanceof Array ? payload[0] : payload, type})
+        const userProperties = Object.assign(header, {deviceInstanceId: this.options.deviceInstanceId, deviceId: this.options.deviceId, userId: UUID.randomUUID().toString()})
+        const opts: IMqttPublishOpts = {properties: {userProperties}}
+        this.client.publish(topic, payloadStr, opts, this.mqttCallback(JSON.parse(payloadStr)));
     }
 
     public subscribe(type: ConversationQueueType, header: IQueueHeader, callback?: QueueCallback) {
@@ -39,7 +41,7 @@ export class MqttSensorQueue {
             return;
         }
         if(callback) {
-            console.log("subscribe", topic, callback)
+            console.debug("subscribe to", topic)
             this.client.subscribe(topic, callback)
             this.subscriptions.set(topic, callback)
         }
@@ -60,26 +62,42 @@ export class MqttSensorQueue {
             this.subscribeConvInteraction(header, () => {
             })
         }
-        const body = {type: 'reception', attributes}
-        this.publish(ConversationQueueType.INTERACTION, header, {body});
+        this.publish(ConversationQueueType.INTERACTION, header, {}, attributes, "reception");
     }
 
-    private mqttCallback(body: object): mqtt.PacketCallback {
+    private mqttCallback(payload: object): mqtt.PacketCallback {
         return (error?: Error, packet?: mqtt.Packet) => {
             error ?
                 console.error(`Failed to publish message`, error, packet) :
-                console.debug(`Successfully published message`, body);
+                console.debug(`Successfully published message`, payload);
         };
     }
 
-    public callback = (topic: string, msg: object) => {
-        console.log("callbacks", this.subscriptions)
-        this.subscriptions.get(topic) || console.warn(msg);
+    public callback = (topic: string, payload: object) => {
+        if (this.subscriptions.get(topic)) {
+            const callback = this.subscriptions.get(topic)
+            callback!(payload);
+            return
+        }
+        console.warn("no callback for topic " + topic + "", payload);
     }
 
-    private getTopic = (type: ConversationQueueType, header: IQueueHeader) =>
-        `GAIA/conversation/${this.options.deviceInstanceId}/${header.channelId}/${type.toLowerCase()}`
+    public getTopic = (type: ConversationQueueType, header: IQueueHeader) =>
+        `gaia/conversation/${this.options.deviceInstanceId}/${header.channelId}/${type.toLowerCase()}`
 
 }
 
 export declare type QueueCallback = (message: any) => void
+
+interface IMqttPublishOpts extends mqtt.IClientPublishOptions {
+    properties?: {
+        payloadFormatIndicator?: number,
+        messageExpiryInterval?: number,
+        topicAlias?: string,
+        responseTopic?: string,
+        correlationData?: Buffer,
+        userProperties?: Object,
+        subscriptionIdentifier?: number,
+        contentType?: string
+    }
+}
