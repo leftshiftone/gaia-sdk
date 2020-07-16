@@ -2,7 +2,7 @@
 # Knowledge types
 # ***************
 
-"this type represents the intent information"
+"Represents intent information"
 type Intent {
     "The identity id"
     identityId: Uuid
@@ -20,12 +20,12 @@ type Intent {
     version: String
 }
 
-"this type represents the statement information"
+"Represents statement information"
 type Statement {
     "The statement id"
-    identityId: Uuid
+    identityId: Uuid!
     "The statement reference id"
-    reference: Uuid
+    reference: Uuid!
     "The name of the statement"
     qualifier: String
     "Detailed description about the statement"
@@ -38,7 +38,7 @@ type Statement {
     version: String
 }
 
-"this type represents the fulfilment information"
+"Represents fulfilment information"
 type Fulfilment {
     "The fulfilment id"
     identityId: Uuid
@@ -56,7 +56,7 @@ type Fulfilment {
     version: String
 }
 
-"this type represents the prompt information"
+"Represents prompt information"
 type Prompt {
     "The prompt id"
     identityId: Uuid
@@ -74,7 +74,7 @@ type Prompt {
     version: String
 }
 
-"this type represents the code information"
+"Represents code information"
 type Code {
     "The code id"
     identityId: Uuid
@@ -92,7 +92,7 @@ type Code {
     type: String
 }
 
-"this type represents the behaviour information"
+"Represents behaviour information"
 type Behaviour {
     "The behaviour id"
     identityId: Uuid
@@ -108,10 +108,20 @@ type Behaviour {
     behaviour: String
 }
 
+
+"Represents graph information"
+type Edge {
+    source: Uuid
+    target: Uuid
+    type: String
+    weight: Float
+}
+
 # ****************
 # Experience types
 # ****************
 
+"Represents behaviour execution information"
 type BehaviourExecution {
     processInstanceId: Uuid
     state: String
@@ -123,6 +133,8 @@ type BehaviourExecution {
     processId: Uuid
     parentProcessId: Uuid
 }
+
+"Represents behaviour node execution information"
 type BehaviourNodeExecution {
     processInstanceId: Uuid
     nodeInstanceId: Uuid
