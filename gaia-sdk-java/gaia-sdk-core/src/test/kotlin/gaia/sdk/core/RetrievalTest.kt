@@ -283,4 +283,20 @@ abstract class RetrievalTest() {
         }
     }
 
+    @Test
+    fun `test retrieve error handling`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertError { it.message == "forced error" }
+        ts.assertNoValues()
+    }
+
 }
