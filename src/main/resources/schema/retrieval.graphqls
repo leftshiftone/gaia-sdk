@@ -34,14 +34,6 @@ type Knowledge {
     edge(source: Uuid, target: Uuid): Edge
 }
 
-"Container type for static information"
-type Edge {
-    source: Uuid
-    target: Uuid
-    type: String
-    weight: Float
-}
-
 "Container type for runtime information"
 type Experience {
     behaviourExecutions: [BehaviourExecution]
