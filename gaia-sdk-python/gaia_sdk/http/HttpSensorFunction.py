@@ -83,9 +83,9 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return flat_mapQ(observable, query_res)
 
-    def retrieve_identity(self, identityId: Uuid, reference: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
-        identitys_req: Callable[[IdentityReq], None] = lambda x: x.identity(identityId, reference, config)
-        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(identitys_req)
+    def retrieve_identity(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        identities_req: Callable[[IdentityReq], None] = lambda x: x.identity(identityId, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(identities_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identity
 
