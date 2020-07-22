@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* this type represents the fulfilment information
+* Represents fulfilment information
 */
 data class Fulfilment @JsonCreator constructor(
     /**

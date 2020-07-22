@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.DeletedIdentityImpulse import DeletedIdentityImpulse
 from gaia_sdk.graphql.request.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.request.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
 from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
@@ -13,12 +14,24 @@ from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatemen
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class DeleteKnowledge(list):
+
+    """
+    deletes a list of identities with the given specifications
+    """
+    def identities(self, impulses: List[DeleteIdentityImpulse], config: Callable[['DeletedIdentityImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = DeletedIdentityImpulse()
+            config(entity)
+            return f'identities(impulses:${name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
 
     """
     deletes a list of intents with the given specifications

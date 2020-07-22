@@ -10,6 +10,10 @@ import gaia.sdk.request.enumeration.*
 
 data class CreateKnowledge @JsonCreator constructor(
     /**
+    * creates a list of identities with the given specifications
+    */
+    @JsonProperty("identities") val identities:List<CreatedIdentityImpulse>?, 
+    /**
     * creates a list of intents with the given specifications
     */
     @JsonProperty("intents") val intents:List<CreatedIntentImpulse>?, 

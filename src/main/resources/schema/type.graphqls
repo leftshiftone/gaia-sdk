@@ -2,6 +2,14 @@
 # Knowledge types
 # ***************
 
+"Represents identity information"
+type Identity {
+    "The identity id"
+    identityId: Uuid
+    "The name of the identity"
+    qualifier: String
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"

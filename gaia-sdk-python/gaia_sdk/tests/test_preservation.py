@@ -8,6 +8,7 @@ from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
@@ -15,6 +16,7 @@ from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
+from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
@@ -22,6 +24,7 @@ from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
 from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
 from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
@@ -32,6 +35,27 @@ class RxException(Exception):
     pass
 
 class TestPreservation(unittest.TestCase):
+
+    def test_preserve_create_identity(self):
+        gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
+
+        impulses = CreateIdentityImpulse(str(""))
+        result = gaia_ref.preserve_create_identities([impulses]).pipe(ops.first()).run()
+        assert result.dictionary.get("id") is not None, "ID  is in response"
+
+    def test_preserve_update_identity(self):
+        gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
+
+        impulses = UpdateIdentityImpulse(str(uuid4()), "")
+        result = gaia_ref.preserve_update_identities([impulses]).pipe(ops.first()).run()
+        assert result.dictionary.get("id") is not None, "ID  is in response"
+
+    def test_preserve_delete_identity(self):
+        gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
+
+        impulses = DeleteIdentityImpulse(str(uuid4()))
+        result = gaia_ref.preserve_delete_identities([impulses]).pipe(ops.first()).run()
+        assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_create_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))

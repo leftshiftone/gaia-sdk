@@ -10,6 +10,10 @@ import gaia.sdk.request.enumeration.*
 
 data class DeleteKnowledge @JsonCreator constructor(
     /**
+    * deletes a list of identities with the given specifications
+    */
+    @JsonProperty("identities") val identities:List<DeletedIdentityImpulse>?, 
+    /**
     * deletes a list of intents with the given specifications
     */
     @JsonProperty("intents") val intents:List<DeletedIntentImpulse>?, 

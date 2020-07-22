@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * Container type for static information
+ * Represents graph information
  */
 export class Edge extends Array<(_:VariableRegistry) => string> {
 

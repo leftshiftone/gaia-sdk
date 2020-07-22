@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.UpdatedStatementImpulse import UpdatedStatementImpulse
 from gaia_sdk.graphql.response.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
 from gaia_sdk.graphql.response.type.UpdatedPromptImpulse import UpdatedPromptImpulse
 from gaia_sdk.graphql.response.type.UpdatedCodeImpulse import UpdatedCodeImpulse
 from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
@@ -11,6 +12,7 @@ from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpul
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
 from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
 
 from dataclasses import dataclass
 from typing import List
@@ -25,6 +27,12 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class UpdateKnowledge:
     dictionary: dict
+    """
+    updates a list of identities with the given specifications
+    """
+    @property
+    def identities(self) -> List[UpdatedIdentityImpulse]:
+        return list(map(lambda x: UpdatedIdentityImpulse(x), self.dictionary.get("identities")))
     """
     updates a list of intents with the given specifications
     """

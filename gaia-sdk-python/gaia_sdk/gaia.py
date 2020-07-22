@@ -4,12 +4,13 @@ from typing import Callable, List
 
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
-    IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
-    PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
-    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
+    IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
+    PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
+    CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
+    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
-    PerceiveDataImpulse, PerceiveActionImpulse, DeleteIntentImpulse, \
-    UpdateIntentImpulse, CreateIntentImpulse, \
+    PerceiveDataImpulse, PerceiveActionImpulse, DeleteIdentityImpulse, UpdateIdentityImpulse, CreateIdentityImpulse, \
+    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
     DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
     CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
@@ -53,6 +54,12 @@ class GaiaRef(ISensorFunction):
 
     def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         return self.f_proc.retrieve_edge(source, target, config)
+
+    def retrieve_identities(self, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        return self.f_proc.retrieve_identities(config)
+
+    def retrieve_identity(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        return self.f_proc.retrieve_identity(identityId, config)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         return self.f_proc.retrieve_intents(identityId, config)
@@ -98,6 +105,15 @@ class GaiaRef(ISensorFunction):
 
     def preserve(self, config: Callable[[PreservationReq], None]) -> Observable[PreservationRes]:
         return self.f_proc.preserve(config)
+
+    def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
+        return self.f_proc.preserve_create_identities(impulses)
+
+    def preserve_update_identities(self, impulses: List[UpdateIdentityImpulse]) -> Observable[UpdatedIdentityImpulse]:
+        return self.f_proc.preserve_update_identities(impulses)
+
+    def preserve_delete_identities(self, impulses: List[DeleteIdentityImpulse]) -> Observable[DeletedIdentityImpulse]:
+        return self.f_proc.preserve_delete_identities(impulses)
 
     def preserve_create_intents(self, impulses: List[CreateIntentImpulse]) -> Observable[CreatedIntentImpulse]:
         return self.f_proc.preserve_create_intents(impulses)

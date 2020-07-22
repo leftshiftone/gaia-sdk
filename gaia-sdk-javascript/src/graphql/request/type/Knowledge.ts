@@ -4,6 +4,7 @@ import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
 import {Prompt} from "./Prompt";
+import {Identity} from "./Identity";
 import {Code} from "./Code";
 import {Edge} from "./Edge";
 
@@ -13,6 +14,19 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
+
+    public identities = (config: (_:Identity) => void) => this.push((registry) => {
+        const entity = new Identity();
+        config(entity);
+        return "identities { " + entity.render(registry) + " }";
+    });
+
+    public identity = (identityId : Uuid, config: (_:Identity) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const entity = new Identity();
+        config(entity);
+        return `identity(identityId:$${name1}){` + entity.render(registry) + "}"
+    });
 
     public intents = (identityId : Uuid, config: (_:Intent) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);

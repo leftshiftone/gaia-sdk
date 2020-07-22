@@ -4,6 +4,7 @@ from gaia_sdk.graphql.request.type.Behaviour import Behaviour
 from gaia_sdk.graphql.request.type.Statement import Statement
 from gaia_sdk.graphql.request.type.Intent import Intent
 from gaia_sdk.graphql.request.type.Prompt import Prompt
+from gaia_sdk.graphql.request.type.Identity import Identity
 from gaia_sdk.graphql.request.type.Code import Code
 from gaia_sdk.graphql.request.type.Edge import Edge
 
@@ -12,6 +13,21 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class Knowledge(list):
+
+    def identities(self, config: Callable[['Identity'], None]):
+        def callback(registry: VariableRegistry):
+            entity = Identity()
+            config(entity)
+            return "identities {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    def identity(self, identityId: str, config: Callable[['Identity'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("identityId", identityId)
+            entity = Identity()
+            config(entity)
+            return f'identity(identityId:${name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
 
     def intents(self, identityId: str, config: Callable[['Intent'], None]):
         def callback(registry: VariableRegistry):

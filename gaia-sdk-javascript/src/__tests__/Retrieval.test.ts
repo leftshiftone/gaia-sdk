@@ -5,6 +5,39 @@ const { v4: uuidv4 } = require('uuid');
 
 describe("perception tests:", () => {
 
+    test('test retrieve identities', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveIdentities(_ => {
+                _.identityId();
+                _.qualifier();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.qualifier !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve identity', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const identityId = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveIdentity(identityId, _ => {
+                _.identityId();
+                _.qualifier();
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.qualifier !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
     test('test retrieve behaviours', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const identityId = uuidv4()

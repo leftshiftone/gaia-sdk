@@ -40,6 +40,10 @@ import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
 import {GaiaCredentials} from "./api/GaiaCredentials";
+import {CreateIdentityImpulse} from "./graphql/request/input/CreateIdentityImpulse";
+import {DeleteIdentityImpulse} from "./graphql/request/input/DeleteIdentityImpulse";
+import {UpdateIdentityImpulse} from "./graphql/request/input/UpdateIdentityImpulse";
+import {Identity} from "./graphql/request/type/Identity";
 
 export class Gaia {
 
@@ -76,6 +80,9 @@ export class GaiaRef implements ISensorFunction {
     public perceiveAction = (impulse: PerceiveActionImpulse) => this.fProc.perceiveAction(impulse);
     public perceiveData = (impulse: PerceiveDataImpulse) => this.fProc.perceiveData(impulse);
     public preserve = (config: (x: Preservation) => void) => this.fProc.preserve(config);
+    public preserveCreateIdentities = (...impulses: [CreateIdentityImpulse]) => this.fProc.preserveCreateIdentities(...impulses);
+    public preserveDeleteIdentities = (...impulses: [DeleteIdentityImpulse]) => this.fProc.preserveDeleteIdentities(...impulses);
+    public preserveUpdateIdentities = (...impulses: [UpdateIdentityImpulse]) => this.fProc.preserveUpdateIdentities(...impulses);
     public preserveCreateIntents = (...impulses: [CreateIntentImpulse]) => this.fProc.preserveCreateIntents(...impulses);
     public preserveDeleteIntents = (...impulses: [DeleteIntentImpulse]) => this.fProc.preserveDeleteIntents(...impulses);
     public preserveUpdateIntents = (...impulses: [UpdateIntentImpulse]) => this.fProc.preserveUpdateIntents(...impulses);
@@ -104,6 +111,8 @@ export class GaiaRef implements ISensorFunction {
     public retrieveExperience = (config: (x: Experience) => void) => this.fProc.retrieveExperience(config);
     public retrieveFulfilments = (identityId: Uuid, config: (x: Fulfilment) => void) => this.fProc.retrieveFulfilments(identityId, config);
     public retrieveFulfilment = (identityId: Uuid, reference: Uuid, config: (x: Fulfilment) => void) => this.fProc.retrieveFulfilment(identityId, reference, config);
+    public retrieveIdentities = (config: (x: Identity) => void) => this.fProc.retrieveIdentities(config);
+    public retrieveIdentity = (identityId: Uuid, config: (x: Identity) => void) => this.fProc.retrieveIdentity(identityId, config);
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntents(identityId, config);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);

@@ -2,6 +2,7 @@
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
+import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
 import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
 import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
 import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
@@ -11,12 +12,17 @@ import {UpdateIntentImpulse} from "../../request/input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../../request/input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../../request/input/UpdatePromptImpulse";
 import {UpdateFulfilmentImpulse} from "../../request/input/UpdateFulfilmentImpulse";
+import {UpdateIdentityImpulse} from "../../request/input/UpdateIdentityImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface UpdateKnowledge {
+    /**
+    * updates a list of identities with the given specifications
+    */
+    identities?:[UpdatedIdentityImpulse], 
     /**
     * updates a list of intents with the given specifications
     */

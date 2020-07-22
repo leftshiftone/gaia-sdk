@@ -12,6 +12,14 @@ import gaia.sdk.request.enumeration.*
 class DeleteKnowledge: Type() {
 
     /**
+     * deletes a list of identities with the given specifications
+     */
+    fun identities(impulses : Array<out DeleteIdentityImpulse>, config: DeletedIdentityImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "identities(impulses:$$name1){" + DeletedIdentityImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * deletes a list of intents with the given specifications
      */
     fun intents(impulses : Array<out DeleteIntentImpulse>, config: DeletedIntentImpulse.() -> Unit) = add {

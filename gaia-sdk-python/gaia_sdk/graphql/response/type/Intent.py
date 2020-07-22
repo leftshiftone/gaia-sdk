@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Intent:
     """
-    this type represents the intent information
+    Represents intent information
     """
     dictionary: dict
     """

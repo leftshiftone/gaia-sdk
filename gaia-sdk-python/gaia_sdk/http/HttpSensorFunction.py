@@ -6,11 +6,12 @@ from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.rx.rx import mapQ, mapM, flat_mapM, flat_mapQ
 from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
-    IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
-    PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
-    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
+    IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
+    PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
+    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
-    MutationReq, MutationRes, PerceiveDataImpulse, PerceiveActionImpulse, DeleteIntentImpulse, \
+    MutationReq, MutationRes, PerceiveDataImpulse, PerceiveActionImpulse, DeleteIdentityImpulse, \
+    UpdateIdentityImpulse, CreateIdentityImpulse, DeleteIntentImpulse, \
     UpdateIntentImpulse, CreateIntentImpulse, CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, \
     CreatedPromptImpulse, UpdatedPromptImpulse, \
     DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
@@ -69,6 +70,24 @@ class HttpSensorFunction(ISensorFunction):
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edge
+
+        observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
+        return mapQ(observable, query_res)
+
+    def retrieve_identities(self, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        identities_req: Callable[[IdentityReq], None] = lambda x: x.identities(config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(identities_req)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identities
+
+        observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
+        return flat_mapQ(observable, query_res)
+
+    def retrieve_identity(self, identityId: Uuid, reference: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        identitys_req: Callable[[IdentityReq], None] = lambda x: x.identity(identityId, reference, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(identitys_req)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identity
 
         observable = rx.of(self.client.query(GaiaRequest.query(query_req)))
         return mapQ(observable, query_res)
@@ -202,6 +221,33 @@ class HttpSensorFunction(ISensorFunction):
 
         observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
         return mapM(observable, mutation_res)
+
+    def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
+        identities_req = lambda x: x.id()
+        create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.identities(impulses, identities_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
+        mutation_res: Callable[[MutationRes], CreatedIdentityImpulse] = lambda x: x.preserve.create.identities
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_update_identities(self, impulses: List[UpdateIdentityImpulse]) -> Observable[UpdatedIdentityImpulse]:
+        identities_req = lambda x: x.id()
+        update_identities: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.identities(impulses, identities_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_identities)
+        mutation_res: Callable[[MutationRes], UpdatedIdentityImpulse] = lambda x: x.preserve.update.identities
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
+
+    def preserve_delete_identities(self, impulses: List[DeleteIdentityImpulse]) -> Observable[DeletedIdentityImpulse]:
+        identities_req = lambda x: x.id()
+        delete_identities: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.identities(impulses, identities_req))
+        mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_identities)
+        mutation_res: Callable[[MutationRes], DeletedIdentityImpulse] = lambda x: x.preserve.delete.identities
+
+        observable = rx.of(self.client.mutation(GaiaRequest.mutation(mutation_req)))
+        return flat_mapM(observable, mutation_res)
 
     def preserve_create_intents(self, impulses: List[CreateIntentImpulse]) -> Observable[CreatedIntentImpulse]:
         intent_req = lambda x: x.id()

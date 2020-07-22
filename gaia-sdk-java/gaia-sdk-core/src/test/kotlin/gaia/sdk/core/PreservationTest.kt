@@ -21,7 +21,41 @@ abstract class PreservationTest {
 
     abstract fun retrieveCredentials(): GaiaCredentials
 
+    @Test
+    fun `test preserve create identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateIdentityImpulse("")
 
+        val publisher = gaiaRef.preserveCreateIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "")
+
+        val publisher = gaiaRef.preserveUpdateIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteIdentityImpulse(UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
 
     @Test
     fun `test preserve create intent`() {

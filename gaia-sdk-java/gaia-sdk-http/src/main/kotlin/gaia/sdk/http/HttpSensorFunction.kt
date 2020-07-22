@@ -34,6 +34,12 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
     override fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, target, config) } } })) { it.retrieve?.knowledge?.edge!! }
 
+    override fun retrieveIdentities(config: Identity.() -> Unit) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { identities(config) } } })) { it.retrieve?.knowledge?.identities!! }
+
+    override fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { identity(identityId, config) } } })) { it.retrieve?.knowledge?.identity!! }
+
     override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
@@ -78,6 +84,21 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
 
     override fun preserve(config: Preservation.() -> Unit) =
             mapM(client.mutation(GaiaRequest.mutation { preserve(config) })) { it.preserve!! }
+
+    override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { identities(impulses) { id() } } } })) {
+                it.preserve?.create?.identities!!
+            }
+
+    override fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { identities(impulses) { id() } } } })) {
+                it.preserve?.update?.identities!!
+            }
+
+    override fun preserveDeleteIdentities(vararg impulses: DeleteIdentityImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { identities(impulses) { id() } } } })) {
+                it.preserve?.delete?.identities!!
+            }
 
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { intents(impulses) { id() } } } })) {

@@ -5,11 +5,13 @@ from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImp
 from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
 from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
 from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
+from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
@@ -27,6 +29,12 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class CreateKnowledge:
     dictionary: dict
+    """
+    creates a list of identities with the given specifications
+    """
+    @property
+    def identities(self) -> List[CreatedIdentityImpulse]:
+        return list(map(lambda x: CreatedIdentityImpulse(x), self.dictionary.get("identities")))
     """
     creates a list of intents with the given specifications
     """

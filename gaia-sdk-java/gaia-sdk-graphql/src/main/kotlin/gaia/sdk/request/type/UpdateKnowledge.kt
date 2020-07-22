@@ -12,6 +12,14 @@ import gaia.sdk.request.enumeration.*
 class UpdateKnowledge: Type() {
 
     /**
+     * updates a list of identities with the given specifications
+     */
+    fun identities(impulses : Array<out UpdateIdentityImpulse>, config: UpdatedIdentityImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "identities(impulses:$$name1){" + UpdatedIdentityImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * updates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out UpdateIntentImpulse>, config: UpdatedIntentImpulse.() -> Unit) = add {

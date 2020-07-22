@@ -2,6 +2,7 @@
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
+import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
 import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
 import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
 import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
@@ -11,6 +12,7 @@ import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../input/UpdatePromptImpulse";
 import {UpdateFulfilmentImpulse} from "../input/UpdateFulfilmentImpulse";
+import {UpdateIdentityImpulse} from "../input/UpdateIdentityImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -18,6 +20,16 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class UpdateKnowledge extends Array<(_:VariableRegistry) => string> {
+
+    /**
+     * updates a list of identities with the given specifications
+     */
+    public identities = (impulses : [UpdateIdentityImpulse], config: (_:UpdatedIdentityImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedIdentityImpulse();
+        config(entity);
+        return `identities(impulses:$${name1}){` + entity.render(registry) + "}"
+    });
 
     /**
      * updates a list of intents with the given specifications

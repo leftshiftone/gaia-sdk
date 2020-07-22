@@ -22,6 +22,41 @@ abstract class RetrievalTest() {
 
 
     @Test
+    fun `test retrieve identities`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveIdentities() {
+            identityId()
+            qualifier()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIdentity(identityId) {
+            identityId()
+            qualifier()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier!=null
+        }
+    }
+
+    @Test
     fun `test retrieve behaviours`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()

@@ -4,6 +4,7 @@ import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
 import {Prompt} from "./Prompt";
+import {Identity} from "./Identity";
 import {Code} from "./Code";
 import {Edge} from "./Edge";
 
@@ -12,6 +13,8 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface Knowledge {
+    identities?:[Identity], 
+    identity?:Identity, 
     intents?:[Intent], 
     intent?:Intent, 
     prompts?:[Prompt], 

@@ -12,6 +12,14 @@ import gaia.sdk.request.enumeration.*
 class CreateKnowledge: Type() {
 
     /**
+     * creates a list of identities with the given specifications
+     */
+    fun identities(impulses : Array<out CreateIdentityImpulse>, config: CreatedIdentityImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "identities(impulses:$$name1){" + CreatedIdentityImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * creates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out CreateIntentImpulse>, config: CreatedIntentImpulse.() -> Unit) = add {
