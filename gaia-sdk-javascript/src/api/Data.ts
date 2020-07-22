@@ -10,22 +10,6 @@ export class Data {
         this.path = path;
         return new DataRef(path);
     }
-
-    public remove() {
-        console.log("Remove: " + this.path)
-    }
-
-    public append(dataToAppend: any) {
-        console.log("Append: " + dataToAppend)
-    }
-
-    public asFile() {
-        console.log("asFile")
-    }
-
-    public asStream() {
-        console.log("asStream")
-    }
 }
 
 export class DataRef {
@@ -43,5 +27,21 @@ export class DataRef {
 
     public list() {
         console.log("List from " + this.path);
+    }
+
+    public remove() {
+        console.log("Remove: " + this.path)
+    }
+
+    public asFile() {
+        console.log("asFile")
+    }
+
+    public asStream() {
+        console.log("asStream")
+    }
+
+    public append(dataToAppend: any) {
+        console.log("Append: " + dataToAppend)
     }
 }

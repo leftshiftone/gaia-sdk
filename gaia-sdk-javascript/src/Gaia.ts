@@ -72,9 +72,6 @@ export class GaiaRef implements ISensorFunction {
         this.fProc = config.functionProcessor;
     }
 
-    public append = (dataToAppend: any) => this.dataAPI.append(dataToAppend);
-    public asFile = () => this.dataAPI.asFile();
-    public asStream = () => this.dataAPI.asStream();
     public data = (path: string) => this.dataAPI.createRef(path);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
@@ -102,7 +99,6 @@ export class GaiaRef implements ISensorFunction {
     public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
     public preserveCreateEdges = (...impulses: [CreateEdgeImpulse]) => this.fProc.preserveCreateEdges(...impulses);
     public preserveDeleteEdges = (...impulses: [DeleteEdgeImpulse]) => this.fProc.preserveDeleteEdges(...impulses);
-    public remove = () => this.dataAPI.remove();
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviours(identityId, config);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);
