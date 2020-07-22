@@ -31,15 +31,17 @@ class HttpTransporterTest {
         val HMAC_CREDENTIALS = HMACCredentials("mockedApiKey", "mockedApiSecret")
         val API_SECRET = ClientOptions(HMAC_CREDENTIALS)
         val A_STANDARD_RESPONSE =
-                mapOf("data" to mapOf(
-                        "retrieve" to mapOf(
-                                "knowledge" to mapOf(
-                                        "intent" to mapOf(
-                                                "qualifier" to "qualifierOfIntent")
+                jsonParser.writeValueAsString(
+                    mapOf("data" to mapOf(
+                            "retrieve" to mapOf(
+                                    "knowledge" to mapOf(
+                                            "intent" to mapOf(
+                                                    "qualifier" to "qualifierOfIntent")
 
-                                )
-                        )
-                ))
+                                    )
+                            )
+                    ))
+                )
     }
 
     @BeforeEach
@@ -52,12 +54,12 @@ class HttpTransporterTest {
         wireMockServer.stop()
     }
 
-    fun configureStub(authSchema: String, errorCode: Int = 200) {
+    fun configureStub(authSchema: String, errorCode: Int = 200, responseBody: ByteArray = A_STANDARD_RESPONSE.toByteArray()) {
         val stub = post(urlEqualTo("/api/sync"))
                 .withHeader("Authorization", matching("$authSchema.*"))
                 .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(errorCode)
-                        .withBody(jsonParser.writeValueAsString(A_STANDARD_RESPONSE)))
+                        .withBody(responseBody))
         if (authSchema == "HMAC") {
             stub.andMatching("HMAC-Authorization-Header-Matcher", Parameters.one("clientOptions", API_SECRET))
         }
@@ -85,8 +87,9 @@ class HttpTransporterTest {
     }
 
     @Test
-    fun `failed request with HMAC Credentials`() {
-        configureStub("HMAC", errorCode = 400)
+    fun `failed request with HMAC Credentials and JSON payload`() {
+        val responsePayload = """{ "some": "response-value" }"""
+        configureStub("HMAC", errorCode = 400, responseBody = responsePayload.toByteArray())
         val gaiaRef = Gaia.connect("http://localhost:8083", HMAC_CREDENTIALS)
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
@@ -98,7 +101,25 @@ class HttpTransporterTest {
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertError {
-            it.message == "Error with status code 400 (Bad Request and payload )"
+            it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
+        }
+    }
+
+    @Test
+    fun `failed request with HMAC Credentials and empty payload`() {
+        configureStub("HMAC", errorCode = 400, responseBody = ByteArray(0))
+        val gaiaRef = Gaia.connect("http://localhost:8083", HMAC_CREDENTIALS)
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertError {
+            it.message == "Error with status code 400 (Bad Request) and no payload"
         }
     }
 
@@ -123,8 +144,26 @@ class HttpTransporterTest {
     }
 
     @Test
-    fun `failed request with JWT`() {
-        configureStub("Bearer", errorCode = 400)
+    fun `successful request with with JWT and empty payload`() {
+        configureStub("Bearer", responseBody = ByteArray(0))
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("685168496841"))
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(0)
+    }
+
+    @Test
+    fun `failed request with JWT and JSON payload`() {
+        val responsePayload = """{ "some": "response-value" }"""
+        configureStub("Bearer", errorCode = 400, responseBody = responsePayload.toByteArray())
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val identityId = UUID.randomUUID().toString()
         val reference = UUID.randomUUID().toString()
@@ -136,7 +175,44 @@ class HttpTransporterTest {
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, TimeUnit.SECONDS)
         ts.assertError {
-            it.message == "Error with status code 400 (Bad Request and payload )"
+            it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
+        }
+    }
+
+    @Test
+    fun `failed request with JWT and HTML payload`() {
+        val responsePayload = """<html><head></head><body>hello</body></html>"""
+        configureStub("Bearer", errorCode = 400, responseBody = responsePayload.toByteArray())
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertError {
+            it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
+        }
+    }
+
+    @Test
+    fun `failed request with JWT and empty payload`() {
+        configureStub("Bearer", errorCode = 400, responseBody = ByteArray(0))
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
+        val identityId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntent(identityId, reference) {
+            identityId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertError {
+            it.message == "Error with status code 400 (Bad Request) and no payload"
         }
     }
 }
