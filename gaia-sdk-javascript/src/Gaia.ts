@@ -40,12 +40,12 @@ import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
 import {GaiaCredentials} from "./api/GaiaCredentials";
-import {Data} from "./api/Data";
+import {HttpDataFunction} from "./http/HttpDataFunction";
 
 export class Gaia {
 
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
-        return new GaiaRef(new GaiaConfig(url,credentials));
+        return new GaiaRef(new GaiaConfig(url, credentials));
     }
 }
 
@@ -53,23 +53,27 @@ export class GaiaConfig {
     readonly url: string;
     readonly credentials: GaiaCredentials;
     readonly functionProcessor: ISensorFunction;
+    readonly dataFunctions: HttpDataFunction;
 
     constructor(url: string, credentials: GaiaCredentials,
-                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials)) {
+                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials),
+                dataFunctions: HttpDataFunction = new HttpDataFunction(url, credentials)) {
         this.url = url;
         this.credentials = credentials;
         this.functionProcessor = functionProcessor
+        this.dataFunctions = dataFunctions
     }
 }
 
 export class GaiaRef implements ISensorFunction {
     private readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
-    private readonly dataAPI = new Data();
+    private readonly dataAPI: HttpDataFunction;
 
     constructor(config: GaiaConfig) {
         this.config = config;
         this.fProc = config.functionProcessor;
+        this.dataAPI = config.dataFunctions;
     }
 
     public data = (path: string) => this.dataAPI.createRef(path);

@@ -12,10 +12,10 @@ export class HttpTransporter implements ITransporter {
         this.url = url;
     }
 
-    transport<T>(options: ClientOptions, body: any): Promise<T> {
+    transportTo<T>(options: ClientOptions, body: any, urlPostfix: String): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             const request = new XMLHttpRequest();
-            request.open("post", this.url);
+            request.open("post", this.url + urlPostfix);
             request.setRequestHeader("Content-Type", options.contentType);
             request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
             request.setRequestHeader('Access-Control-Allow-Methods', 'POST');
@@ -43,23 +43,28 @@ export class HttpTransporter implements ITransporter {
         });
     }
 
+
+    transport<T>(options: ClientOptions, body: any): Promise<T> {
+        return this.transportTo(options, body, "")
+    }
+
     private static buildAuthorizationHeader(options: ClientOptions, payload: any): string {
-        var credentials= options.credentials
-        if (credentials==null){
+        var credentials = options.credentials
+        if (credentials == null) {
             throw new Error("Authorization Header cannot be generated because no credentials are set")
         }
-        if(credentials instanceof HMACCredentials){
+        if (credentials instanceof HMACCredentials) {
             return new HMACTokenBuilder()
                 .withClientOptions(options)
-                .withTimestamp( Math.floor(Date.now() / 1000))
+                .withTimestamp(Math.floor(Date.now() / 1000))
                 .withNonce(UUID.randomUUID().toString())
                 .withPayload(JSON.stringify(payload))
                 .build()
-        }else if (credentials instanceof JWTCredentials){
+        } else if (credentials instanceof JWTCredentials) {
             const jwt = options.credentials as JWTCredentials
-            return  "Bearer " + jwt.token
-        }else {
-            throw new Error("Authorization Header for credentials of type "+ credentials.constructor+" cannot be generated")
+            return "Bearer " + jwt.token
+        } else {
+            throw new Error("Authorization Header for credentials of type " + credentials.constructor + " cannot be generated")
         }
 
     }

@@ -17,7 +17,7 @@ export class GaiaClient {
         this.transporter = transporter;
     }
 
-    public queryNative(statement: string, variables: Record<string, any> = {}):Promise<QueryResponse> {
+    public queryNative(statement: string, variables: Record<string, any> = {}): Promise<QueryResponse> {
         const body = {statement, variables};
         return this.transporter.transport(this.options, body);
     }
@@ -37,7 +37,7 @@ export class GaiaClient {
         return this.mutationNative(statement, variables);
     }
 
-    public subscriptionNative(statement: string, variables: Record<string, any> = {}):Promise<SubscriptionResponse> {
+    public subscriptionNative(statement: string, variables: Record<string, any> = {}): Promise<SubscriptionResponse> {
         const body = {statement, variables};
         return this.transporter.transport(this.options, body);
     }
@@ -48,7 +48,7 @@ export class GaiaClient {
     }
 
 
-    private getStatement(name: string, type: Array<(_:VariableRegistry) => string>):[string, {}] {
+    private getStatement(name: string, type: Array<(_: VariableRegistry) => string>): [string, {}] {
         const registry = new VariableRegistry();
         const fields = type.map(e => e(registry)).join(" ");
 
@@ -58,6 +58,10 @@ export class GaiaClient {
         }
         const statement = `${name} gaia(${registry.getDatatypes().join(", ")}) { ${fields} }`;
         return [statement, registry.getVariables()];
+    }
+
+    public post(body: any, urlPostfix: string): Promise<any> {
+        return this.transporter.transport(this.options, body)
     }
 
 }
