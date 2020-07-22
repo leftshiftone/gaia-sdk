@@ -40,6 +40,7 @@ import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
 import {GaiaCredentials} from "./api/GaiaCredentials";
+import {Data} from "./api/Data";
 
 export class Gaia {
 
@@ -64,12 +65,17 @@ export class GaiaConfig {
 export class GaiaRef implements ISensorFunction {
     private readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
+    private readonly dataAPI = new Data();
 
     constructor(config: GaiaConfig) {
         this.config = config;
         this.fProc = config.functionProcessor;
     }
 
+    public append = (dataToAppend: any) => this.dataAPI.append(dataToAppend);
+    public asFile = () => this.dataAPI.asFile();
+    public asStream = () => this.dataAPI.asStream();
+    public data = (path: string) => this.dataAPI.createRef(path);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
@@ -96,6 +102,7 @@ export class GaiaRef implements ISensorFunction {
     public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
     public preserveCreateEdges = (...impulses: [CreateEdgeImpulse]) => this.fProc.preserveCreateEdges(...impulses);
     public preserveDeleteEdges = (...impulses: [DeleteEdgeImpulse]) => this.fProc.preserveDeleteEdges(...impulses);
+    public remove = () => this.dataAPI.remove();
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviours(identityId, config);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);
