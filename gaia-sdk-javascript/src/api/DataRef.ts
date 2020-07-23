@@ -1,9 +1,12 @@
 import {GaiaClient} from "..";
 import {InitBinaryWriteImpulse} from "../graphql/request/input/InitBinaryWriteImpulse";
-import {InitiatedBinaryWriteImpulse} from "../graphql/response/type/InitiatedBinaryWriteImpulse";
+import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
+import {CompleteBinaryWriteImpulse} from "../graphql/request/input/CompleteBinaryWriteImpulse";
+import {BinaryWriteChunkImpulse} from "../graphql/request/input/BinaryWriteChunkImpulse";
+import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
+import {from, Observable} from "rxjs";
 
 export class DataRef {
-    private static readonly CHUNK_SIZE = 1024 * 1024 * 1024 * 5;
     private readonly client: GaiaClient;
     private readonly uri: string;
 
@@ -12,15 +15,14 @@ export class DataRef {
         this.client = client;
     }
 
-    public add(filename: string, content: ArrayBuffer, override = false):Promise<InitiatedBinaryWriteImpulse> {
-        console.log("Add " + filename);
+    public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef | null> {
+        console.log("Add " + fileName);
         console.log(content);
         console.log("To: " + this.uri);
-        let completeUri = this.uri.endsWith("/") ? this.uri + filename : this.uri + "/" + filename;
-        let numberOfChunks = Math.ceil(content.byteLength / DataRef.CHUNK_SIZE)
-        let initiateWriteImpulse = new InitBinaryWriteImpulse(completeUri, numberOfChunks, content.byteLength, override)
-        return this.client.post(initiateWriteImpulse, "sink/data/init")
+        let upload = DataUpload.create(this.uri, fileName, content, override)
+        return from(upload.execute(this.client))
     }
+
 
     public list() {
         console.log("List from " + this.uri);
@@ -40,5 +42,49 @@ export class DataRef {
 
     public append(dataToAppend: any) {
         console.log("Append: " + dataToAppend)
+    }
+}
+
+class DataUpload {
+    private static readonly CHUNK_SIZE = 1024 * 1024 * 1024 * 5;
+    private readonly uri: string;
+    private readonly content: Blob;
+    private readonly totalNumberOfChunks: number;
+    private readonly override: boolean;
+
+
+    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
+        this.uri = uri;
+        this.content = content;
+        this.totalNumberOfChunks = totalNumberOfChunks;
+        this.override = override;
+    }
+
+    public static create(baseUri: string, fileName: string, content: Blob, override: boolean = false): DataUpload {
+        let numberOfChunks = Math.ceil(content.size / DataUpload.CHUNK_SIZE)
+        let completeUri = baseUri.endsWith("/") ? baseUri + fileName : baseUri + "/" + fileName;
+        return new DataUpload(completeUri, content, numberOfChunks, override)
+    }
+
+    public execute(client: GaiaClient): Promise<DataRef | null> {
+        return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
+            .then((initResponse: BinaryWriteInitiatedImpulse) =>
+                Promise.all(this.getChunkRequests(initResponse.uploadId)
+                    .map(chunkRequest => client.post(chunkRequest, "/sink/data/chunk"))))
+            .then((chunkResponses: BinaryChunkWrittenImpulse[]) => {
+                let chunkIds = chunkResponses.map(r => r.chunkId)
+                return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
+            }).then(() => new DataRef(this.uri, client), reason => {
+                console.log("Upload to uri " + this.uri + " failed. Reason: " + reason)
+                return null
+            })
+    }
+
+    private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {
+        let chunks = new Array<Blob>()
+        for (let index = 0; index < this.totalNumberOfChunks; index++) {
+            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size), "application/octet-stream"))
+        }
+        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk))
     }
 }

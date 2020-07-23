@@ -1,16 +1,26 @@
 export class BinaryWriteChunkImpulse {
-    private uri: string
-    private uploadId: string
-    private ordinal: number
-    private sizeInBytes: number
-    private file: ArrayBuffer
+    private readonly uri: string
+    private readonly uploadId: string
+    private readonly ordinal: number
+    private readonly sizeInBytes: number
+    private readonly chunk: Blob
 
 
-    constructor(uri: string, uploadId: string, ordinal: number, sizeInBytes: number, file: ArrayBuffer) {
+    constructor(uri: string, uploadId: string, ordinal: number, sizeInBytes: number, chunk: Blob) {
         this.uri = uri;
         this.uploadId = uploadId;
         this.ordinal = ordinal;
         this.sizeInBytes = sizeInBytes;
-        this.file = file;
+        this.chunk = chunk;
+    }
+
+    public asFormData(): FormData {
+        let body = new FormData()
+        body.append("file", this.chunk)
+        body.append("uploadId", this.uploadId)
+        body.append("ordinal", JSON.stringify(this.ordinal))
+        body.append("sizeInBytes", JSON.stringify(this.sizeInBytes))
+        body.append("uri", this.uri)
+        return body
     }
 }

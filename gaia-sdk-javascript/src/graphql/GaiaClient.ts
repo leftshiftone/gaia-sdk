@@ -61,7 +61,7 @@ export class GaiaClient {
     }
 
     public post(body: any, urlPostfix: string): Promise<any> {
-        return this.transporter.transport(this.options, body)
+        return this.transporter.transportTo(this.options, body, urlPostfix)
     }
 
 }
