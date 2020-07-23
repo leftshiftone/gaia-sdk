@@ -1,0 +1,30 @@
+from api.client_options import ClientOptions
+from gaia_sdk.http.HttpTransporter import HttpTransporter
+from graphql.#capitalize($name)Client import #capitalize($name)Client
+
+#Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
+
+class #capitalize($name)ClientBuilder(object):
+
+#tab(4)@staticmethod
+#tab(4)def http(url):
+#tab(8)return #capitalize($name)ClientBuilder(url)
+
+#tab(4)def __init__(self, url):
+#tab(8)self.url = url
+
+#tab(4)def with_credentials(self, credentials):
+#tab(8)self.credentials = credentials
+#tab(8)return self
+
+#tab(4)def build(self):
+#tab(8)return #capitalize($name)Client(HttpTransporter(self.url), ClientOptions(self.credentials))
+#macro(capitalize $str)#*
+    *#${str.substring(0, 1).toUpperCase()}${str.substring(1)}##
+#end
+#macro(tab $indent)#*
+    *#${tab.invoke($indent)}##
+#end
+#macro(print $text)#*
+    *#${print.invoke($text)}##
+#end

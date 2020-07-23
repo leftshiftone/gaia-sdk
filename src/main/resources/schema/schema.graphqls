@@ -1,0 +1,68 @@
+type Schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+scalar Uuid
+scalar Struct
+scalar ISO8601
+
+"Each message returned from GAIA implements this interface"
+interface Impulse {
+    "The id of the impulse"
+    id: Uuid!
+}
+
+input StreamImpulse {
+    id: Uuid!
+}
+type StreamingImpulse implements Impulse{
+    id: Uuid!
+    preSignedUrl: String!
+}
+
+"The top level query type"
+type Query {
+    "Container element for all introspect sensor fields"
+    introspect: Introspection
+    "Container element for all retrieve sensor fields"
+    retrieve: Retrieval
+}
+
+"The top level mutation type"
+type Mutation {
+    """
+    Sensor impulses for all perception based functions.
+    Perceptions are used to invoke events within gaia.
+    """
+    perceive: Perception
+    """
+    Sensor impulses for all practice based functions.
+    Practices are used to transfer skills to gaia and to train them.
+    """
+    practice: Practice
+    """
+    Sensor impulses for all preservation based functions.
+    Preservations are used to invoke create/update/delete functions.
+    """
+    preserve: Preservation
+    """
+    Container element for all evaluate sensor fields.
+    Evaluations are used to invoke skills and to return the result.
+    """
+    evaluate: Evaluation
+    """
+    Container element for all evaluate sensor fields.
+    The activation can be used to unseal the vault or to grant access to an user.
+    """
+    activate: Activation
+}
+
+"the top level subscription type"
+type Subscription {
+    interact: Interaction
+    notify: Notification
+    "Container element for all introspect sensor fields"
+    introspect: Introspection
+}

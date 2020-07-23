@@ -1,0 +1,337 @@
+"""
+This type contains all preservation sensor impulses which are used to support
+read/write/delete memory functions in gaia.
+"""
+type Preservation {
+    create: CreateKnowledge
+    update: UpdateKnowledge
+    delete: DeleteKnowledge
+}
+
+type CreateKnowledge {
+    "creates a list of intents with the given specifications"
+    intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
+    "creates a list of prompts with the given specifications"
+    prompts(impulses: [CreatePromptImpulse]): [CreatedPromptImpulse]
+    "creates a list of statements with the given specifications"
+    statements(impulses: [CreateStatementImpulse]): [CreatedStatementImpulse]
+    "creates a list of fulfilments with the given specifications"
+    fulfilments(impulses: [CreateFulfilmentImpulse]): [CreatedFulfilmentImpulse]
+    "creates a list of behaviours with the given specifications"
+    behaviours(impulses: [CreateBehaviourImpulse]): [CreatedBehaviourImpulse]
+    "creates a list of codes with the given specifications"
+    codes(impulses: [CreateCodeImpulse]): [CreatedCodeImpulse]
+    "creates a list of edges with the given specifications"
+    edges(impulses: [CreateEdgeImpulse]): [CreatedEdgeImpulse]
+}
+type UpdateKnowledge {
+    "updates a list of intents with the given specifications"
+    intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
+    "updates a list of prompts with the given specifications"
+    prompts(impulses: [UpdatePromptImpulse]): [UpdatedPromptImpulse]
+    "updates a list of statements with the given specifications"
+    statements(impulses: [UpdateStatementImpulse]): [UpdatedStatementImpulse]
+    "updates a list of fulfilments with the given specifications"
+    fulfilments(impulses: [UpdateFulfilmentImpulse]): [UpdatedFulfilmentImpulse]
+    "updates a list of behaviours with the given specifications"
+    behaviours(impulses: [UpdateBehaviourImpulse]): [UpdatedBehaviourImpulse]
+    "updates a list of codes with the given specifications"
+    codes(impulses: [UpdateCodeImpulse]): [UpdatedCodeImpulse]
+    # TODO do we need to update edges?
+}
+type DeleteKnowledge {
+    "deletes a list of intents with the given specifications"
+    intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
+    "deletes a list of prompts with the given specifications"
+    prompts(impulses: [DeletePromptImpulse]): [DeletedPromptImpulse]
+    "deletes a list of statements with the given specifications"
+    statements(impulses: [DeleteStatementImpulse]): [DeletedStatementImpulse]
+    "deletes a list of fulfilments with the given specifications"
+    fulfilments(impulses: [DeleteFulfilmentImpulse]): [DeletedFulfilmentImpulse]
+    "deletes a list of behaviours with the given specifications"
+    behaviours(impulses: [DeleteBehaviourImpulse]): [DeletedBehaviourImpulse]
+    "deletes a list of codes with the given specifications"
+    codes(impulses: [DeleteCodeImpulse]): [DeletedCodeImpulse]
+    "deletes a list of edges with the given specifications"
+    edges(impulses: [DeleteEdgeImpulse]): [DeletedEdgeImpulse]
+}
+"The specification to create an intent instance"
+input CreateIntentImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to update an intent instance"
+input UpdateIntentImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to delete an intent instance"
+input DeleteIntentImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create intent impulse"
+type CreatedIntentImpulse implements Impulse {
+    id: Uuid!
+    "the intent instance"
+    data: Intent
+}
+"Impulse which indicates the result of a update intent impulse"
+type UpdatedIntentImpulse implements Impulse {
+    id: Uuid!
+    "the intent instance"
+    data: Intent
+}
+"Impulse which indicates the result of a delete intent impulse"
+type DeletedIntentImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+"The specification to create a prompt instance"
+input CreatePromptImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to update a prompt instance"
+input UpdatePromptImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to delete a prompt instance"
+input DeletePromptImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create prompt impulse"
+type CreatedPromptImpulse implements Impulse {
+    id: Uuid!
+    "the prompt instance"
+    data: Prompt
+}
+"Impulse which indicates the result of a update prompt impulse"
+type UpdatedPromptImpulse implements Impulse {
+    id: Uuid!
+    "the prompt instance"
+    data: Prompt
+}
+"Impulse which indicates the result of a delete prompt impulse"
+type DeletedPromptImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+"The specification to create a statement instance"
+input CreateStatementImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to update a statement instance"
+input UpdateStatementImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to delete a statement instance"
+input DeleteStatementImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create statement impulse"
+type CreatedStatementImpulse implements Impulse {
+    id: Uuid!
+    "the statement instance"
+    data: Statement
+}
+"Impulse which indicates the result of a update statement impulse"
+type UpdatedStatementImpulse implements Impulse {
+    id: Uuid!
+    "the statement instance"
+    data: Statement
+}
+"Impulse which indicates the result of a delete statement impulse"
+type DeletedStatementImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+"The specification to create a fulfilment instance"
+input CreateFulfilmentImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to update a fulfilment instance"
+input UpdateFulfilmentImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    utterance: Struct!
+    labelList: [String]
+    version: String
+}
+"The specification to delete a fulfilment instance"
+input DeleteFulfilmentImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create fulfilment impulse"
+type CreatedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    "the fulfilment instance"
+    data: Fulfilment
+}
+"Impulse which indicates the result of a update fulfilment impulse"
+type UpdatedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    "the fulfilment instance"
+    data: Fulfilment
+}
+"Impulse which indicates the result of a delete fulfilment impulse"
+type DeletedFulfilmentImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+"The specification to create a behaviour instance"
+input CreateBehaviourImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    behaviour: String!
+    labelList: [String]
+    version: String
+}
+"The specification to update a behaviour instance"
+input UpdateBehaviourImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    behaviour: String!
+    labelList: [String]
+    version: String
+}
+"The specification to delete a behaviour instance"
+input DeleteBehaviourImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create behaviour impulse"
+type CreatedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    "the behaviour instance"
+    data: Behaviour
+}
+"Impulse which indicates the result of a update behaviour impulse"
+type UpdatedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    "the behaviour instance"
+    data: Behaviour
+}
+"Impulse which indicates the result of a delete behaviour impulse"
+type DeletedBehaviourImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+"The specification to create a code instance"
+input CreateCodeImpulse {
+    identityId: Uuid!
+    qualifier: String!
+    appendent: String
+    code: Struct!
+    type: String!
+    labelList: [String]
+    version: String
+}
+"The specification to update a code instance"
+input UpdateCodeImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    code: Struct!
+    type: String!
+    labelList: [String]
+    version: String
+}
+"The specification to delete a code instance"
+input DeleteCodeImpulse {
+    identityId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create code impulse"
+type CreatedCodeImpulse implements Impulse {
+    id: Uuid!
+    "the code instance"
+    data: Code
+}
+"Impulse which indicates the result of a update code impulse"
+type UpdatedCodeImpulse implements Impulse {
+    id: Uuid!
+    "the code instance"
+    data: Code
+}
+"Impulse which indicates the result of a delete code impulse"
+type DeletedCodeImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+
+"The specification to create an edge instance"
+input CreateEdgeImpulse {
+    source: Uuid!
+    target: Uuid!
+    type: String!
+    weight: Float!
+}
+"The specification to delete an edge instance"
+input DeleteEdgeImpulse {
+    source: Uuid!
+    target: Uuid!
+}
+"Impulse which indicates the result of a create edge impulse"
+type CreatedEdgeImpulse implements Impulse {
+    id: Uuid!
+    "the edge instance"
+    data: Edge
+}
+"Impulse which indicates the result of a delete edge impulse"
+type DeletedEdgeImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+"This entity represents the output of a delete impulse"
+type KeyOne {
+    identityId: Uuid
+    reference: Uuid
+}

@@ -1,0 +1,7 @@
+from enum import Enum
+
+
+class ${ast.name}(Enum):
+#foreach($value in $ast.values)
+    $value = $foreach.count$newLine
+#end

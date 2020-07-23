@@ -1,0 +1,60 @@
+## ******************
+## Renders a type AST
+## ******************
+#macro(renderType $type $indent)#*
+    *##tab($indent)@dataclass$newLine#*
+    *##tab($indent)class ${type.name}:$newLine#*
+    *##renderDescription($type 4)#*
+    *##tab(4)dictionary: dict$newLine#*
+    *##set($indent = $indent + 4)#*
+    *##foreach($field in $type.fields)#*
+        *##renderDescription($field $indent)#*
+        *##tab($indent)#renderField($field)$newLine#*
+    *##end#*#*
+    *##set($indent = $indent - 4)##
+#end##
+#macro(renderField $field)#*
+    *##if($field.type.isList())#*
+    *#@property$newLine#*
+    *##tab(4)def $toLowercaseWithUnderscores.apply(${field.name})(self) -> List[$field.type.name()]:$newLine#*
+    *##tab(8)return list(map(lambda x: $field.type.name()(x), self.dictionary.get("$field.name")))#*
+    *##else#*
+    *#@property$newLine#*
+    *##tab(4)def $toLowercaseWithUnderscores.apply(${field.name})(self) -> $field.type.name():$newLine#*
+    *##tab(8)return $field.type.name()(self.dictionary.get("$field.name"))#*
+    *##end##
+#end
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)"""$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent)$line$newLine#*
+        *##end#*
+        *##tab($indent)"""$newLine#*
+    *##end##
+#end##
+## *************************
+## Renders the class imports
+## *************************
+#macro(renderImports $type)#*
+    *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
+        *#from gaia_sdk.graphql.response.type.$import import $import#*
+    *##end#*
+    *##foreach($import in ${getInputImports.apply($type)})$newLine#*
+        *#from gaia_sdk.graphql.request.input.$import import $import#*
+    *##end##
+#end##
+## *************************
+## Renders the argument type
+## *************************
+#macro(renderArgumentType $type)#*
+    *##if($type.name().equals("String"))str#*
+    *##else#**#$type.name()#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end
+#macro(print $text)${print.invoke($text)}#end
