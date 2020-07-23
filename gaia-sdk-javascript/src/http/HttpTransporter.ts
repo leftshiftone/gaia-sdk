@@ -3,6 +3,7 @@ import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
 import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "./HMACTokenBuilder";
+import axios from 'axios';
 
 export class HttpTransporter implements ITransporter {
 
@@ -14,32 +15,17 @@ export class HttpTransporter implements ITransporter {
 
     transport<T>(options: ClientOptions, body: any): Promise<T> {
         return new Promise<T>((resolve, reject) => {
-            const request = new XMLHttpRequest();
-            request.open("post", this.url);
-            request.setRequestHeader("Content-Type", options.contentType);
-            request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-            request.setRequestHeader('Access-Control-Allow-Methods', 'POST');
-            request.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');
-            request.setRequestHeader("Authorization", HttpTransporter.buildAuthorizationHeader(options, body));
-
-            request.withCredentials = true;
-            request.timeout = 10000;
-
-            request.onload = () => {
-                if (request.status == 200) {
-                    resolve(request.response);
-                } else {
-                    reject(Error(request.statusText));
+            axios.post(this.url, JSON.stringify(body), {
+                headers: {
+                    'Content-Type': options.contentType,
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Access-Control-Allow-Methods': 'POST',
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                    Authorization: HttpTransporter.buildAuthorizationHeader(options, body)
                 }
-            };
-            request.onerror = () => {
-                reject(Error("network error"));
-            };
-            request.ontimeout = () => {
-                reject(Error("timeout"));
-            };
-
-            request.send(JSON.stringify(body));
+            })
+                .then(response => resolve(JSON.stringify(response.data) as any))
+                .catch(err => reject(Error(err)));
         });
     }
 

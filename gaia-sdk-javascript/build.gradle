@@ -13,6 +13,7 @@ task installDependencies() {
 task test() {
     doLast {
         execute(["yarn", "test", "--coverage"])
+        execute(["yarn", "test-node"])
     }
 }
 
