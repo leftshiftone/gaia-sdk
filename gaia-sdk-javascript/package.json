@@ -5,8 +5,10 @@
     "main": "dist/all.js",
     "dependencies": {
         "axios": "^0.19.2",
+        "@types/mqtt": "^2.5.0",
         "bytebuffer": "^5.0.1",
         "crypto-js": "^3.1.9-1",
+        "mqtt": "^4.1.0",
         "rxjs": "^6.5.5",
         "uuid": "^7.0.3",
         "validator": "^13.0.0"
