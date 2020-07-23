@@ -4,6 +4,7 @@
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
+        "axios": "^0.19.2",
         "bytebuffer": "^5.0.1",
         "crypto-js": "^3.1.9-1",
         "rxjs": "^6.5.5",
@@ -11,18 +12,18 @@
         "validator": "^13.0.0"
     },
     "devDependencies": {
-        "@types/uuid": "^7.0.3",
         "@types/crypto-js": "^3.1.43",
         "@types/jest": "^24.0.9",
         "@types/node": "^10.7.1",
         "@types/sinon": "^7.0.5",
+        "@types/uuid": "^7.0.3",
         "html-webpack-plugin": "^3.2.0",
         "import-glob-loader": "^1.1.0",
         "jest": "^23.6.0",
         "jest-junit": "5.1.0",
         "release-it": "^10.3.1",
-        "sinon": "^7.2.3",
         "shx": "^0.3.2",
+        "sinon": "^7.2.3",
         "sonarqube-scanner": "2.1.2",
         "style-loader": "^0.22.1",
         "stylelint": "^9.5.0",
@@ -52,6 +53,7 @@
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
+        "test-node": "jest --env=node",
         "coverage": "jest --coverage",
         "lint": "stylelint tslint src/**/*.ts",
         "sonarqube": "jest --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"

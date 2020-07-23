@@ -40,13 +40,17 @@ export class HMACTokenBuilder {
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
     public build(): string {
+
+        const toBase64 = (data: string) =>
+            typeof btoa !== 'undefined' && btoa(data) || Buffer.from(data, 'binary').toString('base64');
+
         var credentials = this.clientOptions.credentials as HMACCredentials
         const sep = "_"
         const HTTP_SENSOR_TYPE = "http"
-        const base64EncodedPayload= btoa(this.payload)
+        const base64EncodedPayload = toBase64(this.payload);
         let prepareToHash = [base64EncodedPayload,this.clientOptions.contentType,HTTP_SENSOR_TYPE,this.timestamp,this.nonce].join(sep)
         const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
-        const signature = btoa(hmac);
+        const signature = toBase64(hmac);
 
         return "HMAC-SHA512 " + [credentials.apiKey,signature,this.timestamp,this.nonce].join(sep)
     }
