@@ -1,0 +1,83 @@
+"""
+This type contains all perception sensor impulses which are used to invoke
+events in gaia.
+"""
+type Perception {
+    "Contains all perception fields needed for a conversation."
+    conversational: Conversational
+    "Data perception impulse used to invoke a data transformation behaviour"
+    perceiveData(impulse: PerceiveDataImpulse): PerceivedImpulse
+    "Action perception impulse used to invoke a data transformation behaviour"
+    perceiveAction(impulse: PerceiveActionImpulse): PerceivedImpulse
+}
+
+"Type which contains all impulses needed for the maintainence of a conversation"
+type Conversational {
+    "Utterance perception impulse used to send an utterance text to gaia"
+    perceiveUtterance(impulse: PerceiveUtteranceImpulse): PerceivedImpulse
+    "Button perception impulse used to send a button action to gaia"
+    perceiveButton(impulse: PerceiveButtonImpulse): PerceivedImpulse
+    "Submit perception impulse used to send a submit action to gaia"
+    perceiveSubmit(impulse: PerceiveSubmitImpulse): PerceivedImpulse
+    "Reception perception impulse used to send a reception to gaia"
+    perceiveReception(impulse: PerceiveReceptionImpulse): PerceivedImpulse
+    "Suggestion perception impulse used to send a suggestion action to gaia"
+    perceiveSuggestion(impulse: PerceiveSuggestionImpulse): PerceivedImpulse
+}
+
+"Input for utterance perception impulse"
+input PerceiveUtteranceImpulse {
+    "The utterance string"
+    utterance: String
+}
+
+"Input for button perception impulse"
+input PerceiveButtonImpulse {
+    "The name of the button"
+    name: String
+    "The value of the button"
+    value: String
+}
+
+"Input for submit perception impulse"
+input PerceiveSubmitImpulse {
+    "The name of the submit button"
+    name: String
+    "The value of the submit button"
+    value: String
+}
+
+"Input for reception perception impulse"
+input PerceiveReceptionImpulse {
+    "The reception data"
+    data: Struct
+}
+
+"Input for suggestion perception impulse"
+input PerceiveSuggestionImpulse {
+    "The suggestion data"
+    data: Struct
+}
+
+"Input for data perception impulse."
+input PerceiveDataImpulse {
+    "The identity id"
+    identityId: Uuid!
+    "The name of the data endpoint"
+    eventName: String!
+    "The invocation data for the data endpoint"
+    eventData: Struct
+}
+
+"Input for action perception impulse"
+input PerceiveActionImpulse {
+    broadcast: Boolean
+    identityId: Uuid!
+    type: String!
+    data: Struct
+}
+
+"Impulse which indicates the result of a perceive impulse."
+type PerceivedImpulse implements Impulse {
+    id: Uuid!
+}

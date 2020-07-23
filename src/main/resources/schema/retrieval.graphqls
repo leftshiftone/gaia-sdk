@@ -1,0 +1,41 @@
+type Retrieval {
+    "Container element which collects all information static data"
+    knowledge: Knowledge
+    "Container element which collects all information about runtime data"
+    experience: Experience
+}
+
+type Knowledge {
+    # TODO add identities()
+    # TODO add identity(id)
+
+    # TODO add users()
+    # TODO add user(id)
+
+    # TODO add tenants()
+    # TODO add tenant(id)
+
+    # TODO add apiKeys()
+    # TODO add apiKey(id) maybe?
+
+    intents(identityId: Uuid): [Intent]
+    intent(identityId: Uuid, reference: Uuid): Intent
+    prompts(identityId: Uuid): [Prompt]
+    prompt(identityId: Uuid, reference: Uuid): Prompt
+    fulfilments(identityId: Uuid): [Fulfilment]
+    fulfilment(identityId: Uuid, reference: Uuid): Fulfilment
+    statements(identityId: Uuid): [Statement]
+    statement(identityId: Uuid, reference: Uuid): Statement
+    codes(identityId: Uuid): [Code]
+    code(identityId: Uuid, reference: Uuid): Code
+    behaviours(identityId: Uuid): [Behaviour]
+    behaviour(identityId: Uuid, reference: Uuid): Behaviour
+    edges(source: Uuid): [Edge]
+    edge(source: Uuid, target: Uuid): Edge
+}
+
+"Container type for runtime information"
+type Experience {
+    behaviourExecutions: [BehaviourExecution]
+    behaviourNodeExecutions: [BehaviourNodeExecution]
+}

@@ -2,10 +2,7 @@ const path = require('path');
 
 module.exports = (env, argv) => ({
     entry: {
-        'gaia-js-sdk-all': './src/all.ts',
-        'gaia-js-sdk-atlas': './src/atlas.ts',
-        'gaia-js-sdk-heimdall': './src/heimdall.ts',
-        'gaia-js-sdk-rain': './src/rain.ts',
+        'gaia-js-sdk': './src/Gaia.ts',
     },
     module: {
         rules: [

@@ -9,6 +9,9 @@ fun <A, B : Any>List<A>.findAll(type:KClass<B>):List<B> {
 fun <A, B : Any>List<A>.find(type:KClass<B>):B {
     return this.findAll(type).first()
 }
+fun <A : Any>List<A>.skip(amount: Int):List<A> {
+    return this.subList(amount, this.size)
+}
 fun <A, B : Any>List<A>.findOptional(type:KClass<B>):B? {
     return this.findAll(type).firstOrNull()
 }

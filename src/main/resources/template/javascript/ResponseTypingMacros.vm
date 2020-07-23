@@ -1,0 +1,48 @@
+## ******************
+## Renders a type AST
+## ******************
+#macro(renderType $type $indent)#*
+    *##renderDescription($type $indent)#*
+    *##tab($indent)export interface ${type.name} {$newLine#*
+    *##set($indent = $indent + 4)#*
+    *##foreach($field in $type.fields)#*
+        *##renderDescription($field $indent)#*
+        *##tab($indent)#renderField($field)#if($foreach.hasNext), #end$newLine#*
+    *##end#*#*
+    *##set($indent = $indent - 4)#*
+    *##tab($indent)}##
+#end##
+#macro(renderField $field)#*
+    *#$field.name?:#if($field.type.isList())#print("[")#end$#*
+    *##if($field.type.name().equals("String"))string#*
+    *##elseif($field.type.name().equals("Float"))number#*
+    *##else#**#$field.type.name()#*
+    *##end#*
+    *##if($field.type.isList())#print("]")#end##
+#end
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)/**$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent)* $line$newLine#*
+        *##end#*
+        *##tab($indent)*/$newLine#*
+    *##end##
+#end##
+## *************************
+## Renders the class imports
+## *************************
+#macro(renderImports $type)#*
+    *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
+        *#import {$import} from "./$import";#*
+    *##end#*
+    *##foreach($import in ${getInputImports.apply($type)})$newLine#*
+        *#import {$import} from "../../request/input/$import";#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end
+#macro(print $text)${print.invoke($text)}#end

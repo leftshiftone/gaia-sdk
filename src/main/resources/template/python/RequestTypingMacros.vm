@@ -1,0 +1,133 @@
+## *********************
+## Renders a class field
+## *********************
+#macro(renderField $field $indent)#*
+    *##renderDescription($field $indent)#*
+    *##if ($field.type.isScalar($list))#*
+        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field)):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)self.append(lambda x: "$field.name")$newLine#*
+        *##set($indent =  $indent - 4)#*
+    *##elseif($field.arguments)#*
+        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field), config: Callable[['${field.type.name()}'], None]):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)def callback(registry: VariableRegistry):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##foreach($argument in $field.arguments)#*
+        *##tab($indent)name$foreach.count = registry.register("$argument.name", $argument.name)$newLine#*
+        *##end#*
+        *##tab($indent)entity = ${field.type.name()}()$newLine#*
+        *##tab($indent)config(entity)$newLine#*
+        *##tab($indent)return f'${field.name}(#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$")#print("{")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
+        *#)' + '{' + entity.render(registry) + '}'$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)self.append(callback)$newLine#*
+        *##set($indent =  $indent - 4)#*
+    *##else#*
+        *##tab($indent)def $toLowercaseWithUnderscores.apply(${field.name})(self#renderArguments($field), config: Callable[['${field.type.name()}'], None]):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)def callback(registry: VariableRegistry):$newLine#*
+        *##set($indent =  $indent + 4)#*
+        *##tab($indent)entity = ${field.type.name()}()$newLine#*
+        *##tab($indent)config(entity)$newLine#*
+        *##tab($indent)return "$toLowercaseWithUnderscores.apply(${field.name}) {" + entity.render(registry) + "}"$newLine#*
+        *##set($indent =  $indent - 4)#*
+        *##tab($indent)self.append(callback)$newLine#*
+        *##set($indent =  $indent - 4)#*
+    *##end##
+#end##
+## ***************************
+## Renders all field arguments
+## ***************************
+#macro(renderArguments $field)#*
+    *##foreach($argument in $field.arguments)#*
+        *#, $argument.name: #renderArgumentType($argument.type)#*
+    *##end##
+#end##
+## *******************************
+## Renders the class field classes
+## *******************************
+#macro(renderClasses $type $indent)#*
+    *##if ($isType.apply($type) || $isInterface.apply($type))#*
+        *##renderType($type $indent)$newLine#*
+    *##end#*
+    *##if ($isInput.apply($type))#*
+        *##renderInput($type $indent)$newLine#*
+    *##end##
+#end##
+## ********************
+## Renders a type class
+## ********************
+#macro(renderType $type $indent)#*
+    *##tab($indent)class ${type.name}(list):$newLine#*
+    *##renderDescription($type 4)#*
+    *##set($indent =  $indent + 4)#*
+    *##foreach($field in $type.fields)$newLine#*
+        *##renderField($field $indent)#*
+    *##end#*
+    *##set($indent =  $indent - 4)#*
+    *#$newLine#tab(4)def render(self, registry: VariableRegistry):#*
+    *#$newLine#tab(8)return " ".join(map(lambda e: e(registry), self))##
+#end##
+## **********************
+## Renders an input class
+## **********************
+#macro(renderInput $type $indent)#*
+    *#from dataclasses import dataclass$newLine$newLine$newLine#*
+    *#@dataclass$newLine#*
+    *##tab($indent)class ${type.name}():$newLine#*
+    *##renderDescription($type 4)#*
+    *##set($indent = $indent + 4)#*
+    *##renderConstructor($type $indent)#*
+    *##set($indent = $indent - 4)##
+#end##
+## ***************************
+## Renders a class constructor
+## ***************************
+#macro(renderConstructor $type $indent)#*
+    *#$newLine#*
+    *##foreach($field in $type.fields)#*
+    *##tab($indent)$field.name: #renderArgumentType($field.type)$newLine#*
+    *##end##
+#end##
+## **************************
+## Renders a description text
+## **************************
+#macro(renderDescription $target $indent)#*
+    *##if($target.description)#*
+        *##tab($indent)"""$newLine#*
+        *##foreach($line in $target.description.text.split("\n"))#*
+            *##tab($indent)$line$newLine#*
+        *##end#*
+        *##tab($indent)"""$newLine#*
+    *##end##
+#end##
+## *************************
+## Renders the class imports
+## *************************
+#macro(renderImports $type)#*
+    *##foreach($import in ${getTypeImports.apply($type)})$newLine#*
+        *#from gaia_sdk.graphql.request.type.$import import $import#*
+    *##end#*
+    *##foreach($import in ${getInputImports.apply($type)})$newLine#*
+        *#from gaia_sdk.graphql.request.input.$import import $import#*
+    *##end##
+#end##
+## *************************
+## Renders the argument type
+## *************************
+#macro(renderArgumentType $type)#*
+    *##if($type.isList())#print("List[")#renderArgumentType($type.type)#print("]")#*
+    *##elseif($type.name().equals("String"))str#*
+    *##elseif($type.name().equals("Boolean"))bool#*
+    *##elseif($type.name().equals("Struct"))dict#*
+    *##elseif($type.name().equals("ISO8601"))str#*
+    *##elseif($type.name().equals("Uuid"))str#*
+    *##elseif($type.name().equals("Float"))float#*
+    *##else#**#$type.name()#*
+    *##end##
+#end##
+#macro(tab $indent)${tab.invoke($indent)}#end
+#macro(print $text)${print.invoke($text)}#end
+#macro(capitalize $str)${str.substring(0, 1).toUpperCase()}${str.substring(1)}#end

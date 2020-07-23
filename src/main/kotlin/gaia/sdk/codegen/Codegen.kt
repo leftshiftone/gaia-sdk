@@ -4,7 +4,7 @@ import gaia.sdk.antlr.GaiaSdkLexer
 import gaia.sdk.antlr.GaiaSdkParser
 import gaia.sdk.codegen.ast.AbstractAST
 import gaia.sdk.codegen.exception.CodegenException
-import gaia.sdk.exception.CodegenExceptionListener
+import gaia.sdk.codegen.exception.CodegenExceptionListener
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -17,16 +17,16 @@ class Codegen {
     companion object {
 
         @JvmStatic
-        fun parse(string: String, name:String) = CodegenEngine(parse(CharStreams.fromString(string)), name)
+        fun parse(string: String) = parse(CharStreams.fromString(string))
 
         @JvmStatic
-        fun parse(stream: InputStream, name:String) = CodegenEngine(parse(CharStreams.fromStream(stream)), name)
+        fun parse(stream: InputStream) = parse(CharStreams.fromStream(stream))
 
         @JvmStatic
-        fun parse(reader: Reader, name:String) = CodegenEngine(parse(CharStreams.fromReader(reader)), name)
+        fun parse(reader: Reader) = parse(CharStreams.fromReader(reader))
 
         @JvmStatic
-        fun parse(channel: ReadableByteChannel, name:String) = CodegenEngine(parse(CharStreams.fromChannel(channel)), name)
+        fun parse(channel: ReadableByteChannel) = parse(CharStreams.fromChannel(channel))
 
         private fun parse(stream: CharStream): List<AbstractAST> {
             val lexer = GaiaSdkLexer(stream)

@@ -1,0 +1,9 @@
+// Asciidoc template can be found here: https://asciidoctor.org/docs/asciidoc-article/
+
+= GAIA SDK
+Leftshift One <contact@leftshift.one>
+:toc:
+
+include::preface.adoc[]
+
+//todo: add documentation
