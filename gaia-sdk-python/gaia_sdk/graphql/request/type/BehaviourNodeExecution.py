@@ -5,6 +5,9 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class BehaviourNodeExecution(list):
+    """
+    Represents behaviour node execution information
+    """
 
     def process_instance_id(self):
         self.append(lambda x: "processInstanceId")

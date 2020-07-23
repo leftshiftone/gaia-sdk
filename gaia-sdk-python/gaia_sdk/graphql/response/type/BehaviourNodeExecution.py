@@ -12,6 +12,9 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 
 @dataclass
 class BehaviourNodeExecution:
+    """
+    Represents behaviour node execution information
+    """
     dictionary: dict
     @property
     def process_instance_id(self) -> Uuid:

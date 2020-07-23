@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Intent(list):
     """
-    this type represents the intent information
+    Represents intent information
     """
 
     """

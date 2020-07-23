@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Edge(list):
     """
-    Container type for static information
+    Represents graph information
     """
 
     def source(self):

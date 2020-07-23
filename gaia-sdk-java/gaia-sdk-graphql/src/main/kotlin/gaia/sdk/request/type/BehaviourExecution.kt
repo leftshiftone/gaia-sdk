@@ -9,6 +9,9 @@ import gaia.sdk.Struct
 import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
+/**
+ * Represents behaviour execution information
+ */
 class BehaviourExecution: Type() {
 
     fun processInstanceId() { 

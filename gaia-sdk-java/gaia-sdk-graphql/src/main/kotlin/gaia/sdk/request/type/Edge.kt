@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Container type for static information
+ * Represents graph information
  */
 class Edge: Type() {
 

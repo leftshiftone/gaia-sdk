@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Code(list):
     """
-    this type represents the code information
+    Represents code information
     """
 
     """

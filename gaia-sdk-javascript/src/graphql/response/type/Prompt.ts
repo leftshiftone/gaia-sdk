@@ -5,7 +5,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* this type represents the prompt information
+* Represents prompt information
 */
 export interface Prompt {
     /**

@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * this type represents the behaviour information
+ * Represents behaviour information
  */
 export class Behaviour extends Array<(_:VariableRegistry) => string> {
 

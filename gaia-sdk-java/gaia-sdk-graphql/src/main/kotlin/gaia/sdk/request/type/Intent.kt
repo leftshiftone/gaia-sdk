@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * this type represents the intent information
+ * Represents intent information
  */
 class Intent: Type() {
 

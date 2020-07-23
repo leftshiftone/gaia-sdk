@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Behaviour(list):
     """
-    this type represents the behaviour information
+    Represents behaviour information
     """
 
     """
