@@ -1,0 +1,20 @@
+type Introspection {
+    cpu: String
+    gpu: String
+    memory: String
+    state: RuntimeState
+    started: ISO8601
+    skills: [SkillIntrospection]
+}
+type SkillIntrospection {
+    name: String
+    state: SkillState
+    started: ISO8601
+}
+
+enum SkillState {
+    RUNNING
+}
+enum RuntimeState {
+    RUNNING
+}

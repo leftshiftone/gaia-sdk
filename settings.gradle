@@ -1,6 +1,40 @@
+import com.amazonaws.auth.AWSCredentialsProviderChain
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
+import com.amazonaws.auth.profile.ProfileCredentialsProvider
+
 rootProject.name = rootProjectName
 
-include "gaia-sdk-java:gaia-sdk-java-core"
-include "gaia-sdk-java:gaia-sdk-java-atlas"
-include "gaia-sdk-java:gaia-sdk-java-heimdall"
-include "gaia-sdk-java:gaia-sdk-java-rain"
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.amazonaws:aws-java-sdk-core:1.11.+"
+    }
+}
+
+include "gaia-sdk-docs"
+include "gaia-sdk-java:gaia-sdk-api"
+include "gaia-sdk-java:gaia-sdk-core"
+include "gaia-sdk-java:gaia-sdk-http"
+include "gaia-sdk-java:gaia-sdk-graphql"
+include "gaia-sdk-java:gaia-sdk-mqtt"
+include "gaia-sdk-javascript"
+include "gaia-sdk-python"
+
+def awsCredentials() {
+    try {
+        return new AWSCredentialsProviderChain(
+                new ProfileCredentialsProvider(),
+                new EnvironmentVariableCredentialsProvider()
+        )?.credentials
+    } catch (Exception ex) {
+        logger.log(LogLevel.ERROR, "Error reading AWS credentials: " + ex.message)
+        return null
+    }
+}
+
+gradle.ext.awsAccessKey = awsCredentials()?.AWSAccessKeyId
+gradle.ext.awsSecretKey = awsCredentials()?.AWSSecretKey
+gradle.ext.releasesRepositoryUrl = "s3://leftshiftone-maven-artifacts.s3.eu-central-1.amazonaws.com/releases"
+gradle.ext.snapshotsRepositoryUrl = "s3://leftshiftone-maven-artifacts.s3.eu-central-1.amazonaws.com/snapshots"

@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2016-2020, Leftshift One
+ * __________________
+ * [2020] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
+package gaia.sdk.mqtt.queue
+
+interface IQueueType {
+    fun getName():String
+}
+
+enum class ConversationQueueType : IQueueType {
+    INTERACTION,
+    NOTIFICATION,
+    CONTEXT,
+    LOGGING;
+
+    override fun getName() = this.name
+}
+
+enum class DataTypes : IQueueType {
+    DATA;
+
+    override fun getName() = this.name
+}

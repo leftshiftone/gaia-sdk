@@ -1,0 +1,7 @@
+#parse("/template/python/RequestTypingMacros.vm")
+#renderImports($ast)$newLine
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+
+
+#renderClasses($ast 0)
