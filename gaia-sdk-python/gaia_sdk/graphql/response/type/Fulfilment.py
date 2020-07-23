@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Fulfilment:
     """
-    this type represents the fulfilment information
+    Represents fulfilment information
     """
     dictionary: dict
     """

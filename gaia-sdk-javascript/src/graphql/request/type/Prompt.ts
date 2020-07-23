@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * this type represents the prompt information
+ * Represents prompt information
  */
 export class Prompt extends Array<(_:VariableRegistry) => string> {
 

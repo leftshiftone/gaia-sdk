@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Code:
     """
-    this type represents the code information
+    Represents code information
     """
     dictionary: dict
     """

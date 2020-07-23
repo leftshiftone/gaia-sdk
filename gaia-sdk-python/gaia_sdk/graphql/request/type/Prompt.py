@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Prompt(list):
     """
-    this type represents the prompt information
+    Represents prompt information
     """
 
     """

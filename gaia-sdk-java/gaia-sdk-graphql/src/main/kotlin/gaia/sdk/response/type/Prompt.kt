@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* this type represents the prompt information
+* Represents prompt information
 */
 data class Prompt @JsonCreator constructor(
     /**

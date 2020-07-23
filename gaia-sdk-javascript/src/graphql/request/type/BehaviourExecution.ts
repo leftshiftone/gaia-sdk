@@ -5,6 +5,9 @@ import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
+/**
+ * Represents behaviour execution information
+ */
 export class BehaviourExecution extends Array<(_:VariableRegistry) => string> {
 
     public processInstanceId = () => { 
