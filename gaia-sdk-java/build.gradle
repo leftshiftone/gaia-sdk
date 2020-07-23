@@ -15,58 +15,57 @@
  */
 
 allprojects {
+    apply plugin: "kotlin"
+
     repositories {
         jcenter()
-        mavenCentral()
     }
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
         implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-
         implementation "org.slf4j:slf4j-api:1.7.28"
         implementation "org.reactivestreams:reactive-streams:1.0.3"
         implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
         implementation "io.projectreactor.netty:reactor-netty:0.8.4.RELEASE"
+        implementation "com.hivemq:hivemq-mqtt-client:1.2.0"
 
-        testImplementation "org.junit.jupiter:junit-jupiter-engine:5.5.1"
+        testImplementation "org.junit.jupiter:junit-jupiter"
         testImplementation "org.assertj:assertj-core:3.11.1"
+
         testRuntime "org.slf4j:slf4j-simple:1.7.28"
     }
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-
     test {
         useJUnitPlatform()
     }
+
     tasks.withType(Test) { testTask ->
-        minHeapSize = "1G"
-        maxHeapSize = "2G"
+        maxHeapSize = "1G"
         testTask.beforeTest { descriptor ->
             logger.lifecycle(descriptor.toString())
         }
     }
 }
 
-
 subprojects {
     apply plugin: "org.jetbrains.dokka"
-    apply plugin: "maven-publish"
     apply plugin: "com.jfrog.bintray"
+    apply plugin: "one.leftshift.asteria-publish"
 
     task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
         outputFormat = "javadoc"
         outputDirectory = "${buildDir}/dokkaJavadoc"
     }
-    task sourceJar(type: Jar) {
-        from sourceSets.main.allSource
-        classifier "sources"
-    }
     task javadocJar(type: Jar) {
         from dokkaJavadoc
         classifier "javadoc"
+    }
+    asteriaPublish {
+        enableBranchSnapshotRepositories = true
     }
     publishing {
         publications {
@@ -108,6 +107,7 @@ subprojects {
         user = System.getenv('BINTRAY_USER')
         key = System.getenv('BINTRAY_KEY')
         publish = true
+        override = true
         pkg {
             repo = "gaia-sdk"
             name = "${project.group}.${project.name}"
@@ -117,4 +117,19 @@ subprojects {
             publications = ["mavenJava"]
         }
     }
+
+    if (System.getenv("CI")) {
+        publish.finalizedBy bintrayUpload
+    }
+    if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+        rootProject.tasks.release.dependsOn tasks.generateLock
+        rootProject.tasks.release.dependsOn tasks.saveLock
+    }
 }
+
+task publish {
+    doLast {
+        project.logger.info("Publishing sub projects")
+    }
+}
+subprojects.each { publish.dependsOn it.tasks.publish }
