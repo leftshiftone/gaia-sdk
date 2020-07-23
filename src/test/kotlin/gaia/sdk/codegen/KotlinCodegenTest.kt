@@ -1,15 +1,20 @@
 package gaia.sdk.codegen
 
-import gaia.sdk.codegen.extension.stream
 import org.junit.jupiter.api.Test
+import java.io.File
 
 class KotlinCodegenTest {
 
     @Test
-    fun test() {
-        Codegen.parse("/schema/atlas.txt".stream(), "atlas").generate()
-        Codegen.parse("/schema/heimdall.txt".stream(), "heimdall").generate()
-        Codegen.parse("/schema/rain.txt".stream(), "rain").generate()
+    fun generate() {
+        val schemaDir = File(this::class.java.getResource("/schema/schema.graphqls").file).parentFile
+
+        val list = schemaDir.listFiles()!!
+                .filter { it.name.endsWith(".graphqls") }
+                .flatMap { Codegen.parse(it.inputStream()) }
+
+        val engine = CodegenEngine(list, "gaia")
+        engine.generate()
     }
 
 }

@@ -1,0 +1,5 @@
+export enum $ast.name {
+#foreach($value in $ast.values)
+    $value#if($foreach.hasNext), #end
+#end
+}

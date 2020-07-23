@@ -1,0 +1,9 @@
+type Interaction {
+    onConversed: OnConversed
+}
+
+type OnConversed implements Impulse{
+    id: Uuid!
+    name: String
+    type: String
+}
