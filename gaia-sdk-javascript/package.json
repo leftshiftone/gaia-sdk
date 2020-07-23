@@ -1,9 +1,10 @@
 {
     "name": "@leftshiftone/gaia-sdk",
-    "version": "2.0.0-rc.1",
+    "version": "2.0.0-rc.2",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
+        "axios": "^0.19.2",
         "@types/mqtt": "^2.5.0",
         "bytebuffer": "^5.0.1",
         "crypto-js": "^3.1.9-1",
@@ -54,6 +55,7 @@
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",
+        "test-node": "jest --env=node",
         "coverage": "jest --coverage",
         "lint": "stylelint tslint src/**/*.ts",
         "sonarqube": "jest --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
