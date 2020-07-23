@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* this type represents the statement information
+* Represents statement information
 */
 data class Statement @JsonCreator constructor(
     /**

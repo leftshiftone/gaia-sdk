@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* this type represents the intent information
+* Represents intent information
 */
 data class Intent @JsonCreator constructor(
     /**

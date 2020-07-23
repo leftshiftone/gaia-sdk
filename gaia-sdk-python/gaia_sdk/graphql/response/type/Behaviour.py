@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Behaviour:
     """
-    this type represents the behaviour information
+    Represents behaviour information
     """
     dictionary: dict
     """

@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Statement:
     """
-    this type represents the statement information
+    Represents statement information
     """
     dictionary: dict
     """

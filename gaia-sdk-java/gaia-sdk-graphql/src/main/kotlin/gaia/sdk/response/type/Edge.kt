@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Container type for static information
+* Represents graph information
 */
 data class Edge @JsonCreator constructor(
     @JsonProperty("source") val source:Uuid?, 

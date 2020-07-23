@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * this type represents the code information
+ * Represents code information
  */
 export class Code extends Array<(_:VariableRegistry) => string> {
 

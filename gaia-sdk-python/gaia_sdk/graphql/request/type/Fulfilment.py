@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Fulfilment(list):
     """
-    this type represents the fulfilment information
+    Represents fulfilment information
     """
 
     """

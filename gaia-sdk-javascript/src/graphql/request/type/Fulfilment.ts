@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * this type represents the fulfilment information
+ * Represents fulfilment information
  */
 export class Fulfilment extends Array<(_:VariableRegistry) => string> {
 

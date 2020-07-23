@@ -6,7 +6,7 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 class Statement(list):
     """
-    this type represents the statement information
+    Represents statement information
     """
 
     """
