@@ -70,7 +70,7 @@ class DataUpload {
         return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
             .then((initResponse: BinaryWriteInitiatedImpulse) =>
                 Promise.all(this.getChunkRequests(initResponse.uploadId)
-                    .map(chunkRequest => client.post(chunkRequest, "/sink/data/chunk"))))
+                    .map(chunkRequest => client.postFormData(chunkRequest.asFormData(), "/sink/data/chunk"))))
             .then((chunkResponses: BinaryChunkWrittenImpulse[]) => {
                 let chunkIds = chunkResponses.map(r => r.chunkId)
                 return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")

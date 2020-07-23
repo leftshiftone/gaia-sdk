@@ -61,9 +61,13 @@ export class GaiaClient {
     }
 
     public post(body: any, urlPostfix: string): Promise<any> {
-        return this.transporter.transportTo(this.options, body, urlPostfix)
+            return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
     }
 
+    public postFormData(body: FormData, urlPostfix: string): Promise<any> {
+        return this.transporter.transportFormData(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
+
+    }
 }
 
 export type Struct = Record<string, any>
