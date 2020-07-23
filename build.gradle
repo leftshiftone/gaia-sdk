@@ -1,18 +1,8 @@
-/*
- * Copyright (c) 2016-2019, Leftshift One
- * __________________
- * [2019] Leftshift One
- * All Rights Reserved.
- * NOTICE:  All information contained herein is, and remains
- * the property of Leftshift One and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Leftshift One
- * and its suppliers and may be covered by Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Leftshift One.
- */
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 buildscript {
     ext {
@@ -20,39 +10,307 @@ buildscript {
     }
     repositories {
         jcenter()
-        mavenCentral()
     }
     dependencies {
+        classpath "one.leftshift.asteria:asteria-code-analytics:latest.release"
+        classpath "one.leftshift.asteria:asteria-dependency:latest.release"
+        classpath "one.leftshift.asteria:asteria-docs:latest.release"
+        classpath "one.leftshift.asteria:asteria-email:latest.release"
+        classpath "one.leftshift.asteria:asteria-publish:latest.release"
+        classpath "one.leftshift.asteria:asteria-report:latest.release"
+        classpath "one.leftshift.asteria:asteria-version:latest.release"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
-        classpath "com.netflix.nebula:nebula-release-plugin:8.0.3"
     }
 }
 
 apply plugin: "antlr"
 apply plugin: "kotlin"
+apply plugin: "one.leftshift.asteria-email"
+apply plugin: "one.leftshift.asteria-report"
+apply plugin: "one.leftshift.asteria-publish"
+apply plugin: "com.jfrog.bintray"
 
-dependencies {
-    antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+asteriaEmail {
+    smtpHost = System.getenv("ASTERIA_EMAIL_SMTP_HOST")
+    smptUser = System.getenv("ASTERIA_EMAIL_SMTP_USER")
+    smptPassword = System.getenv("ASTERIA_EMAIL_SMTP_PASSWORD")
+    sender = System.getenv("ASTERIA_EMAIL_SENDER")
+}
 
-    compile group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.1'
+asteriaReport {
+    reportingUrl = System.getenv("ASTERIA_REPORT_URL")
+    depsJsonResult = file("${rootProject.buildDir}/dependencyUpdates/report.json")
+    junitXmlResults = fileTree(rootProject.projectDir) {
+        include(
+                "**/test-results/*/TEST-*.xml",
+                "**/gaia-sdk-javascript/build/test/TEST-*.xml",
+                "**/gaia-sdk-python/build/test/TEST-*.xml"
+        )
+    }
+    junitBinaryResults = files(subprojects.collect { subproject ->
+        ["test"].collect {
+            "${subproject.buildDir}/test-results/${it}/binary"
+        }
+    }.flatten())
+}
 
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.1'
-    testCompile "org.assertj:assertj-core:3.11.1"
+asteriaPublish {
+    enableBranchSnapshotRepositories = true
+}
+
+allprojects {
+    apply plugin: "one.leftshift.asteria-dependency"
+    apply plugin: "one.leftshift.asteria-version"
+
+    repositories {
+        jcenter()
+    }
+
+    asteriaDependency {
+        enableBranchSnapshotRepositories = true
+    }
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
+                bomProperty("kotlin.version", kotlinVersion)
+            }
+        }
+        dependencies {
+            dependency "org.apache.velocity:velocity-engine-core:2.1"
+        }
+    }
+
+    if (System.getenv("CI")) {
+        afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
+        if (tasks.findByName("publish")) {
+            afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
+        }
+    }
 }
 
 repositories {
     jcenter()
-    mavenCentral()
+    maven {
+        credentials(AwsCredentials) {
+            accessKey gradle.awsAccessKey
+            secretKey gradle.awsSecretKey
+        }
+        url gradle.releasesRepositoryUrl
+    }
+    maven {
+        credentials(AwsCredentials) {
+            accessKey gradle.awsAccessKey
+            secretKey gradle.awsSecretKey
+        }
+        url gradle.snapshotsRepositoryUrl
+    }
 }
 
+configurations {
+    mockServer {
+        resolutionStrategy {
+            componentSelection {
+                all { ComponentSelection selection ->
+                    if (selection.candidate.group == 'one.leftshift.heimdall' && selection.candidate.module == 'heimdall-mock' && selection.candidate.version.contains('-rc.')) {
+                        selection.reject("RC1 is not the most recent version")
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
+
+    mockServer("one.leftshift.heimdall:heimdall-mock:latest.integration:all") {
+        transitive false
+    }
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.apache.velocity:velocity-engine-core"
+
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation "org.assertj:assertj-core"
+}
+
+test {
+    useJUnitPlatform()
+}
+task prepareMockServer(type: Copy) {
+    from configurations.mockServer.filter { it.name.contains("heimdall-mock") }
+    into "${rootProject.buildDir}/mock"
+    rename(/.*/, "heimdall-mock.jar")
+}
+
+sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
 generateGrammarSource {
     outputDirectory = new File(project.rootDir, "build/generated-src/antlr/gaia/sdk/antlr")
     arguments += ["-visitor", "-package", "gaia.sdk.antlr"]
 }
+compileKotlin.dependsOn generateGrammarSource
 
-sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
+task generateSource(type: Test) {
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "gaia.sdk.codegen.KotlinCodegenTest"
+    }
+}
+generateSource.dependsOn generateGrammarSource
+
+
+subprojects {
+    apply plugin: "one.leftshift.asteria-code-analytics"
+
+    asteriaCodeAnalytics {
+        sonarUrl = System.getenv("SONAR_HOST_URL")
+        sonarLoginToken = System.getenv("SONAR_LOGIN")
+        xmlCoverageReportEnabled = true
+        sonarProperties = [
+                "sonar.test.inclusions"            : "**/*Test.*,**/*.test.ts,**/tests/test_*.py",
+                "sonar.javascript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
+                "sonar.typescript.lcov.reportPaths": "${project(":gaia-sdk-javascript").projectDir}/coverage/lcov.info",
+                "sonar.python.coverage.reportPath" : "${project(":gaia-sdk-python").projectDir}/build/coverage/coverage.xml",
+        ]
+        coverageExcludes = ["**/*Kt.class"]
+    }
+}
+
+task setVersionJavascript() {
+    doLast {
+        String packageJsonPath = project(":gaia-sdk-javascript").projectDir.toString() + "/package.json"
+        File packageJsonFile = file(packageJsonPath)
+        def parsedJson = new JsonSlurper().parseText(packageJsonFile.text)
+        parsedJson.version = version.toString()
+        packageJsonFile.text = new JsonBuilder(parsedJson).toPrettyString()
+        logger.quiet("Updated version in ${packageJsonPath} to ${version.toString()}")
+    }
+}
+task setVersionPython() {
+    doLast {
+        String pyprojectTomlPath = project(":gaia-sdk-python").projectDir.toString() + "/pyproject.toml"
+        File pyprojectTomlFile = file(pyprojectTomlPath)
+        String pyprojectTomlContent = pyprojectTomlFile.text
+
+        Pattern regex = Pattern.compile("^version\\s?=\\s?[\"'].*[\"']\\s?\$", Pattern.MULTILINE)
+        Matcher matcher = regex.matcher(pyprojectTomlContent)
+        List<String> matches = []
+        while (matcher.find()) {
+            matches.add(matcher.group(0))
+        }
+        if (matches.size() > 1)
+            throw new RuntimeException("More than one version found in ${pyprojectTomlPath}")
+        if (matches.isEmpty() || matches.first().trim().isEmpty())
+            throw new RuntimeException("No version found in ${pyprojectTomlPath}")
+        pyprojectTomlFile.text = pyprojectTomlContent.replaceAll(matches.first(), "version = \"${version.toString()}\"")
+        logger.quiet("Updated version in ${pyprojectTomlPath} to ${version.toString()}")
+    }
+}
+task commitVersions() {
+    doLast {
+        // javascript
+        String packageJsonPath = "${project(":gaia-sdk-javascript").projectDir}/package.json"
+        executeAssertExitCode(["git", "add", packageJsonPath])
+        // python
+        String pyprojectTomlPath = "${project(":gaia-sdk-python").projectDir}/pyproject.toml"
+        executeAssertExitCode(["git", "add", pyprojectTomlPath])
+
+        String commitMessage = "set version to ${version.toString()}"
+        executeWarnExitCode(["git", "commit", "-m", "'$commitMessage'".toString()])
+    }
+}
+commitVersions.dependsOn setVersionJavascript, setVersionPython
+
+task pushVersions() {
+    doLast {
+        executeAssertExitCode(["git", "push"])
+    }
+}
+pushVersions.dependsOn commitVersions
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
+}
+
+private void executeAssertExitCode(List<String> command) {
+    int exitCode = execute(command)
+    if (exitCode != 0) throw new RuntimeException("Command '${command.join(" ")}' failed with code ${exitCode}")
+    logger.debug("Executed command '${command.join(" ")}'")
+}
+
+private void executeWarnExitCode(List<String> command) {
+    int exitCode = execute(command)
+    if (exitCode != 0) logger.warn("Command failed with code ${exitCode}")
+    logger.debug("Executed command '${command.join(" ")}'")
+}
+
+private int execute(List<String> command) {
+    logger.debug("Executing command '${command.join(" ")}'")
+    def process = new ProcessBuilder(command).directory(projectDir).start()
+    process.consumeProcessOutput(System.out, System.err)
+    process.waitFor()
+    logger.debug("Executed command '${command.join(" ")}'")
+    return process.exitValue()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = project.name
+            from components.java
+            pom.withXml {
+                Node root = asNode()
+                root.appendNode("name", "GAIA SDK")
+                root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
+                root.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+
+                Node licenses = root.appendNode("licenses")
+                Node license = licenses.appendNode("license")
+                license.appendNode("name", "MIT")
+                license.appendNode("url", "https://github.com/leftshiftone/gaia-sdk/blob/master/LICENSE")
+
+                Node developers = root.appendNode("developers")
+                Node developer = developers.appendNode("developer")
+                developer.appendNode("id", "leftshiftone")
+                developer.appendNode("name", "Leftshift One")
+                developer.appendNode("email", "contact@leftshift.one")
+                developer.appendNode("organization", "Leftshift One Software GmbH")
+                developer.appendNode("organizationUrl", "https://www.leftshift.one")
+
+                Node scm = root.appendNode("scm")
+                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/gaia-sdk.git")
+                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/gaia-sdk.git")
+                scm.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+            }
+        }
+    }
+}
+
+bintray {
+    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publish = true
+    override = true
+    pkg {
+        repo = "gaia-sdk"
+        name = "${project.group}.${project.name}"
+        userOrg = "leftshiftone"
+        licenses = ["MIT"]
+        vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
+        publications = ["mavenJava"]
+    }
+}
+
+if (System.getenv("CI")) {
+    publish.finalizedBy bintrayUpload
+}
+
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    tasks.release.dependsOn tasks.generateLock
+    tasks.release.dependsOn tasks.saveLock
+    tasks.release.dependsOn tasks.persistDependencyLock
+}

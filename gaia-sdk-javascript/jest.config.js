@@ -37,6 +37,8 @@ module.exports = {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
 
+    reporters: ["default", "jest-junit"],
+
     // All imported modules in your tests should be mocked automatically
     // automock: false,
 

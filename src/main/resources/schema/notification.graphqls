@@ -1,0 +1,26 @@
+type Notification {
+    onCreated: OnCreated
+    onUpdated: OnUpdated
+    onDeleted: OnDeleted
+}
+
+type OnCreated implements Impulse{
+    id: Uuid!
+    identityId: Uuid!
+    reference: Uuid!
+    type: String!
+}
+
+type OnUpdated implements Impulse{
+    id: Uuid!
+    identityId: Uuid!
+    reference: Uuid!
+    type: String!
+}
+
+type OnDeleted implements Impulse{
+    id: Uuid!
+    identityId: Uuid!
+    reference: Uuid!
+    type: String!
+}
