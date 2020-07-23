@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Prompt:
     """
-    this type represents the prompt information
+    Represents prompt information
     """
     dictionary: dict
     """

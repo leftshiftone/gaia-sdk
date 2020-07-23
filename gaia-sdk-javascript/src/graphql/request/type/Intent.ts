@@ -6,7 +6,7 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 /**
- * this type represents the intent information
+ * Represents intent information
  */
 export class Intent extends Array<(_:VariableRegistry) => string> {
 

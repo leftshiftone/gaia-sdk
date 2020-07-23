@@ -5,7 +5,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* this type represents the intent information
+* Represents intent information
 */
 export interface Intent {
     /**

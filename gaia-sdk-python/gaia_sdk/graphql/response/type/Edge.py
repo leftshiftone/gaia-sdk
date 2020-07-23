@@ -13,7 +13,7 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Edge:
     """
-    Container type for static information
+    Represents graph information
     """
     dictionary: dict
     @property

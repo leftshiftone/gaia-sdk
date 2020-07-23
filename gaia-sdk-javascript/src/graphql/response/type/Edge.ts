@@ -5,7 +5,7 @@ import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 /**
-* Container type for static information
+* Represents graph information
 */
 export interface Edge {
     source?:Uuid, 

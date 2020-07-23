@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * this type represents the behaviour information
+ * Represents behaviour information
  */
 class Behaviour: Type() {
 
