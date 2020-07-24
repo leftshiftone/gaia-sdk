@@ -4,13 +4,14 @@ import {UUID} from "../graphql/GaiaScalars";
 import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "./HMACTokenBuilder";
 import axios from 'axios';
+import FormData from "form-data"
+
 
 export class HttpTransporter implements ITransporter {
 
     private url: string;
 
     constructor(url: string) {
-        axios.interceptors.request.use((a) => {console.log(a); return a;})
         this.url = url;
     }
 
@@ -27,26 +28,24 @@ export class HttpTransporter implements ITransporter {
                 }
             })
                 .then(response => resolve(JSON.stringify(response.data) as any))
-                .catch(err => reject(Error(err)));
+                .catch(err => reject(Error(err + ": " + err.response.data)));
         });
     }
 
     transportFormData<T>(options: ClientOptions, body: FormData, urlPostfix: String = ""): Promise<T> {
         let url = this.url + urlPostfix
-        axios.interceptors.request.use((a) => {console.log(a); return a;})
         return new Promise<T>((resolve, reject) => {
             axios.post(url, body, {
                 headers:
-                    {
-                        'Content-Type': 'multipart/form-data',
-                        'Access-Control-Allow-Credentials': 'true',
-                        'Access-Control-Allow-Methods': 'POST',
-                        'Access-Control-Allow-Headers': 'Content-Type',
+                    body.getHeaders({
+                        'Accept': '*/*',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
                         Authorization: HttpTransporter.buildAuthorizationHeader(options, body)
-                    }
+                    })
             })
                 .then(response => resolve(JSON.stringify(response.data) as any))
-                .catch(err => reject(Error(err)));
+                .catch(err => reject(Error(err + ": " + err.response.data)));
         });
     }
 

@@ -1,4 +1,5 @@
 import {ClientOptions} from './ClientOptions';
+import FormData from "form-data"
 
 export interface ITransporter {
     transport<T>(options: ClientOptions, payload: any): Promise<T>;

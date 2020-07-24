@@ -7,6 +7,7 @@ import {QueryResponse} from './GaiaResponse';
 import {MutationResponse} from './GaiaResponse';
 import {SubscriptionResponse} from './GaiaResponse';
 import VariableRegistry from "../api/VariableRegistry";
+import FormData from "form-data"
 
 export class GaiaClient {
     private readonly options: ClientOptions;
