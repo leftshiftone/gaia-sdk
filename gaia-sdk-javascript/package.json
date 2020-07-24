@@ -8,6 +8,7 @@
         "@types/mqtt": "^2.5.0",
         "bytebuffer": "^5.0.1",
         "crypto-js": "^3.1.9-1",
+        "form-data": "^3.0.0",
         "mqtt": "^4.1.0",
         "rxjs": "^6.5.5",
         "uuid": "^7.0.3",
@@ -51,7 +52,7 @@
     },
     "scripts": {
         "webpack:dev": "webpack-dev-server --open --mode=development",
-        "webpack:build": "webpack --mode=production",
+        "webpack:build": "webpack --mode=development",
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
         "test": "jest",

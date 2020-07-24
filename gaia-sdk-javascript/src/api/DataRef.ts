@@ -5,6 +5,10 @@ import {CompleteBinaryWriteImpulse} from "../graphql/request/input/CompleteBinar
 import {BinaryWriteChunkImpulse} from "../graphql/request/input/BinaryWriteChunkImpulse";
 import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
 import {from, Observable} from "rxjs";
+import {ListFilesImpulse} from "../graphql/request/input/ListFilesImpulse";
+import {FileListing} from "../graphql/response/type/FileListing";
+import {RemoveFileImpulse} from "../graphql/request/input/RemoveFileImpulse";
+import {FileRemovedImpulse} from "../graphql/response/type/FileRemovedImpulse";
 
 export class DataRef {
     private readonly client: GaiaClient;
@@ -15,21 +19,59 @@ export class DataRef {
         this.client = client;
     }
 
-    public add(fileName: string, content: Buffer, override: boolean = false): Observable<DataRef | null> {
+    /**
+     * Adds a file to the directory specified by the uri member of this class.
+     * If the file already exists at the given uri, it is only overwritten if override is set, else the Observable fails.
+     *
+     * @param fileName name of the new file to be written
+     * @param content binary content of the file to be written
+     * @param override flag to decide if existing files should be overwritten
+     */
+    public add(fileName: string, content: Buffer, override: boolean = false): Observable<DataRef> {
         console.log("Add " + fileName);
         console.log(content);
         console.log("To: " + this.uri);
-        let upload = DataUpload.create(this.uri, fileName, content, override)
+        let upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override)
         return from(upload.execute(this.client))
     }
 
 
-    public list() {
+    /**
+     * Lists all files whose uri has the current uri member as its prefix.
+     */
+    public list(): Observable<FileListing[]> {
         console.log("List from " + this.uri);
+        return from(this.client.post(new ListFilesImpulse(this.uri), "/sink/data/list")
+            .catch(reason => {
+                throw new Error("Listing files at uri " + this.uri + " failed: " + reason)
+            }))
     }
 
-    public remove() {
-        console.log("Remove: " + this.uri)
+    private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
+        console.log("Remove: " + uri)
+        return from(this.client.post(new RemoveFileImpulse(uri), "/sink/data/remove")
+            .catch(reason => {
+                throw new Error("Removing file with uri " + uri + " failed: " + reason)
+            }))
+    }
+
+    /**
+     * Removes a file from the the directory specified by the uri member of this class.
+     *
+     * @param fileName the name of the file to be removed
+     * @returns an Observable<boolean> that is true if the file existed
+     */
+    public removeFile(fileName: string): Observable<FileRemovedImpulse> {
+        return this.removeFileAt(DataRef.concatUri(this.uri, fileName))
+    }
+
+    /**
+     * Removes a file at the uri of this DataRef
+     *
+     * @returns an Observable<boolean> that is true if the file existed
+     */
+    public remove(): Observable<FileRemovedImpulse> {
+        return this.removeFileAt(this.uri)
     }
 
     public asFile() {
@@ -42,6 +84,15 @@ export class DataRef {
 
     public append(dataToAppend: any) {
         console.log("Append: " + dataToAppend)
+    }
+
+    public static concatUri(baseUri: string, ...paths: string[]): string {
+        let uri = paths.reduce((uri, path) => {
+            let uriWithTrailingSlash = uri.endsWith("/") ? uri : uri + "/"
+            let pathWithoutLeadingSlash = path.startsWith("/") ? path.substr(1) : path
+            return uriWithTrailingSlash + pathWithoutLeadingSlash
+        }, baseUri)
+        return uri.endsWith("/") ? uri.substr(0, uri.length - 1) : uri
     }
 }
 
@@ -60,13 +111,12 @@ class DataUpload {
         this.override = override;
     }
 
-    public static create(baseUri: string, fileName: string, content: Buffer, override: boolean = false): DataUpload {
+    public static create(uri: string, content: Buffer, override: boolean = false): DataUpload {
         let numberOfChunks = Math.ceil(content.byteLength / DataUpload.CHUNK_SIZE)
-        let completeUri = baseUri.endsWith("/") ? baseUri + fileName : baseUri + "/" + fileName;
-        return new DataUpload(completeUri, content, numberOfChunks, override)
+        return new DataUpload(uri, content, numberOfChunks, override)
     }
 
-    public execute(client: GaiaClient): Promise<DataRef | null> {
+    public execute(client: GaiaClient): Promise<DataRef> {
         return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.byteLength, this.override), "/sink/data/init")
             .then((initResponse: BinaryWriteInitiatedImpulse) =>
                 Promise.all(this.getChunkRequests(initResponse.uploadId)
@@ -75,9 +125,9 @@ class DataUpload {
                 let chunkIds = chunkResponses.map(r => r.chunkId)
                 return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
             }).then(() => new DataRef(this.uri, client), reason => {
-                console.log("Upload to uri " + this.uri + " failed. Reason: " + reason)
-                return null
-            })
+                    throw new Error("Upload to uri " + this.uri + " failed: " + reason)
+                }
+            )
     }
 
     private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {

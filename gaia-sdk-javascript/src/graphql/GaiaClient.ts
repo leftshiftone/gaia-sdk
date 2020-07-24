@@ -7,7 +7,7 @@ import {QueryResponse} from './GaiaResponse';
 import {MutationResponse} from './GaiaResponse';
 import {SubscriptionResponse} from './GaiaResponse';
 import VariableRegistry from "../api/VariableRegistry";
-import FormData from "form-data"
+import EnhancedFormData from "form-data"
 
 export class GaiaClient {
     private readonly options: ClientOptions;
@@ -61,11 +61,11 @@ export class GaiaClient {
         return [statement, registry.getVariables()];
     }
 
-    public post(body: any, urlPostfix: string): Promise<any> {
+    public post(body: any, urlPostfix: string=""): Promise<any> {
             return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
     }
 
-    public postFormData(body: FormData, urlPostfix: string): Promise<any> {
+    public postFormData(body: EnhancedFormData, urlPostfix: string=""): Promise<any> {
         return this.transporter.transportFormData(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
 
     }
