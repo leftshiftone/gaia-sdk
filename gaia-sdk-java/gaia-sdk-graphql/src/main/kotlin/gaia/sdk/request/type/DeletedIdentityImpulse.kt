@@ -18,8 +18,8 @@ class DeletedIdentityImpulse: Type() {
         add {"id" } 
     }
 
-    fun identityId() { 
-        add {"identityId" } 
-    }
+    fun data(config: KeyOne.() -> Unit) = 
+        add { "data{ " + KeyOne().apply(config).render(it) + "}"}
+
 }
 

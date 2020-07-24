@@ -90,7 +90,7 @@ type UpdatedIdentityImpulse implements Impulse {
 "Impulse which indicates the result of a delete identity impulse"
 type DeletedIdentityImpulse implements Impulse {
     id: Uuid!
-    identityId: Uuid!
+    data: KeyOne
 }
 
 "The specification to create an intent instance"

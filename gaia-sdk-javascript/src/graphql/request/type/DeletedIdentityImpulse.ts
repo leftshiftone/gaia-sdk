@@ -1,4 +1,5 @@
 
+import {KeyOne} from "./KeyOne";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -14,9 +15,11 @@ export class DeletedIdentityImpulse extends Array<(_:VariableRegistry) => string
         this.push(_ => "id")
     };
 
-    public identityId = () => { 
-        this.push(_ => "identityId")
-    };
+    public data = (config: (_:KeyOne) => void) => this.push((registry) => {
+        const entity = new KeyOne();
+        config(entity);
+        return "data { " + entity.render(registry) + " }";
+    });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

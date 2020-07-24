@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.KeyOne import KeyOne
 
 from dataclasses import dataclass
 from typing import List
@@ -20,5 +21,5 @@ class DeletedIdentityImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     @property
-    def identity_id(self) -> Uuid:
-        return Uuid(self.dictionary.get("identityId"))
+    def data(self) -> KeyOne:
+        return KeyOne(self.dictionary.get("data"))

@@ -86,7 +86,13 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
             mapM(client.mutation(GaiaRequest.mutation { preserve(config) })) { it.preserve!! }
 
     override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { identities(impulses) { id() } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { identities(impulses) {
+                    id()
+                    data({
+                        identityId()
+                        qualifier()
+                    })
+                } } } })) {
                 it.preserve?.create?.identities!!
             }
 
@@ -96,7 +102,12 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
             }
 
     override fun preserveDeleteIdentities(vararg impulses: DeleteIdentityImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { identities(impulses) { id() } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { identities(impulses) {
+                    id()
+                    data {
+                        identityId()
+                    }
+                } } } })) {
                 it.preserve?.delete?.identities!!
             }
 

@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class DeletedIdentityImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("identityId") val identityId:Uuid?
+    @JsonProperty("data") val data:KeyOne?
 )
