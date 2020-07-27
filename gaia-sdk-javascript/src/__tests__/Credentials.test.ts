@@ -1,8 +1,19 @@
-import {ClientOptions, JWTCredentials} from "..";
+import {ClientOptions, Gaia, JWTCredentials} from "..";
 import {HMACCredentials, UsernamePasswordCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 
-describe("Authorization String test", () => {
+describe("Credentials test", () => {
+    test('test login', () => {
+        let credentials = new UsernamePasswordCredentials("user", "password")
+
+        return new Promise((resolve, reject) => {
+            Gaia.login('http://localhost:8080', credentials).then((gaiaRef) => {
+                expect(gaiaRef !== undefined)
+                console.log(gaiaRef);
+                resolve(gaiaRef);
+            })
+        });
+    });
 
     test('build auth string from UsernamePasswordCredentials fails', () => {
         const options = new ClientOptions(new UsernamePasswordCredentials("user", "password"))

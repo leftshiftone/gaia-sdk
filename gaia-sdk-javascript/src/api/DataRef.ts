@@ -30,9 +30,7 @@ export class DataRef {
      * @param override flag to decide if existing files should be overwritten
      */
     public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef> {
-        console.log("Add " + fileName);
-        console.log(content);
-        console.log("To: " + this.uri);
+        console.log("Add " + fileName + " to " + this.uri);
         let upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override)
         return from(upload.execute(this.client))
     }
@@ -77,9 +75,10 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
+        console.log("Download file from " + this.uri)
         return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), "/source/data/get")
             .catch(reason => {
-                throw new Error("Removing file with uri " + this.uri + " failed: " + reason)
+                throw new Error("Download of file with uri " + this.uri + " failed: " + reason)
             }))
     }
 
