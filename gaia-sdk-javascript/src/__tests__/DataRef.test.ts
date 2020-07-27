@@ -106,9 +106,10 @@ describe("dataref tests:", () => {
         let credentials = new UsernamePasswordCredentials("user", "password")
 
         return new Promise((resolve, reject) => {
-            Gaia.login('http://localhost:8080/api/auth/access', credentials).then((data) => {
-                console.log(data);
-                resolve("");
+            Gaia.login('http://localhost:8080', credentials).then((gaiaRef) => {
+                expect(gaiaRef !== undefined)
+                console.log(gaiaRef);
+                resolve(gaiaRef);
             })
         });
     });

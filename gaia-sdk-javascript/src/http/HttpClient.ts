@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig} from "axios";
 import {ClientOptions} from "..";
 
 export class HttpClient {
-    public post<T>(body: any, config: AxiosRequestConfig, url: string): Promise<T> {
+    public post(body: any, config: AxiosRequestConfig, url: string): Promise<any> {
         return axios.post(url, body, config)
             .then(response => response.data)
             .catch(err => {

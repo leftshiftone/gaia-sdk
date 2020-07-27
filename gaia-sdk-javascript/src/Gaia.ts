@@ -41,7 +41,8 @@ import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
 import {GaiaCredentials, JWTCredentials, UsernamePasswordCredentials} from "./api/GaiaCredentials";
 import {HttpSensorStream} from "./http/HttpSensorStream";
-import axios from 'axios';
+import {ISensorStream} from "./api/ISensorStream";
+import {HttpClient} from "./http/HttpClient";
 
 export class Gaia {
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
@@ -49,21 +50,19 @@ export class Gaia {
     }
 
     public static login(url: string, credentials: UsernamePasswordCredentials): Promise<GaiaRef> {
-        return new Promise<GaiaRef>((resolve, reject) => {
-            axios.post(url, JSON.stringify(credentials), {
+        return new HttpClient()
+            .post(JSON.stringify(credentials), {
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Credentials': 'true',
                     'Access-Control-Allow-Methods': 'POST',
                     'Access-Control-Allow-Headers': 'Content-Type'
                 }
+            }, url + "/api/auth/access")
+            .then(response => {
+                let cr = new JWTCredentials(response.accessToken);
+                return new GaiaRef(new GaiaConfig(url, cr))
             })
-                .then(response => {
-                    let cr = new JWTCredentials(response.data.accessToken);
-                    resolve(new GaiaRef(new GaiaConfig(url, cr)))
-                })
-                .catch(err => reject(Error(err + ": " + (err.response || {}).data)));
-        });
     }
 }
 
@@ -83,7 +82,7 @@ export class GaiaConfig {
     }
 }
 
-export class GaiaRef implements ISensorFunction {
+export class GaiaRef implements ISensorFunction, ISensorStream {
     private readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
     private readonly sProc: HttpSensorStream;
@@ -94,7 +93,7 @@ export class GaiaRef implements ISensorFunction {
         this.sProc = config.streamProcessor;
     }
 
-    public data = (path: string) => this.sProc.createDataRef(path);
+    public data = (uri: string) => this.sProc.createDataRef(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
