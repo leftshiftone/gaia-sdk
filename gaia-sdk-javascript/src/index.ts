@@ -8,7 +8,7 @@ export {GaiaFunctionClient} from './graphql/GaiaFunctionClient';
 export {GaiaFunctionClientBuilder} from './graphql/GaiaFunctionClientBuilder';
 export {HttpSensorFunction} from './http/HttpSensorFunction';
 export {Gaia, GaiaRef, GaiaConfig} from "./Gaia";
-export {GaiaCredentials, HMACCredentials, JWTCredentials} from './api/GaiaCredentials'
+export {GaiaCredentials, HMACCredentials, JWTCredentials, UsernamePasswordCredentials} from './api/GaiaCredentials'
 
 /* mqtt */
 export {ConversationQueueType} from "./mqtt/ConversationQueueType"
