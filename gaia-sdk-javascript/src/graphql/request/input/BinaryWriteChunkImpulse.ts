@@ -1,4 +1,4 @@
-import FormData from "form-data";
+import EnhancedFormData from "form-data";
 
 export class BinaryWriteChunkImpulse {
     private readonly uri: string
@@ -16,8 +16,8 @@ export class BinaryWriteChunkImpulse {
         this.chunk = chunk;
     }
 
-    public asFormData(): FormData {
-        let body = new FormData()
+    public asFormData(): EnhancedFormData {
+        let body = new EnhancedFormData()
         body.append("file", this.chunk, {filename: "any"})
         body.append("uploadId", this.uploadId)
         body.append("ordinal", JSON.stringify(this.ordinal))

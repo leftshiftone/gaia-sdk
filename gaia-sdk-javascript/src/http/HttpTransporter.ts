@@ -4,7 +4,7 @@ import {UUID} from "../graphql/GaiaScalars";
 import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "./HMACTokenBuilder";
 import axios from 'axios';
-import FormData from "form-data"
+import EnhancedFormData from "form-data"
 
 
 export class HttpTransporter implements ITransporter {
@@ -28,24 +28,25 @@ export class HttpTransporter implements ITransporter {
                 }
             })
                 .then(response => resolve(JSON.stringify(response.data) as any))
-                .catch(err => reject(Error(err + ": " + err.response.data)));
+                .catch(err => reject(Error(err + ": " + (err.response || {}).data)));
         });
     }
 
-    transportFormData<T>(options: ClientOptions, body: FormData, urlPostfix: String = ""): Promise<T> {
+    transportFormData<T>(options: ClientOptions, body: EnhancedFormData, urlPostfix: String = ""): Promise<T> {
         let url = this.url + urlPostfix
+        let headers = body.getHeaders()
         return new Promise<T>((resolve, reject) => {
             axios.post(url, body, {
-                headers:
-                    body.getHeaders({
-                        'Accept': '*/*',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-                        Authorization: HttpTransporter.buildAuthorizationHeader(options, body)
-                    })
+                headers: {
+                    ...headers,
+                    'Accept': '*/*',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
+                    Authorization: HttpTransporter.buildAuthorizationHeader(options.withContentType(headers["content-type"]), body.getBuffer()) // TODO: Buffer to string
+                }
             })
                 .then(response => resolve(JSON.stringify(response.data) as any))
-                .catch(err => reject(Error(err + ": " + err.response.data)));
+                .catch(err => reject(Error(err + ": " +  (err.response || {}).data)));
         });
     }
 
