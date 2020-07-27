@@ -1,4 +1,4 @@
-import {GaiaClient, GaiaClientBuilder, GaiaRequest} from "..";
+import {GaiaFunctionClient, GaiaFunctionClientBuilder, GaiaRequest} from "..";
 import {Rx} from "../api/rx"
 import {
     BehaviourReq,
@@ -76,15 +76,15 @@ import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse"
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
-import {Uuid} from "../graphql/GaiaClient";
+import {Uuid} from "../graphql/GaiaFunctionClient";
 import {GaiaCredentials} from "../api/GaiaCredentials";
 
 export class HttpSensorFunction implements ISensorFunction {
 
-    private readonly client: GaiaClient;
+    private readonly client: GaiaFunctionClient;
 
     constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaClientBuilder.http(url + "/api/sync")
+        this.client = GaiaFunctionClientBuilder.http(url + "/api/sync")
             .withCredentials(credentials)
             .build()
 

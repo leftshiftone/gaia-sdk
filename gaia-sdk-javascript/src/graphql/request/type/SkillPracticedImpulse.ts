@@ -1,21 +1,21 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, Timestamp, Struct, Long} from "../../GaiaFunctionClient";
 
 /**
  * This impulse returns the result of a skill practice query request
  */
 export default class SkillPracticedImpulse extends Array<(_:VariableRegistry) => string> {
 
-    public id = () => { 
+    public id = () => {
         this.push(_ => "id")
     };
 
     /**
      * The result of the skill practice
      */
-    public data = () => { 
+    public data = () => {
         this.push(_ => "data")
     };
 

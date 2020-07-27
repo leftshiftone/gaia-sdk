@@ -1,13 +1,13 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class AsyncSkillEvaluation extends Array<(_:VariableRegistry) => string> {
 
-    public tbd = () => { 
+    public tbd = () => {
         this.push(_ => "tbd")
     };
 

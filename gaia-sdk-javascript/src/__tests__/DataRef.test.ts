@@ -2,8 +2,9 @@
  * @jest-environment node
  */
 import {Gaia} from "../Gaia";
-import {HMACCredentials, JWTCredentials} from "..";
+import {HMACCredentials} from "..";
 import Blob from "cross-blob"
+import {UsernamePasswordCredentials} from "../api/GaiaCredentials";
 
 describe("dataref tests:", () => {
         test('test write new file', () => {
@@ -102,10 +103,7 @@ describe("dataref tests:", () => {
     });
 
     test('test login', () => {
-        let credentials = {
-            "username": "mockUser",
-            "password": "mockPassword"
-        }
+        let credentials = new UsernamePasswordCredentials("user", "password")
 
         return new Promise((resolve, reject) => {
             Gaia.login('http://localhost:8080/api/auth/access', credentials).then((data) => {

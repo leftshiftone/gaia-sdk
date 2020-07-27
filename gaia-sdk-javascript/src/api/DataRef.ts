@@ -1,4 +1,3 @@
-import {GaiaClient} from "..";
 import {InitBinaryWriteImpulse} from "../graphql/request/input/InitBinaryWriteImpulse";
 import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
 import {CompleteBinaryWriteImpulse} from "../graphql/request/input/CompleteBinaryWriteImpulse";
@@ -11,12 +10,13 @@ import {RemoveFileImpulse} from "../graphql/request/input/RemoveFileImpulse";
 import {FileRemovedImpulse} from "../graphql/response/type/FileRemovedImpulse";
 import {BinaryReadImpulse} from "../graphql/request/input/BinaryReadImpulse";
 import Blob from "cross-blob"
+import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
 
 export class DataRef {
-    private readonly client: GaiaClient;
+    private readonly client: GaiaStreamClient;
     private readonly uri: string;
 
-    constructor(uri: string, client: GaiaClient) {
+    constructor(uri: string, client: GaiaStreamClient) {
         this.uri = uri;
         this.client = client;
     }
@@ -77,7 +77,7 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
-        return from(this.client.downloadBlob(new BinaryReadImpulse(this.uri), "/source/data/get")
+        return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), "/source/data/get")
             .catch(reason => {
                 throw new Error("Removing file with uri " + this.uri + " failed: " + reason)
             }))
@@ -121,7 +121,7 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override)
     }
 
-    public execute(client: GaiaClient): Promise<DataRef> {
+    public execute(client: GaiaStreamClient): Promise<DataRef> {
         return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
             .then((initResponse: BinaryWriteInitiatedImpulse) =>
                 Promise.all(this.getChunkRequests(initResponse.uploadId)

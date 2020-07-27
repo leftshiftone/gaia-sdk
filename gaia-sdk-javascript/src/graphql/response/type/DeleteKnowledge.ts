@@ -14,7 +14,7 @@ import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -22,27 +22,27 @@ export interface DeleteKnowledge {
     /**
     * deletes a list of intents with the given specifications
     */
-    intents?:[DeletedIntentImpulse], 
+    intents?:[DeletedIntentImpulse],
     /**
     * deletes a list of prompts with the given specifications
     */
-    prompts?:[DeletedPromptImpulse], 
+    prompts?:[DeletedPromptImpulse],
     /**
     * deletes a list of statements with the given specifications
     */
-    statements?:[DeletedStatementImpulse], 
+    statements?:[DeletedStatementImpulse],
     /**
     * deletes a list of fulfilments with the given specifications
     */
-    fulfilments?:[DeletedFulfilmentImpulse], 
+    fulfilments?:[DeletedFulfilmentImpulse],
     /**
     * deletes a list of behaviours with the given specifications
     */
-    behaviours?:[DeletedBehaviourImpulse], 
+    behaviours?:[DeletedBehaviourImpulse],
     /**
     * deletes a list of codes with the given specifications
     */
-    codes?:[DeletedCodeImpulse], 
+    codes?:[DeletedCodeImpulse],
     /**
     * deletes a list of edges with the given specifications
     */

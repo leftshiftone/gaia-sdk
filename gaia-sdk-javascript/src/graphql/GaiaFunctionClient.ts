@@ -1,5 +1,5 @@
 import {ClientOptions} from '../api/ClientOptions';
-import {ITransporter} from '../api/ITransporter';
+import {IFunctionTransporter} from '../api/IFunctionTransporter';
 import {Query} from "./request/type/Query";
 import {Mutation} from "./request/type/Mutation";
 import {Subscription} from "./request/type/Subscription";
@@ -8,11 +8,11 @@ import {MutationResponse} from './GaiaResponse';
 import {SubscriptionResponse} from './GaiaResponse';
 import VariableRegistry from "../api/VariableRegistry";
 
-export class GaiaClient {
+export class GaiaFunctionClient {
     private readonly options: ClientOptions;
-    private readonly transporter: ITransporter;
+    private readonly transporter: IFunctionTransporter;
 
-    constructor(options: ClientOptions, transporter: ITransporter) {
+    constructor(options: ClientOptions, transporter: IFunctionTransporter) {
         this.options = options;
         this.transporter = transporter;
     }
@@ -58,22 +58,6 @@ export class GaiaClient {
         }
         const statement = `${name} gaia(${registry.getDatatypes().join(", ")}) { ${fields} }`;
         return [statement, registry.getVariables()];
-    }
-
-    public post(body: any, urlPostfix: string = "", contentType?: string): Promise<any> {
-        if (contentType) {
-            this.options.withContentType(contentType);
-        }
-        return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
-    }
-
-    public postFormData(body: FormData, urlPostfix: string=""): Promise<any> {
-        return this.transporter.transportFormData(this.options, body, urlPostfix)
-
-    }
-
-    public downloadBlob(body: any, urlPostfix: string=""): Promise<any> {
-        return this.transporter.downloadBlob(this.options, body, urlPostfix)
     }
 }
 

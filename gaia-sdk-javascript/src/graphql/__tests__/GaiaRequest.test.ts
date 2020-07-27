@@ -1,7 +1,7 @@
 import {GaiaRequest} from "../GaiaRequest";
-import {GaiaClient} from "../GaiaClient";
+import {GaiaFunctionClient} from "../GaiaFunctionClient";
 import {ClientOptions} from "../../api/ClientOptions";
-import {ITransporter} from "../../api/ITransporter";
+import {IFunctionTransporter} from "../../api/IFunctionTransporter";
 import {Query} from "../request/type/Query";
 import {Introspection} from "../request/type/Introspection";
 import {PerceiveDataImpulse} from "..";
@@ -20,7 +20,7 @@ describe("GaiaRequestTest", () => {
         });
 
         const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
-        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
+        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -41,7 +41,7 @@ describe("GaiaRequestTest", () => {
         });
 
         const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
-        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
+        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -54,7 +54,7 @@ describe("GaiaRequestTest", () => {
 
 });
 
-class MockTransporter implements ITransporter {
+class MockTransporter implements IFunctionTransporter {
     private callback: (options: ClientOptions, payload: any) => any;
 
     constructor(callback: (options: ClientOptions, payload: any) => any) {
@@ -64,13 +64,4 @@ class MockTransporter implements ITransporter {
     transport<T>(options: ClientOptions, payload: any, urlPostfix: string = ""): Promise<T> {
         return Promise.resolve(this.callback(options, payload));
     }
-
-    downloadBlob(options: ClientOptions, body: any, urlPostfix?: string): Promise<Blob> {
-        return Promise.resolve(this.callback(options, body));
-    }
-
-    transportFormData<T>(options: ClientOptions, payload: FormData, urlPostFix: string): Promise<T> {
-        return Promise.resolve(this.callback(options, payload));
-    }
-
 }

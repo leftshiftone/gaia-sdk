@@ -1,7 +1,7 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -13,42 +13,42 @@ export class Behaviour extends Array<(_:VariableRegistry) => string> {
     /**
      * The behaviour id
      */
-    public identityId = () => { 
+    public identityId = () => {
         this.push(_ => "identityId")
     };
 
     /**
      * The behaviour reference id
      */
-    public reference = () => { 
+    public reference = () => {
         this.push(_ => "reference")
     };
 
     /**
      * The name of the behaviour
      */
-    public qualifier = () => { 
+    public qualifier = () => {
         this.push(_ => "qualifier")
     };
 
     /**
      * Detailed description about the behaviour
      */
-    public appendent = () => { 
+    public appendent = () => {
         this.push(_ => "appendent")
     };
 
     /**
      * The list of labels of the behaviour
      */
-    public labelList = () => { 
+    public labelList = () => {
         this.push(_ => "labelList")
     };
 
     /**
      * The behaviour xml
      */
-    public behaviour = () => { 
+    public behaviour = () => {
         this.push(_ => "behaviour")
     };
 

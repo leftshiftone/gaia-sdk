@@ -2,7 +2,7 @@
 import {Experience} from "./Experience";
 import {Knowledge} from "./Knowledge";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -10,7 +10,7 @@ export interface Retrieval {
     /**
     * Container element which collects all information static data
     */
-    knowledge?:Knowledge, 
+    knowledge?:Knowledge,
     /**
     * Container element which collects all information about runtime data
     */
