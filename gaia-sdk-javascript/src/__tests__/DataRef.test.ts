@@ -3,34 +3,29 @@
  */
 import {Gaia} from "../Gaia";
 import {HMACCredentials, JWTCredentials} from "..";
-import {TBLCredentials} from "../api/GaiaCredentials";
-const fs = require('fs');
+import Blob from "cross-blob"
 
 describe("dataref tests:", () => {
+        test('test write new file', () => {
+            const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+            const blob = new Blob(["234"]);
 
-    test('test write new file', () => {
-        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const buffer = new Buffer(2);
-        buffer[0] = 66;
-        buffer[1] = 66;
-
-        return new Promise((resolve, reject) => {
-            const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", buffer);
-            observable.subscribe(e => {
-                expect(e !== null).toBeTruthy();
-                resolve(e || "");
-            }, reject);
-        })
-    });
+            return new Promise((resolve, reject) => {
+                const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", blob);
+                observable.subscribe(e => {
+                    expect(e !== null).toBeTruthy();
+                    resolve(e || "");
+                }, reject);
+            })
+        });
 
     test('test overwrite existing file does not work', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const buffer = new Buffer(2);
-        buffer[0] = 66;
-        buffer[1] = 66;
+        const blob = new Blob(["234"]);
+
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", buffer);
+            const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", blob);
             observable.subscribe(e => {
                 resolve(e || "");
             }, reject);
@@ -51,12 +46,10 @@ describe("dataref tests:", () => {
 
     test('test overwrite file with override', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const buffer = new Buffer(2);
-        buffer[0] = 65;
-        buffer[1] = 65;
+        const blob = new Blob(["234"]);
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", buffer, true);
+            const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", blob, true);
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
                 resolve(e || "");

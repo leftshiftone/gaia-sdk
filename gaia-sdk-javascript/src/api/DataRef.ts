@@ -10,6 +10,7 @@ import {FileListing} from "../graphql/response/type/FileListing";
 import {RemoveFileImpulse} from "../graphql/request/input/RemoveFileImpulse";
 import {FileRemovedImpulse} from "../graphql/response/type/FileRemovedImpulse";
 import {BinaryReadImpulse} from "../graphql/request/input/BinaryReadImpulse";
+import Blob from "cross-blob"
 
 export class DataRef {
     private readonly client: GaiaClient;
@@ -28,7 +29,7 @@ export class DataRef {
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
      */
-    public add(fileName: string, content: Buffer, override: boolean = false): Observable<DataRef> {
+    public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef> {
         console.log("Add " + fileName);
         console.log(content);
         console.log("To: " + this.uri);
@@ -75,8 +76,8 @@ export class DataRef {
         return this.removeFileAt(this.uri)
     }
 
-    public asFile(): Observable<BinaryReadImpulse> {
-        return from(this.client.post(new BinaryReadImpulse(this.uri), "/source/data/get")
+    public asFile(): Observable<Blob> {
+        return from(this.client.downloadBlob(new BinaryReadImpulse(this.uri), "/source/data/get")
             .catch(reason => {
                 throw new Error("Removing file with uri " + this.uri + " failed: " + reason)
             }))
@@ -103,25 +104,25 @@ export class DataRef {
 class DataUpload {
     private static readonly CHUNK_SIZE = 1024 * 1024 * 1024 * 5;
     private readonly uri: string;
-    private readonly content: Buffer;
+    private readonly content: Blob;
     private readonly totalNumberOfChunks: number;
     private readonly override: boolean;
 
 
-    constructor(uri: string, content: Buffer, totalNumberOfChunks: number, override: boolean) {
+    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
         this.uri = uri;
         this.content = content;
         this.totalNumberOfChunks = totalNumberOfChunks;
         this.override = override;
     }
 
-    public static create(uri: string, content: Buffer, override: boolean = false): DataUpload {
-        let numberOfChunks = Math.ceil(content.byteLength / DataUpload.CHUNK_SIZE)
+    public static create(uri: string, content: Blob, override: boolean = false): DataUpload {
+        let numberOfChunks = Math.ceil(content.size / DataUpload.CHUNK_SIZE)
         return new DataUpload(uri, content, numberOfChunks, override)
     }
 
     public execute(client: GaiaClient): Promise<DataRef> {
-        return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.byteLength, this.override), "/sink/data/init")
+        return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
             .then((initResponse: BinaryWriteInitiatedImpulse) =>
                 Promise.all(this.getChunkRequests(initResponse.uploadId)
                     .map(chunkRequest => client.postFormData(chunkRequest.asFormData(), "/sink/data/chunk"))))
@@ -135,10 +136,10 @@ class DataUpload {
     }
 
     private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {
-        let chunks = new Array<Buffer>()
+        let chunks = new Array<Blob>()
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
-            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.byteLength)))
+            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size)))
         }
-        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.length, chunk))
+        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk))
     }
 }

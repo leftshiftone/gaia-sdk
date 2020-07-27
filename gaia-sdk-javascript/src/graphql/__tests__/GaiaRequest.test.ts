@@ -65,4 +65,12 @@ class MockTransporter implements ITransporter {
         return Promise.resolve(this.callback(options, payload));
     }
 
+    downloadBlob(options: ClientOptions, body: any, urlPostfix?: string): Promise<Blob> {
+        return Promise.resolve(this.callback(options, body));
+    }
+
+    transportFormData<T>(options: ClientOptions, payload: FormData, urlPostFix: string): Promise<T> {
+        return Promise.resolve(this.callback(options, payload));
+    }
+
 }

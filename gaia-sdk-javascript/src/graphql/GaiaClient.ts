@@ -7,7 +7,6 @@ import {QueryResponse} from './GaiaResponse';
 import {MutationResponse} from './GaiaResponse';
 import {SubscriptionResponse} from './GaiaResponse';
 import VariableRegistry from "../api/VariableRegistry";
-import EnhancedFormData from "form-data"
 
 export class GaiaClient {
     private readonly options: ClientOptions;
@@ -65,13 +64,16 @@ export class GaiaClient {
         if (contentType) {
             this.options.withContentType(contentType);
         }
-
         return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
     }
 
-    public postFormData(body: EnhancedFormData, urlPostfix: string=""): Promise<any> {
-        return this.transporter.transportFormData(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
+    public postFormData(body: FormData, urlPostfix: string=""): Promise<any> {
+        return this.transporter.transportFormData(this.options, body, urlPostfix)
 
+    }
+
+    public downloadBlob(body: any, urlPostfix: string=""): Promise<any> {
+        return this.transporter.downloadBlob(this.options, body, urlPostfix)
     }
 }
 
