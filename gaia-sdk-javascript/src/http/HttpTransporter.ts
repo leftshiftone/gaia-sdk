@@ -1,11 +1,9 @@
 // @ts-ignore
 import {ClientOptions, ITransporter} from "..";
 import {UUID} from "../graphql/GaiaScalars";
-import {HMACCredentials, JWTCredentials} from "../api/GaiaCredentials";
+import {HMACCredentials, JWTCredentials} from "..";
 import {HMACTokenBuilder} from "./HMACTokenBuilder";
 import axios from 'axios';
-import EnhancedFormData from "form-data"
-
 
 export class HttpTransporter implements ITransporter {
 
@@ -32,21 +30,20 @@ export class HttpTransporter implements ITransporter {
         });
     }
 
-    transportFormData<T>(options: ClientOptions, body: EnhancedFormData, urlPostfix: String = ""): Promise<T> {
+    transportFormData<T>(options: ClientOptions, body: FormData, urlPostfix: String = ""): Promise<T> {
         let url = this.url + urlPostfix
-        let headers = body.getHeaders()
+        let headers = {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            Authorization: HttpTransporter.buildAuthorizationHeader(options, body)
+        }
         return new Promise<T>((resolve, reject) => {
             axios.post(url, body, {
-                headers: {
-                    ...headers,
-                    'Accept': '*/*',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-                    Authorization: HttpTransporter.buildAuthorizationHeader(options.withContentType(headers["content-type"]), body.getBuffer()) // TODO: Buffer to string
-                }
+                headers: headers
             })
                 .then(response => resolve(JSON.stringify(response.data) as any))
-                .catch(err => reject(Error(err + ": " +  (err.response || {}).data)));
+                .catch(err => reject(Error(err + ": " + (err.response || {}).data)));
         });
     }
 

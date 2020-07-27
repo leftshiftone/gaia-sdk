@@ -1081,6 +1081,11 @@ bl@^1.0.0, bl@^1.2.2:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
 
+blob-polyfill@^4.0.20200601:
+  version "4.0.20200601"
+  resolved "https://registry.yarnpkg.com/blob-polyfill/-/blob-polyfill-4.0.20200601.tgz#16430e9e50d63e122c6aac18b31f5f0bc8c0bf92"
+  integrity sha512-1jB6WOIp6IDxNyng5+9A8g/f0uiphib2ELCN+XAnlssinsW8s1k4VYG9b1TxIUd3pdm9RJSLQuBh6iohYmD4hA==
+
 bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
@@ -2181,6 +2186,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cross-blob@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/cross-blob/-/cross-blob-2.0.0.tgz#a7cf1901c746b606ec31e0d04838d18888ea35a4"
+  integrity sha512-NWzFuyG4GTZnM9MtQvjPYVlO12lZCSBdoHIHCZl9WKShsK3CqO+bEH7nuKwlVomlByb37XvT6nVY5uQxDBmk5Q==
+  dependencies:
+    blob-polyfill "^4.0.20200601"
+    fetch-blob "^2.0.1"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -3353,6 +3366,11 @@ fd-slicer@~1.1.0:
   integrity sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
   dependencies:
     pend "~1.2.0"
+
+fetch-blob@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fetch-blob/-/fetch-blob-2.0.1.tgz#64b583cd2bd21685b17706818b388af08cb40b9b"
+  integrity sha512-1jFpa68M4EzObtFa7XOKZoN1unsaeJ6hGSbxaWaVO+TkHmVvnyzRu1ktZAFbUvTZ9NC/qMKGKJ79dK4MzuSBiw==
 
 figures@^2.0.0:
   version "2.0.0"
