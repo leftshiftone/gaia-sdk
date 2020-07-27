@@ -1,8 +1,8 @@
 /**
  * @jest-environment node
  */
-import {Gaia} from "../graphql";
-import {HMACCredentials} from "../api/GaiaCredentials";
+import {Gaia} from "../Gaia";
+import {HMACCredentials, JWTCredentials} from "..";
 import Blob from "cross-blob"
 
 describe("dataref tests:", () => {
@@ -30,6 +30,18 @@ describe("dataref tests:", () => {
                 resolve(e || "");
             }, reject);
         })
+    });
+
+    test('test load file as file', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").asFile();
+            observable.subscribe(e => {
+                expect(e !== null).toBeTruthy();
+                resolve(e || "");
+            }, reject);
+        });
     });
 
     test('test overwrite file with override', () => {

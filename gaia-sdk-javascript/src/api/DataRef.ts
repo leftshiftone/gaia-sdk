@@ -9,6 +9,7 @@ import {ListFilesImpulse} from "../graphql/request/input/ListFilesImpulse";
 import {FileListing} from "../graphql/response/type/FileListing";
 import {RemoveFileImpulse} from "../graphql/request/input/RemoveFileImpulse";
 import {FileRemovedImpulse} from "../graphql/response/type/FileRemovedImpulse";
+import {BinaryReadImpulse} from "../graphql/request/input/BinaryReadImpulse";
 import Blob from "cross-blob"
 
 export class DataRef {
@@ -75,8 +76,11 @@ export class DataRef {
         return this.removeFileAt(this.uri)
     }
 
-    public asFile() {
-        console.log("asFile")
+    public asFile(): Observable<BinaryReadImpulse> {
+        return from(this.client.post(new BinaryReadImpulse(this.uri), "/source/data/get")
+            .catch(reason => {
+                throw new Error("Removing file with uri " + this.uri + " failed: " + reason)
+            }))
     }
 
     public asStream() {

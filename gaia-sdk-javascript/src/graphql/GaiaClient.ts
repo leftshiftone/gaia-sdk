@@ -60,8 +60,12 @@ export class GaiaClient {
         return [statement, registry.getVariables()];
     }
 
-    public post(body: any, urlPostfix: string=""): Promise<any> {
-            return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
+    public post(body: any, urlPostfix: string = "", contentType?: string): Promise<any> {
+        if (contentType) {
+            this.options.withContentType(contentType);
+        }
+
+        return this.transporter.transport(this.options, body, urlPostfix).then((response) => JSON.parse(<string>response))
     }
 
     public postFormData(body: FormData, urlPostfix: string=""): Promise<any> {
