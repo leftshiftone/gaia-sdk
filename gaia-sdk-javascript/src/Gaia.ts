@@ -39,13 +39,31 @@ import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
 import {Uuid} from "./graphql/GaiaClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
-import {GaiaCredentials} from "./api/GaiaCredentials";
+import {GaiaCredentials, JWTCredentials, TBLCredentials} from "./api/GaiaCredentials";
 import {HttpDataFunction} from "./http/HttpDataFunction";
+import axios from 'axios';
 
 export class Gaia {
-
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
         return new GaiaRef(new GaiaConfig(url, credentials));
+    }
+
+    public static login(url: string, credentials: TBLCredentials): Promise<GaiaRef> {
+        return new Promise<GaiaRef>((resolve, reject) => {
+            axios.post(url, JSON.stringify(credentials), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Access-Control-Allow-Methods': 'POST',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                }
+            })
+                .then(response => {
+                    let cr = new JWTCredentials(response.data.accessToken);
+                    resolve(new GaiaRef(new GaiaConfig(url, cr)))
+                })
+                .catch(err => reject(Error(err + ": " + (err.response || {}).data)));
+        });
     }
 }
 

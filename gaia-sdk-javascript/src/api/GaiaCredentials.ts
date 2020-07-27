@@ -17,3 +17,13 @@ export class JWTCredentials implements GaiaCredentials {
         this.token = token
     }
 }
+
+export class TBLCredentials implements GaiaCredentials {
+    username: string;
+    password: string;
+
+    constructor(username: string, password: string) {
+        this.username = username;
+        this.password = password;
+    }
+}

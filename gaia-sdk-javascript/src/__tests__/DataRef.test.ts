@@ -3,6 +3,7 @@
  */
 import {Gaia} from "../Gaia";
 import {HMACCredentials, JWTCredentials} from "..";
+import {TBLCredentials} from "../api/GaiaCredentials";
 const fs = require('fs');
 
 describe("dataref tests:", () => {
@@ -104,6 +105,20 @@ describe("dataref tests:", () => {
                 expect(e.fileExisted).toEqual(false);
                 resolve(e || "");
             }, reject);
+        });
+    });
+
+    test('test login', () => {
+        let credentials = {
+            "username": "mockUser",
+            "password": "mockPassword"
+        }
+
+        return new Promise((resolve, reject) => {
+            Gaia.login('http://localhost:8080/api/auth/access', credentials).then((data) => {
+                console.log(data);
+                resolve("");
+            })
         });
     });
 });

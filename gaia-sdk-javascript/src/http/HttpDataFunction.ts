@@ -1,5 +1,5 @@
 import {GaiaClient, GaiaClientBuilder} from "..";
-import {GaiaCredentials} from "../api/GaiaCredentials";
+import {GaiaCredentials} from "..";
 import {DataRef} from "../api/DataRef";
 
 export class HttpDataFunction {
