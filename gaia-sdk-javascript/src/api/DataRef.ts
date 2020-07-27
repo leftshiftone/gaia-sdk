@@ -76,8 +76,8 @@ export class DataRef {
         return this.removeFileAt(this.uri)
     }
 
-    public asFile(): Observable<BinaryReadImpulse> {
-        return from(this.client.post(new BinaryReadImpulse(this.uri), "/source/data/get")
+    public asFile(): Observable<Blob> {
+        return from(this.client.downloadBlob(new BinaryReadImpulse(this.uri), "/source/data/get")
             .catch(reason => {
                 throw new Error("Removing file with uri " + this.uri + " failed: " + reason)
             }))
