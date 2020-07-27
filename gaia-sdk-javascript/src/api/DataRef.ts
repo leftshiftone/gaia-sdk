@@ -33,7 +33,7 @@ export class DataRef {
     }
 
     public asFile() {
-        console.log("asFile")
+        return this.client.post({uri: this.uri}, "/source/data/get");
     }
 
     public asStream() {
