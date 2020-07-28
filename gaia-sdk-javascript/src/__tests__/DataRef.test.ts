@@ -4,10 +4,9 @@
 import {Gaia} from "../Gaia";
 import {HMACCredentials} from "..";
 import Blob from "cross-blob"
-import {UsernamePasswordCredentials} from "../api/GaiaCredentials";
 
 describe("dataref tests:", () => {
-        test('test write new file', () => {
+        test.skip('test write new file', () => {
             const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
             const blob = new Blob(["234"]);
 
@@ -20,7 +19,7 @@ describe("dataref tests:", () => {
             })
         });
 
-    test('test overwrite existing file does not work', () => {
+    test.skip('test overwrite existing file does not work', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const blob = new Blob(["234"]);
 
@@ -33,7 +32,7 @@ describe("dataref tests:", () => {
         })
     });
 
-    test('test load file as file', () => {
+    test.skip('test load file as file', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
 
         return new Promise((resolve, reject) => {
@@ -45,7 +44,7 @@ describe("dataref tests:", () => {
         });
     });
 
-    test('test overwrite file with override', () => {
+    test.skip('test overwrite file with override', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const blob = new Blob(["234"]);
 
