@@ -36,19 +36,37 @@ import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImp
 import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
 import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
-import {Uuid} from "./graphql/GaiaClient";
+import {Uuid} from "./graphql/GaiaFunctionClient";
 import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
-import {GaiaCredentials} from "./api/GaiaCredentials";
 import {CreateIdentityImpulse} from "./graphql/request/input/CreateIdentityImpulse";
 import {DeleteIdentityImpulse} from "./graphql/request/input/DeleteIdentityImpulse";
 import {UpdateIdentityImpulse} from "./graphql/request/input/UpdateIdentityImpulse";
 import {Identity} from "./graphql/request/type/Identity";
+import {GaiaCredentials, JWTCredentials, UsernamePasswordCredentials} from "./api/GaiaCredentials";
+import {HttpSensorStream} from "./http/HttpSensorStream";
+import {ISensorStream} from "./api/ISensorStream";
+import {HttpClient} from "./http/HttpClient";
 
 export class Gaia {
-
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
-        return new GaiaRef(new GaiaConfig(url,credentials));
+        return new GaiaRef(new GaiaConfig(url, credentials));
+    }
+
+    public static login(url: string, credentials: UsernamePasswordCredentials): Promise<GaiaRef> {
+        return new HttpClient()
+            .post(JSON.stringify(credentials), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Access-Control-Allow-Methods': 'POST',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                }
+            }, url + "/api/auth/access")
+            .then(response => {
+                let cr = new JWTCredentials(response.accessToken);
+                return new GaiaRef(new GaiaConfig(url, cr))
+            })
     }
 }
 
@@ -56,24 +74,30 @@ export class GaiaConfig {
     readonly url: string;
     readonly credentials: GaiaCredentials;
     readonly functionProcessor: ISensorFunction;
+    readonly streamProcessor: HttpSensorStream;
 
     constructor(url: string, credentials: GaiaCredentials,
-                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials)) {
+                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials),
+                streamProcessor: HttpSensorStream = new HttpSensorStream(url, credentials)) {
         this.url = url;
         this.credentials = credentials;
         this.functionProcessor = functionProcessor
+        this.streamProcessor = streamProcessor
     }
 }
 
-export class GaiaRef implements ISensorFunction {
+export class GaiaRef implements ISensorFunction, ISensorStream {
     private readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
+    private readonly sProc: HttpSensorStream;
 
     constructor(config: GaiaConfig) {
         this.config = config;
         this.fProc = config.functionProcessor;
+        this.sProc = config.streamProcessor;
     }
 
+    public data = (uri: string) => this.sProc.createDataRef(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);

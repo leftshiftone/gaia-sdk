@@ -1,6 +1,6 @@
 
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -11,27 +11,27 @@ export interface Prompt {
     /**
     * The prompt id
     */
-    identityId?:Uuid, 
+    identityId?:Uuid,
     /**
     * The prompt reference id
     */
-    reference?:Uuid, 
+    reference?:Uuid,
     /**
     * The name of the prompt
     */
-    qualifier?:string, 
+    qualifier?:string,
     /**
     * Detailed description about the prompt
     */
-    appendent?:string, 
+    appendent?:string,
     /**
     * The utterance dictionary. The key is a language key and the value is a list of utterances
     */
-    utterance?:Struct, 
+    utterance?:Struct,
     /**
     * The list of labels of the prompt
     */
-    labelList?:[string], 
+    labelList?:[string],
     /**
     * The version of the prompt
     */

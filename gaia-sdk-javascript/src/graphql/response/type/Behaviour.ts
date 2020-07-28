@@ -1,6 +1,6 @@
 
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -11,23 +11,23 @@ export interface Behaviour {
     /**
     * The behaviour id
     */
-    identityId?:Uuid, 
+    identityId?:Uuid,
     /**
     * The behaviour reference id
     */
-    reference?:Uuid, 
+    reference?:Uuid,
     /**
     * The name of the behaviour
     */
-    qualifier?:string, 
+    qualifier?:string,
     /**
     * Detailed description about the behaviour
     */
-    appendent?:string, 
+    appendent?:string,
     /**
     * The list of labels of the behaviour
     */
-    labelList?:[string], 
+    labelList?:[string],
     /**
     * The behaviour xml
     */

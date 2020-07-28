@@ -8,25 +8,25 @@ import {Identity} from "./Identity";
 import {Code} from "./Code";
 import {Edge} from "./Edge";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface Knowledge {
-    identities?:[Identity], 
-    identity?:Identity, 
-    intents?:[Intent], 
-    intent?:Intent, 
-    prompts?:[Prompt], 
-    prompt?:Prompt, 
-    fulfilments?:[Fulfilment], 
-    fulfilment?:Fulfilment, 
-    statements?:[Statement], 
-    statement?:Statement, 
-    codes?:[Code], 
-    code?:Code, 
-    behaviours?:[Behaviour], 
-    behaviour?:Behaviour, 
-    edges?:[Edge], 
+    identities?:[Identity],
+    identity?:Identity,
+    intents?:[Intent],
+    intent?:Intent,
+    prompts?:[Prompt],
+    prompt?:Prompt,
+    fulfilments?:[Fulfilment],
+    fulfilment?:Fulfilment,
+    statements?:[Statement],
+    statement?:Statement,
+    codes?:[Code],
+    code?:Code,
+    behaviours?:[Behaviour],
+    behaviour?:Behaviour,
+    edges?:[Edge],
     edge?:Edge
 }

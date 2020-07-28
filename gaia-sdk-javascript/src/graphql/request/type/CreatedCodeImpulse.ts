@@ -2,7 +2,7 @@
 import {Code} from "./Code";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -11,7 +11,7 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class CreatedCodeImpulse extends Array<(_:VariableRegistry) => string> {
 
-    public id = () => { 
+    public id = () => {
         this.push(_ => "id")
     };
 

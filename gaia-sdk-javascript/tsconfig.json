@@ -19,7 +19,8 @@
         ],
         "declaration": true,
         "noImplicitAny": false,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "esModuleInterop": true
     },
     "files": [
         "./src/Gaia.ts"

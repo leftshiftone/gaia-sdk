@@ -2,7 +2,7 @@
 import {StreamingImpulse} from "./StreamingImpulse";
 import {StreamImpulse} from "../../request/input/StreamImpulse";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 

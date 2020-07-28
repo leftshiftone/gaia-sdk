@@ -2,7 +2,7 @@
 import {Retrieval} from "./Retrieval";
 import {Introspection} from "./Introspection";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -13,7 +13,7 @@ export interface Query {
     /**
     * Container element for all introspect sensor fields
     */
-    introspect?:Introspection, 
+    introspect?:Introspection,
     /**
     * Container element for all retrieve sensor fields
     */

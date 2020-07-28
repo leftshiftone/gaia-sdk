@@ -1,7 +1,7 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -13,7 +13,7 @@ export class Impulse extends Array<(_:VariableRegistry) => string> {
     /**
      * The id of the impulse
      */
-    public id = () => { 
+    public id = () => {
         this.push(_ => "id")
     };
 
