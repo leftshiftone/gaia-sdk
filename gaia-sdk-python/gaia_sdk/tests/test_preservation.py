@@ -144,14 +144,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_behaviour(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreateBehaviourImpulse(str(uuid4()), "", "", "", list(), "")
+        impulses = CreateBehaviourImpulse(str(uuid4()), "", "", "", list())
         result = gaia_ref.preserve_create_behaviours([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_behaviour(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdateBehaviourImpulse(str(uuid4()), str(uuid4()), "", "", "", list(), "")
+        impulses = UpdateBehaviourImpulse(str(uuid4()), str(uuid4()), "", "", "", list())
         result = gaia_ref.preserve_update_behaviours([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -165,14 +165,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreateCodeImpulse(str(uuid4()), "", "", dict(), "", list(), "")
+        impulses = CreateCodeImpulse(str(uuid4()), "", "", dict(), "", list())
         result = gaia_ref.preserve_create_codes([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_code(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdateCodeImpulse(str(uuid4()), str(uuid4()), "", "", dict(), "", list(), "")
+        impulses = UpdateCodeImpulse(str(uuid4()), str(uuid4()), "", "", dict(), "", list())
         result = gaia_ref.preserve_update_codes([impulses]).pipe(ops.first()).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
