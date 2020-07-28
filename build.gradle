@@ -115,7 +115,7 @@ configurations {
             componentSelection {
                 all { ComponentSelection selection ->
                     if (selection.candidate.group == 'one.leftshift.heimdall' && selection.candidate.module == 'heimdall-mock' && selection.candidate.version.contains('-rc.')) {
-                        selection.reject("RC1 is not the most recent version")
+                        selection.reject("Release candidates are ignored")
                     }
                 }
             }
