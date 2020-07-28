@@ -1,6 +1,6 @@
 
 
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -11,27 +11,27 @@ export interface Code {
     /**
     * The code id
     */
-    identityId?:Uuid,
+    identityId?:Uuid, 
     /**
     * The code reference id
     */
-    reference?:Uuid,
+    reference?:Uuid, 
     /**
     * The name of the code
     */
-    qualifier?:string,
+    qualifier?:string, 
     /**
     * Detailed description about the code
     */
-    appendent?:string,
+    appendent?:string, 
     /**
     * The code dictionary. The key is a file name and the value is the code
     */
-    code?:Struct,
+    code?:Struct, 
     /**
     * The list of labels of the code
     */
-    labelList?:[string],
+    labelList?:[string], 
     /**
     * The type of the code
     */

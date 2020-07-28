@@ -1,7 +1,7 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -13,49 +13,49 @@ export class Code extends Array<(_:VariableRegistry) => string> {
     /**
      * The code id
      */
-    public identityId = () => {
+    public identityId = () => { 
         this.push(_ => "identityId")
     };
 
     /**
      * The code reference id
      */
-    public reference = () => {
+    public reference = () => { 
         this.push(_ => "reference")
     };
 
     /**
      * The name of the code
      */
-    public qualifier = () => {
+    public qualifier = () => { 
         this.push(_ => "qualifier")
     };
 
     /**
      * Detailed description about the code
      */
-    public appendent = () => {
+    public appendent = () => { 
         this.push(_ => "appendent")
     };
 
     /**
      * The code dictionary. The key is a file name and the value is the code
      */
-    public code = () => {
+    public code = () => { 
         this.push(_ => "code")
     };
 
     /**
      * The list of labels of the code
      */
-    public labelList = () => {
+    public labelList = () => { 
         this.push(_ => "labelList")
     };
 
     /**
      * The type of the code
      */
-    public type = () => {
+    public type = () => { 
         this.push(_ => "type")
     };
 

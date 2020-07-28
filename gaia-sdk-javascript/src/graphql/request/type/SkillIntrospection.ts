@@ -1,21 +1,21 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class SkillIntrospection extends Array<(_:VariableRegistry) => string> {
 
-    public name = () => {
+    public name = () => { 
         this.push(_ => "name")
     };
 
-    public state = () => {
+    public state = () => { 
         this.push(_ => "state")
     };
 
-    public started = () => {
+    public started = () => { 
         this.push(_ => "started")
     };
 

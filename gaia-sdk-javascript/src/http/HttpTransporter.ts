@@ -1,7 +1,7 @@
-import {ClientOptions, IFunctionTransporter} from "..";
+import {ClientOptions, ITransporter} from "..";
 import {HttpClient} from "./HttpClient";
 
-export class FunctionHttpTransporter implements IFunctionTransporter {
+export class HttpTransporter implements ITransporter {
 
     private readonly url: string;
     private readonly client: HttpClient

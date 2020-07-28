@@ -72,7 +72,7 @@ import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
-import {Uuid} from "../graphql/GaiaFunctionClient";
+import {Uuid} from "../graphql/GaiaClient";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>

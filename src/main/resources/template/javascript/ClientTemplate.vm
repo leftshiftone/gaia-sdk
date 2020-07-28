@@ -1,3 +1,5 @@
+//Class generated from template src/main/resources/template/javascript/ClientTemplate.vm
+
 import {ClientOptions} from '../api/ClientOptions';
 import {ITransporter} from '../api/ITransporter';
 import {Query} from "./request/type/Query";

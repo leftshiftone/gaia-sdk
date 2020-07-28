@@ -6,7 +6,7 @@ import {PerceiveButtonImpulse} from "../../request/input/PerceiveButtonImpulse";
 import {PerceiveUtteranceImpulse} from "../../request/input/PerceiveUtteranceImpulse";
 import {PerceiveSubmitImpulse} from "../../request/input/PerceiveSubmitImpulse";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -17,19 +17,19 @@ export interface Conversational {
     /**
     * Utterance perception impulse used to send an utterance text to gaia
     */
-    perceiveUtterance?:PerceivedImpulse,
+    perceiveUtterance?:PerceivedImpulse, 
     /**
     * Button perception impulse used to send a button action to gaia
     */
-    perceiveButton?:PerceivedImpulse,
+    perceiveButton?:PerceivedImpulse, 
     /**
     * Submit perception impulse used to send a submit action to gaia
     */
-    perceiveSubmit?:PerceivedImpulse,
+    perceiveSubmit?:PerceivedImpulse, 
     /**
     * Reception perception impulse used to send a reception to gaia
     */
-    perceiveReception?:PerceivedImpulse,
+    perceiveReception?:PerceivedImpulse, 
     /**
     * Suggestion perception impulse used to send a suggestion action to gaia
     */

@@ -15,7 +15,7 @@ import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 

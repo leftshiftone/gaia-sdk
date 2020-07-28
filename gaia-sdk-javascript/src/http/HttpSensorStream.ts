@@ -1,4 +1,4 @@
-import {GaiaFunctionClient, GaiaFunctionClientBuilder} from "..";
+import {GaiaClient, GaiaClientBuilder} from "..";
 import {GaiaCredentials} from "..";
 import {DataRef} from "../api/DataRef";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";

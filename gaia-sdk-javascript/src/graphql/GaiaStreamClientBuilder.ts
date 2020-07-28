@@ -1,5 +1,5 @@
-import {ClientOptions, FunctionHttpTransporter, IFunctionTransporter} from '..';
-import {GaiaFunctionClient} from './GaiaFunctionClient';
+import {ClientOptions, HttpTransporter, ITransporter} from '..';
+import {GaiaClient} from './GaiaClient';
 import {GaiaCredentials} from "../api/GaiaCredentials";
 import {GaiaStreamClient} from "./GaiaStreamClient";
 import {StreamHttpTransporter} from "../http/StreamHttpTransporter";
