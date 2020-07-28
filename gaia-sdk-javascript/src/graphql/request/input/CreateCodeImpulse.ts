@@ -16,15 +16,13 @@ export class CreateCodeImpulse {
     private code:Struct;
     private type:String;
     private labelList:Array<String>;
-    private version:String;
 
-    constructor (identityId:Uuid, qualifier:String, appendent:String, code:Struct, type:String, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, qualifier:String, appendent:String, code:Struct, type:String, labelList:Array<String>) {
         this.identityId = identityId;
         this.qualifier = qualifier;
         this.appendent = appendent;
         this.code = code;
         this.type = type;
         this.labelList = labelList;
-        this.version = version;
     }
 }

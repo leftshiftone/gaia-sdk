@@ -17,9 +17,8 @@ export class UpdateCodeImpulse {
     private code:Struct;
     private type:String;
     private labelList:Array<String>;
-    private version:String;
 
-    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, code:Struct, type:String, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, code:Struct, type:String, labelList:Array<String>) {
         this.identityId = identityId;
         this.reference = reference;
         this.qualifier = qualifier;
@@ -27,6 +26,5 @@ export class UpdateCodeImpulse {
         this.code = code;
         this.type = type;
         this.labelList = labelList;
-        this.version = version;
     }
 }

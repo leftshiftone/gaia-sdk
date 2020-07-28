@@ -19,5 +19,4 @@ class CreateCodeImpulse():
     code: dict
     type: str
     labelList: List[str]
-    version: str
 

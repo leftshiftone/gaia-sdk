@@ -266,7 +266,6 @@ input CreateBehaviourImpulse {
     appendent: String
     behaviour: String!
     labelList: [String]
-    version: String
 }
 "The specification to update a behaviour instance"
 input UpdateBehaviourImpulse {
@@ -276,7 +275,6 @@ input UpdateBehaviourImpulse {
     appendent: String
     behaviour: String!
     labelList: [String]
-    version: String
 }
 "The specification to delete a behaviour instance"
 input DeleteBehaviourImpulse {
@@ -308,7 +306,6 @@ input CreateCodeImpulse {
     code: Struct!
     type: String!
     labelList: [String]
-    version: String
 }
 "The specification to update a code instance"
 input UpdateCodeImpulse {
@@ -319,7 +316,6 @@ input UpdateCodeImpulse {
     code: Struct!
     type: String!
     labelList: [String]
-    version: String
 }
 "The specification to delete a code instance"
 input DeleteCodeImpulse {

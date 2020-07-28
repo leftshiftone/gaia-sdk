@@ -18,6 +18,5 @@ class UpdateCodeImpulse(val identityId:Uuid,
    val appendent:String, 
    val code:Struct, 
    val type:String, 
-   val labelList:Array<out String>, 
-   val version:String) : Input()
+   val labelList:Array<out String>) : Input()
 
