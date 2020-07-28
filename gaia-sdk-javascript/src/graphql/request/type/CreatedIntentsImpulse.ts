@@ -2,7 +2,7 @@
 import {Intent} from "./Intent";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Uuid, Timestamp, Struct, Long} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -11,7 +11,7 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class CreatedIntentsImpulse extends Array<(_:VariableRegistry) => string> {
 
-    public id = () => { 
+    public id = () => {
         this.push(_ => "id")
     };
 

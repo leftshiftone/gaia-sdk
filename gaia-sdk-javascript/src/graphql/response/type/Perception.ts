@@ -4,7 +4,7 @@ import {PerceivedImpulse} from "./PerceivedImpulse";
 import {PerceiveDataImpulse} from "../../request/input/PerceiveDataImpulse";
 import {PerceiveActionImpulse} from "../../request/input/PerceiveActionImpulse";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -16,11 +16,11 @@ export interface Perception {
     /**
     * Contains all perception fields needed for a conversation.
     */
-    conversational?:Conversational, 
+    conversational?:Conversational,
     /**
     * Data perception impulse used to invoke a data transformation behaviour
     */
-    perceiveData?:PerceivedImpulse, 
+    perceiveData?:PerceivedImpulse,
     /**
     * Action perception impulse used to invoke a data transformation behaviour
     */

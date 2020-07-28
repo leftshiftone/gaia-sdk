@@ -1,7 +1,7 @@
 
 import {KeyOne} from "./KeyOne";
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
@@ -9,6 +9,6 @@ import {SkillState} from "../../request/enumeration/SkillState";
 * Impulse which indicates the result of a delete statement impulse
 */
 export interface DeletedStatementImpulse {
-    id?:Uuid, 
+    id?:Uuid,
     data?:KeyOne
 }

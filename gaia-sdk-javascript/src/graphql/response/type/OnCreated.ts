@@ -1,12 +1,12 @@
 
 
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface OnCreated {
-    id?:Uuid, 
-    identityId?:Uuid, 
-    reference?:Uuid, 
+    id?:Uuid,
+    identityId?:Uuid,
+    reference?:Uuid,
     type?:string
 }

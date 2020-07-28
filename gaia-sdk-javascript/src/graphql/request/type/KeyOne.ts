@@ -1,7 +1,7 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -10,11 +10,11 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class KeyOne extends Array<(_:VariableRegistry) => string> {
 
-    public identityId = () => { 
+    public identityId = () => {
         this.push(_ => "identityId")
     };
 
-    public reference = () => { 
+    public reference = () => {
         this.push(_ => "reference")
     };
 

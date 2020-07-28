@@ -1,7 +1,7 @@
 import {GaiaRequest} from "../GaiaRequest";
-import {GaiaClient} from "../GaiaClient";
+import {GaiaFunctionClient} from "../GaiaFunctionClient";
 import {ClientOptions} from "../../api/ClientOptions";
-import {ITransporter} from "../../api/ITransporter";
+import {IFunctionTransporter} from "../../api/IFunctionTransporter";
 import {Query} from "../request/type/Query";
 import {Introspection} from "../request/type/Introspection";
 import {PerceiveDataImpulse} from "..";
@@ -19,8 +19,8 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
-        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
+        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -32,7 +32,7 @@ describe("GaiaRequestTest", () => {
     });
 
     test('simple preserve invocation', () => {
-        const impulse = new PerceiveDataImpulse("", "test", {"a":"b"});
+        const impulse = new PerceiveDataImpulse("", "test", {"a": "b"});
 
         const request = GaiaRequest.mutation((m: Mutation) => {
             m.perceive(p => {
@@ -40,8 +40,8 @@ describe("GaiaRequestTest", () => {
             })
         });
 
-        const options = new ClientOptions(new HMACCredentials("mockedApiKey","mockedApiSecret"), "application/json");
-        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
+        const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
+        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -54,15 +54,14 @@ describe("GaiaRequestTest", () => {
 
 });
 
-class MockTransporter implements ITransporter {
-    private callback: (options:ClientOptions, payload: any) => any;
+class MockTransporter implements IFunctionTransporter {
+    private callback: (options: ClientOptions, payload: any) => any;
 
-    constructor(callback: (options:ClientOptions, payload: any) => any) {
+    constructor(callback: (options: ClientOptions, payload: any) => any) {
         this.callback = callback;
     }
 
-    transport<T>(options: ClientOptions, payload: any): Promise<T> {
+    transport<T>(options: ClientOptions, payload: any, urlPostfix: string = ""): Promise<T> {
         return Promise.resolve(this.callback(options, payload));
     }
-
 }
