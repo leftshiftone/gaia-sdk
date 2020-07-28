@@ -9,6 +9,8 @@ type Preservation {
 }
 
 type CreateKnowledge {
+    "creates a list of identities with the given specifications"
+    identities(impulses: [CreateIdentityImpulse]): [CreatedIdentityImpulse]
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "creates a list of prompts with the given specifications"
@@ -25,6 +27,8 @@ type CreateKnowledge {
     edges(impulses: [CreateEdgeImpulse]): [CreatedEdgeImpulse]
 }
 type UpdateKnowledge {
+    "updates a list of identities with the given specifications"
+    identities(impulses: [UpdateIdentityImpulse]): [UpdatedIdentityImpulse]
     "updates a list of intents with the given specifications"
     intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
@@ -40,6 +44,8 @@ type UpdateKnowledge {
     # TODO do we need to update edges?
 }
 type DeleteKnowledge {
+    "deletes a list of identities with the given specifications"
+    identities(impulses: [DeleteIdentityImpulse]): [DeletedIdentityImpulse]
     "deletes a list of intents with the given specifications"
     intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
@@ -55,6 +61,38 @@ type DeleteKnowledge {
     "deletes a list of edges with the given specifications"
     edges(impulses: [DeleteEdgeImpulse]): [DeletedEdgeImpulse]
 }
+
+"The specification to create an identity instance"
+input CreateIdentityImpulse {
+    qualifier: String!
+}
+"The specification to update an identity instance"
+input UpdateIdentityImpulse {
+    identityId: Uuid!
+    qualifier: String!
+}
+"The specification to delete an identity instance"
+input DeleteIdentityImpulse {
+    identityId: Uuid!
+}
+"Impulse which indicates the result of a create identity impulse"
+type CreatedIdentityImpulse implements Impulse {
+    id: Uuid!
+    "the identity instance"
+    data: Identity
+}
+"Impulse which indicates the result of a update identity impulse"
+type UpdatedIdentityImpulse implements Impulse {
+    id: Uuid!
+    "the identity instance"
+    data: Identity
+}
+"Impulse which indicates the result of a delete identity impulse"
+type DeletedIdentityImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
 "The specification to create an intent instance"
 input CreateIntentImpulse {
     identityId: Uuid!
@@ -228,7 +266,6 @@ input CreateBehaviourImpulse {
     appendent: String
     behaviour: String!
     labelList: [String]
-    version: String
 }
 "The specification to update a behaviour instance"
 input UpdateBehaviourImpulse {
@@ -238,7 +275,6 @@ input UpdateBehaviourImpulse {
     appendent: String
     behaviour: String!
     labelList: [String]
-    version: String
 }
 "The specification to delete a behaviour instance"
 input DeleteBehaviourImpulse {
@@ -270,7 +306,6 @@ input CreateCodeImpulse {
     code: Struct!
     type: String!
     labelList: [String]
-    version: String
 }
 "The specification to update a code instance"
 input UpdateCodeImpulse {
@@ -281,7 +316,6 @@ input UpdateCodeImpulse {
     code: Struct!
     type: String!
     labelList: [String]
-    version: String
 }
 "The specification to delete a code instance"
 input DeleteCodeImpulse {

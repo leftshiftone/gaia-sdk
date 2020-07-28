@@ -37,6 +37,27 @@ class TestRetrieval(unittest.TestCase):
         assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
         assert result.dictionary.get("reference") is not None, "Reference is in response"
 
+    def test_retrieve_identities(self):
+        gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
+
+        def config(x):
+            x.identity_id()
+            x.qualifier()
+
+        result = gaia_ref.retrieve_identities(config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
+
+    def test_retrieve_identity(self):
+        gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
+
+        def config(x):
+            x.identity_id()
+            x.qualifier()
+
+        result = gaia_ref.retrieve_identity(str(uuid4()), config).pipe(ops.first()).run()
+        assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
+        assert result.dictionary.get("qualifier") is not None, "Qualifier is in response"
+
     def test_retrieve_intents(self):
         gaia_ref = Gaia.connect("http://localhost:8080",  HMACCredentials("mockedApiKey", "mockedApiSecret"))
 

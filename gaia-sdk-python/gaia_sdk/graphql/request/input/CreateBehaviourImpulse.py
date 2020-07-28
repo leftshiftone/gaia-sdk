@@ -18,5 +18,4 @@ class CreateBehaviourImpulse():
     appendent: str
     behaviour: str
     labelList: List[str]
-    version: str
 

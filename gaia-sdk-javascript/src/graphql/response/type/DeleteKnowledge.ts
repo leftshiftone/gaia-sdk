@@ -1,4 +1,5 @@
 
+import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
@@ -13,12 +14,17 @@ import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse
 import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
+import {DeleteIdentityImpulse} from "../../request/input/DeleteIdentityImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
 
 export interface DeleteKnowledge {
+    /**
+    * deletes a list of identities with the given specifications
+    */
+    identities?:[DeletedIdentityImpulse], 
     /**
     * deletes a list of intents with the given specifications
     */

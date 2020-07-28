@@ -5,11 +5,13 @@ import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
 import {CreateEdgeImpulse} from "../input/CreateEdgeImpulse";
+import {CreateIdentityImpulse} from "../input/CreateIdentityImpulse";
 import {CreateCodeImpulse} from "../input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../input/CreateStatementImpulse";
@@ -20,6 +22,16 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
+
+    /**
+     * creates a list of identities with the given specifications
+     */
+    public identities = (impulses : [CreateIdentityImpulse], config: (_:CreatedIdentityImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedIdentityImpulse();
+        config(entity);
+        return `identities(impulses:$${name1}){` + entity.render(registry) + "}"
+    });
 
     /**
      * creates a list of intents with the given specifications

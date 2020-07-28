@@ -1,5 +1,8 @@
 from gaia_sdk.graphql.request.type.Behaviour import Behaviour as BehaviourReq
 from gaia_sdk.graphql.request.type.Code import Code as CodeReq
+from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
+from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
+from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
@@ -22,6 +25,7 @@ from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.type.Experience import Experience as ExperienceReq
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment as FulfilmentReq
+from gaia_sdk.graphql.request.type.Identity import Identity as IdentityReq
 from gaia_sdk.graphql.request.type.Intent import Intent as IntentReq
 from gaia_sdk.graphql.request.type.Introspection import Introspection as IntrospectionReq
 from gaia_sdk.graphql.request.type.Knowledge import Knowledge as KnowledgeReq
@@ -37,6 +41,9 @@ from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpu
 from gaia_sdk.graphql.response.type.PerceivedImpulse import PerceivedImpulse
 from gaia_sdk.graphql.response.type.Query import Query as QueryRes
 from gaia_sdk.graphql.response.type.Perception import Perception as PerceptionRes
+from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
+from gaia_sdk.graphql.response.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
+from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
 from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
 from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
@@ -65,6 +72,7 @@ from gaia_sdk.graphql.response.type.Code import Code as CodeRes
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment as FulfilmentRes
 from gaia_sdk.graphql.response.type.Statement import Statement as StatementRes
 from gaia_sdk.graphql.response.type.Prompt import Prompt as PromptRes
+from gaia_sdk.graphql.response.type.Identity import Identity as IdentityRes
 from gaia_sdk.graphql.response.type.Intent import Intent as IntentRes
 from gaia_sdk.graphql.response.type.Edge import Edge as EdgeRes
 from gaia_sdk.graphql.response.type.Knowledge import Knowledge as KnowledgeRes

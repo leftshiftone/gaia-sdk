@@ -3,11 +3,13 @@ from rx.core.typing import Observable
 from typing import Callable, List
 
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
-    IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
-    PerceptionReq, PreservationReq, CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
-    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, KnowledgeRes, FulfilmentRes, CodeRes, \
+    IdentityReq, IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
+    PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
+    CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
+    ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
     BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
-    DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, PerceiveActionImpulse, PerceiveDataImpulse, \
+    DeleteIdentityImpulse, UpdateIdentityImpulse, CreateIdentityImpulse, DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse,  \
+    PerceiveActionImpulse, PerceiveDataImpulse, \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
     DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
     CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
@@ -42,7 +44,15 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+    def retrieve_identities(self, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_identity(self, identity_id: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
         pass
 
     @abstractmethod
@@ -99,6 +109,18 @@ class ISensorFunction(ABC):
 
     @abstractmethod
     def preserve(self, config: Callable[[PreservationReq], None]) -> Observable[PreservationRes]:
+        pass
+
+    @abstractmethod
+    def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_update_identities(self, impulses: List[UpdateIdentityImpulse]) -> Observable[UpdatedIdentityImpulse]:
+        pass
+
+    @abstractmethod
+    def preserve_delete_identities(self, impulses: List[DeleteIdentityImpulse]) -> Observable[DeletedIdentityImpulse]:
         pass
 
     @abstractmethod

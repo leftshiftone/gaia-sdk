@@ -11,6 +11,8 @@ interface ISensorFunction {
     fun retrieveKnowledge(config: Knowledge.() -> Unit): Publisher<gaia.sdk.response.type.Knowledge>
     fun retrieveEdges(source: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
     fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
+    fun retrieveIdentities(config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
+    fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit): Publisher<gaia.sdk.response.type.Prompt>
@@ -26,6 +28,9 @@ interface ISensorFunction {
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>
+    fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse): Publisher<gaia.sdk.response.type.CreatedIdentityImpulse>
+    fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse): Publisher<gaia.sdk.response.type.UpdatedIdentityImpulse>
+    fun preserveDeleteIdentities(vararg impulses: DeleteIdentityImpulse): Publisher<gaia.sdk.response.type.DeletedIdentityImpulse>
     fun preserveCreateIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
     fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse): Publisher<gaia.sdk.response.type.UpdatedIntentImpulse>
     fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse): Publisher<gaia.sdk.response.type.DeletedIntentImpulse>

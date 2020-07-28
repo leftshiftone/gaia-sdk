@@ -6,6 +6,8 @@ export {Knowledge as KnowledgeReq} from "./request/type/Knowledge";
 export {Knowledge as KnowledgeRes} from "./response/type/Knowledge";
 export {Edge as EdgeReq} from "./request/type/Edge";
 export {Edge as EdgeRes} from "./response/type/Edge";
+export {Identity as IdentityReq} from "./request/type/Identity";
+export {Identity as IdentityRes} from "./response/type/Identity";
 export {Intent as IntentReq} from "./request/type/Intent";
 export {Intent as IntentRes} from "./response/type/Intent";
 export {Prompt as PromptReq} from "./request/type/Prompt";

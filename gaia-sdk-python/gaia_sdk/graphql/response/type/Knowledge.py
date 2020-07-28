@@ -4,6 +4,7 @@ from gaia_sdk.graphql.response.type.Behaviour import Behaviour
 from gaia_sdk.graphql.response.type.Statement import Statement
 from gaia_sdk.graphql.response.type.Intent import Intent
 from gaia_sdk.graphql.response.type.Prompt import Prompt
+from gaia_sdk.graphql.response.type.Identity import Identity
 from gaia_sdk.graphql.response.type.Code import Code
 from gaia_sdk.graphql.response.type.Edge import Edge
 
@@ -20,6 +21,12 @@ from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 @dataclass
 class Knowledge:
     dictionary: dict
+    @property
+    def identities(self) -> List[Identity]:
+        return list(map(lambda x: Identity(x), self.dictionary.get("identities")))
+    @property
+    def identity(self) -> Identity:
+        return Identity(self.dictionary.get("identity"))
     @property
     def intents(self) -> List[Intent]:
         return list(map(lambda x: Intent(x), self.dictionary.get("intents")))

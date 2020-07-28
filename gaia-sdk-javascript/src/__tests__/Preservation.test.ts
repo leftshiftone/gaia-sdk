@@ -18,8 +18,50 @@ import {DeleteCodeImpulse} from "../graphql/request/input/DeleteCodeImpulse";
 import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {HMACCredentials} from "../api/GaiaCredentials";
+import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
+import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
+import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
 
 describe("perception tests:", () => {
+
+    test('test preserve create identity', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new CreateIdentityImpulse("");
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateIdentities(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update identity', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new UpdateIdentityImpulse(uuid(), "");
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateIdentities(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete identity', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new DeleteIdentityImpulse(uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteIdentities(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
 
     test('test preserve create intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
@@ -179,7 +221,7 @@ describe("perception tests:", () => {
 
     test('test preserve create behaviour', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateBehaviourImpulse(uuid(), "", "", "", [], "");
+        const impulse = new CreateBehaviourImpulse(uuid(), "", "", "", []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateBehaviours(impulse);
@@ -192,7 +234,7 @@ describe("perception tests:", () => {
 
     test('test preserve update behaviour', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateBehaviourImpulse(uuid(), uuid(), "", "", "", [], "");
+        const impulse = new UpdateBehaviourImpulse(uuid(), uuid(), "", "", "", []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateBehaviours(impulse);
@@ -218,7 +260,7 @@ describe("perception tests:", () => {
 
     test('test preserve create code', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateCodeImpulse(uuid(), "", "", {}, "", [], "");
+        const impulse = new CreateCodeImpulse(uuid(), "", "", {}, "", []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateCodes(impulse);
@@ -231,7 +273,7 @@ describe("perception tests:", () => {
 
     test('test preserve update code', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateCodeImpulse(uuid(), uuid(), "", "", {}, "", [], "");
+        const impulse = new UpdateCodeImpulse(uuid(), uuid(), "", "", {}, "", []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateCodes(impulse);

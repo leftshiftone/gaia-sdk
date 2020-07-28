@@ -21,7 +21,41 @@ abstract class PreservationTest {
 
     abstract fun retrieveCredentials(): GaiaCredentials
 
+    @Test
+    fun `test preserve create identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateIdentityImpulse("")
 
+        val publisher = gaiaRef.preserveCreateIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "")
+
+        val publisher = gaiaRef.preserveUpdateIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete identity`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteIdentityImpulse(UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteIdentities(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
 
     @Test
     fun `test preserve create intent`() {
@@ -170,7 +204,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create behaviour`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
+        val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", "", emptyArray())
 
         val publisher = gaiaRef.preserveCreateBehaviours(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -182,7 +216,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update behaviour`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", "", emptyArray(), "")
+        val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", "", emptyArray())
 
         val publisher = gaiaRef.preserveUpdateBehaviours(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -206,7 +240,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create code`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
+        val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray())
 
         val publisher = gaiaRef.preserveCreateCodes(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -218,7 +252,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update code`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray(), "")
+        val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray())
 
         val publisher = gaiaRef.preserveUpdateCodes(impulse)
         val result = Flux.from(publisher).blockFirst()

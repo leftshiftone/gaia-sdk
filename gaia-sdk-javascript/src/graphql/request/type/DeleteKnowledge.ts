@@ -1,4 +1,5 @@
 
+import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
@@ -13,6 +14,7 @@ import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
+import {DeleteIdentityImpulse} from "../input/DeleteIdentityImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -20,6 +22,16 @@ import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
+
+    /**
+     * deletes a list of identities with the given specifications
+     */
+    public identities = (impulses : [DeleteIdentityImpulse], config: (_:DeletedIdentityImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedIdentityImpulse();
+        config(entity);
+        return `identities(impulses:$${name1}){` + entity.render(registry) + "}"
+    });
 
     /**
      * deletes a list of intents with the given specifications

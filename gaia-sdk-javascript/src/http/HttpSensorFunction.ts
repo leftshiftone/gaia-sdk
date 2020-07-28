@@ -15,6 +15,8 @@ import {
     ExperienceRes,
     FulfilmentReq,
     FulfilmentRes,
+    IdentityReq,
+    IdentityRes,
     IntentReq,
     IntentRes,
     IntrospectionReq,
@@ -78,6 +80,12 @@ import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {Uuid} from "../graphql/GaiaClient";
 import {GaiaCredentials} from "../api/GaiaCredentials";
+import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
+import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
+import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
+import {CreatedIdentityImpulse} from "../graphql/response/type/CreatedIdentityImpulse";
+import {UpdatedIdentityImpulse} from "../graphql/response/type/UpdatedIdentityImpulse";
+import {DeletedIdentityImpulse} from "../graphql/response/type/DeletedIdentityImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -119,6 +127,20 @@ export class HttpSensorFunction implements ISensorFunction {
             r.knowledge(k => k.edge(source, target, config));
         }))));
         return Rx.mapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edge!);
+    }
+
+    public retrieveIdentities(config: (x: IdentityReq) => void): Observable<IdentityRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.identities(config));
+        }))));
+        return Rx.flatMapQ<IdentityRes>(observable, (e) => e.retrieve!.knowledge!.identities!);
+    }
+
+    public retrieveIdentity(identityId: Uuid, config: (x: IdentityReq) => void): Observable<IdentityRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.identity(identityId, config));
+        }))));
+        return Rx.mapQ<IdentityRes>(observable, (e) => e.retrieve!.knowledge!.identity!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes> {
@@ -218,6 +240,27 @@ export class HttpSensorFunction implements ISensorFunction {
     public preserve(config: (x: PreservationReq) => void): Observable<PreservationRes> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(config))));
         return Rx.mapM<PreservationRes>(observable, (e) => e.preserve!);
+    }
+
+    public preserveCreateIdentities(...impulses: [CreateIdentityImpulse]): Observable<CreatedIdentityImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.identities(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<CreatedIdentityImpulse>(observable, (e) => e.preserve!.create!.identities!);
+    }
+
+    public preserveUpdateIdentities(...impulses: [UpdateIdentityImpulse]): Observable<UpdatedIdentityImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.identities(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<UpdatedIdentityImpulse>(observable, (e) => e.preserve!.update!.identities!);
+    }
+
+    public preserveDeleteIdentities(...impulses: [DeleteIdentityImpulse]): Observable<DeletedIdentityImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.identities(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<DeletedIdentityImpulse>(observable, (e) => e.preserve!.delete!.identities!);
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {

@@ -16,15 +16,13 @@ export class UpdateBehaviourImpulse {
     private appendent:String;
     private behaviour:String;
     private labelList:Array<String>;
-    private version:String;
 
-    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, behaviour:String, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, behaviour:String, labelList:Array<String>) {
         this.identityId = identityId;
         this.reference = reference;
         this.qualifier = qualifier;
         this.appendent = appendent;
         this.behaviour = behaviour;
         this.labelList = labelList;
-        this.version = version;
     }
 }

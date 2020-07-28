@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.request.type.UpdatedStatementImpulse import UpdatedStatementImpulse
 from gaia_sdk.graphql.request.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
 from gaia_sdk.graphql.request.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
+from gaia_sdk.graphql.request.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
 from gaia_sdk.graphql.request.type.UpdatedPromptImpulse import UpdatedPromptImpulse
 from gaia_sdk.graphql.request.type.UpdatedCodeImpulse import UpdatedCodeImpulse
 from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
@@ -11,12 +12,24 @@ from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpul
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
 from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
 
 
 class UpdateKnowledge(list):
+
+    """
+    updates a list of identities with the given specifications
+    """
+    def identities(self, impulses: List[UpdateIdentityImpulse], config: Callable[['UpdatedIdentityImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = UpdatedIdentityImpulse()
+            config(entity)
+            return f'identities(impulses:${name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
 
     """
     updates a list of intents with the given specifications

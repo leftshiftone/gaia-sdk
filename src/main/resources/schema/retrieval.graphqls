@@ -6,9 +6,6 @@ type Retrieval {
 }
 
 type Knowledge {
-    # TODO add identities()
-    # TODO add identity(id)
-
     # TODO add users()
     # TODO add user(id)
 
@@ -18,6 +15,8 @@ type Knowledge {
     # TODO add apiKeys()
     # TODO add apiKey(id) maybe?
 
+    identities: [Identity]
+    identity(identityId: Uuid): Identity
     intents(identityId: Uuid): [Intent]
     intent(identityId: Uuid, reference: Uuid): Intent
     prompts(identityId: Uuid): [Prompt]

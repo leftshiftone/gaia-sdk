@@ -11,6 +11,15 @@ import gaia.sdk.request.enumeration.*
 
 class Knowledge: Type() {
 
+    fun identities(config: Identity.() -> Unit) = 
+        add { "identities{ " + Identity().apply(config).render(it) + "}"}
+
+
+    fun identity(identityId : Uuid, config: Identity.() -> Unit) = add {
+        val name1 = it.register("identityId", identityId)
+        "identity(identityId:$$name1){" + Identity().apply(config).render(it) + "}"
+    }
+
     fun intents(identityId : Uuid, config: Intent.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
         "intents(identityId:$$name1){" + Intent().apply(config).render(it) + "}"
