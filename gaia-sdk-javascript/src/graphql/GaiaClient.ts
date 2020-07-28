@@ -1,5 +1,7 @@
+//Class generated from template src/main/resources/template/javascript/ClientTemplate.vm
+
 import {ClientOptions} from '../api/ClientOptions';
-import {IFunctionTransporter} from '../api/IFunctionTransporter';
+import {ITransporter} from '../api/ITransporter';
 import {Query} from "./request/type/Query";
 import {Mutation} from "./request/type/Mutation";
 import {Subscription} from "./request/type/Subscription";
@@ -8,16 +10,16 @@ import {MutationResponse} from './GaiaResponse';
 import {SubscriptionResponse} from './GaiaResponse';
 import VariableRegistry from "../api/VariableRegistry";
 
-export class GaiaFunctionClient {
+export class GaiaClient {
     private readonly options: ClientOptions;
-    private readonly transporter: IFunctionTransporter;
+    private readonly transporter: ITransporter;
 
-    constructor(options: ClientOptions, transporter: IFunctionTransporter) {
+    constructor(options: ClientOptions, transporter: ITransporter) {
         this.options = options;
         this.transporter = transporter;
     }
 
-    public queryNative(statement: string, variables: Record<string, any> = {}): Promise<QueryResponse> {
+    public queryNative(statement: string, variables: Record<string, any> = {}):Promise<QueryResponse> {
         const body = {statement, variables};
         return this.transporter.transport(this.options, body);
     }
@@ -37,7 +39,7 @@ export class GaiaFunctionClient {
         return this.mutationNative(statement, variables);
     }
 
-    public subscriptionNative(statement: string, variables: Record<string, any> = {}): Promise<SubscriptionResponse> {
+    public subscriptionNative(statement: string, variables: Record<string, any> = {}):Promise<SubscriptionResponse> {
         const body = {statement, variables};
         return this.transporter.transport(this.options, body);
     }
@@ -48,7 +50,7 @@ export class GaiaFunctionClient {
     }
 
 
-    private getStatement(name: string, type: Array<(_: VariableRegistry) => string>): [string, {}] {
+    private getStatement(name: string, type: Array<(_:VariableRegistry) => string>):[string, {}] {
         const registry = new VariableRegistry();
         const fields = type.map(e => e(registry)).join(" ");
 
@@ -59,6 +61,7 @@ export class GaiaFunctionClient {
         const statement = `${name} gaia(${registry.getDatatypes().join(", ")}) { ${fields} }`;
         return [statement, registry.getVariables()];
     }
+
 }
 
 export type Struct = Record<string, any>

@@ -1,11 +1,11 @@
 export {ClientOptions} from './api/ClientOptions';
-export {FunctionHttpTransporter} from './http/FunctionHttpTransporter';
-export {IFunctionTransporter} from './api/IFunctionTransporter';
+export {HttpTransporter} from './http/HttpTransporter';
+export {ITransporter} from './api/ITransporter';
 export {GaiaRequest} from './graphql/GaiaRequest';
 export {QueryResponse} from './graphql/GaiaResponse';
 export {MutationResponse} from './graphql/GaiaResponse';
-export {GaiaFunctionClient} from './graphql/GaiaFunctionClient';
-export {GaiaFunctionClientBuilder} from './graphql/GaiaFunctionClientBuilder';
+export {GaiaClient} from './graphql/GaiaClient';
+export {GaiaClientBuilder} from './graphql/GaiaClientBuilder';
 export {HttpSensorFunction} from './http/HttpSensorFunction';
 export {Gaia, GaiaRef, GaiaConfig} from "./Gaia";
 export {GaiaCredentials, HMACCredentials, JWTCredentials, UsernamePasswordCredentials} from './api/GaiaCredentials'

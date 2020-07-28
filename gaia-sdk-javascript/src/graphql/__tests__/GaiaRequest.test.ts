@@ -1,7 +1,7 @@
 import {GaiaRequest} from "../GaiaRequest";
-import {GaiaFunctionClient} from "../GaiaFunctionClient";
+import {GaiaClient} from "../GaiaClient";
 import {ClientOptions} from "../../api/ClientOptions";
-import {IFunctionTransporter} from "../../api/IFunctionTransporter";
+import {ITransporter} from "../../api/ITransporter";
 import {Query} from "../request/type/Query";
 import {Introspection} from "../request/type/Introspection";
 import {PerceiveDataImpulse} from "..";
@@ -20,7 +20,7 @@ describe("GaiaRequestTest", () => {
         });
 
         const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
-        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
+        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -41,7 +41,7 @@ describe("GaiaRequestTest", () => {
         });
 
         const options = new ClientOptions(new HMACCredentials("mockedApiKey", "mockedApiSecret"), "application/json");
-        const client = new GaiaFunctionClient(options, new MockTransporter((_, payload) => {
+        const client = new GaiaClient(options, new MockTransporter((_, payload) => {
             const statement = payload.statement;
             const variables = payload.variables;
 
@@ -54,7 +54,7 @@ describe("GaiaRequestTest", () => {
 
 });
 
-class MockTransporter implements IFunctionTransporter {
+class MockTransporter implements ITransporter {
     private callback: (options: ClientOptions, payload: any) => any;
 
     constructor(callback: (options: ClientOptions, payload: any) => any) {

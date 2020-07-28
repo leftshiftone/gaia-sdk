@@ -1,5 +1,5 @@
 import {ClientOptions} from '../api/ClientOptions';
-import {IFunctionTransporter} from '../api/IFunctionTransporter';
+import {ITransporter} from '../api/ITransporter';
 import {Query} from "./request/type/Query";
 import {Mutation} from "./request/type/Mutation";
 import {Subscription} from "./request/type/Subscription";

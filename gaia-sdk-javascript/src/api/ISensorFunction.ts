@@ -74,7 +74,7 @@ import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
-import {Uuid} from "../graphql/GaiaFunctionClient";
+import {Uuid} from "../graphql/GaiaClient";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
 import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";

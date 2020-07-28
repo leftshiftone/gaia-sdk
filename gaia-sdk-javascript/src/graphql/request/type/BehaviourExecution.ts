@@ -1,7 +1,7 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
@@ -10,39 +10,39 @@ import {SkillState} from "../enumeration/SkillState";
  */
 export class BehaviourExecution extends Array<(_:VariableRegistry) => string> {
 
-    public processInstanceId = () => {
+    public processInstanceId = () => { 
         this.push(_ => "processInstanceId")
     };
 
-    public state = () => {
+    public state = () => { 
         this.push(_ => "state")
     };
 
-    public timestamp = () => {
+    public timestamp = () => { 
         this.push(_ => "timestamp")
     };
 
-    public duration = () => {
+    public duration = () => { 
         this.push(_ => "duration")
     };
 
-    public startEventType = () => {
+    public startEventType = () => { 
         this.push(_ => "startEventType")
     };
 
-    public startEventId = () => {
+    public startEventId = () => { 
         this.push(_ => "startEventId")
     };
 
-    public initAttributes = () => {
+    public initAttributes = () => { 
         this.push(_ => "initAttributes")
     };
 
-    public processId = () => {
+    public processId = () => { 
         this.push(_ => "processId")
     };
 
-    public parentProcessId = () => {
+    public parentProcessId = () => { 
         this.push(_ => "parentProcessId")
     };
 

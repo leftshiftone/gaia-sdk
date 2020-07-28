@@ -1,21 +1,21 @@
 
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaFunctionClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
 
 export class OnConversed extends Array<(_:VariableRegistry) => string> {
 
-    public id = () => {
+    public id = () => { 
         this.push(_ => "id")
     };
 
-    public name = () => {
+    public name = () => { 
         this.push(_ => "name")
     };
 
-    public type = () => {
+    public type = () => { 
         this.push(_ => "type")
     };
 
