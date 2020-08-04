@@ -100,7 +100,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .topic(getTopic(type, header))
                 .userProperties()
                 .add("identityId", header.identityId.toString())
-                .add("userId", UUID.randomUUID().toString())
+                .add("userId", options.userId)
                 .add("deviceId", options.deviceId)
                 .add("deviceInstanceId", options.deviceInstanceId)
                 .add("channelId", header.channelId?.toString() ?: UUID.randomUUID().toString())
