@@ -11,6 +11,7 @@ export interface IQueueOptions {
     deviceInstanceId: string
     subscribeTimeout: number
     protocolVersion: number
+    userId: string
 }
 
 export class QueueOptions implements IQueueOptions, mqtt.IClientOptions {
@@ -23,23 +24,23 @@ export class QueueOptions implements IQueueOptions, mqtt.IClientOptions {
     public deviceInstanceId: string;
     public subscribeTimeout: number;
     public protocolVersion: number = 5;
+    public userId: string
 
     constructor(host: string,
                 port: number,
                 username?: string,
                 password?: string,
                 clientThreads: number = 1,
-                deviceId = UUID.randomUUID().toString(),
-                deviceInstanceId = UUID.randomUUID().toString(),
                 subscribeTimeout: number = 10) {
         this.host = host;
         this.port = port;
         this.clientThreads = clientThreads;
         this.username = username;
         this.password = password;
-        this.deviceId = deviceId;
-        this.deviceInstanceId = deviceInstanceId;
         this.subscribeTimeout = subscribeTimeout
+        this.deviceId = UUID.randomUUID().toString();
+        this.deviceInstanceId = UUID.randomUUID().toString();
+        this.userId = UUID.randomUUID().toString()
     }
 
 }

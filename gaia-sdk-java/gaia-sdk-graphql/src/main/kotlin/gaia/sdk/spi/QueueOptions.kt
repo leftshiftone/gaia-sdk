@@ -14,8 +14,8 @@ data class QueueOptions(val host: String,
 
     var deviceId = UUID.randomUUID().toString()
     var deviceInstanceId = UUID.randomUUID().toString()
+    var userId = UUID.randomUUID().toString()
     var subscribeTimeout: Long = 10
     var subscriptionScheduler = Schedulers.io()
     var clientScheduler = Schedulers.io()
-
 }
