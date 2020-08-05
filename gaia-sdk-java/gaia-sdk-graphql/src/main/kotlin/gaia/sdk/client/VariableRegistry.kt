@@ -12,7 +12,9 @@ class VariableRegistry {
     private val counters = HashMap<String, AtomicInteger>()
     private val objectMapper = ObjectMapper()
 
-    fun register(name: String, value: Any): String {
+    fun register(name: String, value: Any?): String {
+        value ?: return "null"
+
         counters.putIfAbsent(name, AtomicInteger())
 
         val varName = "$name${counters[name]!!.incrementAndGet()}"
@@ -22,7 +24,7 @@ class VariableRegistry {
         else
             variables.put(varName, value)
         datatypes.add("\$$varName: ${toDatatype(value)}")
-        return varName
+        return "$$varName"
     }
 
     fun getVariables() = HashMap(variables)
@@ -33,7 +35,14 @@ class VariableRegistry {
             return "[" + value.javaClass.simpleName
                     .replace("[", "")
                     .replace("]", "") + "]"
-        return value.let { return if(isUuid(it))  "Uuid" else it.javaClass.simpleName }
+        return value.let { return if(isUuid(it))  "Uuid" else mapDatatype(it) }
+    }
+
+    private fun mapDatatype(type: Any): String {
+        return when(type) {
+            is Int -> "Int" // rather than Integer
+            else -> type.javaClass.simpleName
+        }
     }
 
     private fun isUuid(value: Any) : Boolean{

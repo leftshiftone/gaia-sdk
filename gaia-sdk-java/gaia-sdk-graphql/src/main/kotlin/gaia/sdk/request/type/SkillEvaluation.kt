@@ -11,14 +11,14 @@ import gaia.sdk.request.enumeration.*
 
 class SkillEvaluation: Type() {
 
-    fun syncEval(impulse : String, config: SyncSkillEvaluation.() -> Unit) = add {
+    fun syncEval(impulse : String?, config: SyncSkillEvaluation.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "syncEval(impulse:$$name1){" + SyncSkillEvaluation().apply(config).render(it) + "}"
+        "syncEval(impulse:$name1){" + SyncSkillEvaluation().apply(config).render(it) + "}"
     }
 
-    fun asyncEval(impulse : String, config: AsyncSkillEvaluation.() -> Unit) = add {
+    fun asyncEval(impulse : String?, config: AsyncSkillEvaluation.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "asyncEval(impulse:$$name1){" + AsyncSkillEvaluation().apply(config).render(it) + "}"
+        "asyncEval(impulse:$name1){" + AsyncSkillEvaluation().apply(config).render(it) + "}"
     }
 }
 

@@ -89,35 +89,35 @@ export interface ISensorFunction {
 
     retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes>
 
-    retrieveEdges(source: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
+    retrieveEdges(source: Uuid, config: (x: EdgeReq) => void, limit?: Number, offset?: Number): Observable<EdgeRes>
 
     retrieveEdge(source: Uuid, target: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
 
-    retrieveIdentities(config: (x: IdentityReq) => void): Observable<IdentityRes>
+    retrieveIdentities(config: (x: IdentityReq) => void, limit?: Number, offset?: Number): Observable<IdentityRes>
 
     retrieveIdentity(identityId: Uuid, config: (x: IdentityReq) => void): Observable<IdentityRes>
 
-    retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void): Observable<IntentRes>
+    retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
     retrieveIntent(identityId: Uuid, reference, config: (x: IntentReq) => void): Observable<IntentRes>
 
-    retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
+    retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void, limit?: Number, offset?: Number): Observable<PromptRes>
 
     retrievePrompt(identityId: Uuid, reference: Uuid, config: (x: PromptReq) => void): Observable<PromptRes>
 
-    retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
+    retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void, limit?: Number, offset?: Number): Observable<StatementRes>
 
     retrieveStatement(identityId: Uuid, reference: Uuid, config: (x: StatementReq) => void): Observable<StatementRes>
 
-    retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
+    retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void, limit?: Number, offset?: Number): Observable<FulfilmentRes>
 
     retrieveFulfilment(identityId: Uuid, reference: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes>
 
-    retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
+    retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void, limit?: Number, offset?: Number): Observable<CodeRes>
 
     retrieveCode(identityId: Uuid, reference: Uuid, config: (x: CodeReq) => void): Observable<CodeRes>
 
-    retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+    retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void, limit?: Number, offset?: Number): Observable<BehaviourRes>
 
     retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
 

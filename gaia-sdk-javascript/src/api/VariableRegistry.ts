@@ -6,6 +6,10 @@ export default class VariableRegistry {
     private counters = {};
 
     public register(name:string, value:any) {
+        if (value === undefined || value == null) {
+            return "null"
+        }
+
         if (this.counters[name] === undefined) {
             this.counters[name] = 0;
         }
@@ -15,7 +19,7 @@ export default class VariableRegistry {
         this.variables[varName] = JSON.parse(JSON.stringify(value));
         this.datatypes.push("$" + varName + ":" + this.toType(value));
 
-        return varName;
+        return "$" + varName;
     }
 
     public getVariables = () => this.variables;
@@ -25,6 +29,7 @@ export default class VariableRegistry {
         switch (typeof(value)) {
             case "string": return this.resolveStringType(value);
             case "boolean": return "Boolean!";
+            case "number": return "Int!";
             case "object":
                 return this.objectName(value);
             default: return value;

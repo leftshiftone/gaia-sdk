@@ -25,16 +25,37 @@ abstract class RetrievalTest() {
     fun `test retrieve identities`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
 
-        val publisher = gaiaRef.retrieveIdentities() {
+        val publisher = gaiaRef.retrieveIdentities({
             identityId()
             qualifier()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.qualifier!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginated identities`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveIdentities({
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -61,16 +82,38 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveBehaviours(identityId) {
+        val publisher = gaiaRef.retrieveBehaviours(identityId, {
             identityId()
             reference()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated behaviours`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveBehaviours(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -98,16 +141,38 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveCodes(identityId) {
+        val publisher = gaiaRef.retrieveCodes(identityId, {
             identityId()
             reference()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated codes`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveCodes(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -136,16 +201,38 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveIntents(identityId) {
+        val publisher = gaiaRef.retrieveIntents(identityId, {
             identityId()
             reference()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated intents`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveIntents(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -173,10 +260,10 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrievePrompts(identityId) {
+        val publisher = gaiaRef.retrievePrompts(identityId, {
             identityId()
             reference()
-        }
+        })
 
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
@@ -186,6 +273,28 @@ abstract class RetrievalTest() {
             it.identityId!=null && it.reference!=null
         }
 
+    }
+
+    @Test
+    fun `test retrieve paginiated prompts`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrievePrompts(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
+        }
     }
 
     @Test
@@ -212,16 +321,38 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveFulfilments(identityId) {
+        val publisher = gaiaRef.retrieveFulfilments(identityId, {
             identityId()
             reference()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated fulfilments`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveFulfilments(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -249,16 +380,38 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveStatements(identityId) {
+        val publisher = gaiaRef.retrieveStatements(identityId, {
             identityId()
             reference()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.identityId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated statements`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val identityId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveStatements(identityId, {
+            identityId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.identityId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.identityId!=null && it.qualifier == "110"
         }
     }
 
@@ -286,16 +439,39 @@ abstract class RetrievalTest() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val source = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveEdges(source) {
+        val publisher = gaiaRef.retrieveEdges(source, {
             source()
             target()
-        }
+        })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5,TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0){
             it.source!=null && it.target!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated edges`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val source = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveEdges(source, {
+            source()
+            target()
+            type()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.source!=null && it.type == "101"
+        }
+        ts.assertValueAt(9){
+            it.source!=null && it.type == "110"
         }
     }
 

@@ -30,7 +30,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedIdentityImpulse()
             config(entity)
-            return f'identities(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'identities(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -41,7 +41,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedIntentImpulse()
             config(entity)
-            return f'intents(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'intents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -52,7 +52,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedPromptImpulse()
             config(entity)
-            return f'prompts(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prompts(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -63,7 +63,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedStatementImpulse()
             config(entity)
-            return f'statements(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'statements(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -74,7 +74,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedFulfilmentImpulse()
             config(entity)
-            return f'fulfilments(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'fulfilments(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -85,7 +85,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedBehaviourImpulse()
             config(entity)
-            return f'behaviours(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviours(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -96,7 +96,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedCodeImpulse()
             config(entity)
-            return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'codes(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -107,7 +107,7 @@ class DeleteKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = DeletedEdgeImpulse()
             config(entity)
-            return f'edges(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'edges(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

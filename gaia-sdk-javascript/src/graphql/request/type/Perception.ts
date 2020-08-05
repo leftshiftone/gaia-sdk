@@ -27,21 +27,21 @@ export class Perception extends Array<(_:VariableRegistry) => string> {
     /**
      * Data perception impulse used to invoke a data transformation behaviour
      */
-    public perceiveData = (impulse : PerceiveDataImpulse, config: (_:PerceivedImpulse) => void) => this.push((registry) => {
+    public perceiveData = (impulse: PerceiveDataImpulse|undefined, config: (_:PerceivedImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         const entity = new PerceivedImpulse();
         config(entity);
-        return `perceiveData(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `perceiveData(impulse:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * Action perception impulse used to invoke a data transformation behaviour
      */
-    public perceiveAction = (impulse : PerceiveActionImpulse, config: (_:PerceivedImpulse) => void) => this.push((registry) => {
+    public perceiveAction = (impulse: PerceiveActionImpulse|undefined, config: (_:PerceivedImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         const entity = new PerceivedImpulse();
         config(entity);
-        return `perceiveAction(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `perceiveAction(impulse:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
