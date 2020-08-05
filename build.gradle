@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath "one.leftshift.asteria:asteria-code-analytics:latest.release"
         classpath "one.leftshift.asteria:asteria-dependency:latest.release"
-        classpath "one.leftshift.asteria:asteria-docs:latest.release"
+        classpath "one.leftshift.asteria:asteria-docs:latest.smart"
         classpath "one.leftshift.asteria:asteria-email:latest.release"
         classpath "one.leftshift.asteria:asteria-publish:latest.release"
         classpath "one.leftshift.asteria:asteria-report:latest.release"
