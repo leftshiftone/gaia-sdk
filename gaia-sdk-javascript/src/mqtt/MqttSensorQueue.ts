@@ -29,7 +29,7 @@ export class MqttSensorQueue {
         const topic = this.getTopic(conversationQueueType, header);
         console.debug(`Sending message to topic ${topic}`);
         let payloadStr = JSON.stringify({attributes, payload: payload instanceof Array ? payload[0] : payload, type})
-        const userProperties = Object.assign(header, {deviceInstanceId: this.options.deviceInstanceId, deviceId: this.options.deviceId, userId: UUID.randomUUID().toString()})
+        const userProperties = Object.assign(header, {deviceInstanceId: this.options.deviceInstanceId, deviceId: this.options.deviceId, userId: this.options.userId})
         const opts: IMqttPublishOpts = {properties: {userProperties}}
         this.client.publish(topic, payloadStr, opts, this.mqttCallback(JSON.parse(payloadStr)));
     }
