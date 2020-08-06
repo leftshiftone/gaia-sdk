@@ -2,6 +2,7 @@ import {ClientOptions} from "..";
 import Blob from 'cross-blob'
 import {HttpClient} from "./HttpClient";
 import {IStreamTransporter} from "../api/IStreamTransporter";
+import {AbstractFormData} from "../graphql/request/formdata/AbstractFormData";
 
 export class StreamHttpTransporter implements IStreamTransporter {
 
@@ -14,7 +15,13 @@ export class StreamHttpTransporter implements IStreamTransporter {
     }
 
     transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
+        let customHeaders = {};
+        if(body instanceof AbstractFormData) {
+            body = body.get()
+            customHeaders = body.getHeaders()
+        }
         let config = this.client.getDefaultConfig(options, body)
+        config = {...config, headers: {...config.headers, ...customHeaders}}
         let url = this.url + urlPostfix
         return this.client.post(body, config, url)
     }

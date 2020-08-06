@@ -14,6 +14,8 @@ describe("dataref tests:", () => {
                 const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", blob);
                 observable.subscribe(e => {
                     expect(e !== null).toBeTruthy();
+                    // @ts-ignore
+                    expect(e.uri === "gaia://usr@tenant/somefolder/newFile").toBeTruthy();
                     resolve(e || "");
                 }, reject);
             })
@@ -26,9 +28,7 @@ describe("dataref tests:", () => {
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", blob);
-            observable.subscribe(e => {
-                resolve(e || "");
-            }, reject);
+            observable.subscribe(reject, error => resolve(error));
         })
     });
 

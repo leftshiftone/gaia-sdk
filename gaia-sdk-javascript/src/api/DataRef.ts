@@ -120,16 +120,19 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override)
     }
 
-    public execute(client: GaiaStreamClient): Promise<DataRef> {
-        return client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
-            .then((initResponse: BinaryWriteInitiatedImpulse) =>
-                Promise.all(this.getChunkRequests(initResponse.uploadId)
-                    .map(chunkRequest => client.postFormData(chunkRequest.asFormData(), "/sink/data/chunk"))))
-            .then((chunkResponses: BinaryChunkWrittenImpulse[]) => {
-                let chunkIds = chunkResponses.map(r => r.chunkId)
-                return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
-            }).then(() => new DataRef(this.uri, client), reason => {
-                    throw new Error("Upload to uri " + this.uri + " failed: " + reason)
+    private async sendChunks(initResponse: BinaryWriteInitiatedImpulse, client: GaiaStreamClient) {
+        return await Promise.all(this.getChunkRequests(initResponse.uploadId)
+            .map(chunkRequest => chunkRequest.asFormData()
+                .then(formData => client.postFormData(formData, "/sink/data/chunk"))))
+    }
+
+    public async execute(client: GaiaStreamClient): Promise<DataRef> {
+        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
+        const chunkResponses = await this.sendChunks(initResponse, client)
+        const chunkIds = chunkResponses.map(r => r.chunkId)
+        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
+            .then(() => new DataRef(this.uri, client), reason => {
+                    throw new Error("Upload to uri " + this.uri + " failed: " + reason.stack)
                 }
             )
     }

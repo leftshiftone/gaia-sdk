@@ -25,7 +25,7 @@ export class GaiaStreamClient {
         return this.transporter.transport(this.options, JSON.stringify(body), urlPostfix)
     }
 
-    public postFormData(body: FormData, urlPostfix: string=""): Promise<any> {
+    public postFormData(body: any, urlPostfix: string=""): Promise<any> {
         return this.transporter.transport(this.options, body, urlPostfix)
 
     }
