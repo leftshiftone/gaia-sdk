@@ -13,7 +13,7 @@ class SkillEvaluation(list):
             name1 = registry.register("impulse", impulse)
             entity = SyncSkillEvaluation()
             config(entity)
-            return f'syncEval(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'syncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def async_eval(self, impulse: str, config: Callable[['AsyncSkillEvaluation'], None]):
@@ -21,7 +21,7 @@ class SkillEvaluation(list):
             name1 = registry.register("impulse", impulse)
             entity = AsyncSkillEvaluation()
             config(entity)
-            return f'asyncEval(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'asyncEval(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

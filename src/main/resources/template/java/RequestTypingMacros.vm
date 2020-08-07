@@ -16,7 +16,7 @@
         *##tab($indent)val name$foreach.count = it.register("$argument.name", $argument.name)$newLine#*
         *##end#*
         *##tab($indent)"${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("$$")name$foreach.count#if($foreach.hasNext), #end#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("$")name$foreach.count#if($foreach.hasNext), #end#end#*
         *#){" + ${field.type.name()}().apply(config).render(it) + "}"$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)}#*
@@ -41,6 +41,7 @@
         *#$argument.type.name()#*
         *##end#*
         *##if($argument.type.isList())#print(">")#end#*
+        *##if($argument.isOptional())#print("?")#end#*
     *##end##
 #end##
 ## *******************************

@@ -28,7 +28,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedIdentityImpulse()
             config(entity)
-            return f'identities(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'identities(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -39,7 +39,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedIntentImpulse()
             config(entity)
-            return f'intents(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'intents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -50,7 +50,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedPromptImpulse()
             config(entity)
-            return f'prompts(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prompts(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -61,7 +61,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedStatementImpulse()
             config(entity)
-            return f'statements(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'statements(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -72,7 +72,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedFulfilmentImpulse()
             config(entity)
-            return f'fulfilments(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'fulfilments(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -83,7 +83,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedBehaviourImpulse()
             config(entity)
-            return f'behaviours(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviours(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -94,7 +94,7 @@ class UpdateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = UpdatedCodeImpulse()
             config(entity)
-            return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'codes(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

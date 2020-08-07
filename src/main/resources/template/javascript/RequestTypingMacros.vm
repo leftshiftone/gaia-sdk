@@ -18,7 +18,7 @@
         *##tab($indent)const entity = new ${field.type.name()}();$newLine#*
         *##tab($indent)config(entity);$newLine#*
         *##tab($indent)return `${field.name}(#*
-        *##foreach($argument in $field.arguments)$argument.name:#print("$${")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
+        *##foreach($argument in $field.arguments)$argument.name:#print("${")name$foreach.count#print("}")#if($foreach.hasNext), #end#end#*
         *#){` + entity.render(registry) + "}"$newLine#*
         *##set($indent =  $indent - 4)#*
         *##tab($indent)});#*
@@ -38,11 +38,23 @@
 #macro(renderArguments $field)#*
     *##foreach($argument in $field.arguments)#*
         *##if($foreach.count > 1), #end#*
-        *#$argument.name : #*
-        *##if($argument.type.isList())#print("[")#end#*
-        *#$argument.type.name()#*
-        *##if($argument.type.isList())#print("]")#end#*
+        *#$argument.name#*
+        *##print(": ")#*
+        *##renderArgumentType($argument.type)#*
+        *##if($argument.isOptional())|undefined#end#*
     *##end##
+#end##
+## *********************
+## Renders argument type
+## *********************
+#macro(renderArgumentType $type)#*
+    *##if($argument.type.isList())#print("[")#end#*
+    *##if($type.name() == "Float" || $type.name() == "Int")#*
+        *##print("Number")#*
+    *##else#*
+        *#$argument.type.name()#*
+    *##end#*
+    *##if($argument.type.isList())#print("]")#end##
 #end##
 ## *******************************
 ## Renders the class field classes

@@ -49,50 +49,50 @@ class GaiaRef(ISensorFunction):
     def retrieve_knowledge(self, config: Callable[[KnowledgeReq], None]) -> Observable[KnowledgeRes]:
         return self.f_proc.retrieve_knowledge(config)
 
-    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
-        return self.f_proc.retrieve_edges(source, config)
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int = None, offset: int = None) -> Observable[EdgeRes]:
+        return self.f_proc.retrieve_edges(source, config, limit, offset)
 
     def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         return self.f_proc.retrieve_edge(source, target, config)
 
-    def retrieve_identities(self, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
-        return self.f_proc.retrieve_identities(config)
+    def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int = None, offset: int = None) -> Observable[IdentityRes]:
+        return self.f_proc.retrieve_identities(config, limit, offset)
 
     def retrieve_identity(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
         return self.f_proc.retrieve_identity(identityId, config)
 
-    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
-        return self.f_proc.retrieve_intents(identityId, config)
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int = None, offset: int = None) -> Observable[IntentRes]:
+        return self.f_proc.retrieve_intents(identityId, config, limit, offset)
 
     def retrieve_intent(self, identityId: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
         return self.f_proc.retrieve_intent(identityId, reference, config)
 
-    def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
-        return self.f_proc.retrieve_prompts(identityId, config)
+    def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None], limit: int = None, offset: int = None) -> Observable[PromptRes]:
+        return self.f_proc.retrieve_prompts(identityId, config, limit, offset)
 
     def retrieve_prompt(self, identityId: Uuid, reference: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
         return self.f_proc.retrieve_prompt(identityId, reference,  config)
 
-    def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
-        return self.f_proc.retrieve_statements(identityId, config)
+    def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None], limit: int = None, offset: int = None) -> Observable[StatementRes]:
+        return self.f_proc.retrieve_statements(identityId, config, limit, offset)
 
     def retrieve_statement(self, identityId: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
         return self.f_proc.retrieve_statement(identityId, reference,  config)
 
-    def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
-        return self.f_proc.retrieve_fulfilments(identityId, config)
+    def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None], limit: int = None, offset: int = None) -> Observable[FulfilmentRes]:
+        return self.f_proc.retrieve_fulfilments(identityId, config, limit, offset)
 
     def retrieve_fulfilment(self, identityId: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
         return self.f_proc.retrieve_fulfilment(identityId, reference,  config)
 
-    def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
-        return self.f_proc.retrieve_codes(identityId, config)
+    def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None], limit: int = None, offset: int = None) -> Observable[CodeRes]:
+        return self.f_proc.retrieve_codes(identityId, config, limit, offset)
 
     def retrieve_code(self, identityId: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
         return self.f_proc.retrieve_code(identityId, reference,  config)
 
-    def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
-        return self.f_proc.retrieve_behaviours(identityId, config)
+    def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None], limit: int = None, offset: int = None) -> Observable[BehaviourRes]:
+        return self.f_proc.retrieve_behaviours(identityId, config, limit, offset)
 
     def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
         return self.f_proc.retrieve_behaviour(identityId, reference,  config)
