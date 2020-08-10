@@ -26,81 +26,81 @@ export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
     /**
      * creates a list of identities with the given specifications
      */
-    public identities = (impulses : [CreateIdentityImpulse], config: (_:CreatedIdentityImpulse) => void) => this.push((registry) => {
+    public identities = (impulses: [CreateIdentityImpulse]|undefined, config: (_:CreatedIdentityImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedIdentityImpulse();
         config(entity);
-        return `identities(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `identities(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of intents with the given specifications
      */
-    public intents = (impulses : [CreateIntentImpulse], config: (_:CreatedIntentImpulse) => void) => this.push((registry) => {
+    public intents = (impulses: [CreateIntentImpulse]|undefined, config: (_:CreatedIntentImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedIntentImpulse();
         config(entity);
-        return `intents(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `intents(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of prompts with the given specifications
      */
-    public prompts = (impulses : [CreatePromptImpulse], config: (_:CreatedPromptImpulse) => void) => this.push((registry) => {
+    public prompts = (impulses: [CreatePromptImpulse]|undefined, config: (_:CreatedPromptImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedPromptImpulse();
         config(entity);
-        return `prompts(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `prompts(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of statements with the given specifications
      */
-    public statements = (impulses : [CreateStatementImpulse], config: (_:CreatedStatementImpulse) => void) => this.push((registry) => {
+    public statements = (impulses: [CreateStatementImpulse]|undefined, config: (_:CreatedStatementImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedStatementImpulse();
         config(entity);
-        return `statements(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `statements(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of fulfilments with the given specifications
      */
-    public fulfilments = (impulses : [CreateFulfilmentImpulse], config: (_:CreatedFulfilmentImpulse) => void) => this.push((registry) => {
+    public fulfilments = (impulses: [CreateFulfilmentImpulse]|undefined, config: (_:CreatedFulfilmentImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedFulfilmentImpulse();
         config(entity);
-        return `fulfilments(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `fulfilments(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of behaviours with the given specifications
      */
-    public behaviours = (impulses : [CreateBehaviourImpulse], config: (_:CreatedBehaviourImpulse) => void) => this.push((registry) => {
+    public behaviours = (impulses: [CreateBehaviourImpulse]|undefined, config: (_:CreatedBehaviourImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedBehaviourImpulse();
         config(entity);
-        return `behaviours(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `behaviours(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of codes with the given specifications
      */
-    public codes = (impulses : [CreateCodeImpulse], config: (_:CreatedCodeImpulse) => void) => this.push((registry) => {
+    public codes = (impulses: [CreateCodeImpulse]|undefined, config: (_:CreatedCodeImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedCodeImpulse();
         config(entity);
-        return `codes(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `codes(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
      * creates a list of edges with the given specifications
      */
-    public edges = (impulses : [CreateEdgeImpulse], config: (_:CreatedEdgeImpulse) => void) => this.push((registry) => {
+    public edges = (impulses: [CreateEdgeImpulse]|undefined, config: (_:CreatedEdgeImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulses", impulses);
         const entity = new CreatedEdgeImpulse();
         config(entity);
-        return `edges(impulses:$${name1}){` + entity.render(registry) + "}"
+        return `edges(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

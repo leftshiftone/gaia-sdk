@@ -20,7 +20,7 @@ class CodegenVisitor : GaiaSdkBaseVisitor<List<AbstractAST>>() {
     override fun visitField(ctx: FieldContext) = listOf(Field(super.visitField(ctx)))
     override fun visitSimpleType(ctx: SimpleTypeContext) = listOf(RefType(ctx.text.replace("!", ""), ctx.text.endsWith("!")))
     override fun visitListType(ctx: ListTypeContext) = listOf(ListType(super.visitListType(ctx), ctx.text.endsWith("?")))
-    override fun visitArgument(ctx: ArgumentContext) = listOf(Argument(super.visitArgument(ctx)))
+    override fun visitArgument(ctx: ArgumentContext) = listOf(Argument(super.visitArgument(ctx), ctx.text.endsWith("!")))
     override fun visitDeprecated(ctx: DeprecatedContext) = listOf(Deprecated(ctx.text.replace("\"", "")))
     override fun visitBooleanValue(ctx: BooleanValueContext) = listOf(BooleanValue(ctx.text.equals("true")))
     override fun visitStringValue(ctx: StringValueContext) = listOf(StringValue(ctx.text))

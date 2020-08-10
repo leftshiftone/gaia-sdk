@@ -20,9 +20,9 @@ class Practice: Type() {
      *     This perception impulse do not invoke the data transmission but establishes
      *     a connection to the streaming api.
      */
-    fun prepare(impulse : StreamImpulse, config: StreamingImpulse.() -> Unit) = add {
+    fun prepare(impulse : StreamImpulse?, config: StreamingImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "prepare(impulse:$$name1){" + StreamingImpulse().apply(config).render(it) + "}"
+        "prepare(impulse:$name1){" + StreamingImpulse().apply(config).render(it) + "}"
     }
 }
 

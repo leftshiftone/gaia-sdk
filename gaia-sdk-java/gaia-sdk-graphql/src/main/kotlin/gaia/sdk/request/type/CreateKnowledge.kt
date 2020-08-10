@@ -14,65 +14,65 @@ class CreateKnowledge: Type() {
     /**
      * creates a list of identities with the given specifications
      */
-    fun identities(impulses : Array<out CreateIdentityImpulse>, config: CreatedIdentityImpulse.() -> Unit) = add {
+    fun identities(impulses : Array<out CreateIdentityImpulse>?, config: CreatedIdentityImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "identities(impulses:$$name1){" + CreatedIdentityImpulse().apply(config).render(it) + "}"
+        "identities(impulses:$name1){" + CreatedIdentityImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of intents with the given specifications
      */
-    fun intents(impulses : Array<out CreateIntentImpulse>, config: CreatedIntentImpulse.() -> Unit) = add {
+    fun intents(impulses : Array<out CreateIntentImpulse>?, config: CreatedIntentImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "intents(impulses:$$name1){" + CreatedIntentImpulse().apply(config).render(it) + "}"
+        "intents(impulses:$name1){" + CreatedIntentImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of prompts with the given specifications
      */
-    fun prompts(impulses : Array<out CreatePromptImpulse>, config: CreatedPromptImpulse.() -> Unit) = add {
+    fun prompts(impulses : Array<out CreatePromptImpulse>?, config: CreatedPromptImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "prompts(impulses:$$name1){" + CreatedPromptImpulse().apply(config).render(it) + "}"
+        "prompts(impulses:$name1){" + CreatedPromptImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of statements with the given specifications
      */
-    fun statements(impulses : Array<out CreateStatementImpulse>, config: CreatedStatementImpulse.() -> Unit) = add {
+    fun statements(impulses : Array<out CreateStatementImpulse>?, config: CreatedStatementImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "statements(impulses:$$name1){" + CreatedStatementImpulse().apply(config).render(it) + "}"
+        "statements(impulses:$name1){" + CreatedStatementImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of fulfilments with the given specifications
      */
-    fun fulfilments(impulses : Array<out CreateFulfilmentImpulse>, config: CreatedFulfilmentImpulse.() -> Unit) = add {
+    fun fulfilments(impulses : Array<out CreateFulfilmentImpulse>?, config: CreatedFulfilmentImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "fulfilments(impulses:$$name1){" + CreatedFulfilmentImpulse().apply(config).render(it) + "}"
+        "fulfilments(impulses:$name1){" + CreatedFulfilmentImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of behaviours with the given specifications
      */
-    fun behaviours(impulses : Array<out CreateBehaviourImpulse>, config: CreatedBehaviourImpulse.() -> Unit) = add {
+    fun behaviours(impulses : Array<out CreateBehaviourImpulse>?, config: CreatedBehaviourImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "behaviours(impulses:$$name1){" + CreatedBehaviourImpulse().apply(config).render(it) + "}"
+        "behaviours(impulses:$name1){" + CreatedBehaviourImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of codes with the given specifications
      */
-    fun codes(impulses : Array<out CreateCodeImpulse>, config: CreatedCodeImpulse.() -> Unit) = add {
+    fun codes(impulses : Array<out CreateCodeImpulse>?, config: CreatedCodeImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "codes(impulses:$$name1){" + CreatedCodeImpulse().apply(config).render(it) + "}"
+        "codes(impulses:$name1){" + CreatedCodeImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * creates a list of edges with the given specifications
      */
-    fun edges(impulses : Array<out CreateEdgeImpulse>, config: CreatedEdgeImpulse.() -> Unit) = add {
+    fun edges(impulses : Array<out CreateEdgeImpulse>?, config: CreatedEdgeImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
-        "edges(impulses:$$name1){" + CreatedEdgeImpulse().apply(config).render(it) + "}"
+        "edges(impulses:$name1){" + CreatedEdgeImpulse().apply(config).render(it) + "}"
     }
 }
 

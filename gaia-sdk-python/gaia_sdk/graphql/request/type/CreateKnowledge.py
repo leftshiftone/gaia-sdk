@@ -30,7 +30,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedIdentityImpulse()
             config(entity)
-            return f'identities(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'identities(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -41,7 +41,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedIntentImpulse()
             config(entity)
-            return f'intents(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'intents(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -52,7 +52,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedPromptImpulse()
             config(entity)
-            return f'prompts(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prompts(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -63,7 +63,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedStatementImpulse()
             config(entity)
-            return f'statements(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'statements(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -74,7 +74,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedFulfilmentImpulse()
             config(entity)
-            return f'fulfilments(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'fulfilments(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -85,7 +85,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedBehaviourImpulse()
             config(entity)
-            return f'behaviours(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviours(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -96,7 +96,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedCodeImpulse()
             config(entity)
-            return f'codes(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'codes(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -107,7 +107,7 @@ class CreateKnowledge(list):
             name1 = registry.register("impulses", impulses)
             entity = CreatedEdgeImpulse()
             config(entity)
-            return f'edges(impulses:${name1})' + '{' + entity.render(registry) + '}'
+            return f'edges(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

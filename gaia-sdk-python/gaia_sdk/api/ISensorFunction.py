@@ -36,7 +36,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int, offset: int) -> Observable[EdgeRes]:
         pass
 
     @abstractmethod
@@ -44,7 +44,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_identities(self, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+    def retrieve_identities(self, config: Callable[[IntentReq], None], limit: int, offset: int) -> Observable[IntentRes]:
         pass
 
     @abstractmethod
@@ -52,7 +52,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_intents(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IdentityReq], None], limit: int, offset: int) -> Observable[IdentityRes]:
         pass
 
     @abstractmethod
@@ -60,7 +60,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_prompts(self, identity_id: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
+    def retrieve_prompts(self, identity_id: Uuid, config: Callable[[PromptReq], None], limit: int, offset: int) -> Observable[PromptRes]:
         pass
 
     @abstractmethod
@@ -68,7 +68,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_statements(self, identity_id: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
+    def retrieve_statements(self, identity_id: Uuid, config: Callable[[StatementReq], None], limit: int, offset: int) -> Observable[StatementRes]:
         pass
 
     @abstractmethod
@@ -76,7 +76,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_fulfilments(self, identity_id: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
+    def retrieve_fulfilments(self, identity_id: Uuid, config: Callable[[FulfilmentReq], None], limit: int, offset: int) -> Observable[FulfilmentRes]:
         pass
 
     @abstractmethod
@@ -84,7 +84,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_codes(self, identity_id: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
+    def retrieve_codes(self, identity_id: Uuid, config: Callable[[CodeReq], None], limit: int, offset: int) -> Observable[CodeRes]:
         pass
 
     @abstractmethod
@@ -92,7 +92,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_behaviours(self, identity_id: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
+    def retrieve_behaviours(self, identity_id: Uuid, config: Callable[[BehaviourReq], None], limit: int, offset: int) -> Observable[BehaviourRes]:
         pass
 
     @abstractmethod

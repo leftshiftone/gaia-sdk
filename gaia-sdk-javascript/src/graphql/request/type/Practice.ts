@@ -18,11 +18,11 @@ export class Practice extends Array<(_:VariableRegistry) => string> {
      *     This perception impulse do not invoke the data transmission but establishes
      *     a connection to the streaming api.
      */
-    public prepare = (impulse : StreamImpulse, config: (_:StreamingImpulse) => void) => this.push((registry) => {
+    public prepare = (impulse: StreamImpulse|undefined, config: (_:StreamingImpulse) => void) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         const entity = new StreamingImpulse();
         config(entity);
-        return `prepare(impulse:$${name1}){` + entity.render(registry) + "}"
+        return `prepare(impulse:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

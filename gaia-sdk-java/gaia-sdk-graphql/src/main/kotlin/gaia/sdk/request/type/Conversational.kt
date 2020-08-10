@@ -17,41 +17,41 @@ class Conversational: Type() {
     /**
      * Utterance perception impulse used to send an utterance text to gaia
      */
-    fun perceiveUtterance(impulse : PerceiveUtteranceImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveUtterance(impulse : PerceiveUtteranceImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveUtterance(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveUtterance(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * Button perception impulse used to send a button action to gaia
      */
-    fun perceiveButton(impulse : PerceiveButtonImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveButton(impulse : PerceiveButtonImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveButton(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveButton(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * Submit perception impulse used to send a submit action to gaia
      */
-    fun perceiveSubmit(impulse : PerceiveSubmitImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveSubmit(impulse : PerceiveSubmitImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveSubmit(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveSubmit(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * Reception perception impulse used to send a reception to gaia
      */
-    fun perceiveReception(impulse : PerceiveReceptionImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveReception(impulse : PerceiveReceptionImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveReception(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveReception(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * Suggestion perception impulse used to send a suggestion action to gaia
      */
-    fun perceiveSuggestion(impulse : PerceiveSuggestionImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveSuggestion(impulse : PerceiveSuggestionImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveSuggestion(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveSuggestion(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 }
 

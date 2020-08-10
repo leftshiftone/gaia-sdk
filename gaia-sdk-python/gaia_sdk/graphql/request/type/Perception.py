@@ -32,7 +32,7 @@ class Perception(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveData(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveData(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """
@@ -43,7 +43,7 @@ class Perception(list):
             name1 = registry.register("impulse", impulse)
             entity = PerceivedImpulse()
             config(entity)
-            return f'perceiveAction(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'perceiveAction(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

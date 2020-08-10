@@ -15,21 +15,21 @@ type Knowledge {
     # TODO add apiKeys()
     # TODO add apiKey(id) maybe?
 
-    identities: [Identity]
+    identities(limit: Int, offset: Int): [Identity]
     identity(identityId: Uuid): Identity
-    intents(identityId: Uuid): [Intent]
+    intents(identityId: Uuid, limit: Int, offset: Int): [Intent]
     intent(identityId: Uuid, reference: Uuid): Intent
-    prompts(identityId: Uuid): [Prompt]
+    prompts(identityId: Uuid, limit: Int, offset: Int): [Prompt]
     prompt(identityId: Uuid, reference: Uuid): Prompt
-    fulfilments(identityId: Uuid): [Fulfilment]
+    fulfilments(identityId: Uuid, limit: Int, offset: Int): [Fulfilment]
     fulfilment(identityId: Uuid, reference: Uuid): Fulfilment
-    statements(identityId: Uuid): [Statement]
+    statements(identityId: Uuid, limit: Int, offset: Int): [Statement]
     statement(identityId: Uuid, reference: Uuid): Statement
-    codes(identityId: Uuid): [Code]
+    codes(identityId: Uuid, limit: Int, offset: Int): [Code]
     code(identityId: Uuid, reference: Uuid): Code
-    behaviours(identityId: Uuid): [Behaviour]
+    behaviours(identityId: Uuid, limit: Int, offset: Int): [Behaviour]
     behaviour(identityId: Uuid, reference: Uuid): Behaviour
-    edges(source: Uuid): [Edge]
+    edges(source: Uuid, limit: Int, offset: Int): [Edge]
     edge(source: Uuid, target: Uuid): Edge
 }
 
