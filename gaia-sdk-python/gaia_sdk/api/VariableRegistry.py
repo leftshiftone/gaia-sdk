@@ -8,6 +8,9 @@ class VariableRegistry:
         self.counters = dict()
 
     def register(self, name: str, value):
+        if value == None:
+            return "null"
+
         if name not in self.counters:
             self.counters[name] = 0
         self.counters[name] = self.counters[name] + 1
@@ -16,7 +19,7 @@ class VariableRegistry:
         self.variables[varName] = self.to_value(value)
         self.datatypes.append("$" + varName + ":" + self.toType(value))
 
-        return varName
+        return "$" + varName
 
     def getVariables(self):
         return self.variables
@@ -30,7 +33,7 @@ class VariableRegistry:
         if (type(obj) is str):
             return self.resolveString(obj)
         if (type(obj) is int):
-            return "int"
+            return "Int"
         if (type(obj) is float):
             return "float"
         if (type(obj) is bool):

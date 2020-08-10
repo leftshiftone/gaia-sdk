@@ -1,5 +1,6 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import groovy.util.Node
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern

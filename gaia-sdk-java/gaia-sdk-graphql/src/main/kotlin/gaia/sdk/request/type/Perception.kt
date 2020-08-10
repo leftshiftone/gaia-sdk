@@ -25,17 +25,17 @@ class Perception: Type() {
     /**
      * Data perception impulse used to invoke a data transformation behaviour
      */
-    fun perceiveData(impulse : PerceiveDataImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveData(impulse : PerceiveDataImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveData(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveData(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 
     /**
      * Action perception impulse used to invoke a data transformation behaviour
      */
-    fun perceiveAction(impulse : PerceiveActionImpulse, config: PerceivedImpulse.() -> Unit) = add {
+    fun perceiveAction(impulse : PerceiveActionImpulse?, config: PerceivedImpulse.() -> Unit) = add {
         val name1 = it.register("impulse", impulse)
-        "perceiveAction(impulse:$$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
+        "perceiveAction(impulse:$name1){" + PerceivedImpulse().apply(config).render(it) + "}"
     }
 }
 

@@ -116,7 +116,7 @@ jobs:
           command: java -jar -Xmx512m build/mock/heimdall-mock.jar
           background: true
       - run: ./gradlew build --stacktrace
-      - run: ./gradlew candidate publish -Prelease.useLastTag=true --stacktrace
+      - run: ./gradlew candidate publish -x bintrayUpload -Prelease.useLastTag=true --stacktrace
       - run:
           <<: *webhook-failed
 

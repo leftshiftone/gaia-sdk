@@ -22,7 +22,7 @@ class Practice(list):
             name1 = registry.register("impulse", impulse)
             entity = StreamingImpulse()
             config(entity)
-            return f'prepare(impulse:${name1})' + '{' + entity.render(registry) + '}'
+            return f'prepare(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):
