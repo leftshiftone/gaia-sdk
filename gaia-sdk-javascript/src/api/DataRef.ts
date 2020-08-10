@@ -120,15 +120,15 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override)
     }
 
-    private async sendChunks(initResponse: BinaryWriteInitiatedImpulse, client: GaiaStreamClient) {
-        return await Promise.all(this.getChunkRequests(initResponse.uploadId)
+    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
+        return await Promise.all(this.getChunkRequests(uploadId)
             .map(chunkRequest => chunkRequest.asFormData()
                 .then(formData => client.postFormData(formData, "/sink/data/chunk"))))
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
         const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
-        const chunkResponses = await this.sendChunks(initResponse, client)
+        const chunkResponses = await this.sendChunks(initResponse.uploadId, client)
         const chunkIds = chunkResponses.map(r => r.chunkId)
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
             .then(() => new DataRef(this.uri, client), reason => {
