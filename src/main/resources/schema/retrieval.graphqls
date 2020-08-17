@@ -54,6 +54,6 @@ enum EdgeOrderByField {
 }
 
 enum Order {
-    ASC,
+    ASC
     DESC
 }
