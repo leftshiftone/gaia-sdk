@@ -9,6 +9,8 @@ import {PerceiveSubmitImpulse} from "../../request/input/PerceiveSubmitImpulse";
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
+import {Order} from "../enumeration/Order";
+import {OrderBy} from "../enumeration/OrderBy";
 
 /**
 * Type which contains all impulses needed for the maintainence of a conversation

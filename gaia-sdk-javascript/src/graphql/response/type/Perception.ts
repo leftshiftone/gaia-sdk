@@ -7,6 +7,8 @@ import {PerceiveActionImpulse} from "../../request/input/PerceiveActionImpulse";
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
 import {SkillState} from "../../request/enumeration/SkillState";
+import {Order} from "../enumeration/Order";
+import {OrderBy} from "../enumeration/OrderBy";
 
 /**
 * This type contains all perception sensor impulses which are used to invoke
