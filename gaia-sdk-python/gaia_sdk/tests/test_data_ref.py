@@ -16,7 +16,7 @@ class TestDataRef(unittest.TestCase):
         self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("username", "password"))
 
     def test_retrieve_data(self):
-        result = self.gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").as_bytes()
+        result = self.gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").as_bytes().pipe(ops.first()).run()
         self.assertEqual(result, bytes("hello world", "utf-8"))
 
     def test_write_new_file(self):

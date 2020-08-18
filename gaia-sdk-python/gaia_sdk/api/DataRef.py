@@ -54,16 +54,17 @@ class DataRef:
         self.logger.debug(f"Completed list at uri {self.uri}")
         return of([FileListing(listing) for listing in response])
 
-    def as_bytes(self):
+    def as_bytes(self) -> Observable[bytes]:
         r"""Downloads the file at the current uri and returns it as bytes.
 
         :return: :class:`Observable[bytes]` object: File as bytes."""
         self.logger.debug(f"Started download from {self.uri}")
         response = self.client.post_json(BinaryReadImpulse(self.uri), "/source/data/get").content
         self.logger.debug(f"Completed download from {self.uri}")
-        return response
+        return of(response)
 
     def as_stream(self):
+        r"""Not implemented in backend"""
         pass
 
     def remove(self) -> Observable[FileRemoved]:
@@ -85,6 +86,7 @@ class DataRef:
         return of(FileRemoved(response))
 
     def append(self):
+        r"""Not implemented in backend"""
         pass
 
     @staticmethod
