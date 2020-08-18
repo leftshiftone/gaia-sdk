@@ -3,7 +3,7 @@ import {UUID} from "../graphql/GaiaScalars";
 import {ClientOptions} from "./ClientOptions";
 
 export interface GaiaCredentials {
-    createAuthorizationString(options: ClientOptions, payload: string): string
+    createAuthHeader(options: ClientOptions, payload: string): string
 }
 
 export class HMACCredentials implements GaiaCredentials {
@@ -14,7 +14,7 @@ export class HMACCredentials implements GaiaCredentials {
         this.apiSecret = apiSecret
     }
 
-    createAuthorizationString(options: ClientOptions, payload: string): string {
+    createAuthHeader(options: ClientOptions, payload: string): string {
         return new HMACTokenBuilder()
             .withClientOptions(options)
             .withTimestamp(Math.floor(Date.now() / 1000))
@@ -30,7 +30,7 @@ export class JWTCredentials implements GaiaCredentials {
         this.token = token
     }
 
-    createAuthorizationString(options: ClientOptions, payload: string): string {
+    createAuthHeader(options: ClientOptions, payload: string): string {
         return "Bearer " + this.token
     }
 }
@@ -44,7 +44,7 @@ export class UsernamePasswordCredentials implements GaiaCredentials {
         this.password = password;
     }
 
-    createAuthorizationString(options: ClientOptions, payload: string): string {
+    createAuthHeader(options: ClientOptions, payload: string): string {
         throw new Error("Authorization Header for credentials of type " + this.constructor + " cannot be generated")
     }
 }

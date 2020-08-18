@@ -19,7 +19,7 @@ describe("Credentials test", () => {
         const options = new ClientOptions(new UsernamePasswordCredentials("user", "password"))
         const payloadAsString = "hi"
 
-        expect(() => options.credentials.createAuthorizationString(options, payloadAsString)).toThrowError()
+        expect(() => options.credentials.createAuthHeader(options, payloadAsString)).toThrowError()
     })
 
     test('build jwt auth string from JWTCredentials', () => {
@@ -27,7 +27,7 @@ describe("Credentials test", () => {
         const options = new ClientOptions(new JWTCredentials(jwtToken))
         const payloadAsString = "hi"
 
-        const token = options.credentials.createAuthorizationString(options, payloadAsString)
+        const token = options.credentials.createAuthHeader(options, payloadAsString)
 
         expect(token === "Bearer " + jwtToken)
     })

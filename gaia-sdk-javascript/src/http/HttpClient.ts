@@ -14,10 +14,7 @@ export class HttpClient {
         return {
             headers: {
                 'Content-Type': options.contentType,
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Methods': 'POST',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                Authorization: options.credentials.createAuthorizationString(options, HttpClient.asString(body))
+                Authorization: options.credentials.createAuthHeader(options, HttpClient.asString(body))
             }
         }
     }

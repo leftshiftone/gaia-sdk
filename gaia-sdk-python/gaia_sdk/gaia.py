@@ -1,10 +1,16 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+
+import requests
 from rx.core.typing import Observable
 from typing import Callable, List
 
+from gaia_sdk.api import ISensorStream
+from gaia_sdk.api.DataRef import DataRef
+from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, GaiaCredentials, JWTCredentials
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
-    IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
+    IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
+    SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
     CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
@@ -17,28 +23,43 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     UpdateFulfilmentImpulse, DeleteFulfilmentImpulse, CreatedFulfilmentImpulse, UpdatedFulfilmentImpulse, \
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
-    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse,  \
+    DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
+from gaia_sdk.http.HttpSensorStream import HttpSensorStream
+from gaia_sdk.http.response.LoggedIn import LoggedIn
 
 Uuid = str
 
+
 class Gaia:
     @staticmethod
-    def connect(url: str, credentials) -> 'GaiaRef':
-        config = GaiaConfig(url, HttpSensorFunction(url, credentials))
-        return GaiaRef(config, config.functionProcessor)
+    def connect(url: str, credentials: GaiaCredentials) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials), HttpSensorStream(url, credentials))
+        return GaiaRef(config, config.functionProcessor, config.streamProcessor)
+
+    @staticmethod
+    def login(url: str, credentials: UsernamePasswordCredentials) -> 'GaiaRef':
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(f"{url}/api/auth/access", json=asdict(credentials), headers=headers).json()
+        return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token))
 
 
 @dataclass
 class GaiaConfig:
     url: str
     functionProcessor: ISensorFunction
+    streamProcessor: ISensorStream
+
 
 @dataclass
-class GaiaRef(ISensorFunction):
+class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     config: GaiaConfig
     f_proc: ISensorFunction
+    s_proc: ISensorStream
+
+    def data(self, uri: str) -> DataRef:
+        return self.s_proc.data(uri)
 
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
         return self.f_proc.retrieve(config)
