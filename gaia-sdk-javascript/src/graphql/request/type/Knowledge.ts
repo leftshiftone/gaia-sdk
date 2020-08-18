@@ -12,15 +12,20 @@ import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../enumeration/RuntimeState";
 import {SkillState} from "../enumeration/SkillState";
+import {Order} from "../enumeration/Order";
+import {OrderByField} from "../enumeration/OrderByField";
+import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
 
-    public identities = (limit: Number|undefined, offset: Number|undefined, config: (_:Identity) => void) => this.push((registry) => {
+    public identities = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Identity) => void) => this.push((registry) => {
         const name1 = registry.register("limit", limit);
         const name2 = registry.register("offset", offset);
+        const name3 = registry.register("orderBy", orderBy);
+        const name4 = registry.register("order", order);
         const entity = new Identity();
         config(entity);
-        return `identities(limit:${name1}, offset:${name2}){` + entity.render(registry) + "}"
+        return `identities(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
     });
 
     public identity = (identityId: Uuid|undefined, config: (_:Identity) => void) => this.push((registry) => {
@@ -30,13 +35,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `identity(identityId:${name1}){` + entity.render(registry) + "}"
     });
 
-    public intents = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Intent) => void) => this.push((registry) => {
+    public intents = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Intent) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Intent();
         config(entity);
-        return `intents(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `intents(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public intent = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Intent) => void) => this.push((registry) => {
@@ -47,13 +54,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `intent(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public prompts = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Prompt) => void) => this.push((registry) => {
+    public prompts = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Prompt) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Prompt();
         config(entity);
-        return `prompts(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `prompts(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public prompt = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Prompt) => void) => this.push((registry) => {
@@ -64,13 +73,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `prompt(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public fulfilments = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Fulfilment) => void) => this.push((registry) => {
+    public fulfilments = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Fulfilment) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Fulfilment();
         config(entity);
-        return `fulfilments(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `fulfilments(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public fulfilment = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Fulfilment) => void) => this.push((registry) => {
@@ -81,13 +92,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `fulfilment(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public statements = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Statement) => void) => this.push((registry) => {
+    public statements = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Statement) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Statement();
         config(entity);
-        return `statements(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `statements(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public statement = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Statement) => void) => this.push((registry) => {
@@ -98,13 +111,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `statement(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public codes = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Code) => void) => this.push((registry) => {
+    public codes = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Code) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Code();
         config(entity);
-        return `codes(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `codes(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public code = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Code) => void) => this.push((registry) => {
@@ -115,13 +130,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `code(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public behaviours = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Behaviour) => void) => this.push((registry) => {
+    public behaviours = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Behaviour) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Behaviour();
         config(entity);
-        return `behaviours(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `behaviours(identityId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public behaviour = (identityId: Uuid|undefined, reference: Uuid|undefined, config: (_:Behaviour) => void) => this.push((registry) => {
@@ -132,13 +149,15 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         return `behaviour(identityId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
-    public edges = (source: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:Edge) => void) => this.push((registry) => {
+    public edges = (source: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: EdgeOrderByField|undefined, order: Order|undefined, config: (_:Edge) => void) => this.push((registry) => {
         const name1 = registry.register("source", source);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Edge();
         config(entity);
-        return `edges(source:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `edges(source:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
     public edge = (source: Uuid|undefined, target: Uuid|undefined, config: (_:Edge) => void) => this.push((registry) => {
