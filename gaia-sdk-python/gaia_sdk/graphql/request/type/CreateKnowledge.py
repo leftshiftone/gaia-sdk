@@ -1,26 +1,27 @@
 
-from gaia_sdk.graphql.request.type.CreatedEdgeImpulse import CreatedEdgeImpulse
-from gaia_sdk.graphql.request.type.CreatedCodeImpulse import CreatedCodeImpulse
-from gaia_sdk.graphql.request.type.CreatedPromptImpulse import CreatedPromptImpulse
-from gaia_sdk.graphql.request.type.CreatedStatementImpulse import CreatedStatementImpulse
-from gaia_sdk.graphql.request.type.CreatedIntentImpulse import CreatedIntentImpulse
-from gaia_sdk.graphql.request.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
-from gaia_sdk.graphql.request.type.CreatedIdentityImpulse import CreatedIdentityImpulse
-from gaia_sdk.graphql.request.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
+from typing import Callable, List
+
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
+from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
+from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
+from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
-from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
-from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
-from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
-from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
-from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateSkillImpulse import CreateSkillImpulse
+from gaia_sdk.graphql.request.input.CreateSkillProvisionImpulse import CreateSkillProvisionImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
-
-from typing import Callable, List
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.request.type.CreatedCodeImpulse import CreatedCodeImpulse
+from gaia_sdk.graphql.request.type.CreatedEdgeImpulse import CreatedEdgeImpulse
+from gaia_sdk.graphql.request.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
+from gaia_sdk.graphql.request.type.CreatedIdentityImpulse import CreatedIdentityImpulse
+from gaia_sdk.graphql.request.type.CreatedIntentImpulse import CreatedIntentImpulse
+from gaia_sdk.graphql.request.type.CreatedPromptImpulse import CreatedPromptImpulse
+from gaia_sdk.graphql.request.type.CreatedSkillImpulse import CreatedSkillImpulse
+from gaia_sdk.graphql.request.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
+from gaia_sdk.graphql.request.type.CreatedStatementImpulse import CreatedStatementImpulse
 
 
 class CreateKnowledge(list):
@@ -111,6 +112,28 @@ class CreateKnowledge(list):
             entity = CreatedEdgeImpulse()
             config(entity)
             return f'edges(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    creates a list of skills with the given specifications
+    """
+    def skills(self, impulses: List[CreateSkillImpulse], config: Callable[['CreatedSkillImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = CreatedSkillImpulse()
+            config(entity)
+            return f'skills(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    creates a list of skill provisions with the given specifications
+    """
+    def skill_provisions(self, impulses: List[CreateSkillProvisionImpulse], config: Callable[['CreatedSkillProvisionImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = CreatedSkillProvisionImpulse()
+            config(entity)
+            return f'skillProvisions(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

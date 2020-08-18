@@ -1,13 +1,7 @@
 package gaia.sdk.request.type
 
 import gaia.sdk.client.Type
-import gaia.sdk.request.intf.*
-import gaia.sdk.client.Input
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
 import gaia.sdk.request.input.*
-import gaia.sdk.request.enumeration.*
 
 class UpdateKnowledge: Type() {
 
@@ -65,6 +59,22 @@ class UpdateKnowledge: Type() {
     fun codes(impulses : Array<out UpdateCodeImpulse>?, config: UpdatedCodeImpulse.() -> Unit) = add {
         val name1 = it.register("impulses", impulses)
         "codes(impulses:$name1){" + UpdatedCodeImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * updates a list of skills with the given specifications
+     */
+    fun skills(impulses : Array<out UpdateSkillImpulse>?, config: UpdatedSkillImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skills(impulses:$name1){" + UpdatedSkillImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * updates a list of skill provisions with the given specifications
+     */
+    fun skillProvisions(impulses : Array<out UpdateSkillProvisionImpulse>?, config: UpdatedSkillProvisionImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skillProvisions(impulses:$name1){" + UpdatedSkillProvisionImpulse().apply(config).render(it) + "}"
     }
 }
 

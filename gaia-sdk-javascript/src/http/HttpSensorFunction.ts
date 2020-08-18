@@ -36,6 +36,10 @@ import {
     RetrievalRes,
     SkillIntrospectionReq,
     SkillIntrospectionRes,
+    SkillProvisionReq,
+    SkillProvisionRes,
+    SkillReq,
+    SkillRes,
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
@@ -78,6 +82,18 @@ import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse"
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
+import {CreateSkillImpulse} from "../graphql/request/input/CreateSkillImpulse";
+import {CreatedSkillImpulse} from "../graphql/response/type/CreatedSkillImpulse";
+import {UpdateSkillImpulse} from "../graphql/request/input/UpdateSkillImpulse";
+import {UpdatedSkillImpulse} from "../graphql/response/type/UpdatedSkillImpulse";
+import {DeleteSkillImpulse} from "../graphql/request/input/DeleteSkillImpulse";
+import {DeletedSkillImpulse} from "../graphql/response/type/DeletedSkillImpulse";
+import {CreateSkillProvisionImpulse} from "../graphql/request/input/CreateSkillProvisionImpulse";
+import {CreatedSkillProvisionImpulse} from "../graphql/response/type/CreatedSkillProvisionImpulse";
+import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillProvisionImpulse";
+import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
+import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
+import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
 import {Uuid} from "../graphql/GaiaClient";
 import {GaiaCredentials} from "../api/GaiaCredentials";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
@@ -227,6 +243,34 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviour!);
     }
 
+    public retrieveSkills(tenantId: Uuid, config: (x: SkillReq) => void, limit?: Number, offset?: Number): Observable<SkillRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.skills(tenantId, limit, offset, undefined, undefined, config));
+        }))));
+        return Rx.flatMapQ<SkillRes>(observable, (e) => e.retrieve!.knowledge!.skills!);
+    }
+
+    public retrieveSkill(tenantId: Uuid, reference: Uuid, config: (x: SkillReq) => void): Observable<SkillRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.skill(tenantId, reference, config));
+        }))));
+        return Rx.mapQ<SkillRes>(observable, (e) => e.retrieve!.knowledge!.skill!);
+    }
+
+    public retrieveSkillProvisions(tenantId: Uuid, config: (x: SkillProvisionReq) => void, limit?: Number, offset?: Number): Observable<SkillProvisionRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.skillProvisions(tenantId, limit, offset, undefined, undefined, config));
+        }))));
+        return Rx.flatMapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvisions!);
+    }
+
+    public retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(k => k.skillProvision(tenantId, reference, config));
+        }))));
+        return Rx.mapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvision!);
+    }
+
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(config))));
         return Rx.mapQ<IntrospectionRes>(observable, (e) => e.introspect!);
@@ -324,6 +368,48 @@ export class HttpSensorFunction implements ISensorFunction {
             p.delete(_ => _.statements(impulses, i => i.id()))
         }))));
         return Rx.flatMapM<DeletedStatementImpulse>(observable, (e) => e.preserve!.delete!.statements!);
+    }
+
+    public preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.skills(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<CreatedSkillImpulse>(observable, (e) => e.preserve!.create!.skills!);
+    }
+
+    public preserveUpdateSkills(...impulses: [UpdateSkillImpulse]): Observable<UpdatedSkillImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.skills(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<UpdatedSkillImpulse>(observable, (e) => e.preserve!.update!.skills!);
+    }
+
+    public preserveDeleteSkills(...impulses: [DeleteSkillImpulse]): Observable<DeletedSkillImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.skills(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<DeletedSkillImpulse>(observable, (e) => e.preserve!.delete!.skills!);
+    }
+
+    public preserveCreateSkillProvisions(...impulses: [CreateSkillProvisionImpulse]): Observable<CreatedSkillProvisionImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.skillProvisions(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<CreatedSkillProvisionImpulse>(observable, (e) => e.preserve!.create!.skillProvisions!);
+    }
+
+    public preserveUpdateSkillProvisions(...impulses: [UpdateSkillProvisionImpulse]): Observable<UpdatedSkillProvisionImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.skillProvisions(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<UpdatedSkillProvisionImpulse>(observable, (e) => e.preserve!.update!.skillProvisions!);
+    }
+
+    public preserveDeleteSkillProvisions(...impulses: [DeleteSkillProvisionImpulse]): Observable<DeletedSkillProvisionImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.skillProvisions(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<DeletedSkillProvisionImpulse>(observable, (e) => e.preserve!.delete!.skillProvisions!);
     }
 
     public preserveCreateFulfilments(...impulses: [CreateFulfilmentImpulse]): Observable<CreatedFulfilmentImpulse> {

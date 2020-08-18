@@ -1,33 +1,24 @@
 
-from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
-from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
-from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImpulse
-from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
-from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
-from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
-from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
-from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
-from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
-from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
-from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
-from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
-from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
-from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
-from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
-from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
-
 from dataclasses import dataclass
 from typing import List
+
+from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
+from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
+from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
+from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
+from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
+from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImpulse
+from gaia_sdk.graphql.response.type.CreatedSkillImpulse import CreatedSkillImpulse
+from gaia_sdk.graphql.response.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
+from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
+
 Uuid = str
 String = str
 ISO8601 = str
 Struct = dict
 Float = float
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+
 
 @dataclass
 class CreateKnowledge:
@@ -80,3 +71,15 @@ class CreateKnowledge:
     @property
     def edges(self) -> List[CreatedEdgeImpulse]:
         return list(map(lambda x: CreatedEdgeImpulse(x), self.dictionary.get("edges")))
+    """
+    creates a list of skills with the given specifications
+    """
+    @property
+    def skills(self) -> List[CreatedSkillImpulse]:
+        return list(map(lambda x: CreatedSkillImpulse(x), self.dictionary.get("skills")))
+    """
+    creates a list of skill provisions with the given specifications
+    """
+    @property
+    def skill_provisions(self) -> List[CreatedSkillProvisionImpulse]:
+        return list(map(lambda x: CreatedSkillProvisionImpulse(x), self.dictionary.get("skillProvisions")))

@@ -1,12 +1,7 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.response.intf.*
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
-import gaia.sdk.request.enumeration.*
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DeleteKnowledge @JsonCreator constructor(
     /**
@@ -40,5 +35,13 @@ data class DeleteKnowledge @JsonCreator constructor(
     /**
     * deletes a list of edges with the given specifications
     */
-    @JsonProperty("edges") val edges:List<DeletedEdgeImpulse>?
+    @JsonProperty("edges") val edges:List<DeletedEdgeImpulse>?, 
+    /**
+    * deletes a list of skills with the given specifications
+    */
+    @JsonProperty("skills") val skills:List<DeletedSkillImpulse>?, 
+    /**
+    * deletes a list of skill provisions with the given specifications
+    */
+    @JsonProperty("skillProvisions") val skillProvisions:List<DeletedSkillProvisionImpulse>?
 )

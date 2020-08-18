@@ -16,6 +16,7 @@
     *#$field.name?:#if($field.type.isList())#print("[")#end$#*
     *##if($field.type.name().equals("String"))string#*
     *##elseif($field.type.name().equals("Float"))number#*
+    *##elseif($field.type.name().equals("Int"))number#*
     *##else#**#$field.type.name()#*
     *##end#*
     *##if($field.type.isList())#print("]")#end##

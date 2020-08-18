@@ -448,4 +448,118 @@ describe("perception tests:", () => {
         });
     });
 
+
+    test('test retrieve skills', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkills(tenantId,_ => {
+                _.tenantId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated skills', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+        var latestExpectedIndex = 100
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkills(tenantId,_ => {
+                _.tenantId();
+                _.reference();
+                _.qualifier();
+            }, 10, 100);
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                latestExpectedIndex++
+                expect(e.qualifier === "" + latestExpectedIndex).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve skill', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkill(tenantId,reference, _ => {
+                _.tenantId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve skillProvisions', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkillProvisions(tenantId,_ => {
+                _.tenantId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated skillProvisions', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+        var latestExpectedIndex = 100
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkillProvisions(tenantId,_ => {
+                _.tenantId();
+                _.reference();
+                _.qualifier();
+            }, 10, 100);
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                latestExpectedIndex++
+                expect(e.qualifier === "" + latestExpectedIndex).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve skillProvision', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+        const reference = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveSkillProvision(tenantId,reference, _ => {
+                _.tenantId();
+                _.reference();
+            });
+            observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
+                expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+
 });

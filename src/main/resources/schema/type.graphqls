@@ -155,3 +155,63 @@ type BehaviourNodeExecution {
     timestamp: ISO8601
     parentProcessId: Uuid
 }
+
+
+# ****************
+# Skill types
+# ****************
+
+"Represents Skill information"
+type Skill {
+    "Id of the tenant"
+    tenantId: Uuid
+    "Skill reference"
+    reference: Uuid
+    "The name of the skill"
+    qualifier: String
+    "Detailed description about the skill"
+    appendent: String
+    "The list of labels of the skill"
+    labelList: [String]
+    "The uri of the repository where the skill is"
+    repositoryUri: String
+    "The reference to the secret that grant the access to the skill repository"
+    secretRef: String
+    "Name of the store that contains the skill secret"
+    secretStore: String
+}
+
+"Represents SkillProvision information"
+type SkillProvision {
+    "Id of the tenant"
+    tenantId: Uuid
+    "Skill reference"
+    reference: Uuid
+    "The name of the skill provision"
+    qualifier: String
+    "Detailed description about the skill provision"
+    appendent: String
+    "The list of labels of the skill provision"
+    labelList: [String]
+    "The version of the skill"
+    version: String
+    "The reference to skill"
+    skillRef: String
+    "Initial CPU"
+    initialCpu: String
+    "Maximal allowed CPU"
+    maximalCpu: String
+    "Initial Memory"
+    initialMemory: String
+    "Maximal allowed Memory"
+    maximalMemory: String
+    "Amount of replicas"
+    replicas: Int
+    "Whether the skill provision should be enabled or not"
+    enabled: Boolean
+    "Amount of seconds that the skill requires to be ready"
+    bootstrapTimeout: Int
+    "Value-Key pairs with information needed for the skill provision"
+    environment: Struct
+
+}

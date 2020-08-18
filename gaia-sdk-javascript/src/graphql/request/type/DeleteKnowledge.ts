@@ -1,10 +1,11 @@
-
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
+import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
+import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeleteFulfilmentImpulse} from "../input/DeleteFulfilmentImpulse";
@@ -14,15 +15,11 @@ import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
+import {DeleteSkillImpulse} from "../input/DeleteSkillImpulse";
+import {DeleteSkillProvisionImpulse} from "../input/DeleteSkillProvisionImpulse";
 import {DeleteIdentityImpulse} from "../input/DeleteIdentityImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
-import {Order} from "../enumeration/Order";
-import {OrderByField} from "../enumeration/OrderByField";
-import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
 
@@ -104,6 +101,26 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new DeletedEdgeImpulse();
         config(entity);
         return `edges(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of skills with the given specifications
+     */
+    public skills = (impulses: [DeleteSkillImpulse]|undefined, config: (_:DeletedSkillImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedSkillImpulse();
+        config(entity);
+        return `skills(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of skill provisions with the given specifications
+     */
+    public skillProvisions = (impulses: [DeleteSkillProvisionImpulse]|undefined, config: (_:DeletedSkillProvisionImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedSkillProvisionImpulse();
+        config(entity);
+        return `skillProvisions(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

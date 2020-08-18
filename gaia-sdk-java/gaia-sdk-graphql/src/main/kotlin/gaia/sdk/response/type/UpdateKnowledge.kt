@@ -1,12 +1,7 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.response.intf.*
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
-import gaia.sdk.request.enumeration.*
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class UpdateKnowledge @JsonCreator constructor(
     /**
@@ -36,5 +31,13 @@ data class UpdateKnowledge @JsonCreator constructor(
     /**
     * updates a list of codes with the given specifications
     */
-    @JsonProperty("codes") val codes:List<UpdatedCodeImpulse>?
+    @JsonProperty("codes") val codes:List<UpdatedCodeImpulse>?, 
+    /**
+    * updates a list of skills with the given specifications
+    */
+    @JsonProperty("skills") val skills:List<UpdatedSkillImpulse>?, 
+    /**
+    * updates a list of skill provisions with the given specifications
+    */
+    @JsonProperty("skillProvisions") val skillProvisions:List<UpdatedSkillProvisionImpulse>?
 )
