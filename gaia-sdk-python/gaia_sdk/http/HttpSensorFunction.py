@@ -57,7 +57,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int, offset: int) -> Observable[EdgeRes]:
-        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(source, limit, offset, config)
+        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edges(source, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edges
@@ -75,7 +75,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int, offset: int) -> Observable[IdentityRes]:
-        identities_req: Callable[[IdentityReq], None] = lambda x: x.identities(limit, offset, config)
+        identities_req: Callable[[IdentityReq], None] = lambda x: x.identities(limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(identities_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identities
@@ -93,7 +93,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int, offset: int) -> Observable[IntentRes]:
-        intents_req: Callable[[IntentReq], None] = lambda x: x.intents(identityId, limit, offset, config)
+        intents_req: Callable[[IntentReq], None] = lambda x: x.intents(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(intents_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IntentRes] = lambda x: x.retrieve.knowledge.intents
@@ -111,7 +111,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None], limit: int, offset: int) -> Observable[PromptRes]:
-        prompts_req: Callable[[PromptReq], None] = lambda x: x.prompts(identityId, limit, offset, config)
+        prompts_req: Callable[[PromptReq], None] = lambda x: x.prompts(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(prompts_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], PromptRes] = lambda x: x.retrieve.knowledge.prompts
@@ -129,7 +129,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_statements(self,identityId: Uuid, config: Callable[[StatementReq], None], limit: int, offset: int) -> Observable[StatementRes]:
-        statement_req: Callable[[StatementReq], None] = lambda x: x.statements(identityId, limit, offset, config)
+        statement_req: Callable[[StatementReq], None] = lambda x: x.statements(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(statement_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], StatementRes] = lambda x: x.retrieve.knowledge.statements
@@ -147,7 +147,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None], limit: int, offset: int) -> Observable[FulfilmentRes]:
-        fulfilment_req: Callable[[FulfilmentReq], None] = lambda x: x.fulfilments(identityId, limit, offset, config)
+        fulfilment_req: Callable[[FulfilmentReq], None] = lambda x: x.fulfilments(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(fulfilment_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], FulfilmentRes] = lambda x: x.retrieve.knowledge.fulfilments
@@ -165,7 +165,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None], limit: int, offset: int) -> Observable[CodeRes]:
-        code_req: Callable[[CodeReq], None] = lambda x: x.codes(identityId, limit, offset, config)
+        code_req: Callable[[CodeReq], None] = lambda x: x.codes(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(code_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], CodeRes] = lambda x: x.retrieve.knowledge.codes
@@ -183,7 +183,7 @@ class HttpSensorFunction(ISensorFunction):
         return mapQ(observable, query_res)
 
     def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None], limit: int, offset: int) -> Observable[BehaviourRes]:
-        behaviour_req: Callable[[BehaviourReq], None] = lambda x: x.behaviours(identityId, limit, offset, config)
+        behaviour_req: Callable[[BehaviourReq], None] = lambda x: x.behaviours(identityId, limit, offset, None, None, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(behaviour_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], BehaviourRes] = lambda x: x.retrieve.knowledge.behaviours
