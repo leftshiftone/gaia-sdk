@@ -60,9 +60,6 @@ jobs:
           command: java -jar -Xmx512m build/mock/heimdall-mock.jar
           background: true
       - run:
-          name: Wait for mock server
-          command: sleep 20
-      - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
       - run:
