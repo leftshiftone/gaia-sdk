@@ -4,7 +4,6 @@ import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 
 describe("Credentials test", () => {
     test('test login', () => {
-        expect.assertions(1)
         let credentials = new UsernamePasswordCredentials("username", "password")
         return Gaia.login('http://localhost:8080', credentials).then(gaiaRef => expect(gaiaRef).toBeDefined())
     });
