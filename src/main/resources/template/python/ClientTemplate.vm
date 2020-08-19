@@ -21,7 +21,7 @@ class #capitalize($name)Client(object):
 
 #tab(4)def execute_native(self, statement: str, variables: dict):
 #tab(8)payload = {"statement": statement, "variables": variables}
-#tab(8)return self.transporter.transport(self.options, Payload.json(payload))
+#tab(8)return self.transporter.transport(self.options, Payload.json(payload)).json()
 
 #tab(4)def query(self, request: Query) -> QueryResponse:
 #tab(8)statement, variables = self.get_statement("query", request)
