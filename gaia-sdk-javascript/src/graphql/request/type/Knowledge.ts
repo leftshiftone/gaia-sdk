@@ -1,3 +1,4 @@
+
 import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
 import {Skill} from "./Skill";
@@ -10,7 +11,9 @@ import {Code} from "./Code";
 import {Edge} from "./Edge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid} from "../../GaiaClient";
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {RuntimeState} from "../enumeration/RuntimeState";
+import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";

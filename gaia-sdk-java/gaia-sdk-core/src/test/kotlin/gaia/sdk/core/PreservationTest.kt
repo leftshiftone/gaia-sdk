@@ -297,5 +297,77 @@ abstract class PreservationTest {
         Assertions.assertNotNull(result!!.id)
     }
 
+    @Test
+    fun `test preserve create skill`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateSkillImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "")
+
+        val publisher = gaiaRef.preserveCreateSkills(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update skill`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "")
+
+        val publisher = gaiaRef.preserveUpdateSkills(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete skill`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteSkills(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve create skillProvision`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateSkillProvisionImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,100,1,true,30, emptyMap())
+
+        val publisher = gaiaRef.preserveCreateSkillProvisions(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update skillProvision`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,100,1,true,30, emptyMap())
+
+        val publisher = gaiaRef.preserveUpdateSkillProvisions(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete skillProvision`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteSkillProvisions(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
 
 }

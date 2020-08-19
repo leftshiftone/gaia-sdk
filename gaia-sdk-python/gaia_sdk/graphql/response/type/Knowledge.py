@@ -1,24 +1,27 @@
 
-from dataclasses import dataclass
-from typing import List
-
-from gaia_sdk.graphql.response.type.Behaviour import Behaviour
-from gaia_sdk.graphql.response.type.Code import Code
-from gaia_sdk.graphql.response.type.Edge import Edge
+from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.response.type.Identity import Identity
+from gaia_sdk.graphql.response.type.Skill import Skill
+from gaia_sdk.graphql.response.type.Behaviour import Behaviour
+from gaia_sdk.graphql.response.type.Statement import Statement
 from gaia_sdk.graphql.response.type.Intent import Intent
 from gaia_sdk.graphql.response.type.Prompt import Prompt
-from gaia_sdk.graphql.response.type.Skill import Skill
-from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
-from gaia_sdk.graphql.response.type.Statement import Statement
+from gaia_sdk.graphql.response.type.Identity import Identity
+from gaia_sdk.graphql.response.type.Code import Code
+from gaia_sdk.graphql.response.type.Edge import Edge
 
+from dataclasses import dataclass
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
 Struct = dict
 Float = float
-
+from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
+from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 @dataclass
 class Knowledge:

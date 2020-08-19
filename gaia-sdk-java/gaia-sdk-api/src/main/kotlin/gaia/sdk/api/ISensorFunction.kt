@@ -25,6 +25,10 @@ interface ISensorFunction {
     fun retrieveCode(identityId: Uuid, reference: Uuid, config: Code.() -> Unit): Publisher<gaia.sdk.response.type.Code>
     fun retrieveBehaviours(identityId: Uuid, config: Behaviour.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Behaviour>
     fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit): Publisher<gaia.sdk.response.type.Behaviour>
+    fun retrieveSkills(tenantId: Uuid, config: Skill.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Skill>
+    fun retrieveSkill(tenantId: Uuid, reference: Uuid, config: Skill.() -> Unit): Publisher<gaia.sdk.response.type.Skill>
+    fun retrieveSkillProvisions(tenantId: Uuid, config: SkillProvision.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.SkillProvision>
+    fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit): Publisher<gaia.sdk.response.type.SkillProvision>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>
@@ -51,6 +55,12 @@ interface ISensorFunction {
     fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse): Publisher<gaia.sdk.response.type.DeletedCodeImpulse>
     fun preserveCreateEdges(vararg impulses: CreateEdgeImpulse): Publisher<gaia.sdk.response.type.CreatedEdgeImpulse>
     fun preserveDeleteEdges(vararg impulses: DeleteEdgeImpulse): Publisher<gaia.sdk.response.type.DeletedEdgeImpulse>
+    fun preserveCreateSkills(vararg impulses: CreateSkillImpulse): Publisher<gaia.sdk.response.type.CreatedSkillImpulse>
+    fun preserveUpdateSkills(vararg impulses: UpdateSkillImpulse): Publisher<gaia.sdk.response.type.UpdatedSkillImpulse>
+    fun preserveDeleteSkills(vararg impulses: DeleteSkillImpulse): Publisher<gaia.sdk.response.type.DeletedSkillImpulse>
+    fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.CreatedSkillProvisionImpulse>
+    fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.UpdatedSkillProvisionImpulse>
+    fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse): Publisher<gaia.sdk.response.type.DeletedSkillProvisionImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>

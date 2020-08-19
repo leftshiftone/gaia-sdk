@@ -1,27 +1,30 @@
 
-from typing import Callable, List
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
-from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
-from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
-from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
-from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
-from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
-from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
-from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
-from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
-from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
-from gaia_sdk.graphql.request.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
-from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
-from gaia_sdk.graphql.request.type.DeletedEdgeImpulse import DeletedEdgeImpulse
-from gaia_sdk.graphql.request.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.request.type.DeletedIdentityImpulse import DeletedIdentityImpulse
+from gaia_sdk.graphql.request.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
+from gaia_sdk.graphql.request.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
+from gaia_sdk.graphql.request.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
 from gaia_sdk.graphql.request.type.DeletedPromptImpulse import DeletedPromptImpulse
-from gaia_sdk.graphql.request.type.DeletedSkillImpulse import DeletedSkillImpulse
-from gaia_sdk.graphql.request.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.DeletedStatementImpulse import DeletedStatementImpulse
+from gaia_sdk.graphql.request.type.DeletedSkillImpulse import DeletedSkillImpulse
+from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
+from gaia_sdk.graphql.request.type.DeletedEdgeImpulse import DeletedEdgeImpulse
+from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
+from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
+from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
+from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
+from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
+from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
+from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
+from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
 class DeleteKnowledge(list):

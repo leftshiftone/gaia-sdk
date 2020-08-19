@@ -175,10 +175,6 @@ type Skill {
     labelList: [String]
     "The uri of the repository where the skill is"
     repositoryUri: String
-    "The reference to the secret that grant the access to the skill repository"
-    secretRef: String
-    "Name of the store that contains the skill secret"
-    secretStore: String
 }
 
 "Represents SkillProvision information"
@@ -198,13 +194,13 @@ type SkillProvision {
     "The reference to skill"
     skillRef: String
     "Initial CPU"
-    initialCpu: String
+    initialCpu: Int
     "Maximal allowed CPU"
-    maximalCpu: String
+    maximalCpu: Int
     "Initial Memory"
-    initialMemory: String
+    initialMemory: Int
     "Maximal allowed Memory"
-    maximalMemory: String
+    maximalMemory: Int
     "Amount of replicas"
     replicas: Int
     "Whether the skill provision should be enabled or not"

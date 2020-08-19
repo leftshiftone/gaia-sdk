@@ -495,6 +495,125 @@ abstract class RetrievalTest() {
     }
 
     @Test
+    fun `test retrieve skills`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkills(tenantId, {
+            tenantId()
+            reference()
+        })
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated skills`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkills(tenantId, {
+            tenantId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.tenantId!=null && it.qualifier == "110"
+        }
+    }
+
+    @Test
+    fun `test retrieve skill`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkill(tenantId, reference) {
+            tenantId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve skillProvisions`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkillProvisions(tenantId, {
+            tenantId()
+            reference()
+        })
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        println(ts.values())
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.reference!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginiated skillProvisions`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkillProvisions(tenantId, {
+            tenantId()
+            qualifier()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.qualifier == "101"
+        }
+        ts.assertValueAt(9){
+            it.tenantId!=null && it.qualifier == "110"
+        }
+    }
+
+    @Test
+    fun `test retrieve skillProvision`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val tenantId = UUID.randomUUID().toString()
+        val reference = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveSkillProvision(tenantId, reference) {
+            tenantId()
+            reference()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.tenantId!=null && it.reference!=null
+        }
+    }
+
+    @Test
     fun `test retrieve error handling`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"

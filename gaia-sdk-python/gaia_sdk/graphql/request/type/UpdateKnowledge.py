@@ -1,25 +1,28 @@
 
-from typing import Callable, List
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
-from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
-from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
-from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
-from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
-from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
-from gaia_sdk.graphql.request.input.UpdateSkillImpulse import UpdateSkillImpulse
-from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
-from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
-from gaia_sdk.graphql.request.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
-from gaia_sdk.graphql.request.type.UpdatedCodeImpulse import UpdatedCodeImpulse
-from gaia_sdk.graphql.request.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
-from gaia_sdk.graphql.request.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
-from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
-from gaia_sdk.graphql.request.type.UpdatedPromptImpulse import UpdatedPromptImpulse
-from gaia_sdk.graphql.request.type.UpdatedSkillImpulse import UpdatedSkillImpulse
-from gaia_sdk.graphql.request.type.UpdatedSkillProvisionImpulse import UpdatedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.UpdatedStatementImpulse import UpdatedStatementImpulse
+from gaia_sdk.graphql.request.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
+from gaia_sdk.graphql.request.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
+from gaia_sdk.graphql.request.type.UpdatedSkillProvisionImpulse import UpdatedSkillProvisionImpulse
+from gaia_sdk.graphql.request.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
+from gaia_sdk.graphql.request.type.UpdatedSkillImpulse import UpdatedSkillImpulse
+from gaia_sdk.graphql.request.type.UpdatedPromptImpulse import UpdatedPromptImpulse
+from gaia_sdk.graphql.request.type.UpdatedCodeImpulse import UpdatedCodeImpulse
+from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
+from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
+from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
+from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
+from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
+from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
+from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.UpdateSkillImpulse import UpdateSkillImpulse
+from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
 class UpdateKnowledge(list):

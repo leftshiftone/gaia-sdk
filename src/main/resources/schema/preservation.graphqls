@@ -388,8 +388,6 @@ input CreateSkillImpulse {
     appendent: String
     labelList: [String]
     repositoryUri: String!
-    secretRef: String!
-    secretStore: String!
 }
 "The specification to update a Skill instance"
 input UpdateSkillImpulse {
@@ -399,8 +397,6 @@ input UpdateSkillImpulse {
     appendent: String
     labelList: [String]
     repositoryUri: String!
-    secretRef: String!
-    secretStore: String!
 }
 "The specification to delete a Skill instance"
 input DeleteSkillImpulse {
@@ -433,10 +429,10 @@ input CreateSkillProvisionImpulse {
     labelList: [String]
     version: String!
     skillRef: String!
-    initialCpu: String
-    maximalCpu: String
-    initialMemory: String
-    maximalMemory: String
+    initialCpu: Int
+    maximalCpu: Int
+    initialMemory: Int
+    maximalMemory: Int
     replicas: Int
     enabled: Boolean!
     bootstrapTimeout: Int
@@ -452,10 +448,10 @@ input UpdateSkillProvisionImpulse {
     labelList: [String]
     version: String!
     skillRef: String!
-    initialCpu: String
-    maximalCpu: String
-    initialMemory: String
-    maximalMemory: String
+    initialCpu: Int
+    maximalCpu: Int
+    initialMemory: Int
+    maximalMemory: Int
     replicas: Int
     enabled: Boolean!
     bootstrapTimeout: Int

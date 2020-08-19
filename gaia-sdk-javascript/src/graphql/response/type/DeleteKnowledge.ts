@@ -1,3 +1,4 @@
+
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
@@ -8,44 +9,61 @@ import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
+import {DeleteFulfilmentImpulse} from "../../request/input/DeleteFulfilmentImpulse";
+import {DeleteCodeImpulse} from "../../request/input/DeleteCodeImpulse";
+import {DeleteEdgeImpulse} from "../../request/input/DeleteEdgeImpulse";
+import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse";
+import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
+import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
+import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
+import {DeleteSkillImpulse} from "../../request/input/DeleteSkillImpulse";
+import {DeleteSkillProvisionImpulse} from "../../request/input/DeleteSkillProvisionImpulse";
+import {DeleteIdentityImpulse} from "../../request/input/DeleteIdentityImpulse";
+
+import {Uuid, ISO8601, Struct} from "../../GaiaClient";
+import {RuntimeState} from "../../request/enumeration/RuntimeState";
+import {SkillState} from "../../request/enumeration/SkillState";
+import {Order} from "../../request/enumeration/Order";
+import {OrderByField} from "../../request/enumeration/OrderByField";
+import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 export interface DeleteKnowledge {
     /**
     * deletes a list of identities with the given specifications
     */
-    identities?:[DeletedIdentityImpulse],
+    identities?:[DeletedIdentityImpulse], 
     /**
     * deletes a list of intents with the given specifications
     */
-    intents?:[DeletedIntentImpulse],
+    intents?:[DeletedIntentImpulse], 
     /**
     * deletes a list of prompts with the given specifications
     */
-    prompts?:[DeletedPromptImpulse],
+    prompts?:[DeletedPromptImpulse], 
     /**
     * deletes a list of statements with the given specifications
     */
-    statements?:[DeletedStatementImpulse],
+    statements?:[DeletedStatementImpulse], 
     /**
     * deletes a list of fulfilments with the given specifications
     */
-    fulfilments?:[DeletedFulfilmentImpulse],
+    fulfilments?:[DeletedFulfilmentImpulse], 
     /**
     * deletes a list of behaviours with the given specifications
     */
-    behaviours?:[DeletedBehaviourImpulse],
+    behaviours?:[DeletedBehaviourImpulse], 
     /**
     * deletes a list of codes with the given specifications
     */
-    codes?:[DeletedCodeImpulse],
+    codes?:[DeletedCodeImpulse], 
     /**
     * deletes a list of edges with the given specifications
     */
-    edges?:[DeletedEdgeImpulse],
+    edges?:[DeletedEdgeImpulse], 
     /**
     * deletes a list of skills with the given specifications
     */
-    skills?:[DeletedSkillImpulse],
+    skills?:[DeletedSkillImpulse], 
     /**
     * deletes a list of skill provisions with the given specifications
     */
