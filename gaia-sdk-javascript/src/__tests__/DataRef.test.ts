@@ -8,7 +8,10 @@ import Blob from "cross-blob"
 describe("dataref tests:", () => {
     let gaiaRef: GaiaRef
 
-    beforeEach(async () => gaiaRef = await Gaia.login("http://localhost:8080", new UsernamePasswordCredentials("username", "password")))
+    beforeEach(async (done) => {
+        gaiaRef = await Gaia.login("http://localhost:8080", new UsernamePasswordCredentials("username", "password"))
+        done()
+    })
 
     test('test write new file', () => {
         const blob = new Blob(["234"]);
