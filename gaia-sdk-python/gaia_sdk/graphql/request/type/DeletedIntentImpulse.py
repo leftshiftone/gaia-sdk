@@ -3,6 +3,9 @@ from gaia_sdk.graphql.request.type.KeyOne import KeyOne
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
 class DeletedIntentImpulse(list):
