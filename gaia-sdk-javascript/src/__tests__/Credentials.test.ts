@@ -5,13 +5,13 @@ import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 describe("Credentials test", () => {
     test('test login', async () => {
         expect.assertions(1)
-        let credentials = new UsernamePasswordCredentials("user", "password")
+        let credentials = new UsernamePasswordCredentials("username", "password")
         let gaiaRef = await Gaia.login('http://localhost:8080', credentials)
         expect(gaiaRef).toBeDefined()
     });
 
     test('build auth string from UsernamePasswordCredentials fails', () => {
-        const options = new ClientOptions(new UsernamePasswordCredentials("user", "password"))
+        const options = new ClientOptions(new UsernamePasswordCredentials("username", "password"))
         const payloadAsString = "hi"
 
         expect(() => options.credentials.createAuthHeader(options, payloadAsString)).toThrowError()
