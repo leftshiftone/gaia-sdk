@@ -13,7 +13,7 @@ describe("dataref tests:", () => {
         done()
     })
 
-    test('test write new file', () => {
+    test.skip('test write new file', () => {
         const blob = new Blob(["234"]);
 
         return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ describe("dataref tests:", () => {
         })
     });
 
-    test.skip('test overwrite existing file does not work', () => {
+    test('test overwrite existing file does not work', () => {
         const blob = new Blob(["234"]);
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", blob);
