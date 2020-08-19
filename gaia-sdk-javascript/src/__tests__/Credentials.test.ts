@@ -3,16 +3,11 @@ import {HMACCredentials, UsernamePasswordCredentials} from "../api/GaiaCredentia
 import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 
 describe("Credentials test", () => {
-    test('test login', () => {
+    test('test login', async () => {
+        expect.assertions(1)
         let credentials = new UsernamePasswordCredentials("user", "password")
-
-        return new Promise((resolve, reject) => {
-            Gaia.login('http://localhost:8080', credentials).then((gaiaRef) => {
-                expect(gaiaRef !== undefined)
-                console.log(gaiaRef);
-                resolve(gaiaRef);
-            })
-        });
+        let gaiaRef = await Gaia.login('http://localhost:8080', credentials)
+        expect(gaiaRef).toBeDefined()
     });
 
     test('build auth string from UsernamePasswordCredentials fails', () => {
@@ -29,7 +24,7 @@ describe("Credentials test", () => {
 
         const token = options.credentials.createAuthHeader(options, payloadAsString)
 
-        expect(token === "Bearer " + jwtToken)
+        expect(token).toEqual("Bearer " + jwtToken)
     })
 
     test('build hmac auth string from GaiaCredentials', () => {
@@ -44,7 +39,7 @@ describe("Credentials test", () => {
             .withTimestamp(timestamp)
             .withClientOptions(options)
             .build()
-        expect(token === "HMAC-SHA512 apiKey_MzE5ZjQyNzg3ZTgyZGJhNmE3YTBiNjI5ODA5MjIzMzk2YzRhMTg1MmNlOWUwYzhiYTNiZmQ0MTkxY2NlMDg1YTVlMWM0Y2UwM2QzNzNlM2NhYWIxMzcxMTU5MTQxNTJkNzFhMmEwMmY3OGIwNTZmNjA0NTJkZDJlYzg2ZDE1MjU=_1592924470_353823db-c12b-44b2-b0dc-c4d813c74b24").toBeTruthy()
+        expect(token).toEqual("HMAC-SHA512 apiKey_MzE5ZjQyNzg3ZTgyZGJhNmE3YTBiNjI5ODA5MjIzMzk2YzRhMTg1MmNlOWUwYzhiYTNiZmQ0MTkxY2NlMDg1YTVlMWM0Y2UwM2QzNzNlM2NhYWIxMzcxMTU5MTQxNTJkNzFhMmEwMmY3OGIwNTZmNjA0NTJkZDJlYzg2ZDE1MjU=_1592924470_353823db-c12b-44b2-b0dc-c4d813c74b24")
     });
 
 

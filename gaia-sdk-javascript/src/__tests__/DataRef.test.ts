@@ -18,7 +18,7 @@ describe("dataref tests:", () => {
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
                 // @ts-ignore
-                expect(e.uri === "gaia://usr@tenant/somefolder/newFile").toBeTruthy();
+                expect(e.uri).toEqual("gaia://usr@tenant/somefolder/newFile");
                 resolve(e || "");
             }, reject);
         })
@@ -37,7 +37,7 @@ describe("dataref tests:", () => {
             const observable = gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").asFile();
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
-                expect(e.size === 11).toBeTruthy();
+                expect(e.size).toEqual(11);
                 resolve(e || "");
             }, reject);
         });
