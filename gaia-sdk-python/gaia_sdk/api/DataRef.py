@@ -74,9 +74,10 @@ class DataRef:
         file existed."""
         return self.remove_file("")
 
-    def remove_file(self, file_name) -> Observable[FileRemoved]:
+    def remove_file(self, file_name: str) -> Observable[FileRemoved]:
         r"""Removes the specified file in the directory at the current uri.
 
+        :param file_name: Name of the file at the current uri to be removed.
         :return: :class:`Observable[FileRemoved]` object: Response to remove request that contains information if the
         file existed."""
         file_uri = DataRef.concat_uri(self.uri, file_name)
