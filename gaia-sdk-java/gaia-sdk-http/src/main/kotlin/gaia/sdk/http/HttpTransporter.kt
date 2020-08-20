@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream
 import java.time.Instant
 import java.util.*
 
-class HttpTransporter(private val url: String, private val httpClient: HttpClient) : ITransporter {
+class HttpTransporter(private val baseUrl: String, private val httpClient: HttpClient) : ITransporter {
 
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
@@ -24,7 +24,7 @@ class HttpTransporter(private val url: String, private val httpClient: HttpClien
 
     private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
-    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any>): Publisher<T> {
+    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any>, apiPath: String): Publisher<T> {
         val bytes = jsonparser.writeValueAsBytes(payload)
         if (log.isTraceEnabled) {
             log.debug("Payload to send: '${String(bytes)}'")
@@ -37,7 +37,7 @@ class HttpTransporter(private val url: String, private val httpClient: HttpClien
                 }
                 .followRedirect(true)
                 .post()
-                .uri(url)
+                .uri("${baseUrl}${apiPath}")
                 .send(Mono.just(Unpooled.copiedBuffer(bytes)))
                 .responseConnection { t, u ->
                     u

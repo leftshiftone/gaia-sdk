@@ -1,6 +1,7 @@
 package gaia.sdk.api.skill
 
 import gaia.sdk.api.ISensorStream
+import gaia.sdk.api.SkillProvisionStatus
 import org.reactivestreams.Publisher
 
 class SkillRef(private val spec: ISkillSpec, private val processor: ISensorStream) {
@@ -10,7 +11,23 @@ class SkillRef(private val spec: ISkillSpec, private val processor: ISensorStrea
     }
 
     fun introspect(): Publisher<SkillIntrospection> {
-        return processor.introspectSkill(spec.toURL())
+        return processor.introspectSkill(spec.toUri())
+    }
+
+    fun start(): Publisher<Void> {
+        return processor.startSkillProvision(spec.toUri())
+    }
+
+    fun stop(): Publisher<Void> {
+        return processor.stopSkillProvision(spec.toUri())
+    }
+
+    fun status(): Publisher<SkillProvisionStatus> {
+        return processor.skillProvisionStatus(spec.toUri())
+    }
+
+    fun logs(numberOfLines: Int = 100): Publisher<String> {
+        return processor.skillProvisionLogs(spec.toUri(), numberOfLines)
     }
 
 }

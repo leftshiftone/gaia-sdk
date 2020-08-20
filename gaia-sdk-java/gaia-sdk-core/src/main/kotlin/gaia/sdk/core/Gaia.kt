@@ -36,7 +36,7 @@ class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
                  val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
                  val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
-                 val streamProcessor: ISensorStream = HttpSensorStream())
+                 val streamProcessor: ISensorStream = HttpSensorStream(url, credentials))
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor

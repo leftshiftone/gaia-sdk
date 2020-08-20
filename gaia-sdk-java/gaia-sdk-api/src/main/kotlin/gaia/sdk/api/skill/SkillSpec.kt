@@ -14,27 +14,33 @@ data class UnprovisionedSkillSpec(val owner: String,
                                   val name: String,
                                   val version: String,
                                   val options: ProvisioningOptions.() -> Unit = {}) : ISkillSpec {
-    override fun toURL() = "skill://$owner/$name/$version"
+    override fun toUri() = "skill://$owner/$name/$version"
+
+    // TODO
+    /**
+     * find skill by uri
+     * create skill provision from skill
+     * transform to provisioned skill spec?
+     */
 }
 
-data class ProvisionedSkillSpec(val identityId: UUID, val skillName: String) : ISkillSpec {
-    override fun toURL() = "identity://$identityId/$skillName"
+data class ProvisionedSkillSpec(val uri: String) : ISkillSpec {
+    override fun toUri() = uri
 }
 
 interface ISkillSpec {
     companion object {
-        fun toSkillSpec(url: String): ISkillSpec {
-            if (url.startsWith("skill://")) {
-                val array = url.split("/+")
+        fun toSkillSpec(uri: String): ISkillSpec {
+            if (uri.startsWith("skill://")) {
+                val array = uri.split("/+")
                 return UnprovisionedSkillSpec(array[1], array[2], array[3])
             }
-            if (url.startsWith("identity://")) {
-                val array = url.split("/+")
-                return ProvisionedSkillSpec(UUID.fromString(array[1]), array[2])
+            if (uri.startsWith("skillProvision://")) {
+                return ProvisionedSkillSpec(uri)
             }
-            throw GaiaSdkException("cannot parse skill url $url")
+            throw GaiaSdkException("cannot parse skill url $uri")
         }
     }
 
-    fun toURL(): String
+    fun toUri(): String
 }
