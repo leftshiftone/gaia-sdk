@@ -10,6 +10,7 @@ export class SkillRef {
         this.client = client;
     }
 
+    // TODO does undefined work here? no onNext needed, just onComplete and onError
     public start(): Observable<undefined> {
         return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/start", "application/json"))
     }
@@ -22,6 +23,7 @@ export class SkillRef {
         return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/status", "application/json"))
     }
 
+    // TODO not yet implemented in HEIMDALL and RAIN
     public logs(): Observable<string> {
         // TODO convert list to separte items
         return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/logs", "application/json"))
