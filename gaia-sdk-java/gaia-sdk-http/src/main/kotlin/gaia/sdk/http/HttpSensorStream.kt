@@ -39,7 +39,7 @@ class HttpSensorStream(url: String, credentials: GaiaCredentials) : ISensorStrea
 
     override fun skillProvisionLogs(uri: String, numberOfLines: Int): Publisher<String> {
         // TODO maybe List<String>
-        return client.transport(String::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/async/control/skill-provision/status")
+        return client.transport(String::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/async/control/skill-provision/logs")
     }
 
 }

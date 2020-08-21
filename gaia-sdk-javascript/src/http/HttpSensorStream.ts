@@ -3,6 +3,7 @@ import {GaiaCredentials} from "..";
 import {DataRef} from "../api/DataRef";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
 import {GaiaStreamClientBuilder} from "../graphql/GaiaStreamClientBuilder";
+import {SkillRef} from "../api/SkillRef";
 
 export class HttpSensorStream {
     private readonly client: GaiaStreamClient;
@@ -17,4 +18,9 @@ export class HttpSensorStream {
         console.log("Create DataRef");
         return new DataRef(path, this.client);
     }
+
+    public createSkillRef(skillUri: string) {
+        return new SkillRef(skillUri, this.client);
+    }
 }
+

@@ -106,6 +106,7 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     }
 
     public data = (uri: string) => this.sProc.createDataRef(uri);
+    public skill = (uri: string) => this.sProc.createSkillRef(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
@@ -164,5 +165,4 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkill = (tenantId: Uuid, reference: Uuid, config: (x: Skill) => void) => this.fProc.retrieveSkill(tenantId, reference, config);
     public retrieveSkillProvisions = (tenantId: Uuid, config: (x: SkillProvision) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkillProvisions(tenantId, config, limit, offset);
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
-
 }
