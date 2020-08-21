@@ -1,5 +1,7 @@
 package gaia.sdk.api
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.SkillEvaluation
 import gaia.sdk.api.skill.SkillIntrospection
@@ -14,8 +16,8 @@ interface ISensorStream {
     fun skillProvisionLogs(uri: String, numberOfLines: Int): Publisher<String>
 }
 
-data class SkillProvisionStatus(
-        val name: String?,
-        val status: String,
-        val createdAt: String?
+data class SkillProvisionStatus @JsonCreator constructor(
+        @JsonProperty("name") val name: String?,
+        @JsonProperty("status") val status: String,
+        @JsonProperty("createdAt") val createdAt: String?
 )
