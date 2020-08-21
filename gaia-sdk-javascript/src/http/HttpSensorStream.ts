@@ -9,7 +9,7 @@ export class HttpSensorStream {
     private readonly client: GaiaStreamClient;
 
     constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaStreamClientBuilder.http(url + "/api/async/stream")
+        this.client = GaiaStreamClientBuilder.http(url + "/api/async")
             .withCredentials(credentials)
             .build()
     }
