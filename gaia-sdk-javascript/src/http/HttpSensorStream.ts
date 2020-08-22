@@ -1,10 +1,10 @@
-import {GaiaClient, GaiaClientBuilder} from "..";
 import {GaiaCredentials} from "..";
 import {DataRef} from "../api/DataRef";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
 import {GaiaStreamClientBuilder} from "../graphql/GaiaStreamClientBuilder";
+import {ISensorStream} from "../api/ISensorStream";
 
-export class HttpSensorStream {
+export class HttpSensorStream implements ISensorStream{
     private readonly client: GaiaStreamClient;
 
     constructor(url: string, credentials: GaiaCredentials) {
@@ -13,8 +13,8 @@ export class HttpSensorStream {
             .build()
     }
 
-    public createDataRef(path: string) {
+    data(uri: string): DataRef {
         console.log("Create DataRef");
-        return new DataRef(path, this.client);
+        return new DataRef(uri, this.client);
     }
 }

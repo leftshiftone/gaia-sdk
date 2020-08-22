@@ -1,6 +1,9 @@
 from abc import ABCMeta, abstractmethod
 
+from requests import Response
+
 from gaia_sdk.api.client_options import ClientOptions
+from gaia_sdk.http.request.Payload import Payload
 
 
 class ITransporter:
@@ -10,4 +13,4 @@ class ITransporter:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def transport(self, options: ClientOptions, payload: dict): raise NotImplementedError
+    def transport(self, options: ClientOptions, payload: Payload, url_post_fix: str = "") -> Response: raise NotImplementedError

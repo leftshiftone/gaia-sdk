@@ -10,6 +10,7 @@ from gaia_sdk.graphql.request.type import Query
 from gaia_sdk.graphql.GaiaResponse import MutationResponse
 from gaia_sdk.graphql.request.type import Mutation
 from gaia_sdk.api.client_options import ClientOptions
+from gaia_sdk.http.request.Payload import Payload
 
 
 @dataclass
@@ -20,7 +21,7 @@ class GaiaClient(object):
 
     def execute_native(self, statement: str, variables: dict):
         payload = {"statement": statement, "variables": variables}
-        return self.transporter.transport(self.options, payload)
+        return self.transporter.transport(self.options, Payload.json(payload)).json()
 
     def query(self, request: Query) -> QueryResponse:
         statement, variables = self.get_statement("query", request)
