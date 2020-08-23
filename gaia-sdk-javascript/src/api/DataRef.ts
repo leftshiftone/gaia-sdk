@@ -1,8 +1,6 @@
 import {InitBinaryWriteImpulse} from "../graphql/request/input/InitBinaryWriteImpulse";
-import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
 import {CompleteBinaryWriteImpulse} from "../graphql/request/input/CompleteBinaryWriteImpulse";
 import {BinaryWriteChunkImpulse} from "../graphql/request/input/BinaryWriteChunkImpulse";
-import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
 import {from, Observable} from "rxjs";
 import {ListFilesImpulse} from "../graphql/request/input/ListFilesImpulse";
 import {FileListing} from "../graphql/response/type/FileListing";
@@ -84,10 +82,12 @@ export class DataRef {
 
     public asStream() {
         console.log("asStream")
+        throw new Error("Not implemented")
     }
 
     public append(dataToAppend: any) {
         console.log("Append: " + dataToAppend)
+        throw new Error("Not implemented")
     }
 
     public static concatUri(baseUri: string, ...paths: string[]): string {

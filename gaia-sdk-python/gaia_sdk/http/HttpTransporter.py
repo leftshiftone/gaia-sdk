@@ -1,17 +1,11 @@
-import base64
-from api.crypto import HMAC
 import logging
-import requests
-import time
-from gaia_sdk.graphql.GaiaScalars import UUID
 
-import json
-from gaia_sdk.api.ByteBuffer import ByteBuffer
-from gaia_sdk.api.GaiaCredentials import JWTCredentials
-from gaia_sdk.api.GaiaCredentials import HMACCredentials
+import requests
+from requests import Response
+
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
-from gaia_sdk.http.HMACTokenBuilder import HMACTokenBuilder
+from gaia_sdk.http.request.Payload import Payload
 
 
 class HttpTransporter(ITransporter):
@@ -23,39 +17,28 @@ class HttpTransporter(ITransporter):
         self.url = url
         self.logger = logging.getLogger("HttpTransporter")
 
-    def transport(self, options: ClientOptions, payload: dict):
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": HttpTransporter.buildAuthorizationHeader(options, payload)
-        }
-
-        self.logger.debug("request header:%s payload:%r", headers, payload)
-        response = requests.post(self.url, json=payload, headers=headers)
-        self.logger.debug("response: %r", response)
-
-        return response.json()
-
-    @staticmethod
-    def buildAuthorizationHeader(options: ClientOptions, payload: dict) -> str:
-        if (type(options.credentials) is None):
-            raise ValueError("Authorization Header cannot be generated because no credentials are set")
-        elif (type(options.credentials) is HMACCredentials):
-            return HttpTransporter.build_hmac_header(options,payload)
-        elif (type(options.credentials) is JWTCredentials):
-            return HttpTransporter.build_bearer_header(options)
+    def transport(self, options: ClientOptions, payload: Payload, url_post_fix: str = "") -> Response:
+        data = payload.data
+        headers = HttpTransporter.get_default_headers(options, data)
+        url = self.url + url_post_fix
+        self.logger.debug("request to %s header:%s payload:%r", url, headers, data)
+        if payload.payload_type == Payload.JSON:
+            response = requests.post(url, json=data, headers=headers)
+        elif payload.payload_type == Payload.FORM_DATA:
+            response = requests.post(url, files=data, headers=headers)
         else:
-            raise ValueError("Authorization Header cannot be generated because illegal credential type")
+            raise ValueError(f"Unsupported type for payload {payload.payload_type}")
+        self.logger.debug("response: %r", response)
+        return response
 
     @staticmethod
-    def build_bearer_header(options: ClientOptions) -> str:
-        token = "Bearer " + options.credentials.token
-        return token
+    def build_authorization_header(options: ClientOptions, payload: dict) -> str:
+        if options.credentials is None:
+            raise ValueError("Authorization Header cannot be generated because no credentials are set")
+        return options.credentials.create_auth_header(options, payload)
 
     @staticmethod
-    def build_hmac_header(options: ClientOptions, payload: dict) -> str:
-        timestamp = int(round(time.time()))
-        nonce = UUID.random_uuid().value
-        return HMACTokenBuilder().with_timestamp(timestamp).with_client_options(options).with_nonce(nonce).with_payload(json.dumps(payload)).build()
-
-
-
+    def get_default_headers(options: ClientOptions, payload: dict) -> dict:
+        if options.credentials is None:
+            raise ValueError("Authorization Header cannot be generated because no credentials are set")
+        return {"Authorization": options.credentials.create_auth_header(options, payload)}

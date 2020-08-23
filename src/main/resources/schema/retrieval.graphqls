@@ -15,21 +15,21 @@ type Knowledge {
     # TODO add apiKeys()
     # TODO add apiKey(id) maybe?
 
-    identities(limit: Int, offset: Int): [Identity]
+    identities(limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Identity]
     identity(identityId: Uuid): Identity
-    intents(identityId: Uuid, limit: Int, offset: Int): [Intent]
+    intents(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Intent]
     intent(identityId: Uuid, reference: Uuid): Intent
-    prompts(identityId: Uuid, limit: Int, offset: Int): [Prompt]
+    prompts(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Prompt]
     prompt(identityId: Uuid, reference: Uuid): Prompt
-    fulfilments(identityId: Uuid, limit: Int, offset: Int): [Fulfilment]
+    fulfilments(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Fulfilment]
     fulfilment(identityId: Uuid, reference: Uuid): Fulfilment
-    statements(identityId: Uuid, limit: Int, offset: Int): [Statement]
+    statements(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Statement]
     statement(identityId: Uuid, reference: Uuid): Statement
-    codes(identityId: Uuid, limit: Int, offset: Int): [Code]
+    codes(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Code]
     code(identityId: Uuid, reference: Uuid): Code
-    behaviours(identityId: Uuid, limit: Int, offset: Int): [Behaviour]
+    behaviours(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Behaviour]
     behaviour(identityId: Uuid, reference: Uuid): Behaviour
-    edges(source: Uuid, limit: Int, offset: Int): [Edge]
+    edges(source: Uuid, limit: Int, offset: Int, orderBy: EdgeOrderByField, order: Order): [Edge]
     edge(source: Uuid, target: Uuid): Edge
 }
 
@@ -37,4 +37,23 @@ type Knowledge {
 type Experience {
     behaviourExecutions: [BehaviourExecution]
     behaviourNodeExecutions: [BehaviourNodeExecution]
+}
+
+enum OrderByField {
+    id
+    qualifier
+    appendent
+    createdAt
+    updatedAt
+}
+
+enum EdgeOrderByField {
+    label
+    createdAt
+    updatedAt
+}
+
+enum Order {
+    ASC
+    DESC
 }

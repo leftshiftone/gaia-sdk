@@ -2,15 +2,11 @@ import logging
 import unittest
 import uuid
 
-
-from gaia_sdk.graphql.GaiaScalars import UUID
-from gaia_sdk.gaia import Gaia
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
+from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 from gaia_sdk.graphql.request.type import Perception
-from gaia_sdk.api.client_options import ClientOptions
-from gaia_sdk.http.HttpTransporter import HttpTransporter
 
 logging.basicConfig(level=logging.DEBUG)
 from rx import operators as ops
