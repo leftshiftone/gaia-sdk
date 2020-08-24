@@ -41,7 +41,7 @@ export class DataRef {
      */
     public list(): Observable<FileListing[]> {
         console.log("List from " + this.uri);
-        return from(this.client.post(new ListFilesImpulse(this.uri), "/sink/data/list")
+        return from(this.client.post(new ListFilesImpulse(this.uri), "/stream/sink/data/list")
             .catch(reason => {
                 throw new Error("Listing files at uri " + this.uri + " failed: " + reason)
             }))
@@ -49,7 +49,7 @@ export class DataRef {
 
     private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
         console.log("Remove: " + uri)
-        return from(this.client.post(new RemoveFileImpulse(uri), "/sink/data/remove")
+        return from(this.client.post(new RemoveFileImpulse(uri), "/stream/sink/data/remove")
             .catch(reason => {
                 throw new Error("Removing file with uri " + uri + " failed: " + reason)
             }))
@@ -76,7 +76,7 @@ export class DataRef {
 
     public asFile(): Observable<Blob> {
         console.log("Download file from " + this.uri)
-        return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), "/source/data/get")
+        return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), "/stream/source/data/get")
             .catch(reason => {
                 throw new Error("Download of file with uri " + this.uri + " failed: " + reason)
             }))
@@ -123,14 +123,14 @@ class DataUpload {
     private async sendChunks(uploadId: string, client: GaiaStreamClient) {
         return await Promise.all(this.getChunkRequests(uploadId)
             .map(chunkRequest => chunkRequest.asFormData()
-                .then(formData => client.postFormData(formData, "/sink/data/chunk"))))
+                .then(formData => client.postFormData(formData, "/stream/sink/data/chunk"))))
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
-        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/sink/data/init")
+        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), "/stream/sink/data/init")
         const chunkResponses = await this.sendChunks(initResponse.uploadId, client)
         const chunkIds = chunkResponses.map(r => r.chunkId)
-        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/sink/data/complete")
+        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), "/stream/sink/data/complete")
             .then(() => new DataRef(this.uri, client), reason => {
                     throw new Error("Upload to uri " + this.uri + " failed: " + reason.stack)
                 }
