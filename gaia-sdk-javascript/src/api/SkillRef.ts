@@ -1,5 +1,6 @@
 import {from, Observable} from "rxjs";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
+import {flatMap} from "rxjs/operators";
 
 export class SkillRef {
     private readonly client: GaiaStreamClient;
@@ -10,7 +11,6 @@ export class SkillRef {
         this.client = client;
     }
 
-    // TODO does undefined work here? no onNext needed, just onComplete and onError
     public start(): Observable<undefined> {
         return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/start", "application/json"))
     }
@@ -23,10 +23,13 @@ export class SkillRef {
         return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/status", "application/json"))
     }
 
-    // TODO not yet implemented in HEIMDALL and RAIN
-    public logs(): Observable<string> {
-        // TODO convert list to separte items
-        return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/logs", "application/json"))
+    public logs(numberOfLines?: number): Observable<string> {
+        return this.logsInternal(numberOfLines)
+            .pipe(flatMap(response => from(response.logLines)))
+    }
+
+    private logsInternal(numberOfLines?: number): Observable<SkillProvisionLogs> {
+        return from(this.client.post({ "uri": this.uri, "numberOfLines": numberOfLines }, "/control/skill-provision/logs", "application/json"))
     }
 }
 
@@ -39,5 +42,13 @@ export class SkillProvisionStatus {
         this.name = name;
         this.status = status
         this.createdAt = createdAt
+    }
+}
+
+export class SkillProvisionLogs {
+    logLines: [string];
+
+    constructor(logLines: [string]) {
+        this.logLines = logLines;
     }
 }

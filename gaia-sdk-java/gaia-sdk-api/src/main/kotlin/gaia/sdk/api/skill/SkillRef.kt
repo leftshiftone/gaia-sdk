@@ -26,7 +26,7 @@ class SkillRef(private val spec: ISkillSpec, private val processor: ISensorStrea
         return processor.skillProvisionStatus(spec.toUri())
     }
 
-    fun logs(numberOfLines: Int = 100): Publisher<String> {
+    fun logs(numberOfLines: Int? = null): Publisher<String> {
         return processor.skillProvisionLogs(spec.toUri(), numberOfLines)
     }
 

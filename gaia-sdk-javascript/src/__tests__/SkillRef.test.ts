@@ -30,6 +30,16 @@ describe("skillref tests:", () => {
             }, reject)
         })
     })
+
+    test("skillprovision logs", () => {
+        return new Promise((resolve, reject) => {
+            let skillRef: SkillRef = getSkillRef()
+            skillRef.logs().subscribe((it: String) => {
+                expect(it).toEqual("mock log line 1")
+                resolve(it)
+            }, reject)
+        })
+    })
 })
 
 function getSkillRef(): SkillRef {

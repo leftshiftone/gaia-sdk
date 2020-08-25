@@ -3,6 +3,7 @@ package gaia.sdk.http
 import gaia.sdk.GaiaStreamingClientBuilder
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.api.ISensorStream
+import gaia.sdk.api.SkillProvisionLogs
 import gaia.sdk.api.SkillProvisionStatus
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.SkillEvaluation
@@ -37,9 +38,9 @@ class HttpSensorStream(url: String, credentials: GaiaCredentials) : ISensorStrea
         return client.transport(SkillProvisionStatus::class.java, mapOf("uri" to uri), "/async/control/skill-provision/status")
     }
 
-    override fun skillProvisionLogs(uri: String, numberOfLines: Int): Publisher<String> {
-        // TODO maybe List<String>
-        return client.transport(String::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/async/control/skill-provision/logs")
+    override fun skillProvisionLogs(uri: String, numberOfLines: Int?): Publisher<String> {
+        val responsePublisher = client.transport(SkillProvisionLogs::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/async/control/skill-provision/logs")
+        return Flowable.fromPublisher(responsePublisher)
+                .flatMap { response -> Flowable.fromIterable(response.logLines) }
     }
-
 }

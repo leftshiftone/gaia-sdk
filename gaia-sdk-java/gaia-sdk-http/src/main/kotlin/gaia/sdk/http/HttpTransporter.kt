@@ -24,7 +24,7 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
 
     private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
-    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any>, apiPath: String): Publisher<T> {
+    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any?>, apiPath: String): Publisher<T> {
         val bytes = jsonparser.writeValueAsBytes(payload)
         if (log.isTraceEnabled) {
             log.debug("Payload to send: '${String(bytes)}'")

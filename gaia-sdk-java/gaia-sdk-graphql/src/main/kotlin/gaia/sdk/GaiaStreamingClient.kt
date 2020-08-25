@@ -12,7 +12,7 @@ class GaiaStreamingClient(private val options: ClientOptions, private val transp
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
     }
 
-    fun <T> transport(type: Class<T>, payload: Map<String, Any>, apiPath: String = ""): Publisher<T> {
+    fun <T> transport(type: Class<T>, payload: Map<String, Any?>, apiPath: String = ""): Publisher<T> {
         return transporter.transport(options, type, payload, apiPath)
     }
 }
