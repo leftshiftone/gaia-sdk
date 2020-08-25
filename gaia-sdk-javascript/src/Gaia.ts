@@ -82,11 +82,11 @@ export class GaiaConfig {
     readonly url: string;
     readonly credentials: GaiaCredentials;
     readonly functionProcessor: ISensorFunction;
-    readonly streamProcessor: HttpSensorStream;
+    readonly streamProcessor: ISensorStream;
 
     constructor(url: string, credentials: GaiaCredentials,
                 functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials),
-                streamProcessor: HttpSensorStream = new HttpSensorStream(url, credentials)) {
+                streamProcessor: ISensorStream = new HttpSensorStream(url, credentials)) {
         this.url = url;
         this.credentials = credentials;
         this.functionProcessor = functionProcessor
@@ -97,7 +97,7 @@ export class GaiaConfig {
 export class GaiaRef implements ISensorFunction, ISensorStream {
     private readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
-    private readonly sProc: HttpSensorStream;
+    private readonly sProc: ISensorStream;
 
     constructor(config: GaiaConfig) {
         this.config = config;
@@ -105,8 +105,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
         this.sProc = config.streamProcessor;
     }
 
-    public data = (uri: string) => this.sProc.createDataRef(uri);
-    public skill = (uri: string) => this.sProc.createSkillRef(uri);
+    public data = (uri: string) => this.sProc.data(uri);
+    public skill = (uri: string) => this.sProc.skill(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
