@@ -24,5 +24,9 @@ data class Knowledge @JsonCreator constructor(
     @JsonProperty("behaviours") val behaviours:List<Behaviour>?, 
     @JsonProperty("behaviour") val behaviour:Behaviour?, 
     @JsonProperty("edges") val edges:List<Edge>?, 
-    @JsonProperty("edge") val edge:Edge?
+    @JsonProperty("edge") val edge:Edge?, 
+    @JsonProperty("skills") val skills:List<Skill>?, 
+    @JsonProperty("skill") val skill:Skill?, 
+    @JsonProperty("skillProvisions") val skillProvisions:List<SkillProvision>?, 
+    @JsonProperty("skillProvision") val skillProvision:SkillProvision?
 )

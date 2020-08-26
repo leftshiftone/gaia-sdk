@@ -66,5 +66,21 @@ class UpdateKnowledge: Type() {
         val name1 = it.register("impulses", impulses)
         "codes(impulses:$name1){" + UpdatedCodeImpulse().apply(config).render(it) + "}"
     }
+
+    /**
+     * updates a list of skills with the given specifications
+     */
+    fun skills(impulses : Array<out UpdateSkillImpulse>?, config: UpdatedSkillImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skills(impulses:$name1){" + UpdatedSkillImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * updates a list of skill provisions with the given specifications
+     */
+    fun skillProvisions(impulses : Array<out UpdateSkillProvisionImpulse>?, config: UpdatedSkillProvisionImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skillProvisions(impulses:$name1){" + UpdatedSkillProvisionImpulse().apply(config).render(it) + "}"
+    }
 }
 

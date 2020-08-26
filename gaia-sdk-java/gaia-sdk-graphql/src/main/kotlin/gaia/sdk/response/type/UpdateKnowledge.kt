@@ -36,5 +36,13 @@ data class UpdateKnowledge @JsonCreator constructor(
     /**
     * updates a list of codes with the given specifications
     */
-    @JsonProperty("codes") val codes:List<UpdatedCodeImpulse>?
+    @JsonProperty("codes") val codes:List<UpdatedCodeImpulse>?, 
+    /**
+    * updates a list of skills with the given specifications
+    */
+    @JsonProperty("skills") val skills:List<UpdatedSkillImpulse>?, 
+    /**
+    * updates a list of skill provisions with the given specifications
+    */
+    @JsonProperty("skillProvisions") val skillProvisions:List<UpdatedSkillProvisionImpulse>?
 )

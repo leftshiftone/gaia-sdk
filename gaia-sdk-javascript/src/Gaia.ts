@@ -21,6 +21,8 @@ import {Knowledge} from "./graphql/request/type/Knowledge";
 import {Edge} from "./graphql/request/type/Edge";
 import {Prompt} from "./graphql/request/type/Prompt";
 import {Statement} from "./graphql/request/type/Statement";
+import {Skill} from "./graphql/request/type/Skill";
+import {SkillProvision} from "./graphql/request/type/SkillProvision";
 import {CreateBehaviourImpulse} from "./graphql/request/input/CreateBehaviourImpulse";
 import {CreatePromptImpulse} from "./graphql/request/input/CreatePromptImpulse";
 import {DeletePromptImpulse} from "./graphql/request/input/DeletePromptImpulse";
@@ -33,6 +35,12 @@ import {DeleteFulfilmentImpulse} from "./graphql/request/input/DeleteFulfilmentI
 import {UpdateFulfilmentImpulse} from "./graphql/request/input/UpdateFulfilmentImpulse";
 import {UpdateBehaviourImpulse} from "./graphql/request/input/UpdateBehaviourImpulse";
 import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImpulse";
+import {UpdateSkillImpulse} from "./graphql/request/input/UpdateSkillImpulse";
+import {DeleteSkillImpulse} from "./graphql/request/input/DeleteSkillImpulse";
+import {CreateSkillImpulse} from "./graphql/request/input/CreateSkillImpulse";
+import {UpdateSkillProvisionImpulse} from "./graphql/request/input/UpdateSkillProvisionImpulse";
+import {DeleteSkillProvisionImpulse} from "./graphql/request/input/DeleteSkillProvisionImpulse";
+import {CreateSkillProvisionImpulse} from "./graphql/request/input/CreateSkillProvisionImpulse";
 import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
 import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
 import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
@@ -98,6 +106,7 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     }
 
     public data = (uri: string) => this.sProc.data(uri);
+    public skill = (uri: string) => this.sProc.skill(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
@@ -127,6 +136,12 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveUpdateCodes = (...impulses: [UpdateCodeImpulse]) => this.fProc.preserveUpdateCodes(...impulses);
     public preserveCreateEdges = (...impulses: [CreateEdgeImpulse]) => this.fProc.preserveCreateEdges(...impulses);
     public preserveDeleteEdges = (...impulses: [DeleteEdgeImpulse]) => this.fProc.preserveDeleteEdges(...impulses);
+    public preserveCreateSkills = (...impulses: [CreateSkillImpulse]) => this.fProc.preserveCreateSkills(...impulses);
+    public preserveDeleteSkills = (...impulses: [DeleteSkillImpulse]) => this.fProc.preserveDeleteSkills(...impulses);
+    public preserveUpdateSkills = (...impulses: [UpdateSkillImpulse]) => this.fProc.preserveUpdateSkills(...impulses);
+    public preserveCreateSkillProvisions = (...impulses: [CreateSkillProvisionImpulse]) => this.fProc.preserveCreateSkillProvisions(...impulses);
+    public preserveDeleteSkillProvisions = (...impulses: [DeleteSkillProvisionImpulse]) => this.fProc.preserveDeleteSkillProvisions(...impulses);
+    public preserveUpdateSkillProvisions = (...impulses: [UpdateSkillProvisionImpulse]) => this.fProc.preserveUpdateSkillProvisions(...impulses);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviours(identityId, config, limit, offset);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);
@@ -146,5 +161,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrievePrompt = (identityId: Uuid, reference: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompt(identityId, reference, config);
     public retrieveStatements = (identityId: Uuid, config: (x: Statement) => void, limit?: Number, offset?: Number) => this.fProc.retrieveStatements(identityId, config, limit, offset);
     public retrieveStatement = (identityId: Uuid, reference: Uuid, config: (x: Statement) => void) => this.fProc.retrieveStatement(identityId, reference, config);
-
+    public retrieveSkills = (tenantId: Uuid, config: (x: Skill) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkills(tenantId, config, limit, offset);
+    public retrieveSkill = (tenantId: Uuid, reference: Uuid, config: (x: Skill) => void) => this.fProc.retrieveSkill(tenantId, reference, config);
+    public retrieveSkillProvisions = (tenantId: Uuid, config: (x: SkillProvision) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkillProvisions(tenantId, config, limit, offset);
+    public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
 }

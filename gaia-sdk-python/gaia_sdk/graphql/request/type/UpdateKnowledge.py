@@ -2,16 +2,20 @@
 from gaia_sdk.graphql.request.type.UpdatedStatementImpulse import UpdatedStatementImpulse
 from gaia_sdk.graphql.request.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
 from gaia_sdk.graphql.request.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
+from gaia_sdk.graphql.request.type.UpdatedSkillProvisionImpulse import UpdatedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
+from gaia_sdk.graphql.request.type.UpdatedSkillImpulse import UpdatedSkillImpulse
 from gaia_sdk.graphql.request.type.UpdatedPromptImpulse import UpdatedPromptImpulse
 from gaia_sdk.graphql.request.type.UpdatedCodeImpulse import UpdatedCodeImpulse
 from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
 from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
 from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
+from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
 from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
 from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.UpdateSkillImpulse import UpdateSkillImpulse
 from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
 
 from typing import Callable, List
@@ -98,6 +102,28 @@ class UpdateKnowledge(list):
             entity = UpdatedCodeImpulse()
             config(entity)
             return f'codes(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    updates a list of skills with the given specifications
+    """
+    def skills(self, impulses: List[UpdateSkillImpulse], config: Callable[['UpdatedSkillImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = UpdatedSkillImpulse()
+            config(entity)
+            return f'skills(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    updates a list of skill provisions with the given specifications
+    """
+    def skill_provisions(self, impulses: List[UpdateSkillProvisionImpulse], config: Callable[['UpdatedSkillProvisionImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = UpdatedSkillProvisionImpulse()
+            config(entity)
+            return f'skillProvisions(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

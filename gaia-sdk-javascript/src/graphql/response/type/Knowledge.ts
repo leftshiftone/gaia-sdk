@@ -1,5 +1,7 @@
 
+import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
+import {Skill} from "./Skill";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
@@ -31,5 +33,9 @@ export interface Knowledge {
     behaviours?:[Behaviour], 
     behaviour?:Behaviour, 
     edges?:[Edge], 
-    edge?:Edge
+    edge?:Edge, 
+    skills?:[Skill], 
+    skill?:Skill, 
+    skillProvisions?:[SkillProvision], 
+    skillProvision?:SkillProvision
 }

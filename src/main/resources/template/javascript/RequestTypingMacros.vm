@@ -119,7 +119,7 @@
 ## Renders a field type
 ## ********************
 #macro(renderFieldType $type)#*
-    *##if($type.name() == "Float")#*
+    *##if($type.name() == "Float" || $type.name() == "Int")#*
         *##print("Number")#*
     *##else#*
         *##if($type.isList())#print("Array<")#end#*

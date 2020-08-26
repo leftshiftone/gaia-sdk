@@ -2,16 +2,20 @@
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
+import {UpdatedSkillProvisionImpulse} from "./UpdatedSkillProvisionImpulse";
 import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
+import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
 import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
 import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
 import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
 import {UpdateStatementImpulse} from "../input/UpdateStatementImpulse";
 import {UpdateBehaviourImpulse} from "../input/UpdateBehaviourImpulse";
+import {UpdateSkillProvisionImpulse} from "../input/UpdateSkillProvisionImpulse";
 import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../input/UpdatePromptImpulse";
 import {UpdateFulfilmentImpulse} from "../input/UpdateFulfilmentImpulse";
+import {UpdateSkillImpulse} from "../input/UpdateSkillImpulse";
 import {UpdateIdentityImpulse} from "../input/UpdateIdentityImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -92,6 +96,26 @@ export class UpdateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new UpdatedCodeImpulse();
         config(entity);
         return `codes(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of skills with the given specifications
+     */
+    public skills = (impulses: [UpdateSkillImpulse]|undefined, config: (_:UpdatedSkillImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedSkillImpulse();
+        config(entity);
+        return `skills(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of skill provisions with the given specifications
+     */
+    public skillProvisions = (impulses: [UpdateSkillProvisionImpulse]|undefined, config: (_:UpdatedSkillProvisionImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedSkillProvisionImpulse();
+        config(entity);
+        return `skillProvisions(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

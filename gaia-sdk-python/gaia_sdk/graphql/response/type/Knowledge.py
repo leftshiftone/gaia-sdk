@@ -1,5 +1,7 @@
 
+from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
+from gaia_sdk.graphql.response.type.Skill import Skill
 from gaia_sdk.graphql.response.type.Behaviour import Behaviour
 from gaia_sdk.graphql.response.type.Statement import Statement
 from gaia_sdk.graphql.response.type.Intent import Intent
@@ -15,6 +17,8 @@ String = str
 ISO8601 = str
 Struct = dict
 Float = float
+Int = int
+Boolean = bool
 from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
 from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 from gaia_sdk.graphql.request.enumeration.Order import Order
@@ -72,3 +76,15 @@ class Knowledge:
     @property
     def edge(self) -> Edge:
         return Edge(self.dictionary.get("edge"))
+    @property
+    def skills(self) -> List[Skill]:
+        return list(map(lambda x: Skill(x), self.dictionary.get("skills")))
+    @property
+    def skill(self) -> Skill:
+        return Skill(self.dictionary.get("skill"))
+    @property
+    def skill_provisions(self) -> List[SkillProvision]:
+        return list(map(lambda x: SkillProvision(x), self.dictionary.get("skillProvisions")))
+    @property
+    def skill_provision(self) -> SkillProvision:
+        return SkillProvision(self.dictionary.get("skillProvision"))

@@ -1,5 +1,7 @@
 
+from gaia_sdk.graphql.request.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
+from gaia_sdk.graphql.request.type.Skill import Skill
 from gaia_sdk.graphql.request.type.Behaviour import Behaviour
 from gaia_sdk.graphql.request.type.Statement import Statement
 from gaia_sdk.graphql.request.type.Intent import Intent
@@ -181,6 +183,48 @@ class Knowledge(list):
             entity = Edge()
             config(entity)
             return f'edge(source:{name1}, target:{name2})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def skills(self, tenantId: str, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Skill'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("limit", limit)
+            name3 = registry.register("offset", offset)
+            name4 = registry.register("orderBy", orderBy)
+            name5 = registry.register("order", order)
+            entity = Skill()
+            config(entity)
+            return f'skills(tenantId:{name1}, limit:{name2}, offset:{name3}, orderBy:{name4}, order:{name5})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def skill(self, tenantId: str, reference: str, config: Callable[['Skill'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("reference", reference)
+            entity = Skill()
+            config(entity)
+            return f'skill(tenantId:{name1}, reference:{name2})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def skill_provisions(self, tenantId: str, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['SkillProvision'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("limit", limit)
+            name3 = registry.register("offset", offset)
+            name4 = registry.register("orderBy", orderBy)
+            name5 = registry.register("order", order)
+            entity = SkillProvision()
+            config(entity)
+            return f'skillProvisions(tenantId:{name1}, limit:{name2}, offset:{name3}, orderBy:{name4}, order:{name5})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def skill_provision(self, tenantId: str, reference: str, config: Callable[['SkillProvision'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("reference", reference)
+            entity = SkillProvision()
+            config(entity)
+            return f'skillProvision(tenantId:{name1}, reference:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

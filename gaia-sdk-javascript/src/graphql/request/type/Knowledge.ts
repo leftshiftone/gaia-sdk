@@ -1,5 +1,7 @@
 
+import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
+import {Skill} from "./Skill";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
@@ -166,6 +168,44 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new Edge();
         config(entity);
         return `edge(source:${name1}, target:${name2}){` + entity.render(registry) + "}"
+    });
+
+    public skills = (tenantId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Skill) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("limit", limit);
+        const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
+        const entity = new Skill();
+        config(entity);
+        return `skills(tenantId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
+    });
+
+    public skill = (tenantId: Uuid|undefined, reference: Uuid|undefined, config: (_:Skill) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("reference", reference);
+        const entity = new Skill();
+        config(entity);
+        return `skill(tenantId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
+    });
+
+    public skillProvisions = (tenantId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:SkillProvision) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("limit", limit);
+        const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
+        const entity = new SkillProvision();
+        config(entity);
+        return `skillProvisions(tenantId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
+    });
+
+    public skillProvision = (tenantId: Uuid|undefined, reference: Uuid|undefined, config: (_:SkillProvision) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("reference", reference);
+        const entity = new SkillProvision();
+        config(entity);
+        return `skillProvision(tenantId:${name1}, reference:${name2}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

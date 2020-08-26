@@ -128,5 +128,35 @@ class Knowledge: Type() {
         val name2 = it.register("target", target)
         "edge(source:$name1, target:$name2){" + Edge().apply(config).render(it) + "}"
     }
+
+    fun skills(tenantId : Uuid?, limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Skill.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("limit", limit)
+        val name3 = it.register("offset", offset)
+        val name4 = it.register("orderBy", orderBy)
+        val name5 = it.register("order", order)
+        "skills(tenantId:$name1, limit:$name2, offset:$name3, orderBy:$name4, order:$name5){" + Skill().apply(config).render(it) + "}"
+    }
+
+    fun skill(tenantId : Uuid?, reference : Uuid?, config: Skill.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("reference", reference)
+        "skill(tenantId:$name1, reference:$name2){" + Skill().apply(config).render(it) + "}"
+    }
+
+    fun skillProvisions(tenantId : Uuid?, limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: SkillProvision.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("limit", limit)
+        val name3 = it.register("offset", offset)
+        val name4 = it.register("orderBy", orderBy)
+        val name5 = it.register("order", order)
+        "skillProvisions(tenantId:$name1, limit:$name2, offset:$name3, orderBy:$name4, order:$name5){" + SkillProvision().apply(config).render(it) + "}"
+    }
+
+    fun skillProvision(tenantId : Uuid?, reference : Uuid?, config: SkillProvision.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("reference", reference)
+        "skillProvision(tenantId:$name1, reference:$name2){" + SkillProvision().apply(config).render(it) + "}"
+    }
 }
 

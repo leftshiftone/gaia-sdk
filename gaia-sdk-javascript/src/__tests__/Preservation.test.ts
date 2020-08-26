@@ -6,6 +6,12 @@ import {DeletePromptImpulse} from "../graphql/request/input/DeletePromptImpulse"
 import {DeleteStatementImpulse} from "../graphql/request/input/DeleteStatementImpulse";
 import {UpdateStatementImpulse} from "../graphql/request/input/UpdateStatementImpulse";
 import {CreateStatementImpulse} from "../graphql/request/input/CreateStatementImpulse";
+import {DeleteSkillImpulse} from "../graphql/request/input/DeleteSkillImpulse";
+import {UpdateSkillImpulse} from "../graphql/request/input/UpdateSkillImpulse";
+import {CreateSkillImpulse} from "../graphql/request/input/CreateSkillImpulse";
+import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
+import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillProvisionImpulse";
+import {CreateSkillProvisionImpulse} from "../graphql/request/input/CreateSkillProvisionImpulse";
 import {CreateFulfilmentImpulse} from "../graphql/request/input/CreateFulfilmentImpulse";
 import {UpdateFulfilmentImpulse} from "../graphql/request/input/UpdateFulfilmentImpulse";
 import {DeleteFulfilmentImpulse} from "../graphql/request/input/DeleteFulfilmentImpulse";
@@ -322,5 +328,85 @@ describe("perception tests:", () => {
             }, reject);
         });
     });
+
+    test('test preserve create skill', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new CreateSkillImpulse(uuid(), "", "", [], "");
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateSkills(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update skill', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new UpdateSkillImpulse(uuid(), uuid(), "", "", [], "");
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateSkills(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete skill', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new DeleteSkillImpulse(uuid(), uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteSkills(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve create skillProvision', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new CreateSkillProvisionImpulse(uuid(), "", "", [], "", "",100,100,100,100,1,true,30,{});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateSkillProvisions(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update skillProvision', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new UpdateSkillProvisionImpulse(uuid(), uuid(), "", "", [], "", "",100,100,100,100,1,true,30,{});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateSkillProvisions(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete skillProvision', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new DeleteSkillProvisionImpulse(uuid(), uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteSkillProvisions(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+
 
 });

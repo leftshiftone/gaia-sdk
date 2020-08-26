@@ -1,20 +1,24 @@
 
+import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
 import {CreatedEdgeImpulse} from "./CreatedEdgeImpulse";
 import {CreatedCodeImpulse} from "./CreatedCodeImpulse";
 import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedSkillImpulse} from "./CreatedSkillImpulse";
 import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
+import {CreateSkillImpulse} from "../input/CreateSkillImpulse";
 import {CreateEdgeImpulse} from "../input/CreateEdgeImpulse";
 import {CreateIdentityImpulse} from "../input/CreateIdentityImpulse";
 import {CreateCodeImpulse} from "../input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../input/CreateStatementImpulse";
+import {CreateSkillProvisionImpulse} from "../input/CreateSkillProvisionImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -104,6 +108,26 @@ export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new CreatedEdgeImpulse();
         config(entity);
         return `edges(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of skills with the given specifications
+     */
+    public skills = (impulses: [CreateSkillImpulse]|undefined, config: (_:CreatedSkillImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedSkillImpulse();
+        config(entity);
+        return `skills(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of skill provisions with the given specifications
+     */
+    public skillProvisions = (impulses: [CreateSkillProvisionImpulse]|undefined, config: (_:CreatedSkillProvisionImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedSkillProvisionImpulse();
+        config(entity);
+        return `skillProvisions(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

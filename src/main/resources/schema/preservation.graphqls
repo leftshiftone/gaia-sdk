@@ -25,6 +25,10 @@ type CreateKnowledge {
     codes(impulses: [CreateCodeImpulse]): [CreatedCodeImpulse]
     "creates a list of edges with the given specifications"
     edges(impulses: [CreateEdgeImpulse]): [CreatedEdgeImpulse]
+    "creates a list of skills with the given specifications"
+    skills(impulses: [CreateSkillImpulse]): [CreatedSkillImpulse]
+    "creates a list of skill provisions with the given specifications"
+    skillProvisions(impulses: [CreateSkillProvisionImpulse]): [CreatedSkillProvisionImpulse]
 }
 type UpdateKnowledge {
     "updates a list of identities with the given specifications"
@@ -41,7 +45,10 @@ type UpdateKnowledge {
     behaviours(impulses: [UpdateBehaviourImpulse]): [UpdatedBehaviourImpulse]
     "updates a list of codes with the given specifications"
     codes(impulses: [UpdateCodeImpulse]): [UpdatedCodeImpulse]
-    # TODO do we need to update edges?
+    "updates a list of skills with the given specifications"
+    skills(impulses: [UpdateSkillImpulse]): [UpdatedSkillImpulse]
+    "updates a list of skill provisions with the given specifications"
+    skillProvisions(impulses: [UpdateSkillProvisionImpulse]): [UpdatedSkillProvisionImpulse]
 }
 type DeleteKnowledge {
     "deletes a list of identities with the given specifications"
@@ -60,6 +67,10 @@ type DeleteKnowledge {
     codes(impulses: [DeleteCodeImpulse]): [DeletedCodeImpulse]
     "deletes a list of edges with the given specifications"
     edges(impulses: [DeleteEdgeImpulse]): [DeletedEdgeImpulse]
+    "deletes a list of skills with the given specifications"
+    skills(impulses: [DeleteSkillImpulse]): [DeletedSkillImpulse]
+    "deletes a list of skill provisions with the given specifications"
+    skillProvisions(impulses: [DeleteSkillProvisionImpulse]): [DeletedSkillProvisionImpulse]
 }
 
 "The specification to create an identity instance"
@@ -369,3 +380,104 @@ type KeyOne {
     identityId: Uuid
     reference: Uuid
 }
+
+"The specification to create a skill instance"
+input CreateSkillImpulse {
+    tenantId: Uuid!
+    qualifier: String!
+    appendent: String
+    labelList: [String]
+    repositoryUri: String!
+}
+"The specification to update a Skill instance"
+input UpdateSkillImpulse {
+    tenantId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    labelList: [String]
+    repositoryUri: String!
+}
+"The specification to delete a Skill instance"
+input DeleteSkillImpulse {
+    tenantId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create Skill impulse"
+type CreatedSkillImpulse implements Impulse {
+    id: Uuid!
+    "the Skill instance"
+    data: Skill
+}
+"Impulse which indicates the result of a update Skill impulse"
+type UpdatedSkillImpulse implements Impulse {
+    id: Uuid!
+    "the Skill instance"
+    data: Skill
+}
+"Impulse which indicates the result of a delete Skill impulse"
+type DeletedSkillImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+"The specification to create a SkillProvision instance"
+input CreateSkillProvisionImpulse {
+    tenantId: Uuid!
+    qualifier: String!
+    appendent: String
+    labelList: [String]
+    version: String!
+    skillRef: String!
+    initialCpu: Int
+    maximalCpu: Int
+    initialMemory: Int
+    maximalMemory: Int
+    replicas: Int
+    enabled: Boolean!
+    bootstrapTimeout: Int
+    environment: Struct
+
+}
+"The specification to update a SkillProvision instance"
+input UpdateSkillProvisionImpulse {
+    tenantId: Uuid!
+    reference: Uuid!
+    qualifier: String!
+    appendent: String
+    labelList: [String]
+    version: String!
+    skillRef: String!
+    initialCpu: Int
+    maximalCpu: Int
+    initialMemory: Int
+    maximalMemory: Int
+    replicas: Int
+    enabled: Boolean!
+    bootstrapTimeout: Int
+    environment: Struct
+}
+"The specification to delete a SkillProvision instance"
+input DeleteSkillProvisionImpulse {
+    tenantId: Uuid!
+    reference: Uuid!
+}
+"Impulse which indicates the result of a create SkillProvision impulse"
+type CreatedSkillProvisionImpulse implements Impulse {
+    id: Uuid!
+    "the SkillProvision instance"
+    data: SkillProvision
+}
+"Impulse which indicates the result of a update SkillProvision impulse"
+type UpdatedSkillProvisionImpulse implements Impulse {
+    id: Uuid!
+    "the SkillProvision instance"
+    data: SkillProvision
+}
+"Impulse which indicates the result of a delete SkillProvision impulse"
+type DeletedSkillProvisionImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+

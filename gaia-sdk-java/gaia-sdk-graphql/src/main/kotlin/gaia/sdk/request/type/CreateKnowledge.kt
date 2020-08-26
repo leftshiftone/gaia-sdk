@@ -74,5 +74,21 @@ class CreateKnowledge: Type() {
         val name1 = it.register("impulses", impulses)
         "edges(impulses:$name1){" + CreatedEdgeImpulse().apply(config).render(it) + "}"
     }
+
+    /**
+     * creates a list of skills with the given specifications
+     */
+    fun skills(impulses : Array<out CreateSkillImpulse>?, config: CreatedSkillImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skills(impulses:$name1){" + CreatedSkillImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * creates a list of skill provisions with the given specifications
+     */
+    fun skillProvisions(impulses : Array<out CreateSkillProvisionImpulse>?, config: CreatedSkillProvisionImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "skillProvisions(impulses:$name1){" + CreatedSkillProvisionImpulse().apply(config).render(it) + "}"
+    }
 }
 

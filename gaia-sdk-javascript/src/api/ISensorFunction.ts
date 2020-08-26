@@ -8,6 +8,8 @@ import {
     CreateIntentImpulse,
     DeletedIntentImpulse,
     DeleteIntentImpulse,
+    EdgeReq,
+    EdgeRes,
     ExperienceReq,
     ExperienceRes,
     FulfilmentReq,
@@ -18,8 +20,6 @@ import {
     IntentRes,
     IntrospectionReq,
     IntrospectionRes,
-    EdgeReq,
-    EdgeRes,
     KnowledgeReq,
     KnowledgeRes,
     PerceiveActionImpulse,
@@ -35,6 +35,10 @@ import {
     RetrievalRes,
     SkillIntrospectionReq,
     SkillIntrospectionRes,
+    SkillProvisionReq,
+    SkillProvisionRes,
+    SkillReq,
+    SkillRes,
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
@@ -74,6 +78,18 @@ import {CreateEdgeImpulse} from "../graphql/request/input/CreateEdgeImpulse";
 import {CreatedEdgeImpulse} from "../graphql/response/type/CreatedEdgeImpulse";
 import {DeleteEdgeImpulse} from "../graphql/request/input/DeleteEdgeImpulse";
 import {DeletedEdgeImpulse} from "../graphql/response/type/DeletedEdgeImpulse";
+import {CreateSkillImpulse} from "../graphql/request/input/CreateSkillImpulse";
+import {CreatedSkillImpulse} from "../graphql/response/type/CreatedSkillImpulse";
+import {UpdateSkillImpulse} from "../graphql/request/input/UpdateSkillImpulse";
+import {UpdatedSkillImpulse} from "../graphql/response/type/UpdatedSkillImpulse";
+import {DeleteSkillImpulse} from "../graphql/request/input/DeleteSkillImpulse";
+import {DeletedSkillImpulse} from "../graphql/response/type/DeletedSkillImpulse";
+import {CreateSkillProvisionImpulse} from "../graphql/request/input/CreateSkillProvisionImpulse";
+import {CreatedSkillProvisionImpulse} from "../graphql/response/type/CreatedSkillProvisionImpulse";
+import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillProvisionImpulse";
+import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
+import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
+import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
 import {Uuid} from "../graphql/GaiaClient";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
@@ -120,6 +136,14 @@ export interface ISensorFunction {
     retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void, limit?: Number, offset?: Number): Observable<BehaviourRes>
 
     retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes>
+
+    retrieveSkills(tenantId: Uuid, config: (x: SkillReq) => void, limit?: Number, offset?: Number): Observable<SkillRes>
+
+    retrieveSkill(tenantId: Uuid, reference: Uuid, config: (x: SkillReq) => void): Observable<SkillRes>
+
+    retrieveSkillProvisions(tenantId: Uuid, config: (x: SkillProvisionReq) => void, limit?: Number, offset?: Number): Observable<SkillProvisionRes>
+
+    retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 
@@ -172,6 +196,18 @@ export interface ISensorFunction {
     preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse>
 
     preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse>
+
+    preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse>
+
+    preserveUpdateSkills(...impulses: [UpdateSkillImpulse]): Observable<UpdatedSkillImpulse>
+
+    preserveDeleteSkills(...impulses: [DeleteSkillImpulse]): Observable<DeletedSkillImpulse>
+
+    preserveCreateSkillProvisions(...impulses: [CreateSkillProvisionImpulse]): Observable<CreatedSkillProvisionImpulse>
+
+    preserveUpdateSkillProvisions(...impulses: [UpdateSkillProvisionImpulse]): Observable<UpdatedSkillProvisionImpulse>
+
+    preserveDeleteSkillProvisions(...impulses: [DeleteSkillProvisionImpulse]): Observable<DeletedSkillProvisionImpulse>
 
     perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes>
 

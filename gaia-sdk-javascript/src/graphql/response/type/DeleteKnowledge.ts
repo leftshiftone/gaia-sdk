@@ -2,9 +2,11 @@
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
+import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
+import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeleteFulfilmentImpulse} from "../../request/input/DeleteFulfilmentImpulse";
@@ -14,6 +16,8 @@ import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse
 import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
 import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
+import {DeleteSkillImpulse} from "../../request/input/DeleteSkillImpulse";
+import {DeleteSkillProvisionImpulse} from "../../request/input/DeleteSkillProvisionImpulse";
 import {DeleteIdentityImpulse} from "../../request/input/DeleteIdentityImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -55,5 +59,13 @@ export interface DeleteKnowledge {
     /**
     * deletes a list of edges with the given specifications
     */
-    edges?:[DeletedEdgeImpulse]
+    edges?:[DeletedEdgeImpulse], 
+    /**
+    * deletes a list of skills with the given specifications
+    */
+    skills?:[DeletedSkillImpulse], 
+    /**
+    * deletes a list of skill provisions with the given specifications
+    */
+    skillProvisions?:[DeletedSkillProvisionImpulse]
 }

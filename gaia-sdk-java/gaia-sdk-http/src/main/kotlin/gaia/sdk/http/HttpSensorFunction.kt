@@ -76,6 +76,18 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
     override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviour!! }
 
+    override fun retrieveSkills(identityId: Uuid, config: Skill.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skills(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skills!! }
+
+    override fun retrieveSkill(identityId: Uuid, reference: Uuid, config: Skill.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { skill(identityId, reference, config) } } })) { it.retrieve?.knowledge?.skill!! }
+
+    override fun retrieveSkillProvisions(identityId: Uuid, config: SkillProvision.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skillProvisions(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skillProvisions!! }
+
+    override fun retrieveSkillProvision(identityId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { skillProvision(identityId, reference, config) } } })) { it.retrieve?.knowledge?.skillProvision!! }
+
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
 
@@ -396,6 +408,108 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                 }
                 } } } })) {
                 it.preserve?.delete?.edges!!
+            }
+
+
+    override fun preserveCreateSkills(vararg impulses: CreateSkillImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { skills(impulses) {
+                id()
+                data({
+                    tenantId()
+                    reference()
+                    qualifier()
+                    appendent()
+                    labelList()
+                    repositoryUri()
+                })
+            } } } })) {
+                it.preserve?.create?.skills!!
+            }
+
+    override fun preserveUpdateSkills(vararg impulses: UpdateSkillImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { skills(impulses) {
+                id()
+                data({
+                    tenantId()
+                    reference()
+                    qualifier()
+                    appendent()
+                    labelList()
+                    repositoryUri()
+                })
+            } } } })) {
+                it.preserve?.update?.skills!!
+            }
+
+    override fun preserveDeleteSkills(vararg impulses: DeleteSkillImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skills(impulses) {
+                id()
+                data({
+                    identityId() // should be tenantId
+                    reference()
+                })
+            } } } })) {
+                it.preserve?.delete?.skills!!
+            }
+
+
+    override fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { skillProvisions(impulses) {
+                id()
+                data({
+                    tenantId()
+                    reference()
+                    qualifier()
+                    appendent()
+                    labelList()
+                    version()
+                    skillRef()
+                    initialCpu()
+                    maximalCpu()
+                    initialMemory()
+                    maximalMemory()
+                    replicas()
+                    enabled()
+                    environment()
+                    bootstrapTimeout()
+                })
+            } } } })) {
+                it.preserve?.create?.skillProvisions!!
+            }
+
+    override fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { skillProvisions(impulses) {
+                id()
+                data({
+                    tenantId()
+                    reference()
+                    qualifier()
+                    appendent()
+                    labelList()
+                    version()
+                    skillRef()
+                    initialCpu()
+                    maximalCpu()
+                    initialMemory()
+                    maximalMemory()
+                    replicas()
+                    enabled()
+                    environment()
+                    bootstrapTimeout()
+                })
+            } } } })) {
+                it.preserve?.update?.skillProvisions!!
+            }
+
+    override fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skillProvisions(impulses) {
+                id()
+                data({
+                    identityId() // should be tenantId
+                    reference()
+                })
+            } } } })) {
+                it.preserve?.delete?.skillProvisions!!
             }
 
     override fun perceive(config: Perception.() -> Unit) =
