@@ -46,7 +46,6 @@ class Gaia {
                     it.add("Content-Type", "application/json")
                 }
                 .followRedirect(true)
-                .wiretap(true)
                 .post()
                 .uri("${url}/api/auth/access")
                 .send(Mono.just(Unpooled.copiedBuffer(loginRequest)))
