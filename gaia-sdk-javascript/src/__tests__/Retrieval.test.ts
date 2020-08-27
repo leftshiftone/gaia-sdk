@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 describe("perception tests:", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test('test retrieve identities', () => {

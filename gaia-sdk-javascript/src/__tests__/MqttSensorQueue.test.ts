@@ -3,7 +3,7 @@ import {MqttSensorQueue, QueueHeader, QueueOptions} from "..";
 describe("MqttSensorQueue Test", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     it("connect", () => {

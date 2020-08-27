@@ -8,7 +8,7 @@ import Blob from "cross-blob"
 describe("dataref tests:", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test('test write new file', () => {

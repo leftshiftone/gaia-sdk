@@ -5,7 +5,7 @@ import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 describe("Credentials test", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test('test login', () => {

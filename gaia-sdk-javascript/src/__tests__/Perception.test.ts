@@ -5,7 +5,7 @@ import {HMACCredentials} from "../api/GaiaCredentials";
 describe("perception tests:", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test('test perceive data', () => {

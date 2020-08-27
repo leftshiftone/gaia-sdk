@@ -5,7 +5,7 @@ import {HMACCredentials} from "..";
 describe("skillref tests:", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test("skillprovision start", () => {

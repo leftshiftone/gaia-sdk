@@ -31,7 +31,7 @@ import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpu
 describe("perception tests:", () => {
 
     beforeEach(() => {
-        jest.setTimeout(10000);
+        jest.setTimeout(20000);
     })
 
     test('test preserve create identity', () => {
