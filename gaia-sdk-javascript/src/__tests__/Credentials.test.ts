@@ -7,7 +7,7 @@ describe("Credentials test", () => {
     beforeEach(() => {
         jest.setTimeout(10000);
     })
-    
+
     test('test login', () => {
         let credentials = new UsernamePasswordCredentials("username", "password")
         return Gaia.login('http://localhost:8080', credentials).then(gaiaRef => expect(gaiaRef).toBeDefined())
