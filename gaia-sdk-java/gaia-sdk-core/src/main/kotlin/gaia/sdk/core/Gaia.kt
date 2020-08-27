@@ -1,7 +1,8 @@
 package gaia.sdk.core
 
-import gaia.sdk.GaiaCredentials
-import gaia.sdk.Uuid
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import gaia.sdk.*
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
@@ -11,6 +12,7 @@ import gaia.sdk.api.skill.SkillRef
 import gaia.sdk.api.skill.UnprovisionedSkillSpec
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
+import gaia.sdk.http.HttpTransportException
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.Edge
@@ -18,14 +20,70 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.Retrieval
 import gaia.sdk.spi.QueueOptions
+import io.netty.buffer.Unpooled
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.netty.http.client.HttpClient
+import java.io.ByteArrayOutputStream
 
 class Gaia {
     companion object {
+
+        private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+
         fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
             return GaiaRef(GaiaConfig(url, credentials))
         }
+
         fun connect(config: GaiaConfig): GaiaRef {
             return GaiaRef(config)
+        }
+
+        fun login(url: String, credentials: UsernamePasswordCredentials): GaiaCredentials {
+            val loginRequest = jsonparser.writeValueAsBytes(credentials)
+            val response = HttpClient.create()
+                .headers {
+                    it.add("Content-Type", "application/json")
+                }
+                .followRedirect(true)
+                .post()
+                .uri("${url}/api/auth/access")
+                .send(Mono.just(Unpooled.copiedBuffer(loginRequest)))
+                .responseConnection { t, u ->
+                    u
+                            .inbound()
+                            .receive()
+                            .asByteArray()
+                            .buffer()
+                            .map { list ->
+                                val bos = ByteArrayOutputStream()
+                                list.forEach(bos::write)
+                                bos.toByteArray()
+                            }
+                            .switchIfEmpty(
+                                    Flux.just(t.status())
+                                            .flatMap {
+                                                if (it.code() >= 400) {
+                                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and no payload"
+                                                    Flux.error(HttpTransportException(msg))
+                                                } else {
+                                                    Flux.empty<ByteArray>()
+                                                }
+                                            }
+                            )
+                            .map { byteArray ->
+                                if (t.status().code() >= 400) {
+                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and payload: ${String(byteArray)}"
+                                    throw HttpTransportException(msg)
+                                }
+
+                                jsonparser.readValue(byteArray, LoginResponse::class.java)
+                            }
+                }.cast(LoginResponse::class.java).blockFirst()
+
+            response ?: throw Exception("No response received from login")
+
+            return JWTCredentials(response.accessToken)
         }
     }
 }
