@@ -30,6 +30,10 @@ import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpu
 
 describe("perception tests:", () => {
 
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test('test preserve create identity', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new CreateIdentityImpulse("");

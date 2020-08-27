@@ -31,7 +31,7 @@ Uuid = str
 class HttpSensorFunction(ISensorFunction):
 
     def __init__(self, url: str, credentials):
-        self.client = GaiaClientBuilder.http(url + "/api/sync").with_credentials(credentials).build()
+        self.client = GaiaClientBuilder.http(url + "/api/entity").with_credentials(credentials).build()
 
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(config)

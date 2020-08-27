@@ -4,6 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 
 describe("perception tests:", () => {
 
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test('a UUID variable is identified as type Uuid', () => {
         const registry = new VariableRegistry()
         const identityIdValue = uuidv4()

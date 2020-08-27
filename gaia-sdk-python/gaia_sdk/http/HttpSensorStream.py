@@ -6,7 +6,7 @@ from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientBuilder
 class HttpSensorStream(ISensorStream):
 
     def __init__(self, url: str, credentials):
-        self.client = GaiaStreamClientBuilder.http(url + "/api/async/stream").with_credentials(credentials).build()
+        self.client = GaiaStreamClientBuilder.http(url + "/api").with_credentials(credentials).build()
 
     def data(self, uri: str):
         return DataRef(uri, self.client)

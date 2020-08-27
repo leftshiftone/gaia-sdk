@@ -27,19 +27,19 @@ class HttpSensorStream(url: String, credentials: GaiaCredentials) : ISensorStrea
     }
 
     override fun startSkillProvision(uri: String): Publisher<Void> {
-        return Flowable.fromPublisher(client.transport(Map::class.java, mapOf("uri" to uri), "/async/control/skill-provision/start")).flatMap { Flowable.empty<Void>() }
+        return Flowable.fromPublisher(client.transport(Map::class.java, mapOf("uri" to uri), "/skill/start")).flatMap { Flowable.empty<Void>() }
     }
 
     override fun stopSkillProvision(uri: String): Publisher<Void> {
-        return Flowable.fromPublisher(client.transport(Map::class.java, mapOf("uri" to uri), "/async/control/skill-provision/stop")).flatMap { Flowable.empty<Void>() }
+        return Flowable.fromPublisher(client.transport(Map::class.java, mapOf("uri" to uri), "/skill/stop")).flatMap { Flowable.empty<Void>() }
     }
 
     override fun skillProvisionStatus(uri: String): Publisher<SkillProvisionStatus> {
-        return client.transport(SkillProvisionStatus::class.java, mapOf("uri" to uri), "/async/control/skill-provision/status")
+        return client.transport(SkillProvisionStatus::class.java, mapOf("uri" to uri), "/skill/status")
     }
 
     override fun skillProvisionLogs(uri: String, numberOfLines: Int?): Publisher<String> {
-        val responsePublisher = client.transport(SkillProvisionLogs::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/async/control/skill-provision/logs")
+        val responsePublisher = client.transport(SkillProvisionLogs::class.java, mapOf("uri" to uri, "numberOfLines" to numberOfLines), "/skill/logs")
         return Flowable.fromPublisher(responsePublisher)
                 .flatMap { response -> Flowable.fromIterable(response.logLines) }
     }

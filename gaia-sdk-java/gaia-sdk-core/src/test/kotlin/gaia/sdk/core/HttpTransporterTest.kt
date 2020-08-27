@@ -55,7 +55,7 @@ class HttpTransporterTest {
     }
 
     fun configureStub(authSchema: String, errorCode: Int = 200, responseBody: ByteArray = A_STANDARD_RESPONSE.toByteArray()) {
-        val stub = post(urlEqualTo("/api/sync"))
+        val stub = post(urlEqualTo("/api/entity"))
                 .withHeader("Authorization", matching("$authSchema.*"))
                 .willReturn(aResponse().withHeader("Content-Type", "application/json")
                         .withStatus(errorCode)
@@ -78,7 +78,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
@@ -99,7 +99,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertError {
             it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
         }
@@ -117,7 +117,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertError {
             it.message == "Error with status code 400 (Bad Request) and no payload"
         }
@@ -135,7 +135,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
@@ -155,7 +155,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(0)
     }
@@ -173,7 +173,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertError {
             it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
         }
@@ -192,7 +192,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertError {
             it.message == "Error with status code 400 (Bad Request) and payload: ${responsePayload}"
         }
@@ -210,7 +210,7 @@ class HttpTransporterTest {
             reference()
         }
         val ts = Flowable.fromPublisher(publisher).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertError {
             it.message == "Error with status code 400 (Bad Request) and no payload"
         }

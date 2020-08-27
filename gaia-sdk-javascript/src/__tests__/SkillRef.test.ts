@@ -3,6 +3,11 @@ import {Gaia} from "../Gaia";
 import {HMACCredentials} from "..";
 
 describe("skillref tests:", () => {
+
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test("skillprovision start", () => {
         return new Promise((resolve, reject) => {
             let skillRef: SkillRef = getSkillRef()
