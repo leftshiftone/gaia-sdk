@@ -12,15 +12,15 @@ export class SkillRef {
     }
 
     public start(): Observable<{}> {
-        return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/start"))
+        return from(this.client.post({ "uri": this.uri }, "/skill/start"))
     }
 
     public stop(): Observable<{}> {
-        return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/stop"))
+        return from(this.client.post({ "uri": this.uri }, "/skill/stop"))
     }
 
     public status(): Observable<SkillProvisionStatus> {
-        return from(this.client.post({ "uri": this.uri }, "/control/skill-provision/status"))
+        return from(this.client.post({ "uri": this.uri }, "/skill/status"))
     }
 
     public logs(numberOfLines?: number): Observable<string> {
@@ -29,7 +29,7 @@ export class SkillRef {
     }
 
     private logsInternal(numberOfLines?: number): Observable<SkillProvisionLogs> {
-        return from(this.client.post({ "uri": this.uri, "numberOfLines": numberOfLines }, "/control/skill-provision/logs"))
+        return from(this.client.post({ "uri": this.uri, "numberOfLines": numberOfLines }, "/skill/logs"))
     }
 }
 

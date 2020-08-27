@@ -4,6 +4,10 @@ import {HMACCredentials} from "../api/GaiaCredentials";
 
 describe("perception tests:", () => {
 
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test('test perceive data', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new PerceiveDataImpulse(uuid(), "{eventName}", {});

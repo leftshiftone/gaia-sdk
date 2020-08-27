@@ -50,7 +50,7 @@ class DataRef:
 
         :return: :class:`Observable[List[FileListing]]` object: List of files that share the current uri as prefix."""
         self.logger.debug(f"Started list at uri {self.uri}")
-        response = self.client.post_json(ListFilesImpulse(self.uri), "/sink/data/list").json()
+        response = self.client.post_json(ListFilesImpulse(self.uri), "/data/list").json()
         self.logger.debug(f"Completed list at uri {self.uri}")
         return of([FileListing(listing) for listing in response])
 
@@ -59,7 +59,7 @@ class DataRef:
 
         :return: :class:`Observable[bytes]` object: File as bytes."""
         self.logger.debug(f"Started download from {self.uri}")
-        response = self.client.post_json(BinaryReadImpulse(self.uri), "/source/data/get").content
+        response = self.client.post_json(BinaryReadImpulse(self.uri), "/data/source").content
         self.logger.debug(f"Completed download from {self.uri}")
         return of(response)
 
@@ -82,7 +82,7 @@ class DataRef:
         file existed."""
         file_uri = DataRef.concat_uri(self.uri, file_name)
         self.logger.debug(f"Started removing file at {file_uri}")
-        response = self.client.post_json(RemoveFileImpulse(file_uri), "/sink/data/remove").json()
+        response = self.client.post_json(RemoveFileImpulse(file_uri), "/data/remove").json()
         self.logger.debug(f"Completed removing file at {file_uri}")
         return of(FileRemoved(response))
 
@@ -112,7 +112,7 @@ class DataUpload:
         response = client.post_json(InitBinaryWriteImpulse(self.uri,
                                                            self.number_of_chunks,
                                                            len(self.content),
-                                                           self.override), "/sink/data/init")
+                                                           self.override), "/data/sink/init")
         if response.status_code >= 400:
             raise ValueError(response.content)
         return InitializedBinaryWrite(response.json())
@@ -122,10 +122,10 @@ class DataUpload:
         for index in range(self.number_of_chunks):
             chunk_data = self.content[index * CHUNK_SIZE: min((index + 1) * CHUNK_SIZE, len(self.content))]
             chunk_impulse = BinaryWriteChunkImpulse(self.uri, upload_id, index + 1, len(chunk_data), chunk_data)
-            response = client.post_form_data(chunk_impulse.as_form_data(), "/sink/data/chunk").json()
+            response = client.post_form_data(chunk_impulse.as_form_data(), "/data/sink/chunk").json()
             chunk_ids.insert(index, BinaryChunkWritten(response).chunk_id)
         return chunk_ids
 
     def complete_upload(self, client: GaiaStreamClient, upload_id: str, chunk_ids: List[str]) -> dict:
         return client.post_json(CompleteBinaryWriteImpulse(self.uri, upload_id, chunk_ids),
-                                "/sink/data/complete").json()
+                                "/data/sink/complete").json()
