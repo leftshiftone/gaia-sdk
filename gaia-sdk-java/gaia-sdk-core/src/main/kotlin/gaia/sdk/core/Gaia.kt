@@ -85,26 +85,6 @@ class Gaia {
 
             return JWTCredentials(response.accessToken)
         }
-
-        /**
-         *
-
-        public static login(url: string, credentials: UsernamePasswordCredentials): Promise<GaiaRef> {
-        return new HttpClient()
-        .post(JSON.stringify(credentials), {
-        headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type'
-        }
-        }, url + "/api/auth/access")
-        .then(response => {
-        let cr = new JWTCredentials(response.accessToken);
-        return new GaiaRef(new GaiaConfig(url, cr))
-        })
-        }
-         */
     }
 }
 
