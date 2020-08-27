@@ -108,7 +108,7 @@ export class HttpSensorFunction implements ISensorFunction {
     private readonly client: GaiaClient;
 
     constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaClientBuilder.http(url + "/api/sync")
+        this.client = GaiaClientBuilder.http(url + "/api/entity")
             .withCredentials(credentials)
             .build()
 
