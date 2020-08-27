@@ -5,6 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 
 describe("perception tests:", () => {
 
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test('test retrieve identities', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
 

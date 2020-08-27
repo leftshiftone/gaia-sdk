@@ -6,6 +6,11 @@ import {UsernamePasswordCredentials} from "..";
 import Blob from "cross-blob"
 
 describe("dataref tests:", () => {
+
+    beforeEach(() => {
+        jest.setTimeout(10000);
+    })
+
     test('test write new file', () => {
         const blob = new Blob(["234"]);
 
