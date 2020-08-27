@@ -1,7 +1,5 @@
 package gaia.sdk
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 
@@ -34,8 +32,3 @@ interface GaiaCredentials
 class HMACCredentials(val apiKey: String, val apiSecret: String) : GaiaCredentials
 class JWTCredentials(val token: String) : GaiaCredentials
 
-class UsernamePasswordCredentials(val username: String, val password: String)
-data class LoginResponse @JsonCreator constructor(
-        @JsonProperty("username") val username: String,
-        @JsonProperty("accessToken") val accessToken: String
-)

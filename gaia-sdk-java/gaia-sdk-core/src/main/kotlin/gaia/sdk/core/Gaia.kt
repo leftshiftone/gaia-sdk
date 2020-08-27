@@ -1,5 +1,7 @@
 package gaia.sdk.core
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.*
@@ -166,3 +168,9 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     fun skill(spec: UnprovisionedSkillSpec) = SkillRef(spec, sProc)
     fun skill(spec: ProvisionedSkillSpec) = SkillRef(spec, sProc)
 }
+
+class UsernamePasswordCredentials(val username: String, val password: String)
+data class LoginResponse @JsonCreator constructor(
+        @JsonProperty("username") val username: String,
+        @JsonProperty("accessToken") val accessToken: String
+)
