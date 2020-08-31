@@ -112,7 +112,7 @@ jobs:
       - run: chmod a+x gradlew
       - run: ./gradlew dependencies installDependencies
       - run: ./gradlew assemble --stacktrace
-      - run: ./gradlew candidate publish -x bintrayUpload -Prelease.useLastTag=true --stacktrace
+      - run: ./gradlew candidate publish -x test -x bintrayUpload -Prelease.useLastTag=true --stacktrace
       - run:
           <<: *webhook-failed
 
