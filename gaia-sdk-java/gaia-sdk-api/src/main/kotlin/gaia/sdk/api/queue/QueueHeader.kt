@@ -1,4 +1,4 @@
-package gaia.sdk.mqtt.queue
+package gaia.sdk.api.queue
 
 import java.util.*
 
