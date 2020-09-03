@@ -17,6 +17,16 @@ class GaiaClient(object):
     transporter: ITransporter
     options: ClientOptions
 
+    def __init__(self, transporter: ITransporter, options: ClientOptions):
+        self.transporter = transporter
+        self.options = options
+
+    def __eq__(self, other):
+        return self.options == other.options
+
+    def __repr__(self):
+        return {'options': self.options}
+
     def execute_native(self, statement: str, variables: dict):
         payload = {"statement": statement, "variables": variables}
         return self.transporter.transport(self.options, Payload.json(payload)).json()
