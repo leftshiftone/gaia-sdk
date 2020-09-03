@@ -7,11 +7,14 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class StreamImpulse():
-
     id: str
 
+    def __init__(self, id: str):
+        self.id = id
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def __repr__(self):
+        return {'id': self.id}

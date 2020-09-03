@@ -1,10 +1,8 @@
-from dataclasses import dataclass
 from gaia_sdk.graphql.response.type.Query import Query
 from gaia_sdk.graphql.response.type.Mutation import Mutation
 from gaia_sdk.graphql.response.type.Subscription import Subscription
 
 
-@dataclass
 class QueryResponse:
     dictionary: dict
 
@@ -21,7 +19,6 @@ class QueryResponse:
         return self.dictionary.get("errors")
 
 
-@dataclass
 class MutationResponse:
     dictionary: dict
 

@@ -7,15 +7,19 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class PerceiveButtonImpulse():
     """
     Input for button perception impulse
     """
-
     name: str
     value: str
 
+    def __init__(self, name: str, value: str):
+        self.name = name
+        self.value = value
+
+    def __eq__(self, other):
+        return self.name == other.name and self.value == other.value
+
+    def __repr__(self):
+        return {'name': self.name, 'value': self.value}

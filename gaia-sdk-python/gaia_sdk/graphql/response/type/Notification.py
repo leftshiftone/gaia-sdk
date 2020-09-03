@@ -3,7 +3,6 @@ from gaia_sdk.graphql.response.type.OnUpdated import OnUpdated
 from gaia_sdk.graphql.response.type.OnDeleted import OnDeleted
 from gaia_sdk.graphql.response.type.OnCreated import OnCreated
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -18,9 +17,18 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Notification:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def on_created(self) -> OnCreated:
         return OnCreated(self.dictionary.get("onCreated"))

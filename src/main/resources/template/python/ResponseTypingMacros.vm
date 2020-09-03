@@ -2,11 +2,16 @@
 ## Renders a type AST
 ## ******************
 #macro(renderType $type $indent)#*
-    *##tab($indent)@dataclass$newLine#*
     *##tab($indent)class ${type.name}:$newLine#*
     *##renderDescription($type 4)#*
-    *##tab(4)dictionary: dict$newLine#*
     *##set($indent = $indent + 4)#*
+    *##tab($indent)dictionary: dict$newLine$newLine#*
+    *##tab($indent)def __init__(self, dictionary: dict):$newLine#*
+    *##tab($indent)#tab(4)self.dictionary = dictionary$newLine$newLine#*
+    *##tab($indent)def __eq__(self, other):$newLine#*
+    *##tab($indent)#tab(4)return self.dictionary == other.dictionary$newLine$newLine#*
+    *##tab($indent)def __repr__(self):$newLine#*
+    *##tab($indent)#tab(4)return {'dictionary': self.dictionary}$newLine$newLine#*
     *##foreach($field in $type.fields)#*
         *##renderDescription($field $indent)#*
         *##tab($indent)#renderField($field)$newLine#*

@@ -3,7 +3,6 @@ from gaia_sdk.graphql.response.type.Query import Query
 from gaia_sdk.graphql.response.type.Mutation import Mutation
 from gaia_sdk.graphql.response.type.Subscription import Subscription
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -18,9 +17,18 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Schema:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def query(self) -> Query:
         return Query(self.dictionary.get("query"))

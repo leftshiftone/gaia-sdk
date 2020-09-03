@@ -74,22 +74,44 @@
 ## Renders an input class
 ## **********************
 #macro(renderInput $type $indent)#*
-    *#from dataclasses import dataclass$newLine$newLine$newLine#*
-    *#@dataclass$newLine#*
     *##tab($indent)class ${type.name}():$newLine#*
     *##renderDescription($type 4)#*
     *##set($indent = $indent + 4)#*
-    *##renderConstructor($type $indent)#*
+    *##renderFields($type $indent)#*
     *##set($indent = $indent - 4)##
 #end##
 ## ***************************
 ## Renders a class constructor
 ## ***************************
-#macro(renderConstructor $type $indent)#*
-    *#$newLine#*
+#macro(renderFields $type $indent)#*
     *##foreach($field in $type.fields)#*
     *##tab($indent)$field.name: #renderArgumentType($field.type)$newLine#*
-    *##end##
+    *##end#*
+    *#$newLine#tab($indent)def __init__(self#*
+    *##foreach($field in $type.fields)#*
+    *#, $field.name: #renderArgumentType($field.type)#*
+    *##end#*
+    *#):$newLine#*
+    *##foreach($field in $type.fields)#*
+    *##tab($indent)#tab(4)self.$field.name = $field.name$newLine#*
+    *##end#*
+    *#$newLine#tab($indent)def __eq__(self, other):$newLine#*
+    *##tab($indent)#tab(4)return #*
+    *##set($i = 0)#*
+    *##foreach($field in $type.fields)#*
+    *##if($i != 0) and #end#*
+    *#self.$field.name == other.$field.name#*
+    *##set($i = $i+1)#*
+    *##end#*
+    *#$newLine$newLine#tab($indent)def __repr__(self):$newLine#*
+    *##tab($indent)#tab(4)return {#*
+    *##set($i = 0)#*
+    *##foreach($field in $type.fields)#*
+    *##if($i != 0), #end#*
+    *#'$field.name': self.$field.name#*
+    *##set($i = $i+1)#*
+    *##end#*
+    *#}##
 #end##
 ## **************************
 ## Renders a description text

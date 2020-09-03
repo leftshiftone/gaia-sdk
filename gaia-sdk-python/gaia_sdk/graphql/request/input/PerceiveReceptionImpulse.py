@@ -7,14 +7,17 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class PerceiveReceptionImpulse():
     """
     Input for reception perception impulse
     """
-
     data: dict
 
+    def __init__(self, data: dict):
+        self.data = data
+
+    def __eq__(self, other):
+        return self.data == other.data
+
+    def __repr__(self):
+        return {'data': self.data}

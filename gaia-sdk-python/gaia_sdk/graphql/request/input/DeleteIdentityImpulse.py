@@ -7,14 +7,17 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class DeleteIdentityImpulse():
     """
     The specification to delete an identity instance
     """
-
     identityId: str
 
+    def __init__(self, identityId: str):
+        self.identityId = identityId
+
+    def __eq__(self, other):
+        return self.identityId == other.identityId
+
+    def __repr__(self):
+        return {'identityId': self.identityId}

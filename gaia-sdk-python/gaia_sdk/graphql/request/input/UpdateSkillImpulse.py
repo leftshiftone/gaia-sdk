@@ -7,15 +7,10 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class UpdateSkillImpulse():
     """
     The specification to update a Skill instance
     """
-
     tenantId: str
     reference: str
     qualifier: str
@@ -23,3 +18,16 @@ class UpdateSkillImpulse():
     labelList: List[str]
     repositoryUri: str
 
+    def __init__(self, tenantId: str, reference: str, qualifier: str, appendent: str, labelList: List[str], repositoryUri: str):
+        self.tenantId = tenantId
+        self.reference = reference
+        self.qualifier = qualifier
+        self.appendent = appendent
+        self.labelList = labelList
+        self.repositoryUri = repositoryUri
+
+    def __eq__(self, other):
+        return self.tenantId == other.tenantId and self.reference == other.reference and self.qualifier == other.qualifier and self.appendent == other.appendent and self.labelList == other.labelList and self.repositoryUri == other.repositoryUri
+
+    def __repr__(self):
+        return {'tenantId': self.tenantId, 'reference': self.reference, 'qualifier': self.qualifier, 'appendent': self.appendent, 'labelList': self.labelList, 'repositoryUri': self.repositoryUri}

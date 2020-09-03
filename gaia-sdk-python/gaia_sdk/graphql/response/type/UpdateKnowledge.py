@@ -18,7 +18,6 @@ from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilm
 from gaia_sdk.graphql.request.input.UpdateSkillImpulse import UpdateSkillImpulse
 from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -33,9 +32,18 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class UpdateKnowledge:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     """
     updates a list of identities with the given specifications
     """

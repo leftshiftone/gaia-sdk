@@ -1,7 +1,6 @@
 
 from gaia_sdk.graphql.response.type.Intent import Intent
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -16,12 +15,21 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class UpdatedIntentImpulse:
     """
     Impulse which indicates the result of a update intent impulse
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))

@@ -7,15 +7,19 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class UpdateIdentityImpulse():
     """
     The specification to update an identity instance
     """
-
     identityId: str
     qualifier: str
 
+    def __init__(self, identityId: str, qualifier: str):
+        self.identityId = identityId
+        self.qualifier = qualifier
+
+    def __eq__(self, other):
+        return self.identityId == other.identityId and self.qualifier == other.qualifier
+
+    def __repr__(self):
+        return {'identityId': self.identityId, 'qualifier': self.qualifier}

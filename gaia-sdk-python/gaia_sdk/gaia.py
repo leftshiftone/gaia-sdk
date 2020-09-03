@@ -1,5 +1,3 @@
-from dataclasses import dataclass, asdict
-
 import requests
 from rx.core.typing import Observable
 from typing import Callable, List
@@ -45,18 +43,38 @@ class Gaia:
         return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token))
 
 
-@dataclass
 class GaiaConfig:
     url: str
     functionProcessor: ISensorFunction
     streamProcessor: ISensorStream
 
+    def __init__(self, url: str, functionProcessor: ISensorFunction, streamProcessor: ISensorStream):
+        self.url = url
+        self.functionProcessor = functionProcessor
+        self.streamProcessor = streamProcessor
 
-@dataclass
+    def __eq__(self, other):
+        return self.url == other.url
+
+    def __repr__(self):
+        return {'url': self.url}
+
+
 class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     config: GaiaConfig
     f_proc: ISensorFunction
     s_proc: ISensorStream
+
+    def __init__(self, config: GaiaConfig, f_proc: ISensorFunction, s_proc: ISensorStream):
+        self.config = config
+        self.f_proc = f_proc
+        self.s_proc = s_proc
+
+    def __eq__(self, other):
+        return self.config == other.config
+
+    def __repr__(self):
+        return {'config': self.config}
 
     def data(self, uri: str) -> DataRef:
         return self.s_proc.data(uri)

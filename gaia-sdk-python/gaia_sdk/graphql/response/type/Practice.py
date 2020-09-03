@@ -2,7 +2,6 @@
 from gaia_sdk.graphql.response.type.StreamingImpulse import StreamingImpulse
 from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -17,13 +16,22 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Practice:
     """
     This type contains all practice sensor impulses which are used to support
     practice in gaia.
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     """
     Stream practice preparation impulse used to transfer a skill to gaia.
         This perception impulse do not invoke the data transmission but establishes
