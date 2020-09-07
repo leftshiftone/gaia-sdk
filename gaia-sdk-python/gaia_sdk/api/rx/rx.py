@@ -1,7 +1,7 @@
 from typing import Callable, List, TypeVar
 
 import rx
-from rx import operators as ops
+from rx import operators as ops, pipe
 from rx.core.typing import Observable
 
 from gaia_sdk.graphql import QueryRes, MutationRes
@@ -16,10 +16,8 @@ def mapQ(observable: Observable[QueryResponse], mapper: Callable[[QueryRes], T])
             return rx.throw(obj.errors[0]["message"])
         return rx.of(mapper(obj.data))
 
-    return observable.pipe(
-        ops.map(lambda x: QueryResponse(x)),
-        ops.flat_map(flat_map)
-    )
+    return pipe(ops.map(lambda x: QueryResponse(x)),
+                ops.flat_map(flat_map))(observable)
 
 
 def flat_mapQ(observable: Observable[QueryResponse], mapper: Callable[[QueryRes], List[T]]) -> Observable[T]:
@@ -28,10 +26,8 @@ def flat_mapQ(observable: Observable[QueryResponse], mapper: Callable[[QueryRes]
             return rx.throw(obj.errors[0]["message"])
         return rx.from_iterable(mapper(obj.data))
 
-    return observable.pipe(
-        ops.map(lambda x: QueryResponse(x)),
-        ops.flat_map(flat_map)
-    )
+    return pipe(ops.map(lambda x: QueryResponse(x)),
+                ops.flat_map(flat_map))(observable)
 
 
 def mapM(observable: Observable[MutationResponse], mapper: Callable[[MutationRes], T]) -> Observable[T]:
@@ -40,10 +36,8 @@ def mapM(observable: Observable[MutationResponse], mapper: Callable[[MutationRes
             return rx.throw(response.errors[0]["message"])
         return rx.of(mapper(response.data))
 
-    return observable.pipe(
-        ops.map(lambda x: MutationResponse(x)),
-        ops.flat_map(flat_map)
-    )
+    return pipe(ops.map(lambda x: MutationResponse(x)),
+                ops.flat_map(flat_map))(observable)
 
 
 def flat_mapM(observable: Observable[MutationResponse], mapper: Callable[[MutationRes], List[T]]) -> Observable[T]:
@@ -52,7 +46,7 @@ def flat_mapM(observable: Observable[MutationResponse], mapper: Callable[[Mutati
             return rx.throw(obj.errors[0]["message"])
         return rx.from_iterable(mapper(obj.data))
 
-    return observable.pipe(
+    return pipe(
         ops.map(lambda x: MutationResponse(x)),
         ops.flat_map(flat_map)
-    )
+    )(observable)

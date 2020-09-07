@@ -6,6 +6,15 @@ from gaia_sdk.graphql.response.type.Subscription import Subscription
 class QueryResponse:
     dictionary: dict
 
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def data(self) -> Query:
         return Query(self.dictionary.get("data"))
@@ -21,6 +30,15 @@ class QueryResponse:
 
 class MutationResponse:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
 
     @property
     def data(self) -> Mutation:
@@ -47,4 +65,3 @@ class SubscriptionResponse:
     @property
     def errors(self) -> list:
         return self.errors
-
