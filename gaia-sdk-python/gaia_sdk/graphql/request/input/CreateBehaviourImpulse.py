@@ -25,7 +25,9 @@ class CreateBehaviourImpulse():
         self.labelList = labelList
 
     def __eq__(self, other):
-        return self.identityId == other.identityId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.behaviour == other.behaviour and self.labelList == other.labelList
+        if type(other) is type(self):
+            return self.identityId == other.identityId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.behaviour == other.behaviour and self.labelList == other.labelList
+        return False
 
     def __repr__(self):
         return {'identityId': self.identityId, 'qualifier': self.qualifier, 'appendent': self.appendent, 'behaviour': self.behaviour, 'labelList': self.labelList}

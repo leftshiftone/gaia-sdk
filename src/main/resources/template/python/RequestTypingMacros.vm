@@ -96,13 +96,15 @@
     *##tab($indent)#tab(4)self.$field.name = $field.name$newLine#*
     *##end#*
     *#$newLine#tab($indent)def __eq__(self, other):$newLine#*
-    *##tab($indent)#tab(4)return #*
+    *##tab($indent)#tab(4)if type(other) is type(self):$newLine#*
+    *##tab($indent)#tab(4)#tab(4)return #*
     *##set($i = 0)#*
     *##foreach($field in $type.fields)#*
     *##if($i != 0) and #end#*
     *#self.$field.name == other.$field.name#*
     *##set($i = $i+1)#*
     *##end#*
+    *#$newLine#tab($indent)#tab(4)return False#*
     *#$newLine$newLine#tab($indent)def __repr__(self):$newLine#*
     *##tab($indent)#tab(4)return {#*
     *##set($i = 0)#*

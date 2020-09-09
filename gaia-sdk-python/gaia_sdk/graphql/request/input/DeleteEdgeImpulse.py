@@ -19,7 +19,9 @@ class DeleteEdgeImpulse():
         self.target = target
 
     def __eq__(self, other):
-        return self.source == other.source and self.target == other.target
+        if type(other) is type(self):
+            return self.source == other.source and self.target == other.target
+        return False
 
     def __repr__(self):
         return {'source': self.source, 'target': self.target}

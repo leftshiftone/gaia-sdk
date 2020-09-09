@@ -65,3 +65,4 @@ class SubscriptionResponse:
     @property
     def errors(self) -> list:
         return self.errors
+

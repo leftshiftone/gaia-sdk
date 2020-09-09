@@ -19,7 +19,9 @@ class DeleteCodeImpulse():
         self.reference = reference
 
     def __eq__(self, other):
-        return self.identityId == other.identityId and self.reference == other.reference
+        if type(other) is type(self):
+            return self.identityId == other.identityId and self.reference == other.reference
+        return False
 
     def __repr__(self):
         return {'identityId': self.identityId, 'reference': self.reference}

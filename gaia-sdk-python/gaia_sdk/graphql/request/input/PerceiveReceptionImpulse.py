@@ -17,7 +17,9 @@ class PerceiveReceptionImpulse():
         self.data = data
 
     def __eq__(self, other):
-        return self.data == other.data
+        if type(other) is type(self):
+            return self.data == other.data
+        return False
 
     def __repr__(self):
         return {'data': self.data}

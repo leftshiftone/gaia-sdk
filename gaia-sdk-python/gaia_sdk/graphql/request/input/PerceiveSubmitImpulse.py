@@ -19,7 +19,9 @@ class PerceiveSubmitImpulse():
         self.value = value
 
     def __eq__(self, other):
-        return self.name == other.name and self.value == other.value
+        if type(other) is type(self):
+            return self.name == other.name and self.value == other.value
+        return False
 
     def __repr__(self):
         return {'name': self.name, 'value': self.value}

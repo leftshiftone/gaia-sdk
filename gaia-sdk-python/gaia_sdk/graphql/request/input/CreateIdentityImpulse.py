@@ -17,7 +17,9 @@ class CreateIdentityImpulse():
         self.qualifier = qualifier
 
     def __eq__(self, other):
-        return self.qualifier == other.qualifier
+        if type(other) is type(self):
+            return self.qualifier == other.qualifier
+        return False
 
     def __repr__(self):
         return {'qualifier': self.qualifier}

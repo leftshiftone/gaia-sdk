@@ -25,7 +25,9 @@ class CreateSkillImpulse():
         self.repositoryUri = repositoryUri
 
     def __eq__(self, other):
-        return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.labelList == other.labelList and self.repositoryUri == other.repositoryUri
+        if type(other) is type(self):
+            return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.labelList == other.labelList and self.repositoryUri == other.repositoryUri
+        return False
 
     def __repr__(self):
         return {'tenantId': self.tenantId, 'qualifier': self.qualifier, 'appendent': self.appendent, 'labelList': self.labelList, 'repositoryUri': self.repositoryUri}

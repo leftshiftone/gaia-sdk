@@ -25,7 +25,9 @@ class UpdatedPromptImpulse:
         self.dictionary = dictionary
 
     def __eq__(self, other):
-        return self.dictionary == other.dictionary
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
 
     def __repr__(self):
         return {'dictionary': self.dictionary}

@@ -19,7 +19,9 @@ class UpdateIdentityImpulse():
         self.qualifier = qualifier
 
     def __eq__(self, other):
-        return self.identityId == other.identityId and self.qualifier == other.qualifier
+        if type(other) is type(self):
+            return self.identityId == other.identityId and self.qualifier == other.qualifier
+        return False
 
     def __repr__(self):
         return {'identityId': self.identityId, 'qualifier': self.qualifier}

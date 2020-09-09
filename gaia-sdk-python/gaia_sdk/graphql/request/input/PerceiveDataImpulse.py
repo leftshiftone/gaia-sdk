@@ -21,7 +21,9 @@ class PerceiveDataImpulse():
         self.eventData = eventData
 
     def __eq__(self, other):
-        return self.identityId == other.identityId and self.eventName == other.eventName and self.eventData == other.eventData
+        if type(other) is type(self):
+            return self.identityId == other.identityId and self.eventName == other.eventName and self.eventData == other.eventData
+        return False
 
     def __repr__(self):
         return {'identityId': self.identityId, 'eventName': self.eventName, 'eventData': self.eventData}

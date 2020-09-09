@@ -23,7 +23,9 @@ class PerceiveActionImpulse():
         self.data = data
 
     def __eq__(self, other):
-        return self.broadcast == other.broadcast and self.identityId == other.identityId and self.type == other.type and self.data == other.data
+        if type(other) is type(self):
+            return self.broadcast == other.broadcast and self.identityId == other.identityId and self.type == other.type and self.data == other.data
+        return False
 
     def __repr__(self):
         return {'broadcast': self.broadcast, 'identityId': self.identityId, 'type': self.type, 'data': self.data}

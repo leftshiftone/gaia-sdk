@@ -17,6 +17,16 @@ class #capitalize($name)Client(object):
 #tab(4)transporter: ITransporter
 #tab(4)options: ClientOptions
 
+#tab(4)def __init__(self, transporter: ITransporter, options: ClientOptions):
+#tab(8)self.transporter = transporter
+#tab(8)self.options = options
+
+#tab(4)def __eq__(self, other):
+#tab(8)return self.options == other.options
+
+#tab(4)def __repr__(self):
+#tab(8)return {'options': self.options}
+
 #tab(4)def execute_native(self, statement: str, variables: dict):
 #tab(8)payload = {"statement": statement, "variables": variables}
 #tab(8)return self.transporter.transport(self.options, Payload.json(payload)).json()

@@ -9,7 +9,9 @@
     *##tab($indent)def __init__(self, dictionary: dict):$newLine#*
     *##tab($indent)#tab(4)self.dictionary = dictionary$newLine$newLine#*
     *##tab($indent)def __eq__(self, other):$newLine#*
-    *##tab($indent)#tab(4)return self.dictionary == other.dictionary$newLine$newLine#*
+    *##tab($indent)#tab(4)if type(other) is type(self):$newLine#*
+    *##tab($indent)#tab(4)#tab(4)return self.dictionary == other.dictionary#*
+    *#$newLine#tab($indent)#tab(4)return False$newLine$newLine#*
     *##tab($indent)def __repr__(self):$newLine#*
     *##tab($indent)#tab(4)return {'dictionary': self.dictionary}$newLine$newLine#*
     *##foreach($field in $type.fields)#*

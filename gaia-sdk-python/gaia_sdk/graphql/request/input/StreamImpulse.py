@@ -14,7 +14,9 @@ class StreamImpulse():
         self.id = id
 
     def __eq__(self, other):
-        return self.id == other.id
+        if type(other) is type(self):
+            return self.id == other.id
+        return False
 
     def __repr__(self):
         return {'id': self.id}

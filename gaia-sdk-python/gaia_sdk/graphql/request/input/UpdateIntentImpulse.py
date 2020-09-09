@@ -29,7 +29,9 @@ class UpdateIntentImpulse():
         self.version = version
 
     def __eq__(self, other):
-        return self.identityId == other.identityId and self.reference == other.reference and self.qualifier == other.qualifier and self.appendent == other.appendent and self.utterance == other.utterance and self.labelList == other.labelList and self.version == other.version
+        if type(other) is type(self):
+            return self.identityId == other.identityId and self.reference == other.reference and self.qualifier == other.qualifier and self.appendent == other.appendent and self.utterance == other.utterance and self.labelList == other.labelList and self.version == other.version
+        return False
 
     def __repr__(self):
         return {'identityId': self.identityId, 'reference': self.reference, 'qualifier': self.qualifier, 'appendent': self.appendent, 'utterance': self.utterance, 'labelList': self.labelList, 'version': self.version}

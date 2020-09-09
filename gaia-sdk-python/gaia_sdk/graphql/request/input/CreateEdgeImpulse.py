@@ -23,7 +23,9 @@ class CreateEdgeImpulse():
         self.weight = weight
 
     def __eq__(self, other):
-        return self.source == other.source and self.target == other.target and self.type == other.type and self.weight == other.weight
+        if type(other) is type(self):
+            return self.source == other.source and self.target == other.target and self.type == other.type and self.weight == other.weight
+        return False
 
     def __repr__(self):
         return {'source': self.source, 'target': self.target, 'type': self.type, 'weight': self.weight}

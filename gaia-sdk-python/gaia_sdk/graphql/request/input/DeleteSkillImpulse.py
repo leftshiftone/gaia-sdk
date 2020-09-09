@@ -19,7 +19,9 @@ class DeleteSkillImpulse():
         self.reference = reference
 
     def __eq__(self, other):
-        return self.tenantId == other.tenantId and self.reference == other.reference
+        if type(other) is type(self):
+            return self.tenantId == other.tenantId and self.reference == other.reference
+        return False
 
     def __repr__(self):
         return {'tenantId': self.tenantId, 'reference': self.reference}
