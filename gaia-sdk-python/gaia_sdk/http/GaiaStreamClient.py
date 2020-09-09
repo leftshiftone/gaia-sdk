@@ -20,9 +20,13 @@ class GaiaStreamClient(object):
         return {'options': self.options}
 
     def post_json(self, payload, url_postfix: str = "") -> Response:
-        if is_dataclass(payload) and not isinstance(payload, type):
-            payload = asdict(payload)
+        if self._is_dataclass(payload) and not isinstance(payload, type):
+            payload = payload.__repr__()
         return self.transporter.transport(self.options, Payload.json(payload), url_postfix)
 
     def post_form_data(self, payload, url_postfix: str = "") -> Response:
         return self.transporter.transport(self.options, Payload.form_data(payload), url_postfix)
+
+    @staticmethod
+    def _is_dataclass(obj) -> bool:
+        return isinstance(obj.__repr__(), dict)

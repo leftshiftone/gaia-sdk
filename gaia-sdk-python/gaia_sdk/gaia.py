@@ -39,7 +39,7 @@ class Gaia:
     @staticmethod
     def login(url: str, credentials: UsernamePasswordCredentials) -> 'GaiaRef':
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(f"{url}/api/auth/access", json=asdict(credentials), headers=headers).json()
+        response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers).json()
         return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token))
 
 

@@ -27,9 +27,8 @@ class UsernamePasswordCredentials(GaiaCredentials):
     def __repr__(self):
         return {'username': self.username, 'password': self.password}
 
-
-def create_auth_header(self, options, payload: str) -> str:
-    raise NotImplementedError("Creating an authentication string is not implemented for the used credentials.")
+    def create_auth_header(self, options, payload: str) -> str:
+        raise NotImplementedError("Creating an authentication string is not implemented for the used credentials.")
 
 
 class HMACCredentials(GaiaCredentials):
