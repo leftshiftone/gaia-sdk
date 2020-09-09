@@ -7,7 +7,6 @@ class KotlinCodegenTest {
 
     @Test
     fun generate() {
-        //todo: delete files before creating in order to force removal of outdated files
         val schemaDir = File(this::class.java.getResource("/schema/schema.graphqls").file).parentFile
 
         val list = schemaDir.listFiles()!!

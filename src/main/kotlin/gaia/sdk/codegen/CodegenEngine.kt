@@ -46,6 +46,11 @@ class CodegenEngine(private val list: List<AbstractAST>, private val name: Strin
 
         File(JAVA, "request").deleteRecursively()
         File(JAVA, "response").deleteRecursively()
+        // TODO: align code generation with java and python
+        // File(JAVASCRIPT, "request").deleteRecursively()
+        // File(JAVASCRIPT, "response").deleteRecursively()
+        File(PYTHON, "request").deleteRecursively()
+        File(PYTHON, "response").deleteRecursively()
 
         list.filter { it is Type }.forEach {
             // java
