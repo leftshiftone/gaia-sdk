@@ -34,7 +34,7 @@ internal class MqttSensorQueueTest {
         val queue = MqttSensorQueue(QueueOptions("mqtt.beta.gaia.leftshift.one", 443))
         val header = QueueHeader(UUID.fromString("4a87c137-3894-4580-ae20-8a4f621b75fd"), UUID.randomUUID())
 
-        queue.connectToQueue()
+        queue.connect()
                 .andThen(queue.subscribe(INTERACTION, header) {
                     val type = object : TypeReference<ArrayList<HashMap<String, Any>>>() {}
                     val content = objectMapper.readValue(it.content, type)

@@ -10,7 +10,6 @@ import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
-import gaia.sdk.api.queue.*
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.ProvisionedSkillSpec
 import gaia.sdk.api.skill.SkillRef
@@ -26,7 +25,6 @@ import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.Retrieval
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
-import io.reactivex.Completable
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
@@ -101,7 +99,7 @@ class GaiaConfig(val url: String,
                  val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
                  val streamProcessor: ISensorStream = HttpSensorStream(url, credentials))
 
-class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorQueue {
+class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor
     private val qProc: ISensorQueue = config.queueProcessor
     private val sProc: ISensorStream = config.streamProcessor
@@ -170,17 +168,6 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorQueue {
     fun skill(url: String) = SkillRef(ISkillSpec.toSkillSpec(url), sProc)
     fun skill(spec: UnprovisionedSkillSpec) = SkillRef(spec, sProc)
     fun skill(spec: ProvisionedSkillSpec) = SkillRef(spec, sProc)
-
-    // Mqtt Queue
-    override fun connectToQueue(): Completable = qProc.connectToQueue()
-    override fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable = qProc.subscribe(type, header, consumer)
-    override fun unsubscribe(type: IQueueType, header: QueueHeader): Completable = qProc.unsubscribe(type, header)
-    override fun publish(type: IQueueType, header: QueueHeader, payload: QueuePayload<ByteArray>): Completable = qProc.publish(type, header, payload)
-    override fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit): Completable = qProc.subscribeConvContext(header, consumer)
-    override fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit): Completable = qProc.subscribeConvLogging(header, consumer)
-    override fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit): Completable = qProc.subscribeConvNotification(header, consumer)
-    override fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit): Completable = qProc.subscribeConvInteraction(header, consumer)
-    override fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction): Completable = qProc.publishConvInteraction(header, payload)
 }
 
 class UsernamePasswordCredentials(val username: String, val password: String)

@@ -49,7 +49,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
 
     private val client = initClient()
 
-    override fun connectToQueue(): Completable {
+    override fun connect(): Completable {
         return client.connect(Mqtt5Connect.builder().cleanStart(false)
                 .noSessionExpiry().keepAlive(10).build())
                 .doOnSuccess { onConnected() }

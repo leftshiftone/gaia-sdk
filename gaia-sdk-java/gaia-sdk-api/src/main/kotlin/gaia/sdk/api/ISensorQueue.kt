@@ -4,7 +4,7 @@ import gaia.sdk.api.queue.*
 import io.reactivex.Completable
 
 interface ISensorQueue {
-    fun connectToQueue(): Completable
+    fun connect(): Completable
     fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable
     fun unsubscribe(type: IQueueType, header: QueueHeader): Completable
     fun publish(type: IQueueType, header: QueueHeader, payload: QueuePayload<ByteArray>): Completable
