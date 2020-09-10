@@ -5,7 +5,6 @@ from gaia_sdk.graphql.response.type.Practice import Practice
 from gaia_sdk.graphql.response.type.Perception import Perception
 from gaia_sdk.graphql.response.type.Activation import Activation
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -20,12 +19,23 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Mutation:
     """
     The top level mutation type
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     """
     Sensor impulses for all perception based functions.
         Perceptions are used to invoke events within gaia.

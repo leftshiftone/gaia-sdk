@@ -6,7 +6,6 @@ from gaia_sdk.graphql.request.input.PerceiveButtonImpulse import PerceiveButtonI
 from gaia_sdk.graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
 from gaia_sdk.graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -21,12 +20,23 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Conversational:
     """
     Type which contains all impulses needed for the maintainence of a conversation
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     """
     Utterance perception impulse used to send an utterance text to gaia
     """

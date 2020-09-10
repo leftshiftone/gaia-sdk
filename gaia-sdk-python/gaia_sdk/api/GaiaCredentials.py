@@ -1,8 +1,7 @@
-import json
 import time
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 
+import json
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.graphql.GaiaScalars import UUID
 from gaia_sdk.http.HMACTokenBuilder import HMACTokenBuilder
@@ -14,19 +13,37 @@ class GaiaCredentials(ABC):
         pass
 
 
-@dataclass
 class UsernamePasswordCredentials(GaiaCredentials):
     username: str
     password: str
+
+    def __init__(self, username: str, password: str):
+        self.username = username
+        self.password = password
+
+    def __eq__(self, other):
+        return self.username == other.username and self.password == other.password
+
+    def __repr__(self):
+        return {'username': self.username, 'password': self.password}
 
     def create_auth_header(self, options, payload: str) -> str:
         raise NotImplementedError("Creating an authentication string is not implemented for the used credentials.")
 
 
-@dataclass
 class HMACCredentials(GaiaCredentials):
     apiKey: str
     apiSecret: str
+
+    def __init__(self, apiKey: str, apiSecret: str):
+        self.apiKey = apiKey
+        self.apiSecret = apiSecret
+
+    def __eq__(self, other):
+        return self.apiKey == other.apiKey and self.apiSecret == other.apiSecret
+
+    def __repr__(self):
+        return {'apiKey': self.apiKey, 'apiSecret': self.apiSecret}
 
     def create_auth_header(self, options, payload: str) -> str:
         timestamp = int(round(time.time()))
@@ -37,9 +54,17 @@ class HMACCredentials(GaiaCredentials):
             .with_payload(json.dumps(payload)).build()
 
 
-@dataclass
 class JWTCredentials(GaiaCredentials):
     token: str
+
+    def __init__(self, token):
+        self.token = token
+
+    def __eq__(self, other):
+        return self.token == other.token
+
+    def __repr__(self):
+        return {'token': self.token}
 
     def create_auth_header(self, options, payload: str) -> str:
         return "Bearer " + options.credentials.token

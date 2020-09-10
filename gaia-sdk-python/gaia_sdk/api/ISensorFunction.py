@@ -44,7 +44,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_identities(self, config: Callable[[IntentReq], None], limit: int, offset: int) -> Observable[IntentRes]:
+    def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int, offset: int) -> Observable[IdentityRes]:
         pass
 
     @abstractmethod
@@ -52,7 +52,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_intents(self, identityId: Uuid, config: Callable[[IdentityReq], None], limit: int, offset: int) -> Observable[IdentityRes]:
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int, offset: int) -> Observable[IntentRes]:
         pass
 
     @abstractmethod

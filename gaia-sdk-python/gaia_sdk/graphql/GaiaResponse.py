@@ -1,12 +1,19 @@
-from dataclasses import dataclass
 from gaia_sdk.graphql.response.type.Query import Query
 from gaia_sdk.graphql.response.type.Mutation import Mutation
 from gaia_sdk.graphql.response.type.Subscription import Subscription
 
 
-@dataclass
 class QueryResponse:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
 
     @property
     def data(self) -> Query:
@@ -21,9 +28,17 @@ class QueryResponse:
         return self.dictionary.get("errors")
 
 
-@dataclass
 class MutationResponse:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
 
     @property
     def data(self) -> Mutation:

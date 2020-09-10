@@ -1,12 +1,16 @@
-from dataclasses import dataclass
 from gaia_sdk.graphql.response.type.Query import Query
 from gaia_sdk.graphql.response.type.Mutation import Mutation
 from gaia_sdk.graphql.response.type.Subscription import Subscription
 
 
-@dataclass
 class QueryResponse:$newLine#*
-    *##tab(4)dictionary: dict$newLine#*
+    *##tab(4)dictionary: dict$newLine$newLine#*
+    *##tab(4)def __init__(self, dictionary: dict):$newLine#*
+    *##tab(8)self.dictionary = dictionary$newLine$newLine#*
+    *##tab(4)def __eq__(self, other):$newLine#*
+    *##tab(8)return self.dictionary == other.dictionary$newLine$newLine#*
+    *##tab(4)def __repr__(self):$newLine#*
+    *##tab(8)return {'dictionary': self.dictionary}$newLine#*
     *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def data(self) -> Query:#*
     *#$newLine#tab(8)return Query(self.dictionary.get("data"))$newLine#*
@@ -17,9 +21,14 @@ class QueryResponse:$newLine#*
     *#$newLine#tab(4)def errors(self) -> list:#*
     *#$newLine#tab(8)return self.dictionary.get("errors")##
 $newLine$newLine
-@dataclass
 class MutationResponse:$newLine#*
-    *##tab(4)dictionary: dict$newLine#*
+    *##tab(4)dictionary: dict$newLine$newLine#*
+    *##tab(4)def __init__(self, dictionary: dict):$newLine#*
+    *##tab(8)self.dictionary = dictionary$newLine$newLine#*
+    *##tab(4)def __eq__(self, other):$newLine#*
+    *##tab(8)return self.dictionary == other.dictionary$newLine$newLine#*
+    *##tab(4)def __repr__(self):$newLine#*
+    *##tab(8)return {'dictionary': self.dictionary}$newLine#*
     *#$newLine#tab(4)@property#*
     *#$newLine#tab(4)def data(self) -> Mutation:#*
     *#$newLine#tab(8)return Mutation(self.dictionary.get("data"))$newLine#*

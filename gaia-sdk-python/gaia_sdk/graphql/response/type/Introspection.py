@@ -1,7 +1,6 @@
 
 from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -16,9 +15,20 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Introspection:
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def cpu(self) -> String:
         return String(self.dictionary.get("cpu"))

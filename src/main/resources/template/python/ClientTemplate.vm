@@ -2,7 +2,6 @@ from gaia_sdk.api.VariableRegistry import VariableRegistry
 import itertools
 import random
 from typing import List, Callable
-from dataclasses import dataclass
 
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 from gaia_sdk.graphql.GaiaResponse import QueryResponse
@@ -13,11 +12,20 @@ from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.http.request.Payload import Payload
 
 
-@dataclass
 class #capitalize($name)Client(object):
 
 #tab(4)transporter: ITransporter
 #tab(4)options: ClientOptions
+
+#tab(4)def __init__(self, transporter: ITransporter, options: ClientOptions):
+#tab(8)self.transporter = transporter
+#tab(8)self.options = options
+
+#tab(4)def __eq__(self, other):
+#tab(8)return self.options == other.options
+
+#tab(4)def __repr__(self):
+#tab(8)return {'options': self.options}
 
 #tab(4)def execute_native(self, statement: str, variables: dict):
 #tab(8)payload = {"statement": statement, "variables": variables}

@@ -4,7 +4,6 @@ from gaia_sdk.graphql.response.type.PerceivedImpulse import PerceivedImpulse
 from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -19,13 +18,24 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class Perception:
     """
     This type contains all perception sensor impulses which are used to invoke
     events in gaia.
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     """
     Contains all perception fields needed for a conversation.
     """
