@@ -1,4 +1,3 @@
-from api.client_options import ClientOptions
 import base64
 from api.crypto import HMAC
 
