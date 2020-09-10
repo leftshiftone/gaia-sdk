@@ -1,11 +1,9 @@
 import functools
 import logging
-from dataclasses import dataclass
 from math import ceil
-from typing import List
-
 from rx import of
 from rx.core.typing import Observable
+from typing import List
 
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
 from gaia_sdk.http.request.BinaryReadImpulse import BinaryReadImpulse
@@ -95,12 +93,29 @@ class DataRef:
         return functools.reduce(lambda uri, part: f"{uri.rstrip('/')}/{part.lstrip('/')}", parts).rstrip('/')
 
 
-@dataclass
 class DataUpload:
     uri: str
     content: bytes
     number_of_chunks: int
     override: bool = False
+
+    def __init__(self, uri: str, content: bytes, number_of_chunks: int, override: bool = False):
+        self.uri = uri
+        self.content = content
+        self.number_of_chunks = number_of_chunks
+        self.override = override
+
+    def __eq__(self, other):
+        return self.uri == other.uri \
+               and self.content == other.content \
+               and self.number_of_chunks == other.number_of_chunks \
+               and self.override == other.override
+
+    def __repr__(self):
+        return {'uri': self.uri,
+                'content': self.content,
+                'number_of_chunks': self.number_of_chunks,
+                'override': self.override}
 
     def execute(self, client: GaiaStreamClient) -> DataRef:
         upload_id = self.init_upload(client).upload_id
