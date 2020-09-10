@@ -25,9 +25,10 @@ import com.hivemq.client.mqtt.mqtt5.Mqtt5RxClient
 import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5Connect
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish
 import gaia.sdk.api.ISensorQueue
+import gaia.sdk.api.queue.*
 import gaia.sdk.mqtt.async.SdkThreadFactory
 import gaia.sdk.mqtt.queue.*
-import gaia.sdk.mqtt.queue.ConversationQueueType.*
+import gaia.sdk.api.queue.ConversationQueueType.*
 import gaia.sdk.spi.QueueOptions
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -48,14 +49,14 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
 
     private val client = initClient()
 
-    fun connect(): Completable {
+    override fun connect(): Completable {
         return client.connect(Mqtt5Connect.builder().cleanStart(false)
                 .noSessionExpiry().keepAlive(10).build())
-                .doOnSuccess { handle() }
+                .doOnSuccess { onConnected() }
                 .ignoreElement()
     }
 
-    private fun handle() {
+    private fun onConnected() {
         client.publishes(SUBSCRIBED)
                 .onErrorResumeNext(Flowable.empty())
                 .map { QueueMessage(it) }
@@ -69,7 +70,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 }) { it.printStackTrace() }
     }
 
-    fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable {
+    override fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable {
         return client.subscribeWith()
                 .topicFilter(getTopic(type, header)).noLocal(true)
                 .applySubscribe()
@@ -82,7 +83,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .ignoreElement()
     }
 
-    fun unsubscribe(type: IQueueType, header: QueueHeader): Completable {
+    override fun unsubscribe(type: IQueueType, header: QueueHeader): Completable {
         return client.unsubscribeWith()
                 .topicFilter(getTopic(type, header))
                 .applyUnsubscribe()
@@ -95,7 +96,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .ignoreElement()
     }
 
-    fun publish(type: IQueueType, header: QueueHeader, payload: QueuePayload<ByteArray>): Completable {
+    override fun publish(type: IQueueType, header: QueueHeader, payload: QueuePayload<ByteArray>): Completable {
         val publish = Mqtt5Publish.builder()
                 .topic(getTopic(type, header))
                 .userProperties()
@@ -160,36 +161,32 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
         throw IllegalArgumentException("cannot handle queue type $type")
     }
 
-    fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit): Completable {
+    override fun subscribeConvContext(header: QueueHeader, consumer: (QueuePayload<ConvContext>) -> Unit): Completable {
         return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvContext::class.java)))
         }
     }
 
-    fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit): Completable {
+    override fun subscribeConvLogging(header: QueueHeader, consumer: (QueuePayload<ConvLogging>) -> Unit): Completable {
         return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvLogging::class.java)))
         }
     }
 
-    fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit): Completable {
+    override fun subscribeConvNotification(header: QueueHeader, consumer: (QueuePayload<ConvNotification>) -> Unit): Completable {
         return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvNotification::class.java)))
         }
     }
 
-    fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit): Completable {
+    override fun subscribeConvInteraction(header: QueueHeader, consumer: (QueuePayload<ConvInteraction>) -> Unit): Completable {
         return subscribe(CONTEXT, header) {
             consumer(QueuePayload(it.contentType, objectMapper.readValue(it.content, ConvInteraction::class.java)))
         }
     }
 
-    fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction): Completable {
+    override fun publishConvInteraction(header: QueueHeader, payload: ConvInteraction): Completable {
         val content = QueuePayload("application/json", objectMapper.writeValueAsBytes(payload.content))
         return publish(INTERACTION, header, content)
     }
-
 }
-
-
-

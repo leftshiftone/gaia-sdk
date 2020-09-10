@@ -1,4 +1,4 @@
-package gaia.sdk.mqtt.queue
+package gaia.sdk.api.queue
 
 data class QueuePayload<T>(val contentType: String, val content: T)
 
