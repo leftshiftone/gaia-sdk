@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.*
+import gaia.sdk.GaiaCredentials
+import gaia.sdk.JWTCredentials
+import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
@@ -44,44 +46,44 @@ class Gaia {
         fun login(url: String, credentials: UsernamePasswordCredentials): GaiaCredentials {
             val loginRequest = jsonparser.writeValueAsBytes(credentials)
             val response = HttpClient.create()
-                .headers {
-                    it.add("Content-Type", "application/json")
-                }
-                .followRedirect(true)
-                .post()
-                .uri("${url}/api/auth/access")
-                .send(Mono.just(Unpooled.copiedBuffer(loginRequest)))
-                .responseConnection { t, u ->
-                    u
-                            .inbound()
-                            .receive()
-                            .asByteArray()
-                            .buffer()
-                            .map { list ->
-                                val bos = ByteArrayOutputStream()
-                                list.forEach(bos::write)
-                                bos.toByteArray()
-                            }
-                            .switchIfEmpty(
-                                    Flux.just(t.status())
-                                            .flatMap {
-                                                if (it.code() >= 400) {
-                                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and no payload"
-                                                    Flux.error(HttpTransportException(msg))
-                                                } else {
-                                                    Flux.empty<ByteArray>()
-                                                }
-                                            }
-                            )
-                            .map { byteArray ->
-                                if (t.status().code() >= 400) {
-                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and payload: ${String(byteArray)}"
-                                    throw HttpTransportException(msg)
+                    .headers {
+                        it.add("Content-Type", "application/json")
+                    }
+                    .followRedirect(true)
+                    .post()
+                    .uri("${url}/api/auth/access")
+                    .send(Mono.just(Unpooled.copiedBuffer(loginRequest)))
+                    .responseConnection { t, u ->
+                        u
+                                .inbound()
+                                .receive()
+                                .asByteArray()
+                                .buffer()
+                                .map { list ->
+                                    val bos = ByteArrayOutputStream()
+                                    list.forEach(bos::write)
+                                    bos.toByteArray()
                                 }
+                                .switchIfEmpty(
+                                        Flux.just(t.status())
+                                                .flatMap {
+                                                    if (it.code() >= 400) {
+                                                        val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and no payload"
+                                                        Flux.error(HttpTransportException(msg))
+                                                    } else {
+                                                        Flux.empty<ByteArray>()
+                                                    }
+                                                }
+                                )
+                                .map { byteArray ->
+                                    if (t.status().code() >= 400) {
+                                        val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and payload: ${String(byteArray)}"
+                                        throw HttpTransportException(msg)
+                                    }
 
-                                jsonparser.readValue(byteArray, LoginResponse::class.java)
-                            }
-                }.cast(LoginResponse::class.java).blockFirst()
+                                    jsonparser.readValue(byteArray, LoginResponse::class.java)
+                                }
+                    }.cast(LoginResponse::class.java).blockFirst()
 
             response ?: throw Exception("No response received from login")
 
@@ -89,7 +91,6 @@ class Gaia {
         }
     }
 }
-
 
 
 class GaiaConfig(val url: String,
