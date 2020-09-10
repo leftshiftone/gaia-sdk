@@ -1,6 +1,5 @@
 #parse("/template/python/ResponseTypingMacros.vm")
 #renderImports($ast)$newLine
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str

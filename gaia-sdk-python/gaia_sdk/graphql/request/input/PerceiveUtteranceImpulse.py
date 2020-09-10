@@ -7,14 +7,19 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
 
-from dataclasses import dataclass
-
-
-@dataclass
 class PerceiveUtteranceImpulse():
     """
     Input for utterance perception impulse
     """
-
     utterance: str
 
+    def __init__(self, utterance: str):
+        self.utterance = utterance
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.utterance == other.utterance
+        return False
+
+    def __repr__(self):
+        return {'utterance': self.utterance}

@@ -1,7 +1,6 @@
 
 from gaia_sdk.graphql.response.type.Identity import Identity
 
-from dataclasses import dataclass
 from typing import List
 Uuid = str
 String = str
@@ -16,12 +15,23 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-@dataclass
 class UpdatedIdentityImpulse:
     """
     Impulse which indicates the result of a update identity impulse
     """
     dictionary: dict
+
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.dictionary == other.dictionary
+        return False
+
+    def __repr__(self):
+        return {'dictionary': self.dictionary}
+
     @property
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
