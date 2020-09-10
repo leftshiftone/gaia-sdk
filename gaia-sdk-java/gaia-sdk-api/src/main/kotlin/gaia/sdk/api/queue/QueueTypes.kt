@@ -14,7 +14,7 @@
  * from Leftshift One.
  */
 
-package gaia.sdk.mqtt.queue
+package gaia.sdk.api.queue
 
 interface IQueueType {
     fun getName():String

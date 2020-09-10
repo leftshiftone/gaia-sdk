@@ -18,9 +18,9 @@ package gaia.sdk.mqtt
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.mqtt.queue.ConvInteraction
-import gaia.sdk.mqtt.queue.ConversationQueueType.INTERACTION
-import gaia.sdk.mqtt.queue.QueueHeader
+import gaia.sdk.api.queue.ConvInteraction
+import gaia.sdk.api.queue.ConversationQueueType.INTERACTION
+import gaia.sdk.api.queue.QueueHeader
 import gaia.sdk.spi.QueueOptions
 import java.util.*
 import kotlin.collections.HashMap
