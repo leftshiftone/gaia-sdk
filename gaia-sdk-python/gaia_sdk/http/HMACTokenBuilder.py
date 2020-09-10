@@ -1,9 +1,6 @@
-from api.client_options import ClientOptions
+from gaia_sdk.api.crypto import HMAC
 import base64
-from api.crypto import HMAC
 
-
-#Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
 
 class HMACTokenBuilder(object):
 
@@ -31,10 +28,12 @@ class HMACTokenBuilder(object):
         HTTP_SENSOR_TYPE = "http"
         sep = "_"
 
-        arrayToHash = [base64.b64encode(self.payload.encode("utf-8")).decode(), self.client_options.content_type, HTTP_SENSOR_TYPE, self.timestamp, self.nonce]
-        prepareToHash= '_'.join([str(x) for x in arrayToHash])
+        arrayToHash = [base64.b64encode(self.payload.encode("utf-8")).decode(), self.client_options.content_type,
+                       HTTP_SENSOR_TYPE, self.timestamp, self.nonce]
+        prepareToHash = '_'.join([str(x) for x in arrayToHash])
         hmac = HMAC(self.client_options.credentials.apiSecret)
 
         signature = hmac.hash512(prepareToHash)
-        token = "HMAC-SHA512 " + self.client_options.credentials.apiKey + sep + signature + sep + str(self.timestamp) + sep + self.nonce
+        token = "HMAC-SHA512 " + self.client_options.credentials.apiKey + sep + signature + sep + str(
+            self.timestamp) + sep + self.nonce
         return token
