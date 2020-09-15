@@ -3,8 +3,9 @@ import unittest
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials
+from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, HMACCredentials
 from gaia_sdk.gaia import Gaia
+from gaia_sdk.http.errors.HttpError import HttpError
 from gaia_sdk.http.response.FileListing import FileListing
 
 logging.basicConfig(level=logging.DEBUG)
@@ -14,6 +15,11 @@ class TestDataRef(unittest.TestCase):
 
     def setUp(self):
         self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("username", "password"))
+
+    def test_http_error_produces_exception(self):
+        gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("incorrectApiKey", "incorrectSecret"))
+        self.assertRaises(HttpError, lambda: pipe(ops.first())(
+            gaia_ref.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").as_bytes()).run())
 
     def test_retrieve_data(self):
         result = pipe(ops.first())(
@@ -27,7 +33,7 @@ class TestDataRef(unittest.TestCase):
 
     def test_overwrite_existing_file_doesnt_work(self):
         data = bytes("234", encoding="utf-8")
-        self.assertRaises(ValueError,
+        self.assertRaises(HttpError,
                           lambda: self.gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", data).pipe(
                               ops.first()).run())
 
