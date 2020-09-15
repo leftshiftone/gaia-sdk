@@ -2,13 +2,22 @@
  * @jest-environment node
  */
 import {Gaia, GaiaRef} from "../Gaia";
-import {UsernamePasswordCredentials} from "..";
+import {HMACCredentials, UsernamePasswordCredentials} from "..";
 import Blob from "cross-blob"
 
 describe("dataref tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);
+    })
+
+    test('test http error code raises exception', () => {
+        return new Promise(async (resolve, reject) => {
+            const gaiaRef = Gaia.connect("https://neuron.beta.gaia.leftshift.one,", new HMACCredentials("incorrectApiKey", "incorrectApiSecret"))
+            const observable = gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").asFile();
+            observable.subscribe(reject, error => resolve(error));
+        });
+
     })
 
     test('test write new file', () => {

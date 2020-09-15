@@ -29,7 +29,21 @@ class HttpTransporter(ITransporter):
         else:
             raise ValueError(f"Unsupported type for payload {payload.payload_type}")
         self.logger.debug("response: %r", response)
+        if response.status_code != 200:
+            raise self.__raise_for_status_code(unsuccessful_response=response)
         return response
+
+    def __raise_for_status_code(self, unsuccessful_response: Response) -> Exception:
+
+        def with_message(response: Response, message: str):
+            return Exception(f"[{response.status_code}] - " + message)
+
+        if unsuccessful_response.status_code == 401:
+            return with_message(unsuccessful_response,
+                                f"Could not authenticate with '{unsuccessful_response.url}': {unsuccessful_response.text}")
+        if unsuccessful_response.status_code == 500:
+            return with_message(unsuccessful_response, "Server error: '{unsuccessful_response.text}'")
+        return with_message(unsuccessful_response, f"Unknown error occurred: {unsuccessful_response.text}")
 
     @staticmethod
     def build_authorization_header(options: ClientOptions, payload: dict) -> str:
