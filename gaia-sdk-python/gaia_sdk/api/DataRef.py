@@ -34,7 +34,7 @@ class DataRef:
         :param override: (optional) Flag to specify if existing files should be overwritten. If set to false, the method
         will throw an exception when trying to overwrite an existing file.
         :return: :class:`Observable[DataRef]` object: Reference to the newly uploaded file
-        :exception ValueError: Error thrown if the upload fails due to override being set to false.
+        :exception HttpError: Error thrown if the upload fails due to override being set to false.
         """
         file_uri = DataRef.concat_uri(self.uri, file_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
@@ -46,7 +46,9 @@ class DataRef:
     def list(self) -> Observable[List[FileListing]]:
         r"""Lists all files sharing the current uri as prefix.
 
-        :return: :class:`Observable[List[FileListing]]` object: List of files that share the current uri as prefix."""
+        :return: :class:`Observable[List[FileListing]]` object: List of files that share the current uri as prefix.
+        :exception HttpError: Error thrown if the list operation fails.
+        """
         self.logger.debug(f"Started list at uri {self.uri}")
         response = self.client.post_json(ListFilesImpulse(self.uri), "/data/list").json()
         self.logger.debug(f"Completed list at uri {self.uri}")
@@ -55,7 +57,9 @@ class DataRef:
     def as_bytes(self) -> Observable[bytes]:
         r"""Downloads the file at the current uri and returns it as bytes.
 
-        :return: :class:`Observable[bytes]` object: File as bytes."""
+        :return: :class:`Observable[bytes]` object: File as bytes.
+        :exception HttpError: Error thrown if the download operation fails.
+        """
         self.logger.debug(f"Started download from {self.uri}")
         response = self.client.post_json(BinaryReadImpulse(self.uri), "/data/source").content
         self.logger.debug(f"Completed download from {self.uri}")
@@ -69,7 +73,9 @@ class DataRef:
         r"""Removes the file at the current uri and provides information if it existed.
 
         :return: :class:`Observable[FileRemoved]` object: Response to remove request that contains information if the
-        file existed."""
+        file existed.
+        :exception HttpError: Error thrown if the remove operation fails.
+        """
         return self.remove_file("")
 
     def remove_file(self, file_name: str) -> Observable[FileRemoved]:
@@ -77,7 +83,9 @@ class DataRef:
 
         :param file_name: Name of the file at the current uri to be removed.
         :return: :class:`Observable[FileRemoved]` object: Response to remove request that contains information if the
-        file existed."""
+        file existed.
+        :exception HttpError: Error thrown if the remove operation fails.
+        """
         file_uri = DataRef.concat_uri(self.uri, file_name)
         self.logger.debug(f"Started removing file at {file_uri}")
         response = self.client.post_json(RemoveFileImpulse(file_uri), "/data/remove").json()
@@ -128,8 +136,6 @@ class DataUpload:
                                                            self.number_of_chunks,
                                                            len(self.content),
                                                            self.override), "/data/sink/init")
-        if response.status_code >= 400:
-            raise ValueError(response.content)
         return InitializedBinaryWrite(response.json())
 
     def upload_chunks(self, client: GaiaStreamClient, upload_id: str) -> List[str]:
