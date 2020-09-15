@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.UpdatedTenantImpulse import UpdatedTenantImpulse
 from gaia_sdk.graphql.response.type.UpdatedStatementImpulse import UpdatedStatementImpulse
 from gaia_sdk.graphql.response.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
@@ -11,6 +12,7 @@ from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImp
 from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
 from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
 from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.UpdateTenantImpulse import UpdateTenantImpulse
 from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
@@ -52,6 +54,12 @@ class UpdateKnowledge:
     @property
     def identities(self) -> List[UpdatedIdentityImpulse]:
         return list(map(lambda x: UpdatedIdentityImpulse(x), self.dictionary.get("identities")))
+    """
+    updates a list of tenants with the given specifications
+    """
+    @property
+    def tenants(self) -> List[UpdatedTenantImpulse]:
+        return list(map(lambda x: UpdatedTenantImpulse(x), self.dictionary.get("tenants")))
     """
     updates a list of intents with the given specifications
     """

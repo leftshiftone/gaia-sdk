@@ -8,6 +8,8 @@ export {Edge as EdgeReq} from "./request/type/Edge";
 export {Edge as EdgeRes} from "./response/type/Edge";
 export {Identity as IdentityReq} from "./request/type/Identity";
 export {Identity as IdentityRes} from "./response/type/Identity";
+export {Tenant as TenantReq} from "./request/type/Tenant";
+export {Tenant as TenantRes} from "./response/type/Tenant";
 export {Intent as IntentReq} from "./request/type/Intent";
 export {Intent as IntentRes} from "./response/type/Intent";
 export {Prompt as PromptReq} from "./request/type/Prompt";

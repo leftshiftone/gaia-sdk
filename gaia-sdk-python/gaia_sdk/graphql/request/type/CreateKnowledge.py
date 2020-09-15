@@ -1,5 +1,6 @@
 
 from gaia_sdk.graphql.request.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
+from gaia_sdk.graphql.request.type.CreatedTenantImpulse import CreatedTenantImpulse
 from gaia_sdk.graphql.request.type.CreatedEdgeImpulse import CreatedEdgeImpulse
 from gaia_sdk.graphql.request.type.CreatedCodeImpulse import CreatedCodeImpulse
 from gaia_sdk.graphql.request.type.CreatedPromptImpulse import CreatedPromptImpulse
@@ -10,6 +11,7 @@ from gaia_sdk.graphql.request.type.CreatedSkillImpulse import CreatedSkillImpuls
 from gaia_sdk.graphql.request.type.CreatedIdentityImpulse import CreatedIdentityImpulse
 from gaia_sdk.graphql.request.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
+from gaia_sdk.graphql.request.input.CreateTenantImpulse import CreateTenantImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateSkillImpulse import CreateSkillImpulse
@@ -38,6 +40,17 @@ class CreateKnowledge(list):
             entity = CreatedIdentityImpulse()
             config(entity)
             return f'identities(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    creates a list of tenants with the given specifications
+    """
+    def tenants(self, impulses: List[CreateTenantImpulse], config: Callable[['CreatedTenantImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = CreatedTenantImpulse()
+            config(entity)
+            return f'tenants(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

@@ -1,5 +1,6 @@
 
 import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
+import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedEdgeImpulse} from "./CreatedEdgeImpulse";
 import {CreatedCodeImpulse} from "./CreatedCodeImpulse";
 import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
@@ -10,6 +11,7 @@ import {CreatedSkillImpulse} from "./CreatedSkillImpulse";
 import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
+import {CreateTenantImpulse} from "../input/CreateTenantImpulse";
 import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
 import {CreateSkillImpulse} from "../input/CreateSkillImpulse";
@@ -38,6 +40,16 @@ export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new CreatedIdentityImpulse();
         config(entity);
         return `identities(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of tenants with the given specifications
+     */
+    public tenants = (impulses: [CreateTenantImpulse]|undefined, config: (_:CreatedTenantImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedTenantImpulse();
+        config(entity);
+        return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

@@ -14,6 +14,10 @@ data class DeleteKnowledge @JsonCreator constructor(
     */
     @JsonProperty("identities") val identities:List<DeletedIdentityImpulse>?, 
     /**
+    * deletes a list of tenants with the given specifications
+    */
+    @JsonProperty("tenants") val tenants:List<DeletedTenantImpulse>?, 
+    /**
     * deletes a list of intents with the given specifications
     */
     @JsonProperty("intents") val intents:List<DeletedIntentImpulse>?, 

@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.request.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
 from gaia_sdk.graphql.request.type.Skill import Skill
+from gaia_sdk.graphql.request.type.Tenant import Tenant
 from gaia_sdk.graphql.request.type.Behaviour import Behaviour
 from gaia_sdk.graphql.request.type.Statement import Statement
 from gaia_sdk.graphql.request.type.Intent import Intent
@@ -18,6 +19,25 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 
 
 class Knowledge(list):
+
+    def tenants(self, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Tenant'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("limit", limit)
+            name2 = registry.register("offset", offset)
+            name3 = registry.register("orderBy", orderBy)
+            name4 = registry.register("order", order)
+            entity = Tenant()
+            config(entity)
+            return f'tenants(limit:{name1}, offset:{name2}, orderBy:{name3}, order:{name4})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def tenant(self, tenantId: str, config: Callable[['Tenant'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            entity = Tenant()
+            config(entity)
+            return f'tenant(tenantId:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
 
     def identities(self, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Identity'], None]):
         def callback(registry: VariableRegistry):

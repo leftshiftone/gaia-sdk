@@ -20,6 +20,14 @@ class DeleteKnowledge: Type() {
     }
 
     /**
+     * deletes a list of tenants with the given specifications
+     */
+    fun tenants(impulses : Array<out DeleteTenantImpulse>?, config: DeletedTenantImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "tenants(impulses:$name1){" + DeletedTenantImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * deletes a list of intents with the given specifications
      */
     fun intents(impulses : Array<out DeleteIntentImpulse>?, config: DeletedIntentImpulse.() -> Unit) = add {

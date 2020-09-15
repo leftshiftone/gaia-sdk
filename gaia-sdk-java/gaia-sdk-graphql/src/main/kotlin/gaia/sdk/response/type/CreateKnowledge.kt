@@ -14,6 +14,10 @@ data class CreateKnowledge @JsonCreator constructor(
     */
     @JsonProperty("identities") val identities:List<CreatedIdentityImpulse>?, 
     /**
+    * creates a list of tenants with the given specifications
+    */
+    @JsonProperty("tenants") val tenants:List<CreatedTenantImpulse>?, 
+    /**
     * creates a list of intents with the given specifications
     */
     @JsonProperty("intents") val intents:List<CreatedIntentImpulse>?, 

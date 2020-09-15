@@ -2,6 +2,7 @@
 import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
 import {Skill} from "./Skill";
+import {Tenant} from "./Tenant";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
@@ -18,6 +19,8 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 export interface Knowledge {
+    tenants?:[Tenant], 
+    tenant?:Tenant, 
     identities?:[Identity], 
     identity?:Identity, 
     intents?:[Intent], 

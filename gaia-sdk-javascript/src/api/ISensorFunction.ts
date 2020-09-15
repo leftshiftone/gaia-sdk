@@ -16,6 +16,8 @@ import {
     FulfilmentRes,
     IdentityReq,
     IdentityRes,
+    TenantReq,
+    TenantRes,
     IntentReq,
     IntentRes,
     IntrospectionReq,
@@ -97,6 +99,12 @@ import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpu
 import {CreatedIdentityImpulse} from "../graphql/response/type/CreatedIdentityImpulse";
 import {UpdatedIdentityImpulse} from "../graphql/response/type/UpdatedIdentityImpulse";
 import {DeletedIdentityImpulse} from "../graphql/response/type/DeletedIdentityImpulse";
+import {CreateTenantImpulse} from "../graphql/request/input/CreateTenantImpulse";
+import {CreatedTenantImpulse} from "../graphql/response/type/CreatedTenantImpulse";
+import {UpdatedTenantImpulse} from "../graphql/response/type/UpdatedTenantImpulse";
+import {DeletedTenantImpulse} from "../graphql/response/type/DeletedTenantImpulse";
+import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
+import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -112,6 +120,10 @@ export interface ISensorFunction {
     retrieveIdentities(config: (x: IdentityReq) => void, limit?: Number, offset?: Number): Observable<IdentityRes>
 
     retrieveIdentity(identityId: Uuid, config: (x: IdentityReq) => void): Observable<IdentityRes>
+
+    retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes>
+
+    retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void) : Observable<TenantRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
@@ -156,6 +168,12 @@ export interface ISensorFunction {
     preserveUpdateIdentities(...impulses: [UpdateIdentityImpulse]): Observable<UpdatedIdentityImpulse>
 
     preserveDeleteIdentities(...impulses: [DeleteIdentityImpulse]): Observable<DeletedIdentityImpulse>
+
+    preserveCreateTenants(...impulses: [CreateTenantImpulse]): Observable<CreatedTenantImpulse>
+
+    preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse>
+
+    preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse>
 
     preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse>
 

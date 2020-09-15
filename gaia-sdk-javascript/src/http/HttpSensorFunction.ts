@@ -41,7 +41,7 @@ import {
     SkillReq,
     SkillRes,
     StatementReq,
-    StatementRes,
+    StatementRes, TenantReq, TenantRes,
     UpdatedIntentImpulse,
     UpdateIntentImpulse
 } from "../graphql";
@@ -102,6 +102,12 @@ import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpu
 import {CreatedIdentityImpulse} from "../graphql/response/type/CreatedIdentityImpulse";
 import {UpdatedIdentityImpulse} from "../graphql/response/type/UpdatedIdentityImpulse";
 import {DeletedIdentityImpulse} from "../graphql/response/type/DeletedIdentityImpulse";
+import {CreateTenantImpulse} from "../graphql/request/input/CreateTenantImpulse";
+import {CreatedTenantImpulse} from "../graphql/response/type/CreatedTenantImpulse";
+import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
+import {UpdatedTenantImpulse} from "../graphql/response/type/UpdatedTenantImpulse";
+import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
+import {DeletedTenantImpulse} from "../graphql/response/type/DeletedTenantImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -157,6 +163,20 @@ export class HttpSensorFunction implements ISensorFunction {
             g.knowledge(g => g.identity(identityId, config));
         }))));
         return Rx.mapQ<IdentityRes>(observable, (e) => e.retrieve!.knowledge!.identity!);
+    }
+
+    public retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.tenants(limit, offset, undefined, undefined, config));
+        }))));
+        return Rx.flatMapQ<TenantRes>(observable, (e) => e.retrieve!.knowledge!.tenants!);
+    }
+
+    public retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void): Observable<TenantRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.tenant(tenantId, config));
+        }))));
+        return Rx.mapQ<TenantRes>(observable, (e) => e.retrieve!.knowledge!.tenant!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes> {
@@ -305,6 +325,27 @@ export class HttpSensorFunction implements ISensorFunction {
             p.delete(_ => _.identities(impulses, i => i.id()))
         }))));
         return Rx.flatMapM<DeletedIdentityImpulse>(observable, (e) => e.preserve!.delete!.identities!);
+    }
+
+    public preserveCreateTenants(...impulses: [CreateTenantImpulse]): Observable<CreatedTenantImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.tenants(impulses, i => i.id()));
+        }))));
+        return Rx.flatMapM<CreatedTenantImpulse>(observable, (e) => e.preserve!.create!.tenants!);
+    }
+
+    public preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.tenants(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<UpdatedTenantImpulse>(observable, (e) => e.preserve!.update!.tenants!);
+    }
+
+    public preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.tenants(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<DeletedTenantImpulse>(observable, (e) => e.preserve!.delete!.tenants!);
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {

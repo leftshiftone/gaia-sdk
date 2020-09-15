@@ -20,6 +20,14 @@ class UpdateKnowledge: Type() {
     }
 
     /**
+     * updates a list of tenants with the given specifications
+     */
+    fun tenants(impulses : Array<out UpdateTenantImpulse>?, config: UpdatedTenantImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "tenants(impulses:$name1){" + UpdatedTenantImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * updates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out UpdateIntentImpulse>?, config: UpdatedIntentImpulse.() -> Unit) = add {
