@@ -11,6 +11,8 @@ type Preservation {
 type CreateKnowledge {
     "creates a list of identities with the given specifications"
     identities(impulses: [CreateIdentityImpulse]): [CreatedIdentityImpulse]
+    "creates a list of tenants with the given specifications"
+    tenants(impulses: [CreateTenantImpulse]): [CreatedTenantImpulse]
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "creates a list of prompts with the given specifications"
@@ -33,6 +35,8 @@ type CreateKnowledge {
 type UpdateKnowledge {
     "updates a list of identities with the given specifications"
     identities(impulses: [UpdateIdentityImpulse]): [UpdatedIdentityImpulse]
+    "updates a list of tenants with the given specifications"
+    tenants(impulses: [UpdateTenantImpulse]): [UpdatedTenantImpulse]
     "updates a list of intents with the given specifications"
     intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
@@ -53,6 +57,8 @@ type UpdateKnowledge {
 type DeleteKnowledge {
     "deletes a list of identities with the given specifications"
     identities(impulses: [DeleteIdentityImpulse]): [DeletedIdentityImpulse]
+    "deletes a list of tenants with the given specifications"
+    tenants(impulses: [DeleteTenantImpulse]): [DeletedTenantImpulse]
     "deletes a list of intents with the given specifications"
     intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
@@ -102,6 +108,47 @@ type UpdatedIdentityImpulse implements Impulse {
 type DeletedIdentityImpulse implements Impulse {
     id: Uuid!
     data: KeyOne
+}
+
+"This entity represents the output of a delete tenant impulse"
+type TenantKeyOne {
+    tenantId: Uuid
+    reference: Uuid
+}
+
+"The specification to create a tenant"
+input CreateTenantImpulse {
+    qualifier: String!
+    implicitIdentities: [String]
+    explicitIdentities: [String]
+}
+"The specification to update a tenant"
+input UpdateTenantImpulse {
+    tenantId: Uuid!
+    qualifier: String!
+    implicitIdentities: [String]
+    explicitIdentities: [String]
+}
+"The specification to delete a tenant"
+input DeleteTenantImpulse {
+    tenantId: Uuid!
+}
+"Impulse which indicates the result of a create Tenant impulse"
+type CreatedTenantImpulse implements Impulse {
+    id: Uuid!
+    "the Tenant instance"
+    data: Tenant
+}
+"Impulse which indicates the result of a update Tenant impulse"
+type UpdatedTenantImpulse implements Impulse {
+    id: Uuid!
+    "the Tenant instance"
+    data: Tenant
+}
+"Impulse which indicates the result of a delete Tenant impulse"
+type DeletedTenantImpulse implements Impulse {
+    id: Uuid!
+    data: TenantKeyOne
 }
 
 "The specification to create an intent instance"

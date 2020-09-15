@@ -10,6 +10,18 @@ type Identity {
     qualifier: String
 }
 
+"Represents tenant information"
+type Tenant {
+    "The tenant id"
+    tenantId: Uuid
+    "The name of the tenant"
+    qualifier: String
+    "The list of implicit identities"
+    implicitIdentities: [String]
+    "The list of explicit identities"
+    explicitIdentities: [String]
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"

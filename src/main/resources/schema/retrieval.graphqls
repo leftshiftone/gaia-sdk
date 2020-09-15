@@ -9,8 +9,8 @@ type Knowledge {
     # TODO add users()
     # TODO add user(id)
 
-    # TODO add tenants()
-    # TODO add tenant(id)
+    tenants(limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Tenant]
+    tenant(tenantId: Uuid): Tenant
 
     # TODO add apiKeys()
     # TODO add apiKey(id) maybe?
