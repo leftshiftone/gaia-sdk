@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.request.type.DeletedIdentityImpulse import DeletedIdentityImpulse
 from gaia_sdk.graphql.request.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.request.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
+from gaia_sdk.graphql.request.type.DeletedTenantImpulse import DeletedTenantImpulse
 from gaia_sdk.graphql.request.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpulse
 from gaia_sdk.graphql.request.type.DeletedPromptImpulse import DeletedPromptImpulse
@@ -15,6 +16,7 @@ from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
+from gaia_sdk.graphql.request.input.DeleteTenantImpulse import DeleteTenantImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
@@ -38,6 +40,17 @@ class DeleteKnowledge(list):
             entity = DeletedIdentityImpulse()
             config(entity)
             return f'identities(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    deletes a list of tenants with the given specifications
+    """
+    def tenants(self, impulses: List[DeleteTenantImpulse], config: Callable[['DeletedTenantImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = DeletedTenantImpulse()
+            config(entity)
+            return f'tenants(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

@@ -27,6 +27,9 @@ import {HMACCredentials} from "../api/GaiaCredentials";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
 import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
+import {CreateTenantImpulse} from "../graphql/request/input/CreateTenantImpulse";
+import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
+import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
 
 describe("perception tests:", () => {
 
@@ -66,6 +69,45 @@ describe("perception tests:", () => {
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveDeleteIdentities(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve create tenant', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new CreateTenantImpulse("",[],[]);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateTenants(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update tenant', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new UpdateTenantImpulse(uuid(), "",[],[]);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateTenants(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete tenant', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new DeleteTenantImpulse(uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteTenants(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);

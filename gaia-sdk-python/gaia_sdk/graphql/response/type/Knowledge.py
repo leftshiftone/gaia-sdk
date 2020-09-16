@@ -10,6 +10,7 @@ from gaia_sdk.graphql.response.type.Prompt import Prompt
 from gaia_sdk.graphql.response.type.Skill import Skill
 from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.response.type.Statement import Statement
+from gaia_sdk.graphql.response.type.Tenant import Tenant
 
 Uuid = str
 String = str
@@ -34,6 +35,12 @@ class Knowledge:
     def __repr__(self):
         return {'dictionary': self.dictionary}
 
+    @property
+    def tenants(self) -> List[Tenant]:
+        return list(map(lambda x: Tenant(x), self.dictionary.get("tenants")))
+    @property
+    def tenant(self) -> Tenant:
+        return Tenant(self.dictionary.get("tenant"))
     @property
     def identities(self) -> List[Identity]:
         return list(map(lambda x: Identity(x), self.dictionary.get("identities")))

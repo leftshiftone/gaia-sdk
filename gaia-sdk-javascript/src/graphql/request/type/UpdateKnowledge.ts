@@ -1,4 +1,5 @@
 
+import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
@@ -11,6 +12,7 @@ import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
 import {UpdateStatementImpulse} from "../input/UpdateStatementImpulse";
 import {UpdateBehaviourImpulse} from "../input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../input/UpdateSkillProvisionImpulse";
+import {UpdateTenantImpulse} from "../input/UpdateTenantImpulse";
 import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../input/UpdatePromptImpulse";
@@ -36,6 +38,16 @@ export class UpdateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new UpdatedIdentityImpulse();
         config(entity);
         return `identities(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of tenants with the given specifications
+     */
+    public tenants = (impulses: [UpdateTenantImpulse]|undefined, config: (_:UpdatedTenantImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedTenantImpulse();
+        config(entity);
+        return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

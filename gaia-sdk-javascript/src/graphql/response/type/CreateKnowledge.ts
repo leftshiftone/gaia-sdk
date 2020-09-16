@@ -1,5 +1,6 @@
 
 import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
+import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedEdgeImpulse} from "./CreatedEdgeImpulse";
 import {CreatedCodeImpulse} from "./CreatedCodeImpulse";
 import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
@@ -10,6 +11,7 @@ import {CreatedSkillImpulse} from "./CreatedSkillImpulse";
 import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
 import {CreateIntentImpulse} from "../../request/input/CreateIntentImpulse";
+import {CreateTenantImpulse} from "../../request/input/CreateTenantImpulse";
 import {CreatePromptImpulse} from "../../request/input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../../request/input/CreateBehaviourImpulse";
 import {CreateSkillImpulse} from "../../request/input/CreateSkillImpulse";
@@ -32,6 +34,10 @@ export interface CreateKnowledge {
     * creates a list of identities with the given specifications
     */
     identities?:[CreatedIdentityImpulse], 
+    /**
+    * creates a list of tenants with the given specifications
+    */
+    tenants?:[CreatedTenantImpulse], 
     /**
     * creates a list of intents with the given specifications
     */

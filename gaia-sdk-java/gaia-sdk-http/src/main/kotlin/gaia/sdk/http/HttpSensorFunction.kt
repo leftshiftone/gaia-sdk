@@ -40,6 +40,12 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
     override fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { identity(identityId, config) } } })) { it.retrieve?.knowledge?.identity!! }
 
+    override fun retrieveTenants(config: Tenant.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { tenants(limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.tenants!! }
+
+    override fun retrieveTenant(tenantId: Uuid, config: Tenant.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { tenant(tenantId, config) } } })) { it.retrieve?.knowledge?.tenant!! }
+
     override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
@@ -127,6 +133,42 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                     }
                 } } } })) {
                 it.preserve?.delete?.identities!!
+            }
+
+    override fun preserveCreateTenants(vararg impulses: CreateTenantImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { tenants(impulses) {
+                id()
+                data{
+                    tenantId()
+                    qualifier()
+                    implicitIdentities()
+                    explicitIdentities()
+                }
+            } } } })) {
+                it.preserve?.create?.tenants!!
+            }
+
+    override fun preserveUpdateTenants(vararg impulses: UpdateTenantImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { tenants(impulses) {
+                id()
+                data{
+                    tenantId()
+                    qualifier()
+                    implicitIdentities()
+                    explicitIdentities()
+                }
+            } } } })) {
+                it.preserve?.update?.tenants!!
+            }
+
+    override fun preserveDeleteTenants(vararg impulses: DeleteTenantImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { tenants(impulses) {
+                id()
+                data {
+                    tenantId()
+                }
+            } } } })) {
+                it.preserve?.delete?.tenants!!
             }
 
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) =

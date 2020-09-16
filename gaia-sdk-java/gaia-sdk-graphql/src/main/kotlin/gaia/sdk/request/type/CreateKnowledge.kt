@@ -20,6 +20,14 @@ class CreateKnowledge: Type() {
     }
 
     /**
+     * creates a list of tenants with the given specifications
+     */
+    fun tenants(impulses : Array<out CreateTenantImpulse>?, config: CreatedTenantImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "tenants(impulses:$name1){" + CreatedTenantImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * creates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out CreateIntentImpulse>?, config: CreatedIntentImpulse.() -> Unit) = add {

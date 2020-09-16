@@ -2,6 +2,7 @@
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
+import {DeletedTenantImpulse} from "./DeletedTenantImpulse";
 import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
@@ -15,6 +16,7 @@ import {DeleteEdgeImpulse} from "../input/DeleteEdgeImpulse";
 import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
+import {DeleteTenantImpulse} from "../input/DeleteTenantImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
 import {DeleteSkillImpulse} from "../input/DeleteSkillImpulse";
 import {DeleteSkillProvisionImpulse} from "../input/DeleteSkillProvisionImpulse";
@@ -38,6 +40,16 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new DeletedIdentityImpulse();
         config(entity);
         return `identities(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of tenants with the given specifications
+     */
+    public tenants = (impulses: [DeleteTenantImpulse]|undefined, config: (_:DeletedTenantImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedTenantImpulse();
+        config(entity);
+        return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

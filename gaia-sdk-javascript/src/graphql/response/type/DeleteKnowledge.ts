@@ -2,6 +2,7 @@
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
+import {DeletedTenantImpulse} from "./DeletedTenantImpulse";
 import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
@@ -15,6 +16,7 @@ import {DeleteEdgeImpulse} from "../../request/input/DeleteEdgeImpulse";
 import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteBehaviourImpulse} from "../../request/input/DeleteBehaviourImpulse";
+import {DeleteTenantImpulse} from "../../request/input/DeleteTenantImpulse";
 import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
 import {DeleteSkillImpulse} from "../../request/input/DeleteSkillImpulse";
 import {DeleteSkillProvisionImpulse} from "../../request/input/DeleteSkillProvisionImpulse";
@@ -32,6 +34,10 @@ export interface DeleteKnowledge {
     * deletes a list of identities with the given specifications
     */
     identities?:[DeletedIdentityImpulse], 
+    /**
+    * deletes a list of tenants with the given specifications
+    */
+    tenants?:[DeletedTenantImpulse], 
     /**
     * deletes a list of intents with the given specifications
     */

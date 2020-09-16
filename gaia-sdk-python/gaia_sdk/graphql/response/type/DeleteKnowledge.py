@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
 from gaia_sdk.graphql.response.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
+from gaia_sdk.graphql.response.type.DeletedTenantImpulse import DeletedTenantImpulse
 from gaia_sdk.graphql.response.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
 from gaia_sdk.graphql.response.type.DeletedPromptImpulse import DeletedPromptImpulse
@@ -15,6 +16,7 @@ from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
+from gaia_sdk.graphql.request.input.DeleteTenantImpulse import DeleteTenantImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
@@ -54,6 +56,12 @@ class DeleteKnowledge:
     @property
     def identities(self) -> List[DeletedIdentityImpulse]:
         return list(map(lambda x: DeletedIdentityImpulse(x), self.dictionary.get("identities")))
+    """
+    deletes a list of tenants with the given specifications
+    """
+    @property
+    def tenants(self) -> List[DeletedTenantImpulse]:
+        return list(map(lambda x: DeletedTenantImpulse(x), self.dictionary.get("tenants")))
     """
     deletes a list of intents with the given specifications
     """

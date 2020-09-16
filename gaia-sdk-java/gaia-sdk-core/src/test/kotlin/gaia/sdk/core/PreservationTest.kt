@@ -58,6 +58,42 @@ abstract class PreservationTest {
     }
 
     @Test
+    fun `test preserve create tenant`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateTenantImpulse("", emptyArray(), emptyArray())
+
+        val publisher = gaiaRef.preserveCreateTenants(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update tenant`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateTenantImpulse(UUID.randomUUID().toString(), "", emptyArray(), emptyArray())
+
+        val publisher = gaiaRef.preserveUpdateTenants(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete tenant`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteTenantImpulse(UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteTenants(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
     fun `test preserve create intent`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")

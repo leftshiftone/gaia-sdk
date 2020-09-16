@@ -19,12 +19,14 @@ import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
-import gaia.sdk.request.type.Edge
-import gaia.sdk.request.type.Experience
-import gaia.sdk.request.type.Knowledge
-import gaia.sdk.request.type.Retrieval
+import gaia.sdk.request.type.*
+import gaia.sdk.response.type.CreatedTenantImpulse
+import gaia.sdk.response.type.DeletedTenantImpulse
+import gaia.sdk.response.type.Tenant
+import gaia.sdk.response.type.UpdatedTenantImpulse
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
+import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
@@ -113,6 +115,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntent(identityId, reference, config)
     override fun retrieveIdentities(config: gaia.sdk.request.type.Identity.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveIdentities(config, limit, offset)
     override fun retrieveIdentity(identityId: Uuid, config: gaia.sdk.request.type.Identity.() -> Unit) = fProc.retrieveIdentity(identityId, config)
+    override fun retrieveTenants(config: gaia.sdk.request.type.Tenant.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveTenants(config, limit, offset)
+    override fun retrieveTenant(tenantId: Uuid, config: gaia.sdk.request.type.Tenant.() -> Unit) = fProc.retrieveTenant(tenantId, config)
     override fun retrievePrompts(identityId: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit, limit: Int?, offset: Long?) = fProc.retrievePrompts(identityId, config, limit, offset)
     override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompt(identityId, reference, config)
     override fun retrieveStatements(identityId: Uuid, config: gaia.sdk.request.type.Statement.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveStatements(identityId, config, limit, offset)
@@ -133,6 +137,9 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) = fProc.preserveCreateIdentities(*impulses)
     override fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse) = fProc.preserveUpdateIdentities(*impulses)
     override fun preserveDeleteIdentities(vararg impulses: DeleteIdentityImpulse) = fProc.preserveDeleteIdentities(*impulses)
+    override fun preserveCreateTenants(vararg impulses: CreateTenantImpulse): Publisher<CreatedTenantImpulse> = fProc.preserveCreateTenants(*impulses)
+    override fun preserveUpdateTenants(vararg impulses: UpdateTenantImpulse): Publisher<UpdatedTenantImpulse> = fProc.preserveUpdateTenants(*impulses)
+    override fun preserveDeleteTenants(vararg impulses: DeleteTenantImpulse): Publisher<DeletedTenantImpulse> = fProc.preserveDeleteTenants(*impulses)
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) = fProc.preserveCreateIntents(*impulses)
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) = fProc.preserveUpdateIntents(*impulses)
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) = fProc.preserveDeleteIntents(*impulses)
