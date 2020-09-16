@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.response.type.KeyOne import KeyOne
+from gaia_sdk.graphql.response.type.TenantKeyOne import TenantKeyOne
 
 from typing import List
 Uuid = str
@@ -36,5 +36,5 @@ class DeletedSkillImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     @property
-    def data(self) -> KeyOne:
-        return KeyOne(self.dictionary.get("data"))
+    def data(self) -> TenantKeyOne:
+        return TenantKeyOne(self.dictionary.get("data"))

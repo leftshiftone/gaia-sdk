@@ -1,5 +1,5 @@
 
-import {KeyOne} from "./KeyOne";
+import {EdgeKeyOne} from "./EdgeKeyOne";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -18,8 +18,8 @@ export class DeletedEdgeImpulse extends Array<(_:VariableRegistry) => string> {
         this.push(_ => "id")
     };
 
-    public data = (config: (_:KeyOne) => void) => this.push((registry) => {
-        const entity = new KeyOne();
+    public data = (config: (_:EdgeKeyOne) => void) => this.push((registry) => {
+        const entity = new EdgeKeyOne();
         config(entity);
         return "data { " + entity.render(registry) + " }";
     });

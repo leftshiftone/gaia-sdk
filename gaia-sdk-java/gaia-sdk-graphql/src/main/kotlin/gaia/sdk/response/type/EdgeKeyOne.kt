@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Impulse which indicates the result of a delete SkillProvision impulse
+* This entity represents the output of an edge delete impulse
 */
-data class DeletedSkillProvisionImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:TenantKeyOne?
+data class EdgeKeyOne @JsonCreator constructor(
+    @JsonProperty("source") val source:Uuid?, 
+    @JsonProperty("target") val target:Uuid?
 )
