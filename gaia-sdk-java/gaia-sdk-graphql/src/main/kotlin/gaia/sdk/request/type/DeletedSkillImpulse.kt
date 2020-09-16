@@ -18,8 +18,8 @@ class DeletedSkillImpulse: Type() {
         add {"id" } 
     }
 
-    fun data(config: KeyOne.() -> Unit) = 
-        add { "data{ " + KeyOne().apply(config).render(it) + "}"}
+    fun data(config: TenantKeyOne.() -> Unit) = 
+        add { "data{ " + TenantKeyOne().apply(config).render(it) + "}"}
 
 }
 

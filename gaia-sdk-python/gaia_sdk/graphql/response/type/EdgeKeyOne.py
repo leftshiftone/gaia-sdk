@@ -1,5 +1,4 @@
 
-from gaia_sdk.graphql.response.type.TenantKeyOne import TenantKeyOne
 
 from typing import List
 Uuid = str
@@ -15,9 +14,9 @@ from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 
-class DeletedSkillProvisionImpulse:
+class EdgeKeyOne:
     """
-    Impulse which indicates the result of a delete SkillProvision impulse
+    This entity represents the output of an edge delete impulse
     """
     dictionary: dict
 
@@ -33,8 +32,8 @@ class DeletedSkillProvisionImpulse:
         return {'dictionary': self.dictionary}
 
     @property
-    def id(self) -> Uuid:
-        return Uuid(self.dictionary.get("id"))
+    def source(self) -> Uuid:
+        return Uuid(self.dictionary.get("source"))
     @property
-    def data(self) -> TenantKeyOne:
-        return TenantKeyOne(self.dictionary.get("data"))
+    def target(self) -> Uuid:
+        return Uuid(self.dictionary.get("target"))

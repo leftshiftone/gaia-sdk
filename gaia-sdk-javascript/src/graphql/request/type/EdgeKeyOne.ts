@@ -1,5 +1,4 @@
 
-import {TenantKeyOne} from "./TenantKeyOne";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -10,19 +9,17 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 /**
- * Impulse which indicates the result of a delete SkillProvision impulse
+ * This entity represents the output of an edge delete impulse
  */
-export class DeletedSkillProvisionImpulse extends Array<(_:VariableRegistry) => string> {
+export class EdgeKeyOne extends Array<(_:VariableRegistry) => string> {
 
-    public id = () => { 
-        this.push(_ => "id")
+    public source = () => { 
+        this.push(_ => "source")
     };
 
-    public data = (config: (_:TenantKeyOne) => void) => this.push((registry) => {
-        const entity = new TenantKeyOne();
-        config(entity);
-        return "data { " + entity.render(registry) + " }";
-    });
+    public target = () => { 
+        this.push(_ => "target")
+    };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
