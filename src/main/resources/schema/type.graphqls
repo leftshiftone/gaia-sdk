@@ -22,6 +22,28 @@ type Tenant {
     explicitIdentities: [String]
 }
 
+"Represents User information"
+type User {
+    "Id of the user"
+    userId: Uuid
+    "The username of the user"
+    username: String
+    "The password of the user"
+    password: String
+    "Is the User using 2FA"
+    using2FA: Boolean
+    "The tenants of the user"
+    tenants: [String]
+    "The roles of the user"
+    roles: [String]
+    "The groups of the user"
+    groups: [String]
+    "The permissions of the user"
+    permissions: [String]
+    "The last passwords of the user"
+    lastPasswords: [String]
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"
