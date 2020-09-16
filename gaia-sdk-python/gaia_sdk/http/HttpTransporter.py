@@ -42,7 +42,7 @@ class HttpTransporter(ITransporter):
             return with_message(unsuccessful_response,
                                 f"Could not authenticate with '{unsuccessful_response.url}': {unsuccessful_response.text}")
         if unsuccessful_response.status_code == 500:
-            return with_message(unsuccessful_response, "Server error: '{unsuccessful_response.text}'")
+            return with_message(unsuccessful_response, f"Server error: '{unsuccessful_response.text}'")
         return with_message(unsuccessful_response, f"Unknown error occurred: {unsuccessful_response.text}")
 
     @staticmethod
