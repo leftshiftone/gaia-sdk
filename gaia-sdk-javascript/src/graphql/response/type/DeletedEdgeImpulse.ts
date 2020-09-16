@@ -1,5 +1,5 @@
 
-import {KeyOne} from "./KeyOne";
+import {EdgeKeyOne} from "./EdgeKeyOne";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -13,5 +13,5 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface DeletedEdgeImpulse {
     id?:Uuid, 
-    data?:KeyOne
+    data?:EdgeKeyOne
 }

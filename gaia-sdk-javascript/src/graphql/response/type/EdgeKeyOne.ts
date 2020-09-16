@@ -1,5 +1,4 @@
 
-import {TenantKeyOne} from "./TenantKeyOne";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -9,9 +8,9 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 /**
-* Impulse which indicates the result of a delete SkillProvision impulse
+* This entity represents the output of an edge delete impulse
 */
-export interface DeletedSkillProvisionImpulse {
-    id?:Uuid, 
-    data?:TenantKeyOne
+export interface EdgeKeyOne {
+    source?:Uuid, 
+    target?:Uuid
 }

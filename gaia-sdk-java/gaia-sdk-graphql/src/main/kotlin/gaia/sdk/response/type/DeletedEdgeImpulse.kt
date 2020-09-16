@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class DeletedEdgeImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:KeyOne?
+    @JsonProperty("data") val data:EdgeKeyOne?
 )

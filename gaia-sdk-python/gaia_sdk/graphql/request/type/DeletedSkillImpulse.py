@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.request.type.KeyOne import KeyOne
+from gaia_sdk.graphql.request.type.TenantKeyOne import TenantKeyOne
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -16,9 +16,9 @@ class DeletedSkillImpulse(list):
     def id(self):
         self.append(lambda x: "id")
 
-    def data(self, config: Callable[['KeyOne'], None]):
+    def data(self, config: Callable[['TenantKeyOne'], None]):
         def callback(registry: VariableRegistry):
-            entity = KeyOne()
+            entity = TenantKeyOne()
             config(entity)
             return "data {" + entity.render(registry) + "}"
         self.append(callback)

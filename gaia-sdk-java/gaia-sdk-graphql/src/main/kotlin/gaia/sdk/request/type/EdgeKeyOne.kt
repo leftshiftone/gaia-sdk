@@ -10,16 +10,16 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Impulse which indicates the result of a delete SkillProvision impulse
+ * This entity represents the output of an edge delete impulse
  */
-class DeletedSkillProvisionImpulse: Type() {
+class EdgeKeyOne: Type() {
 
-    fun id() { 
-        add {"id" } 
+    fun source() { 
+        add {"source" } 
     }
 
-    fun data(config: TenantKeyOne.() -> Unit) = 
-        add { "data{ " + TenantKeyOne().apply(config).render(it) + "}"}
-
+    fun target() { 
+        add {"target" } 
+    }
 }
 

@@ -445,8 +445,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { edges(impulses) {
                 id()
                 data {
-                    identityId()
-                    reference()
+                    source()
+                    target()
                 }
                 } } } })) {
                 it.preserve?.delete?.edges!!
@@ -487,7 +487,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skills(impulses) {
                 id()
                 data({
-                    identityId() // should be tenantId
+                    tenantId()
                     reference()
                 })
             } } } })) {
@@ -547,7 +547,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skillProvisions(impulses) {
                 id()
                 data({
-                    identityId() // should be tenantId
+                    tenantId()
                     reference()
                 })
             } } } })) {
