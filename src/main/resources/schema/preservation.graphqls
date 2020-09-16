@@ -13,6 +13,8 @@ type CreateKnowledge {
     identities(impulses: [CreateIdentityImpulse]): [CreatedIdentityImpulse]
     "creates a list of tenants with the given specifications"
     tenants(impulses: [CreateTenantImpulse]): [CreatedTenantImpulse]
+    "creates a list of users with the given specifications"
+    users(impulses: [CreateUserImpulse]): [CreatedUserImpulse]
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "creates a list of prompts with the given specifications"
@@ -37,6 +39,8 @@ type UpdateKnowledge {
     identities(impulses: [UpdateIdentityImpulse]): [UpdatedIdentityImpulse]
     "updates a list of tenants with the given specifications"
     tenants(impulses: [UpdateTenantImpulse]): [UpdatedTenantImpulse]
+    "updates a list of users with the given specifications"
+    users(impulses: [UpdateUserImpulse]): [UpdatedUserImpulse]
     "updates a list of intents with the given specifications"
     intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
@@ -59,6 +63,8 @@ type DeleteKnowledge {
     identities(impulses: [DeleteIdentityImpulse]): [DeletedIdentityImpulse]
     "deletes a list of tenants with the given specifications"
     tenants(impulses: [DeleteTenantImpulse]): [DeletedTenantImpulse]
+    "deletes a list of users with the given specifications"
+    users(impulses: [DeleteUserImpulse]): [DeletedUserImpulse]
     "deletes a list of intents with the given specifications"
     intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
@@ -106,6 +112,47 @@ type UpdatedIdentityImpulse implements Impulse {
 }
 "Impulse which indicates the result of a delete identity impulse"
 type DeletedIdentityImpulse implements Impulse {
+    id: Uuid!
+    data: KeyOne
+}
+
+"The specification to create an user instance"
+input CreateUserImpulse {
+    username: String!
+    password: String!
+    using2FA: Boolean = false
+    tenants: [String]
+    roles: [String]
+    groups: [String]
+    permissions: [String]
+}
+"The specification to update an user instance"
+input UpdateUserImpulse {
+    userId: Uuid
+    username: String
+    password: String
+    using2FA: Boolean
+    tenants: [String]
+    roles: [String]
+    groups: [String]
+    permissions: [String]
+}
+"The specification to delete an user instance"
+input DeleteUserImpulse {
+    userId: Uuid!
+}
+"Impulse which indicates the result of a create user impulse"
+type CreatedUserImpulse implements Impulse {
+    id: Uuid!
+    data: User
+}
+"Impulse which indicates the result of a update user impulse"
+type UpdatedUserImpulse implements Impulse {
+    id: Uuid!
+    data: User
+}
+"Impulse which indicates the result of a delete user impulse"
+type DeletedUserImpulse implements Impulse {
     id: Uuid!
     data: KeyOne
 }
