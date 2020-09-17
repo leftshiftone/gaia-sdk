@@ -15,6 +15,8 @@ interface ISensorFunction {
     fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveTenants(config: Tenant.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Tenant>
     fun retrieveTenant(tenantId: Uuid, config: Tenant.() -> Unit): Publisher<gaia.sdk.response.type.Tenant>
+    fun retrieveUsers(config: User.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.User>
+    fun retrieveUser(userId: Uuid, config: User.() -> Unit): Publisher<gaia.sdk.response.type.User>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Prompt>
@@ -40,6 +42,9 @@ interface ISensorFunction {
     fun preserveCreateTenants(vararg impulses: CreateTenantImpulse): Publisher<gaia.sdk.response.type.CreatedTenantImpulse>
     fun preserveUpdateTenants(vararg impulses: UpdateTenantImpulse): Publisher<gaia.sdk.response.type.UpdatedTenantImpulse>
     fun preserveDeleteTenants(vararg impulses: DeleteTenantImpulse): Publisher<gaia.sdk.response.type.DeletedTenantImpulse>
+    fun preserveCreateUsers(vararg impulses: CreateUserImpulse): Publisher<gaia.sdk.response.type.CreatedUserImpulse>
+    fun preserveUpdateUsers(vararg impulses: UpdateUserImpulse): Publisher<gaia.sdk.response.type.UpdatedUserImpulse>
+    fun preserveDeleteUsers(vararg impulses: DeleteUserImpulse): Publisher<gaia.sdk.response.type.DeletedUserImpulse>
     fun preserveCreateIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
     fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse): Publisher<gaia.sdk.response.type.UpdatedIntentImpulse>
     fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse): Publisher<gaia.sdk.response.type.DeletedIntentImpulse>

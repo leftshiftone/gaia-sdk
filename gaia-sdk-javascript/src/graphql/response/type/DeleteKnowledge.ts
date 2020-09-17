@@ -8,9 +8,11 @@ import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
+import {DeletedUserImpulse} from "./DeletedUserImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeleteFulfilmentImpulse} from "../../request/input/DeleteFulfilmentImpulse";
+import {DeleteUserImpulse} from "../../request/input/DeleteUserImpulse";
 import {DeleteCodeImpulse} from "../../request/input/DeleteCodeImpulse";
 import {DeleteEdgeImpulse} from "../../request/input/DeleteEdgeImpulse";
 import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse";
@@ -38,6 +40,10 @@ export interface DeleteKnowledge {
     * deletes a list of tenants with the given specifications
     */
     tenants?:[DeletedTenantImpulse], 
+    /**
+    * deletes a list of users with the given specifications
+    */
+    users?:[DeletedUserImpulse], 
     /**
     * deletes a list of intents with the given specifications
     */

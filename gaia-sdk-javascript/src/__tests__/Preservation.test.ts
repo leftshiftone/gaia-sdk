@@ -30,6 +30,9 @@ import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpu
 import {CreateTenantImpulse} from "../graphql/request/input/CreateTenantImpulse";
 import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
 import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
+import {UpdateUserImpulse} from "../graphql/request/input/UpdateUserImpulse";
+import {CreateUserImpulse} from "../graphql/request/input/CreateUserImpulse";
+import {DeleteUserImpulse} from "../graphql/request/input/DeleteUserImpulse";
 
 describe("perception tests:", () => {
 
@@ -69,6 +72,45 @@ describe("perception tests:", () => {
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveDeleteIdentities(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve create user', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new CreateUserImpulse("someUsername","somePassword",false, [], [], [], []);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateUsers(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update user', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new UpdateUserImpulse(uuid(), "someUsername","somePassword", false, [], [], [], []);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateUsers(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete user', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const impulse = new DeleteUserImpulse(uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteUsers(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);

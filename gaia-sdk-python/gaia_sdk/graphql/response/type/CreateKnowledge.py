@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.CreatedUserImpulse import CreatedUserImpulse
 from gaia_sdk.graphql.response.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
 from gaia_sdk.graphql.response.type.CreatedTenantImpulse import CreatedTenantImpulse
 from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
@@ -17,6 +18,7 @@ from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviou
 from gaia_sdk.graphql.request.input.CreateSkillImpulse import CreateSkillImpulse
 from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
 from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
+from gaia_sdk.graphql.request.input.CreateUserImpulse import CreateUserImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
@@ -62,6 +64,12 @@ class CreateKnowledge:
     @property
     def tenants(self) -> List[CreatedTenantImpulse]:
         return list(map(lambda x: CreatedTenantImpulse(x), self.dictionary.get("tenants")))
+    """
+    creates a list of users with the given specifications
+    """
+    @property
+    def users(self) -> List[CreatedUserImpulse]:
+        return list(map(lambda x: CreatedUserImpulse(x), self.dictionary.get("users")))
     """
     creates a list of intents with the given specifications
     """

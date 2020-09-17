@@ -2,6 +2,7 @@
 import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
 import {Skill} from "./Skill";
+import {User} from "./User";
 import {Tenant} from "./Tenant";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
@@ -20,6 +21,23 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
+
+    public users = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:User) => void) => this.push((registry) => {
+        const name1 = registry.register("limit", limit);
+        const name2 = registry.register("offset", offset);
+        const name3 = registry.register("orderBy", orderBy);
+        const name4 = registry.register("order", order);
+        const entity = new User();
+        config(entity);
+        return `users(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
+    });
+
+    public user = (userId: Uuid|undefined, config: (_:User) => void) => this.push((registry) => {
+        const name1 = registry.register("userId", userId);
+        const entity = new User();
+        config(entity);
+        return `user(userId:${name1}){` + entity.render(registry) + "}"
+    });
 
     public tenants = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Tenant) => void) => this.push((registry) => {
         const name1 = registry.register("limit", limit);

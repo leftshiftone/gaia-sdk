@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Knowledge @JsonCreator constructor(
+    @JsonProperty("users") val users:List<User>?, 
+    @JsonProperty("user") val user:User?, 
     @JsonProperty("tenants") val tenants:List<Tenant>?, 
     @JsonProperty("tenant") val tenant:Tenant?, 
     @JsonProperty("identities") val identities:List<Identity>?, 

@@ -28,6 +28,14 @@ class UpdateKnowledge: Type() {
     }
 
     /**
+     * updates a list of users with the given specifications
+     */
+    fun users(impulses : Array<out UpdateUserImpulse>?, config: UpdatedUserImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "users(impulses:$name1){" + UpdatedUserImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * updates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out UpdateIntentImpulse>?, config: UpdatedIntentImpulse.() -> Unit) = add {

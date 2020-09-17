@@ -8,9 +8,11 @@ import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
 import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
+import {DeletedUserImpulse} from "./DeletedUserImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeleteFulfilmentImpulse} from "../input/DeleteFulfilmentImpulse";
+import {DeleteUserImpulse} from "../input/DeleteUserImpulse";
 import {DeleteCodeImpulse} from "../input/DeleteCodeImpulse";
 import {DeleteEdgeImpulse} from "../input/DeleteEdgeImpulse";
 import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
@@ -50,6 +52,16 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new DeletedTenantImpulse();
         config(entity);
         return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of users with the given specifications
+     */
+    public users = (impulses: [DeleteUserImpulse]|undefined, config: (_:DeletedUserImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedUserImpulse();
+        config(entity);
+        return `users(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**
