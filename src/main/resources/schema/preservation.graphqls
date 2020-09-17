@@ -98,6 +98,11 @@ input UpdateIdentityImpulse {
 input DeleteIdentityImpulse {
     identityId: Uuid!
 }
+
+type UserKeyOne {
+    userId: Uuid
+    reference: Uuid
+}
 "Impulse which indicates the result of a create identity impulse"
 type CreatedIdentityImpulse implements Impulse {
     id: Uuid!
@@ -154,7 +159,7 @@ type UpdatedUserImpulse implements Impulse {
 "Impulse which indicates the result of a delete user impulse"
 type DeletedUserImpulse implements Impulse {
     id: Uuid!
-    data: KeyOne
+    data: UserKeyOne
 }
 
 "This entity represents the output of a delete tenant impulse"
