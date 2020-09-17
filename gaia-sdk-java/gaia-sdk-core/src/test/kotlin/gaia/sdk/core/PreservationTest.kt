@@ -2,7 +2,10 @@ package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.request.input.*
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import reactor.core.publisher.Flux
 import java.util.*
 
@@ -319,7 +322,6 @@ abstract class PreservationTest {
     }
 
     @Test
-    @Disabled
     fun `test preserve delete edge`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
@@ -356,7 +358,6 @@ abstract class PreservationTest {
     }
 
     @Test
-    @Disabled
     fun `test preserve delete skill`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
@@ -393,7 +394,6 @@ abstract class PreservationTest {
     }
 
     @Test
-    @Disabled
     fun `test preserve delete skillProvision`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())

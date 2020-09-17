@@ -362,7 +362,7 @@ describe("perception tests:", () => {
         });
     });
 
-    /*test('test preserve delete edge', () => {
+    test('test preserve delete edge', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new DeleteEdgeImpulse(uuid(), uuid());
 
@@ -373,7 +373,7 @@ describe("perception tests:", () => {
                 resolve(e);
             }, reject);
         });
-    });*/
+    });
 
     test('test preserve create skill', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
@@ -401,7 +401,7 @@ describe("perception tests:", () => {
         });
     });
 
-    /*test('test preserve delete skill', () => {
+    test('test preserve delete skill', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new DeleteSkillImpulse(uuid(), uuid());
 
@@ -412,7 +412,7 @@ describe("perception tests:", () => {
                 resolve(e);
             }, reject);
         });
-    });*/
+    });
 
     test('test preserve create skillProvision', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
@@ -440,7 +440,7 @@ describe("perception tests:", () => {
         });
     });
 
-    /*test('test preserve delete skillProvision', () => {
+    test('test preserve delete skillProvision', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const impulse = new DeleteSkillProvisionImpulse(uuid(), uuid());
 
@@ -451,7 +451,7 @@ describe("perception tests:", () => {
                 resolve(e);
             }, reject);
         });
-    });*/
+    });
 
 
 
