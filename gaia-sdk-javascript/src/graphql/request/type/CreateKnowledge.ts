@@ -1,19 +1,18 @@
 
-import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
-import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedEdgeImpulse} from "./CreatedEdgeImpulse";
 import {CreatedCodeImpulse} from "./CreatedCodeImpulse";
 import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
-import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
-import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
 import {CreatedSkillImpulse} from "./CreatedSkillImpulse";
-import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
-import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
+import {CreatedUserImpulse} from "./CreatedUserImpulse";
+import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
+import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
+import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
+import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
+import {CreatedApiKeyImpulse} from "./CreatedApiKeyImpulse";
 import {CreateTenantImpulse} from "../input/CreateTenantImpulse";
-import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
-import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
 import {CreateSkillImpulse} from "../input/CreateSkillImpulse";
 import {CreateEdgeImpulse} from "../input/CreateEdgeImpulse";
 import {CreateIdentityImpulse} from "../input/CreateIdentityImpulse";
@@ -21,6 +20,11 @@ import {CreateCodeImpulse} from "../input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../input/CreateStatementImpulse";
 import {CreateSkillProvisionImpulse} from "../input/CreateSkillProvisionImpulse";
+import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
+import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
+import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
+import {CreateUserImpulse} from "../input/CreateUserImpulse";
+import {CreateApiKeyImpulse} from "../input/CreateApiKeyImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -50,6 +54,26 @@ export class CreateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new CreatedTenantImpulse();
         config(entity);
         return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of users with the given specifications
+     */
+    public users = (impulses: [CreateUserImpulse]|undefined, config: (_:CreatedUserImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedUserImpulse();
+        config(entity);
+        return `users(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of api keys with the given specifications
+     */
+    public apiKeys = (impulses: [CreateApiKeyImpulse]|undefined, config: (_:CreatedApiKeyImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedApiKeyImpulse();
+        config(entity);
+        return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

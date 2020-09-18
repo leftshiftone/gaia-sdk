@@ -1,26 +1,30 @@
 
-from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
+from gaia_sdk.graphql.response.type.DeletedApiKeyImpulse import DeletedApiKeyImpulse
 from gaia_sdk.graphql.response.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
 from gaia_sdk.graphql.response.type.DeletedTenantImpulse import DeletedTenantImpulse
 from gaia_sdk.graphql.response.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
-from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
-from gaia_sdk.graphql.response.type.DeletedPromptImpulse import DeletedPromptImpulse
 from gaia_sdk.graphql.response.type.DeletedStatementImpulse import DeletedStatementImpulse
 from gaia_sdk.graphql.response.type.DeletedSkillImpulse import DeletedSkillImpulse
 from gaia_sdk.graphql.response.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.response.type.DeletedEdgeImpulse import DeletedEdgeImpulse
+from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
+from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
+from gaia_sdk.graphql.response.type.DeletedPromptImpulse import DeletedPromptImpulse
+from gaia_sdk.graphql.response.type.DeletedUserImpulse import DeletedUserImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
+from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
+from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
+from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
+from gaia_sdk.graphql.request.input.DeleteUserImpulse import DeleteUserImpulse
+from gaia_sdk.graphql.request.input.DeleteApiKeyImpulse import DeleteApiKeyImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
-from gaia_sdk.graphql.request.input.DeleteBehaviourImpulse import DeleteBehaviourImpulse
 from gaia_sdk.graphql.request.input.DeleteTenantImpulse import DeleteTenantImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
-from gaia_sdk.graphql.request.input.DeleteSkillImpulse import DeleteSkillImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
-from gaia_sdk.graphql.request.input.DeleteIdentityImpulse import DeleteIdentityImpulse
 
 from typing import List
 Uuid = str
@@ -62,6 +66,18 @@ class DeleteKnowledge:
     @property
     def tenants(self) -> List[DeletedTenantImpulse]:
         return list(map(lambda x: DeletedTenantImpulse(x), self.dictionary.get("tenants")))
+    """
+    deletes a list of users with the given specifications
+    """
+    @property
+    def users(self) -> List[DeletedUserImpulse]:
+        return list(map(lambda x: DeletedUserImpulse(x), self.dictionary.get("users")))
+    """
+    deletes a list of api keys with the given specifications
+    """
+    @property
+    def api_keys(self) -> List[DeletedApiKeyImpulse]:
+        return list(map(lambda x: DeletedApiKeyImpulse(x), self.dictionary.get("apiKeys")))
     """
     deletes a list of intents with the given specifications
     """

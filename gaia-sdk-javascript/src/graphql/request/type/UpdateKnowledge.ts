@@ -1,8 +1,10 @@
 
+import {UpdatedUserImpulse} from "./UpdatedUserImpulse";
 import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
+import {UpdatedApiKeyImpulse} from "./UpdatedApiKeyImpulse";
 import {UpdatedSkillProvisionImpulse} from "./UpdatedSkillProvisionImpulse";
 import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
 import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
@@ -10,9 +12,11 @@ import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
 import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
 import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
 import {UpdateStatementImpulse} from "../input/UpdateStatementImpulse";
+import {UpdateApiKeyImpulse} from "../input/UpdateApiKeyImpulse";
 import {UpdateBehaviourImpulse} from "../input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../input/UpdateSkillProvisionImpulse";
 import {UpdateTenantImpulse} from "../input/UpdateTenantImpulse";
+import {UpdateUserImpulse} from "../input/UpdateUserImpulse";
 import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../input/UpdatePromptImpulse";
@@ -48,6 +52,26 @@ export class UpdateKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new UpdatedTenantImpulse();
         config(entity);
         return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of users with the given specifications
+     */
+    public users = (impulses: [UpdateUserImpulse]|undefined, config: (_:UpdatedUserImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedUserImpulse();
+        config(entity);
+        return `users(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of api keys with the given specifications
+     */
+    public apiKeys = (impulses: [UpdateApiKeyImpulse]|undefined, config: (_:UpdatedApiKeyImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedApiKeyImpulse();
+        config(entity);
+        return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

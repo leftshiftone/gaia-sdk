@@ -1,14 +1,16 @@
 
-from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.response.type.Skill import Skill
-from gaia_sdk.graphql.response.type.Tenant import Tenant
+from gaia_sdk.graphql.response.type.User import User
+from gaia_sdk.graphql.response.type.ApiKey import ApiKey
 from gaia_sdk.graphql.response.type.Behaviour import Behaviour
 from gaia_sdk.graphql.response.type.Statement import Statement
 from gaia_sdk.graphql.response.type.Intent import Intent
+from gaia_sdk.graphql.response.type.Code import Code
+from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
+from gaia_sdk.graphql.response.type.Skill import Skill
+from gaia_sdk.graphql.response.type.Tenant import Tenant
 from gaia_sdk.graphql.response.type.Prompt import Prompt
 from gaia_sdk.graphql.response.type.Identity import Identity
-from gaia_sdk.graphql.response.type.Code import Code
 from gaia_sdk.graphql.response.type.Edge import Edge
 
 from typing import List
@@ -40,11 +42,23 @@ class Knowledge:
         return {'dictionary': self.dictionary}
 
     @property
+    def users(self) -> List[User]:
+        return list(map(lambda x: User(x), self.dictionary.get("users")))
+    @property
+    def user(self) -> User:
+        return User(self.dictionary.get("user"))
+    @property
     def tenants(self) -> List[Tenant]:
         return list(map(lambda x: Tenant(x), self.dictionary.get("tenants")))
     @property
     def tenant(self) -> Tenant:
         return Tenant(self.dictionary.get("tenant"))
+    @property
+    def api_keys(self) -> List[ApiKey]:
+        return list(map(lambda x: ApiKey(x), self.dictionary.get("apiKeys")))
+    @property
+    def api_key(self) -> ApiKey:
+        return ApiKey(self.dictionary.get("apiKey"))
     @property
     def identities(self) -> List[Identity]:
         return list(map(lambda x: Identity(x), self.dictionary.get("identities")))

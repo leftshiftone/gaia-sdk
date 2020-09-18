@@ -28,6 +28,22 @@ class DeleteKnowledge: Type() {
     }
 
     /**
+     * deletes a list of users with the given specifications
+     */
+    fun users(impulses : Array<out DeleteUserImpulse>?, config: DeletedUserImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "users(impulses:$name1){" + DeletedUserImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * deletes a list of api keys with the given specifications
+     */
+    fun apiKeys(impulses : Array<out DeleteApiKeyImpulse>?, config: DeletedApiKeyImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "apiKeys(impulses:$name1){" + DeletedApiKeyImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * deletes a list of intents with the given specifications
      */
     fun intents(impulses : Array<out DeleteIntentImpulse>?, config: DeletedIntentImpulse.() -> Unit) = add {

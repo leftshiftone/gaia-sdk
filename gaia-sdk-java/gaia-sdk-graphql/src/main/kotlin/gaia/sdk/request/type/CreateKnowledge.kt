@@ -28,6 +28,22 @@ class CreateKnowledge: Type() {
     }
 
     /**
+     * creates a list of users with the given specifications
+     */
+    fun users(impulses : Array<out CreateUserImpulse>?, config: CreatedUserImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "users(impulses:$name1){" + CreatedUserImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
+     * creates a list of api keys with the given specifications
+     */
+    fun apiKeys(impulses : Array<out CreateApiKeyImpulse>?, config: CreatedApiKeyImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "apiKeys(impulses:$name1){" + CreatedApiKeyImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * creates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out CreateIntentImpulse>?, config: CreatedIntentImpulse.() -> Unit) = add {

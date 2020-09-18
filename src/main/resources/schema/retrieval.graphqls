@@ -10,10 +10,8 @@ type Knowledge {
     user(userId: Uuid): User
     tenants(limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Tenant]
     tenant(tenantId: Uuid): Tenant
-
-    # TODO add apiKeys()
-    # TODO add apiKey(id) maybe?
-
+    apiKeys(limit: Int, offset: Int, orderBy: OrderByField, order: Order): [ApiKey]
+    apiKey(apiKeyId: Uuid): ApiKey
     identities(limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Identity]
     identity(identityId: Uuid): Identity
     intents(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Intent]

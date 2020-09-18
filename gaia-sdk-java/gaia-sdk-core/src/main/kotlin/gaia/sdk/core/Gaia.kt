@@ -20,9 +20,12 @@ import gaia.sdk.http.HttpTransportException
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
+import gaia.sdk.response.type.CreatedApiKeyImpulse
 import gaia.sdk.response.type.CreatedTenantImpulse
+import gaia.sdk.response.type.DeletedApiKeyImpulse
 import gaia.sdk.response.type.DeletedTenantImpulse
 import gaia.sdk.response.type.Tenant
+import gaia.sdk.response.type.UpdatedApiKeyImpulse
 import gaia.sdk.response.type.UpdatedTenantImpulse
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
@@ -117,6 +120,11 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun retrieveIdentity(identityId: Uuid, config: gaia.sdk.request.type.Identity.() -> Unit) = fProc.retrieveIdentity(identityId, config)
     override fun retrieveTenants(config: gaia.sdk.request.type.Tenant.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveTenants(config, limit, offset)
     override fun retrieveTenant(tenantId: Uuid, config: gaia.sdk.request.type.Tenant.() -> Unit) = fProc.retrieveTenant(tenantId, config)
+    override fun retrieveApiKeys(config: gaia.sdk.request.type.ApiKey.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveApiKeys(config, limit, offset)
+    override fun retrieveApiKey(apiKeyId: Uuid, config: gaia.sdk.request.type.ApiKey.() -> Unit) = fProc.retrieveApiKey(apiKeyId, config)
+    override fun preserveCreateApiKeys(vararg impulses: CreateApiKeyImpulse): Publisher<CreatedApiKeyImpulse> = fProc.preserveCreateApiKeys(*impulses)
+    override fun preserveUpdateApiKeys(vararg impulses: UpdateApiKeyImpulse): Publisher<UpdatedApiKeyImpulse> = fProc.preserveUpdateApiKeys(*impulses)
+    override fun preserveDeleteApiKeys(vararg impulses: DeleteApiKeyImpulse): Publisher<DeletedApiKeyImpulse> = fProc.preserveDeleteApiKeys(*impulses)
     override fun retrievePrompts(identityId: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit, limit: Int?, offset: Long?) = fProc.retrievePrompts(identityId, config, limit, offset)
     override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompt(identityId, reference, config)
     override fun retrieveStatements(identityId: Uuid, config: gaia.sdk.request.type.Statement.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveStatements(identityId, config, limit, offset)

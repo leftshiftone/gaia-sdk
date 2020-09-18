@@ -44,6 +44,18 @@ type User {
     lastPasswords: [String]
 }
 
+"Represents api key information"
+type ApiKey {
+    "The api key id"
+    apiKeyId: Uuid
+    "The name of the api key"
+    name: String
+    "The secret of the api key"
+    secret: String   # TODO: Ist es gehasht? & stimmt der type string oder ist es uuid?
+    "The flag to enable the api key"
+    enabled: Boolean
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"

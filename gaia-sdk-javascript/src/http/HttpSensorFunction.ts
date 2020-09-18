@@ -1,6 +1,7 @@
 import {GaiaClient, GaiaClientBuilder, GaiaRequest} from "..";
 import {Rx} from "../api/rx"
 import {
+    ApiKeyReq, ApiKeyRes,
     BehaviourReq,
     BehaviourRes,
     CodeReq,
@@ -108,6 +109,12 @@ import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse"
 import {UpdatedTenantImpulse} from "../graphql/response/type/UpdatedTenantImpulse";
 import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
 import {DeletedTenantImpulse} from "../graphql/response/type/DeletedTenantImpulse";
+import {CreateApiKeyImpulse} from "../graphql/request/input/CreateApiKeyImpulse";
+import {CreatedApiKeyImpulse} from "../graphql/response/type/CreatedApiKeyImpulse";
+import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse";
+import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
+import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
+import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -177,6 +184,20 @@ export class HttpSensorFunction implements ISensorFunction {
             g.knowledge(g => g.tenant(tenantId, config));
         }))));
         return Rx.mapQ<TenantRes>(observable, (e) => e.retrieve!.knowledge!.tenant!);
+    }
+
+    public retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.apiKeys(limit, offset, undefined, undefined, config));
+        }))));
+        return Rx.flatMapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKeys!);
+    }
+
+    public retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void): Observable<ApiKeyRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.apiKey(apiKeyId, config));
+        }))));
+        return Rx.mapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKey!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes> {
@@ -346,6 +367,27 @@ export class HttpSensorFunction implements ISensorFunction {
             p.delete(_ => _.tenants(impulses, i => i.id()))
         }))));
         return Rx.flatMapM<DeletedTenantImpulse>(observable, (e) => e.preserve!.delete!.tenants!);
+    }
+
+    public preserveCreateApiKeys(...impulses: [CreateApiKeyImpulse]): Observable<CreatedApiKeyImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.apiKeys(impulses, i => i.id()));
+        }))));
+        return Rx.flatMapM<CreatedApiKeyImpulse>(observable, (e) => e.preserve!.create!.apiKeys!);
+    }
+
+    public preserveUpdateApiKeys(...impulses: [UpdateApiKeyImpulse]): Observable<UpdatedApiKeyImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.apiKeys(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<UpdatedApiKeyImpulse>(observable, (e) => e.preserve!.update!.apiKeys!);
+    }
+
+    public preserveDeleteApiKeys(...impulses: [DeleteApiKeyImpulse]): Observable<DeletedApiKeyImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.apiKeys(impulses, i => i.id()))
+        }))));
+        return Rx.flatMapM<DeletedApiKeyImpulse>(observable, (e) => e.preserve!.delete!.apiKeys!);
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {
@@ -548,5 +590,4 @@ export class HttpSensorFunction implements ISensorFunction {
         })));
         return Rx.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveData!);
     }
-
 }

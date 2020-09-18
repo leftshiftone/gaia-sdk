@@ -1,26 +1,30 @@
 
-import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
+import {DeletedApiKeyImpulse} from "./DeletedApiKeyImpulse";
 import {DeletedFulfilmentImpulse} from "./DeletedFulfilmentImpulse";
 import {DeletedBehaviourImpulse} from "./DeletedBehaviourImpulse";
 import {DeletedTenantImpulse} from "./DeletedTenantImpulse";
 import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
-import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
-import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
+import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
+import {DeletedIntentImpulse} from "./DeletedIntentImpulse";
+import {DeletedPromptImpulse} from "./DeletedPromptImpulse";
+import {DeletedUserImpulse} from "./DeletedUserImpulse";
 import {DeleteFulfilmentImpulse} from "../input/DeleteFulfilmentImpulse";
 import {DeleteCodeImpulse} from "../input/DeleteCodeImpulse";
 import {DeleteEdgeImpulse} from "../input/DeleteEdgeImpulse";
+import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
+import {DeleteSkillImpulse} from "../input/DeleteSkillImpulse";
+import {DeleteIdentityImpulse} from "../input/DeleteIdentityImpulse";
+import {DeleteUserImpulse} from "../input/DeleteUserImpulse";
+import {DeleteApiKeyImpulse} from "../input/DeleteApiKeyImpulse";
 import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
-import {DeleteBehaviourImpulse} from "../input/DeleteBehaviourImpulse";
 import {DeleteTenantImpulse} from "../input/DeleteTenantImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
-import {DeleteSkillImpulse} from "../input/DeleteSkillImpulse";
 import {DeleteSkillProvisionImpulse} from "../input/DeleteSkillProvisionImpulse";
-import {DeleteIdentityImpulse} from "../input/DeleteIdentityImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -50,6 +54,26 @@ export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new DeletedTenantImpulse();
         config(entity);
         return `tenants(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of users with the given specifications
+     */
+    public users = (impulses: [DeleteUserImpulse]|undefined, config: (_:DeletedUserImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedUserImpulse();
+        config(entity);
+        return `users(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of api keys with the given specifications
+     */
+    public apiKeys = (impulses: [DeleteApiKeyImpulse]|undefined, config: (_:DeletedApiKeyImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedApiKeyImpulse();
+        config(entity);
+        return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

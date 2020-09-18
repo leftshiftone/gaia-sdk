@@ -44,7 +44,7 @@ import {
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse
+    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -105,6 +105,12 @@ import {UpdatedTenantImpulse} from "../graphql/response/type/UpdatedTenantImpuls
 import {DeletedTenantImpulse} from "../graphql/response/type/DeletedTenantImpulse";
 import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
 import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
+import {CreateApiKeyImpulse} from "../graphql/request/input/CreateApiKeyImpulse";
+import {CreatedApiKeyImpulse} from "../graphql/response/type/CreatedApiKeyImpulse";
+import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse";
+import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
+import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
+import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -124,6 +130,10 @@ export interface ISensorFunction {
     retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes>
 
     retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void) : Observable<TenantRes>
+
+    retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes>
+
+    retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void) : Observable<ApiKeyRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
@@ -174,6 +184,12 @@ export interface ISensorFunction {
     preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse>
 
     preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse>
+
+    preserveCreateApiKeys(...impulses: [CreateApiKeyImpulse]): Observable<CreatedApiKeyImpulse>
+
+    preserveUpdateApiKeys(...impulses: [UpdateApiKeyImpulse]): Observable<UpdatedApiKeyImpulse>
+
+    preserveDeleteApiKeys(...impulses: [DeleteApiKeyImpulse]): Observable<DeletedApiKeyImpulse>
 
     preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse>
 
