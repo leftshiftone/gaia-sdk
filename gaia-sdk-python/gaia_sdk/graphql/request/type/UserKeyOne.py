@@ -12,8 +12,5 @@ class UserKeyOne(list):
     def user_id(self):
         self.append(lambda x: "userId")
 
-    def reference(self):
-        self.append(lambda x: "reference")
-
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

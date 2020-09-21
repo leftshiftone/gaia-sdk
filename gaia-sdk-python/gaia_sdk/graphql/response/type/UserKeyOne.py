@@ -31,6 +31,3 @@ class UserKeyOne:
     @property
     def user_id(self) -> Uuid:
         return Uuid(self.dictionary.get("userId"))
-    @property
-    def reference(self) -> Uuid:
-        return Uuid(self.dictionary.get("reference"))
