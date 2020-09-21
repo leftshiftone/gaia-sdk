@@ -138,6 +138,70 @@ abstract class RetrievalTest() {
     }
 
     @Test
+    fun `test retrieve users`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveUsers({
+            userId()
+            username()
+            using2FA()
+            groups()
+            permissions()
+            tenants()
+        })
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.values().size == 1
+        ts.assertValueAt(0){
+            it.userId!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginated users`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveUsers({
+            userId()
+            username()
+            using2FA()
+            groups()
+            permissions()
+            tenants()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.userId!=null && it.username == "101"
+        }
+        ts.assertValueAt(9){
+            it.userId!=null && it.username == "110"
+        }
+    }
+
+    @Test
+    fun `test retrieve user`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val userId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveUser(userId) {
+            userId()
+            username()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5,TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.userId!=null && it.username!=null
+        }
+    }
+
+    @Test
     fun `test retrieve behaviours`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()

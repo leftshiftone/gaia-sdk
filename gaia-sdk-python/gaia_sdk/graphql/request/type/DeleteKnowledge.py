@@ -8,9 +8,11 @@ from gaia_sdk.graphql.request.type.DeletedIntentImpulse import DeletedIntentImpu
 from gaia_sdk.graphql.request.type.DeletedPromptImpulse import DeletedPromptImpulse
 from gaia_sdk.graphql.request.type.DeletedStatementImpulse import DeletedStatementImpulse
 from gaia_sdk.graphql.request.type.DeletedSkillImpulse import DeletedSkillImpulse
+from gaia_sdk.graphql.request.type.DeletedUserImpulse import DeletedUserImpulse
 from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.request.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteFulfilmentImpulse import DeleteFulfilmentImpulse
+from gaia_sdk.graphql.request.input.DeleteUserImpulse import DeleteUserImpulse
 from gaia_sdk.graphql.request.input.DeleteCodeImpulse import DeleteCodeImpulse
 from gaia_sdk.graphql.request.input.DeleteEdgeImpulse import DeleteEdgeImpulse
 from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatementImpulse
@@ -51,6 +53,17 @@ class DeleteKnowledge(list):
             entity = DeletedTenantImpulse()
             config(entity)
             return f'tenants(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    deletes a list of users with the given specifications
+    """
+    def users(self, impulses: List[DeleteUserImpulse], config: Callable[['DeletedUserImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = DeletedUserImpulse()
+            config(entity)
+            return f'users(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

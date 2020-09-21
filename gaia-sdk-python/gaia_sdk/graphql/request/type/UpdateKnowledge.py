@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.UpdatedUserImpulse import UpdatedUserImpulse
 from gaia_sdk.graphql.request.type.UpdatedTenantImpulse import UpdatedTenantImpulse
 from gaia_sdk.graphql.request.type.UpdatedStatementImpulse import UpdatedStatementImpulse
 from gaia_sdk.graphql.request.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
@@ -13,6 +14,7 @@ from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatemen
 from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
 from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
 from gaia_sdk.graphql.request.input.UpdateTenantImpulse import UpdateTenantImpulse
+from gaia_sdk.graphql.request.input.UpdateUserImpulse import UpdateUserImpulse
 from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
 from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
 from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
@@ -49,6 +51,17 @@ class UpdateKnowledge(list):
             entity = UpdatedTenantImpulse()
             config(entity)
             return f'tenants(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    updates a list of users with the given specifications
+    """
+    def users(self, impulses: List[UpdateUserImpulse], config: Callable[['UpdatedUserImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = UpdatedUserImpulse()
+            config(entity)
+            return f'users(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

@@ -1,4 +1,5 @@
 
+import {UpdatedUserImpulse} from "./UpdatedUserImpulse";
 import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
@@ -13,6 +14,7 @@ import {UpdateStatementImpulse} from "../../request/input/UpdateStatementImpulse
 import {UpdateBehaviourImpulse} from "../../request/input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../../request/input/UpdateSkillProvisionImpulse";
 import {UpdateTenantImpulse} from "../../request/input/UpdateTenantImpulse";
+import {UpdateUserImpulse} from "../../request/input/UpdateUserImpulse";
 import {UpdateIntentImpulse} from "../../request/input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../../request/input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../../request/input/UpdatePromptImpulse";
@@ -36,6 +38,10 @@ export interface UpdateKnowledge {
     * updates a list of tenants with the given specifications
     */
     tenants?:[UpdatedTenantImpulse], 
+    /**
+    * updates a list of users with the given specifications
+    */
+    users?:[UpdatedUserImpulse], 
     /**
     * updates a list of intents with the given specifications
     */
