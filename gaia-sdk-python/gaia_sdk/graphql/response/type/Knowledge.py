@@ -2,6 +2,7 @@
 from gaia_sdk.graphql.response.type.SkillProvision import SkillProvision
 from gaia_sdk.graphql.response.type.Fulfilment import Fulfilment
 from gaia_sdk.graphql.response.type.Skill import Skill
+from gaia_sdk.graphql.response.type.User import User
 from gaia_sdk.graphql.response.type.Tenant import Tenant
 from gaia_sdk.graphql.response.type.Behaviour import Behaviour
 from gaia_sdk.graphql.response.type.Statement import Statement
@@ -39,6 +40,12 @@ class Knowledge:
     def __repr__(self):
         return {'dictionary': self.dictionary}
 
+    @property
+    def users(self) -> List[User]:
+        return list(map(lambda x: User(x), self.dictionary.get("users")))
+    @property
+    def user(self) -> User:
+        return User(self.dictionary.get("user"))
     @property
     def tenants(self) -> List[Tenant]:
         return list(map(lambda x: Tenant(x), self.dictionary.get("tenants")))

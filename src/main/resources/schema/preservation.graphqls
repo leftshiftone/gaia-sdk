@@ -210,7 +210,6 @@ input CreateIntentImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to update an intent instance"
 input UpdateIntentImpulse {
@@ -220,7 +219,6 @@ input UpdateIntentImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to delete an intent instance"
 input DeleteIntentImpulse {
@@ -252,7 +250,6 @@ input CreatePromptImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to update a prompt instance"
 input UpdatePromptImpulse {
@@ -262,7 +259,6 @@ input UpdatePromptImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to delete a prompt instance"
 input DeletePromptImpulse {
@@ -294,7 +290,6 @@ input CreateStatementImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to update a statement instance"
 input UpdateStatementImpulse {
@@ -304,7 +299,6 @@ input UpdateStatementImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to delete a statement instance"
 input DeleteStatementImpulse {
@@ -335,7 +329,6 @@ input CreateFulfilmentImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to update a fulfilment instance"
 input UpdateFulfilmentImpulse {
@@ -345,7 +338,6 @@ input UpdateFulfilmentImpulse {
     appendent: String
     utterance: Struct!
     labelList: [String]
-    version: String
 }
 "The specification to delete a fulfilment instance"
 input DeleteFulfilmentImpulse {
