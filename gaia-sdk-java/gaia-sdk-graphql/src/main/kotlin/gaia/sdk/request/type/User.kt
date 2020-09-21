@@ -29,13 +29,6 @@ class User: Type() {
     }
 
     /**
-     * The password of the user
-     */
-    fun password() { 
-        add {"password" } 
-    }
-
-    /**
      * Is the User using 2FA
      */
     fun using2FA() { 

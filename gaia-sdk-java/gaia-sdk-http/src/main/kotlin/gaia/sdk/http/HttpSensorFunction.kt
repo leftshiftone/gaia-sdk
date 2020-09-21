@@ -183,7 +183,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                 data{
                     userId()
                     username()
-                    password()
                     groups()
                     permissions()
                     roles()
@@ -201,7 +200,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                 data{
                     userId()
                     username()
-                    password()
                     groups()
                     permissions()
                     roles()

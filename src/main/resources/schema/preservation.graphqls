@@ -135,7 +135,6 @@ input CreateUserImpulse {
 input UpdateUserImpulse {
     userId: Uuid
     username: String
-    password: String
     using2FA: Boolean
     tenants: [String]
     roles: [String]

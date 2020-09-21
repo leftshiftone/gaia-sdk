@@ -25,12 +25,6 @@ class User(list):
         self.append(lambda x: "username")
 
     """
-    The password of the user
-    """
-    def password(self):
-        self.append(lambda x: "password")
-
-    """
     Is the User using 2FA
     """
     def using2_f_a(self):

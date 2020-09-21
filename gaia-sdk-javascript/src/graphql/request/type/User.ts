@@ -28,13 +28,6 @@ export class User extends Array<(_:VariableRegistry) => string> {
     };
 
     /**
-     * The password of the user
-     */
-    public password = () => { 
-        this.push(_ => "password")
-    };
-
-    /**
      * Is the User using 2FA
      */
     public using2FA = () => { 

@@ -144,7 +144,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveUsers({
             userId()
             username()
-            password()
             using2FA()
             groups()
             permissions()
@@ -167,7 +166,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveUsers({
             userId()
             username()
-            password()
             using2FA()
             groups()
             permissions()

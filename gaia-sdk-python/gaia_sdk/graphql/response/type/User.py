@@ -44,12 +44,6 @@ class User:
     def username(self) -> String:
         return String(self.dictionary.get("username"))
     """
-    The password of the user
-    """
-    @property
-    def password(self) -> String:
-        return String(self.dictionary.get("password"))
-    """
     Is the User using 2FA
     """
     @property
