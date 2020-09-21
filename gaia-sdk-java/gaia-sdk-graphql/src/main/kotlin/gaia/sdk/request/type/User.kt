@@ -62,12 +62,5 @@ class User: Type() {
     fun permissions() { 
         add {"permissions" } 
     }
-
-    /**
-     * The last passwords of the user
-     */
-    fun lastPasswords() { 
-        add {"lastPasswords" } 
-    }
 }
 

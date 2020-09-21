@@ -187,7 +187,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                     permissions()
                     roles()
                     using2FA()
-                    lastPasswords()
                     tenants()
                 }
             } } } })) {
@@ -204,7 +203,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                     permissions()
                     roles()
                     using2FA()
-                    lastPasswords()
                     tenants()
                 }
             } } } })) {

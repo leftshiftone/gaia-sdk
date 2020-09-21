@@ -54,11 +54,5 @@ class User(list):
     def permissions(self):
         self.append(lambda x: "permissions")
 
-    """
-    The last passwords of the user
-    """
-    def last_passwords(self):
-        self.append(lambda x: "lastPasswords")
-
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

@@ -39,9 +39,5 @@ data class User @JsonCreator constructor(
     /**
     * The permissions of the user
     */
-    @JsonProperty("permissions") val permissions:List<String>?, 
-    /**
-    * The last passwords of the user
-    */
-    @JsonProperty("lastPasswords") val lastPasswords:List<String>?
+    @JsonProperty("permissions") val permissions:List<String>?
 )

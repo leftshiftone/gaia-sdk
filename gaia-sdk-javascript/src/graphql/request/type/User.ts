@@ -62,13 +62,6 @@ export class User extends Array<(_:VariableRegistry) => string> {
         this.push(_ => "permissions")
     };
 
-    /**
-     * The last passwords of the user
-     */
-    public lastPasswords = () => { 
-        this.push(_ => "lastPasswords")
-    };
-
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

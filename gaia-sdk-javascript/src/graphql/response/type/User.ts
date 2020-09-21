@@ -38,9 +38,5 @@ export interface User {
     /**
     * The permissions of the user
     */
-    permissions?:[string], 
-    /**
-    * The last passwords of the user
-    */
-    lastPasswords?:[string]
+    permissions?:[string]
 }

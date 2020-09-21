@@ -73,9 +73,3 @@ class User:
     @property
     def permissions(self) -> List[String]:
         return list(map(lambda x: String(x), self.dictionary.get("permissions")))
-    """
-    The last passwords of the user
-    """
-    @property
-    def last_passwords(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("lastPasswords")))

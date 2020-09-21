@@ -38,8 +38,6 @@ type User {
     groups: [String]
     "The permissions of the user"
     permissions: [String]
-    "The last passwords of the user"
-    lastPasswords: [String]
 }
 
 "Represents intent information"
