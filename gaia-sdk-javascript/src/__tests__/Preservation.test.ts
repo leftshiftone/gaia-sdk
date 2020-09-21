@@ -94,7 +94,7 @@ describe("perception tests:", () => {
 
     test('test preserve update user', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateUserImpulse(uuid(), "someUsername","somePassword", false, [], [], [], []);
+        const impulse = new UpdateUserImpulse(uuid(), "someUsername", "password",false, [], [], [],[]);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateUsers(impulse);
