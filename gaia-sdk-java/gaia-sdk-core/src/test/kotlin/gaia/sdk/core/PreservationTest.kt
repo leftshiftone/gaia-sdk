@@ -94,6 +94,42 @@ abstract class PreservationTest {
     }
 
     @Test
+    fun `test preserve create api key`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateApiKeyImpulse("", true)
+
+        val publisher = gaiaRef.preserveCreateApiKeys(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update api key`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateApiKeyImpulse(UUID.randomUUID().toString(), "", "", false)
+
+        val publisher = gaiaRef.preserveUpdateApiKeys(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete api key`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteApiKeyImpulse(UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteApiKeys(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
     fun `test preserve create user`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateUserImpulse("username", "password", true,  emptyArray(), emptyArray(), emptyArray(), emptyArray())

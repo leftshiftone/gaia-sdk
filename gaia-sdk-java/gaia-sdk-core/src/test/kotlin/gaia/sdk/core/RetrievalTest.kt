@@ -202,6 +202,66 @@ abstract class RetrievalTest() {
     }
 
     @Test
+    fun `test retrieve api keys`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveApiKeys({
+            apiKeyId()
+            name()
+            secret()
+            enabled()
+        })
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.apiKeyId!=null && it.name!=null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginated api keys`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+
+        val publisher = gaiaRef.retrieveApiKeys({
+            apiKeyId()
+            name()
+            secret()
+            enabled()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0){
+            it.apiKeyId!=null && it.name == "101"
+        }
+        ts.assertValueAt(9){
+            it.apiKeyId!=null && it.name == "110"
+        }
+    }
+
+    @Test
+    fun `test retrieve api key`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val apiKeyId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveApiKey(apiKeyId) {
+            apiKeyId()
+            name()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it.apiKeyId!=null && it.name!=null
+        }
+    }
+
+    @Test
     fun `test retrieve behaviours`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val identityId = UUID.randomUUID().toString()

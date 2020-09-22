@@ -33,6 +33,9 @@ import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse"
 import {UpdateUserImpulse} from "../graphql/request/input/UpdateUserImpulse";
 import {CreateUserImpulse} from "../graphql/request/input/CreateUserImpulse";
 import {DeleteUserImpulse} from "../graphql/request/input/DeleteUserImpulse";
+import {CreateApiKeyImpulse} from "../graphql/request/input/CreateApiKeyImpulse";
+import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse";
+import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 
 describe("perception tests:", () => {
 
@@ -156,6 +159,45 @@ describe("perception tests:", () => {
             }, reject);
         });
     });
+
+    test('test preserve create tenant', () => {
+            const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+            const impulse = new CreateApiKeyImpulse("",true);
+
+            return new Promise((resolve, reject) => {
+                const observable = gaiaRef.preserveCreateApiKeys(impulse);
+                observable.subscribe(e => {
+                    expect(e.id !== undefined).toBeTruthy();
+                    resolve(e);
+                }, reject);
+            });
+        });
+
+        test('test preserve update tenant', () => {
+            const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+            const impulse = new UpdateApiKeyImpulse(uuid(), "", "somename",false);
+
+            return new Promise((resolve, reject) => {
+                const observable = gaiaRef.preserveUpdateApiKeys(impulse);
+                observable.subscribe(e => {
+                    expect(e.id !== undefined).toBeTruthy();
+                    resolve(e);
+                }, reject);
+            });
+        });
+
+        test('test preserve delete tenant', () => {
+            const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+            const impulse = new DeleteApiKeyImpulse(uuid());
+
+            return new Promise((resolve, reject) => {
+                const observable = gaiaRef.preserveDeleteApiKeys(impulse);
+                observable.subscribe(e => {
+                    expect(e.id !== undefined).toBeTruthy();
+                    resolve(e);
+                }, reject);
+            });
+        });
 
     test('test preserve create intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
