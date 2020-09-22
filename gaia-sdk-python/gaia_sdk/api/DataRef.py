@@ -17,7 +17,7 @@ from gaia_sdk.http.response.FileListing import FileListing
 from gaia_sdk.http.response.FileRemoved import FileRemoved
 from gaia_sdk.http.response.InitializedBinaryWrite import InitializedBinaryWrite
 
-CHUNK_SIZE = 1024 * 1024 * 1024 * 5
+CHUNK_SIZE = 1024 * 1024 * 5
 
 
 class DataRef:
