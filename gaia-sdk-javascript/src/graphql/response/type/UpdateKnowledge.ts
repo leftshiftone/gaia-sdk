@@ -4,6 +4,7 @@ import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
 import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
 import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
+import {UpdatedApiKeyImpulse} from "./UpdatedApiKeyImpulse";
 import {UpdatedSkillProvisionImpulse} from "./UpdatedSkillProvisionImpulse";
 import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
 import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
@@ -11,6 +12,7 @@ import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
 import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
 import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
 import {UpdateStatementImpulse} from "../../request/input/UpdateStatementImpulse";
+import {UpdateApiKeyImpulse} from "../../request/input/UpdateApiKeyImpulse";
 import {UpdateBehaviourImpulse} from "../../request/input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../../request/input/UpdateSkillProvisionImpulse";
 import {UpdateTenantImpulse} from "../../request/input/UpdateTenantImpulse";
@@ -42,6 +44,10 @@ export interface UpdateKnowledge {
     * updates a list of users with the given specifications
     */
     users?:[UpdatedUserImpulse], 
+    /**
+    * updates a list of api keys with the given specifications
+    */
+    apiKeys?:[UpdatedApiKeyImpulse], 
     /**
     * updates a list of intents with the given specifications
     */

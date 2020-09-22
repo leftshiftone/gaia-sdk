@@ -1,28 +1,30 @@
 
-import {CreatedUserImpulse} from "./CreatedUserImpulse";
-import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
-import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedEdgeImpulse} from "./CreatedEdgeImpulse";
 import {CreatedCodeImpulse} from "./CreatedCodeImpulse";
 import {CreatedPromptImpulse} from "./CreatedPromptImpulse";
-import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
 import {CreatedIntentImpulse} from "./CreatedIntentImpulse";
-import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
 import {CreatedSkillImpulse} from "./CreatedSkillImpulse";
-import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedFulfilmentImpulse} from "./CreatedFulfilmentImpulse";
-import {CreateIntentImpulse} from "../../request/input/CreateIntentImpulse";
+import {CreatedUserImpulse} from "./CreatedUserImpulse";
+import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
+import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
+import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
+import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
+import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
+import {CreatedApiKeyImpulse} from "./CreatedApiKeyImpulse";
 import {CreateTenantImpulse} from "../../request/input/CreateTenantImpulse";
-import {CreatePromptImpulse} from "../../request/input/CreatePromptImpulse";
-import {CreateBehaviourImpulse} from "../../request/input/CreateBehaviourImpulse";
 import {CreateSkillImpulse} from "../../request/input/CreateSkillImpulse";
 import {CreateEdgeImpulse} from "../../request/input/CreateEdgeImpulse";
 import {CreateIdentityImpulse} from "../../request/input/CreateIdentityImpulse";
-import {CreateUserImpulse} from "../../request/input/CreateUserImpulse";
 import {CreateCodeImpulse} from "../../request/input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../../request/input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../../request/input/CreateStatementImpulse";
 import {CreateSkillProvisionImpulse} from "../../request/input/CreateSkillProvisionImpulse";
+import {CreateIntentImpulse} from "../../request/input/CreateIntentImpulse";
+import {CreatePromptImpulse} from "../../request/input/CreatePromptImpulse";
+import {CreateBehaviourImpulse} from "../../request/input/CreateBehaviourImpulse";
+import {CreateUserImpulse} from "../../request/input/CreateUserImpulse";
+import {CreateApiKeyImpulse} from "../../request/input/CreateApiKeyImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -44,6 +46,10 @@ export interface CreateKnowledge {
     * creates a list of users with the given specifications
     */
     users?:[CreatedUserImpulse], 
+    /**
+    * creates a list of api keys with the given specifications
+    */
+    apiKeys?:[CreatedApiKeyImpulse], 
     /**
     * creates a list of intents with the given specifications
     */

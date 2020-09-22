@@ -22,6 +22,10 @@ data class UpdateKnowledge @JsonCreator constructor(
     */
     @JsonProperty("users") val users:List<UpdatedUserImpulse>?, 
     /**
+    * updates a list of api keys with the given specifications
+    */
+    @JsonProperty("apiKeys") val apiKeys:List<UpdatedApiKeyImpulse>?, 
+    /**
     * updates a list of intents with the given specifications
     */
     @JsonProperty("intents") val intents:List<UpdatedIntentImpulse>?, 

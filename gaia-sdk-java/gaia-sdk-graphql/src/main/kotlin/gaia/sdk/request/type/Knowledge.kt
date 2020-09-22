@@ -37,6 +37,19 @@ class Knowledge: Type() {
         "tenant(tenantId:$name1){" + Tenant().apply(config).render(it) + "}"
     }
 
+    fun apiKeys(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: ApiKey.() -> Unit) = add {
+        val name1 = it.register("limit", limit)
+        val name2 = it.register("offset", offset)
+        val name3 = it.register("orderBy", orderBy)
+        val name4 = it.register("order", order)
+        "apiKeys(limit:$name1, offset:$name2, orderBy:$name3, order:$name4){" + ApiKey().apply(config).render(it) + "}"
+    }
+
+    fun apiKey(apiKeyId : Uuid?, config: ApiKey.() -> Unit) = add {
+        val name1 = it.register("apiKeyId", apiKeyId)
+        "apiKey(apiKeyId:$name1){" + ApiKey().apply(config).render(it) + "}"
+    }
+
     fun identities(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Identity.() -> Unit) = add {
         val name1 = it.register("limit", limit)
         val name2 = it.register("offset", offset)

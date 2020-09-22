@@ -40,6 +40,18 @@ type User {
     permissions: [String]
 }
 
+"Represents api key information"
+type ApiKey {
+    "The api key id"
+    apiKeyId: Uuid
+    "The name of the api key"
+    name: String
+    "The secret of the api key"
+    secret: String
+    "The flag to enable the api key"
+    enabled: Boolean
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"

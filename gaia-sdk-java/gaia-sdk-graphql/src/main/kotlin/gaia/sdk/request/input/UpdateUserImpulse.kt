@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * The specification to update an user instance
+ * The specification to update a user instance
  */
 class UpdateUserImpulse(val userId:Uuid, 
    val username:String, 
