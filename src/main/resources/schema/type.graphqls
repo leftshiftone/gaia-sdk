@@ -47,7 +47,7 @@ type ApiKey {
     "The name of the api key"
     name: String
     "The secret of the api key"
-    secret: String   # TODO: Ist es gehasht? & stimmt der type string oder ist es uuid?
+    secret: String
     "The flag to enable the api key"
     enabled: Boolean
 }
