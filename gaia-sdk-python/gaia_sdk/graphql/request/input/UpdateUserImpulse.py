@@ -9,7 +9,7 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 
 class UpdateUserImpulse():
     """
-    The specification to update an user instance
+    The specification to update a user instance
     """
     userId: str
     username: str

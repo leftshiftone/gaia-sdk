@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 /**
- * The specification to delete an user instance
+ * The specification to delete a user instance
  */
 export class DeleteUserImpulse {
 
