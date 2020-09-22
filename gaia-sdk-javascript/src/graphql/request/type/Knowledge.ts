@@ -1,16 +1,15 @@
 
+import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
+import {Skill} from "./Skill";
 import {User} from "./User";
-import {ApiKey} from "./ApiKey";
+import {Tenant} from "./Tenant";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
-import {Code} from "./Code";
-import {SkillProvision} from "./SkillProvision";
-import {Skill} from "./Skill";
-import {Tenant} from "./Tenant";
 import {Prompt} from "./Prompt";
 import {Identity} from "./Identity";
+import {Code} from "./Code";
 import {Edge} from "./Edge";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -55,23 +54,6 @@ export class Knowledge extends Array<(_:VariableRegistry) => string> {
         const entity = new Tenant();
         config(entity);
         return `tenant(tenantId:${name1}){` + entity.render(registry) + "}"
-    });
-
-    public apiKeys = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:ApiKey) => void) => this.push((registry) => {
-        const name1 = registry.register("limit", limit);
-        const name2 = registry.register("offset", offset);
-        const name3 = registry.register("orderBy", orderBy);
-        const name4 = registry.register("order", order);
-        const entity = new ApiKey();
-        config(entity);
-        return `apiKeys(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
-    });
-
-    public apiKey = (apiKeyId: Uuid|undefined, config: (_:ApiKey) => void) => this.push((registry) => {
-        const name1 = registry.register("apiKeyId", apiKeyId);
-        const entity = new ApiKey();
-        config(entity);
-        return `apiKey(apiKeyId:${name1}){` + entity.render(registry) + "}"
     });
 
     public identities = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Identity) => void) => this.push((registry) => {

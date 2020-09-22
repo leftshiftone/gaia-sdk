@@ -107,7 +107,6 @@ input DeleteIdentityImpulse {
 
 type UserKeyOne {
     userId: Uuid
-    reference: Uuid
 }
 "Impulse which indicates the result of a create identity impulse"
 type CreatedIdentityImpulse implements Impulse {

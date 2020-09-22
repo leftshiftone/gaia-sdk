@@ -9,7 +9,7 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 
 class DeleteUserImpulse():
     """
-    The specification to delete a user instance
+    The specification to delete an user instance
     """
     userId: str
 

@@ -14,9 +14,5 @@ class UserKeyOne: Type() {
     fun userId() { 
         add {"userId" } 
     }
-
-    fun reference() { 
-        add {"reference" } 
-    }
 }
 

@@ -111,6 +111,57 @@ describe("perception tests:", () => {
         });
     });
 
+ test('test retrieve users', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveUsers(_ => {
+                _.userId();
+                _.username()
+            });
+            observable.subscribe(e => {
+                expect(e.userId !== undefined).toBeTruthy();
+                expect(e.username !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated users', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        var latestExpectedIndex = 100
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveUsers(_ => {
+                _.userId();
+                _.username()
+            }, 10, 100);
+            observable.subscribe(e => {
+                expect(e.userId !== undefined).toBeTruthy();
+                latestExpectedIndex++;
+                expect(e.username === "" + latestExpectedIndex).toBeTruthy()
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve user', () => {
+        const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
+        const tenantId = uuidv4()
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveUser(tenantId, _ => {
+                _.userId();
+                _.username();
+            });
+            observable.subscribe(e => {
+                expect(e.username !== undefined).toBeTruthy();
+                expect(e.userId !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
     test('test retrieve behaviours', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
         const identityId = uuidv4()

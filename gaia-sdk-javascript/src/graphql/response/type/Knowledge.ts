@@ -1,16 +1,15 @@
 
+import {SkillProvision} from "./SkillProvision";
 import {Fulfilment} from "./Fulfilment";
+import {Skill} from "./Skill";
 import {User} from "./User";
-import {ApiKey} from "./ApiKey";
+import {Tenant} from "./Tenant";
 import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
-import {Code} from "./Code";
-import {SkillProvision} from "./SkillProvision";
-import {Skill} from "./Skill";
-import {Tenant} from "./Tenant";
 import {Prompt} from "./Prompt";
 import {Identity} from "./Identity";
+import {Code} from "./Code";
 import {Edge} from "./Edge";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -25,8 +24,6 @@ export interface Knowledge {
     user?:User, 
     tenants?:[Tenant], 
     tenant?:Tenant, 
-    apiKeys?:[ApiKey], 
-    apiKey?:ApiKey, 
     identities?:[Identity], 
     identity?:Identity, 
     intents?:[Intent], 

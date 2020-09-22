@@ -63,6 +63,10 @@ import {CreateApiKeyImpulse} from "./graphql/request/input/CreateApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "./graphql/request/input/DeleteApiKeyImpulse";
 import {UpdateApiKeyImpulse} from "./graphql/request/input/UpdateApiKeyImpulse";
 import {ApiKey} from "./graphql/request/type/ApiKey";
+import {CreateUserImpulse} from "./graphql/request/input/CreateUserImpulse";
+import {DeleteUserImpulse} from "./graphql/request/input/DeleteUserImpulse";
+import {UpdateUserImpulse} from "./graphql/request/input/UpdateUserImpulse";
+import {User} from "./graphql/request/type/User";
 
 export class Gaia {
     public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
@@ -127,6 +131,9 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveCreateTenants = (...impulses: [CreateTenantImpulse]) => this.fProc.preserveCreateTenants(...impulses);
     public preserveDeleteTenants = (...impulses: [DeleteTenantImpulse]) => this.fProc.preserveDeleteTenants(...impulses);
     public preserveUpdateTenants = (...impulses: [UpdateTenantImpulse]) => this.fProc.preserveUpdateTenants(...impulses);
+    public preserveCreateUsers = (...impulses: [CreateUserImpulse]) => this.fProc.preserveCreateUsers(...impulses);
+    public preserveDeleteUsers = (...impulses: [DeleteUserImpulse]) => this.fProc.preserveDeleteUsers(...impulses);
+    public preserveUpdateUsers = (...impulses: [UpdateUserImpulse]) => this.fProc.preserveUpdateUsers(...impulses);
     public preserveCreateApiKeys = (...impulses: [CreateApiKeyImpulse]) => this.fProc.preserveCreateApiKeys(...impulses);
     public preserveDeleteApiKeys = (...impulses: [DeleteApiKeyImpulse]) => this.fProc.preserveDeleteApiKeys(...impulses);
     public preserveUpdateApiKeys = (...impulses: [UpdateApiKeyImpulse]) => this.fProc.preserveUpdateApiKeys(...impulses);
@@ -168,6 +175,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveIdentity = (identityId: Uuid, config: (x: Identity) => void) => this.fProc.retrieveIdentity(identityId, config);
     public retrieveTenant = (tenantId: Uuid, config: (x: Tenant) => void) => this.fProc.retrieveTenant(tenantId, config);
     public retrieveTenants = (config: (x: Tenant) => void, limit?: Number, offset?: Number) => this.fProc.retrieveTenants(config, limit, offset);
+    public retrieveUser = (userId: Uuid, config: (x: User) => void) => this.fProc.retrieveUser(userId, config);
+    public retrieveUsers = (config: (x: User) => void, limit?: Number, offset?: Number) => this.fProc.retrieveUsers(config, limit, offset);
     public retrieveApiKey = (apiKeyId: Uuid, config: (x: ApiKey) => void) => this.fProc.retrieveApiKey(apiKeyId, config);
     public retrieveApiKeys = (config: (x: ApiKey) => void, limit?: Number, offset?: Number) => this.fProc.retrieveApiKeys(config, limit, offset);
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void, limit?: Number, offset?: Number) => this.fProc.retrieveIntents(identityId, config, limit, offset);

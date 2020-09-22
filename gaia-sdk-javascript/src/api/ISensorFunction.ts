@@ -18,6 +18,8 @@ import {
     IdentityRes,
     TenantReq,
     TenantRes,
+    UserReq,
+    UserRes,
     IntentReq,
     IntentRes,
     IntrospectionReq,
@@ -100,11 +102,17 @@ import {CreatedIdentityImpulse} from "../graphql/response/type/CreatedIdentityIm
 import {UpdatedIdentityImpulse} from "../graphql/response/type/UpdatedIdentityImpulse";
 import {DeletedIdentityImpulse} from "../graphql/response/type/DeletedIdentityImpulse";
 import {CreateTenantImpulse} from "../graphql/request/input/CreateTenantImpulse";
+import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
+import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
 import {CreatedTenantImpulse} from "../graphql/response/type/CreatedTenantImpulse";
 import {UpdatedTenantImpulse} from "../graphql/response/type/UpdatedTenantImpulse";
 import {DeletedTenantImpulse} from "../graphql/response/type/DeletedTenantImpulse";
-import {UpdateTenantImpulse} from "../graphql/request/input/UpdateTenantImpulse";
-import {DeleteTenantImpulse} from "../graphql/request/input/DeleteTenantImpulse";
+import {CreateUserImpulse} from "../graphql/request/input/CreateUserImpulse";
+import {UpdateUserImpulse} from "../graphql/request/input/UpdateUserImpulse";
+import {DeleteUserImpulse} from "../graphql/request/input/DeleteUserImpulse";
+import {UpdatedUserImpulse} from "../graphql/response/type/UpdatedUserImpulse";
+import {CreatedUserImpulse} from "../graphql/response/type/CreatedUserImpulse";
+import {DeletedUserImpulse} from "../graphql/response/type/DeletedUserImpulse";
 import {CreateApiKeyImpulse} from "../graphql/request/input/CreateApiKeyImpulse";
 import {CreatedApiKeyImpulse} from "../graphql/response/type/CreatedApiKeyImpulse";
 import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse";
@@ -130,6 +138,10 @@ export interface ISensorFunction {
     retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes>
 
     retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void) : Observable<TenantRes>
+
+    retrieveUsers(config: (x: UserReq) => void, limit?: Number, offset?: Number): Observable<UserRes>
+
+    retrieveUser(userId: Uuid, config: (x: UserReq) => void) : Observable<UserRes>
 
     retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes>
 
@@ -184,6 +196,12 @@ export interface ISensorFunction {
     preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse>
 
     preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse>
+
+    preserveCreateUsers(...impulses: [CreateUserImpulse]): Observable<CreatedUserImpulse>
+
+    preserveUpdateUsers(...impulses: [UpdateUserImpulse]): Observable<UpdatedUserImpulse>
+
+    preserveDeleteUsers(...impulses: [DeleteUserImpulse]): Observable<DeletedUserImpulse>
 
     preserveCreateApiKeys(...impulses: [CreateApiKeyImpulse]): Observable<CreatedApiKeyImpulse>
 
