@@ -159,7 +159,7 @@ describe("perception tests:", () => {
 
     test('test preserve create intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateIntentImpulse(uuid(), "", "", {}, [], "");
+        const impulse = new CreateIntentImpulse(uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateIntents(impulse);
@@ -172,7 +172,7 @@ describe("perception tests:", () => {
 
     test('test preserve update intent', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateIntentImpulse(uuid(), uuid(), "", "", {}, [], "");
+        const impulse = new UpdateIntentImpulse(uuid(), uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateIntents(impulse);
@@ -198,7 +198,7 @@ describe("perception tests:", () => {
 
     test('test preserve create prompt', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreatePromptImpulse(uuid(), "", "", {}, [], "");
+        const impulse = new CreatePromptImpulse(uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreatePrompts(impulse);
@@ -211,7 +211,7 @@ describe("perception tests:", () => {
 
     test('test preserve update prompt', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdatePromptImpulse(uuid(), uuid(), "", "", {}, [], "");
+        const impulse = new UpdatePromptImpulse(uuid(), uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdatePrompts(impulse);
@@ -237,7 +237,7 @@ describe("perception tests:", () => {
 
     test('test preserve create statement', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateStatementImpulse(uuid(), "", "", {}, [], "");
+        const impulse = new CreateStatementImpulse(uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateStatements(impulse);
@@ -250,7 +250,7 @@ describe("perception tests:", () => {
 
     test('test preserve update statement', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateStatementImpulse(uuid(), uuid(), "", "", {}, [], "");
+        const impulse = new UpdateStatementImpulse(uuid(), uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateStatements(impulse);
@@ -276,7 +276,7 @@ describe("perception tests:", () => {
 
     test('test preserve create fulfilment', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateFulfilmentImpulse(uuid(), "", "", {}, [], "");
+        const impulse = new CreateFulfilmentImpulse(uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateFulfilments(impulse);
@@ -289,7 +289,7 @@ describe("perception tests:", () => {
 
     test('test preserve update fulfilment', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateFulfilmentImpulse(uuid(), uuid(), "", "", {}, [], "");
+        const impulse = new UpdateFulfilmentImpulse(uuid(), uuid(), "", "", {}, []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateFulfilments(impulse);
