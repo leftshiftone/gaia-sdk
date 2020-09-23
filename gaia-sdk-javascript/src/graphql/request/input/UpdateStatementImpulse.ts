@@ -19,15 +19,13 @@ export class UpdateStatementImpulse {
     private appendent:String;
     private utterance:Struct;
     private labelList:Array<String>;
-    private version:String;
 
-    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, utterance:Struct, labelList:Array<String>, version:String) {
+    constructor (identityId:Uuid, reference:Uuid, qualifier:String, appendent:String, utterance:Struct, labelList:Array<String>) {
         this.identityId = identityId;
         this.reference = reference;
         this.qualifier = qualifier;
         this.appendent = appendent;
         this.utterance = utterance;
         this.labelList = labelList;
-        this.version = version;
     }
 }

@@ -132,7 +132,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create intent`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveCreateIntents(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -144,7 +144,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update intent`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdateIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveUpdateIntents(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -168,7 +168,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create prompt`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreatePromptImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreatePromptImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveCreatePrompts(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -180,7 +180,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update prompt`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdatePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdatePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveUpdatePrompts(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -204,7 +204,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create statement`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateStatementImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreateStatementImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveCreateStatements(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -216,7 +216,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update statement`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdateStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveUpdateStatements(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -240,7 +240,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create fulfilment`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateFulfilmentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = CreateFulfilmentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveCreateFulfilments(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -252,7 +252,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update fulfilment`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray(), "")
+        val impulse = UpdateFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
         val publisher = gaiaRef.preserveUpdateFulfilments(impulse)
         val result = Flux.from(publisher).blockFirst()

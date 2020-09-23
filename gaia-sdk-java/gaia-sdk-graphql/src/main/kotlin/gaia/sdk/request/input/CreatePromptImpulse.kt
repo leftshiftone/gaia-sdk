@@ -16,6 +16,5 @@ class CreatePromptImpulse(val identityId:Uuid,
    val qualifier:String, 
    val appendent:String, 
    val utterance:Struct, 
-   val labelList:Array<out String>, 
-   val version:String) : Input()
+   val labelList:Array<out String>) : Input()
 
