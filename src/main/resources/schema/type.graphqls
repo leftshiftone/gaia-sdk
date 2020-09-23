@@ -235,14 +235,10 @@ type SkillProvision {
     version: String
     "The reference to skill"
     skillRef: String
-    "Initial CPU"
-    initialCpu: Int
-    "Maximal allowed CPU"
-    maximalCpu: Int
-    "Initial Memory"
-    initialMemory: Int
-    "Maximal allowed Memory"
-    maximalMemory: Int
+    "CPU"
+    cpu: Int
+    "Memory"
+    memory: Int
     "Amount of replicas"
     replicas: Int
     "Whether the skill provision should be enabled or not"

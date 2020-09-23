@@ -1,12 +1,9 @@
 package gaia.sdk.response.type
 
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.response.intf.*
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
-import gaia.sdk.request.enumeration.*
+import com.fasterxml.jackson.annotation.JsonProperty
+import gaia.sdk.Struct
+import gaia.sdk.Uuid
 
 /**
 * Represents SkillProvision information
@@ -41,21 +38,13 @@ data class SkillProvision @JsonCreator constructor(
     */
     @JsonProperty("skillRef") val skillRef:String?, 
     /**
-    * Initial CPU
+    * CPU
     */
-    @JsonProperty("initialCpu") val initialCpu:Int?, 
+    @JsonProperty("cpu") val cpu:Int?, 
     /**
-    * Maximal allowed CPU
+    * Memory
     */
-    @JsonProperty("maximalCpu") val maximalCpu:Int?, 
-    /**
-    * Initial Memory
-    */
-    @JsonProperty("initialMemory") val initialMemory:Int?, 
-    /**
-    * Maximal allowed Memory
-    */
-    @JsonProperty("maximalMemory") val maximalMemory:Int?, 
+    @JsonProperty("memory") val memory:Int?, 
     /**
     * Amount of replicas
     */

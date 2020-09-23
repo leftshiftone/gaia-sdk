@@ -1,13 +1,6 @@
 package gaia.sdk.request.type
 
 import gaia.sdk.client.Type
-import gaia.sdk.request.intf.*
-import gaia.sdk.client.Input
-import gaia.sdk.Uuid
-import gaia.sdk.ISO8601
-import gaia.sdk.Struct
-import gaia.sdk.request.input.*
-import gaia.sdk.request.enumeration.*
 
 /**
  * Represents SkillProvision information
@@ -64,31 +57,17 @@ class SkillProvision: Type() {
     }
 
     /**
-     * Initial CPU
+     * CPU
      */
-    fun initialCpu() { 
-        add {"initialCpu" } 
+    fun cpu() { 
+        add {"cpu" } 
     }
 
     /**
-     * Maximal allowed CPU
+     * Memory
      */
-    fun maximalCpu() { 
-        add {"maximalCpu" } 
-    }
-
-    /**
-     * Initial Memory
-     */
-    fun initialMemory() { 
-        add {"initialMemory" } 
-    }
-
-    /**
-     * Maximal allowed Memory
-     */
-    fun maximalMemory() { 
-        add {"maximalMemory" } 
+    fun memory() { 
+        add {"memory" } 
     }
 
     /**
