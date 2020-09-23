@@ -94,6 +94,42 @@ abstract class PreservationTest {
     }
 
     @Test
+    fun `test preserve create user`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = CreateUserImpulse("username", "password", true,  emptyArray(), emptyArray(), emptyArray(), emptyArray())
+
+        val publisher = gaiaRef.preserveCreateUsers(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve update user`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = UpdateUserImpulse(UUID.randomUUID().toString(), "username", "password", false, emptyArray(), emptyArray(), emptyArray(), emptyArray())
+
+        val publisher = gaiaRef.preserveUpdateUsers(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
+    fun `test preserve delete user`() {
+        val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
+        val impulse = DeleteUserImpulse(UUID.randomUUID().toString())
+
+        val publisher = gaiaRef.preserveDeleteUsers(impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        Assertions.assertNotNull(result)
+        Assertions.assertNotNull(result!!.id)
+    }
+
+    @Test
     fun `test preserve create intent`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())

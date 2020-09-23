@@ -8,6 +8,5 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 export interface UserKeyOne {
-    userId?:Uuid, 
-    reference?:Uuid
+    userId?:Uuid
 }

@@ -28,13 +28,6 @@ export class User extends Array<(_:VariableRegistry) => string> {
     };
 
     /**
-     * The password of the user
-     */
-    public password = () => { 
-        this.push(_ => "password")
-    };
-
-    /**
      * Is the User using 2FA
      */
     public using2FA = () => { 
@@ -67,13 +60,6 @@ export class User extends Array<(_:VariableRegistry) => string> {
      */
     public permissions = () => { 
         this.push(_ => "permissions")
-    };
-
-    /**
-     * The last passwords of the user
-     */
-    public lastPasswords = () => { 
-        this.push(_ => "lastPasswords")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

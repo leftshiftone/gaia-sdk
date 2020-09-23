@@ -25,12 +25,6 @@ class User(list):
         self.append(lambda x: "username")
 
     """
-    The password of the user
-    """
-    def password(self):
-        self.append(lambda x: "password")
-
-    """
     Is the User using 2FA
     """
     def using2_f_a(self):
@@ -59,12 +53,6 @@ class User(list):
     """
     def permissions(self):
         self.append(lambda x: "permissions")
-
-    """
-    The last passwords of the user
-    """
-    def last_passwords(self):
-        self.append(lambda x: "lastPasswords")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

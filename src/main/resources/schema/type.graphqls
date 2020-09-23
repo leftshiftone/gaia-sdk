@@ -28,8 +28,6 @@ type User {
     userId: Uuid
     "The username of the user"
     username: String
-    "The password of the user"
-    password: String
     "Is the User using 2FA"
     using2FA: Boolean
     "The tenants of the user"
@@ -40,8 +38,18 @@ type User {
     groups: [String]
     "The permissions of the user"
     permissions: [String]
-    "The last passwords of the user"
-    lastPasswords: [String]
+}
+
+"Represents api key information"
+type ApiKey {
+    "The api key id"
+    apiKeyId: Uuid
+    "The name of the api key"
+    name: String
+    "The secret of the api key"
+    secret: String
+    "The flag to enable the api key"
+    enabled: Boolean
 }
 
 "Represents intent information"

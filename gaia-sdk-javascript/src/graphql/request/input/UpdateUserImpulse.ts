@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 /**
- * The specification to update an user instance
+ * The specification to update a user instance
  */
 export class UpdateUserImpulse {
 

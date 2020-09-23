@@ -15,6 +15,8 @@ type CreateKnowledge {
     tenants(impulses: [CreateTenantImpulse]): [CreatedTenantImpulse]
     "creates a list of users with the given specifications"
     users(impulses: [CreateUserImpulse]): [CreatedUserImpulse]
+    "creates a list of api keys with the given specifications"
+    apiKeys(impulses: [CreateApiKeyImpulse]): [CreatedApiKeyImpulse]
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "creates a list of prompts with the given specifications"
@@ -41,6 +43,8 @@ type UpdateKnowledge {
     tenants(impulses: [UpdateTenantImpulse]): [UpdatedTenantImpulse]
     "updates a list of users with the given specifications"
     users(impulses: [UpdateUserImpulse]): [UpdatedUserImpulse]
+    "updates a list of api keys with the given specifications"
+    apiKeys(impulses: [UpdateApiKeyImpulse]): [UpdatedApiKeyImpulse]
     "updates a list of intents with the given specifications"
     intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
@@ -65,6 +69,8 @@ type DeleteKnowledge {
     tenants(impulses: [DeleteTenantImpulse]): [DeletedTenantImpulse]
     "deletes a list of users with the given specifications"
     users(impulses: [DeleteUserImpulse]): [DeletedUserImpulse]
+    "deletes a list of api keys with the given specifications"
+    apiKeys(impulses: [DeleteApiKeyImpulse]): [DeletedApiKeyImpulse]
     "deletes a list of intents with the given specifications"
     intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
@@ -101,7 +107,6 @@ input DeleteIdentityImpulse {
 
 type UserKeyOne {
     userId: Uuid
-    reference: Uuid
 }
 "Impulse which indicates the result of a create identity impulse"
 type CreatedIdentityImpulse implements Impulse {
@@ -131,7 +136,7 @@ input CreateUserImpulse {
     groups: [String]
     permissions: [String]
 }
-"The specification to update an user instance"
+"The specification to update a user instance"
 input UpdateUserImpulse {
     userId: Uuid
     username: String
@@ -142,7 +147,7 @@ input UpdateUserImpulse {
     groups: [String]
     permissions: [String]
 }
-"The specification to delete an user instance"
+"The specification to delete a user instance"
 input DeleteUserImpulse {
     userId: Uuid!
 }
@@ -160,6 +165,41 @@ type UpdatedUserImpulse implements Impulse {
 type DeletedUserImpulse implements Impulse {
     id: Uuid!
     data: UserKeyOne
+}
+
+type ApiKeyKeyOne {
+    apiKeyId: Uuid
+}
+"The specification to create an api key instance"
+input CreateApiKeyImpulse {
+    name: String!
+    enabled: Boolean
+}
+"The specification to update an apiKey instance"
+input UpdateApiKeyImpulse {
+    apiKeyId: Uuid!
+    secret: String!
+    name: String!
+    enabled: Boolean
+}
+"The specification to delete an api key instance"
+input DeleteApiKeyImpulse {
+    apiKeyId: Uuid!
+}
+"Impulse which indicates the result of a create api key impulse"
+type CreatedApiKeyImpulse implements Impulse {
+    id: Uuid!
+    data: ApiKey
+}
+"Impulse which indicates the result of a update api key impulse"
+type UpdatedApiKeyImpulse implements Impulse {
+    id: Uuid!
+    data: ApiKey
+}
+"Impulse which indicates the result of a delete api key impulse"
+type DeletedApiKeyImpulse implements Impulse {
+    id: Uuid!
+    data: ApiKeyKeyOne
 }
 
 "This entity represents the output of a delete tenant impulse"

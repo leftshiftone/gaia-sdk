@@ -20,10 +20,6 @@ export interface User {
     */
     username?:string, 
     /**
-    * The password of the user
-    */
-    password?:string, 
-    /**
     * Is the User using 2FA
     */
     using2FA?:Boolean, 
@@ -42,9 +38,5 @@ export interface User {
     /**
     * The permissions of the user
     */
-    permissions?:[string], 
-    /**
-    * The last passwords of the user
-    */
-    lastPasswords?:[string]
+    permissions?:[string]
 }

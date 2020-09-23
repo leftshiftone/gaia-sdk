@@ -9,6 +9,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class UserKeyOne @JsonCreator constructor(
-    @JsonProperty("userId") val userId:Uuid?, 
-    @JsonProperty("reference") val reference:Uuid?
+    @JsonProperty("userId") val userId:Uuid?
 )

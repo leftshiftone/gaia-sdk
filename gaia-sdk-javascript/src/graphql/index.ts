@@ -10,6 +10,10 @@ export {Identity as IdentityReq} from "./request/type/Identity";
 export {Identity as IdentityRes} from "./response/type/Identity";
 export {Tenant as TenantReq} from "./request/type/Tenant";
 export {Tenant as TenantRes} from "./response/type/Tenant";
+export {User as UserReq} from "./request/type/User";
+export {User as UserRes} from "./response/type/User";
+export {ApiKey as ApiKeyReq} from "./request/type/ApiKey"
+export {ApiKey as ApiKeyRes} from "./response/type/ApiKey"
 export {Intent as IntentReq} from "./request/type/Intent";
 export {Intent as IntentRes} from "./response/type/Intent";
 export {Prompt as PromptReq} from "./request/type/Prompt";

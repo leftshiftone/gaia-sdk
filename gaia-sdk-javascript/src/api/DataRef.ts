@@ -101,7 +101,7 @@ export class DataRef {
 }
 
 class DataUpload {
-    private static readonly CHUNK_SIZE = 1024 * 1024 * 1024 * 5;
+    private static readonly CHUNK_SIZE = 1024 * 1024 * 5;
     private readonly uri: string;
     private readonly content: Blob;
     private readonly totalNumberOfChunks: number;

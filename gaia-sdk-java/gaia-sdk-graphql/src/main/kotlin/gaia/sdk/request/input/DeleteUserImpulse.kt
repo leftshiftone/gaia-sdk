@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * The specification to delete an user instance
+ * The specification to delete a user instance
  */
 class DeleteUserImpulse(val userId:Uuid) : Input()
 

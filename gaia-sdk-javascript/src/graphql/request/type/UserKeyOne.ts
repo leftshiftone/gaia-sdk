@@ -14,10 +14,6 @@ export class UserKeyOne extends Array<(_:VariableRegistry) => string> {
         this.push(_ => "userId")
     };
 
-    public reference = () => { 
-        this.push(_ => "reference")
-    };
-
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 
