@@ -353,266 +353,602 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public preserveCreateIdentities(...impulses: [CreateIdentityImpulse]): Observable<CreatedIdentityImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.identities(impulses, i => i.id()))
+            p.create(_ => _.identities(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.qualifier()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedIdentityImpulse>(observable, (e) => e.preserve!.create!.identities!);
     }
 
     public preserveUpdateIdentities(...impulses: [UpdateIdentityImpulse]): Observable<UpdatedIdentityImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.identities(impulses, i => i.id()))
+            p.update(_ => _.identities(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.qualifier()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedIdentityImpulse>(observable, (e) => e.preserve!.update!.identities!);
     }
 
     public preserveDeleteIdentities(...impulses: [DeleteIdentityImpulse]): Observable<DeletedIdentityImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.identities(impulses, i => i.id()))
+            p.delete(_ => _.identities(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedIdentityImpulse>(observable, (e) => e.preserve!.delete!.identities!);
     }
 
     public preserveCreateTenants(...impulses: [CreateTenantImpulse]): Observable<CreatedTenantImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.tenants(impulses, i => i.id()));
+            p.create(_ => _.tenants(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.tenantId()
+                    d.qualifier()
+                    d.implicitIdentities()
+                    d.explicitIdentities()
+                })
+            }));
         }))));
         return Rx.flatMapM<CreatedTenantImpulse>(observable, (e) => e.preserve!.create!.tenants!);
     }
 
     public preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.tenants(impulses, i => i.id()))
+            p.update(_ => _.tenants(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.tenantId()
+                    d.qualifier()
+                    d.implicitIdentities()
+                    d.explicitIdentities()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedTenantImpulse>(observable, (e) => e.preserve!.update!.tenants!);
     }
 
     public preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.tenants(impulses, i => i.id()))
+            p.delete(_ => _.tenants(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.tenantId()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedTenantImpulse>(observable, (e) => e.preserve!.delete!.tenants!);
     }
 
     public preserveCreateUsers(...impulses: [CreateUserImpulse]): Observable<CreatedUserImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.users(impulses, i => i.id()));
+            p.create(_ => _.users(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.userId()
+                    d.username()
+                    d.groups()
+                    d.permissions()
+                    d.roles()
+                    d.using2FA()
+                    d.tenants()
+                })
+            }));
         }))));
         return Rx.flatMapM<CreatedUserImpulse>(observable, (e) => e.preserve!.create!.users!);
     }
 
     public preserveUpdateUsers(...impulses: [UpdateUserImpulse]): Observable<UpdatedUserImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.users(impulses, i => i.id()))
+            p.update(_ => _.users(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.userId()
+                    d.username()
+                    d.groups()
+                    d.permissions()
+                    d.roles()
+                    d.using2FA()
+                    d.tenants()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedUserImpulse>(observable, (e) => e.preserve!.update!.users!);
     }
 
     public preserveDeleteUsers(...impulses: [DeleteUserImpulse]): Observable<DeletedUserImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.users(impulses, i => i.id()))
+            p.delete(_ => _.users(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.userId()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedUserImpulse>(observable, (e) => e.preserve!.delete!.users!);
     }
 
     public preserveCreateApiKeys(...impulses: [CreateApiKeyImpulse]): Observable<CreatedApiKeyImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.apiKeys(impulses, i => i.id()));
+            p.create(_ => _.apiKeys(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.apiKeyId()
+                    d.name()
+                    d.secret()
+                    d.enabled()
+                })
+            }));
         }))));
         return Rx.flatMapM<CreatedApiKeyImpulse>(observable, (e) => e.preserve!.create!.apiKeys!);
     }
 
     public preserveUpdateApiKeys(...impulses: [UpdateApiKeyImpulse]): Observable<UpdatedApiKeyImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.apiKeys(impulses, i => i.id()))
+            p.update(_ => _.apiKeys(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.apiKeyId()
+                    d.name()
+                    d.secret()
+                    d.enabled()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedApiKeyImpulse>(observable, (e) => e.preserve!.update!.apiKeys!);
     }
 
     public preserveDeleteApiKeys(...impulses: [DeleteApiKeyImpulse]): Observable<DeletedApiKeyImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.apiKeys(impulses, i => i.id()))
+            p.delete(_ => _.apiKeys(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.apiKeyId()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedApiKeyImpulse>(observable, (e) => e.preserve!.delete!.apiKeys!);
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.intents(impulses, i => i.id()))
+            p.create(_ => _.intents(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedIntentImpulse>(observable, (e) => e.preserve!.create!.intents!);
     }
 
     public preserveUpdateIntents(...impulses: [UpdateIntentImpulse]): Observable<UpdatedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.intents(impulses, i => i.id()))
+            p.update(_ => _.intents(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedIntentImpulse>(observable, (e) => e.preserve!.update!.intents!);
     }
 
     public preserveDeleteIntents(...impulses: [DeleteIntentImpulse]): Observable<DeletedIntentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.intents(impulses, i => i.id()))
+            p.delete(_ => _.intents(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedIntentImpulse>(observable, (e) => e.preserve!.delete!.intents!);
     }
 
     public preserveCreatePrompts(...impulses: [CreatePromptImpulse]): Observable<CreatedPromptImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.prompts(impulses, i => i.id()))
+            p.create(_ => _.prompts(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedPromptImpulse>(observable, (e) => e.preserve!.create!.prompts!);
     }
 
     public preserveUpdatePrompts(...impulses: [UpdatePromptImpulse]): Observable<UpdatedPromptImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.prompts(impulses, i => i.id()))
+            p.update(_ => _.prompts(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedPromptImpulse>(observable, (e) => e.preserve!.update!.prompts!);
     }
 
     public preserveDeletePrompts(...impulses: [DeletePromptImpulse]): Observable<DeletedPromptImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.prompts(impulses, i => i.id()))
+            p.delete(_ => _.prompts(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedPromptImpulse>(observable, (e) => e.preserve!.delete!.prompts!);
     }
 
     public preserveCreateStatements(...impulses: [CreateStatementImpulse]): Observable<CreatedStatementImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.statements(impulses, i => i.id()))
+            p.create(_ => _.statements(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedStatementImpulse>(observable, (e) => e.preserve!.create!.statements!);
     }
 
     public preserveUpdateStatements(...impulses: [UpdateStatementImpulse]): Observable<UpdatedStatementImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.statements(impulses, i => i.id()))
+            p.update(_ => _.statements(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedStatementImpulse>(observable, (e) => e.preserve!.update!.statements!);
     }
 
     public preserveDeleteStatements(...impulses: [DeleteStatementImpulse]): Observable<DeletedStatementImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.statements(impulses, i => i.id()))
+            p.delete(_ => _.statements(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedStatementImpulse>(observable, (e) => e.preserve!.delete!.statements!);
     }
 
     public preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.skills(impulses, i => i.id()))
+            p.create(_ => _.skills(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                        d.qualifier()
+                        d.appendent()
+                        d.labelList()
+                        d.repositoryUri()
+                    })
+            }))
         }))));
         return Rx.flatMapM<CreatedSkillImpulse>(observable, (e) => e.preserve!.create!.skills!);
     }
 
     public preserveUpdateSkills(...impulses: [UpdateSkillImpulse]): Observable<UpdatedSkillImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.skills(impulses, i => i.id()))
+            p.update(_ => _.skills(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                        d.qualifier()
+                        d.appendent()
+                        d.labelList()
+                        d.repositoryUri()
+                    })
+            }))
         }))));
         return Rx.flatMapM<UpdatedSkillImpulse>(observable, (e) => e.preserve!.update!.skills!);
     }
 
     public preserveDeleteSkills(...impulses: [DeleteSkillImpulse]): Observable<DeletedSkillImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.skills(impulses, i => i.id()))
+            p.delete(_ => _.skills(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                    })
+            }))
         }))));
         return Rx.flatMapM<DeletedSkillImpulse>(observable, (e) => e.preserve!.delete!.skills!);
     }
 
     public preserveCreateSkillProvisions(...impulses: [CreateSkillProvisionImpulse]): Observable<CreatedSkillProvisionImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.skillProvisions(impulses, i => i.id()))
+            p.create(_ => _.skillProvisions(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                        d.qualifier()
+                        d.appendent()
+                        d.labelList()
+                        d.version()
+                        d.skillRef()
+                        d.initialCpu()
+                        d.maximalCpu()
+                        d.initialMemory()
+                        d.maximalMemory()
+                        d.replicas()
+                        d.enabled()
+                        d.environment()
+                        d.bootstrapTimeout()
+                    })
+            }))
         }))));
         return Rx.flatMapM<CreatedSkillProvisionImpulse>(observable, (e) => e.preserve!.create!.skillProvisions!);
     }
 
     public preserveUpdateSkillProvisions(...impulses: [UpdateSkillProvisionImpulse]): Observable<UpdatedSkillProvisionImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.skillProvisions(impulses, i => i.id()))
+            p.update(_ => _.skillProvisions(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                        d.qualifier()
+                        d.appendent()
+                        d.labelList()
+                        d.version()
+                        d.skillRef()
+                        d.initialCpu()
+                        d.maximalCpu()
+                        d.initialMemory()
+                        d.maximalMemory()
+                        d.replicas()
+                        d.enabled()
+                        d.environment()
+                        d.bootstrapTimeout()
+                    })
+            }))
         }))));
         return Rx.flatMapM<UpdatedSkillProvisionImpulse>(observable, (e) => e.preserve!.update!.skillProvisions!);
     }
 
     public preserveDeleteSkillProvisions(...impulses: [DeleteSkillProvisionImpulse]): Observable<DeletedSkillProvisionImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.skillProvisions(impulses, i => i.id()))
+            p.delete(_ => _.skillProvisions(impulses, i => {
+                    i.id()
+                    i.data(d => {
+                        d.tenantId()
+                        d.reference()
+                    })
+            }))
         }))));
         return Rx.flatMapM<DeletedSkillProvisionImpulse>(observable, (e) => e.preserve!.delete!.skillProvisions!);
     }
 
     public preserveCreateFulfilments(...impulses: [CreateFulfilmentImpulse]): Observable<CreatedFulfilmentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.fulfilments(impulses, i => i.id()))
+            p.create(_ => _.fulfilments(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedFulfilmentImpulse>(observable, (e) => e.preserve!.create!.fulfilments!);
     }
 
     public preserveUpdateFulfilments(...impulses: [UpdateFulfilmentImpulse]): Observable<UpdatedFulfilmentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.fulfilments(impulses, i => i.id()))
+            p.update(_ => _.fulfilments(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.utterance()
+                    d.labelList()
+                    d.version()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedFulfilmentImpulse>(observable, (e) => e.preserve!.update!.fulfilments!);
     }
 
     public preserveDeleteFulfilments(...impulses: [DeleteFulfilmentImpulse]): Observable<DeletedFulfilmentImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.fulfilments(impulses, i => i.id()))
+            p.delete(_ => _.fulfilments(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedFulfilmentImpulse>(observable, (e) => e.preserve!.delete!.fulfilments!);
     }
 
     public preserveCreateBehaviours(...impulses: [CreateBehaviourImpulse]): Observable<CreatedBehaviourImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.behaviours(impulses, i => i.id()))
+            p.create(_ => _.behaviours(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.behaviour()
+                    d.labelList()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedBehaviourImpulse>(observable, (e) => e.preserve!.create!.behaviours!);
     }
 
     public preserveUpdateBehaviours(...impulses: [UpdateBehaviourImpulse]): Observable<UpdatedBehaviourImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.behaviours(impulses, i => i.id()))
+            p.update(_ => _.behaviours(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.behaviour()
+                    d.labelList()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedBehaviourImpulse>(observable, (e) => e.preserve!.update!.behaviours!);
     }
 
     public preserveDeleteBehaviours(...impulses: [DeleteBehaviourImpulse]): Observable<DeletedBehaviourImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.behaviours(impulses, i => i.id()))
+            p.delete(_ => _.behaviours(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedBehaviourImpulse>(observable, (e) => e.preserve!.delete!.behaviours!);
     }
 
     public preserveCreateCodes(...impulses: [CreateCodeImpulse]): Observable<CreatedCodeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.codes(impulses, i => i.id()))
+            p.create(_ => _.codes(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.code()
+                    d.type()
+                    d.labelList()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedCodeImpulse>(observable, (e) => e.preserve!.create!.codes!);
     }
 
     public preserveUpdateCodes(...impulses: [UpdateCodeImpulse]): Observable<UpdatedCodeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.update(_ => _.codes(impulses, i => i.id()))
+            p.update(_ => _.codes(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                    d.qualifier()
+                    d.appendent()
+                    d.code()
+                    d.type()
+                    d.labelList()
+                })
+            }))
         }))));
         return Rx.flatMapM<UpdatedCodeImpulse>(observable, (e) => e.preserve!.update!.codes!);
     }
 
     public preserveDeleteCodes(...impulses: [DeleteCodeImpulse]): Observable<DeletedCodeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.codes(impulses, i => i.id()))
+            p.delete(_ => _.codes(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.identityId()
+                    d.reference()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedCodeImpulse>(observable, (e) => e.preserve!.delete!.codes!);
     }
 
     public preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.create(_ => _.edges(impulses, i => i.id()))
+            p.create(_ => _.edges(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.source()
+                    d.target()
+                    d.type()
+                    d.weight()
+                })
+            }))
         }))));
         return Rx.flatMapM<CreatedEdgeImpulse>(observable, (e) => e.preserve!.create!.edges!);
     }
 
     public preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
-            p.delete(_ => _.edges(impulses, i => i.id()))
+            p.delete(_ => _.edges(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.source()
+                    d.target()
+                })
+            }))
         }))));
         return Rx.flatMapM<DeletedEdgeImpulse>(observable, (e) => e.preserve!.delete!.edges!);
     }
