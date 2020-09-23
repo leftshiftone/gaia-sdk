@@ -63,14 +63,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreateIntentImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateIntentImpulse(str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_create_intents([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_intent(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdateIntentImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdateIntentImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_update_intents([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -84,14 +84,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_prompt(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreatePromptImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreatePromptImpulse(str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_create_prompts([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_prompt(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdatePromptImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdatePromptImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_update_prompts([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -105,14 +105,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_statement(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreateStatementImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateStatementImpulse(str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_create_statements([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_statement(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdateStatementImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdateStatementImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_update_statements([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
@@ -126,14 +126,14 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_fulfilment(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = CreateFulfilmentImpulse(str(uuid4()), "", "", dict(), list(), "")
+        impulses = CreateFulfilmentImpulse(str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_create_fulfilments([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
     def test_preserve_update_fulfilment(self):
         gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
-        impulses = UpdateFulfilmentImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list(), "")
+        impulses = UpdateFulfilmentImpulse(str(uuid4()), str(uuid4()), "", "", dict(), list())
         result = pipe(ops.first())(gaia_ref.preserve_update_fulfilments([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
