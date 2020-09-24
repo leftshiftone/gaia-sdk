@@ -29,3 +29,8 @@ Run `./gradlew final -x bintrayUpload -Prelease.scope=minor` locally.
 Must be released from branch (e.g. `release/1.0.x`)
 
 Run `./gradlew final -x bintrayUpload -Prelease.scope=patch` locally.
+
+#### Release Candidate
+Set the release scope by replacing `$scope` with the version of the release candidate (major, minor, patch).
+
+Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail -x bintrayUpload` locally.
