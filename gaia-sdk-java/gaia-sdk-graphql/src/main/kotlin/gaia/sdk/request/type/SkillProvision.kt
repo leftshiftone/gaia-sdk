@@ -64,31 +64,17 @@ class SkillProvision: Type() {
     }
 
     /**
-     * Initial CPU
+     * CPU
      */
-    fun initialCpu() { 
-        add {"initialCpu" } 
+    fun cpu() { 
+        add {"cpu" } 
     }
 
     /**
-     * Maximal allowed CPU
+     * Memory
      */
-    fun maximalCpu() { 
-        add {"maximalCpu" } 
-    }
-
-    /**
-     * Initial Memory
-     */
-    fun initialMemory() { 
-        add {"initialMemory" } 
-    }
-
-    /**
-     * Maximal allowed Memory
-     */
-    fun maximalMemory() { 
-        add {"maximalMemory" } 
+    fun memory() { 
+        add {"memory" } 
     }
 
     /**

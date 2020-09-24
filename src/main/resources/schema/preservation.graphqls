@@ -564,10 +564,8 @@ input CreateSkillProvisionImpulse {
     labelList: [String]
     version: String!
     skillRef: String!
-    initialCpu: Int
-    maximalCpu: Int
-    initialMemory: Int
-    maximalMemory: Int
+    cpu: Int
+    memory: Int
     replicas: Int
     enabled: Boolean!
     bootstrapTimeout: Int
@@ -583,10 +581,8 @@ input UpdateSkillProvisionImpulse {
     labelList: [String]
     version: String!
     skillRef: String!
-    initialCpu: Int
-    maximalCpu: Int
-    initialMemory: Int
-    maximalMemory: Int
+    cpu: Int
+    memory: Int
     replicas: Int
     enabled: Boolean!
     bootstrapTimeout: Int

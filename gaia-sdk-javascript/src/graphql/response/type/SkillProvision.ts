@@ -40,21 +40,13 @@ export interface SkillProvision {
     */
     skillRef?:string, 
     /**
-    * Initial CPU
+    * CPU
     */
-    initialCpu?:number, 
+    cpu?:number, 
     /**
-    * Maximal allowed CPU
+    * Memory
     */
-    maximalCpu?:number, 
-    /**
-    * Initial Memory
-    */
-    initialMemory?:number, 
-    /**
-    * Maximal allowed Memory
-    */
-    maximalMemory?:number, 
+    memory?:number, 
     /**
     * Amount of replicas
     */

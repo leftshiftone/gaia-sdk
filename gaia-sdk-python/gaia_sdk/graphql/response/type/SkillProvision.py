@@ -74,29 +74,17 @@ class SkillProvision:
     def skill_ref(self) -> String:
         return String(self.dictionary.get("skillRef"))
     """
-    Initial CPU
+    CPU
     """
     @property
-    def initial_cpu(self) -> Int:
-        return Int(self.dictionary.get("initialCpu"))
+    def cpu(self) -> Int:
+        return Int(self.dictionary.get("cpu"))
     """
-    Maximal allowed CPU
-    """
-    @property
-    def maximal_cpu(self) -> Int:
-        return Int(self.dictionary.get("maximalCpu"))
-    """
-    Initial Memory
+    Memory
     """
     @property
-    def initial_memory(self) -> Int:
-        return Int(self.dictionary.get("initialMemory"))
-    """
-    Maximal allowed Memory
-    """
-    @property
-    def maximal_memory(self) -> Int:
-        return Int(self.dictionary.get("maximalMemory"))
+    def memory(self) -> Int:
+        return Int(self.dictionary.get("memory"))
     """
     Amount of replicas
     """

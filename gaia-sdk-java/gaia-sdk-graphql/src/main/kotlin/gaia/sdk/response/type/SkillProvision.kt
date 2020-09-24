@@ -41,21 +41,13 @@ data class SkillProvision @JsonCreator constructor(
     */
     @JsonProperty("skillRef") val skillRef:String?, 
     /**
-    * Initial CPU
+    * CPU
     */
-    @JsonProperty("initialCpu") val initialCpu:Int?, 
+    @JsonProperty("cpu") val cpu:Int?, 
     /**
-    * Maximal allowed CPU
+    * Memory
     */
-    @JsonProperty("maximalCpu") val maximalCpu:Int?, 
-    /**
-    * Initial Memory
-    */
-    @JsonProperty("initialMemory") val initialMemory:Int?, 
-    /**
-    * Maximal allowed Memory
-    */
-    @JsonProperty("maximalMemory") val maximalMemory:Int?, 
+    @JsonProperty("memory") val memory:Int?, 
     /**
     * Amount of replicas
     */

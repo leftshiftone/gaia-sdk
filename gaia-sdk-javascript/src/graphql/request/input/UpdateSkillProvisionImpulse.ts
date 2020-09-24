@@ -20,16 +20,14 @@ export class UpdateSkillProvisionImpulse {
     private labelList:Array<String>;
     private version:String;
     private skillRef:String;
-    private initialCpu:Number;
-    private maximalCpu:Number;
-    private initialMemory:Number;
-    private maximalMemory:Number;
+    private cpu:Number;
+    private memory:Number;
     private replicas:Number;
     private enabled:Boolean;
     private bootstrapTimeout:Number;
     private environment:Struct;
 
-    constructor (tenantId:Uuid, reference:Uuid, qualifier:String, appendent:String, labelList:Array<String>, version:String, skillRef:String, initialCpu:Number, maximalCpu:Number, initialMemory:Number, maximalMemory:Number, replicas:Number, enabled:Boolean, bootstrapTimeout:Number, environment:Struct) {
+    constructor (tenantId:Uuid, reference:Uuid, qualifier:String, appendent:String, labelList:Array<String>, version:String, skillRef:String, cpu:Number, memory:Number, replicas:Number, enabled:Boolean, bootstrapTimeout:Number, environment:Struct) {
         this.tenantId = tenantId;
         this.reference = reference;
         this.qualifier = qualifier;
@@ -37,10 +35,8 @@ export class UpdateSkillProvisionImpulse {
         this.labelList = labelList;
         this.version = version;
         this.skillRef = skillRef;
-        this.initialCpu = initialCpu;
-        this.maximalCpu = maximalCpu;
-        this.initialMemory = initialMemory;
-        this.maximalMemory = maximalMemory;
+        this.cpu = cpu;
+        this.memory = memory;
         this.replicas = replicas;
         this.enabled = enabled;
         this.bootstrapTimeout = bootstrapTimeout;

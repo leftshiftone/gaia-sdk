@@ -55,28 +55,16 @@ class SkillProvision(list):
         self.append(lambda x: "skillRef")
 
     """
-    Initial CPU
+    CPU
     """
-    def initial_cpu(self):
-        self.append(lambda x: "initialCpu")
+    def cpu(self):
+        self.append(lambda x: "cpu")
 
     """
-    Maximal allowed CPU
+    Memory
     """
-    def maximal_cpu(self):
-        self.append(lambda x: "maximalCpu")
-
-    """
-    Initial Memory
-    """
-    def initial_memory(self):
-        self.append(lambda x: "initialMemory")
-
-    """
-    Maximal allowed Memory
-    """
-    def maximal_memory(self):
-        self.append(lambda x: "maximalMemory")
+    def memory(self):
+        self.append(lambda x: "memory")
 
     """
     Amount of replicas

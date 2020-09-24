@@ -63,31 +63,17 @@ export class SkillProvision extends Array<(_:VariableRegistry) => string> {
     };
 
     /**
-     * Initial CPU
+     * CPU
      */
-    public initialCpu = () => { 
-        this.push(_ => "initialCpu")
+    public cpu = () => { 
+        this.push(_ => "cpu")
     };
 
     /**
-     * Maximal allowed CPU
+     * Memory
      */
-    public maximalCpu = () => { 
-        this.push(_ => "maximalCpu")
-    };
-
-    /**
-     * Initial Memory
-     */
-    public initialMemory = () => { 
-        this.push(_ => "initialMemory")
-    };
-
-    /**
-     * Maximal allowed Memory
-     */
-    public maximalMemory = () => { 
-        this.push(_ => "maximalMemory")
+    public memory = () => { 
+        this.push(_ => "memory")
     };
 
     /**
