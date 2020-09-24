@@ -458,7 +458,7 @@ describe("perception tests:", () => {
 
     test('test preserve create skillProvision', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateSkillProvisionImpulse(uuid(), "", "", [], "", "",100,100,100,100,1,true,30,{});
+        const impulse = new CreateSkillProvisionImpulse(uuid(), "", "", [], "", "",100,100,1,true,30,{});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateSkillProvisions(impulse);
@@ -471,7 +471,7 @@ describe("perception tests:", () => {
 
     test('test preserve update skillProvision', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new UpdateSkillProvisionImpulse(uuid(), uuid(), "", "", [], "", "",100,100,100,100,1,true,30,{});
+        const impulse = new UpdateSkillProvisionImpulse(uuid(), uuid(), "", "", [], "", "",100,100,1,true,30,{});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateSkillProvisions(impulse);
