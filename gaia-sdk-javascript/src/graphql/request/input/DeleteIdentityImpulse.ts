@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete an identity instance
  */
 export class DeleteIdentityImpulse {
-
+public _typeName = "DeleteIdentityImpulse";
     private identityId:Uuid;
 
     constructor (identityId:Uuid) {

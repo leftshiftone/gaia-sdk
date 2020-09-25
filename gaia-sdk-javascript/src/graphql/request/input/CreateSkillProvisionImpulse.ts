@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create a SkillProvision instance
  */
 export class CreateSkillProvisionImpulse {
-
+public _typeName = "CreateSkillProvisionImpulse";
     private tenantId:Uuid;
     private qualifier:String;
     private appendent:String;

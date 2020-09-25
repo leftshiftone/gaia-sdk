@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update an intent instance
  */
 export class UpdateIntentImpulse {
-
+public _typeName = "UpdateIntentImpulse";
     private identityId:Uuid;
     private reference:Uuid;
     private qualifier:String;

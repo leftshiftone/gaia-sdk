@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents SkillProvision information
  */
 export class SkillProvision extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "SkillProvision";
     /**
      * Id of the tenant
      */

@@ -16,7 +16,14 @@ export default class VariableRegistry {
         this.counters[name] = this.counters[name] + 1;
         const varName = name + this.counters[name];
 
-        this.variables[varName] = JSON.parse(JSON.stringify(value));
+        var clonedValue = JSON.parse(JSON.stringify(value));
+        if (Array.isArray(clonedValue)) {
+            clonedValue.forEach(it => delete it._typeName);
+        } else {
+            delete clonedValue._typeName;
+        }
+
+        this.variables[varName] = clonedValue;
         this.datatypes.push("$" + varName + ":" + this.toType(value));
 
         return "$" + varName;
@@ -42,10 +49,11 @@ export default class VariableRegistry {
             return obj.name() + "!";
         } catch (e) {
             if (Array.isArray(obj)) {
-                return "[" + obj[0].constructor.name + "]";
+                return "[" + (obj[0]._typeName && obj[0]._typeName) + "]";
             }
 
-            const fallback =  obj.constructor.name + "!";
+            // @ts-ignore
+            const fallback =  obj._typeName && obj._typeName + "!";
             if (fallback === null || fallback === undefined) throw new Error('Could not extract name');
 
             return fallback;

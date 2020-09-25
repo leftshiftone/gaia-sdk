@@ -22,7 +22,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Knowledge extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Knowledge";
     public users = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:User) => void) => this.push((registry) => {
         const name1 = registry.register("limit", limit);
         const name2 = registry.register("offset", offset);

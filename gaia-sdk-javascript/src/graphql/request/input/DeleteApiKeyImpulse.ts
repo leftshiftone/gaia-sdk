@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete an api key instance
  */
 export class DeleteApiKeyImpulse {
-
+public _typeName = "DeleteApiKeyImpulse";
     private apiKeyId:Uuid;
 
     constructor (apiKeyId:Uuid) {

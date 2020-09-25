@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a code instance
  */
 export class DeleteCodeImpulse {
-
+public _typeName = "DeleteCodeImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

@@ -13,7 +13,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Impulse which indicates the result of a delete api key impulse
  */
 export class DeletedApiKeyImpulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "DeletedApiKeyImpulse";
     public id = () => { 
         this.push(_ => "id")
     };

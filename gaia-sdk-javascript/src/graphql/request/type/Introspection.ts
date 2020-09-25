@@ -10,7 +10,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Introspection extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Introspection";
     public cpu = () => { 
         this.push(_ => "cpu")
     };

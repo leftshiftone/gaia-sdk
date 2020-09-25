@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Input for button perception impulse
  */
 export class PerceiveButtonImpulse {
-
+public _typeName = "PerceiveButtonImpulse";
     private name:String;
     private value:String;
 

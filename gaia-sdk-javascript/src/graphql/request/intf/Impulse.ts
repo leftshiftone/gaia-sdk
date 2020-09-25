@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Each message returned from GAIA implements this interface
  */
 export class Impulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Impulse";
     /**
      * The id of the impulse
      */

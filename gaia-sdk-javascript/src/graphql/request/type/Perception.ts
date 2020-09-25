@@ -17,7 +17,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * events in gaia.
  */
 export class Perception extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Perception";
     /**
      * Contains all perception fields needed for a conversation.
      */

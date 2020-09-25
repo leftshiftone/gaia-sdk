@@ -13,7 +13,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Impulse which indicates the result of a delete Skill impulse
  */
 export class DeletedSkillImpulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "DeletedSkillImpulse";
     public id = () => { 
         this.push(_ => "id")
     };

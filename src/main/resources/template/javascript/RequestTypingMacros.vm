@@ -74,6 +74,7 @@
     *##renderDescription($type $indent)#*
     *##tab($indent)export class ${type.name} extends Array<(_:VariableRegistry) => string> {
     #set($indent =  $indent + 4)#*
+    *#public _typeName = "${type.name}";#*
     *##foreach($field in $type.fields)$newLine#*
         *##renderField($field $indent)$newLine#*
     *##end#*
@@ -88,6 +89,7 @@
     *##renderDescription($type $indent)#*
     *##tab($indent)export class ${type.name} {$newLine#*
     *##set($indent = $indent + 4)#*
+    *#public _typeName = "${type.name}";#*
     *##renderConstructor($type $indent)#*
     *##set($indent = $indent - 4)#*
     *#$newLine#tab($indent)}##

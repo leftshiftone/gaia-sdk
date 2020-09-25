@@ -35,7 +35,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class DeleteKnowledge extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "DeleteKnowledge";
     /**
      * deletes a list of identities with the given specifications
      */

@@ -14,7 +14,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Container type for runtime information
  */
 export class Experience extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Experience";
     public behaviourExecutions = (config: (_:BehaviourExecution) => void) => this.push((registry) => {
         const entity = new BehaviourExecution();
         config(entity);

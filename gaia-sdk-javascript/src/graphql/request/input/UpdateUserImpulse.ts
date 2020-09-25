@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update a user instance
  */
 export class UpdateUserImpulse {
-
+public _typeName = "UpdateUserImpulse";
     private userId:Uuid;
     private username:String;
     private password:String;

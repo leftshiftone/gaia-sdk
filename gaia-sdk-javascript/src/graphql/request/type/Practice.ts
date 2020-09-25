@@ -15,7 +15,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * practice in gaia.
  */
 export class Practice extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Practice";
     /**
      * Stream practice preparation impulse used to transfer a skill to gaia.
      *     This perception impulse do not invoke the data transmission but establishes

@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents api key information
  */
 export class ApiKey extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "ApiKey";
     /**
      * The api key id
      */

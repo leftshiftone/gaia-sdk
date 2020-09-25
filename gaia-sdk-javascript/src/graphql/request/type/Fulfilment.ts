@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents fulfilment information
  */
 export class Fulfilment extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Fulfilment";
     /**
      * The fulfilment id
      */

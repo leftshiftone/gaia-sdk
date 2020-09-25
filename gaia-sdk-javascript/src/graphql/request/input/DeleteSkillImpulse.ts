@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a Skill instance
  */
 export class DeleteSkillImpulse {
-
+public _typeName = "DeleteSkillImpulse";
     private tenantId:Uuid;
     private reference:Uuid;
 

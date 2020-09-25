@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Input for action perception impulse
  */
 export class PerceiveActionImpulse {
-
+public _typeName = "PerceiveActionImpulse";
     private broadcast:Boolean;
     private identityId:Uuid;
     private type:String;

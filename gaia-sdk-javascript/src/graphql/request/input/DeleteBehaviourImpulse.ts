@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a behaviour instance
  */
 export class DeleteBehaviourImpulse {
-
+public _typeName = "DeleteBehaviourImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

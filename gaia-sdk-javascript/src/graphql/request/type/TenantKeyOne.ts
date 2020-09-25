@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * This entity represents the output of a delete tenant impulse
  */
 export class TenantKeyOne extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "TenantKeyOne";
     public tenantId = () => { 
         this.push(_ => "tenantId")
     };

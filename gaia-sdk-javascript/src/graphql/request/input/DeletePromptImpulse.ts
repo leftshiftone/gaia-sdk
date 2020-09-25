@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a prompt instance
  */
 export class DeletePromptImpulse {
-
+public _typeName = "DeletePromptImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

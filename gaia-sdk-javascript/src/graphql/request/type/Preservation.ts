@@ -16,7 +16,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * read/write/delete memory functions in gaia.
  */
 export class Preservation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Preservation";
     public create = (config: (_:CreateKnowledge) => void) => this.push((registry) => {
         const entity = new CreateKnowledge();
         config(entity);

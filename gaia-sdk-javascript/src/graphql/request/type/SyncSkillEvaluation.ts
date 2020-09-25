@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class SyncSkillEvaluation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "SyncSkillEvaluation";
     public tbd = () => { 
         this.push(_ => "tbd")
     };

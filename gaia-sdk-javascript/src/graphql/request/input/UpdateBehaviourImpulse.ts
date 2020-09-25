@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update a behaviour instance
  */
 export class UpdateBehaviourImpulse {
-
+public _typeName = "UpdateBehaviourImpulse";
     private identityId:Uuid;
     private reference:Uuid;
     private qualifier:String;

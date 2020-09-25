@@ -11,7 +11,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Evaluation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Evaluation";
     public skill = (config: (_:SkillEvaluation) => void) => this.push((registry) => {
         const entity = new SkillEvaluation();
         config(entity);

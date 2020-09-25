@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents code information
  */
 export class Code extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Code";
     /**
      * The code id
      */

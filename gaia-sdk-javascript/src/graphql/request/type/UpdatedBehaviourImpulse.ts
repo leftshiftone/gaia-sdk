@@ -13,7 +13,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Impulse which indicates the result of a update behaviour impulse
  */
 export class UpdatedBehaviourImpulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "UpdatedBehaviourImpulse";
     public id = () => { 
         this.push(_ => "id")
     };

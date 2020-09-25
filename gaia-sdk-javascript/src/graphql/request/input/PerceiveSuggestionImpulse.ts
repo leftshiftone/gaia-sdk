@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Input for suggestion perception impulse
  */
 export class PerceiveSuggestionImpulse {
-
+public _typeName = "PerceiveSuggestionImpulse";
     private data:Struct;
 
     constructor (data:Struct) {

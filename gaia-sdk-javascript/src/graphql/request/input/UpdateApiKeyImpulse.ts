@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update an apiKey instance
  */
 export class UpdateApiKeyImpulse {
-
+public _typeName = "UpdateApiKeyImpulse";
     private apiKeyId:Uuid;
     private secret:String;
     private name:String;

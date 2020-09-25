@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class StreamImpulse {
-
+public _typeName = "StreamImpulse";
     private id:Uuid;
 
     constructor (id:Uuid) {
