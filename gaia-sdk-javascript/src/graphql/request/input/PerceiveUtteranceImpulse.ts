@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Input for utterance perception impulse
  */
 export class PerceiveUtteranceImpulse {
-
+public _typeName = "PerceiveUtteranceImpulse";
     private utterance:String;
 
     constructor (utterance:String) {

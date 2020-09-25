@@ -14,7 +14,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The top level query type
  */
 export class Query extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Query";
     /**
      * Container element for all introspect sensor fields
      */

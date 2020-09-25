@@ -33,7 +33,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class UpdateKnowledge extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "UpdateKnowledge";
     /**
      * updates a list of identities with the given specifications
      */

@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents User information
  */
 export class User extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "User";
     /**
      * Id of the user
      */

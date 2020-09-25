@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents identity information
  */
 export class Identity extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Identity";
     /**
      * The identity id
      */

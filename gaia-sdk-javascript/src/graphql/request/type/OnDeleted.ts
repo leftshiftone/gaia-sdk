@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class OnDeleted extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "OnDeleted";
     public id = () => { 
         this.push(_ => "id")
     };

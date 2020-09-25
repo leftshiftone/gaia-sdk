@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create an user instance
  */
 export class CreateUserImpulse {
-
+public _typeName = "CreateUserImpulse";
     private username:String;
     private password:String;
     private using2FA:Boolean;

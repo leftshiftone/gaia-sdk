@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update an identity instance
  */
 export class UpdateIdentityImpulse {
-
+public _typeName = "UpdateIdentityImpulse";
     private identityId:Uuid;
     private qualifier:String;
 

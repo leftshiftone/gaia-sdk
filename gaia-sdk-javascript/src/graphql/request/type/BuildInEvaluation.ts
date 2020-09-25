@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class BuildInEvaluation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "BuildInEvaluation";
     public behaviour = () => { 
         this.push(_ => "behaviour")
     };

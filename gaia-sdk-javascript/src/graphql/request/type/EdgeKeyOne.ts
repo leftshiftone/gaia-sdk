@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * This entity represents the output of an edge delete impulse
  */
 export class EdgeKeyOne extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "EdgeKeyOne";
     public source = () => { 
         this.push(_ => "source")
     };

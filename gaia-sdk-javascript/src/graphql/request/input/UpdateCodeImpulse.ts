@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update a code instance
  */
 export class UpdateCodeImpulse {
-
+public _typeName = "UpdateCodeImpulse";
     private identityId:Uuid;
     private reference:Uuid;
     private qualifier:String;

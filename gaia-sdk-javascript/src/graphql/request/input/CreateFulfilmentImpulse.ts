@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create a fulfilment instance
  */
 export class CreateFulfilmentImpulse {
-
+public _typeName = "CreateFulfilmentImpulse";
     private identityId:Uuid;
     private qualifier:String;
     private appendent:String;

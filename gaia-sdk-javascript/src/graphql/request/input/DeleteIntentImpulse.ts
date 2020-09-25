@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete an intent instance
  */
 export class DeleteIntentImpulse {
-
+public _typeName = "DeleteIntentImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

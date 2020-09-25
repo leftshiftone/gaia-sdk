@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update a prompt instance
  */
 export class UpdatePromptImpulse {
-
+public _typeName = "UpdatePromptImpulse";
     private identityId:Uuid;
     private reference:Uuid;
     private qualifier:String;

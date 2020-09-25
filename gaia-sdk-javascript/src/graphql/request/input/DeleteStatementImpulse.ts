@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a statement instance
  */
 export class DeleteStatementImpulse {
-
+public _typeName = "DeleteStatementImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

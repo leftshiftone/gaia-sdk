@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete an edge instance
  */
 export class DeleteEdgeImpulse {
-
+public _typeName = "DeleteEdgeImpulse";
     private source:Uuid;
     private target:Uuid;
 

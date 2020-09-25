@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class OnConversed extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "OnConversed";
     public id = () => { 
         this.push(_ => "id")
     };

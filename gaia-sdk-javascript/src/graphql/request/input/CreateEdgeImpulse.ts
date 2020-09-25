@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create an edge instance
  */
 export class CreateEdgeImpulse {
-
+public _typeName = "CreateEdgeImpulse";
     private source:Uuid;
     private target:Uuid;
     private type:String;

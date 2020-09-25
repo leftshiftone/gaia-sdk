@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create an api key instance
  */
 export class CreateApiKeyImpulse {
-
+public _typeName = "CreateApiKeyImpulse";
     private name:String;
     private enabled:Boolean;
 

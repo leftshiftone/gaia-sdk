@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents prompt information
  */
 export class Prompt extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Prompt";
     /**
      * The prompt id
      */

@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a fulfilment instance
  */
 export class DeleteFulfilmentImpulse {
-
+public _typeName = "DeleteFulfilmentImpulse";
     private identityId:Uuid;
     private reference:Uuid;
 

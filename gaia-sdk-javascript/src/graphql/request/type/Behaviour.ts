@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents behaviour information
  */
 export class Behaviour extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Behaviour";
     /**
      * The behaviour id
      */

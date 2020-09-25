@@ -9,7 +9,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class StreamingImpulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "StreamingImpulse";
     public id = () => { 
         this.push(_ => "id")
     };

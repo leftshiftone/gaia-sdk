@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create a statement instance
  */
 export class CreateStatementImpulse {
-
+public _typeName = "CreateStatementImpulse";
     private identityId:Uuid;
     private qualifier:String;
     private appendent:String;

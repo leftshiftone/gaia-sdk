@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create a prompt instance
  */
 export class CreatePromptImpulse {
-
+public _typeName = "CreatePromptImpulse";
     private identityId:Uuid;
     private qualifier:String;
     private appendent:String;

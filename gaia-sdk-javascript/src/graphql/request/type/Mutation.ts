@@ -17,7 +17,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The top level mutation type
  */
 export class Mutation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Mutation";
     /**
      * Sensor impulses for all perception based functions.
      *     Perceptions are used to invoke events within gaia.

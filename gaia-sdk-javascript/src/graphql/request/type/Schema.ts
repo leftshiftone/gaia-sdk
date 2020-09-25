@@ -12,7 +12,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Schema extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Schema";
     public query = (config: (_:Query) => void) => this.push((registry) => {
         const entity = new Query();
         config(entity);

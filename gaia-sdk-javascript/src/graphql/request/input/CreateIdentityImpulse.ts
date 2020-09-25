@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create an identity instance
  */
 export class CreateIdentityImpulse {
-
+public _typeName = "CreateIdentityImpulse";
     private qualifier:String;
 
     constructor (qualifier:String) {

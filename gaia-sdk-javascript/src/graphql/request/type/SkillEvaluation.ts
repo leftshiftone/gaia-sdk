@@ -11,7 +11,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class SkillEvaluation extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "SkillEvaluation";
     public syncEval = (impulse: String|undefined, config: (_:SyncSkillEvaluation) => void) => this.push((registry) => {
         const name1 = registry.register("impulse", impulse);
         const entity = new SyncSkillEvaluation();

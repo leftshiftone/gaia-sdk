@@ -13,7 +13,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Impulse which indicates the result of a delete prompt impulse
  */
 export class DeletedPromptImpulse extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "DeletedPromptImpulse";
     public id = () => { 
         this.push(_ => "id")
     };

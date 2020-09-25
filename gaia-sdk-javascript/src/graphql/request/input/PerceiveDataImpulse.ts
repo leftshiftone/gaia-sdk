@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Input for data perception impulse.
  */
 export class PerceiveDataImpulse {
-
+public _typeName = "PerceiveDataImpulse";
     private identityId:Uuid;
     private eventName:String;
     private eventData:Struct;

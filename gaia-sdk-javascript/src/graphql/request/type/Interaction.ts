@@ -10,7 +10,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Interaction extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Interaction";
     public onConversed = (config: (_:OnConversed) => void) => this.push((registry) => {
         const entity = new OnConversed();
         config(entity);

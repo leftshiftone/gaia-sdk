@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create an intent instance
  */
 export class CreateIntentImpulse {
-
+public _typeName = "CreateIntentImpulse";
     private identityId:Uuid;
     private qualifier:String;
     private appendent:String;

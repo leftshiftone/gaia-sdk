@@ -15,7 +15,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * the top level subscription type
  */
 export class Subscription extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Subscription";
     public interact = (config: (_:Interaction) => void) => this.push((registry) => {
         const entity = new Interaction();
         config(entity);

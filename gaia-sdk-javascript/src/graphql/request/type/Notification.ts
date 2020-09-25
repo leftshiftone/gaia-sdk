@@ -12,7 +12,7 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 
 export class Notification extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Notification";
     public onCreated = (config: (_:OnCreated) => void) => this.push((registry) => {
         const entity = new OnCreated();
         config(entity);

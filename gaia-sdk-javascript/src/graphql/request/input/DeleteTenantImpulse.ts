@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to delete a tenant
  */
 export class DeleteTenantImpulse {
-
+public _typeName = "DeleteTenantImpulse";
     private tenantId:Uuid;
 
     constructor (tenantId:Uuid) {

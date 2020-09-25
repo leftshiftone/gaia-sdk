@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to create a tenant
  */
 export class CreateTenantImpulse {
-
+public _typeName = "CreateTenantImpulse";
     private qualifier:String;
     private implicitIdentities:Array<String>;
     private explicitIdentities:Array<String>;

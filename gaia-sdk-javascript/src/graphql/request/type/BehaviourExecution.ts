@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents behaviour execution information
  */
 export class BehaviourExecution extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "BehaviourExecution";
     public processInstanceId = () => { 
         this.push(_ => "processInstanceId")
     };

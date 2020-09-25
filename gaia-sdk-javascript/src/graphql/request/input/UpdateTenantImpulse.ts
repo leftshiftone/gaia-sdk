@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * The specification to update a tenant
  */
 export class UpdateTenantImpulse {
-
+public _typeName = "UpdateTenantImpulse";
     private tenantId:Uuid;
     private qualifier:String;
     private implicitIdentities:Array<String>;

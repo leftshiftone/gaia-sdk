@@ -16,7 +16,14 @@ export default class VariableRegistry {
         this.counters[name] = this.counters[name] + 1;
         const varName = name + this.counters[name];
 
-        this.variables[varName] = JSON.parse(JSON.stringify(value));
+        var clonedValue = JSON.parse(JSON.stringify(value));
+        if (Array.isArray(clonedValue)) {
+            clonedValue.forEach(it => delete it._typeName);
+        } else {
+            delete clonedValue._typeName;
+        }
+
+        this.variables[varName] = clonedValue;
         this.datatypes.push("$" + varName + ":" + this.toType(value));
 
         return "$" + varName;
@@ -26,12 +33,22 @@ export default class VariableRegistry {
     public getDatatypes = () => this.datatypes;
 
     private toType(value:any):string {
+        if (Array.isArray(value)) {
+            if (value.length > 0) {
+                return "[" + this.toTypeSingle(value[0]) + "]";
+            }
+            throw new Error('Could not extract name for empty array');
+        } else {
+            return this.toTypeSingle(value) + "!";
+        }
+    }
+
+    private toTypeSingle(value:any):string {
         switch (typeof(value)) {
             case "string": return this.resolveStringType(value);
-            case "boolean": return "Boolean!";
-            case "number": return "Int!";
-            case "object":
-                return this.objectName(value);
+            case "boolean": return "Boolean";
+            case "number": return "Int";
+            case "object": return this.objectName(value);
             default: return value;
         }
     }
@@ -39,16 +56,15 @@ export default class VariableRegistry {
     private objectName(obj: object) {
         try {
             // @ts-ignore
-            return obj.name() + "!";
+            return obj.name();
         } catch (e) {
-            if (Array.isArray(obj)) {
-                return "[" + obj[0].constructor.name + "]";
+            // @ts-ignore
+            if (obj._typeName != null) {
+                // @ts-ignore
+                return obj._typeName;
             }
 
-            const fallback =  obj.constructor.name + "!";
-            if (fallback === null || fallback === undefined) throw new Error('Could not extract name');
-
-            return fallback;
+            throw new Error('Could not extract name for ' + JSON.stringify(obj));
         }
     }
 

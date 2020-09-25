@@ -12,7 +12,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Represents graph information
  */
 export class Edge extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Edge";
     public source = () => { 
         this.push(_ => "source")
     };

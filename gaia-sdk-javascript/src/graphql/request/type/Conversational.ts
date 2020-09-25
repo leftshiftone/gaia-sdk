@@ -18,7 +18,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  * Type which contains all impulses needed for the maintainence of a conversation
  */
 export class Conversational extends Array<(_:VariableRegistry) => string> {
-
+public _typeName = "Conversational";
     /**
      * Utterance perception impulse used to send an utterance text to gaia
      */
