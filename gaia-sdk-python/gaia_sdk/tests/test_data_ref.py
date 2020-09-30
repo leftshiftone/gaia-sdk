@@ -1,6 +1,7 @@
 import logging
 import unittest
 
+import pytest
 from rx import operators as ops, pipe
 
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, HMACCredentials
@@ -9,7 +10,7 @@ from gaia_sdk.http.response.FileListing import FileListing
 
 logging.basicConfig(level=logging.DEBUG)
 
-
+@pytest.mark.skip(reason="...")
 class TestDataRef(unittest.TestCase):
 
     def setUp(self):

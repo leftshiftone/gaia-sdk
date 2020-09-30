@@ -3,13 +3,14 @@ import unittest
 from unittest.mock import patch, Mock
 from uuid import uuid4
 
+import pytest
 from rx import operators as ops
 from rx import pipe
 
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.gaia import Gaia
 
-
+@pytest.mark.skip(reason="...")
 class TestConcurrency(unittest.TestCase):
 
     @patch('gaia_sdk.http.HttpSensorFunction.GaiaClientBuilder')

@@ -2,6 +2,7 @@ import logging
 import unittest
 from uuid import uuid4
 
+import pytest
 from rx import operators as ops, pipe
 
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
@@ -36,7 +37,7 @@ logging.basicConfig(level=logging.DEBUG)
 class RxException(Exception):
     pass
 
-
+@pytest.mark.skip(reason="...")
 class TestPreservation(unittest.TestCase):
 
     def test_preserve_create_identity(self):

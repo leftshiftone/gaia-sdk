@@ -2,6 +2,7 @@ import logging
 import unittest
 from uuid import uuid4
 
+import pytest
 from rx import operators as ops, pipe
 
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
@@ -18,7 +19,7 @@ class RxException(Exception):
 def _raise(ex):
     raise RxException(ex)
 
-
+@pytest.mark.skip(reason="...")
 class TestRetrieval(unittest.TestCase):
 
     def test_retrieve_codes(self):
