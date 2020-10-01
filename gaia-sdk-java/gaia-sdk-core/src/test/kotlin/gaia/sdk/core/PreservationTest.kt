@@ -408,7 +408,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve create skillProvision`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateSkillProvisionImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,100,1,true,30, emptyMap())
+        val impulse = CreateSkillProvisionImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,true,1,emptyMap())
 
         val publisher = gaiaRef.preserveCreateSkillProvisions(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -420,7 +420,7 @@ abstract class PreservationTest {
     @Test
     fun `test preserve update skillProvision`() {
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = UpdateSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,100,1,true,30, emptyMap())
+        val impulse = UpdateSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,true,1, emptyMap())
 
         val publisher = gaiaRef.preserveUpdateSkillProvisions(impulse)
         val result = Flux.from(publisher).blockFirst()

@@ -2,7 +2,7 @@ import {SkillProvisionStatus, SkillRef} from "../api/SkillRef";
 import {Gaia} from "../Gaia";
 import {HMACCredentials} from "..";
 
-describe("skillref tests:", () => {
+describe.skip("skillref tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);

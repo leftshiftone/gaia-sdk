@@ -2,7 +2,7 @@ import {Gaia, PerceiveActionImpulse, PerceiveDataImpulse} from "../graphql";
 import {v4 as uuid} from 'uuid';
 import {HMACCredentials} from "../api/GaiaCredentials";
 
-describe("perception tests:", () => {
+describe.skip("perception tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);

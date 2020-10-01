@@ -3,7 +3,7 @@ import {HMACCredentials} from "../api/GaiaCredentials";
 
 const { v4: uuidv4 } = require('uuid');
 
-describe("perception tests:", () => {
+describe.skip("perception tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);
