@@ -17,8 +17,8 @@ export class StreamHttpTransporter implements IStreamTransporter {
     transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
         let customHeaders = {};
         if(body instanceof AbstractFormData) {
-            body = body.get()
             customHeaders = body.getHeaders()
+            body = body.get()
         }
         let config = this.client.getDefaultConfig(options, body)
         config = {...config, headers: {...config.headers, ...customHeaders}}
