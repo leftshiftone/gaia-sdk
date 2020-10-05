@@ -508,7 +508,7 @@
     "mockServer": {
         "one.leftshift.heimdall:heimdall-mock": {
             "locked": "2.2.0",
-            "requested": "latest.integration"
+            "requested": "2.2.0"
         }
     },
     "runtime": {
