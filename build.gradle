@@ -127,7 +127,7 @@ configurations {
 dependencies {
     antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
 
-    mockServer("one.leftshift.heimdall:heimdall-mock:latest.integration:all") {
+    mockServer("one.leftshift.heimdall:heimdall-mock:2.2.0:all") {
         transitive false
     }
 
