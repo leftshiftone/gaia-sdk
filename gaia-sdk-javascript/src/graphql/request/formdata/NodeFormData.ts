@@ -1,9 +1,14 @@
-import FormData from "form-data"
 import {AbstractFormData} from "./AbstractFormData";
 import Blob from "cross-blob"
 
 export class NodeFormData extends AbstractFormData {
-    private formData = new FormData()
+    private readonly formData: any = null;
+
+    constructor() {
+        super();
+        const formData = require('form-data');
+        this.formData = new formData();
+    }
 
     async append(name: string, value: string | Blob, filename?: string) {
         // @ts-ignore
