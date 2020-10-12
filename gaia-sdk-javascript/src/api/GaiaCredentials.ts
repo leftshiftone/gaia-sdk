@@ -14,7 +14,7 @@ export class HMACCredentials implements GaiaCredentials {
         this.apiSecret = apiSecret
     }
 
-    createAuthHeader(options: ClientOptions, payload: string): string {
+    createAuthHeader(options: ClientOptions, payload: any): string {
         return new HMACTokenBuilder()
             .withClientOptions(options)
             .withTimestamp(Math.floor(Date.now() / 1000))

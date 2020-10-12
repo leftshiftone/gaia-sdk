@@ -114,5 +114,5 @@ describe.skip("dataref tests:", () => {
 });
 
 function getGaiaRef() : Promise<GaiaRef> {
-    return Gaia.login("http://localhost:8080", new UsernamePasswordCredentials("username", "password"))
+    return Promise.resolve(Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret")));
 }

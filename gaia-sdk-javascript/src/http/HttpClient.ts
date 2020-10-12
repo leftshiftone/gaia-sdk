@@ -14,12 +14,14 @@ export class HttpClient {
         return {
             headers: {
                 'Content-Type': options.contentType,
-                Authorization: options.credentials.createAuthHeader(options, HttpClient.asString(body))
-            }
+                Authorization: options.credentials.createAuthHeader(options, body)
+            },
+            params: options.requestParameters
         }
+
     }
 
-    private static asString(payload: any): string {
+    static asString(payload: any): string {
         if (payload instanceof String) {
             return payload.toString()
         } else if (typeof payload === 'string') {

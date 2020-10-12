@@ -27,7 +27,7 @@ class UsernamePasswordCredentials(GaiaCredentials):
     def __repr__(self):
         return {'username': self.username, 'password': self.password}
 
-    def create_auth_header(self, options, payload: str) -> str:
+    def create_auth_header(self, options, payload) -> str:
         raise NotImplementedError("Creating an authentication string is not implemented for the used credentials.")
 
 
@@ -45,13 +45,13 @@ class HMACCredentials(GaiaCredentials):
     def __repr__(self):
         return {'apiKey': self.apiKey, 'apiSecret': self.apiSecret}
 
-    def create_auth_header(self, options, payload: str) -> str:
+    def create_auth_header(self, options, payload) -> str:
         timestamp = int(round(time.time()))
         nonce = UUID.random_uuid().value
         return HMACTokenBuilder().with_timestamp(timestamp) \
             .with_client_options(options) \
             .with_nonce(nonce) \
-            .with_payload(json.dumps(payload)).build()
+            .with_payload(payload).build()
 
 
 class JWTCredentials(GaiaCredentials):
@@ -66,5 +66,5 @@ class JWTCredentials(GaiaCredentials):
     def __repr__(self):
         return {'token': self.token}
 
-    def create_auth_header(self, options, payload: str) -> str:
+    def create_auth_header(self, options, payload) -> str:
         return "Bearer " + options.credentials.token

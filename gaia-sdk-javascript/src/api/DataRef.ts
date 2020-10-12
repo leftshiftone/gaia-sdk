@@ -121,9 +121,10 @@ class DataUpload {
     }
 
     private async sendChunks(uploadId: string, client: GaiaStreamClient) {
-        return await Promise.all(this.getChunkRequests(uploadId)
-            .map(chunkRequest => chunkRequest.asFormData()
-                .then(formData => client.postFormData(formData, "/data/sink/chunk"))))
+        return await Promise.all(
+            this.getChunkRequests(uploadId)
+                .map(chunk => chunk.data().then(data => client.postStream(data, chunk.requestParameters(), "/data/sink/chunk")))
+        );
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
