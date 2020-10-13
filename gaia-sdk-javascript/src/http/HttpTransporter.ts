@@ -11,8 +11,8 @@ export class HttpTransporter implements ITransporter {
         this.client = client
     }
 
-    transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
-        let config = this.client.getDefaultConfig(options, body)
+    async transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
+        let config = await this.client.getDefaultConfig(options, body)
         let url = this.url + urlPostfix
         return this.client.post(JSON.stringify(body), config, url)
             .then(response => JSON.stringify(response) as any)

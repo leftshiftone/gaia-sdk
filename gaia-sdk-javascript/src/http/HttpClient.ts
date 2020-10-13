@@ -10,11 +10,11 @@ export class HttpClient {
             })
     }
 
-    public getDefaultConfig(options: ClientOptions, body: any): AxiosRequestConfig {
+    public async getDefaultConfig(options: ClientOptions, body: any): Promise<AxiosRequestConfig> {
         return {
             headers: {
                 'Content-Type': options.contentType,
-                Authorization: options.credentials.createAuthHeader(options, body)
+                Authorization: await options.credentials.createAuthHeader(options, body)
             },
             params: options.requestParameters
         }

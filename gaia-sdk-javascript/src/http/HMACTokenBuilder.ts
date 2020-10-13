@@ -40,21 +40,27 @@ export class HMACTokenBuilder {
      * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
-    public build(): string {
-        var credentials = this.clientOptions.credentials as HMACCredentials
+    public async build(): Promise<string> {
+        const credentials = this.clientOptions.credentials as HMACCredentials
         const sep = "_"
         const HTTP_SENSOR_TYPE = "http"
-        const base64EncodedPayload = this.toBase64(this.payload);
+        const base64EncodedPayload = await this.toBase64(this.payload);
         let prepareToHash = [base64EncodedPayload,this.clientOptions.contentType,HTTP_SENSOR_TYPE,this.timestamp,this.nonce].join(sep)
         const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
-        const signature = this.toBase64(hmac);
+        const signature = await this.toBase64(hmac);
 
         return "HMAC-SHA512 " + [credentials.apiKey,signature,this.timestamp,this.nonce].join(sep)
     }
 
-    private toBase64(data: any): string {
+    private async toBase64(data: any): Promise<string> {
+        console.log(typeof(data), data);
         if (this.isBuffer(data)) {
+            // Node
             return data.toString('base64');
+        } else if (this.isBrowserBlob(data)) {
+            // Browser
+           const arrBuff = await data.arrayBuffer();
+           return new Buffer(arrBuff).toString('base64')
         } else {
             let stringData = HttpClient.asString(data)
             return typeof btoa !== 'undefined' && btoa(stringData) || Buffer.from(stringData, 'binary').toString('base64');
@@ -66,6 +72,10 @@ export class HMACTokenBuilder {
             return true;
         }
         return false;
+    }
+
+    private isBrowserBlob(blob: any): boolean {
+        return typeof(blob) === 'object' && blob.toString() === '[object Blob]';
     }
 
 
