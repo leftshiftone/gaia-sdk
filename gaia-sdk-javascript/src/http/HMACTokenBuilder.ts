@@ -53,7 +53,6 @@ export class HMACTokenBuilder {
     }
 
     private async toBase64(data: any): Promise<string> {
-        console.log(typeof(data), data);
         if (this.isBuffer(data)) {
             // Node
             return data.toString('base64');
@@ -77,7 +76,4 @@ export class HMACTokenBuilder {
     private isBrowserBlob(blob: any): boolean {
         return typeof(blob) === 'object' && blob.toString() === '[object Blob]';
     }
-
-
-
 }
