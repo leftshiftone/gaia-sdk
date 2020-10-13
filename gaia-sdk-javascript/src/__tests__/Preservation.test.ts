@@ -34,7 +34,7 @@ import {UpdateUserImpulse} from "../graphql/request/input/UpdateUserImpulse";
 import {CreateUserImpulse} from "../graphql/request/input/CreateUserImpulse";
 import {DeleteUserImpulse} from "../graphql/request/input/DeleteUserImpulse";
 
-describe.skip("perception tests:", () => {
+describe("perception tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);

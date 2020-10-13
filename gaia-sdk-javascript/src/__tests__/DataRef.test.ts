@@ -5,7 +5,7 @@ import {Gaia, GaiaRef} from "../Gaia";
 import {HMACCredentials, UsernamePasswordCredentials} from "..";
 import Blob from "cross-blob"
 
-describe.skip("dataref tests:", () => {
+describe("dataref tests:", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);

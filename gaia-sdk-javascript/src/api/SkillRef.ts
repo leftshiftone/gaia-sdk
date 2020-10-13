@@ -1,6 +1,6 @@
 import {from, Observable} from "rxjs";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
-import {flatMap} from "rxjs/operators";
+import {flatMap, map} from "rxjs/operators";
 
 export class SkillRef {
     private readonly client: GaiaStreamClient;
@@ -12,15 +12,15 @@ export class SkillRef {
     }
 
     public start(): Observable<{}> {
-        return from(this.client.post({ "uri": this.uri }, "/skill/start"))
+        return from(this.client.post({"uri": this.uri}, "/skill/start"))
     }
 
     public stop(): Observable<{}> {
-        return from(this.client.post({ "uri": this.uri }, "/skill/stop"))
+        return from(this.client.post({"uri": this.uri}, "/skill/stop"))
     }
 
     public status(): Observable<SkillProvisionStatus> {
-        return from(this.client.post({ "uri": this.uri }, "/skill/status"))
+        return from(this.client.post({"uri": this.uri}, "/skill/status"))
     }
 
     public logs(numberOfLines?: number): Observable<string> {
@@ -29,8 +29,24 @@ export class SkillRef {
     }
 
     private logsInternal(numberOfLines?: number): Observable<SkillProvisionLogs> {
-        return from(this.client.post({ "uri": this.uri, "numberOfLines": numberOfLines }, "/skill/logs"))
+        return from(this.client.post({"uri": this.uri, "numberOfLines": numberOfLines}, "/skill/logs"))
     }
+
+
+    public evaluate(contract: string, payload: any): Observable<SkillEvaluation>;
+    public evaluate(payload: any): Observable<SkillEvaluation>;
+    public evaluate(payload: any, contract?: string): Observable<SkillEvaluation> {
+        if (!payload) throw new Error('You must provide a payload');
+        const request = {'uri': this.uri, 'payload': payload};
+        if (contract) {
+            request['contract'] = contract;
+        }
+        return from(this.client.post(request, '/skill/evaluate'))
+            .pipe(map(r => new SkillEvaluation(r)));
+    }
+
+
+
 }
 
 export class SkillProvisionStatus {
@@ -52,3 +68,17 @@ export class SkillProvisionLogs {
         this.logLines = logLines;
     }
 }
+
+export class SkillEvaluation {
+
+    private readonly _response: any;
+
+    constructor(payload: any) {
+        this.response = payload;
+    }
+
+    response(): any {
+        return this._response;
+    }
+}
+
