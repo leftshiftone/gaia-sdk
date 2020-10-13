@@ -2,7 +2,7 @@ import {ClientOptions, Gaia, JWTCredentials} from "..";
 import {HMACCredentials, UsernamePasswordCredentials} from "../api/GaiaCredentials";
 import {HMACTokenBuilder} from "../http/HMACTokenBuilder";
 
-describe("Credentials test", () => {
+describe.skip("Credentials test", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);
