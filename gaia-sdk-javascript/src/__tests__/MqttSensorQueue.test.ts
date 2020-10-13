@@ -1,6 +1,6 @@
 import {MqttSensorQueue, QueueHeader, QueueOptions} from "..";
 
-describe.skip("MqttSensorQueue Test", () => {
+describe("MqttSensorQueue Test", () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);

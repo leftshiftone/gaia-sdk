@@ -1,9 +1,7 @@
-import multiprocessing
 from typing import Callable, List
 
 import rx
-from rx.core.typing import Observable
-from rx.scheduler import ThreadPoolScheduler
+from rx.core.typing import Observable, Scheduler
 
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.rx.rx import mapQ, mapM, flat_mapM, flat_mapQ
@@ -33,15 +31,15 @@ Uuid = str
 
 class HttpSensorFunction(ISensorFunction):
 
-    def __init__(self, url: str, credentials):
+    def __init__(self, url: str, credentials, scheduler: Scheduler):
         self.client = GaiaClientBuilder.http(url + "/api/entity").with_credentials(credentials).build()
-        self._thread_pool = ThreadPoolScheduler(multiprocessing.cpu_count())
+        self._scheduler = scheduler
 
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(config)
         query_res: Callable[[QueryRes], RetrievalRes] = lambda x: x.retrieve
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_experience(self, config: Callable[[ExperienceReq], None]) -> Observable[ExperienceRes]:
@@ -49,7 +47,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], ExperienceRes] = lambda x: x.retrieve.experience
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_knowledge(self, config: Callable[[KnowledgeReq], None]) -> Observable[KnowledgeRes]:
@@ -57,7 +55,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], KnowledgeRes] = lambda x: x.retrieve.knowledge
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int, offset: int) -> Observable[
@@ -67,7 +65,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edges
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
@@ -76,7 +74,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edge
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int, offset: int) -> Observable[
@@ -86,7 +84,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identities
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_identity(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
@@ -95,7 +93,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IdentityRes] = lambda x: x.retrieve.knowledge.identity
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int, offset: int) -> \
@@ -105,7 +103,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IntentRes] = lambda x: x.retrieve.knowledge.intents
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_intent(self, identityId: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[
@@ -115,7 +113,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], IntentRes] = lambda x: x.retrieve.knowledge.intent
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None], limit: int, offset: int) -> \
@@ -125,7 +123,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], PromptRes] = lambda x: x.retrieve.knowledge.prompts
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_prompt(self, identityId: Uuid, reference: Uuid, config: Callable[[PromptReq], None]) -> Observable[
@@ -135,7 +133,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], PromptRes] = lambda x: x.retrieve.knowledge.prompt
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None], limit: int, offset: int) -> \
@@ -146,7 +144,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], StatementRes] = lambda x: x.retrieve.knowledge.statements
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_statement(self, identityId: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> \
@@ -156,7 +154,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], StatementRes] = lambda x: x.retrieve.knowledge.statement
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None], limit: int,
@@ -167,7 +165,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], FulfilmentRes] = lambda x: x.retrieve.knowledge.fulfilments
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_fulfilment(self, identityId: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> \
@@ -177,7 +175,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], FulfilmentRes] = lambda x: x.retrieve.knowledge.fulfilment
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None], limit: int, offset: int) -> \
@@ -187,7 +185,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], CodeRes] = lambda x: x.retrieve.knowledge.codes
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_code(self, identityId: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[
@@ -197,7 +195,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], CodeRes] = lambda x: x.retrieve.knowledge.code
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None], limit: int, offset: int) -> \
@@ -208,7 +206,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], BehaviourRes] = lambda x: x.retrieve.knowledge.behaviours
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
     def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> \
@@ -218,14 +216,14 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], BehaviourRes] = lambda x: x.retrieve.knowledge.behaviour
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(config)
         query_res: Callable[[QueryRes], IntrospectionRes] = lambda x: x.introspect
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def introspect_skills(self, config: Callable[[SkillIntrospectionReq], None]) -> Observable[SkillIntrospectionRes]:
@@ -233,7 +231,7 @@ class HttpSensorFunction(ISensorFunction):
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(introspect_skills)
         query_res: Callable[[QueryRes], SkillIntrospectionRes] = lambda x: x.introspect.skills
 
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._thread_pool)
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
     def preserve(self, config: Callable[[PreservationReq], None]) -> Observable[PreservationRes]:
@@ -241,7 +239,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], PreservationRes] = lambda x: x.preserve
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return mapM(observable, mutation_res)
 
     def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
@@ -252,7 +250,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedIdentityImpulse] = lambda x: x.preserve.create.identities
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_identities(self, impulses: List[UpdateIdentityImpulse]) -> Observable[UpdatedIdentityImpulse]:
@@ -263,7 +261,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedIdentityImpulse] = lambda x: x.preserve.update.identities
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_identities(self, impulses: List[DeleteIdentityImpulse]) -> Observable[DeletedIdentityImpulse]:
@@ -274,7 +272,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedIdentityImpulse] = lambda x: x.preserve.delete.identities
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_intents(self, impulses: List[CreateIntentImpulse]) -> Observable[CreatedIntentImpulse]:
@@ -284,7 +282,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedIntentImpulse] = lambda x: x.preserve.create.intents
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_intents(self, impulses: List[UpdateIntentImpulse]) -> Observable[UpdatedIntentImpulse]:
@@ -295,7 +293,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedIntentImpulse] = lambda x: x.preserve.update.intents
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_intents(self, impulses: List[DeleteIntentImpulse]) -> Observable[DeletedIntentImpulse]:
@@ -306,7 +304,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedIntentImpulse] = lambda x: x.preserve.delete.intents
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_prompts(self, impulses: List[CreatePromptImpulse]) -> Observable[CreatedPromptImpulse]:
@@ -316,7 +314,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedPromptImpulse] = lambda x: x.preserve.create.prompts
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_prompts(self, impulses: List[UpdatePromptImpulse]) -> Observable[UpdatedPromptImpulse]:
@@ -327,7 +325,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedPromptImpulse] = lambda x: x.preserve.update.prompts
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_prompts(self, impulses: List[DeletePromptImpulse]) -> Observable[DeletedPromptImpulse]:
@@ -338,7 +336,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedPromptImpulse] = lambda x: x.preserve.delete.prompts
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_statements(self, impulses: List[CreateStatementImpulse]) -> Observable[CreatedStatementImpulse]:
@@ -349,7 +347,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedStatementImpulse] = lambda x: x.preserve.create.statements
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_statements(self, impulses: List[UpdateStatementImpulse]) -> Observable[UpdatedStatementImpulse]:
@@ -360,7 +358,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedStatementImpulse] = lambda x: x.preserve.update.statements
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_statements(self, impulses: List[DeleteStatementImpulse]) -> Observable[DeletedStatementImpulse]:
@@ -371,7 +369,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedStatementImpulse] = lambda x: x.preserve.delete.statements
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[
@@ -383,7 +381,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedFulfilmentImpulse] = lambda x: x.preserve.create.fulfilments
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[
@@ -395,7 +393,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedFulfilmentImpulse] = lambda x: x.preserve.update.fulfilments
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[
@@ -407,7 +405,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedFulfilmentImpulse] = lambda x: x.preserve.delete.fulfilments
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_behaviours(self, impulses: List[CreateBehaviourImpulse]) -> Observable[CreatedBehaviourImpulse]:
@@ -418,7 +416,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedBehaviourImpulse] = lambda x: x.preserve.create.behaviours
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_behaviours(self, impulses: List[UpdateBehaviourImpulse]) -> Observable[UpdatedBehaviourImpulse]:
@@ -429,7 +427,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedBehaviourImpulse] = lambda x: x.preserve.update.behaviours
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_behaviours(self, impulses: List[DeleteBehaviourImpulse]) -> Observable[DeletedBehaviourImpulse]:
@@ -440,7 +438,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedBehaviourImpulse] = lambda x: x.preserve.delete.behaviours
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_codes(self, impulses: List[CreateCodeImpulse]) -> Observable[CreatedCodeImpulse]:
@@ -450,7 +448,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedCodeImpulse] = lambda x: x.preserve.create.codes
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_codes(self, impulses: List[UpdateCodeImpulse]) -> Observable[UpdatedCodeImpulse]:
@@ -460,7 +458,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], UpdatedCodeImpulse] = lambda x: x.preserve.update.codes
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
@@ -470,7 +468,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedCodeImpulse] = lambda x: x.preserve.delete.codes
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
@@ -480,7 +478,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], CreatedEdgeImpulse] = lambda x: x.preserve.create.edges
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
@@ -490,7 +488,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], DeletedEdgeImpulse] = lambda x: x.preserve.delete.edges
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return flat_mapM(observable, mutation_res)
 
     def perceive(self, config: Callable[[PerceptionReq], None]) -> Observable[PerceptionRes]:
@@ -498,7 +496,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], PerceptionRes] = lambda x: x.perceive
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return mapM(observable, mutation_res)
 
     def perceive_action(self, impulse: PerceiveActionImpulse) -> Observable[PerceivedImpulse]:
@@ -507,7 +505,7 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], PerceivedImpulse] = lambda x: x.perceive.perceive_action
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return mapM(observable, mutation_res)
 
     def perceive_data(self, impulse: PerceiveDataImpulse) -> Observable[PerceivedImpulse]:
@@ -516,5 +514,5 @@ class HttpSensorFunction(ISensorFunction):
         mutation_res: Callable[[MutationRes], PerceivedImpulse] = lambda x: x.perceive.perceive_data
 
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
-                                      self._thread_pool)
+                                      self._scheduler)
         return mapM(observable, mutation_res)
