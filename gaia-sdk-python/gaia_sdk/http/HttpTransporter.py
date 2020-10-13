@@ -18,7 +18,11 @@ class HttpTransporter(ITransporter):
         self.logger = logging.getLogger("HttpTransporter")
 
     def transport(self, options: ClientOptions, payload: Payload, url_post_fix: str = "") -> Response:
-        data = payload.data
+        if payload.payload_type == Payload.STREAM:
+            data = payload.binaryData
+        else:
+            data = payload.data
+
         headers = HttpTransporter.get_default_headers(options, data)
         url = self.url + url_post_fix
         self.logger.debug("request to %s header:%s payload:%r", url, headers, data)
@@ -26,6 +30,8 @@ class HttpTransporter(ITransporter):
             response = requests.post(url, json=data, headers=headers)
         elif payload.payload_type == Payload.FORM_DATA:
             response = requests.post(url, files=data, headers=headers)
+        elif payload.payload_type == Payload.STREAM:
+            response = requests.post(url, data=data, headers=headers, params=options.request_parameters)
         else:
             raise ValueError(f"Unsupported type for payload {payload.payload_type}")
         self.logger.debug("response: %r", response)

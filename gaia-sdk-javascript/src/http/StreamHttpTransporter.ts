@@ -2,7 +2,6 @@ import {ClientOptions} from "..";
 import Blob from 'cross-blob'
 import {HttpClient} from "./HttpClient";
 import {IStreamTransporter} from "../api/IStreamTransporter";
-import {AbstractFormData} from "../graphql/request/formdata/AbstractFormData";
 
 export class StreamHttpTransporter implements IStreamTransporter {
 
@@ -14,20 +13,16 @@ export class StreamHttpTransporter implements IStreamTransporter {
         this.client = client
     }
 
-    transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
+    async transport<T>(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<T> {
         let customHeaders = {};
-        if(body instanceof AbstractFormData) {
-            customHeaders = body.getHeaders()
-            body = body.get()
-        }
-        let config = this.client.getDefaultConfig(options, body)
+        let config = await this.client.getDefaultConfig(options, body)
         config = {...config, headers: {...config.headers, ...customHeaders}}
         let url = this.url + urlPostfix
         return this.client.post(body, config, url)
     }
 
-    transportAndRetrieveBinary(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<Blob> {
-        let config = this.client.getDefaultConfig(options, body)
+    async transportAndRetrieveBinary(options: ClientOptions, body: any, urlPostfix: string = ""): Promise<Blob> {
+        let config = await this.client.getDefaultConfig(options, body)
         config.responseType = "arraybuffer"
         let url = this.url + urlPostfix
         return this.client.post(JSON.stringify(body), config, url)

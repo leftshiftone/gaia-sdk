@@ -1,4 +1,5 @@
 from typing import Dict
+from typing import Any
 
 
 class BinaryWriteChunkImpulse:
@@ -29,11 +30,13 @@ class BinaryWriteChunkImpulse:
                 'size_in_bytes': self.size_in_bytes,
                 'file': self.file}
 
-    def as_form_data(self) -> Dict[str, tuple]:
+    def request_parameters(self) -> Dict[str, Any]:
         return {
-            "uri": (None, self.uri),
-            "uploadId": (None, self.upload_id),
-            "ordinal": (None, self.ordinal),
-            "sizeInBytes": (None, self.size_in_bytes),
-            "file": ("someFileName", self.file, "application/octet-stream")
+            "uri": self.uri,
+            "uploadId": self.upload_id,
+            "ordinal": self.ordinal,
+            "sizeInBytes": self.size_in_bytes
         }
+
+    def data(self) -> bytes:
+        return self.file
