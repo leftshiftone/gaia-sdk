@@ -25,13 +25,13 @@ export class BinaryWriteChunkImpulse {
     }
 
     public async data(): Promise<Blob | Buffer> {
-        if (typeof FormData !== 'undefined') {
-            // browser
-            return this.chunk;
-        } else {
+        if (typeof process === 'object') {
             // not browser
             // @ts-ignore
             return Buffer.from(await this.chunk.arrayBuffer());
+        } else {
+            // browser
+            return this.chunk;
         }
     }
 }
