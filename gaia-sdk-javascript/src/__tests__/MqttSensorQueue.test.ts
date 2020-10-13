@@ -8,7 +8,7 @@ describe.skip('MqttSensorQueue Test', () => {
 
     /**
      * This test will always be green, because we have no possibility to await the completion of publish.
-     * TODO: Write a meaningful test
+     * TODO: Write a meaningful test once we can await the result of publish
      */
     it('connect', () => {
         const header = new QueueHeader('4a87c137-3894-4580-ae20-8a4f621b75fd', 'niceChannel');
