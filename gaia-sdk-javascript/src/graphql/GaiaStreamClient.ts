@@ -14,8 +14,11 @@ export class GaiaStreamClient {
         return this.transporter.transport(this.options, JSON.stringify(body), urlPostfix)
     }
 
-    public postFormData(body: any, urlPostfix: string=""): Promise<any> {
-        return this.transporter.transport(this.options, body, urlPostfix)
+    public postStream(data: any, requestParameters: any, urlPostfix: string=""): Promise<any> {
+        var requestOptions = this.options
+            .withContentType("application/octet-stream")
+            .withRequestParameters(requestParameters);
+        return this.transporter.transport(requestOptions, data, urlPostfix)
 
     }
 

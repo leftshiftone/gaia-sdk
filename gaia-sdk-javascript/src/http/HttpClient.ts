@@ -10,16 +10,18 @@ export class HttpClient {
             })
     }
 
-    public getDefaultConfig(options: ClientOptions, body: any): AxiosRequestConfig {
+    public async getDefaultConfig(options: ClientOptions, body: any): Promise<AxiosRequestConfig> {
         return {
             headers: {
                 'Content-Type': options.contentType,
-                Authorization: options.credentials.createAuthHeader(options, HttpClient.asString(body))
-            }
+                Authorization: await options.credentials.createAuthHeader(options, body)
+            },
+            params: options.requestParameters
         }
+
     }
 
-    private static asString(payload: any): string {
+    static asString(payload: any): string {
         if (payload instanceof String) {
             return payload.toString()
         } else if (typeof payload === 'string') {

@@ -143,7 +143,7 @@ class DataUpload:
         for index in range(self.number_of_chunks):
             chunk_data = self.content[index * CHUNK_SIZE: min((index + 1) * CHUNK_SIZE, len(self.content))]
             chunk_impulse = BinaryWriteChunkImpulse(self.uri, upload_id, index + 1, len(chunk_data), chunk_data)
-            response = client.post_form_data(chunk_impulse.as_form_data(), "/data/sink/chunk").json()
+            response = client.post_stream(chunk_impulse.data(), chunk_impulse.request_parameters(), "/data/sink/chunk").json()
             chunk_ids.insert(index, BinaryChunkWritten(response).chunk_id)
         return chunk_ids
 

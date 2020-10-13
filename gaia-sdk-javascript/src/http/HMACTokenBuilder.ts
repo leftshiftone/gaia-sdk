@@ -2,10 +2,11 @@
 import * as CryptoJS from 'crypto-js';
 import {ClientOptions} from "..";
 import {HMACCredentials} from "../api/GaiaCredentials";
+import {HttpClient} from "./HttpClient";
 
 export class HMACTokenBuilder {
 
-    private payload: string;
+    private payload: any;
     private nonce: string;
     private clientOptions: ClientOptions;
     private timestamp: number;
@@ -17,7 +18,7 @@ export class HMACTokenBuilder {
         this.clientOptions = new ClientOptions(new HMACCredentials("",""),"application/json")
     }
 
-    public withPayload(payload: string): HMACTokenBuilder{
+    public withPayload(payload: any): HMACTokenBuilder{
         this.payload=payload
         return this
     }
@@ -39,22 +40,40 @@ export class HMACTokenBuilder {
      * Authorization: "HMAC-SHA512 " + API_KEY + "_" +
      * base64(hmac-sha512( content, content_type, sensor_type, timestamp, nonce )) + "_" + timestamp + "_" + nonce
      */
-    public build(): string {
-
-        const toBase64 = (data: string) =>
-            typeof btoa !== 'undefined' && btoa(data) || Buffer.from(data, 'binary').toString('base64');
-
-        var credentials = this.clientOptions.credentials as HMACCredentials
+    public async build(): Promise<string> {
+        const credentials = this.clientOptions.credentials as HMACCredentials
         const sep = "_"
         const HTTP_SENSOR_TYPE = "http"
-        const base64EncodedPayload = toBase64(this.payload);
+        const base64EncodedPayload = await this.toBase64(this.payload);
         let prepareToHash = [base64EncodedPayload,this.clientOptions.contentType,HTTP_SENSOR_TYPE,this.timestamp,this.nonce].join(sep)
         const hmac = CryptoJS.HmacSHA512(Buffer.from(prepareToHash).toString(),credentials.apiSecret).toString()
-        const signature = toBase64(hmac);
+        const signature = await this.toBase64(hmac);
 
         return "HMAC-SHA512 " + [credentials.apiKey,signature,this.timestamp,this.nonce].join(sep)
     }
 
+    private async toBase64(data: any): Promise<string> {
+        if (this.isBuffer(data)) {
+            // Node
+            return data.toString('base64');
+        } else if (this.isBrowserBlob(data)) {
+            // Browser
+           const arrBuff = await data.arrayBuffer();
+           return new Buffer(arrBuff).toString('base64')
+        } else {
+            let stringData = HttpClient.asString(data)
+            return typeof btoa !== 'undefined' && btoa(stringData) || Buffer.from(stringData, 'binary').toString('base64');
+        }
+    }
 
+    private isBuffer(b: Buffer): b is Buffer {
+        if ((b as Buffer).writeFloatLE) {
+            return true;
+        }
+        return false;
+    }
 
+    private isBrowserBlob(blob: any): boolean {
+        return typeof(blob) === 'object' && blob.toString() === '[object Blob]';
+    }
 }
