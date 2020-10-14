@@ -1,4 +1,5 @@
 import unittest
+import pytest
 from unittest.mock import patch, Mock
 
 from requests import Response, HTTPError
@@ -29,6 +30,7 @@ class TestSkill(unittest.TestCase):
         result = skill_ref.evaluate(payload={"request": "hello world!"}).run()
         self.assertEqual(result.response,{'response': 'hello back', ':namespace' : 'outgoing'})
 
+    @pytest.mark.skip(reason="...")
     def test_does_raise(self):
         def _fail_login():
             gaia_ref = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "sdasd"))

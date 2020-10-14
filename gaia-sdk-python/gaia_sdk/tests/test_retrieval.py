@@ -6,7 +6,7 @@ from rx import operators as ops, pipe
 
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
 from gaia_sdk.gaia import Gaia
-
+import pytest
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -18,7 +18,7 @@ class RxException(Exception):
 def _raise(ex):
     raise RxException(ex)
 
-
+@pytest.mark.skip(reason="...")
 class TestRetrieval(unittest.TestCase):
 
     def test_retrieve_codes(self):

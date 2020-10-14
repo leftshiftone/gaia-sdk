@@ -3,11 +3,13 @@ package gaia.sdk.core
 import gaia.sdk.GaiaCredentials
 import io.reactivex.Flowable
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class RetrievalTest() {
 
