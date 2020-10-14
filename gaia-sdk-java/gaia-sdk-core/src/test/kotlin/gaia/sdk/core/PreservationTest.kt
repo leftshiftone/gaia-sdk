@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*
 import reactor.core.publisher.Flux
 import java.util.*
 
-@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class PreservationTest {
 

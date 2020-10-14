@@ -8,7 +8,6 @@ import reactor.core.publisher.Flux
 import java.util.*
 import kotlin.collections.HashMap
 
-@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class PerceptionTest {
 
