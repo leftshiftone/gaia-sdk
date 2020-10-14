@@ -2051,6 +2051,29 @@
                 "org.apache.httpcomponents:httpclient"
             ]
         },
+        "io.mockk:mockk": {
+            "locked": "1.10.2",
+            "requested": "1.10.2"
+        },
+        "io.mockk:mockk-common": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
+        "io.mockk:mockk-dsl": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk-common",
+                "io.mockk:mockk-dsl-jvm"
+            ]
+        },
+        "io.mockk:mockk-dsl-jvm": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
         "io.netty:netty-buffer": {
             "locked": "4.1.50.Final",
             "transitive": [
@@ -2514,6 +2537,29 @@
             "requested": "1.2",
             "transitive": [
                 "org.apache.httpcomponents:httpclient"
+            ]
+        },
+        "io.mockk:mockk": {
+            "locked": "1.10.2",
+            "requested": "1.10.2"
+        },
+        "io.mockk:mockk-common": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
+        "io.mockk:mockk-dsl": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk-common",
+                "io.mockk:mockk-dsl-jvm"
+            ]
+        },
+        "io.mockk:mockk-dsl-jvm": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
             ]
         },
         "io.netty:netty-buffer": {
@@ -3271,6 +3317,48 @@
                 "org.apache.httpcomponents:httpclient"
             ]
         },
+        "io.mockk:mockk": {
+            "locked": "1.10.2",
+            "requested": "1.10.2"
+        },
+        "io.mockk:mockk-agent-api": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk-agent-common",
+                "io.mockk:mockk-agent-jvm"
+            ]
+        },
+        "io.mockk:mockk-agent-common": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk-agent-jvm"
+            ]
+        },
+        "io.mockk:mockk-agent-jvm": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
+        "io.mockk:mockk-common": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
+        "io.mockk:mockk-dsl": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk-common",
+                "io.mockk:mockk-dsl-jvm"
+            ]
+        },
+        "io.mockk:mockk-dsl-jvm": {
+            "locked": "1.10.2",
+            "transitive": [
+                "io.mockk:mockk"
+            ]
+        },
         "io.netty:netty-buffer": {
             "locked": "4.1.50.Final",
             "transitive": [
@@ -3421,6 +3509,18 @@
             "transitive": [
                 "com.github.tomakehurst:wiremock",
                 "org.xmlunit:xmlunit-legacy"
+            ]
+        },
+        "net.bytebuddy:byte-buddy": {
+            "locked": "1.10.14",
+            "transitive": [
+                "io.mockk:mockk-agent-jvm"
+            ]
+        },
+        "net.bytebuddy:byte-buddy-agent": {
+            "locked": "1.10.14",
+            "transitive": [
+                "io.mockk:mockk-agent-jvm"
             ]
         },
         "net.minidev:accessors-smart": {
@@ -3578,6 +3678,8 @@
             "locked": "1.3.41",
             "requested": "1.3.41",
             "transitive": [
+                "io.mockk:mockk",
+                "io.mockk:mockk-dsl-jvm",
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql",
                 "one.leftshift.gaia-sdk:gaia-sdk-http",
@@ -3655,6 +3757,12 @@
             "locked": "1.6.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.objenesis:objenesis": {
+            "locked": "3.1",
+            "transitive": [
+                "io.mockk:mockk-agent-jvm"
             ]
         },
         "org.opentest4j:opentest4j": {
