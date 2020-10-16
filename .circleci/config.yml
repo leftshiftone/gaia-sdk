@@ -55,7 +55,7 @@ jobs:
       - run:
           name: Download mock server
           command: ./gradlew :gaia-sdk-mock-server:jar
-       - run:
+      - run:
           name: Start mock server
           command: java -jar -Xmx512m gaia-sdk-mock-server/build/libs/mock-server-2.1.0-SNAPSHOT.jar
           background: true
