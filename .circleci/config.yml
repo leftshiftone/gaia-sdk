@@ -56,16 +56,16 @@ jobs:
           name: Download mock server
           command: ./gradlew :gaia-sdk-mock-server:jar
        - run:
-         name: Start mock server
-         command: java -jar -Xmx512m gaia-sdk-mock-server/build/libs/mock-server-2.1.0-SNAPSHOT.jar
-         background: true
+          name: Start mock server
+          command: java -jar -Xmx512m gaia-sdk-mock-server/build/libs/mock-server-2.1.0-SNAPSHOT.jar
+          background: true
       - run:
-        name: Wait for mock server to be ready
-        command: |
-          until $(curl --output /dev/null --silent --fail http://localhost:8080/status); do
-            printf '.'
-            sleep 5
-          done
+          name: Wait for mock server to be ready
+          command: |
+            until $(curl --output /dev/null --silent --fail http://localhost:8080/status); do
+              printf '.'
+              sleep 5
+            done
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
