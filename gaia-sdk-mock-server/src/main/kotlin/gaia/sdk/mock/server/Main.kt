@@ -27,6 +27,9 @@ fun Application.module() {
         HttpMethod.DefaultMethods.forEach { method(it) }
     }
     install(Routing) {
+        get("/status") {
+            call.respondText("ready", ContentType.Text.Plain)
+        }
         post("/api/auth/access") {
             call.respond(LoginResponse(
                 "john.doe",
