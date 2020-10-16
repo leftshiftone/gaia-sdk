@@ -57,7 +57,11 @@ jobs:
           command: ./gradlew :gaia-sdk-mock-server:jar
       - run:
           name: Wait for mock server to be ready
-          command: until $(curl --output /dev/null --silent --fail http://localhost:8080/status); do; printf '.'; sleep 5; done
+          command: |
+            until $(curl --output /dev/null --silent --fail http://localhost:8080/status); do
+              printf '.'
+              sleep 5
+            done
       - run:
           name: Start mock server
           command: java -jar -Xmx512m gaia-sdk-mock-server/build/libs/mock-server-2.1.0-SNAPSHOT.jar
