@@ -20,6 +20,7 @@ include "gaia-sdk-java:gaia-sdk-http"
 include "gaia-sdk-java:gaia-sdk-graphql"
 include "gaia-sdk-java:gaia-sdk-mqtt"
 include "gaia-sdk-javascript"
+include "gaia-sdk-mock-server"
 include "gaia-sdk-python"
 
 def awsCredentials() {

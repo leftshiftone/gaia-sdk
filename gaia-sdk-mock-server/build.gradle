@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) 2016-2019, Leftshift One
+ * __________________
+ * [2019] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
+buildscript {
+    ext.ktor_version = '1.2.3'
+}
+
+apply plugin: "kotlin"
+apply plugin: "application"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "com.jfrog.bintray"
+apply plugin: "one.leftshift.asteria-publish"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.slf4j:slf4j-api:1.7.28"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-jackson:$ktor_version"
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    implementation 'org.json4s:json4s-jackson_2.12:3.6.9'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileKotlin { kotlinOptions.jvmTarget = "1.8" }
+compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
+
+mainClassName = 'gaia.sdk.mock.server.MainKt'
+
+jar {
+    baseName 'mock-server'
+    manifest {
+        attributes 'Main-Class': 'gaia.sdk.mock.server.MainKt'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Test) { testTask ->
+    maxHeapSize = "1G"
+    testTask.beforeTest { descriptor ->
+        logger.lifecycle(descriptor.toString())
+    }
+}
+
+asteriaPublish {
+    enableBranchSnapshotRepositories = true
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = project.name
+            from components.java
+            artifact sourceJar
+            pom.withXml {
+                Node root = asNode()
+                root.appendNode("name", "GAIA SDK")
+                root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
+                root.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+
+                Node licenses = root.appendNode("licenses")
+                Node license = licenses.appendNode("license")
+                license.appendNode("name", "MIT")
+                license.appendNode("url", "https://github.com/leftshiftone/gaia-sdk/blob/master/LICENSE")
+
+                Node developers = root.appendNode("developers")
+                Node developer = developers.appendNode("developer")
+                developer.appendNode("id", "leftshiftone")
+                developer.appendNode("name", "Leftshift One")
+                developer.appendNode("email", "contact@leftshift.one")
+                developer.appendNode("organization", "Leftshift One Software GmbH")
+                developer.appendNode("organizationUrl", "https://www.leftshift.one")
+
+                Node scm = root.appendNode("scm")
+                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/gaia-sdk.git")
+                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/gaia-sdk.git")
+                scm.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+            }
+        }
+    }
+}
+
+bintray {
+    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publish = true
+    override = true
+    pkg {
+        repo = "gaia-sdk"
+        name = "${project.group}.${project.name}"
+        userOrg = "leftshiftone"
+        licenses = ["MIT"]
+        vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
+        publications = ["mavenJava"]
+    }
+}
+
+if (System.getenv("CI")) {
+    publish.finalizedBy bintrayUpload
+}
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    rootProject.tasks.release.dependsOn tasks.generateLock
+    rootProject.tasks.release.dependsOn tasks.saveLock
+}
+

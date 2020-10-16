@@ -54,10 +54,10 @@ jobs:
           command: ./gradlew :publish :gaia-sdk-java:publish -x bintrayUpload --stacktrace
       - run:
           name: Download mock server
-          command: ./gradlew prepareMockServer
+          command: ./gradlew :gaia-sdk-mock-server:jar
       - run:
           name: Start mock server
-          command: java -jar -Xmx512m build/mock/heimdall-mock.jar
+          command: java -jar -Xmx512m gaia-sdk-mock-server/build/mock/mock-server-*.jar
           background: true
       - run:
           name: Test all projects
