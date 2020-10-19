@@ -10,7 +10,7 @@ from gaia_sdk.tests.mock import mock_gaia_ref
 class TestConcurrency(unittest.TestCase):
 
     def test_does_not_block(self):
-        gaia_ref = mock_gaia_ref(lambda x: self.return_after_seconds(5))
+        gaia_ref = mock_gaia_ref(self.return_after_seconds(5))
 
         def config(x):
             x.identity_id()

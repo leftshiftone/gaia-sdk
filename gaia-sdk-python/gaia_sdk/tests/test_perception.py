@@ -16,7 +16,6 @@ from rx import operators as ops, pipe
 class RxException(Exception):
     pass
 
-@pytest.mark.skip(reason="...")
 class TestPerception(unittest.TestCase):
 
     def test_perceive_data(self):

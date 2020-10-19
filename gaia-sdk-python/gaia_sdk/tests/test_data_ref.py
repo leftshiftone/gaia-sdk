@@ -66,8 +66,6 @@ class TestDataRef(unittest.TestCase):
         self.assertEqual(result.file_existed, False)
 
     def mock_write(self, request):
-        print("request:")
-        print(request)
         if request.url_post_fix == "/data/sink/init":
             return MockResponse({"uploadId": "A123"})
         elif request.url_post_fix == "/data/sink/chunk":

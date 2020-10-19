@@ -22,7 +22,10 @@ def mock_gaia_ref(mock_response_handler):
     mock_stream_client_factory = MocktreamClientFactory()
     mock_stream_client_factory.set_mock_response_handler(mock_response_handler)
 
-    return Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"), mock_client_factory, mock_stream_client_factory)
+    Gaia._client_factory = mock_client_factory
+    Gaia._stream_client_factory = mock_stream_client_factory
+
+    return Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
 
 class MockResponse(object):
 
@@ -78,11 +81,9 @@ class MocktreamClientFactory(GaiaStreamClientFactory):
 class MockTransporter(ITransporter):
 
     def set_mock_response_handler(self, mock_response_handler):
-        print("mock response handler has been set")
         self.mock_response_handler = mock_response_handler
 
     def transport(self, options: ClientOptions, payload: Payload, url_post_fix: str = "") -> Response:
-        print("transport has been called")
         return self.mock_response_handler(MockRequest(options, payload, url_post_fix))
 
 class MockHttpClientBuilder(GaiaHttpClientBuilder):
@@ -95,13 +96,11 @@ class MockHttpClientBuilder(GaiaHttpClientBuilder):
         return self
 
     def build(self):
-        print("building client1")
         self.transporter = MockTransporter()
         self.set_mock_response_handler(self.mock_response_handler)
         return GaiaClient(self.transporter, ClientOptions(self.credentials))
 
     def set_mock_response_handler(self, mock_response_handler):
-        print("did set mock response handler1")
         self.mock_response_handler = mock_response_handler
         if hasattr(self, 'transporter'):
             self.transporter.set_mock_response_handler(mock_response_handler)
@@ -116,13 +115,11 @@ class MockHttpStreamClientBuilder(GaiaHttpStreamClientBuilder):
         return self
 
     def build(self):
-        print("building client2")
         self.transporter = MockTransporter()
         self.set_mock_response_handler(self.mock_response_handler)
         return GaiaStreamClient(self.transporter, ClientOptions(self.credentials))
 
     def set_mock_response_handler(self, mock_response_handler):
-        print("did set mock response handler2")
         self.mock_response_handler = mock_response_handler
         if hasattr(self, 'transporter'):
             self.transporter.set_mock_response_handler(mock_response_handler)

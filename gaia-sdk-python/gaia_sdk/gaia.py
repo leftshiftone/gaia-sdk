@@ -37,19 +37,21 @@ Uuid = str
 
 class Gaia:
     _pool = ThreadPoolScheduler(5)
+    _client_factory = GaiaClientFactory()
+    _stream_client_factory = GaiaStreamClientFactory()
 
     @classmethod
-    def connect(cls, url: str, credentials: GaiaCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
-        config = GaiaConfig(url, HttpSensorFunction(url, credentials, cls._pool, client_factory),
-                            HttpSensorStream(url, credentials, cls._pool, stream_client_factory))
+    def connect(cls, url: str, credentials: GaiaCredentials) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials, cls._pool, cls._client_factory),
+                            HttpSensorStream(url, credentials, cls._pool, cls._stream_client_factory))
         return GaiaRef(config, config.functionProcessor, config.streamProcessor)
 
     @classmethod
-    def login(cls, url: str, credentials: UsernamePasswordCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
+    def login(cls, url: str, credentials: UsernamePasswordCredentials) -> 'GaiaRef':
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers)
         response.raise_for_status()
-        return Gaia.connect(url, JWTCredentials(LoggedIn(response.json()).access_token), client_factory, stream_client_factory)
+        return Gaia.connect(url, JWTCredentials(LoggedIn(response.json()).access_token))
 
 class GaiaConfig:
     url: str
