@@ -45,21 +45,23 @@ class TestDataRef(unittest.TestCase):
         assert pipe(ops.first())(response).run().uri == "gaia://usr@tenant/somefolder/existingFile"
 
     def test_list_files_in_existing_dir(self):
-        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse({"data": [FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1"})]}))
+        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse([{"tenant": "tenant1", "filePath": "existingDirectory/file1"}]))
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant1/existingDirectory").list()).run()
         self.assertEqual(len(result), 1)
-        print(result)
         self.assertEqual(result[0], FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1"}))
 
     def test_list_files_in_nonexistent_dir(self):
+        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse([]))
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant1/nonexistentDirectory").list()).run()
         self.assertEqual(len(result), 0)
 
     def test_remove_existing_file(self):
+        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse({"fileExisted": True}))
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant/somefolder/existingFile").remove()).run()
         self.assertEqual(result.file_existed, True)
 
     def test_remove_nonexistent_file(self):
+        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse({"fileExisted": False}))
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant/somefolder/nonexistentFile").remove()).run()
         self.assertEqual(result.file_existed, False)
 
