@@ -4,11 +4,12 @@ from gaia_sdk.graphql.GaiaClient import GaiaClient
 
 #Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
 
-class GaiaClientBuilder(object):
+class GaiaClientFactory:
 
-    @staticmethod
-    def http(url):
-        return GaiaClientBuilder(url)
+    def http(self, url):
+        return GaiaHttpClientBuilder(url)
+
+class GaiaHttpClientBuilder(object):
 
     def __init__(self, url):
         self.url = url

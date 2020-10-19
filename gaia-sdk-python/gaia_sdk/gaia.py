@@ -26,21 +26,23 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
 from gaia_sdk.http.response.LoggedIn import LoggedIn
+from gaia_sdk.graphql.GaiaClientBuilder import GaiaClientFactory
+from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 
 Uuid = str
 
 
 class Gaia:
     @staticmethod
-    def connect(url: str, credentials: GaiaCredentials) -> 'GaiaRef':
-        config = GaiaConfig(url, HttpSensorFunction(url, credentials), HttpSensorStream(url, credentials))
+    def connect(url: str, credentials: GaiaCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials, client_factory), HttpSensorStream(url, credentials, stream_client_factory))
         return GaiaRef(config, config.functionProcessor, config.streamProcessor)
 
     @staticmethod
-    def login(url: str, credentials: UsernamePasswordCredentials) -> 'GaiaRef':
+    def login(url: str, credentials: UsernamePasswordCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers).json()
-        return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token))
+        return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token), client_factory, stream_client_factory)
 
 
 class GaiaConfig:

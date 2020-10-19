@@ -3,12 +3,12 @@ from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
 from gaia_sdk.http.HttpTransporter import HttpTransporter
 
+class GaiaStreamClientFactory(object):
+    def http(self, url):
+        return GaiaHttpStreamClientBuilder(url)
 
-class GaiaStreamClientBuilder(object):
 
-    @staticmethod
-    def http(url):
-        return GaiaStreamClientBuilder(url)
+class GaiaHttpStreamClientBuilder(object):
 
     def __init__(self, url):
         self.url = url

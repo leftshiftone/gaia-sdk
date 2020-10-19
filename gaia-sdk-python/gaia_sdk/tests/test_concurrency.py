@@ -1,31 +1,16 @@
 import time
 import unittest
-from unittest.mock import patch, Mock
 from uuid import uuid4
 
 from rx import operators as ops
 from rx import pipe
 
-from gaia_sdk.api.GaiaCredentials import HMACCredentials
-from gaia_sdk.gaia import Gaia
-
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 class TestConcurrency(unittest.TestCase):
 
-    @patch('gaia_sdk.http.HttpSensorFunction.GaiaClientBuilder')
-    def test_does_not_block(self, mock):
-        m0 = Mock()
-        m1 = Mock()
-
-        mocked_client = Mock()
-        mocked_client.query = self.return_after_seconds(5)
-        mocked_client.side_effect = lambda x: time.sleep(5)
-
-        m1.build.return_value = mocked_client
-        m0.with_credentials.return_value = m1
-        mock.http.return_value = m0
-
-        gaia_ref = Gaia.connect("http://localhost:8080", HMACCredentials("mockedApiKey", "mockedApiSecret"))
+    def test_does_not_block(self):
+        gaia_ref = mock_gaia_ref(lambda x: self.return_after_seconds(5))
 
         def config(x):
             x.identity_id()
