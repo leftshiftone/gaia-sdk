@@ -1,76 +1,83 @@
-import {ISensorFunction} from "./api/ISensorFunction";
-import {HttpSensorFunction} from "./http/HttpSensorFunction";
-import {Introspection} from "./graphql/request/type/Introspection";
-import {SkillIntrospection} from "./graphql/request/type/SkillIntrospection";
-import {Perception} from "./graphql/request/type/Perception";
+import {ISensorFunction} from './api/ISensorFunction';
+import {HttpSensorFunction} from './http/HttpSensorFunction';
+import {Introspection} from './graphql/request/type/Introspection';
+import {SkillIntrospection} from './graphql/request/type/SkillIntrospection';
+import {Perception} from './graphql/request/type/Perception';
 import {
     CreateIntentImpulse,
     DeleteIntentImpulse,
     PerceiveActionImpulse,
     PerceiveDataImpulse,
     UpdateIntentImpulse
-} from "./graphql";
-import {Preservation} from "./graphql/request/type/Preservation";
-import {Retrieval} from "./graphql/request/type/Retrieval";
-import {Behaviour} from "./graphql/request/type/Behaviour";
-import {Code} from "./graphql/request/type/Code";
-import {Experience} from "./graphql/request/type/Experience";
-import {Fulfilment} from "./graphql/request/type/Fulfilment";
-import {Intent} from "./graphql/request/type/Intent";
-import {Knowledge} from "./graphql/request/type/Knowledge";
-import {Edge} from "./graphql/request/type/Edge";
-import {Prompt} from "./graphql/request/type/Prompt";
-import {Statement} from "./graphql/request/type/Statement";
-import {Skill} from "./graphql/request/type/Skill";
-import {SkillProvision} from "./graphql/request/type/SkillProvision";
-import {CreateBehaviourImpulse} from "./graphql/request/input/CreateBehaviourImpulse";
-import {CreatePromptImpulse} from "./graphql/request/input/CreatePromptImpulse";
-import {DeletePromptImpulse} from "./graphql/request/input/DeletePromptImpulse";
-import {UpdatePromptImpulse} from "./graphql/request/input/UpdatePromptImpulse";
-import {UpdateStatementImpulse} from "./graphql/request/input/UpdateStatementImpulse";
-import {DeleteStatementImpulse} from "./graphql/request/input/DeleteStatementImpulse";
-import {CreateStatementImpulse} from "./graphql/request/input/CreateStatementImpulse";
-import {CreateFulfilmentImpulse} from "./graphql/request/input/CreateFulfilmentImpulse";
-import {DeleteFulfilmentImpulse} from "./graphql/request/input/DeleteFulfilmentImpulse";
-import {UpdateFulfilmentImpulse} from "./graphql/request/input/UpdateFulfilmentImpulse";
-import {UpdateBehaviourImpulse} from "./graphql/request/input/UpdateBehaviourImpulse";
-import {DeleteBehaviourImpulse} from "./graphql/request/input/DeleteBehaviourImpulse";
+} from './graphql';
+import {Preservation} from './graphql/request/type/Preservation';
+import {Retrieval} from './graphql/request/type/Retrieval';
+import {Behaviour} from './graphql/request/type/Behaviour';
+import {Code} from './graphql/request/type/Code';
+import {Experience} from './graphql/request/type/Experience';
+import {Fulfilment} from './graphql/request/type/Fulfilment';
+import {Intent} from './graphql/request/type/Intent';
+import {Knowledge} from './graphql/request/type/Knowledge';
+import {Edge} from './graphql/request/type/Edge';
+import {Prompt} from './graphql/request/type/Prompt';
+import {Statement} from './graphql/request/type/Statement';
+import {Skill} from './graphql/request/type/Skill';
+import {SkillProvision} from './graphql/request/type/SkillProvision';
+import {CreateBehaviourImpulse} from './graphql/request/input/CreateBehaviourImpulse';
+import {CreatePromptImpulse} from './graphql/request/input/CreatePromptImpulse';
+import {DeletePromptImpulse} from './graphql/request/input/DeletePromptImpulse';
+import {UpdatePromptImpulse} from './graphql/request/input/UpdatePromptImpulse';
+import {UpdateStatementImpulse} from './graphql/request/input/UpdateStatementImpulse';
+import {DeleteStatementImpulse} from './graphql/request/input/DeleteStatementImpulse';
+import {CreateStatementImpulse} from './graphql/request/input/CreateStatementImpulse';
+import {CreateFulfilmentImpulse} from './graphql/request/input/CreateFulfilmentImpulse';
+import {DeleteFulfilmentImpulse} from './graphql/request/input/DeleteFulfilmentImpulse';
+import {UpdateFulfilmentImpulse} from './graphql/request/input/UpdateFulfilmentImpulse';
+import {UpdateBehaviourImpulse} from './graphql/request/input/UpdateBehaviourImpulse';
+import {DeleteBehaviourImpulse} from './graphql/request/input/DeleteBehaviourImpulse';
 import {UpdateSkillImpulse} from './graphql/request/input/UpdateSkillImpulse';
-import {DeleteSkillImpulse} from "./graphql/request/input/DeleteSkillImpulse";
-import {CreateSkillImpulse} from "./graphql/request/input/CreateSkillImpulse";
-import {UpdateSkillProvisionImpulse} from "./graphql/request/input/UpdateSkillProvisionImpulse";
-import {DeleteSkillProvisionImpulse} from "./graphql/request/input/DeleteSkillProvisionImpulse";
-import {CreateSkillProvisionImpulse} from "./graphql/request/input/CreateSkillProvisionImpulse";
-import {CreateCodeImpulse} from "./graphql/request/input/CreateCodeImpulse";
-import {DeleteCodeImpulse} from "./graphql/request/input/DeleteCodeImpulse";
-import {UpdateCodeImpulse} from "./graphql/request/input/UpdateCodeImpulse";
-import {Uuid} from "./graphql/GaiaClient";
-import {CreateEdgeImpulse} from "./graphql/request/input/CreateEdgeImpulse";
-import {DeleteEdgeImpulse} from "./graphql/request/input/DeleteEdgeImpulse";
-import {CreateIdentityImpulse} from "./graphql/request/input/CreateIdentityImpulse";
-import {DeleteIdentityImpulse} from "./graphql/request/input/DeleteIdentityImpulse";
-import {UpdateIdentityImpulse} from "./graphql/request/input/UpdateIdentityImpulse";
-import {Identity} from "./graphql/request/type/Identity";
-import {GaiaCredentials, JWTCredentials, UsernamePasswordCredentials} from "./api/GaiaCredentials";
-import {HttpSensorStream} from "./http/HttpSensorStream";
-import {ISensorStream} from "./api/ISensorStream";
-import {HttpClient} from "./http/HttpClient";
-import {CreateTenantImpulse} from "./graphql/request/input/CreateTenantImpulse";
-import {DeleteTenantImpulse} from "./graphql/request/input/DeleteTenantImpulse";
-import {UpdateTenantImpulse} from "./graphql/request/input/UpdateTenantImpulse";
-import {Tenant} from "./graphql/request/type/Tenant";
-import {CreateApiKeyImpulse} from "./graphql/request/input/CreateApiKeyImpulse";
-import {DeleteApiKeyImpulse} from "./graphql/request/input/DeleteApiKeyImpulse";
-import {UpdateApiKeyImpulse} from "./graphql/request/input/UpdateApiKeyImpulse";
-import {ApiKey} from "./graphql/request/type/ApiKey";
-import {CreateUserImpulse} from "./graphql/request/input/CreateUserImpulse";
-import {DeleteUserImpulse} from "./graphql/request/input/DeleteUserImpulse";
-import {UpdateUserImpulse} from "./graphql/request/input/UpdateUserImpulse";
-import {User} from "./graphql/request/type/User";
+import {DeleteSkillImpulse} from './graphql/request/input/DeleteSkillImpulse';
+import {CreateSkillImpulse} from './graphql/request/input/CreateSkillImpulse';
+import {UpdateSkillProvisionImpulse} from './graphql/request/input/UpdateSkillProvisionImpulse';
+import {DeleteSkillProvisionImpulse} from './graphql/request/input/DeleteSkillProvisionImpulse';
+import {CreateSkillProvisionImpulse} from './graphql/request/input/CreateSkillProvisionImpulse';
+import {CreateCodeImpulse} from './graphql/request/input/CreateCodeImpulse';
+import {DeleteCodeImpulse} from './graphql/request/input/DeleteCodeImpulse';
+import {UpdateCodeImpulse} from './graphql/request/input/UpdateCodeImpulse';
+import {Uuid} from './graphql/GaiaClient';
+import {CreateEdgeImpulse} from './graphql/request/input/CreateEdgeImpulse';
+import {DeleteEdgeImpulse} from './graphql/request/input/DeleteEdgeImpulse';
+import {CreateIdentityImpulse} from './graphql/request/input/CreateIdentityImpulse';
+import {DeleteIdentityImpulse} from './graphql/request/input/DeleteIdentityImpulse';
+import {UpdateIdentityImpulse} from './graphql/request/input/UpdateIdentityImpulse';
+import {Identity} from './graphql/request/type/Identity';
+import {GaiaCredentials, JWTCredentials, UsernamePasswordCredentials} from './api/GaiaCredentials';
+import {HttpSensorStream} from './http/HttpSensorStream';
+import {ISensorStream} from './api/ISensorStream';
+import {HttpClient} from './http/HttpClient';
+import {CreateTenantImpulse} from './graphql/request/input/CreateTenantImpulse';
+import {DeleteTenantImpulse} from './graphql/request/input/DeleteTenantImpulse';
+import {UpdateTenantImpulse} from './graphql/request/input/UpdateTenantImpulse';
+import {Tenant} from './graphql/request/type/Tenant';
+import {CreateApiKeyImpulse} from './graphql/request/input/CreateApiKeyImpulse';
+import {DeleteApiKeyImpulse} from './graphql/request/input/DeleteApiKeyImpulse';
+import {UpdateApiKeyImpulse} from './graphql/request/input/UpdateApiKeyImpulse';
+import {ApiKey} from './graphql/request/type/ApiKey';
+import {CreateUserImpulse} from './graphql/request/input/CreateUserImpulse';
+import {DeleteUserImpulse} from './graphql/request/input/DeleteUserImpulse';
+import {UpdateUserImpulse} from './graphql/request/input/UpdateUserImpulse';
+import {User} from './graphql/request/type/User';
 
 export class Gaia {
-    public static connect(url: string, credentials: GaiaCredentials): GaiaRef {
-        return new GaiaRef(new GaiaConfig(url, credentials));
+
+    public static connect(url: string, credenfials: GaiaCredentials);
+    public static connect(config: GaiaConfig);
+    public static connect(value: string | GaiaConfig, credentials?: GaiaCredentials): GaiaRef {
+        if (credentials && typeof value === 'string') {
+            return new GaiaRef(new GaiaConfig(value, credentials));
+        }
+        // @ts-ignore
+        return new GaiaRef(value);
     }
 
     public static login(url: string, credentials: UsernamePasswordCredentials): Promise<GaiaRef> {
@@ -82,7 +89,7 @@ export class Gaia {
                     'Access-Control-Allow-Methods': 'POST',
                     'Access-Control-Allow-Headers': 'Content-Type'
                 }
-            }, url + '/api/auth/access')
+            },    url + '/api/auth/access')
             .then((response) => {
                 const cr = new JWTCredentials(response.accessToken);
                 return new GaiaRef(new GaiaConfig(url, cr));

@@ -1,6 +1,7 @@
 import logging
 import unittest
 import uuid
+import pytest
 
 from gaia_sdk.graphql import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
@@ -15,7 +16,7 @@ from rx import operators as ops, pipe
 class RxException(Exception):
     pass
 
-
+@pytest.mark.skip(reason="...")
 class TestPerception(unittest.TestCase):
 
     def test_perceive_data(self):

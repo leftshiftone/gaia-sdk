@@ -1,11 +1,14 @@
+from typing import Callable, List
+
 import requests
 from rx.core.typing import Observable
-from typing import Callable, List
+from rx.scheduler import ThreadPoolScheduler
 
 from gaia_sdk.api import ISensorStream
 from gaia_sdk.api.DataRef import DataRef
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, GaiaCredentials, JWTCredentials
 from gaia_sdk.api.ISensorFunction import ISensorFunction
+from gaia_sdk.api.SkillRef import SkillRef
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
     IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
     SkillIntrospectionReq, \
@@ -33,17 +36,20 @@ Uuid = str
 
 
 class Gaia:
-    @staticmethod
-    def connect(url: str, credentials: GaiaCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
-        config = GaiaConfig(url, HttpSensorFunction(url, credentials, client_factory), HttpSensorStream(url, credentials, stream_client_factory))
+    _pool = ThreadPoolScheduler(5)
+
+    @classmethod
+    def connect(cls, url: str, credentials: GaiaCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials, cls._pool, client_factory),
+                            HttpSensorStream(url, credentials, cls._pool, stream_client_factory))
         return GaiaRef(config, config.functionProcessor, config.streamProcessor)
 
-    @staticmethod
-    def login(url: str, credentials: UsernamePasswordCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
+    @classmethod
+    def login(cls, url: str, credentials: UsernamePasswordCredentials, client_factory: GaiaClientFactory = GaiaClientFactory(), stream_client_factory: GaiaStreamClientFactory = GaiaStreamClientFactory()) -> 'GaiaRef':
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers).json()
-        return Gaia.connect(url, JWTCredentials(LoggedIn(response).access_token), client_factory, stream_client_factory)
-
+        response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers)
+        response.raise_for_status()
+        return Gaia.connect(url, JWTCredentials(LoggedIn(response.json()).access_token), client_factory, stream_client_factory)
 
 class GaiaConfig:
     url: str
@@ -81,6 +87,9 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def data(self, uri: str) -> DataRef:
         return self.s_proc.data(uri)
 
+    def skill(self, url: str) -> SkillRef:
+        return self.s_proc.skill(url)
+
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
         return self.f_proc.retrieve(config)
 
@@ -90,53 +99,67 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def retrieve_knowledge(self, config: Callable[[KnowledgeReq], None]) -> Observable[KnowledgeRes]:
         return self.f_proc.retrieve_knowledge(config)
 
-    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int = None, offset: int = None) -> Observable[EdgeRes]:
+    def retrieve_edges(self, source: Uuid, config: Callable[[EdgeReq], None], limit: int = None, offset: int = None) -> \
+            Observable[EdgeRes]:
         return self.f_proc.retrieve_edges(source, config, limit, offset)
 
     def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         return self.f_proc.retrieve_edge(source, target, config)
 
-    def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int = None, offset: int = None) -> Observable[IdentityRes]:
+    def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int = None, offset: int = None) -> \
+            Observable[IdentityRes]:
         return self.f_proc.retrieve_identities(config, limit, offset)
 
     def retrieve_identity(self, identityId: Uuid, config: Callable[[IdentityReq], None]) -> Observable[IdentityRes]:
         return self.f_proc.retrieve_identity(identityId, config)
 
-    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int = None, offset: int = None) -> Observable[IntentRes]:
+    def retrieve_intents(self, identityId: Uuid, config: Callable[[IntentReq], None], limit: int = None,
+                         offset: int = None) -> Observable[IntentRes]:
         return self.f_proc.retrieve_intents(identityId, config, limit, offset)
 
-    def retrieve_intent(self, identityId: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[IntentRes]:
+    def retrieve_intent(self, identityId: Uuid, reference: Uuid, config: Callable[[IntentReq], None]) -> Observable[
+        IntentRes]:
         return self.f_proc.retrieve_intent(identityId, reference, config)
 
-    def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None], limit: int = None, offset: int = None) -> Observable[PromptRes]:
+    def retrieve_prompts(self, identityId: Uuid, config: Callable[[PromptReq], None], limit: int = None,
+                         offset: int = None) -> Observable[PromptRes]:
         return self.f_proc.retrieve_prompts(identityId, config, limit, offset)
 
-    def retrieve_prompt(self, identityId: Uuid, reference: Uuid, config: Callable[[PromptReq], None]) -> Observable[PromptRes]:
-        return self.f_proc.retrieve_prompt(identityId, reference,  config)
+    def retrieve_prompt(self, identityId: Uuid, reference: Uuid, config: Callable[[PromptReq], None]) -> Observable[
+        PromptRes]:
+        return self.f_proc.retrieve_prompt(identityId, reference, config)
 
-    def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None], limit: int = None, offset: int = None) -> Observable[StatementRes]:
+    def retrieve_statements(self, identityId: Uuid, config: Callable[[StatementReq], None], limit: int = None,
+                            offset: int = None) -> Observable[StatementRes]:
         return self.f_proc.retrieve_statements(identityId, config, limit, offset)
 
-    def retrieve_statement(self, identityId: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> Observable[StatementRes]:
-        return self.f_proc.retrieve_statement(identityId, reference,  config)
+    def retrieve_statement(self, identityId: Uuid, reference: Uuid, config: Callable[[StatementReq], None]) -> \
+            Observable[StatementRes]:
+        return self.f_proc.retrieve_statement(identityId, reference, config)
 
-    def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None], limit: int = None, offset: int = None) -> Observable[FulfilmentRes]:
+    def retrieve_fulfilments(self, identityId: Uuid, config: Callable[[FulfilmentReq], None], limit: int = None,
+                             offset: int = None) -> Observable[FulfilmentRes]:
         return self.f_proc.retrieve_fulfilments(identityId, config, limit, offset)
 
-    def retrieve_fulfilment(self, identityId: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> Observable[FulfilmentRes]:
-        return self.f_proc.retrieve_fulfilment(identityId, reference,  config)
+    def retrieve_fulfilment(self, identityId: Uuid, reference: Uuid, config: Callable[[FulfilmentReq], None]) -> \
+            Observable[FulfilmentRes]:
+        return self.f_proc.retrieve_fulfilment(identityId, reference, config)
 
-    def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None], limit: int = None, offset: int = None) -> Observable[CodeRes]:
+    def retrieve_codes(self, identityId: Uuid, config: Callable[[CodeReq], None], limit: int = None,
+                       offset: int = None) -> Observable[CodeRes]:
         return self.f_proc.retrieve_codes(identityId, config, limit, offset)
 
-    def retrieve_code(self, identityId: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[CodeRes]:
-        return self.f_proc.retrieve_code(identityId, reference,  config)
+    def retrieve_code(self, identityId: Uuid, reference: Uuid, config: Callable[[CodeReq], None]) -> Observable[
+        CodeRes]:
+        return self.f_proc.retrieve_code(identityId, reference, config)
 
-    def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None], limit: int = None, offset: int = None) -> Observable[BehaviourRes]:
+    def retrieve_behaviours(self, identityId: Uuid, config: Callable[[BehaviourReq], None], limit: int = None,
+                            offset: int = None) -> Observable[BehaviourRes]:
         return self.f_proc.retrieve_behaviours(identityId, config, limit, offset)
 
-    def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> Observable[BehaviourRes]:
-        return self.f_proc.retrieve_behaviour(identityId, reference,  config)
+    def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> \
+            Observable[BehaviourRes]:
+        return self.f_proc.retrieve_behaviour(identityId, reference, config)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         return self.f_proc.introspect(config)
@@ -183,13 +206,16 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def preserve_delete_statements(self, impulses: List[DeleteStatementImpulse]) -> Observable[DeletedStatementImpulse]:
         return self.f_proc.preserve_delete_statements(impulses)
 
-    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[CreatedFulfilmentImpulse]:
+    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[
+        CreatedFulfilmentImpulse]:
         return self.f_proc.preserve_create_fulfilments(impulses)
 
-    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[UpdatedFulfilmentImpulse]:
+    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[
+        UpdatedFulfilmentImpulse]:
         return self.f_proc.preserve_update_fulfilments(impulses)
 
-    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[DeletedFulfilmentImpulse]:
+    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[
+        DeletedFulfilmentImpulse]:
         return self.f_proc.preserve_delete_fulfilments(impulses)
 
     def preserve_create_behaviours(self, impulses: List[CreateBehaviourImpulse]) -> Observable[CreatedBehaviourImpulse]:

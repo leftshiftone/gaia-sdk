@@ -1,6 +1,5 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
-import groovy.util.Node
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -110,26 +109,9 @@ repositories {
     }
 }
 
-configurations {
-    mockServer {
-        resolutionStrategy {
-            componentSelection {
-                all { ComponentSelection selection ->
-                    if (selection.candidate.group == 'one.leftshift.heimdall' && selection.candidate.module == 'heimdall-mock' && selection.candidate.version.contains('-rc.')) {
-                        selection.reject("Release candidates are ignored")
-                    }
-                }
-            }
-        }
-    }
-}
 
 dependencies {
     antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
-
-    mockServer("one.leftshift.heimdall:heimdall-mock:latest.integration:all") {
-        transitive false
-    }
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
@@ -141,11 +123,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-task prepareMockServer(type: Copy) {
-    from configurations.mockServer.filter { it.name.contains("heimdall-mock") }
-    into "${rootProject.buildDir}/mock"
-    rename(/.*/, "heimdall-mock.jar")
 }
 
 sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")

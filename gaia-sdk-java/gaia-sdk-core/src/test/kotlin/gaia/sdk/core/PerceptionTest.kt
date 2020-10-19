@@ -3,10 +3,7 @@ package gaia.sdk.core
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import reactor.core.publisher.Flux
 import java.util.*
 import kotlin.collections.HashMap

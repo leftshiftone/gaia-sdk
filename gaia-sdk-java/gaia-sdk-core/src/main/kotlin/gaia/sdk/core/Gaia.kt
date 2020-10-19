@@ -186,11 +186,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
 
-
     // skill api
-    fun skill(url: String) = SkillRef(ISkillSpec.toSkillSpec(url), sProc)
-    fun skill(spec: UnprovisionedSkillSpec) = SkillRef(spec, sProc)
-    fun skill(spec: ProvisionedSkillSpec) = SkillRef(spec, sProc)
+    fun skill(url: String) = sProc.skill(url)
 }
 
 class UsernamePasswordCredentials(val username: String, val password: String)

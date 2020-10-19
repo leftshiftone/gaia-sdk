@@ -505,12 +505,6 @@
             ]
         }
     },
-    "mockServer": {
-        "one.leftshift.heimdall:heimdall-mock": {
-            "locked": "2.2.0-SNAPSHOT",
-            "requested": "latest.integration"
-        }
-    },
     "runtime": {
         "com.ibm.icu:icu4j": {
             "locked": "61.1",
