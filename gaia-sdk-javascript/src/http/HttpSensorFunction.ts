@@ -125,7 +125,7 @@ import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse"
 import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
-import {GaiaClientFactory} from '../graphql/GaiaClientBuilder';
+import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 
 export class HttpSensorFunction implements ISensorFunction {
 

@@ -67,7 +67,7 @@ import {CreateUserImpulse} from './graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from './graphql/request/input/DeleteUserImpulse';
 import {UpdateUserImpulse} from './graphql/request/input/UpdateUserImpulse';
 import {User} from './graphql/request/type/User';
-import {GaiaClientFactory} from './graphql/GaiaClientBuilder';
+import {GaiaClientFactory} from './graphql/GaiaClientFactory';
 import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
 
 export class Gaia {

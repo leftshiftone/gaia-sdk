@@ -8,7 +8,7 @@ import {
 } from '../index';
 import {Gaia} from '../Gaia';
 
-import {GaiaClientFactory} from '../graphql/GaiaClientBuilder';
+import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 import {GaiaStreamClientBuilder, GaiaStreamClientFactory} from '../graphql/GaiaStreamClientBuilder';
 import {IStreamTransporter} from '../api/IStreamTransporter';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';

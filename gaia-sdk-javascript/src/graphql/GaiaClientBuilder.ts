@@ -4,12 +4,6 @@ import {ClientOptions, HttpTransporter, ITransporter} from '..';
 import {GaiaClient} from './GaiaClient';
 import {GaiaCredentials} from '..';
 
-export class GaiaClientFactory {
-    http(url: string) {
-        return GaiaClientBuilder.http(url);
-    }
-}
-
 export class GaiaClientBuilder {
     transporter: ITransporter;
     credentials?: GaiaCredentials;
@@ -24,17 +18,17 @@ export class GaiaClientBuilder {
     }
 
     public withCredentials(credentials: GaiaCredentials) {
-        this.credentials = credentials
+        this.credentials=credentials
         return this;
     }
 
     public withContentType(contentType: string) {
-        this.contentType = contentType;
+        this.contentType = contentType
         return this;
     }
 
     public build() {
-        const options = new ClientOptions(this.credentials!, this.contentType);
+        const options = new ClientOptions(this.credentials!,this.contentType);
         return new GaiaClient(options, this.transporter);
     }
 
