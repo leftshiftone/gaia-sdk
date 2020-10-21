@@ -1,4 +1,4 @@
-import {Mock} from './mock';
+import {Mock} from '../mock/mock';
 
 const {v4: uuidv4} = require('uuid');
 

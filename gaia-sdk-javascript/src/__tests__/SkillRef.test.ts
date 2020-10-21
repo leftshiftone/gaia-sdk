@@ -1,5 +1,5 @@
 import {SkillProvisionStatus, SkillRef} from '../api/SkillRef';
-import {Mock} from './mock';
+import {Mock} from '../mock/mock';
 
 describe('skillref tests:', () => {
 

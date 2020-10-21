@@ -1,6 +1,6 @@
 import {PerceiveActionImpulse, PerceiveDataImpulse} from '../graphql';
 import {v4 as uuid} from 'uuid';
-import {Mock} from './mock';
+import {Mock} from '../mock/mock';
 
 describe('perception tests:', () => {
 

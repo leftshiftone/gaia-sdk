@@ -5,7 +5,7 @@ import {
     HMACCredentials,
     GaiaClientBuilder,
     ITransporter
-} from '..';
+} from '../index';
 import {Gaia} from '../Gaia';
 
 import {GaiaClientFactory} from '../graphql/GaiaClientBuilder';

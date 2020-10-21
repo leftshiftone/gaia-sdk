@@ -3,7 +3,7 @@
  */
 import {Gaia} from '../Gaia';
 import {HMACCredentials} from '..';
-import {Mock} from './mock';
+import {Mock} from '../mock/mock';
 
 describe('dataref tests:', () => {
 
@@ -81,6 +81,7 @@ describe('dataref tests:', () => {
     test('test list files in existing directory', () => {
         return new Promise(async (resolve, reject) => {
             const gaiaRef = Mock.gaiaRef((request) => {
+
                 expect(request.urlPostFix).toEqual('/data/list');
                 return [{tenant: 'tenant', filePath: 'existingDirectory/file1'}];
             });
