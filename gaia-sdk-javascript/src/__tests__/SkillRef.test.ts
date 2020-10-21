@@ -1,8 +1,7 @@
 import {SkillProvisionStatus, SkillRef} from '../api/SkillRef';
-import {Gaia, GaiaConfig} from '../Gaia';
-import {HMACCredentials, JWTCredentials, UsernamePasswordCredentials} from '..';
+import {Mock} from './mock';
 
-describe.skip('skillref tests:', () => {
+describe('skillref tests:', () => {
 
     beforeEach(() => {
         jest.setTimeout(10000);
@@ -10,7 +9,7 @@ describe.skip('skillref tests:', () => {
 
     test('skillprovision start', () => {
         return new Promise((resolve, reject) => {
-            const skillRef: SkillRef = getSkillRef();
+            const skillRef: SkillRef = getSkillRef('/skill/start');
             skillRef.start().subscribe(() => {
             },                         reject, resolve);
         });
@@ -18,7 +17,7 @@ describe.skip('skillref tests:', () => {
 
     test('skillprovision stop', () => {
         return new Promise((resolve, reject) => {
-            const skillRef: SkillRef = getSkillRef();
+            const skillRef: SkillRef = getSkillRef('/skill/stop');
             skillRef.stop().subscribe(() => {
             },                        reject, resolve);
         });
@@ -26,7 +25,7 @@ describe.skip('skillref tests:', () => {
 
     test('skillprovision status', () => {
         return new Promise((resolve, reject) => {
-            const skillRef: SkillRef = getSkillRef();
+            const skillRef: SkillRef = getSkillRef('/skill/status', {createdAt: '01.01.1970', name: 'mockSkillName', status: 'mockStatus'});
             skillRef.status().subscribe((e: SkillProvisionStatus) => {
                 expect(e.createdAt).toEqual('01.01.1970');
                 expect(e.name).toEqual('mockSkillName');
@@ -38,16 +37,19 @@ describe.skip('skillref tests:', () => {
 
     test('skillprovision logs', () => {
         return new Promise((resolve, reject) => {
-            const skillRef: SkillRef = getSkillRef();
+            const skillRef: SkillRef = getSkillRef('/skill/logs', {logLines: 'l'});
             skillRef.logs().subscribe((it: String) => {
-                expect(it).toEqual('mock log line 1');
+                expect(it).toEqual('l');
                 resolve(it);
             },                        reject);
         });
     });
 });
 
-function getSkillRef(): SkillRef {
-    const gaiaRef = Gaia.connect('http://localhost:8080', new HMACCredentials('mockedApiKey', 'mockedApiSecret'));
+function getSkillRef(urlPostFix: string, mockResponse?: any): SkillRef {
+    const gaiaRef = Mock.gaiaRef((request) => {
+        expect(request.urlPostFix).toEqual(urlPostFix);
+        return mockResponse;
+    });
     return gaiaRef.skill('skillProvision://mockTenant/mockSkillProvisionReference');
 }
