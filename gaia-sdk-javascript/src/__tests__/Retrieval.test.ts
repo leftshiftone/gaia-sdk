@@ -4,10 +4,6 @@ const {v4: uuidv4} = require('uuid');
 
 describe('perception tests:', () => {
 
-    beforeEach(() => {
-        jest.setTimeout(10000);
-    });
-
     test('test retrieve identities', () => {
         const gaiaRef = Mock.gaiaRef(() =>
             JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'asdf', qualifier: 'q1'}]}}}})

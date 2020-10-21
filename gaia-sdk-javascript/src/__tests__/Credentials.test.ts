@@ -4,10 +4,6 @@ import {HMACTokenBuilder} from '../http/HMACTokenBuilder';
 
 describe('Credentials test', () => {
 
-    beforeEach(() => {
-        jest.setTimeout(10000);
-    });
-
     test.skip('test login', () => {
         const credentials = new UsernamePasswordCredentials('username', 'password');
         return Gaia.login('http://localhost:8080', credentials).then(gaiaRef => expect(gaiaRef).toBeDefined());

@@ -3,10 +3,6 @@ import {Mock} from '../mock/mock';
 
 describe('skillref tests:', () => {
 
-    beforeEach(() => {
-        jest.setTimeout(10000);
-    });
-
     test('skillprovision start', () => {
         return new Promise((resolve, reject) => {
             const skillRef: SkillRef = getSkillRef('/skill/start');
