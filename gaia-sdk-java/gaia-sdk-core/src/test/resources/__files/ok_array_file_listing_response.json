@@ -1,0 +1,18 @@
+[
+  {
+    "tenant": "0000-0000-abc",
+    "filePath": "/0abc/defg"
+  },
+  {
+    "tenant": "1000-0000-abc",
+    "filePath": "/1abc/defg"
+  },
+  {
+    "tenant": "2000-0000-abc",
+    "filePath": "/2abc/defg"
+  },
+  {
+    "tenant": "3000-0000-abc",
+    "filePath": "/3abc/defg"
+  }
+]

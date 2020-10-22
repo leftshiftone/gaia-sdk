@@ -17,58 +17,14 @@ import java.time.Instant
 import java.util.*
 
 class StreamHttpTransporter(private val baseUrl: String, private val httpClient: HttpClient) : IStreamTransporter {
-
+//TODO APG use logger
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
     }
 
-//    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: ByteArray, apiPath: String): Publisher<T> {
-//        return Flowable.fromPublisher(this.transport(options, payload, apiPath, buildAuthorizationHeader(options, String(payload))))
-//                .map { byteArray -> jsonparser.readValue(byteArray, type) }
-//                .cast(type)
-//    }
-
-//    override fun transport(options: ClientOptions, payload: Any, apiPath: String): Publisher<File> {
-//        val bytes = jsonparser.writeValueAsBytes(payload)
-//        if (log.isTraceEnabled) {
-//            log.debug("Payload to send: '${String(bytes)}'")
-//        }
-//        return Flowable.fromPublisher(this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, String(bytes))))
-//                .map {
-//                    val file = File.createTempFile("${System.currentTimeMillis()}-", "-gaia-sdk-download")
-//                    file.writeBytes(it)
-//                    file
-//                }
-//
-//    }
-
-
-    override fun <T> transportS(options: ClientOptions, postProcessingFunction: Function1<Publisher<ByteArray>, Publisher<T>>, payload:ByteArray, apiPath: String): Publisher<T> {
-
-//        val bytes = jsonparser.writeValueAsBytes(payload)
-//        if (log.isTraceEnabled) {
-//            log.debug("Payload to send: '${String(bytes)}'")
-//        }
-
+    override fun <T> transport(options: ClientOptions, postProcessingFunction: Function1<Publisher<ByteArray>, Publisher<T>>, payload:ByteArray, apiPath: String): Publisher<T> {
         return postProcessingFunction.invoke(this.transport(options,payload, apiPath, buildAuthorizationHeader(options, String(payload))))
-
-//        return Flowable.fromPublisher(this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, String(bytes)))).map { byteArray ->
-//            jsonparser.readValue(byteArray, type)
-//        }.cast(type)
-
     }
-
-//    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Any, apiPath: String): Publisher<T> {
-//        val bytes = jsonparser.writeValueAsBytes(payload)
-//        if (log.isTraceEnabled) {
-//            log.debug("Payload to send: '${String(bytes)}'")
-//        }
-//        return Flowable.fromPublisher(this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, String(bytes))))
-//                .map { byteArray -> jsonparser.readValue(byteArray, type) }
-//                .cast(type)
-//
-//    }
-
 
     fun transport(options: ClientOptions, payload: ByteArray, apiPath: String, authorization: String): Publisher<ByteArray> {
 
@@ -128,56 +84,6 @@ class StreamHttpTransporter(private val baseUrl: String, private val httpClient:
             is JWTCredentials -> return "Bearer ${(options.credentials as JWTCredentials).token}"
             else -> throw IllegalArgumentException("Credentials of type ${options.credentials.javaClass} not allowed")
         }
-    }
-
-    private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
-    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any?>, apiPath: String): Publisher<T> {
-        val bytes = jsonparser.writeValueAsBytes(payload)
-        if (log.isTraceEnabled) {
-            log.debug("Payload to send: '${String(bytes)}'")
-        }
-
-        return httpClient
-                .headers {
-                    it.add("Content-Type", options.contentType)
-                    it.add("Authorization", buildAuthorizationHeader(options, String(bytes)))
-                }
-                .followRedirect(true)
-                .post()
-                .uri("${baseUrl}${apiPath}")
-                .send(Mono.just(Unpooled.copiedBuffer(bytes)))
-                .responseConnection { t, u ->
-                    u
-                            .inbound()
-                            .receive()
-                            .asByteArray()
-                            .buffer()
-                            .map { list ->
-                                val bos = ByteArrayOutputStream()
-                                list.forEach(bos::write)
-                                bos.toByteArray()
-                            }
-                            .switchIfEmpty(
-                                    Flux.just(t.status())
-                                            .flatMap {
-                                                if (it.code() >= 400) {
-                                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and no payload"
-                                                    Flux.error(HttpTransportException(msg))
-                                                } else {
-                                                    Flux.empty<ByteArray>()
-                                                }
-                                            }
-                            )
-                            .map { byteArray ->
-                                if (t.status().code() >= 400) {
-                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and payload: ${String(byteArray)}"
-                                    throw HttpTransportException(msg)
-                                }
-
-                                jsonparser.readValue(byteArray, type)
-                            }
-                }.cast(type)
     }
 
 }

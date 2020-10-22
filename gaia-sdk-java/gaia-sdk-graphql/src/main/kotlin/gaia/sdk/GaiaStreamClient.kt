@@ -1,6 +1,5 @@
 package gaia.sdk
 
-import DataUploadChunkResponse
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.spi.ClientOptions
@@ -19,22 +18,14 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
     }
 
 
-    fun postStream(payload: ByteArray, requestParameters: Map<String, Any>, apiPath: String = ""): Publisher<DataUploadChunkResponse> {
+    fun <T> postStream(payload: ByteArray, type: Class<T> , apiPath: String="", requestParameters: Map<String, Any>): Publisher<T> {
         val requestOptions = options
                 .withContentType("application/octet-stream")
                 .withRequestParameters(requestParameters)
-
-        val function = object : Function1<Publisher<ByteArray>, Publisher<DataUploadChunkResponse>> {
-            override fun invoke(p1: Publisher<ByteArray>): Publisher<DataUploadChunkResponse> {
-                return Flowable.fromPublisher(p1).map { byteArray ->
-                    jsonparser.readValue(byteArray,DataUploadChunkResponse::class.java)
-                }.cast(DataUploadChunkResponse::class.java)
-            }
-        }
-         return transporter.transportS(requestOptions, function, payload, apiPath)
+        return this.post(payload, type, apiPath, requestOptions)
     }
 
-    fun <T> post(payload: Any, type: Class<T>, apiPath: String = ""): Publisher<T> {
+    fun <T> post(payload: Any, type: Class<T>, apiPath: String = "", clientOptions: ClientOptions= options): Publisher<T> {
         val bytes : ByteArray= when(payload){
             is ByteArray -> payload
             else -> jsonparser.writeValueAsBytes(payload)
@@ -47,7 +38,7 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
                 }.cast(type)
             }
         }
-        return transporter.transportS(options, function,bytes, apiPath)
+        return transporter.transport(clientOptions, function,bytes, apiPath)
     }
 
     fun postAndRetrieveBinary(payload: Any, apiPath: String): Publisher<File> {
@@ -66,11 +57,6 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
                         }
             }
         }
-         return transporter.transportS(options, function, bytes, apiPath)
-    }
-
-
-    fun <T> transport(type: Class<T>, payload: Map<String, Any?>, apiPath: String = ""): Publisher<T> {
-        return transporter.transport(options, type, payload, apiPath)
+         return transporter.transport(options, function, bytes, apiPath)
     }
 }

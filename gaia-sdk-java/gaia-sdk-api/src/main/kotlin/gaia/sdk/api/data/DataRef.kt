@@ -1,10 +1,11 @@
 package gaia.sdk.api
-
+//TODO AGP Move Data clases to another folder which is not regenerated each time
 import BinaryReadImpulse
 import BinaryWriteChunkImpulse
 import CompleteBinaryWriteImpulse
 import DataUploadChunkResponse
 import DataUploadResponse
+import FileList
 import FileListing
 import FileRemovedImpulse
 import InitBinaryWriteImpulse
@@ -48,13 +49,13 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.fromPublisher(upload.execute(this.client))
     }
 
-
     /**
      * Lists all files whose uri has the current uri member as its prefix.
      */
-    fun list(): Publisher<FileListing> { //TODO convert to list of files
+    fun list(): Publisher<List<FileListing>> {
         log.info("List from " + this.uri)
-        return Flowable.fromPublisher(this.client.post(ListFilesImpulse(this.uri), FileListing::class.java, "/data/list"))
+        return Flowable.fromPublisher(this.client.post(ListFilesImpulse(this.uri), FileList::class.java, "/data/list"))
+                .map { it.fileListItems }
                 .doOnError { reason -> throw RuntimeException ("Listing files at uri " + this.uri + " failed: " + reason.message)}
     }
 
@@ -106,7 +107,7 @@ class DataUpload(private val uri: String, private val content: File, private val
     private fun sendChunks(uploadId: String, client: GaiaStreamClient): Publisher<DataUploadChunkResponse> {
         return Flowable.fromPublisher(this.getChunkRequests(uploadId))
                 .flatMap { chunk ->
-                    Flowable.fromPublisher(client.postStream(chunk.data, chunk.requestParameters(), "/data/sink/chunk"))
+                    Flowable.fromPublisher(client.postStream(chunk.data,DataUploadChunkResponse::class.java, "/data/sink/chunk", chunk.requestParameters()))
                 }
     }
 

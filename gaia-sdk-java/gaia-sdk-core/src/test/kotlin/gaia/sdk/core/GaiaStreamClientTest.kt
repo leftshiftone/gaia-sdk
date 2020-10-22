@@ -1,11 +1,9 @@
 package gaia.sdk.core
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
+import FileListing
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
-import gaia.sdk.HMACCredentials
 import gaia.sdk.JWTCredentials
 import io.reactivex.Flowable
 import org.junit.jupiter.api.AfterEach
@@ -107,7 +105,24 @@ internal class GaiaStreamClientTest {
         }
     }
 
+    @Test
+    fun `successful file listing`() {
+        configureStub("Bearer", errorCode =200, responseFile="ok_array_file_listing_response.json", uri = "/api/data/list")
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
+        val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/")
+        val ts = Flowable.fromPublisher(dataRef.list()).test()
 
+        ts.awaitDone(10, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0){
+            it[0] == FileListing("0000-0000-abc","/0abc/defg") &&
+                    it[1] == FileListing("1000-0000-abc","/1abc/defg") &&
+                    it[2] == FileListing("2000-0000-abc","/2abc/defg") &&
+                    it[3] == FileListing("3000-0000-abc","/3abc/defg") &&
+                    it.size==4
+        }
+    }
 
 
 }
