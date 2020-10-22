@@ -393,7 +393,7 @@ describe.skip("perception tests:", () => {
 
     test('test preserve create edge', () => {
         const gaiaRef = Gaia.connect("http://localhost:8080", new HMACCredentials("mockedApiKey", "mockedApiSecret"));
-        const impulse = new CreateEdgeImpulse(uuid(), uuid(), "sometype", 2.7);
+        const impulse = new CreateEdgeImpulse(uuid(), uuid(), "sometype", 2.7, {});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateEdges(impulse);
