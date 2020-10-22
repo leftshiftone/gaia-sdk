@@ -1,9 +1,10 @@
 package gaia.sdk
 
 import gaia.sdk.spi.ClientOptions
+import gaia.sdk.spi.IStreamTransporter
 import gaia.sdk.spi.ITransporter
 
-class GaiaStreamingClientBuilder (private val transporter: ITransporter) {
+class GaiaStreamingClientBuilder (private val transporter: IStreamTransporter) {
 
     lateinit var credentials: GaiaCredentials
     var contentType: String = "application/json"
@@ -18,9 +19,9 @@ class GaiaStreamingClientBuilder (private val transporter: ITransporter) {
         return this
     }
 
-    fun build(): GaiaStreamingClient {
+    fun build(): GaiaStreamClient {
         val options = ClientOptions(credentials, contentType)
-        return GaiaStreamingClient(options, transporter)
+        return GaiaStreamClient(options, transporter)
     }
 
 

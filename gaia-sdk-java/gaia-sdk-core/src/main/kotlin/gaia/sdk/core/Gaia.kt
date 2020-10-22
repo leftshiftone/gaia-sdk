@@ -10,10 +10,6 @@ import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
-import gaia.sdk.api.skill.ISkillSpec
-import gaia.sdk.api.skill.ProvisionedSkillSpec
-import gaia.sdk.api.skill.SkillRef
-import gaia.sdk.api.skill.UnprovisionedSkillSpec
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
@@ -26,7 +22,6 @@ import gaia.sdk.response.type.CreatedUserImpulse
 import gaia.sdk.response.type.DeletedApiKeyImpulse
 import gaia.sdk.response.type.DeletedTenantImpulse
 import gaia.sdk.response.type.DeletedUserImpulse
-import gaia.sdk.response.type.Tenant
 import gaia.sdk.response.type.UpdatedApiKeyImpulse
 import gaia.sdk.response.type.UpdatedTenantImpulse
 import gaia.sdk.response.type.UpdatedUserImpulse
@@ -107,7 +102,7 @@ class GaiaConfig(val url: String,
                  val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
                  val streamProcessor: ISensorStream = HttpSensorStream(url, credentials))
 
-class GaiaRef(config: GaiaConfig) : ISensorFunction {
+class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     private val fProc: ISensorFunction = config.functionProcessor
     private val qProc: ISensorQueue = config.queueProcessor
     private val sProc: ISensorStream = config.streamProcessor
@@ -186,8 +181,11 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
 
+
+    // data api
+    override fun data(url: String) = sProc.data(url)
     // skill api
-    fun skill(url: String) = sProc.skill(url)
+    override fun skill(url: String) = sProc.skill(url)
 }
 
 class UsernamePasswordCredentials(val username: String, val password: String)

@@ -1,13 +1,12 @@
 package gaia.sdk.api.skill
 
-import gaia.sdk.GaiaStreamingClient
-import gaia.sdk.api.ISensorStream
+import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.SkillProvisionLogs
 import gaia.sdk.api.SkillProvisionStatus
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
-class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamingClient) {
+class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClient) {
 
     fun evaluate(payload: Map<String, Any>): Publisher<SkillEvaluation> {
         return Flowable.fromPublisher(client.transport(SkillEvaluation::class.java, mapOf("uri" to spec.toUri(), "payload" to payload), apiPath = "/skill/evaluate"))

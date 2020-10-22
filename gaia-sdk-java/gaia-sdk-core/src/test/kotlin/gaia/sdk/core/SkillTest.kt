@@ -1,20 +1,19 @@
 package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
-import gaia.sdk.GaiaStreamingClient
+import gaia.sdk.GaiaStreamClient
 import gaia.sdk.JWTCredentials
 import gaia.sdk.api.ISensorStream
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.SkillEvaluation
 import gaia.sdk.api.skill.SkillRef
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.ITransporter
+import gaia.sdk.spi.IStreamTransporter
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Flowable
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.util.concurrent.TimeUnit
@@ -46,10 +45,10 @@ abstract class SkillTest() {
     @Test
     fun `test skill evaluation`() {
         val mockedStreamProcessor = mockk<ISensorStream>()
-        val mockedTransporter = mockk<ITransporter>()
+        val mockedTransporter = mockk<IStreamTransporter>()
 
         every { mockedTransporter.transport<SkillEvaluation>(any(), any(), any(), any()) } returns Flowable.just(SkillEvaluation(mapOf("response" to "hello")))
-        every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamingClient(ClientOptions(JWTCredentials("")), mockedTransporter))
+        every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamClient(ClientOptions(JWTCredentials("")), mockedTransporter))
 
         val gaiaRef = Gaia.connect(GaiaConfig("", JWTCredentials(""), mockk(), mockk(), mockedStreamProcessor))
         val skillRef = gaiaRef.skill("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test")
