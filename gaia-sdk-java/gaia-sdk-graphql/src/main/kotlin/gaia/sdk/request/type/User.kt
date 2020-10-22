@@ -29,6 +29,27 @@ class User: Type() {
     }
 
     /**
+     * The email of the user
+     */
+    fun email() { 
+        add {"email" } 
+    }
+
+    /**
+     * The first name of the user
+     */
+    fun firstName() { 
+        add {"firstName" } 
+    }
+
+    /**
+     * The last name of the user
+     */
+    fun lastName() { 
+        add {"lastName" } 
+    }
+
+    /**
      * Is the User using 2FA
      */
     fun using2FA() { 

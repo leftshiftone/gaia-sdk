@@ -28,6 +28,12 @@ type User {
     userId: Uuid
     "The username of the user"
     username: String
+    "The email of the user"
+    email: String
+    "The first name of the user"
+    firstName: String
+    "The last name of the user"
+    lastName: String
     "Is the User using 2FA"
     using2FA: Boolean
     "The tenants of the user"
@@ -46,6 +52,8 @@ type ApiKey {
     apiKeyId: Uuid
     "The name of the api key"
     name: String
+    "The description of the api key"
+    description: String
     "The secret of the api key"
     secret: String
     "The flag to enable the api key"

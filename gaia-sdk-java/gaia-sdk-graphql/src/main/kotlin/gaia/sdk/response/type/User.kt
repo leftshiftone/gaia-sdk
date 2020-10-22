@@ -21,6 +21,18 @@ data class User @JsonCreator constructor(
     */
     @JsonProperty("username") val username:String?, 
     /**
+    * The email of the user
+    */
+    @JsonProperty("email") val email:String?, 
+    /**
+    * The first name of the user
+    */
+    @JsonProperty("firstName") val firstName:String?, 
+    /**
+    * The last name of the user
+    */
+    @JsonProperty("lastName") val lastName:String?, 
+    /**
     * Is the User using 2FA
     */
     @JsonProperty("using2FA") val using2FA:Boolean?, 

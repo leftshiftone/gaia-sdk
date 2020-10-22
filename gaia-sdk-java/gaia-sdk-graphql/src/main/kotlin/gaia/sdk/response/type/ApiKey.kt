@@ -21,6 +21,10 @@ data class ApiKey @JsonCreator constructor(
     */
     @JsonProperty("name") val name:String?, 
     /**
+    * The description of the api key
+    */
+    @JsonProperty("description") val description:String?, 
+    /**
     * The secret of the api key
     */
     @JsonProperty("secret") val secret:String?, 
