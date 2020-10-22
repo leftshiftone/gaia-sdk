@@ -526,6 +526,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                     target()
                     type()
                     weight()
+                    edgeId()
                 }
                 } } } })) {
                 it.preserve?.create?.edges!!
@@ -536,7 +537,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                 id()
                 data {
                     source()
-                    target()
+                    edgeId()
                 }
                 } } } })) {
                 it.preserve?.delete?.edges!!
