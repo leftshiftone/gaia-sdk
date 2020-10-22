@@ -4,7 +4,6 @@
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
-        "@types/mqtt": "^2.5.0",
         "axios": "^0.19.2",
         "bytebuffer": "^5.0.1",
         "cross-blob": "^2.0.0",
@@ -18,6 +17,7 @@
     "devDependencies": {
         "@types/crypto-js": "^3.1.43",
         "@types/jest": "^26.0.15",
+        "@types/mqtt": "^2.5.0",
         "@types/node": "^10.7.1",
         "@types/sinon": "^7.0.5",
         "@types/uuid": "^7.0.3",
