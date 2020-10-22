@@ -6,6 +6,7 @@ import {DeletedTenantImpulse} from "./DeletedTenantImpulse";
 import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
+import {DeletedRoleImpulse} from "./DeletedRoleImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
@@ -24,6 +25,7 @@ import {DeleteStatementImpulse} from "../../request/input/DeleteStatementImpulse
 import {DeletePromptImpulse} from "../../request/input/DeletePromptImpulse";
 import {DeleteTenantImpulse} from "../../request/input/DeleteTenantImpulse";
 import {DeleteIntentImpulse} from "../../request/input/DeleteIntentImpulse";
+import {DeleteRoleImpulse} from "../../request/input/DeleteRoleImpulse";
 import {DeleteSkillProvisionImpulse} from "../../request/input/DeleteSkillProvisionImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -50,6 +52,10 @@ export interface DeleteKnowledge {
     * deletes a list of api keys with the given specifications
     */
     apiKeys?:[DeletedApiKeyImpulse], 
+    /**
+    * deletes a list of roles with the given specifications
+    */
+    roles?:[DeletedRoleImpulse], 
     /**
     * deletes a list of intents with the given specifications
     */

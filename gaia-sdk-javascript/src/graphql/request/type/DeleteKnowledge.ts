@@ -6,6 +6,7 @@ import {DeletedTenantImpulse} from "./DeletedTenantImpulse";
 import {DeletedSkillProvisionImpulse} from "./DeletedSkillProvisionImpulse";
 import {DeletedStatementImpulse} from "./DeletedStatementImpulse";
 import {DeletedSkillImpulse} from "./DeletedSkillImpulse";
+import {DeletedRoleImpulse} from "./DeletedRoleImpulse";
 import {DeletedCodeImpulse} from "./DeletedCodeImpulse";
 import {DeletedEdgeImpulse} from "./DeletedEdgeImpulse";
 import {DeletedIdentityImpulse} from "./DeletedIdentityImpulse";
@@ -24,6 +25,7 @@ import {DeleteStatementImpulse} from "../input/DeleteStatementImpulse";
 import {DeletePromptImpulse} from "../input/DeletePromptImpulse";
 import {DeleteTenantImpulse} from "../input/DeleteTenantImpulse";
 import {DeleteIntentImpulse} from "../input/DeleteIntentImpulse";
+import {DeleteRoleImpulse} from "../input/DeleteRoleImpulse";
 import {DeleteSkillProvisionImpulse} from "../input/DeleteSkillProvisionImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -74,6 +76,16 @@ public _typeName = "DeleteKnowledge";
         const entity = new DeletedApiKeyImpulse();
         config(entity);
         return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * deletes a list of roles with the given specifications
+     */
+    public roles = (impulses: [DeleteRoleImpulse]|undefined, config: (_:DeletedRoleImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new DeletedRoleImpulse();
+        config(entity);
+        return `roles(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

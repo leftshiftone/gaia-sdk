@@ -6,6 +6,7 @@ import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
 import {Code} from "./Code";
+import {Role} from "./Role";
 import {SkillProvision} from "./SkillProvision";
 import {Skill} from "./Skill";
 import {Tenant} from "./Tenant";
@@ -23,10 +24,12 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface Knowledge {
     users?:[User], 
     user?:User, 
-    tenants?:[Tenant], 
-    tenant?:Tenant, 
     apiKeys?:[ApiKey], 
     apiKey?:ApiKey, 
+    roles?:[Role], 
+    role?:Role, 
+    tenants?:[Tenant], 
+    tenant?:Tenant, 
     identities?:[Identity], 
     identity?:Identity, 
     intents?:[Intent], 

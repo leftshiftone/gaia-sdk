@@ -60,6 +60,16 @@ type ApiKey {
     enabled: Boolean
 }
 
+"Represents Role information"
+type Role {
+    "Id of the role"
+    roleId: Uuid
+    "The name of the role"
+    name: String
+    "The permissions of the role"
+    permissions: [String]
+}
+
 "Represents intent information"
 type Intent {
     "The identity id"
