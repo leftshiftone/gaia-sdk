@@ -1,15 +1,14 @@
 //Class generated from template src/main/resources/template/javascript/ClientBuilderTemplate.vm
 
-import {ClientOptions, HttpTransporter, ITransporter} from '..';
+import {ClientOptions, HttpTransporter, ITransporter, GaiaCredentials} from '..';
 import {#capitalize($name)Client} from './#capitalize($name)Client';
-import {GaiaCredentials} from "../api/#capitalize($name)Credentials";
 
 export class #capitalize($name)ClientBuilder {
-#tab(4)private transporter: ITransporter;
-#tab(4)private credentials?: GaiaCredentials
-#tab(4)private contentType: string = "application/json"
+#tab(4)transporter: ITransporter;
+#tab(4)credentials?: GaiaCredentials;
+#tab(4)contentType: string = 'application/json';
 
-#tab(4)private constructor(transporter: ITransporter) {
+#tab(4)constructor(transporter: ITransporter) {
 #tab(8)this.transporter = transporter;
 #tab(4)}
 
@@ -18,17 +17,17 @@ export class #capitalize($name)ClientBuilder {
 #tab(4)}
 
 #tab(4)public withCredentials(credentials: GaiaCredentials) {
-#tab(8)this.credentials=credentials
+#tab(8)this.credentials = credentials;
 #tab(8)return this;
 #tab(4)}
 
 #tab(4)public withContentType(contentType: string) {
-#tab(8)this.contentType = contentType
+#tab(8)this.contentType = contentType;
 #tab(8)return this;
 #tab(4)}
 
 #tab(4)public build() {
-#tab(8)const options = new ClientOptions(this.credentials!,this.contentType);
+#tab(8)const options = new ClientOptions(this.credentials!, this.contentType);
 #tab(8)return new #capitalize($name)Client(options, this.transporter);
 #tab(4)}
 
