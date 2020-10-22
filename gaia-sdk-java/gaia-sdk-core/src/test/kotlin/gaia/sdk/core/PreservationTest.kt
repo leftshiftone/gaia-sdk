@@ -1,7 +1,10 @@
 package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.GaiaResponse
 import gaia.sdk.request.input.*
+import gaia.sdk.response.type.*
+import io.reactivex.Flowable
 import org.junit.jupiter.api.*
 import reactor.core.publisher.Flux
 import java.util.*
@@ -20,6 +23,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create identity`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(identities = listOf(CreatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateIdentityImpulse("")
 
@@ -32,6 +36,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update identity`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(identities = listOf(UpdatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "")
 
