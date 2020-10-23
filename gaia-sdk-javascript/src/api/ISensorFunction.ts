@@ -46,7 +46,7 @@ import {
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes
+    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -119,6 +119,12 @@ import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse"
 import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
+import {CreateRoleImpulse} from "../graphql/request/input/CreateRoleImpulse";
+import {CreatedRoleImpulse} from "../graphql/response/type/CreatedRoleImpulse";
+import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
+import {UpdatedRoleImpulse} from "../graphql/response/type/UpdatedRoleImpulse";
+import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
+import {DeletedRoleImpulse} from "../graphql/response/type/DeletedRoleImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -146,6 +152,10 @@ export interface ISensorFunction {
     retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes>
 
     retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void) : Observable<ApiKeyRes>
+
+    retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
+
+    retrieveRole(roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
@@ -208,6 +218,12 @@ export interface ISensorFunction {
     preserveUpdateApiKeys(...impulses: [UpdateApiKeyImpulse]): Observable<UpdatedApiKeyImpulse>
 
     preserveDeleteApiKeys(...impulses: [DeleteApiKeyImpulse]): Observable<DeletedApiKeyImpulse>
+
+    preserveCreateRoles(...impulses: [CreateRoleImpulse]): Observable<CreatedRoleImpulse>
+
+    preserveUpdateRoles(...impulses: [UpdateRoleImpulse]): Observable<UpdatedRoleImpulse>
+
+    preserveDeleteRoles(...impulses: [DeleteRoleImpulse]): Observable<DeletedRoleImpulse>
 
     preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse>
 

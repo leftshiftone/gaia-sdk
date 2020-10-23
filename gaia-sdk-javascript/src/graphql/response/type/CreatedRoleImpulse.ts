@@ -1,5 +1,5 @@
 
-import {User} from "./User";
+import {Role} from "./Role";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -13,5 +13,5 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface CreatedRoleImpulse {
     id?:Uuid, 
-    data?:User
+    data?:Role
 }

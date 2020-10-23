@@ -18,8 +18,8 @@ class CreatedRoleImpulse: Type() {
         add {"id" } 
     }
 
-    fun data(config: User.() -> Unit) = 
-        add { "data{ " + User().apply(config).render(it) + "}"}
+    fun data(config: Role.() -> Unit) = 
+        add { "data{ " + Role().apply(config).render(it) + "}"}
 
 }
 

@@ -58,6 +58,12 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
     override fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { apiKey(apiKeyId, config) } } })) { it.retrieve?.knowledge?.apiKey!! }
 
+    override fun retrieveRoles(config: Role.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { roles(limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.roles!! }
+
+    override fun retrieveRole(roleId: Uuid, config: Role.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { role(roleId, config) } } })) { it.retrieve?.knowledge?.role!! }
+
     override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.intents!! }
 
@@ -259,6 +265,40 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                 }
             } } } })) {
                 it.preserve?.delete?.apiKeys!!
+            }
+
+    override fun preserveCreateRoles(vararg impulses: CreateRoleImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { roles(impulses) {
+                id()
+                data{
+                    roleId()
+                    name()
+                    permissions()
+                }
+            } } } })) {
+                it.preserve?.create?.roles!!
+            }
+
+    override fun preserveUpdateRoles(vararg impulses: UpdateRoleImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { roles(impulses) {
+                id()
+                data{
+                    roleId()
+                    name()
+                    permissions()
+                }
+            } } } })) {
+                it.preserve?.update?.roles!!
+            }
+
+    override fun preserveDeleteRoles(vararg impulses: DeleteRoleImpulse) =
+            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { roles(impulses) {
+                id()
+                data {
+                    roleId()
+                }
+            } } } })) {
+                it.preserve?.delete?.roles!!
             }
 
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) =

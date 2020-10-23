@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.response.type.User import User
+from gaia_sdk.graphql.response.type.Role import Role
 
 from typing import List
 Uuid = str
@@ -36,5 +36,5 @@ class CreatedRoleImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     @property
-    def data(self) -> User:
-        return User(self.dictionary.get("data"))
+    def data(self) -> Role:
+        return Role(self.dictionary.get("data"))

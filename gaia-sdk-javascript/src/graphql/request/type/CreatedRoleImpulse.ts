@@ -1,5 +1,5 @@
 
-import {User} from "./User";
+import {Role} from "./Role";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -18,8 +18,8 @@ public _typeName = "CreatedRoleImpulse";
         this.push(_ => "id")
     };
 
-    public data = (config: (_:User) => void) => this.push((registry) => {
-        const entity = new User();
+    public data = (config: (_:Role) => void) => this.push((registry) => {
+        const entity = new Role();
         config(entity);
         return "data { " + entity.render(registry) + " }";
     });

@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.request.type.User import User
+from gaia_sdk.graphql.request.type.Role import Role
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -16,9 +16,9 @@ class CreatedRoleImpulse(list):
     def id(self):
         self.append(lambda x: "id")
 
-    def data(self, config: Callable[['User'], None]):
+    def data(self, config: Callable[['Role'], None]):
         def callback(registry: VariableRegistry):
-            entity = User()
+            entity = Role()
             config(entity)
             return "data {" + entity.render(registry) + "}"
         self.append(callback)

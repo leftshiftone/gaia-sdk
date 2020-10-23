@@ -229,7 +229,7 @@ input DeleteRoleImpulse {
 "Impulse which indicates the result of a create role impulse"
 type CreatedRoleImpulse implements Impulse {
     id: Uuid!
-    data: User
+    data: Role
 }
 "Impulse which indicates the result of a update role impulse"
 type UpdatedRoleImpulse implements Impulse {

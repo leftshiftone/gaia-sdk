@@ -14,6 +14,8 @@ export {User as UserReq} from "./request/type/User";
 export {User as UserRes} from "./response/type/User";
 export {ApiKey as ApiKeyReq} from "./request/type/ApiKey"
 export {ApiKey as ApiKeyRes} from "./response/type/ApiKey"
+export {Role as RoleReq} from "./request/type/Role"
+export {Role as RoleRes} from "./response/type/Role"
 export {Intent as IntentReq} from "./request/type/Intent";
 export {Intent as IntentRes} from "./response/type/Intent";
 export {Prompt as PromptReq} from "./request/type/Prompt";

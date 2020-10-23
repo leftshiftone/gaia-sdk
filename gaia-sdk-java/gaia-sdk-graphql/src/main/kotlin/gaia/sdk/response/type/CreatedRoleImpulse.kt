@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class CreatedRoleImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:User?
+    @JsonProperty("data") val data:Role?
 )
