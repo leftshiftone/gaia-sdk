@@ -3,14 +3,14 @@ import {GaiaCredentials} from '..';
 import {DataRef} from '../api/DataRef';
 import {SkillRef} from '../api/SkillRef';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
-import {GaiaStreamClientBuilder} from '../graphql/GaiaStreamClientBuilder';
+import {GaiaStreamClientFactory} from '../graphql/GaiaStreamClientBuilder';
 import {ISensorStream} from '../api/ISensorStream';
 
 export class HttpSensorStream implements ISensorStream{
     private readonly client: GaiaStreamClient;
 
-    constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaStreamClientBuilder.http(url + '/api')
+    constructor(url: string, credentials: GaiaCredentials, gaiaStreamClientFactory: GaiaStreamClientFactory) {
+        this.client = gaiaStreamClientFactory.http(url + '/api')
             .withCredentials(credentials)
             .build();
     }
