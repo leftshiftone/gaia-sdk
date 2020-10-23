@@ -6,9 +6,6 @@ from gaia_sdk.graphql.GaiaClient import GaiaClient
 
 class GaiaHttpClientBuilder(object):
 
-    def http(url):
-        return GaiaClientBuilder(url)
-
     def __init__(self, url):
         self.url = url
 

@@ -6,9 +6,6 @@ from gaia_sdk.graphql.#capitalize($name)Client import #capitalize($name)Client
 
 class #capitalize($name)HttpClientBuilder(object):
 
-#tab(4)def http(url):
-#tab(8)return #capitalize($name)ClientBuilder(url)
-
 #tab(4)def __init__(self, url):
 #tab(8)self.url = url
 
