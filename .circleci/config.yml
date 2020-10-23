@@ -25,7 +25,7 @@ jobs:
     docker:
       - image: python:3.7-stretch
     environment:
-      GRADLE_OPTS: '-Xmx256m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      GRADLE_OPTS: '-Xmx512m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
       NODE_VERSION: '10.20.1'
       YARN_VERSION: '1.22.4'
       TEST_RESULTS_PATH: build/circleci/test-results
