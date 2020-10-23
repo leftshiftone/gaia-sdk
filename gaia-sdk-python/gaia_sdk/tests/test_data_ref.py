@@ -14,13 +14,12 @@ logging.basicConfig(level=logging.DEBUG)
 
 class TestDataRef(unittest.TestCase):
 
-    def test_http_error_produces_exception(self):
-        gaia_ref = Gaia.connect("https://beta.gaia.leftshift.one", HMACCredentials("incorrectApiKey", "incorrectSecret"))
-        self.assertRaises(Exception, lambda: pipe(ops.first())(
-            gaia_ref.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").as_bytes()).run())
-
     def test_retrieve_data(self):
-        self.gaiaRef = mock_gaia_ref(lambda x: MockResponse(bytes("hello world", encoding="utf-8")))
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/data/source")
+            return MockResponse(bytes("hello world", encoding="utf-8"))
+
+        self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(
             self.gaiaRef.data("gaia://usr@tenant/somefolder/somefolder/asdf1.pdf").as_bytes()).run()
         self.assertEqual(result, bytes("hello world", "utf-8"))
@@ -45,23 +44,39 @@ class TestDataRef(unittest.TestCase):
         assert pipe(ops.first())(response).run().uri == "gaia://usr@tenant/somefolder/existingFile"
 
     def test_list_files_in_existing_dir(self):
-        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse([{"tenant": "tenant1", "filePath": "existingDirectory/file1"}]))
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/data/list")
+            return MockResponse([{"tenant": "tenant1", "filePath": "existingDirectory/file1"}])
+
+        self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant1/existingDirectory").list()).run()
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0], FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1"}))
 
     def test_list_files_in_nonexistent_dir(self):
-        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse([]))
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/data/list")
+            return MockResponse([])
+
+        self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant1/nonexistentDirectory").list()).run()
         self.assertEqual(len(result), 0)
 
     def test_remove_existing_file(self):
-        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse({"fileExisted": True}))
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/data/remove")
+            return MockResponse({"fileExisted": True})
+
+        self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant/somefolder/existingFile").remove()).run()
         self.assertEqual(result.file_existed, True)
 
     def test_remove_nonexistent_file(self):
-        self.gaiaRef = mock_gaia_ref(lambda request: MockResponse({"fileExisted": False}))
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/data/remove")
+            return MockResponse({"fileExisted": False})
+
+        self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant/somefolder/nonexistentFile").remove()).run()
         self.assertEqual(result.file_existed, False)
 
@@ -70,8 +85,10 @@ class TestDataRef(unittest.TestCase):
             return MockResponse({"uploadId": "A123"})
         elif request.url_post_fix == "/data/sink/chunk":
             return MockResponse({"chunkId": "B123"})
-        else:
+        elif request.url_post_fix == "/data/sink/complete":
             return MockResponse("asdfqwer")
+        else:
+            raise RuntimeError('On purpose')
 
     def mock_write_existing_fail(self, request):
         if request.url_post_fix == "/data/sink/init":

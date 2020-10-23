@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a delete fulfilment impulse
 */
 data class DeletedFulfilmentImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:KeyOne?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:KeyOne? = null
 )

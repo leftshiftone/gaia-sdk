@@ -1,4 +1,4 @@
-from gaia_sdk.graphql.GaiaClientBuilder import GaiaClientFactory
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaClientBuilder import GaiaHttpClientBuilder
 from gaia_sdk.graphql.GaiaClient import GaiaClient
 from gaia_sdk.api.GaiaCredentials import GaiaCredentials

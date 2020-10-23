@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Notification @JsonCreator constructor(
-    @JsonProperty("onCreated") val onCreated:OnCreated?, 
-    @JsonProperty("onUpdated") val onUpdated:OnUpdated?, 
-    @JsonProperty("onDeleted") val onDeleted:OnDeleted?
+    @JsonProperty("onCreated") val onCreated:OnCreated? = null, 
+    @JsonProperty("onUpdated") val onUpdated:OnUpdated? = null, 
+    @JsonProperty("onDeleted") val onDeleted:OnDeleted? = null
 )

@@ -16,13 +16,13 @@ data class Perception @JsonCreator constructor(
     /**
     * Contains all perception fields needed for a conversation.
     */
-    @JsonProperty("conversational") val conversational:Conversational?, 
+    @JsonProperty("conversational") val conversational:Conversational? = null, 
     /**
     * Data perception impulse used to invoke a data transformation behaviour
     */
-    @JsonProperty("perceiveData") val perceiveData:PerceivedImpulse?, 
+    @JsonProperty("perceiveData") val perceiveData:PerceivedImpulse? = null, 
     /**
     * Action perception impulse used to invoke a data transformation behaviour
     */
-    @JsonProperty("perceiveAction") val perceiveAction:PerceivedImpulse?
+    @JsonProperty("perceiveAction") val perceiveAction:PerceivedImpulse? = null
 )

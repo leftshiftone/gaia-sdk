@@ -43,11 +43,13 @@ class RxException(Exception):
 class TestPreservation(unittest.TestCase):
 
     def test_preserve_create_identity(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"identities": [{"id": "asdf"}]}}}}))
+        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"identities": [{"id": "asdf", "data": { "identityId": "i1"}}]}}}}))
 
         impulses = CreateIdentityImpulse(str(""))
         result = pipe(ops.first())(gaia_ref.preserve_create_identities([impulses])).run()
-        assert result.dictionary.get("id") is not None, "ID  is in response"
+        self.assertEqual(result.dictionary.get("id"), "asdf")
+        data = result.dictionary.get("data")
+        self.assertEqual(data.get("identityId"), "i1")
 
     def test_preserve_update_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"update": {"identities": [{"id": "asdf"}]}}}}))

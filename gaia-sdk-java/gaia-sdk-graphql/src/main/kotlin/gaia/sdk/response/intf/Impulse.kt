@@ -15,5 +15,5 @@ data class Impulse @JsonCreator constructor(
     /**
     * The id of the impulse
     */
-    @JsonProperty("id") val id:Uuid?
+    @JsonProperty("id") val id:Uuid? = null
 )

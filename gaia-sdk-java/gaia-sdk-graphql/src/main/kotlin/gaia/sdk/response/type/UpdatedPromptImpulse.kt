@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a update prompt impulse
 */
 data class UpdatedPromptImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the prompt instance
     */
-    @JsonProperty("data") val data:Prompt?
+    @JsonProperty("data") val data:Prompt? = null
 )

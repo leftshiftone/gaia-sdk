@@ -29,7 +29,7 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
 from gaia_sdk.http.response.LoggedIn import LoggedIn
-from gaia_sdk.graphql.GaiaClientBuilder import GaiaClientFactory
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 
 Uuid = str

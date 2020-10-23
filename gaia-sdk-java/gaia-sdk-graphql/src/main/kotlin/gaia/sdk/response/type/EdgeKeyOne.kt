@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * This entity represents the output of an edge delete impulse
 */
 data class EdgeKeyOne @JsonCreator constructor(
-    @JsonProperty("source") val source:Uuid?, 
-    @JsonProperty("target") val target:Uuid?
+    @JsonProperty("source") val source:Uuid? = null, 
+    @JsonProperty("target") val target:Uuid? = null
 )
