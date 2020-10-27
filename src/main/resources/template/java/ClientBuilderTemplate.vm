@@ -1,11 +1,11 @@
 package gaia.sdk
 
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.IStreamTransporter
+import gaia.sdk.spi.ITransporter
 
 //Class generated from template src/main/resources/template/java/ClientBuilderTemplate.vm
 
-class #capitalize($name)ClientBuilder (private val transporter: IStreamTransporter) {
+class #capitalize($name)ClientBuilder (private val transporter: ITransporter) {
 
 #tab(4)lateinit var credentials: GaiaCredentials
 #tab(4)var contentType: String = "application/json"

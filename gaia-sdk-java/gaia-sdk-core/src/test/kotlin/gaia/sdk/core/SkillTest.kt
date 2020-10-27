@@ -1,5 +1,7 @@
 package gaia.sdk.core
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.JWTCredentials
@@ -8,7 +10,7 @@ import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.skill.SkillEvaluation
 import gaia.sdk.api.skill.SkillRef
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.IStreamTransporter
+import gaia.sdk.spi.ITransporter
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Flowable
@@ -22,7 +24,7 @@ import java.util.concurrent.TimeUnit
 abstract class SkillTest() {
 
     lateinit var credentials: GaiaCredentials
-
+    val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     @BeforeAll
     fun beforeAll() {
         credentials = retrieveCredentials()
@@ -45,9 +47,9 @@ abstract class SkillTest() {
     @Test
     fun `test skill evaluation`() {
         val mockedStreamProcessor = mockk<ISensorStream>()
-        val mockedTransporter = mockk<IStreamTransporter>()
+        val mockedTransporter = mockk<ITransporter>()
 
-        every { mockedTransporter.transport<SkillEvaluation>(any(), any(), any(), any()) } returns Flowable.just(SkillEvaluation(mapOf("response" to "hello")))
+        every { mockedTransporter.transport(any(), any(), any()) } returns Flowable.just(jsonparser.writeValueAsBytes(mapOf("response" to "hello")))
         every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamClient(ClientOptions(JWTCredentials("")), mockedTransporter))
 
         val gaiaRef = Gaia.connect(GaiaConfig("", JWTCredentials(""), mockk(), mockk(), mockedStreamProcessor))

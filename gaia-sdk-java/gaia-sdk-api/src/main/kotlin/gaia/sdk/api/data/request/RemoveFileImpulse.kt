@@ -1,3 +1,5 @@
+package gaia.sdk.api.data.request
+
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 

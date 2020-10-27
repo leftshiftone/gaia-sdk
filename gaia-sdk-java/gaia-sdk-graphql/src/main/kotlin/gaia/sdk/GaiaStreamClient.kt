@@ -3,14 +3,14 @@ package gaia.sdk
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.IStreamTransporter
+import gaia.sdk.spi.ITransporter
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 import org.slf4j.LoggerFactory
 import java.io.File
 
 
-class GaiaStreamClient(private val options: ClientOptions, private val transporter: IStreamTransporter) {
+class GaiaStreamClient(private val options: ClientOptions, private val transporter: ITransporter) {
 
     companion object {
         private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -31,14 +31,7 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
             else -> jsonparser.writeValueAsBytes(payload)
         }
 
-        val function = object : Function1<Publisher<ByteArray>, Publisher<T>> {
-            override fun invoke(p1: Publisher<ByteArray>): Publisher<T> {
-                return Flowable.fromPublisher(p1).map { byteArray ->
-                    jsonparser.readValue(byteArray, type)
-                }.cast(type)
-            }
-        }
-        return transporter.transport(clientOptions, function,bytes, apiPath)
+        return transporter.transport(clientOptions,bytes, apiPath).byteArrayCast(jsonparser, type)
     }
 
     fun postAndRetrieveBinary(payload: Any, apiPath: String): Publisher<File> {
@@ -47,16 +40,7 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
             else -> jsonparser.writeValueAsBytes(payload)
         }
 
-        val function = object : Function1<Publisher<ByteArray>, Publisher<File>> {
-            override fun invoke(p1: Publisher<ByteArray>): Publisher<File> {
-                return Flowable.fromPublisher(p1)
-                        .map {
-                            val file = File.createTempFile("${System.currentTimeMillis()}-", "-gaia-sdk-download")
-                            file.writeBytes(it)
-                            file
-                        }
-            }
-        }
-         return transporter.transport(options, function, bytes, apiPath)
+         return transporter.transport(options, bytes, apiPath).byteArrayToFile()
     }
 }
+

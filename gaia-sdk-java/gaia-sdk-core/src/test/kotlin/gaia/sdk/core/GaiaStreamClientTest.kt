@@ -1,10 +1,10 @@
 package gaia.sdk.core
 
-import FileListing
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
+import gaia.sdk.api.data.response.FileListing
 import io.reactivex.Flowable
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

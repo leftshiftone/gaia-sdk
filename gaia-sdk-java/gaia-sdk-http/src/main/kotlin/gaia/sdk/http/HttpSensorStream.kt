@@ -10,7 +10,7 @@ import reactor.netty.http.client.HttpClient
 
 class HttpSensorStream(url: String, credentials: GaiaCredentials) : ISensorStream {
 
-    private val client = GaiaStreamingClientBuilder(StreamHttpTransporter(url + "/api", HttpClient.create()))
+    private val client = GaiaStreamingClientBuilder(HttpTransporter(url + "/api", HttpClient.create()))
             .withCredentials(credentials)
             .build()
 

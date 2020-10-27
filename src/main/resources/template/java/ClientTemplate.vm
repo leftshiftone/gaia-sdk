@@ -1,11 +1,14 @@
 package gaia.sdk
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.client.Type
 import gaia.sdk.client.VariableRegistry
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.ITransporter
 import gaia.sdk.request.type.Mutation
 import gaia.sdk.request.type.Query
+import gaia.sdk.spi.ITransporter
+import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 import org.slf4j.LoggerFactory
 import java.security.SecureRandom
@@ -13,6 +16,7 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.reflect.KClass
 
+//Class generated from template src/main/resources/template/java/ClientTemplate.vm
 
 class #capitalize($name)Client(private val options: ClientOptions, private val transporter: ITransporter) {
 
@@ -20,7 +24,7 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(8)private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
 #tab(4)}
 
-#tab(4)private val nonce = AtomicLong(SecureRandom().nextLong())
+#tab(4)private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
 #tab(4)fun #print("<T:")#capitalize($name)Response#print(">")executeNative(statement: String, variables:#*
 *#Map${lt}String, Any${gt}, type:KClass#print("<T>")): #*
@@ -36,7 +40,10 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(8)if (log.isTraceEnabled) {
 #tab(12)log.trace("Payload: #print("$")body")
 #tab(8)}
-#tab(8)return transporter.transport(options, type.java, body);
+#tab(8)val bytes = jsonparser.writeValueAsBytes(body)
+
+#tab(8)return transporter.transport(options, bytes).byteArrayCast(jsonparser, type.java)
+
 #tab(4)}
 
 #if($hasQuery)

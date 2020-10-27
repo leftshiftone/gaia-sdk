@@ -1,10 +1,9 @@
 package gaia.sdk
 
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.IStreamTransporter
 import gaia.sdk.spi.ITransporter
 
-class GaiaStreamingClientBuilder (private val transporter: IStreamTransporter) {
+class GaiaStreamingClientBuilder (private val transporter: ITransporter) {
 
     lateinit var credentials: GaiaCredentials
     var contentType: String = "application/json"

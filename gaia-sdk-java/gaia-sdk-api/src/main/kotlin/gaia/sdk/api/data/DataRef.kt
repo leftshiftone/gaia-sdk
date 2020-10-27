@@ -1,17 +1,7 @@
 package gaia.sdk.api
-//TODO AGP Move Data clases to another folder which is not regenerated each time
-import BinaryReadImpulse
-import BinaryWriteChunkImpulse
-import CompleteBinaryWriteImpulse
-import DataUploadChunkResponse
-import DataUploadResponse
-import FileList
-import FileListing
-import FileRemovedImpulse
-import InitBinaryWriteImpulse
-import ListFilesImpulse
-import RemoveFileImpulse
 import gaia.sdk.GaiaStreamClient
+import gaia.sdk.api.data.request.*
+import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
@@ -115,7 +105,7 @@ class DataUpload(private val uri: String, private val content: File, private val
         val chunkResponses = ArrayList<DataUploadChunkResponse>()
         val initResponse = Flowable.fromPublisher(
                 client.post(
-                        InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override),DataUploadResponse::class.java, "/data/sink/init")).blockingFirst()
+                        InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override), DataUploadResponse::class.java, "/data/sink/init")).blockingFirst()
         Flowable.fromPublisher(this.sendChunks(initResponse.uploadId, client)).blockingSubscribe { chunkResponses += it }
         val chunkIds = chunkResponses.map { it.chunkId }.toList()
 
