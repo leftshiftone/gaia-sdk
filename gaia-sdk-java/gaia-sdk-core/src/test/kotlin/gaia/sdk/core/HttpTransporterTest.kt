@@ -22,8 +22,6 @@ import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-//@Disabled("temporarily disabled; fails only on CI")
 class HttpTransporterTest {
 
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))

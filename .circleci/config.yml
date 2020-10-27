@@ -86,7 +86,8 @@ jobs:
     docker:
       - image: python:3.7-stretch
     environment:
-      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      GRADLE_OPTS: '-Xmx512m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      NODE_OPTIONS: '--max_old_space_size=1024'
       NODE_VERSION: '10.20.1'
       YARN_VERSION: '1.22.4'
       TEST_RESULTS_PATH: build/circleci/test-results
@@ -111,7 +112,8 @@ jobs:
     docker:
       - image: python:3.7-stretch
     environment:
-      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      GRADLE_OPTS: '-Xmx512m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      NODE_OPTIONS: '--max_old_space_size=1024'
       NODE_VERSION: '10.20.1'
       YARN_VERSION: '1.22.4'
       TEST_RESULTS_PATH: build/circleci/test-results
@@ -137,7 +139,8 @@ jobs:
     docker:
       - image: python:3.7-stretch
     environment:
-      GRADLE_OPTS: '-Xmx128m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      GRADLE_OPTS: '-Xmx512m -Dorg.gradle.daemon=false -Dorg.gradle.jvmargs="-Xmx1024m"'
+      NODE_OPTIONS: '--max_old_space_size=1024'
       NODE_VERSION: '10.20.1'
       YARN_VERSION: '1.22.4'
       TEST_RESULTS_PATH: build/circleci/test-results
@@ -159,6 +162,9 @@ jobs:
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
+      - run:
+          name: Run coverage for JS
+          command: yarn --cwd ./gaia-sdk-javascript coverage
       - run:
           name: Collect test results java
           command: find . -type f -regex ".*/build/test-results/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
