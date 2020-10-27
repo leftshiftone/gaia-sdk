@@ -12,9 +12,8 @@ task installDependencies() {
 
 task test() {
     doLast {
-        print("skipped...")
-//        execute(["yarn", "test", "--coverage"])
-//        execute(["yarn", "test-node"])
+        execute(["yarn", "test", "--coverage"])
+        execute(["yarn", "test-node"])
     }
 }
 
