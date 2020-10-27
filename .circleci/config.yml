@@ -39,8 +39,6 @@ jobs:
       - run: mkdir -p $TEST_RESULTS_PATH
       - run: chmod a+x gradlew
       - restore_cache:
-          key: gradle-{{ checksum "build.gradle" }}-{{ checksum "gaia-sdk-java/build.gradle" }}
-      - restore_cache:
           key: node-{{ checksum "gaia-sdk-javascript/yarn.lock" }}
       - restore_cache:
           key: pip-{{ checksum "gaia-sdk-python/poetry.lock" }}
@@ -71,10 +69,6 @@ jobs:
           name: Collect test results python
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: gradle-{{ checksum "build.gradle" }}-{{ checksum "gaia-sdk-java/build.gradle" }}
       - save_cache:
           paths:
             - ./gaia-sdk-javascript/node_modules
