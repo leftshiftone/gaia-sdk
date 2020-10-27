@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
-       - run:
+      - run:
           name: Run coverage for JS
           command: yarn --cwd ./gaia-sdk-javascript coverage
       - run:
