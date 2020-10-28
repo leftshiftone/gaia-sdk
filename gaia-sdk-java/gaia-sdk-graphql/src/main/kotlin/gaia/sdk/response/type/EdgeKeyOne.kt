@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class EdgeKeyOne @JsonCreator constructor(
     @JsonProperty("source") val source:Uuid?, 
-    @JsonProperty("target") val target:Uuid?
+    @JsonProperty("edgeId") val edgeId:Uuid?
 )

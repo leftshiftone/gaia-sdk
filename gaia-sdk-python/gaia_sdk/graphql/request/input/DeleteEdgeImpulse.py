@@ -12,16 +12,16 @@ class DeleteEdgeImpulse():
     The specification to delete an edge instance
     """
     source: str
-    target: str
+    edgeId: str
 
-    def __init__(self, source: str, target: str):
+    def __init__(self, source: str, edgeId: str):
         self.source = source
-        self.target = target
+        self.edgeId = edgeId
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.source == other.source and self.target == other.target
+            return self.source == other.source and self.edgeId == other.edgeId
         return False
 
     def __repr__(self):
-        return {'source': self.source, 'target': self.target}
+        return {'source': self.source, 'edgeId': self.edgeId}

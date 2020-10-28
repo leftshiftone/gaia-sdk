@@ -930,6 +930,8 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.target()
                     d.type()
                     d.weight()
+                    d.edgeId()
+                    d.properties()
                 })
             }))
         }))));
@@ -942,7 +944,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.id()
                 i.data(d => {
                     d.source()
-                    d.target()
+                    d.edgeId()
                 })
             }))
         }))));

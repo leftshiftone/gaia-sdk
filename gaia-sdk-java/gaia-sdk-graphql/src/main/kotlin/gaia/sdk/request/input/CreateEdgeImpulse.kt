@@ -15,5 +15,6 @@ import gaia.sdk.request.enumeration.*
 class CreateEdgeImpulse(val source:Uuid, 
    val target:Uuid, 
    val type:String, 
-   val weight:Float) : Input()
+   val weight:Float, 
+   val properties:Struct) : Input()
 

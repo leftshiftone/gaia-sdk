@@ -22,12 +22,20 @@ class Edge: Type() {
         add {"target" } 
     }
 
+    fun edgeId() { 
+        add {"edgeId" } 
+    }
+
     fun type() { 
         add {"type" } 
     }
 
     fun weight() { 
         add {"weight" } 
+    }
+
+    fun properties() { 
+        add {"properties" } 
     }
 }
 
