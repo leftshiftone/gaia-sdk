@@ -931,6 +931,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.type()
                     d.weight()
                     d.edgeId()
+                    d.properties()
                 })
             }))
         }))));

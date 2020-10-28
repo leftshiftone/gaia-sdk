@@ -527,6 +527,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
                     type()
                     weight()
                     edgeId()
+                    properties()
                 }
                 } } } })) {
                 it.preserve?.create?.edges!!
