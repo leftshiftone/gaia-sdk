@@ -15,8 +15,8 @@ class EdgeKeyOne(list):
     def source(self):
         self.append(lambda x: "source")
 
-    def target(self):
-        self.append(lambda x: "target")
+    def edge_id(self):
+        self.append(lambda x: "edgeId")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

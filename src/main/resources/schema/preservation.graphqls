@@ -525,7 +525,7 @@ type DeletedCodeImpulse implements Impulse {
 "This entity represents the output of an edge delete impulse"
 type EdgeKeyOne {
     source: Uuid
-    target: Uuid
+    edgeId: Uuid
 }
 "The specification to create an edge instance"
 input CreateEdgeImpulse {
@@ -533,11 +533,12 @@ input CreateEdgeImpulse {
     target: Uuid!
     type: String!
     weight: Float!
+    properties: Struct
 }
 "The specification to delete an edge instance"
 input DeleteEdgeImpulse {
     source: Uuid!
-    target: Uuid!
+    edgeId: Uuid!
 }
 "Impulse which indicates the result of a create edge impulse"
 type CreatedEdgeImpulse implements Impulse {

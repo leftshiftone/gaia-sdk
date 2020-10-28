@@ -181,8 +181,10 @@ type Behaviour {
 type Edge {
     source: Uuid
     target: Uuid
+    edgeId: Uuid
     type: String
     weight: Float
+    properties: Struct
 }
 
 # ****************

@@ -29,7 +29,7 @@ type Knowledge {
     behaviours(identityId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Behaviour]
     behaviour(identityId: Uuid, reference: Uuid): Behaviour
     edges(source: Uuid, limit: Int, offset: Int, orderBy: EdgeOrderByField, order: Order): [Edge]
-    edge(source: Uuid, target: Uuid): Edge
+    edge(source: Uuid, edgeId: Uuid): Edge
     skills(tenantId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [Skill]
     skill(tenantId: Uuid, reference: Uuid): Skill
     skillProvisions(tenantId: Uuid, limit: Int, offset: Int, orderBy: OrderByField, order: Order): [SkillProvision]

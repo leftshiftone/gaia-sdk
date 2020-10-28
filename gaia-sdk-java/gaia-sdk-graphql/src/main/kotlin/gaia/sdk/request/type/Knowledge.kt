@@ -175,10 +175,10 @@ class Knowledge: Type() {
         "edges(source:$name1, limit:$name2, offset:$name3, orderBy:$name4, order:$name5){" + Edge().apply(config).render(it) + "}"
     }
 
-    fun edge(source : Uuid?, target : Uuid?, config: Edge.() -> Unit) = add {
+    fun edge(source : Uuid?, edgeId : Uuid?, config: Edge.() -> Unit) = add {
         val name1 = it.register("source", source)
-        val name2 = it.register("target", target)
-        "edge(source:$name1, target:$name2){" + Edge().apply(config).render(it) + "}"
+        val name2 = it.register("edgeId", edgeId)
+        "edge(source:$name1, edgeId:$name2){" + Edge().apply(config).render(it) + "}"
     }
 
     fun skills(tenantId : Uuid?, limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Skill.() -> Unit) = add {

@@ -256,13 +256,13 @@ class Knowledge(list):
             return f'edges(source:{name1}, limit:{name2}, offset:{name3}, orderBy:{name4}, order:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def edge(self, source: str, target: str, config: Callable[['Edge'], None]):
+    def edge(self, source: str, edgeId: str, config: Callable[['Edge'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("source", source)
-            name2 = registry.register("target", target)
+            name2 = registry.register("edgeId", edgeId)
             entity = Edge()
             config(entity)
-            return f'edge(source:{name1}, target:{name2})' + '{' + entity.render(registry) + '}'
+            return f'edge(source:{name1}, edgeId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def skills(self, tenantId: str, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Skill'], None]):

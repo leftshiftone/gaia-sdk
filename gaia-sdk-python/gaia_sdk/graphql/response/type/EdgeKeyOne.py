@@ -35,5 +35,5 @@ class EdgeKeyOne:
     def source(self) -> Uuid:
         return Uuid(self.dictionary.get("source"))
     @property
-    def target(self) -> Uuid:
-        return Uuid(self.dictionary.get("target"))
+    def edge_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("edgeId"))
