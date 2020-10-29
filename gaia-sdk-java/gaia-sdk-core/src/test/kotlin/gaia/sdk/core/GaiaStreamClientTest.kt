@@ -87,10 +87,15 @@ internal class GaiaStreamClientTest {
 
     @Test
     fun `successful upload file`() {
-        //TODO extend test to assert chunkIds are properly sent by complete
-        //TODO extend test adding failing cases
-        configureStub("Bearer", errorCode =200, responseFile="ok_data_upload_response.json", uri = "/api/data/sink/init")
-        configureStub("Bearer", errorCode =200, responseFile="ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk")
+        configureStub("Bearer"
+                , errorCode =200
+                , responseFile="ok_data_upload_response.json"
+                , uri = "/api/data/sink/init")
+        configureStub("Bearer"
+                , errorCode =200
+                , responseFile="ok_data_chunk_upload_response.json"
+                , uri = "/api/data/sink/chunk?uploadId=0123456789&ordinal=1&sizeInBytes=446&uri=gaia%3A%2F%2Fusr%40tenant%2Fsomefolder%2Fnew_uploaded_file.txt")
+
         configureStub("Bearer", errorCode =200, responseFile="ok_data_upload_response.json", uri = "/api/data/sink/complete")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/")
