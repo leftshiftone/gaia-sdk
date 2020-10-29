@@ -4,7 +4,6 @@ import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*
 import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
-import io.reactivex.Single
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -103,12 +102,11 @@ class DataUpload(private val uri: String, private val content: File, private val
                 .map { response -> response.uploadId }
                 .flatMap { uploadId ->
                     Flowable.fromPublisher(this.sendChunks(uploadId, client))
-                            .map { resp -> resp.chunkId }
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->
                                 Flowable.fromPublisher(client.post(
-                                        CompleteBinaryWriteImpulse(this.uri, uploadId, chunkIds), DataUploadResponse::class.java, "/data/sink/complete")
+                                        CompleteBinaryWriteImpulse(this.uri, uploadId, chunkIds.sortedBy { it.ordinal }.map { it.res.chunkId }), DataUploadResponse::class.java, "/data/sink/complete")
                                 ).doOnError { reason ->
                                     throw RuntimeException("Upload to uri " + this.uri + " failed: " + reason.message)
                                 }.map { DataRef(this.uri, client) }
@@ -116,14 +114,14 @@ class DataUpload(private val uri: String, private val content: File, private val
                 }
     }
 
-    private fun sendChunks(uploadId: String, client: GaiaStreamClient): Publisher<DataUploadChunkResponse> {
+    private fun sendChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
                 .map { BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value) }
                 .flatMap { chunk ->
                     Flowable.fromPublisher(client.postStream(
                             chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk", chunk.requestParameters())
-                    )
+                    ).map { ChunkResponse(chunk.ordinal, it) }
                 }
     }
 
@@ -133,6 +131,8 @@ class DataUpload(private val uri: String, private val content: File, private val
 class ChunkIterable(val iterator: Iterator<IndexedValue<ByteArray>>) : Iterable<IndexedValue<ByteArray>> {
     override fun iterator(): Iterator<IndexedValue<ByteArray>> = iterator
 }
+
+data class ChunkResponse(val ordinal: Long, val res: DataUploadChunkResponse)
 
 fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
     val input = this.inputStream().buffered()
