@@ -15,10 +15,6 @@ import java.time.Instant
 import java.util.*
 
 class HttpTransporter(private val baseUrl: String, private val httpClient: HttpClient) : ITransporter {
-//TODO APG use logger
-    companion object {
-        private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
-    }
 
     override fun transport(options: ClientOptions, payload:ByteArray, apiPath: String): Publisher<ByteArray> {
         return this.transport(options,payload, apiPath, buildAuthorizationHeader(options, String(payload)))

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
 internal class GaiaStreamClientTest {
@@ -39,7 +40,7 @@ internal class GaiaStreamClientTest {
 
     @Test
     fun `successful file download`() {
-        configureStub("Bearer", errorCode =200, responseFile = "ok_download_file.txt", uri="/api/data/source")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_download_file.txt", uri = "/api/data/source")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/existingFile")
         val ts = Flowable.fromPublisher(dataRef.asFile()).test()
@@ -48,16 +49,16 @@ internal class GaiaStreamClientTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.readLines()[0]=="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." &&
-            it.readLines()[1]=="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." &&
-            it.readLines()[2]=="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." &&
-            it.readLines()[3]=="Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            it.readLines()[0] == "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." &&
+                    it.readLines()[1] == "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." &&
+                    it.readLines()[2] == "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." &&
+                    it.readLines()[3] == "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         }
     }
 
     @Test
     fun `successful removed`() {
-        configureStub("Bearer", errorCode =200, responseFile="ok_removed_response.json", uri = "/api/data/remove")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_removed_response.json", uri = "/api/data/remove")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/file.txt") //TODO assert uri match with file.txt
         val ts = Flowable.fromPublisher(dataRef.remove()).test()
@@ -66,13 +67,13 @@ internal class GaiaStreamClientTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.fileExisted==true
+            it.fileExisted == true
         }
     }
 
     @Test
     fun `successful file removed`() {
-        configureStub("Bearer", errorCode =200, responseFile="ok_removed_response.json", uri = "/api/data/remove")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_removed_response.json", uri = "/api/data/remove")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/")
         val ts = Flowable.fromPublisher(dataRef.removeFile("file.txt")).test()
@@ -81,38 +82,36 @@ internal class GaiaStreamClientTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.fileExisted==true
+            it.fileExisted == true
         }
     }
 
     @Test
     fun `successful upload file`() {
-        configureStub("Bearer"
-                , errorCode =200
-                , responseFile="ok_data_upload_response.json"
-                , uri = "/api/data/sink/init")
-        configureStub("Bearer"
-                , errorCode =200
-                , responseFile="ok_data_chunk_upload_response.json"
-                , uri = "/api/data/sink/chunk?uploadId=0123456789&ordinal=1&sizeInBytes=446&uri=gaia%3A%2F%2Fusr%40tenant%2Fsomefolder%2Fnew_uploaded_file.txt")
+        val gaiaStorageUri = "gaia://usr@tenant/somefolder/"
+        val fileName = "new_uploaded_file.txt"
+        val uploadId = "0123456789" //HardCoded in mapping file ok_data_chunk_upload_response.json
+        val sizeInBytes = 446 //HardCoded in mapping file ok_data_chunk_upload_response.json
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/init")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$fileName", "UTF-8")}")
 
-        configureStub("Bearer", errorCode =200, responseFile="ok_data_upload_response.json", uri = "/api/data/sink/complete")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/complete")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
-        val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/")
-        val fileToUpload= File("src/test/resources/fileToUpload.txt")
-        val ts = Flowable.fromPublisher(dataRef.add("new_uploaded_file.txt",fileToUpload)).test()
+        val dataRef = gaiaRef.data(gaiaStorageUri)
+        val fileToUpload = File("src/test/resources/fileToUpload.txt")
+        val ts = Flowable.fromPublisher(dataRef.add(fileName, fileToUpload)).test()
 
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
-        ts.assertValueAt(0){
-            it.getUri()=="gaia://usr@tenant/somefolder/new_uploaded_file.txt"
+        ts.assertValueAt(0) {
+            it.getUri() == "gaia://usr@tenant/somefolder/new_uploaded_file.txt"
         }
     }
 
     @Test
     fun `successful file listing`() {
-        configureStub("Bearer", errorCode =200, responseFile="ok_array_file_listing_response.json", uri = "/api/data/list")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_array_file_listing_response.json", uri = "/api/data/list")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data("gaia://usr@tenant/somefolder/")
         val ts = Flowable.fromPublisher(dataRef.list()).test()
@@ -120,12 +119,12 @@ internal class GaiaStreamClientTest {
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
-        ts.assertValueAt(0){
-            it[0] == FileListing("0000-0000-abc","/0abc/defg") &&
-                    it[1] == FileListing("1000-0000-abc","/1abc/defg") &&
-                    it[2] == FileListing("2000-0000-abc","/2abc/defg") &&
-                    it[3] == FileListing("3000-0000-abc","/3abc/defg") &&
-                    it.size==4
+        ts.assertValueAt(0) {
+            it[0] == FileListing("0000-0000-abc", "/0abc/defg") &&
+                    it[1] == FileListing("1000-0000-abc", "/1abc/defg") &&
+                    it[2] == FileListing("2000-0000-abc", "/2abc/defg") &&
+                    it[3] == FileListing("3000-0000-abc", "/3abc/defg") &&
+                    it.size == 4
         }
     }
 

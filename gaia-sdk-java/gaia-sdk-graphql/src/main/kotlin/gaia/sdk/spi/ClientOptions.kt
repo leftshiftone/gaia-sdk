@@ -2,16 +2,12 @@ package gaia.sdk.spi
 
 import gaia.sdk.GaiaCredentials
 
-class ClientOptions(val credentials: GaiaCredentials, val contentType: String = "application/json", val requestParameters: Map<String,Any>?){
+class ClientOptions(val credentials: GaiaCredentials, val contentType: String = "application/json"){
 
-    constructor(credentials: GaiaCredentials, contentType: String): this(credentials, contentType, null)
-    constructor(credentials: GaiaCredentials): this(credentials, "application/json", null)
+    constructor(credentials: GaiaCredentials): this(credentials, "application/json")
 
     fun withContentType(contentType: String): ClientOptions{
-        return ClientOptions(this.credentials, contentType, requestParameters)
+        return ClientOptions(this.credentials, contentType)
     }
 
-    fun withRequestParameters(requestParameters: Map<String, Any>?): ClientOptions{
-        return ClientOptions(this.credentials, this.contentType, requestParameters)
-    }
 }
