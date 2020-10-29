@@ -8,7 +8,7 @@ class BinaryWriteChunkImpulse @JsonCreator constructor(
         @JsonProperty("uploadId")val uploadId: String,
         @JsonProperty("ordinal")val ordinal: Long,
         @JsonProperty("sizeInBytes")val sizeInBytes: Long,
-        @JsonProperty("data")val data: ByteArray){
+        @JsonProperty("chunk")val chunk: ByteArray){
     fun requestParameters(): Map<String, Any> {
         return mapOf("uploadId" to uploadId, "ordinal" to ordinal, "sizeInBytes" to sizeInBytes, "uri" to uri)
     }

@@ -7,6 +7,7 @@ import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import kotlin.math.ceil
 
 class DataRef(private val uri: String, private val client: GaiaStreamClient) {
 
@@ -89,15 +90,15 @@ class DataUpload(private val uri: String, private val content: File, private val
         private val CHUNK_SIZE: Int = 1024 * 1024 * 5
 
         fun create(uri: String, content: File, override: Boolean = false): DataUpload {
-            val numberOfChunks = content.length().div(CHUNK_SIZE)
+            val numberOfChunks = ceil(content.length().toDouble().div(CHUNK_SIZE.toDouble())).toLong()
             return DataUpload(uri, content, numberOfChunks, override)
         }
     }
 
     private fun sendChunks(uploadId: String, client: GaiaStreamClient): Publisher<DataUploadChunkResponse> {
-        return Flowable.fromPublisher(this.getChunkRequests(uploadId))
+        return Flowable.fromIterable(this.getChunkRequests(uploadId))
                 .flatMap { chunk ->
-                    Flowable.fromPublisher(client.postStream(chunk.data,DataUploadChunkResponse::class.java, "/data/sink/chunk", chunk.requestParameters()))
+                    Flowable.fromPublisher(client.postStream(chunk.chunk,DataUploadChunkResponse::class.java, "/data/sink/chunk", chunk.requestParameters()))
                 }
     }
 
@@ -106,21 +107,21 @@ class DataUpload(private val uri: String, private val content: File, private val
         val initResponse = Flowable.fromPublisher(
                 client.post(
                         InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override), DataUploadResponse::class.java, "/data/sink/init")).blockingFirst()
-        Flowable.fromPublisher(this.sendChunks(initResponse.uploadId, client)).blockingSubscribe { chunkResponses += it }
+        Flowable.fromPublisher(this.sendChunks(initResponse.uploadId, client)).blockingSubscribe { chunkResponses += it }//TODO in case of error???
         val chunkIds = chunkResponses.map { it.chunkId }.toList()
 
-        return Flowable.fromPublisher(client.post(CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), DataUploadResponse::class.java, "/data/sink/complete"))
+        return Flowable.fromPublisher(client.post(CompleteBinaryWriteImpulse(this.uri, initResponse.uploadId, chunkIds), DataUploadResponse::class.java, "/data/sink/complete"))
                 .doOnError { reason -> throw RuntimeException("Upload to uri " + this.uri + " failed: " + reason.message) }
                 .map { DataRef(this.uri, client) }
 
 
     }
 
-    private fun getChunkRequests(uploadId: String): Publisher<BinaryWriteChunkImpulse> {
+    private fun getChunkRequests(uploadId: String): List<BinaryWriteChunkImpulse> {
         val chunkRequests = ArrayList<BinaryWriteChunkImpulse>()
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         fileChunkIterator.withIndex().forEach { chunkRequests.add(BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)) }
-        return Flowable.fromIterable(chunkRequests)
+        return chunkRequests
     }
 
 }

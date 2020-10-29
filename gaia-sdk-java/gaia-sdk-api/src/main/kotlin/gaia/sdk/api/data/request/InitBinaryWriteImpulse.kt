@@ -7,4 +7,4 @@ data class InitBinaryWriteImpulse @JsonCreator constructor(
         @JsonProperty("uri") val uri: String,
         @JsonProperty("totalNumberOfChunks") val totalNumberOfChunks: Long,
         @JsonProperty("totalSizeInBytes") val totalSizeInBytes: Long,
-        @JsonProperty("overwrite") val overwrite: Boolean)
+        @JsonProperty("override") val override: Boolean)
