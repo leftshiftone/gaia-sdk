@@ -9,5 +9,9 @@ interface ITransporter {
      * @param apiPath Destination of the transported payload
      * @return A Publisher of type T
      */
-    fun transport(options: ClientOptions, payload: ByteArray, apiPath: String=""): Publisher<ByteArray>
+    fun <T> transport(options: ClientOptions, payload:Any, type: Class<T>, apiPath: String, queryParameters: Map<String, Any>): Publisher<T>
+
+    fun <T> transport(options: ClientOptions, payload:Any, type: Class<T>, apiPath: String): Publisher<T>
+
+    fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T>
 }

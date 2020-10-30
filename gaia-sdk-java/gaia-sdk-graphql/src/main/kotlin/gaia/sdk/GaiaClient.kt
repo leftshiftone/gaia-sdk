@@ -24,8 +24,6 @@ class GaiaClient(private val options: ClientOptions, private val transporter: IT
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
     }
 
-    private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
     fun <T:GaiaResponse>executeNative(statement: String, variables:Map<String, Any>, type:KClass<T>): Publisher<T> {
         val body = HashMap<String, Any>()
         body["statement"] = statement
@@ -38,9 +36,8 @@ class GaiaClient(private val options: ClientOptions, private val transporter: IT
         if (log.isTraceEnabled) {
             log.trace("Payload: $body")
         }
-        val bytes = jsonparser.writeValueAsBytes(body)
 
-        return transporter.transport(options, bytes).byteArrayCast(jsonparser, type.java)
+        return transporter.transport(options, body, type.java)
 
     }
 

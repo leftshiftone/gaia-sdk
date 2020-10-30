@@ -24,8 +24,6 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(8)private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
 #tab(4)}
 
-#tab(4)private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
 #tab(4)fun #print("<T:")#capitalize($name)Response#print(">")executeNative(statement: String, variables:#*
 *#Map${lt}String, Any${gt}, type:KClass#print("<T>")): #*
 *#Publisher${lt}T${gt} {
@@ -40,9 +38,8 @@ class #capitalize($name)Client(private val options: ClientOptions, private val t
 #tab(8)if (log.isTraceEnabled) {
 #tab(12)log.trace("Payload: #print("$")body")
 #tab(8)}
-#tab(8)val bytes = jsonparser.writeValueAsBytes(body)
 
-#tab(8)return transporter.transport(options, bytes).byteArrayCast(jsonparser, type.java)
+#tab(8)return transporter.transport(options, body, type.java)
 
 #tab(4)}
 
