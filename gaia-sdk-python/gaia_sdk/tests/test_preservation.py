@@ -194,7 +194,7 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_edge(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"edges": [{"id": "asdf"}]}}}}))
 
-        impulses = CreateEdgeImpulse(str(uuid4()), str(uuid4()), "sometype", 2.7)
+        impulses = CreateEdgeImpulse(str(uuid4()), str(uuid4()), "sometype", 2.7, dict())
         result = pipe(ops.first())(gaia_ref.preserve_create_edges([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
