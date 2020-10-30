@@ -12,5 +12,5 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface EdgeKeyOne {
     source?:Uuid, 
-    target?:Uuid
+    edgeId?:Uuid
 }

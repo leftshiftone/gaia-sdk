@@ -528,6 +528,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     target()
                     type()
                     weight()
+                    edgeId()
+                    properties()
                 }
                 } } } })) {
                 it.preserve?.create?.edges!!
@@ -538,7 +540,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 id()
                 data {
                     source()
-                    target()
+                    edgeId()
                 }
                 } } } })) {
                 it.preserve?.delete?.edges!!

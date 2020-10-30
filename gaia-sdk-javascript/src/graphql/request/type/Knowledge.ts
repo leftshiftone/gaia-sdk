@@ -216,12 +216,12 @@ public _typeName = "Knowledge";
         return `edges(source:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
-    public edge = (source: Uuid|undefined, target: Uuid|undefined, config: (_:Edge) => void) => this.push((registry) => {
+    public edge = (source: Uuid|undefined, edgeId: Uuid|undefined, config: (_:Edge) => void) => this.push((registry) => {
         const name1 = registry.register("source", source);
-        const name2 = registry.register("target", target);
+        const name2 = registry.register("edgeId", edgeId);
         const entity = new Edge();
         config(entity);
-        return `edge(source:${name1}, target:${name2}){` + entity.render(registry) + "}"
+        return `edge(source:${name1}, edgeId:${name2}){` + entity.render(registry) + "}"
     });
 
     public skills = (tenantId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Skill) => void) => this.push((registry) => {

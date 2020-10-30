@@ -376,7 +376,7 @@ abstract class PreservationTest {
     fun `test preserve create edge`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(edges = listOf(CreatedEdgeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
-        val impulse = CreateEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "sometype", 2.5f)
+        val impulse = CreateEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "sometype", 2.5f, mapOf())
 
         val publisher = gaiaRef.preserveCreateEdges(impulse)
         val result = Flux.from(publisher).blockFirst()

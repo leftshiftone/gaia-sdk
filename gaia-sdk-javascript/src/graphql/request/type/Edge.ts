@@ -21,12 +21,20 @@ public _typeName = "Edge";
         this.push(_ => "target")
     };
 
+    public edgeId = () => { 
+        this.push(_ => "edgeId")
+    };
+
     public type = () => { 
         this.push(_ => "type")
     };
 
     public weight = () => { 
         this.push(_ => "weight")
+    };
+
+    public properties = () => { 
+        this.push(_ => "properties")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

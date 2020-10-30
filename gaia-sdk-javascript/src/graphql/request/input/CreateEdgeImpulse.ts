@@ -17,11 +17,13 @@ public _typeName = "CreateEdgeImpulse";
     private target:Uuid;
     private type:String;
     private weight:Number;
+    private properties:Struct;
 
-    constructor (source:Uuid, target:Uuid, type:String, weight:Number) {
+    constructor (source:Uuid, target:Uuid, type:String, weight:Number, properties:Struct) {
         this.source = source;
         this.target = target;
         this.type = type;
         this.weight = weight;
+        this.properties = properties;
     }
 }

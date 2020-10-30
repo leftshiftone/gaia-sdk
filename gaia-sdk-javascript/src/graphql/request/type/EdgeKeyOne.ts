@@ -17,8 +17,8 @@ public _typeName = "EdgeKeyOne";
         this.push(_ => "source")
     };
 
-    public target = () => { 
-        this.push(_ => "target")
+    public edgeId = () => { 
+        this.push(_ => "edgeId")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

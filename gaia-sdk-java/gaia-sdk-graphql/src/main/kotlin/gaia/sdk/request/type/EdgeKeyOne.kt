@@ -18,8 +18,8 @@ class EdgeKeyOne: Type() {
         add {"source" } 
     }
 
-    fun target() { 
-        add {"target" } 
+    fun edgeId() { 
+        add {"edgeId" } 
     }
 }
 

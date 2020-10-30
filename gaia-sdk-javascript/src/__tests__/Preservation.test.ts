@@ -389,7 +389,7 @@ describe('perception tests:', () => {
 
     test('test preserve create edge', () => {
         const gaiaRef = mockCreate({edges: [{id: 'asdf'}]});
-        const impulse = new CreateEdgeImpulse(uuid(), uuid(), 'sometype', 2.7);
+        const impulse = new CreateEdgeImpulse(uuid(), uuid(), 'sometype', 2.7, {});
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateEdges(impulse);

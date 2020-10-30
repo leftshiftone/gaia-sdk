@@ -13,6 +13,8 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface Edge {
     source?:Uuid, 
     target?:Uuid, 
+    edgeId?:Uuid, 
     type?:string, 
-    weight?:number
+    weight?:number, 
+    properties?:Struct
 }
