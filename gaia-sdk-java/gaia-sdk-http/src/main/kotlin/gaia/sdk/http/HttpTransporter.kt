@@ -114,7 +114,7 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
 
     private fun convertToByteArray(payload: Any): ByteArray {
         return when (payload) {
-            is ByteArray -> Base64.getEncoder().encode(payload)
+            is ByteArray -> payload
             else -> jsonparser.writeValueAsBytes(payload)
         }
     }
