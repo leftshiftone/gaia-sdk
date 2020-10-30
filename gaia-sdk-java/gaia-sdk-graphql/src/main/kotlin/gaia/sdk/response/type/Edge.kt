@@ -14,6 +14,8 @@ import gaia.sdk.request.enumeration.*
 data class Edge @JsonCreator constructor(
     @JsonProperty("source") val source:Uuid?, 
     @JsonProperty("target") val target:Uuid?, 
+    @JsonProperty("edgeId") val edgeId:Uuid?, 
     @JsonProperty("type") val type:String?, 
-    @JsonProperty("weight") val weight:Float?
+    @JsonProperty("weight") val weight:Float?, 
+    @JsonProperty("properties") val properties:Struct?
 )

@@ -14,10 +14,10 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 export class DeleteEdgeImpulse {
 public _typeName = "DeleteEdgeImpulse";
     private source:Uuid;
-    private target:Uuid;
+    private edgeId:Uuid;
 
-    constructor (source:Uuid, target:Uuid) {
+    constructor (source:Uuid, edgeId:Uuid) {
         this.source = source;
-        this.target = target;
+        this.edgeId = edgeId;
     }
 }

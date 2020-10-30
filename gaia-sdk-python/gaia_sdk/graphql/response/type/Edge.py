@@ -38,8 +38,14 @@ class Edge:
     def target(self) -> Uuid:
         return Uuid(self.dictionary.get("target"))
     @property
+    def edge_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("edgeId"))
+    @property
     def type(self) -> String:
         return String(self.dictionary.get("type"))
     @property
     def weight(self) -> Float:
         return Float(self.dictionary.get("weight"))
+    @property
+    def properties(self) -> Struct:
+        return Struct(self.dictionary.get("properties"))

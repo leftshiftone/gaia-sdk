@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
  * The specification to delete an edge instance
  */
 class DeleteEdgeImpulse(val source:Uuid, 
-   val target:Uuid) : Input()
+   val edgeId:Uuid) : Input()
 
