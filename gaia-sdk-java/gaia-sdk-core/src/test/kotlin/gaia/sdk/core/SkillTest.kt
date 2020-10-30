@@ -48,8 +48,7 @@ abstract class SkillTest() {
     fun `test skill evaluation`() {
         val mockedStreamProcessor = mockk<ISensorStream>()
         val mockedTransporter = mockk<ITransporter>()
-
-        every { mockedTransporter.transport(any(), any(), any()) } returns Flowable.just(jsonparser.writeValueAsBytes(mapOf("response" to "hello")))
+        every { mockedTransporter.transport<SkillEvaluation>(any(), any(), any(), any()) } returns Flowable.just(SkillEvaluation(mapOf("response" to "hello")))
         every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamClient(ClientOptions(JWTCredentials("")), mockedTransporter))
 
         val gaiaRef = Gaia.connect(GaiaConfig("", JWTCredentials(""), mockk(), mockk(), mockedStreamProcessor))

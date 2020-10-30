@@ -253,7 +253,7 @@ class HMACAuthHeaderMatcher : RequestMatcherExtension() {
                 .withClientOptions(clientOptions)
                 .withNonce(decodedToken.nonce)
                 .withTimestamp(decodedToken.timestamp)
-                .withPayload(String(payload))
+                .withPayload(payload)
                 .build()
 
         val decodedTokenReplica = extractToken(tokenReplica)

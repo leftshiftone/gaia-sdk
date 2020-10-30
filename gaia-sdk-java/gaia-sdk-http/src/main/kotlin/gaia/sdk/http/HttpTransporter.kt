@@ -35,7 +35,7 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String): Publisher<T> {
         val bytes = convertToByteArray(payload)
-        return this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, bytes))
+        return this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, convertToByteArray2(payload)))
                 .byteArrayCast(jsonparser, type)
     }
 
@@ -116,6 +116,13 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
         return when (payload) {
             is ByteArray -> payload
             else -> jsonparser.writeValueAsBytes(payload)
+        }
+    }
+
+    private fun convertToByteArray2(payload: Any): ByteArray {
+        return when (payload) {
+            is ByteArray -> payload
+            else -> jsonparser.writeValueAsString(payload).toByteArray()
         }
     }
 
