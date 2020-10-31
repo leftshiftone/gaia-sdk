@@ -101,8 +101,7 @@ class DataUpload(private val uri: String, private val content: File, private val
         return Flowable.fromPublisher(initUpload(client))
                 .doOnNext { log.debug("Data uploaded initiated. UploadId ${it.uploadId}") }
                 .map { response -> response.uploadId }
-                .flatMap { uploadId ->
-                    Flowable.fromPublisher(this.uploadChunks(uploadId, client))
+                .flatMap { uploadId -> this.uploadChunks(uploadId, client)
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->

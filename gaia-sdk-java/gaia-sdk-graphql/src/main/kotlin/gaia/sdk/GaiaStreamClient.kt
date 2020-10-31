@@ -10,9 +10,10 @@ class GaiaStreamClient(private val options: ClientOptions, private val transport
     /**
      * It sends a post request to the endpoint defined by the clientOptions + apiPath.
      * @param payload Object to be transported
+     * @param type Class use to cast the result of the transport
      * @param apiPath Relative path of the endpoint used as final destination for the post operation
-     * @param contentType contentType of the request
-     * @param queryParameters Query parameters of the request
+     * @param contentType contentType of the request. In case of not providing any contentType, the contentType specified in ClientOptions will be used
+     * @param queryParameters Query parameters of the request.
      * @return A Publisher of type T
      */
     fun <T> post(payload: Any, type: Class<T>, apiPath: String = "", contentType: String = options.contentType, queryParameters: Map<String, Any> = mapOf()): Publisher<T> {
