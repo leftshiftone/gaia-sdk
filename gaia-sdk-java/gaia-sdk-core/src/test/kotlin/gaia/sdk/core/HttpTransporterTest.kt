@@ -19,6 +19,7 @@ import org.junit.jupiter.api.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HttpTransporterTest {
 
