@@ -11,6 +11,7 @@ import java.io.File
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
+@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GaiaStreamClientTest {
 
