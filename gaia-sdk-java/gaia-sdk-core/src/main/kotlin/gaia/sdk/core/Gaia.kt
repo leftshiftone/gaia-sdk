@@ -21,16 +21,6 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.Retrieval
 import gaia.sdk.response.type.*
-import gaia.sdk.request.type.*
-import gaia.sdk.response.type.CreatedApiKeyImpulse
-import gaia.sdk.response.type.CreatedTenantImpulse
-import gaia.sdk.response.type.CreatedUserImpulse
-import gaia.sdk.response.type.DeletedApiKeyImpulse
-import gaia.sdk.response.type.DeletedTenantImpulse
-import gaia.sdk.response.type.DeletedUserImpulse
-import gaia.sdk.response.type.UpdatedApiKeyImpulse
-import gaia.sdk.response.type.UpdatedTenantImpulse
-import gaia.sdk.response.type.UpdatedUserImpulse
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
 import org.reactivestreams.Publisher
@@ -197,6 +187,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
 
     // data api
     override fun data(url: String) = sProc.data(url)
+
     // skill api
     override fun skill(url: String) = sProc.skill(url)
 }
