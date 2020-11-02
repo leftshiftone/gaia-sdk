@@ -15,12 +15,12 @@ import gaia.sdk.JWTCredentials
 import gaia.sdk.http.HMACTokenBuilder
 import gaia.sdk.spi.ClientOptions
 import io.reactivex.Flowable
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+@Disabled
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HttpTransporterTest {
 
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))
@@ -51,6 +51,11 @@ class HttpTransporterTest {
     @AfterEach
     fun teardown() {
         wireMockServer.stop()
+    }
+
+    @AfterAll
+    fun shutdown() {
+        wireMockServer.shutdown()
     }
 
     fun configureStub(authSchema: String, errorCode: Int = 200, responseBody: ByteArray = A_STANDARD_RESPONSE.toByteArray()) {
@@ -252,7 +257,7 @@ class HMACAuthHeaderMatcher : RequestMatcherExtension() {
                 .withClientOptions(clientOptions)
                 .withNonce(decodedToken.nonce)
                 .withTimestamp(decodedToken.timestamp)
-                .withPayload(String(payload))
+                .withPayload(payload)
                 .build()
 
         val decodedTokenReplica = extractToken(tokenReplica)

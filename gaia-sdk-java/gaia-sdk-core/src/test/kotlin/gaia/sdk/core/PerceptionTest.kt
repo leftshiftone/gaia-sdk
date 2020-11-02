@@ -28,13 +28,21 @@ class MockTransporterFactory(private val mockHandler: (MockRequest) -> Publisher
 data class MockRequest(
         val options: ClientOptions,
         val type: Class<Any>,
-        val payload: Map<String, Any?>,
+        val payload: Any,
         val apiPath: String
 )
 
 class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>): ITransporter {
-    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any?>, apiPath: String): Publisher<T> {
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String, queryParameters: Map<String, Any>): Publisher<T> {
         return mockHandler(MockRequest(options, type as Class<Any>, payload, apiPath)) as Publisher<T>
+    }
+
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String): Publisher<T> {
+        return mockHandler(MockRequest(options, type as Class<Any>, payload, apiPath)) as Publisher<T>
+    }
+
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
+        return mockHandler(MockRequest(options, type as Class<Any>, payload,"")) as Publisher<T>
     }
 }
 
