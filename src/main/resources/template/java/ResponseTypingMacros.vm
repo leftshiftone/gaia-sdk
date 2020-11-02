@@ -14,9 +14,9 @@
 #end##
 #macro(renderField $field)#*
     *##if($field.type.isList())#*
-    *#@JsonProperty("$field.name") val $field.name:List<$field.type.name()>?#*
+    *#@JsonProperty("$field.name") val $field.name:List<$field.type.name()>? = null#*
     *##else#*
-    *#@JsonProperty("$field.name") val $field.name:$field.type.name()?#*
+    *#@JsonProperty("$field.name") val $field.name:$field.type.name()? = null#*
     ´*##end##
 #end
 ## **************************

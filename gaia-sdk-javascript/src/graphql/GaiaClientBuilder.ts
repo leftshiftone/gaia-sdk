@@ -1,15 +1,14 @@
 //Class generated from template src/main/resources/template/javascript/ClientBuilderTemplate.vm
 
-import {ClientOptions, HttpTransporter, ITransporter} from '..';
+import {ClientOptions, HttpTransporter, ITransporter, GaiaCredentials} from '..';
 import {GaiaClient} from './GaiaClient';
-import {GaiaCredentials} from "../api/GaiaCredentials";
 
 export class GaiaClientBuilder {
-    private transporter: ITransporter;
-    private credentials?: GaiaCredentials
-    private contentType: string = "application/json"
+    transporter: ITransporter;
+    credentials?: GaiaCredentials;
+    contentType: string = 'application/json';
 
-    private constructor(transporter: ITransporter) {
+    constructor(transporter: ITransporter) {
         this.transporter = transporter;
     }
 
@@ -18,17 +17,17 @@ export class GaiaClientBuilder {
     }
 
     public withCredentials(credentials: GaiaCredentials) {
-        this.credentials=credentials
+        this.credentials = credentials;
         return this;
     }
 
     public withContentType(contentType: string) {
-        this.contentType = contentType
+        this.contentType = contentType;
         return this;
     }
 
     public build() {
-        const options = new ClientOptions(this.credentials!,this.contentType);
+        const options = new ClientOptions(this.credentials!, this.contentType);
         return new GaiaClient(options, this.transporter);
     }
 

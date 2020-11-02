@@ -132,13 +132,14 @@ import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
 import {UpdatedRoleImpulse} from "../graphql/response/type/UpdatedRoleImpulse";
 import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
 import {DeletedRoleImpulse} from "../graphql/response/type/DeletedRoleImpulse";
+import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 
 export class HttpSensorFunction implements ISensorFunction {
 
     private readonly client: GaiaClient;
 
-    constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaClientBuilder.http(url + "/api/entity")
+    constructor(url: string, credentials: GaiaCredentials, gaiaClientFactory: GaiaClientFactory) {
+        this.client = gaiaClientFactory.http(url + "/api/entity")
             .withCredentials(credentials)
             .build()
 

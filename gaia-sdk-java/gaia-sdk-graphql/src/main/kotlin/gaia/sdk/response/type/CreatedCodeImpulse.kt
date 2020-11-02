@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a create code impulse
 */
 data class CreatedCodeImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the code instance
     */
-    @JsonProperty("data") val data:Code?
+    @JsonProperty("data") val data:Code? = null
 )

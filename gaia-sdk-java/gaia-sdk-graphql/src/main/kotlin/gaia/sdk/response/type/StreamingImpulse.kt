@@ -9,6 +9,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class StreamingImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("preSignedUrl") val preSignedUrl:String?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("preSignedUrl") val preSignedUrl:String? = null
 )

@@ -1,11 +1,14 @@
 package gaia.sdk
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.client.Type
 import gaia.sdk.client.VariableRegistry
 import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.ITransporter
 import gaia.sdk.request.type.Mutation
 import gaia.sdk.request.type.Query
+import gaia.sdk.spi.ITransporter
+import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 import org.slf4j.LoggerFactory
 import java.security.SecureRandom
@@ -13,14 +16,13 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.reflect.KClass
 
+//Class generated from template src/main/resources/template/java/ClientTemplate.vm
 
 class GaiaClient(private val options: ClientOptions, private val transporter: ITransporter) {
 
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java.enclosingClass)
     }
-
-    private val nonce = AtomicLong(SecureRandom().nextLong())
 
     fun <T:GaiaResponse>executeNative(statement: String, variables:Map<String, Any>, type:KClass<T>): Publisher<T> {
         val body = HashMap<String, Any>()
@@ -34,7 +36,9 @@ class GaiaClient(private val options: ClientOptions, private val transporter: IT
         if (log.isTraceEnabled) {
             log.trace("Payload: $body")
         }
-        return transporter.transport(options, type.java, body);
+
+        return transporter.transport(options, body, type.java)
+
     }
 
     fun query(request: Query): Publisher<GaiaResponse.QueryResponse> {

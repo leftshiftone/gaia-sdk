@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * This entity represents the output of a delete impulse
 */
 data class KeyOne @JsonCreator constructor(
-    @JsonProperty("identityId") val identityId:Uuid?, 
-    @JsonProperty("reference") val reference:Uuid?
+    @JsonProperty("identityId") val identityId:Uuid? = null, 
+    @JsonProperty("reference") val reference:Uuid? = null
 )

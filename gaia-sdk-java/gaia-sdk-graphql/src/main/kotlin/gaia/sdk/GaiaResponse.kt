@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonCreator
 abstract class GaiaResponse {
 
     data class QueryResponse @JsonCreator constructor(
-        @JsonProperty("data") val data: Query?,
-        @JsonProperty("extensions")val extensions: Map<String, Any>?,
-        @JsonProperty("errors")val errors: List<Error>?): GaiaResponse()
+        @JsonProperty("data") val data: Query? = null,
+        @JsonProperty("extensions")val extensions: Map<String, Any>? = null,
+        @JsonProperty("errors")val errors: List<Error>? = null): GaiaResponse()
 
     data class MutationResponse @JsonCreator constructor(
-        @JsonProperty("data") val data: Mutation?,
-        @JsonProperty("extensions") val extensions: Map<String, Any>?,
-        @JsonProperty("errors") val errors: List<Error>?): GaiaResponse()
+        @JsonProperty("data") val data: Mutation? = null,
+        @JsonProperty("extensions") val extensions: Map<String, Any>? = null,
+        @JsonProperty("errors") val errors: List<Error>? = null): GaiaResponse()
 
     data class Error @JsonCreator constructor(
         @JsonProperty("message") val message: String,

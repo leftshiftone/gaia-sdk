@@ -13,7 +13,7 @@ import gaia.sdk.request.enumeration.*
 * read/write/delete memory functions in gaia.
 */
 data class Preservation @JsonCreator constructor(
-    @JsonProperty("create") val create:CreateKnowledge?, 
-    @JsonProperty("update") val update:UpdateKnowledge?, 
-    @JsonProperty("delete") val delete:DeleteKnowledge?
+    @JsonProperty("create") val create:CreateKnowledge? = null, 
+    @JsonProperty("update") val update:UpdateKnowledge? = null, 
+    @JsonProperty("delete") val delete:DeleteKnowledge? = null
 )

@@ -18,9 +18,9 @@ class GaiaStreamingClientBuilder (private val transporter: ITransporter) {
         return this
     }
 
-    fun build(): GaiaStreamingClient {
+    fun build(): GaiaStreamClient {
         val options = ClientOptions(credentials, contentType)
-        return GaiaStreamingClient(options, transporter)
+        return GaiaStreamClient(options, transporter)
     }
 
 

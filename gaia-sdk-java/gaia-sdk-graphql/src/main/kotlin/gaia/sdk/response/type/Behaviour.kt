@@ -15,25 +15,25 @@ data class Behaviour @JsonCreator constructor(
     /**
     * The behaviour id
     */
-    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("identityId") val identityId:Uuid? = null, 
     /**
     * The behaviour reference id
     */
-    @JsonProperty("reference") val reference:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid? = null, 
     /**
     * The name of the behaviour
     */
-    @JsonProperty("qualifier") val qualifier:String?, 
+    @JsonProperty("qualifier") val qualifier:String? = null, 
     /**
     * Detailed description about the behaviour
     */
-    @JsonProperty("appendent") val appendent:String?, 
+    @JsonProperty("appendent") val appendent:String? = null, 
     /**
     * The list of labels of the behaviour
     */
-    @JsonProperty("labelList") val labelList:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>? = null, 
     /**
     * The behaviour xml
     */
-    @JsonProperty("behaviour") val behaviour:String?
+    @JsonProperty("behaviour") val behaviour:String? = null
 )

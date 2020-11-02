@@ -9,5 +9,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Activation @JsonCreator constructor(
-    @JsonProperty("tmp") val tmp:String?
+    @JsonProperty("tmp") val tmp:String? = null
 )

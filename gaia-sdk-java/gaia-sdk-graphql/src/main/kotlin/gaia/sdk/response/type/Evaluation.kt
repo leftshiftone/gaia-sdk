@@ -9,6 +9,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Evaluation @JsonCreator constructor(
-    @JsonProperty("skill") val skill:SkillEvaluation?, 
-    @JsonProperty("buildIn") val buildIn:BuildInEvaluation?
+    @JsonProperty("skill") val skill:SkillEvaluation? = null, 
+    @JsonProperty("buildIn") val buildIn:BuildInEvaluation? = null
 )

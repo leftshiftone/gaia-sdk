@@ -2,14 +2,12 @@ package gaia.sdk.api
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import gaia.sdk.api.skill.ISkillSpec
-import gaia.sdk.api.skill.SkillEvaluation
-import gaia.sdk.api.skill.SkillIntrospection
+import gaia.sdk.api.DataRef
 import gaia.sdk.api.skill.SkillRef
-import org.reactivestreams.Publisher
 
 interface ISensorStream {
     fun skill(uri: String): SkillRef
+    fun data(uri: String): DataRef
 }
 
 data class SkillProvisionStatus @JsonCreator constructor(

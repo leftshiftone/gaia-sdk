@@ -29,17 +29,21 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
 from gaia_sdk.http.response.LoggedIn import LoggedIn
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
+from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 
 Uuid = str
 
 
 class Gaia:
     _pool = ThreadPoolScheduler(5)
+    _client_factory = GaiaClientFactory()
+    _stream_client_factory = GaiaStreamClientFactory()
 
     @classmethod
     def connect(cls, url: str, credentials: GaiaCredentials) -> 'GaiaRef':
-        config = GaiaConfig(url, HttpSensorFunction(url, credentials, cls._pool),
-                            HttpSensorStream(url, credentials, cls._pool))
+        config = GaiaConfig(url, HttpSensorFunction(url, credentials, cls._pool, cls._client_factory),
+                            HttpSensorStream(url, credentials, cls._pool, cls._stream_client_factory))
         return GaiaRef(config, config.functionProcessor, config.streamProcessor)
 
     @classmethod

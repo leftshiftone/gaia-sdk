@@ -11,11 +11,13 @@ import gaia.sdk.api.extension.map
 import gaia.sdk.api.extension.mapM
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
-import reactor.netty.http.client.HttpClient
+import gaia.sdk.spi.ClientOptions
+import gaia.sdk.spi.ITransporter
+import org.reactivestreams.Publisher
 
-class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFunction {
+class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterFactory: TransporterFactory) : ISensorFunction {
 
-    private val client = GaiaClientBuilder(HttpTransporter(url + "/api/entity", HttpClient.create()))
+    private val client = GaiaClientBuilder(transporterFactory.create(url + "/api/entity"))
             .withCredentials(credentials)
             .build()
 
@@ -100,17 +102,17 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFun
     override fun retrieveBehaviour(identityId: Uuid, reference: Uuid, config: Behaviour.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { behaviour(identityId, reference, config) } } })) { it.retrieve?.knowledge?.behaviour!! }
 
-    override fun retrieveSkills(identityId: Uuid, config: Skill.() -> Unit, limit: Int?, offset: Long?) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skills(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skills!! }
+    override fun retrieveSkills(tenantId: Uuid, config: Skill.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skills(tenantId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skills!! }
 
-    override fun retrieveSkill(identityId: Uuid, reference: Uuid, config: Skill.() -> Unit) =
-            map(client.query(GaiaRequest.query { retrieve { knowledge { skill(identityId, reference, config) } } })) { it.retrieve?.knowledge?.skill!! }
+    override fun retrieveSkill(tenantId: Uuid, reference: Uuid, config: Skill.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { skill(tenantId, reference, config) } } })) { it.retrieve?.knowledge?.skill!! }
 
-    override fun retrieveSkillProvisions(identityId: Uuid, config: SkillProvision.() -> Unit, limit: Int?, offset: Long?) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skillProvisions(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skillProvisions!! }
+    override fun retrieveSkillProvisions(tenantId: Uuid, config: SkillProvision.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { skillProvisions(tenantId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.skillProvisions!! }
 
-    override fun retrieveSkillProvision(identityId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit) =
-            map(client.query(GaiaRequest.query { retrieve { knowledge { skillProvision(identityId, reference, config) } } })) { it.retrieve?.knowledge?.skillProvision!! }
+    override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { skillProvision(tenantId, reference, config) } } })) { it.retrieve?.knowledge?.skillProvision!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }

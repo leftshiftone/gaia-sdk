@@ -13,6 +13,7 @@ import gaia.sdk.api.ISensorStream
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
+import gaia.sdk.http.TransporterFactory
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.Edge
@@ -20,6 +21,16 @@ import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.Retrieval
 import gaia.sdk.response.type.*
+import gaia.sdk.request.type.*
+import gaia.sdk.response.type.CreatedApiKeyImpulse
+import gaia.sdk.response.type.CreatedTenantImpulse
+import gaia.sdk.response.type.CreatedUserImpulse
+import gaia.sdk.response.type.DeletedApiKeyImpulse
+import gaia.sdk.response.type.DeletedTenantImpulse
+import gaia.sdk.response.type.DeletedUserImpulse
+import gaia.sdk.response.type.UpdatedApiKeyImpulse
+import gaia.sdk.response.type.UpdatedTenantImpulse
+import gaia.sdk.response.type.UpdatedUserImpulse
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
 import org.reactivestreams.Publisher
@@ -32,9 +43,10 @@ class Gaia {
     companion object {
 
         private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        var transporterFactory = TransporterFactory()
 
         fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
-            return GaiaRef(GaiaConfig(url, credentials))
+            return GaiaRef(GaiaConfig(url, credentials, transporterFactory))
         }
 
         fun connect(config: GaiaConfig): GaiaRef {
@@ -93,11 +105,12 @@ class Gaia {
 
 class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
-                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
+                 val transporterFactory: TransporterFactory,
+                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials, transporterFactory),
                  val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
-                 val streamProcessor: ISensorStream = HttpSensorStream(url, credentials))
+                 val streamProcessor: ISensorStream = HttpSensorStream(url, credentials, transporterFactory))
 
-class GaiaRef(config: GaiaConfig) : ISensorFunction {
+class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     private val fProc: ISensorFunction = config.functionProcessor
     private val qProc: ISensorQueue = config.queueProcessor
     private val sProc: ISensorStream = config.streamProcessor
@@ -181,8 +194,11 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction {
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
 
+
+    // data api
+    override fun data(url: String) = sProc.data(url)
     // skill api
-    fun skill(url: String) = sProc.skill(url)
+    override fun skill(url: String) = sProc.skill(url)
 }
 
 class UsernamePasswordCredentials(val username: String, val password: String)
