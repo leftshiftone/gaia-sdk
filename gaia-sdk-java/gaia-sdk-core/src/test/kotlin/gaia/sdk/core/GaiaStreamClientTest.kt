@@ -5,13 +5,13 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
 import gaia.sdk.api.data.response.FileListing
+import gaia.sdk.http.TransporterFactory
 import io.reactivex.Flowable
 import org.junit.jupiter.api.*
 import java.io.File
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
-@Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GaiaStreamClientTest {
 
@@ -19,12 +19,18 @@ internal class GaiaStreamClientTest {
 
     @BeforeEach
     fun setup() {
+        Gaia.transporterFactory= TransporterFactory()
         wireMockServer.start()
     }
 
     @AfterEach
     fun teardown() {
         wireMockServer.stop()
+    }
+
+    @BeforeAll
+    fun resetWiremock() {
+        wireMockServer.resetAll()
     }
 
     @AfterAll

@@ -13,6 +13,7 @@ import com.github.tomakehurst.wiremock.matching.RequestMatcherExtension
 import gaia.sdk.HMACCredentials
 import gaia.sdk.JWTCredentials
 import gaia.sdk.http.HMACTokenBuilder
+import gaia.sdk.http.TransporterFactory
 import gaia.sdk.spi.ClientOptions
 import io.reactivex.Flowable
 import org.junit.jupiter.api.*
@@ -44,12 +45,18 @@ class HttpTransporterTest {
 
     @BeforeEach
     fun setup() {
+        Gaia.transporterFactory= TransporterFactory()
         wireMockServer.start()
     }
 
     @AfterEach
     fun teardown() {
         wireMockServer.stop()
+    }
+
+    @BeforeAll
+    fun resetWiremock() {
+        wireMockServer.resetAll()
     }
 
     @AfterAll
