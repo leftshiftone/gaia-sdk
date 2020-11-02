@@ -6,13 +6,12 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
 import gaia.sdk.api.data.response.FileListing
 import io.reactivex.Flowable
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import java.io.File
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GaiaStreamClientTest {
 
     val wireMockServer = WireMockServer(WireMockConfiguration().port(8083).extensions(HMACAuthHeaderMatcher()))
@@ -25,6 +24,11 @@ internal class GaiaStreamClientTest {
     @AfterEach
     fun teardown() {
         wireMockServer.stop()
+    }
+
+    @AfterAll
+    fun shutdownServer() {
+        wireMockServer.shutdown()
     }
 
     fun configureStub(authSchema: String, errorCode: Int = 200, responseFile: String, uri: String) {
