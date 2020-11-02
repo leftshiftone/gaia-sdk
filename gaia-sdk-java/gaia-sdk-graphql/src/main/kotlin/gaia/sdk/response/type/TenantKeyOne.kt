@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * This entity represents the output of a delete tenant impulse
 */
 data class TenantKeyOne @JsonCreator constructor(
-    @JsonProperty("tenantId") val tenantId:Uuid?, 
-    @JsonProperty("reference") val reference:Uuid?
+    @JsonProperty("tenantId") val tenantId:Uuid? = null, 
+    @JsonProperty("reference") val reference:Uuid? = null
 )

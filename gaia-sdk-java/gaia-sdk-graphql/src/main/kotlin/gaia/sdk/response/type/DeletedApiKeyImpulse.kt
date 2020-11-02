@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a delete api key impulse
 */
 data class DeletedApiKeyImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:ApiKeyKeyOne?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:ApiKeyKeyOne? = null
 )

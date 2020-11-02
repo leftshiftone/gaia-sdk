@@ -12,5 +12,5 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a perceive impulse.
 */
 data class PerceivedImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?
+    @JsonProperty("id") val id:Uuid? = null
 )

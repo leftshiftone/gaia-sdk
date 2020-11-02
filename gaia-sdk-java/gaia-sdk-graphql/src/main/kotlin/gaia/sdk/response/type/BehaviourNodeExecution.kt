@@ -12,14 +12,14 @@ import gaia.sdk.request.enumeration.*
 * Represents behaviour node execution information
 */
 data class BehaviourNodeExecution @JsonCreator constructor(
-    @JsonProperty("processInstanceId") val processInstanceId:Uuid?, 
-    @JsonProperty("nodeInstanceId") val nodeInstanceId:Uuid?, 
-    @JsonProperty("state") val state:String?, 
-    @JsonProperty("executionGroupId") val executionGroupId:Uuid?, 
-    @JsonProperty("nodeId") val nodeId:Uuid?, 
-    @JsonProperty("processId") val processId:Uuid?, 
-    @JsonProperty("type") val type:String?, 
-    @JsonProperty("transitions") val transitions:Struct?, 
-    @JsonProperty("timestamp") val timestamp:ISO8601?, 
-    @JsonProperty("parentProcessId") val parentProcessId:Uuid?
+    @JsonProperty("processInstanceId") val processInstanceId:Uuid? = null, 
+    @JsonProperty("nodeInstanceId") val nodeInstanceId:Uuid? = null, 
+    @JsonProperty("state") val state:String? = null, 
+    @JsonProperty("executionGroupId") val executionGroupId:Uuid? = null, 
+    @JsonProperty("nodeId") val nodeId:Uuid? = null, 
+    @JsonProperty("processId") val processId:Uuid? = null, 
+    @JsonProperty("type") val type:String? = null, 
+    @JsonProperty("transitions") val transitions:Struct? = null, 
+    @JsonProperty("timestamp") val timestamp:ISO8601? = null, 
+    @JsonProperty("parentProcessId") val parentProcessId:Uuid? = null
 )

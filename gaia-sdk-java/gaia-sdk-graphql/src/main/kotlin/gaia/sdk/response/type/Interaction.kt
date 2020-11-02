@@ -9,5 +9,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Interaction @JsonCreator constructor(
-    @JsonProperty("onConversed") val onConversed:OnConversed?
+    @JsonProperty("onConversed") val onConversed:OnConversed? = null
 )

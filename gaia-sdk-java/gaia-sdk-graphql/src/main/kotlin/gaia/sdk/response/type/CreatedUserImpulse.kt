@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a create user impulse
 */
 data class CreatedUserImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:User?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:User? = null
 )

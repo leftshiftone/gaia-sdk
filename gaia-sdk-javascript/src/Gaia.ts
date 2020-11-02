@@ -67,14 +67,19 @@ import {CreateUserImpulse} from './graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from './graphql/request/input/DeleteUserImpulse';
 import {UpdateUserImpulse} from './graphql/request/input/UpdateUserImpulse';
 import {User} from './graphql/request/type/User';
+import {GaiaClientFactory} from './graphql/GaiaClientFactory';
+import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
 
 export class Gaia {
+
+    public static clientFactory: GaiaClientFactory = new GaiaClientFactory();
+    public static streamClientFactory: GaiaStreamClientFactory = new GaiaStreamClientFactory();
 
     public static connect(url: string, credenfials: GaiaCredentials);
     public static connect(config: GaiaConfig);
     public static connect(value: string | GaiaConfig, credentials?: GaiaCredentials): GaiaRef {
         if (credentials && typeof value === 'string') {
-            return new GaiaRef(new GaiaConfig(value, credentials));
+            return new GaiaRef(new GaiaConfig(value, credentials, Gaia.clientFactory, Gaia.streamClientFactory));
         }
         // @ts-ignore
         return new GaiaRef(value);
@@ -92,7 +97,7 @@ export class Gaia {
             },    url + '/api/auth/access')
             .then((response) => {
                 const cr = new JWTCredentials(response.accessToken);
-                return new GaiaRef(new GaiaConfig(url, cr));
+                return new GaiaRef(new GaiaConfig(url, cr, Gaia.clientFactory,  Gaia.streamClientFactory));
             });
     }
 }
@@ -100,16 +105,22 @@ export class Gaia {
 export class GaiaConfig {
     readonly url: string;
     readonly credentials: GaiaCredentials;
+    readonly clientFactory: GaiaClientFactory;
+    readonly streamClientFactory: GaiaStreamClientFactory;
     readonly functionProcessor: ISensorFunction;
     readonly streamProcessor: ISensorStream;
 
     constructor(url: string, credentials: GaiaCredentials,
-                functionProcessor: ISensorFunction = new HttpSensorFunction(url, credentials),
-                streamProcessor: ISensorStream = new HttpSensorStream(url, credentials)) {
+                clientFactory: GaiaClientFactory,
+                streamClientFactory: GaiaStreamClientFactory,
+                functionProcessor?: ISensorFunction,
+                streamProcessor?: ISensorStream) {
         this.url = url;
         this.credentials = credentials;
-        this.functionProcessor = functionProcessor;
-        this.streamProcessor = streamProcessor;
+        this.clientFactory = clientFactory;
+        this.streamClientFactory = streamClientFactory;
+        this.functionProcessor = functionProcessor ||  new HttpSensorFunction(url, credentials, this.clientFactory);
+        this.streamProcessor = streamProcessor || new HttpSensorStream(url, credentials, this.streamClientFactory);
     }
 }
 

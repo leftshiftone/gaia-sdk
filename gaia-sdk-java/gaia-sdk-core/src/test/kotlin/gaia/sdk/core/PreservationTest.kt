@@ -1,7 +1,10 @@
 package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.GaiaResponse
 import gaia.sdk.request.input.*
+import gaia.sdk.response.type.*
+import io.reactivex.Flowable
 import org.junit.jupiter.api.*
 import reactor.core.publisher.Flux
 import java.util.*
@@ -20,6 +23,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create identity`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(identities = listOf(CreatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateIdentityImpulse("")
 
@@ -32,6 +36,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update identity`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(identities = listOf(UpdatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "")
 
@@ -44,6 +49,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete identity`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(identities = listOf(DeletedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteIdentityImpulse(UUID.randomUUID().toString())
 
@@ -56,6 +62,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create tenant`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(tenants = listOf(CreatedTenantImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateTenantImpulse("", emptyArray(), emptyArray())
 
@@ -68,6 +75,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update tenant`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(tenants = listOf(UpdatedTenantImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateTenantImpulse(UUID.randomUUID().toString(), "", emptyArray(), emptyArray())
 
@@ -80,6 +88,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete tenant`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(tenants = listOf(DeletedTenantImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteTenantImpulse(UUID.randomUUID().toString())
 
@@ -92,6 +101,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create user`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(users = listOf(CreatedUserImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateUserImpulse("username", "password", true,  emptyArray(), emptyArray(), emptyArray(), emptyArray())
 
@@ -104,6 +114,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update user`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(users = listOf(UpdatedUserImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateUserImpulse(UUID.randomUUID().toString(), "username", "password", false, emptyArray(), emptyArray(), emptyArray(), emptyArray())
 
@@ -116,6 +127,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete user`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(users = listOf(DeletedUserImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteUserImpulse(UUID.randomUUID().toString())
 
@@ -128,6 +140,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create intent`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(intents = listOf(CreatedIntentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateIntentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -140,6 +153,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update intent`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(intents = listOf(UpdatedIntentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -152,6 +166,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete intent`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(intents = listOf(DeletedIntentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteIntentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -164,6 +179,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create prompt`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(prompts = listOf(CreatedPromptImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreatePromptImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -176,6 +192,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update prompt`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(prompts = listOf(UpdatedPromptImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdatePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -188,6 +205,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete prompt`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(prompts = listOf(DeletedPromptImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeletePromptImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -200,6 +218,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create statement`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(statements = listOf(CreatedStatementImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateStatementImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -212,6 +231,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update statement`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(statements = listOf(UpdatedStatementImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -224,6 +244,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete statement`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(statements = listOf(DeletedStatementImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteStatementImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -236,6 +257,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create fulfilment`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(fulfilments = listOf(CreatedFulfilmentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateFulfilmentImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -248,6 +270,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update fulfilment`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(fulfilments = listOf(UpdatedFulfilmentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), emptyArray())
 
@@ -260,6 +283,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete fulfilment`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(fulfilments = listOf(DeletedFulfilmentImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteFulfilmentImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -272,6 +296,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create behaviour`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(behaviours = listOf(CreatedBehaviourImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateBehaviourImpulse(UUID.randomUUID().toString(), "", "", "", emptyArray())
 
@@ -284,6 +309,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update behaviour`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(behaviours = listOf(UpdatedBehaviourImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", "", emptyArray())
 
@@ -296,6 +322,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete behaviour`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(behaviours = listOf(DeletedBehaviourImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteBehaviourImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -308,6 +335,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create code`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(codes = listOf(CreatedCodeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateCodeImpulse(UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray())
 
@@ -320,6 +348,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update code`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(codes = listOf(UpdatedCodeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyMap(), "", emptyArray())
 
@@ -332,6 +361,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete code`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(codes = listOf(DeletedCodeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteCodeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -344,6 +374,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create edge`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(edges = listOf(CreatedEdgeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "sometype", 2.5f, mapOf())
 
@@ -356,6 +387,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete edge`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(edges = listOf(DeletedEdgeImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteEdgeImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -368,6 +400,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create skill`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(skills = listOf(CreatedSkillImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateSkillImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "")
 
@@ -380,6 +413,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update skill`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(skills = listOf(UpdatedSkillImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "")
 
@@ -392,6 +426,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete skill`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(skills = listOf(DeletedSkillImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
@@ -404,6 +439,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve create skillProvision`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(skillProvisions = listOf(CreatedSkillProvisionImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = CreateSkillProvisionImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,true,1,emptyMap())
 
@@ -416,6 +452,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve update skillProvision`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(skillProvisions = listOf(UpdatedSkillProvisionImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = UpdateSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "", "",100,100,100,true,1, emptyMap())
 
@@ -428,6 +465,7 @@ abstract class PreservationTest {
 
     @Test
     fun `test preserve delete skillProvision`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(skillProvisions = listOf(DeletedSkillProvisionImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080",  credentials)
         val impulse = DeleteSkillProvisionImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 

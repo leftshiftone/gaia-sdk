@@ -67,10 +67,7 @@ export class HMACTokenBuilder {
     }
 
     private isBuffer(b: Buffer): b is Buffer {
-        if ((b as Buffer).writeFloatLE) {
-            return true;
-        }
-        return false;
+        return !!(b as Buffer).writeFloatLE;
     }
 
     private isBrowserBlob(blob: any): boolean {

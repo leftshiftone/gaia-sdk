@@ -15,9 +15,9 @@ data class Identity @JsonCreator constructor(
     /**
     * The identity id
     */
-    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("identityId") val identityId:Uuid? = null, 
     /**
     * The name of the identity
     */
-    @JsonProperty("qualifier") val qualifier:String?
+    @JsonProperty("qualifier") val qualifier:String? = null
 )

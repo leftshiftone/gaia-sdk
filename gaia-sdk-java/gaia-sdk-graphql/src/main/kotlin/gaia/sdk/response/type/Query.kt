@@ -15,9 +15,9 @@ data class Query @JsonCreator constructor(
     /**
     * Container element for all introspect sensor fields
     */
-    @JsonProperty("introspect") val introspect:Introspection?, 
+    @JsonProperty("introspect") val introspect:Introspection? = null, 
     /**
     * Container element for all retrieve sensor fields
     */
-    @JsonProperty("retrieve") val retrieve:Retrieval?
+    @JsonProperty("retrieve") val retrieve:Retrieval? = null
 )

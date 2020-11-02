@@ -15,29 +15,29 @@ data class Fulfilment @JsonCreator constructor(
     /**
     * The fulfilment id
     */
-    @JsonProperty("identityId") val identityId:Uuid?, 
+    @JsonProperty("identityId") val identityId:Uuid? = null, 
     /**
     * The fulfilment reference id
     */
-    @JsonProperty("reference") val reference:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid? = null, 
     /**
     * The name of the fulfilment
     */
-    @JsonProperty("qualifier") val qualifier:String?, 
+    @JsonProperty("qualifier") val qualifier:String? = null, 
     /**
     * Detailed description about the fulfilment
     */
-    @JsonProperty("appendent") val appendent:String?, 
+    @JsonProperty("appendent") val appendent:String? = null, 
     /**
     * The utterance dictionary. The key is a language key and the value is a list of utterances
     */
-    @JsonProperty("utterance") val utterance:Struct?, 
+    @JsonProperty("utterance") val utterance:Struct? = null, 
     /**
     * The list of labels of the fulfilment
     */
-    @JsonProperty("labelList") val labelList:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>? = null, 
     /**
     * The version of the fulfilment
     */
-    @JsonProperty("version") val version:String?
+    @JsonProperty("version") val version:String? = null
 )

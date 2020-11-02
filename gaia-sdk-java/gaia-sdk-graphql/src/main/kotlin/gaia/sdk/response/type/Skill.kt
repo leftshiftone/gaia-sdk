@@ -15,25 +15,25 @@ data class Skill @JsonCreator constructor(
     /**
     * Id of the tenant
     */
-    @JsonProperty("tenantId") val tenantId:Uuid?, 
+    @JsonProperty("tenantId") val tenantId:Uuid? = null, 
     /**
     * Skill reference
     */
-    @JsonProperty("reference") val reference:Uuid?, 
+    @JsonProperty("reference") val reference:Uuid? = null, 
     /**
     * The name of the skill
     */
-    @JsonProperty("qualifier") val qualifier:String?, 
+    @JsonProperty("qualifier") val qualifier:String? = null, 
     /**
     * Detailed description about the skill
     */
-    @JsonProperty("appendent") val appendent:String?, 
+    @JsonProperty("appendent") val appendent:String? = null, 
     /**
     * The list of labels of the skill
     */
-    @JsonProperty("labelList") val labelList:List<String>?, 
+    @JsonProperty("labelList") val labelList:List<String>? = null, 
     /**
     * The uri of the repository where the skill is
     */
-    @JsonProperty("repositoryUri") val repositoryUri:String?
+    @JsonProperty("repositoryUri") val repositoryUri:String? = null
 )

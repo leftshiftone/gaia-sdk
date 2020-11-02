@@ -5,7 +5,6 @@ import gaia.sdk.core.AuthorizationTestHelper
 import gaia.sdk.core.RetrievalTest
 import org.junit.jupiter.api.Disabled
 
-@Disabled
 class JWTRetrievalTest : RetrievalTest(){
 
     override fun retrieveCredentials() : GaiaCredentials {

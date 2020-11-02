@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a update statement impulse
 */
 data class UpdatedStatementImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the statement instance
     */
-    @JsonProperty("data") val data:Statement?
+    @JsonProperty("data") val data:Statement? = null
 )

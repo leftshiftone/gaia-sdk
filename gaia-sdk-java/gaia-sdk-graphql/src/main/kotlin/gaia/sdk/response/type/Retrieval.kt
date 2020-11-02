@@ -12,9 +12,9 @@ data class Retrieval @JsonCreator constructor(
     /**
     * Container element which collects all information static data
     */
-    @JsonProperty("knowledge") val knowledge:Knowledge?, 
+    @JsonProperty("knowledge") val knowledge:Knowledge? = null, 
     /**
     * Container element which collects all information about runtime data
     */
-    @JsonProperty("experience") val experience:Experience?
+    @JsonProperty("experience") val experience:Experience? = null
 )

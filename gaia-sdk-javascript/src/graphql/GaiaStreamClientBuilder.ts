@@ -1,17 +1,21 @@
-import {ClientOptions, HttpTransporter, ITransporter} from '..';
-import {GaiaClient} from './GaiaClient';
-import {GaiaCredentials} from "../api/GaiaCredentials";
-import {GaiaStreamClient} from "./GaiaStreamClient";
-import {StreamHttpTransporter} from "../http/StreamHttpTransporter";
-import {IStreamTransporter} from "../api/IStreamTransporter";
+import {ClientOptions} from '..';
+import {GaiaCredentials} from '../api/GaiaCredentials';
+import {GaiaStreamClient} from './GaiaStreamClient';
+import {StreamHttpTransporter} from '../http/StreamHttpTransporter';
+import {IStreamTransporter} from '../api/IStreamTransporter';
+
+export class GaiaStreamClientFactory {
+    http(url: string) {
+        return GaiaStreamClientBuilder.http(url);
+    }
+}
 
 export class GaiaStreamClientBuilder {
-    private transporter: IStreamTransporter;
-    private credentials?: GaiaCredentials
-    private contentType: string = "application/json"
+    transporter: IStreamTransporter;
+    credentials?: GaiaCredentials;
+    contentType: string = 'application/json';
 
-
-    private constructor(transporter: IStreamTransporter) {
+    constructor(transporter: IStreamTransporter) {
         this.transporter = transporter;
     }
 
@@ -20,17 +24,17 @@ export class GaiaStreamClientBuilder {
     }
 
     public withCredentials(credentials: GaiaCredentials) {
-        this.credentials=credentials
+        this.credentials = credentials;
         return this;
     }
 
     public withContentType(contentType: string) {
-        this.contentType = contentType
+        this.contentType = contentType;
         return this;
     }
 
     public build() {
-        const options = new ClientOptions(this.credentials!,this.contentType);
+        const options = new ClientOptions(this.credentials!, this.contentType);
         return new GaiaStreamClient(options, this.transporter);
     }
 

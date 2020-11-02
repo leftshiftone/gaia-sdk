@@ -125,13 +125,14 @@ import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse"
 import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
+import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 
 export class HttpSensorFunction implements ISensorFunction {
 
     private readonly client: GaiaClient;
 
-    constructor(url: string, credentials: GaiaCredentials) {
-        this.client = GaiaClientBuilder.http(url + "/api/entity")
+    constructor(url: string, credentials: GaiaCredentials, gaiaClientFactory: GaiaClientFactory) {
+        this.client = gaiaClientFactory.http(url + "/api/entity")
             .withCredentials(credentials)
             .build()
 
