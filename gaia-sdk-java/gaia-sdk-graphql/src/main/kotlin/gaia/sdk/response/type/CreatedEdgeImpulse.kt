@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a create edge impulse
 */
 data class CreatedEdgeImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the edge instance
     */
-    @JsonProperty("data") val data:Edge?
+    @JsonProperty("data") val data:Edge? = null
 )

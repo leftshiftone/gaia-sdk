@@ -1,15 +1,11 @@
 /**
  * @jest-environment node
  */
-import {Gaia, GaiaRef} from '../Gaia';
-import {HMACCredentials, UsernamePasswordCredentials} from '..';
-import crossBlob from 'cross-blob';
+import {Gaia} from '../Gaia';
+import {HMACCredentials} from '..';
+import {Mock} from '../mock/mock';
 
-describe.skip('dataref tests:', () => {
-
-    beforeEach(() => {
-        jest.setTimeout(10000);
-    });
+describe('dataref tests:', () => {
 
     test('test http error code raises exception', () => {
         return new Promise(async (resolve, reject) => {
@@ -20,11 +16,15 @@ describe.skip('dataref tests:', () => {
 
     });
 
-    test('test write new file', () => {
+    test.skip('test write new file', () => {
+        // FIXME ReferenceError Blob -> when running with nodejs
         const blob = new Blob(['234']);
 
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/sink/init');
+                return {uploadId: 'A123', chunkId: 'B123'};
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder').add('newFile', blob);
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
@@ -36,9 +36,12 @@ describe.skip('dataref tests:', () => {
     });
 
     test('test overwrite existing file does not work', () => {
-        const blob = new Blob(['234']);
+        const blob = Buffer.from(['234']);
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/source');
+                return {x: 'y'};
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder').add('existingFile', blob);
             observable.subscribe(reject, error => resolve(error));
         });
@@ -46,20 +49,27 @@ describe.skip('dataref tests:', () => {
 
     test('test load file as file', () => {
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/source');
+                return ['a'];
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder/somefolder/asdf1.pdf').asFile();
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
-                expect(e.size).toEqual(11);
+                expect(e.length).toEqual(1);
                 resolve(e || '');
             },                   reject);
         });
     });
 
-    test('test overwrite file with override', () => {
+    test.skip('test overwrite file with override', () => {
+        // FIXME ReferenceError Blob -> when running with nodejs
         const blob = new Blob(['234']);
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/sink/init');
+                return {uploadId: 'A123'};
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder').add('existingFile', blob, true);
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
@@ -70,7 +80,11 @@ describe.skip('dataref tests:', () => {
 
     test('test list files in existing directory', () => {
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+
+                expect(request.urlPostFix).toEqual('/data/list');
+                return [{tenant: 'tenant', filePath: 'existingDirectory/file1'}];
+            });
             const observable = gaiaRef.data('gaia://usr@tenant1/existingDirectory').list();
             observable.subscribe(e => {
                 expect(e).toEqual([{tenant: 'tenant', filePath: 'existingDirectory/file1'}]);
@@ -81,7 +95,10 @@ describe.skip('dataref tests:', () => {
 
     test('test list files in nonexistent directory', () => {
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/list');
+                return [];
+            });
             const observable = gaiaRef.data('gaia://usr@ten123ant/nonexistentDirectory').list();
             observable.subscribe(e => {
                 expect(e).toEqual([]);
@@ -92,7 +109,10 @@ describe.skip('dataref tests:', () => {
 
     test('test remove existing file', () => {
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/remove');
+                return {fileExisted: true};
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder/existingFile').remove();
             observable.subscribe(e => {
                 expect(e.fileExisted).toEqual(true);
@@ -103,7 +123,10 @@ describe.skip('dataref tests:', () => {
 
     test('test remove nonexistent file', () => {
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = await getGaiaRef();
+            const gaiaRef = Mock.gaiaRef((request) => {
+                expect(request.urlPostFix).toEqual('/data/remove');
+                return {fileExisted: false};
+            });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder/nonexistentFile').remove();
             observable.subscribe(e => {
                 expect(e.fileExisted).toEqual(false);
@@ -112,7 +135,3 @@ describe.skip('dataref tests:', () => {
         });
     });
 });
-
-function getGaiaRef() : Promise<GaiaRef> {
-    return Promise.resolve(Gaia.connect('http://localhost:8080', new HMACCredentials('mockedApiKey', 'mockedApiSecret')));
-}

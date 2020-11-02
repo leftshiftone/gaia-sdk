@@ -23,7 +23,7 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
-from gaia_sdk.graphql.GaiaClientBuilder import GaiaClientBuilder
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 
 Uuid = str
@@ -31,8 +31,8 @@ Uuid = str
 
 class HttpSensorFunction(ISensorFunction):
 
-    def __init__(self, url: str, credentials, scheduler: Scheduler):
-        self.client = GaiaClientBuilder.http(url + "/api/entity").with_credentials(credentials).build()
+    def __init__(self, url: str, credentials, scheduler: Scheduler, client_factory: GaiaClientFactory):
+        self.client = client_factory.http(url + "/api/entity").with_credentials(credentials).build()
         self._scheduler = scheduler
 
     def retrieve(self, config: Callable[[RetrievalReq], None]) -> Observable[RetrievalRes]:
@@ -243,7 +243,13 @@ class HttpSensorFunction(ISensorFunction):
         return mapM(observable, mutation_res)
 
     def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
-        identities_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+
+        def identities_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(
             lambda e: e.identities(impulses, identities_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)

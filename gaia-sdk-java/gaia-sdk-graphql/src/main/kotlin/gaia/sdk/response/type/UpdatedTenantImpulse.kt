@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a update Tenant impulse
 */
 data class UpdatedTenantImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the Tenant instance
     */
-    @JsonProperty("data") val data:Tenant?
+    @JsonProperty("data") val data:Tenant? = null
 )

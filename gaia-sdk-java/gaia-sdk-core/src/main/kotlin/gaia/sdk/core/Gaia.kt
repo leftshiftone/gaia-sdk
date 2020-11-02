@@ -17,6 +17,7 @@ import gaia.sdk.api.skill.UnprovisionedSkillSpec
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
+import gaia.sdk.http.TransporterFactory
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
@@ -42,9 +43,10 @@ class Gaia {
     companion object {
 
         private val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        var transporterFactory = TransporterFactory()
 
         fun connect(url: String, credentials: GaiaCredentials): GaiaRef {
-            return GaiaRef(GaiaConfig(url, credentials))
+            return GaiaRef(GaiaConfig(url, credentials, transporterFactory))
         }
 
         fun connect(config: GaiaConfig): GaiaRef {
@@ -103,9 +105,10 @@ class Gaia {
 
 class GaiaConfig(val url: String,
                  val credentials: GaiaCredentials,
-                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials),
+                 val transporterFactory: TransporterFactory,
+                 val functionProcessor: ISensorFunction = HttpSensorFunction(url, credentials, transporterFactory),
                  val queueProcessor: ISensorQueue = MqttSensorQueue(QueueOptions("localhost", 1883)),
-                 val streamProcessor: ISensorStream = HttpSensorStream(url, credentials))
+                 val streamProcessor: ISensorStream = HttpSensorStream(url, credentials, transporterFactory))
 
 class GaiaRef(config: GaiaConfig) : ISensorFunction {
     private val fProc: ISensorFunction = config.functionProcessor

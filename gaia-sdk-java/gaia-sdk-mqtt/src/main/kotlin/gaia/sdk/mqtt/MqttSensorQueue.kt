@@ -147,7 +147,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
                 .buildRx()
     }
 
-    private fun getTopic(type: IQueueType, header: QueueHeader): String {
+    fun getTopic(type: IQueueType, header: QueueHeader): String {
         if (type is ConversationQueueType) {
             val deviceInstanceId = options.deviceInstanceId
             val channelId = header.channelId

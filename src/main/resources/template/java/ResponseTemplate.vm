@@ -9,16 +9,16 @@ abstract class #capitalize($name)Response {
 
 #if ($hasQuery)#*
     *##tab(4)data class QueryResponse @JsonCreator constructor($newLine#*
-    *##tab(8)@JsonProperty("data") val data: Query?,$newLine#*
-    *##tab(8)@JsonProperty("extensions")val extensions: #print("Map<String, Any>?"),$newLine#*
-    *##tab(8)@JsonProperty("errors")val errors: #print("List<Error>?")): #capitalize($name)Response()$newLine##
+    *##tab(8)@JsonProperty("data") val data: Query? = null,$newLine#*
+    *##tab(8)@JsonProperty("extensions")val extensions: #print("Map<String, Any>? = null"),$newLine#*
+    *##tab(8)@JsonProperty("errors")val errors: #print("List<Error>? = null")): #capitalize($name)Response()$newLine##
 #end
 
 #if ($hasMutation)#*
     *##tab(4)data class MutationResponse @JsonCreator constructor($newLine#*
-    *##tab(8)@JsonProperty("data") val data: Mutation?,$newLine#*
-    *##tab(8)@JsonProperty("extensions") val extensions: #print("Map<String, Any>?"),$newLine#*
-    *##tab(8)@JsonProperty("errors") val errors: #print("List<Error>?")): #capitalize($name)Response()$newLine##
+    *##tab(8)@JsonProperty("data") val data: Mutation? = null,$newLine#*
+    *##tab(8)@JsonProperty("extensions") val extensions: #print("Map<String, Any>? = null"),$newLine#*
+    *##tab(8)@JsonProperty("errors") val errors: #print("List<Error>? = null")): #capitalize($name)Response()$newLine##
 #end
 
 #tab(4)data class Error @JsonCreator constructor(

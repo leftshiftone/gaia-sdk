@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a delete edge impulse
 */
 data class DeletedEdgeImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:EdgeKeyOne?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:EdgeKeyOne? = null
 )

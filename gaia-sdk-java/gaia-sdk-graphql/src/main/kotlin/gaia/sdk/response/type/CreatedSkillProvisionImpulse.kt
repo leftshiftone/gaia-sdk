@@ -12,9 +12,9 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a create SkillProvision impulse
 */
 data class CreatedSkillProvisionImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
+    @JsonProperty("id") val id:Uuid? = null, 
     /**
     * the SkillProvision instance
     */
-    @JsonProperty("data") val data:SkillProvision?
+    @JsonProperty("data") val data:SkillProvision? = null
 )

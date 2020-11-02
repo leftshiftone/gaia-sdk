@@ -11,11 +11,13 @@ import gaia.sdk.api.extension.map
 import gaia.sdk.api.extension.mapM
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
-import reactor.netty.http.client.HttpClient
+import gaia.sdk.spi.ClientOptions
+import gaia.sdk.spi.ITransporter
+import org.reactivestreams.Publisher
 
-class HttpSensorFunction(url: String, credentials: GaiaCredentials) : ISensorFunction {
+class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterFactory: TransporterFactory) : ISensorFunction {
 
-    private val client = GaiaClientBuilder(HttpTransporter(url + "/api/entity", HttpClient.create()))
+    private val client = GaiaClientBuilder(transporterFactory.create(url + "/api/entity"))
             .withCredentials(credentials)
             .build()
 

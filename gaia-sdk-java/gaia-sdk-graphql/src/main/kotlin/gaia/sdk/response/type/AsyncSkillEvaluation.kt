@@ -9,5 +9,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class AsyncSkillEvaluation @JsonCreator constructor(
-    @JsonProperty("tbd") val tbd:String?
+    @JsonProperty("tbd") val tbd:String? = null
 )

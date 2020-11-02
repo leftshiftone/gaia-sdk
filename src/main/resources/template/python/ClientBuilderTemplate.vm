@@ -4,11 +4,7 @@ from gaia_sdk.graphql.#capitalize($name)Client import #capitalize($name)Client
 
 #Class generated from template src/main/resources/template/python/ClientBuilderTemplate.vm
 
-class #capitalize($name)ClientBuilder(object):
-
-#tab(4)@staticmethod
-#tab(4)def http(url):
-#tab(8)return #capitalize($name)ClientBuilder(url)
+class #capitalize($name)HttpClientBuilder(object):
 
 #tab(4)def __init__(self, url):
 #tab(8)self.url = url

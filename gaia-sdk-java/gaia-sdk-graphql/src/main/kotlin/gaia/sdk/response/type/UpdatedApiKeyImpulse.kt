@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a update api key impulse
 */
 data class UpdatedApiKeyImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:ApiKey?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:ApiKey? = null
 )
