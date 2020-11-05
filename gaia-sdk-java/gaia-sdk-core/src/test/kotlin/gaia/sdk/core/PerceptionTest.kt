@@ -2,6 +2,7 @@ package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaResponse
+import gaia.sdk.http.HttpTransporter
 import gaia.sdk.http.TransporterFactory
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
@@ -16,6 +17,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
+import sun.net.www.http.HttpClient
 import java.util.*
 import kotlin.collections.HashMap
 
