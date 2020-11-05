@@ -14,10 +14,10 @@ class HMACTokenBuilder {
     lateinit var clientOptions: ClientOptions
     var timestamp: Long = 0
     lateinit var nonce: String
-    lateinit var payload: String
+    lateinit var payload: ByteArray
 
 
-    fun withPayload(payload: String): HMACTokenBuilder {
+    fun withPayload(payload: ByteArray): HMACTokenBuilder {
         this.payload=payload
         return this
     }
@@ -46,15 +46,13 @@ class HMACTokenBuilder {
         val sep = "_"
         val headerScheme = "HMAC-SHA512"
         val sensorType = HTTP_SENSOR_TYPE
-        val payloadAsByteArray = payload.toByteArray()
         val credentials = clientOptions.credentials as HMACCredentials
 
-        val toBeHashed = arrayOf(Base64.getEncoder().encodeToString(payloadAsByteArray), clientOptions.contentType, sensorType, timestamp, nonce).joinToString(sep)
+        val toBeHashed = arrayOf(Base64.getEncoder().encodeToString(payload), clientOptions.contentType, sensorType, timestamp, nonce).joinToString(sep)
         val signature = Base64.getEncoder().encodeToString(HMAC(credentials.apiSecret).hash(toBeHashed.toByteArray()))
         val token = arrayOf(credentials.apiKey, signature, timestamp, nonce).joinToString(sep)
         return "$headerScheme $token"
     }
-
 
 
 

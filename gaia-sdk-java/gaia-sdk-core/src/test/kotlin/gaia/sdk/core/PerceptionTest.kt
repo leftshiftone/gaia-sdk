@@ -2,6 +2,7 @@ package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaResponse
+import gaia.sdk.http.HttpTransporter
 import gaia.sdk.http.TransporterFactory
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
@@ -16,6 +17,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
+import sun.net.www.http.HttpClient
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -28,13 +30,21 @@ class MockTransporterFactory(private val mockHandler: (MockRequest) -> Publisher
 data class MockRequest(
         val options: ClientOptions,
         val type: Class<Any>,
-        val payload: Map<String, Any?>,
+        val payload: Any,
         val apiPath: String
 )
 
 class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>): ITransporter {
-    override fun <T> transport(options: ClientOptions, type: Class<T>, payload: Map<String, Any?>, apiPath: String): Publisher<T> {
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String, queryParameters: Map<String, Any>): Publisher<T> {
         return mockHandler(MockRequest(options, type as Class<Any>, payload, apiPath)) as Publisher<T>
+    }
+
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String): Publisher<T> {
+        return mockHandler(MockRequest(options, type as Class<Any>, payload, apiPath)) as Publisher<T>
+    }
+
+    override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
+        return mockHandler(MockRequest(options, type as Class<Any>, payload,"")) as Publisher<T>
     }
 }
 

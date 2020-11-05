@@ -1,8 +1,10 @@
 package gaia.sdk.core
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.GaiaStreamClient
 import gaia.sdk.GaiaResponse
-import gaia.sdk.GaiaStreamingClient
 import gaia.sdk.JWTCredentials
 import gaia.sdk.api.ISensorStream
 import gaia.sdk.api.SkillProvisionLogs
@@ -23,7 +25,6 @@ import io.reactivex.Flowable
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.util.*
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit
 abstract class SkillTest() {
 
     lateinit var credentials: GaiaCredentials
-
+    val jsonparser = ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     @BeforeAll
     fun beforeAll() {
         credentials = retrieveCredentials()
@@ -61,9 +62,8 @@ abstract class SkillTest() {
     fun `test skill evaluation`() {
         val mockedStreamProcessor = mockk<ISensorStream>()
         val mockedTransporter = mockk<ITransporter>()
-
-        every { mockedTransporter.transport<SkillEvaluation>(any(), any(), any(), any()) } returns Flowable.just(SkillEvaluation(mapOf("response" to "hello")))
-        every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamingClient(ClientOptions(JWTCredentials("")), mockedTransporter))
+        every { mockedTransporter.transport<SkillEvaluation>(any(), any(), any(),any(), any()) } returns Flowable.just(SkillEvaluation(mapOf("response" to "hello")))
+        every { mockedStreamProcessor.skill(any()) } returns SkillRef(ISkillSpec.toSkillSpec("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test"), GaiaStreamClient(ClientOptions(JWTCredentials("")), mockedTransporter))
 
         val gaiaRef = Gaia.connect(GaiaConfig("", JWTCredentials(""), mockk(), mockk(), mockk(), mockedStreamProcessor))
         val skillRef = gaiaRef.skill("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/test")
