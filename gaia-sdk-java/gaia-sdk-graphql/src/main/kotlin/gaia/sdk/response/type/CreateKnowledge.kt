@@ -28,7 +28,7 @@ data class CreateKnowledge @JsonCreator constructor(
     /**
     * creates a list of roles with the given specifications
     */
-    @JsonProperty("roles") val roles:List<CreatedRoleImpulse>?, 
+    @JsonProperty("roles") val roles:List<CreatedRoleImpulse>? = null, 
     /**
     * creates a list of intents with the given specifications
     */

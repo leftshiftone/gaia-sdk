@@ -28,7 +28,7 @@ data class UpdateKnowledge @JsonCreator constructor(
     /**
     * updates a list of roles with the given specifications
     */
-    @JsonProperty("roles") val roles:List<UpdatedRoleImpulse>?, 
+    @JsonProperty("roles") val roles:List<UpdatedRoleImpulse>? = null, 
     /**
     * updates a list of intents with the given specifications
     */

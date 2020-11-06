@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a delete role impulse
 */
 data class DeletedRoleImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:RoleKeyOne?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:RoleKeyOne? = null
 )

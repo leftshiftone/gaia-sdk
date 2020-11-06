@@ -12,6 +12,6 @@ import gaia.sdk.request.enumeration.*
 * Impulse which indicates the result of a update role impulse
 */
 data class UpdatedRoleImpulse @JsonCreator constructor(
-    @JsonProperty("id") val id:Uuid?, 
-    @JsonProperty("data") val data:Role?
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:Role? = null
 )

@@ -15,13 +15,13 @@ data class Role @JsonCreator constructor(
     /**
     * Id of the role
     */
-    @JsonProperty("roleId") val roleId:Uuid?, 
+    @JsonProperty("roleId") val roleId:Uuid? = null, 
     /**
     * The name of the role
     */
-    @JsonProperty("name") val name:String?, 
+    @JsonProperty("name") val name:String? = null, 
     /**
     * The permissions of the role
     */
-    @JsonProperty("permissions") val permissions:List<String>?
+    @JsonProperty("permissions") val permissions:List<String>? = null
 )

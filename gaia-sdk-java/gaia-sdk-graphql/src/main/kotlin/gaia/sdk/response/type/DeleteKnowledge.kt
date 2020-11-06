@@ -28,7 +28,7 @@ data class DeleteKnowledge @JsonCreator constructor(
     /**
     * deletes a list of roles with the given specifications
     */
-    @JsonProperty("roles") val roles:List<DeletedRoleImpulse>?, 
+    @JsonProperty("roles") val roles:List<DeletedRoleImpulse>? = null, 
     /**
     * deletes a list of intents with the given specifications
     */

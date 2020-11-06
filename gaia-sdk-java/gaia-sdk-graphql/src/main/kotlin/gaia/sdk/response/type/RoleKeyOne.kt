@@ -9,5 +9,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class RoleKeyOne @JsonCreator constructor(
-    @JsonProperty("roleId") val roleId:Uuid?
+    @JsonProperty("roleId") val roleId:Uuid? = null
 )
