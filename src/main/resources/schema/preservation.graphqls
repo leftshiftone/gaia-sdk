@@ -6,6 +6,28 @@ type Preservation {
     create: CreateKnowledge
     update: UpdateKnowledge
     delete: DeleteKnowledge
+    connect: ConnectKnowledge
+}
+
+type ConnectKnowledge {
+    node(nodeId: Uuid!): ConnectNodeKnowledge
+}
+
+type ConnectNodeKnowledge {
+    append(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float = 1.0): [Edge]
+    remove(type: EdgeType!, target: Uuid!): [Edge]
+
+    set(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float = 1.0): Edge
+    unset(type: EdgeType!): [Edge]
+}
+
+enum EdgeType {
+    SUPERVISOR,
+    IDENTITY_NER_SKILL,
+    IDENTITY_ERROR_STATEMENT,
+    IDENTITY_UNKNOWN_BEHAVIOUR,
+    IDENTITY_DISCONTINUABLE_STATEMENT,
+    IDENTITY_WELCOME_BEHAVIOUR
 }
 
 type CreateKnowledge {
