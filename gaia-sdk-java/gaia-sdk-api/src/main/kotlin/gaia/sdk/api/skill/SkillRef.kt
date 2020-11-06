@@ -14,7 +14,7 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
      * The response is wrapped in a [SkillEvaluation].
      */
     fun evaluate(payload: Map<String, Any>): Publisher<SkillEvaluation> {
-        return Flowable.fromPublisher(client.post(type= SkillEvaluation::class.java, payload= mapOf("uri" to spec.toUri(), "payload" to payload), apiPath = "/skill/evaluate"))
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "payload" to payload), SkillEvaluation::class.java, "/skill/evaluate"))
     }
 
     /**
@@ -24,7 +24,7 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
      * The response is wrapped in a [SkillEvaluation].
      */
     fun evaluate(contract: String, payload: Map<String, Any>): Publisher<SkillEvaluation> {
-        return Flowable.fromPublisher(client.post(type= SkillEvaluation::class.java,  payload=mapOf("uri" to spec.toUri(), "contract" to contract, "payload" to payload), apiPath = "/skill/evaluate"))
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "contract" to contract, "payload" to payload), SkillEvaluation::class.java, "/skill/evaluate"))
     }
 
     fun introspect(): Publisher<SkillIntrospection> {
@@ -32,19 +32,19 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
     }
 
     fun start(): Publisher<Void> {
-        return Flowable.fromPublisher(client.post(type=Map::class.java,  payload=mapOf("uri" to spec.toUri()), apiPath= "/skill/start")).flatMap { Flowable.empty<Void>() }
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri()), Map::class.java, "/skill/start")).flatMap { Flowable.empty<Void>() }
     }
 
     fun stop(): Publisher<Void> {
-        return Flowable.fromPublisher(client.post(type=Map::class.java,  payload=mapOf("uri" to spec.toUri()),  apiPath="/skill/stop")).flatMap { Flowable.empty<Void>() }
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri()), Map::class.java, "/skill/stop")).flatMap { Flowable.empty<Void>() }
     }
 
     fun status(): Publisher<SkillProvisionStatus> {
-        return client.post(type=SkillProvisionStatus::class.java,  payload=mapOf("uri" to spec.toUri()),  apiPath="/skill/status")
+        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionStatus::class.java, "/skill/status")
     }
 
     fun logs(numberOfLines: Int? = null): Publisher<String> {
-        val responsePublisher = client.post(type=SkillProvisionLogs::class.java,  payload=mapOf("uri" to spec.toUri(), "numberOfLines" to numberOfLines),  apiPath="/skill/logs")
+        val responsePublisher = client.post(mapOf("uri" to spec.toUri(), "numberOfLines" to numberOfLines), SkillProvisionLogs::class.java, "/skill/logs")
         return Flowable.fromPublisher(responsePublisher)
                 .flatMap { response -> Flowable.fromIterable(response.logLines) }
     }
