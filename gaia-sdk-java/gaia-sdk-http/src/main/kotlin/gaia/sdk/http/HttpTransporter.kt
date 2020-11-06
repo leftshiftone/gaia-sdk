@@ -2,7 +2,6 @@ package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.GaiaStreamClient
 import gaia.sdk.HMACCredentials
 import gaia.sdk.JWTCredentials
 import gaia.sdk.spi.ClientOptions
@@ -30,7 +29,7 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
     }
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
-        return this.transport(options,payload, type, "")
+        return this.transport(options, payload, type, "")
     }
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String): Publisher<T> {

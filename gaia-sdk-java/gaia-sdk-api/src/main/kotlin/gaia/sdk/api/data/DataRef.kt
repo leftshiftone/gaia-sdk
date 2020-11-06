@@ -4,6 +4,7 @@ import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*
 import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -116,12 +117,14 @@ class DataUpload(private val uri: String, private val content: File, private val
     private fun uploadChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .map { BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value) }
                 .flatMap { chunk ->
                     Flowable.fromPublisher(
                             client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk","application/octet-stream",  chunk.requestParameters()))
                             .map { ChunkResponse(chunk.ordinal, it) }
-                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }
+                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received. Memory ${Runtime.getRuntime().freeMemory()/1048576.0}") }
                 }
     }
 
@@ -145,6 +148,13 @@ fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
     val input = this.inputStream().buffered()
     val buffer = ByteArray(chunk)
     return generateSequence {
+        println("Memory consumption at generation of sequence: ${Runtime.getRuntime().freeMemory() / 1048576.0} Thread ${Thread.currentThread().name}")
+        while (Runtime.getRuntime().freeMemory()/1048576.0< 150) {
+            println("Calling GC ${Runtime.getRuntime().freeMemory() / 1048576.0} Thread ${Thread.currentThread().name}")
+           System.gc()
+             Thread.sleep(500)
+             println("Memory after calling GC ${Runtime.getRuntime().freeMemory() / 1048576.0} Thread ${Thread.currentThread().name}")
+         }
         val red = input.read(buffer)
         if (red >= 0) buffer.copyOf(red)
         else {
