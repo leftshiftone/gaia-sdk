@@ -197,11 +197,9 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 data{
                     userId()
                     username()
-                    groups()
-                    permissions()
-                    roles()
-                    using2FA()
-                    tenants()
+                    email()
+                    firstName()
+                    lastName()
                 }
             } } } })) {
                 it.preserve?.create?.users!!
@@ -213,11 +211,9 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 data{
                     userId()
                     username()
-                    groups()
-                    permissions()
-                    roles()
-                    using2FA()
-                    tenants()
+                    email()
+                    firstName()
+                    lastName()
                 }
             } } } })) {
                 it.preserve?.update?.users!!
@@ -239,6 +235,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 data{
                     apiKeyId()
                     name()
+                    description()
                     secret()
                     enabled()
                 }
@@ -252,6 +249,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 data{
                     apiKeyId()
                     name()
+                    description()
                     secret()
                     enabled()
                 }

@@ -460,11 +460,9 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.userId()
                     d.username()
-                    d.groups()
-                    d.permissions()
-                    d.roles()
-                    d.using2FA()
-                    d.tenants()
+                    d.email()
+                    d.firstName()
+                    d.lastName()
                 })
             }));
         }))));
@@ -478,11 +476,9 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.userId()
                     d.username()
-                    d.groups()
-                    d.permissions()
-                    d.roles()
-                    d.using2FA()
-                    d.tenants()
+                    d.email()
+                    d.firstName()
+                    d.lastName()
                 })
             }))
         }))));
@@ -508,6 +504,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.apiKeyId()
                     d.name()
+                    d.description()
                     d.secret()
                     d.enabled()
                 })
@@ -523,6 +520,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.apiKeyId()
                     d.name()
+                    d.description()
                     d.secret()
                     d.enabled()
                 })
