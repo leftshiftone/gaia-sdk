@@ -125,7 +125,7 @@ class DataUpload(private val uri: String, private val content: File, private val
         val chunk= BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
         return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk","application/octet-stream",  chunk.requestParameters()))
                             .map { ChunkResponse(chunk.ordinal, it) }
-                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received. Memory ${Runtime.getRuntime().freeMemory()/1048576.0}") }.blockingFirst()
+                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }.blockingFirst()
     }
 
     private fun completeUpload(uploadId: String, chunkIds: List<ChunkResponse>, client: GaiaStreamClient) = Flowable.fromPublisher(
