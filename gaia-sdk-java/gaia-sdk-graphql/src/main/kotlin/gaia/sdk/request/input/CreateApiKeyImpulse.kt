@@ -13,5 +13,6 @@ import gaia.sdk.request.enumeration.*
  * The specification to create an api key instance
  */
 class CreateApiKeyImpulse(val name:String, 
+   val description:String, 
    val enabled:Boolean) : Input()
 

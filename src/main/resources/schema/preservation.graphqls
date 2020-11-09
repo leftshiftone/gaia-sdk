@@ -135,23 +135,29 @@ type UserKeyOne {
 "The specification to create an user instance"
 input CreateUserImpulse {
     username: String!
+    email: String
+    firstName: String
+    lastName: String
     password: String!
-    using2FA: Boolean = false
-    tenants: [String]
-    roles: [String]
-    groups: [String]
-    permissions: [String]
+    using2FA: Boolean = false # deprecated: not in use
+    tenants: [String] # deprecated: not in use
+    roles: [String] # deprecated: not in use
+    groups: [String] # deprecated: not in use
+    permissions: [String] # deprecated: not in use
 }
 "The specification to update a user instance"
 input UpdateUserImpulse {
     userId: Uuid
     username: String
+    email: String
+    firstName: String
+    lastName: String
     password: String
-    using2FA: Boolean
-    tenants: [String]
-    roles: [String]
-    groups: [String]
-    permissions: [String]
+    using2FA: Boolean # deprecated: not in use
+    tenants: [String] # deprecated: not in use
+    roles: [String] # deprecated: not in use
+    groups: [String] # deprecated: not in use
+    permissions: [String] # deprecated: not in use
 }
 "The specification to delete a user instance"
 input DeleteUserImpulse {
@@ -179,6 +185,7 @@ type ApiKeyKeyOne {
 "The specification to create an api key instance"
 input CreateApiKeyImpulse {
     name: String!
+    description: String
     enabled: Boolean
 }
 "The specification to update an apiKey instance"
@@ -186,6 +193,7 @@ input UpdateApiKeyImpulse {
     apiKeyId: Uuid!
     secret: String!
     name: String!
+    description: String
     enabled: Boolean
 }
 "The specification to delete an api key instance"

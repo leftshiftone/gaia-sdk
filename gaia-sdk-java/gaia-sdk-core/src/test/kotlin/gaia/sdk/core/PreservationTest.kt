@@ -107,7 +107,7 @@ abstract class PreservationTest {
     fun `test preserve create user`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(users = listOf(CreatedUserImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = CreateUserImpulse("username", "password", true, emptyArray(), emptyArray(), emptyArray(), emptyArray())
+        val impulse = CreateUserImpulse("username", "foo@bar", "foo", "bar", "password", true, emptyArray(), emptyArray(), emptyArray(), emptyArray())
 
         val publisher = gaiaRef.preserveCreateUsers(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -120,7 +120,7 @@ abstract class PreservationTest {
     fun `test preserve update user`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(users = listOf(UpdatedUserImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = UpdateUserImpulse(UUID.randomUUID().toString(), "username", "password", false, emptyArray(), emptyArray(), emptyArray(), emptyArray())
+        val impulse = UpdateUserImpulse(UUID.randomUUID().toString(), "username", "foo@bar", "foo", "bar", "password", false, emptyArray(), emptyArray(), emptyArray(), emptyArray())
 
         val publisher = gaiaRef.preserveUpdateUsers(impulse)
         val result = Flux.from(publisher).blockFirst()

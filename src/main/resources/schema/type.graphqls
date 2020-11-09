@@ -35,15 +35,15 @@ type User {
     "The last name of the user"
     lastName: String
     "Is the User using 2FA"
-    using2FA: Boolean
+    using2FA: Boolean # deprecated: not in use
     "The tenants of the user"
-    tenants: [String]
+    tenants: [String] # deprecated: not in use
     "The roles of the user"
-    roles: [String]
+    roles: [String] # deprecated: not in use
     "The groups of the user"
-    groups: [String]
+    groups: [String] # deprecated: not in use
     "The permissions of the user"
-    permissions: [String]
+    permissions: [String] # deprecated: not in use
 }
 
 "Represents api key information"
