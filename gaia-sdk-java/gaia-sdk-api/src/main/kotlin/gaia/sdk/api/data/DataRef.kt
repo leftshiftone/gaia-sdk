@@ -42,7 +42,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      */
     fun add(fileName: String, content: File, override: Boolean = false): Flowable<DataRef> {
         log.info("Add $fileName to ${this.uri}")
-        val upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override)
+        val upload = DataUpload.create(concatUri(this.uri, fileName), content, override)
         return Flowable.fromPublisher(upload.execute(this.client))
     }
 
@@ -70,7 +70,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @returns an Observable<boolean> that is true if the file existed
      */
     fun removeFile(fileName: String): Publisher<FileRemovedImpulse> {
-        return this.removeFileAt(DataRef.concatUri(this.uri, fileName))
+        return this.removeFileAt(concatUri(this.uri, fileName))
     }
 
     /**
@@ -82,6 +82,11 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.fromPublisher(this.removeFileAt(this.uri))
     }
 
+    /**
+     * It downloads a file from the DataStorage. It streams all bytes to a FileOutpuStream and once all bytes have been transferred, the created file is returned
+     * @param filePath Path of the file where the downloaded data will be persisted
+     * @return Publisher of the written file.
+     */
     fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
         log.info("Download file from $this.uri to ${filePath}")
         this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source")
@@ -106,16 +111,14 @@ class FileWriteSubscriber(val fos: FileOutputStream, val filePath: String) : Sub
     override fun onSubscribe(s: Subscription) { s.request(Long.MAX_VALUE)}
 
     override fun onNext(bytes: ByteArray) {
-        log.debug("Downloaded bytes: ${bytesDownloaded.addAndGet(bytes.size.toLong())} to write in file ${filePath}")
+        log.trace("Downloaded bytes: ${bytesDownloaded.addAndGet(bytes.size.toLong())} to write in file ${filePath}")
         fos.write(bytes)
     }
 
-    override fun onError(t: Throwable?) {
-       throw RuntimeException("An error occurred while writing file $this.filePath with cause : ${t?.message}", t)
-    }
+    override fun onError(t: Throwable?) {} //FIXME when connection is closed, but the complete file is transferred, no exception should be thrown
 
     override fun onComplete() {
-        log.info("Complete signal was sent. Closing FileOutputStream")
+        log.trace("Complete signal was sent. Closing FileOutputStream")
         fos.close()
     }
 
