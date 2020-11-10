@@ -24,6 +24,11 @@ class TestIdentityRef(unittest.TestCase):
             self.gaiaRef.identity("00000000-0000-0000-0000-000000000000").export()).run()
         self.assertEqual(result, bytes("hello world", "utf-8"))
 
+    @unittest.skip("Unfinished test")
+    def test_export_identity_no_id(self):
+        # TODO: Test exception if no ID is given on an export call
+        pass
+
     @unittest.skip("Debug test on local system")
     def test_export_data_real(self):
         self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
@@ -41,7 +46,7 @@ class TestIdentityRef(unittest.TestCase):
 
         def on_completed():
             print("Job Done.")
-            print(f"{file=}")
+            print(f"file: {file}")
 
         obs.subscribe(Observer(
             on_next=lambda i: on_next(i),
@@ -65,8 +70,9 @@ class TestIdentityRef(unittest.TestCase):
 
         def on_completed():
             print("Job Done.")
-            print(f"{identity=}")
+            print(f"identity: {identity}")
             print(f"size: {len(identity)}")
+            self.assertEqual(len(identity), 21582)
 
         obs.subscribe(Observer(
             on_next=lambda i: on_next(i),
