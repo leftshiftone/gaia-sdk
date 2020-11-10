@@ -2,6 +2,7 @@
 import {DeleteKnowledge} from "./DeleteKnowledge";
 import {UpdateKnowledge} from "./UpdateKnowledge";
 import {CreateKnowledge} from "./CreateKnowledge";
+import {ConnectKnowledge} from "./ConnectKnowledge";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -17,5 +18,6 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface Preservation {
     create?:CreateKnowledge, 
     update?:UpdateKnowledge, 
-    delete?:DeleteKnowledge
+    delete?:DeleteKnowledge, 
+    connect?:ConnectKnowledge
 }

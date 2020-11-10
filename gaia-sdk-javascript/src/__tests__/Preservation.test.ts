@@ -33,6 +33,7 @@ import {UpdateUserImpulse} from '../graphql/request/input/UpdateUserImpulse';
 import {CreateUserImpulse} from '../graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from '../graphql/request/input/DeleteUserImpulse';
 import {Mock} from '../mock/mock';
+import {EdgeType} from "../graphql/request/enumeration/EdgeType";
 
 describe('perception tests:', () => {
 
@@ -486,6 +487,41 @@ describe('perception tests:', () => {
             const observable = gaiaRef.preserveDeleteSkillProvisions(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            },                   reject);
+        });
+    });
+
+    test('test preserve set node connection', () => {
+        const gaiaRef = mockPreserve({connect: {node: {set: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}], newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IDENTITY_WELCOME_BEHAVIOUR', properties: {test: 'asdf'}}}}}});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveConnectNodeSet('nodeId', 'target', EdgeType.IDENTITY_WELCOME_BEHAVIOUR, '{}', 0.80);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                expect(e.removedEdges.length).toEqual(1)
+                expect(e.removedEdges[0].source).toEqual('a')
+                expect(e.removedEdges[0].edgeId).toEqual('b')
+                expect(e.newEdge.source).toEqual('b')
+                expect(e.newEdge.target).toEqual('c')
+                expect(e.newEdge.edgeId).toEqual('d')
+                expect(e.newEdge.type).toEqual('IDENTITY_WELCOME_BEHAVIOUR')
+                expect(e.newEdge.properties.test).toEqual('asdf')
+                resolve(e);
+            },                   reject);
+        });
+    });
+
+    test('test preserve unset node connection', () => {
+        const gaiaRef = mockPreserve({connect: {node: {unset: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}]}}}});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveConnectNodeUnset('nodeId', EdgeType.IDENTITY_WELCOME_BEHAVIOUR);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                expect(e.removedEdges.length).toEqual(1)
+                expect(e.removedEdges[0].source).toEqual('a')
+                expect(e.removedEdges[0].edgeId).toEqual('b')
                 resolve(e);
             },                   reject);
         });

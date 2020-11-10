@@ -94,7 +94,7 @@ import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillP
 import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
 import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
 import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
-import {Uuid} from "../graphql/GaiaClient";
+import {Struct, Uuid} from "../graphql/GaiaClient";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
 import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
@@ -119,6 +119,9 @@ import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse"
 import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
+import {EdgeType} from "../graphql/request/enumeration/EdgeType";
+import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
+import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -248,6 +251,10 @@ export interface ISensorFunction {
     preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse>
 
     preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse>
+
+    preserveConnectNodeSet(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeSetImpulse>
+
+    preserveConnectNodeUnset(nodeId: Uuid, edgeType: EdgeType): Observable<ConnectNodeUnsetImpulse>
 
     preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse>
 

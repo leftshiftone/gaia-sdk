@@ -14,19 +14,20 @@ type ConnectKnowledge {
 }
 
 type ConnectNodeKnowledge {
-    append(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float = 1.0): [Edge]
-    remove(type: EdgeType!, target: Uuid!): [Edge]
+    append(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float): ConnectNodeAppendedImpulse
+    remove(type: EdgeType!, target: Uuid!): ConnectNodeRemovedImpulse
 
-    set(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float = 1.0): Edge
-    unset(type: EdgeType!): [Edge]
+    set(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float): ConnectNodeSetImpulse
+    unset(type: EdgeType!): ConnectNodeUnsetImpulse
 }
 
 enum EdgeType {
-    SUPERVISOR,
-    IDENTITY_NER_SKILL,
-    IDENTITY_ERROR_STATEMENT,
-    IDENTITY_UNKNOWN_BEHAVIOUR,
-    IDENTITY_DISCONTINUABLE_STATEMENT,
+    SUPERVISOR
+
+    IDENTITY_NER_SKILL
+    IDENTITY_ERROR_STATEMENT
+    IDENTITY_UNKNOWN_BEHAVIOUR
+    IDENTITY_DISCONTINUABLE_STATEMENT
     IDENTITY_WELCOME_BEHAVIOUR
 }
 
@@ -633,5 +634,33 @@ type DeletedSkillProvisionImpulse implements Impulse {
     id: Uuid!
     data: TenantKeyOne
 }
-
-
+"Impulse which indicates the result setting a node connection"
+type ConnectNodeSetImpulse implements Impulse {
+    id: Uuid!
+    "edges removed before setting the new edge"
+    removedEdges: [EdgeKeyOne]
+    "edge created by this request"
+    newEdge: Edge
+}
+"Impulse which indicates the result unsetting a node connection"
+type ConnectNodeUnsetImpulse implements Impulse {
+    id: Uuid!
+    "edges removed by this request"
+    removedEdges: [EdgeKeyOne]
+}
+"Impulse which indicates the result appending a node connection"
+type ConnectNodeAppendedImpulse implements Impulse {
+    id: Uuid!
+    "all edges that are set after this request"
+    allEdges: [Edge]
+    "edge created by this request"
+    newEdge: Edge
+}
+"Impulse which indicates the result removing a node connection"
+type ConnectNodeRemovedImpulse implements Impulse {
+    id: Uuid!
+    "all edges that are set after this request"
+    allEdges: [Edge]
+    "edge removed by this request"
+    removedEdge: EdgeKeyOne
+}

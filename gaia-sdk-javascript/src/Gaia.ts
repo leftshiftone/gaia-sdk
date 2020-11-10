@@ -44,7 +44,7 @@ import {CreateSkillProvisionImpulse} from './graphql/request/input/CreateSkillPr
 import {CreateCodeImpulse} from './graphql/request/input/CreateCodeImpulse';
 import {DeleteCodeImpulse} from './graphql/request/input/DeleteCodeImpulse';
 import {UpdateCodeImpulse} from './graphql/request/input/UpdateCodeImpulse';
-import {Uuid} from './graphql/GaiaClient';
+import {Struct, Uuid} from './graphql/GaiaClient';
 import {CreateEdgeImpulse} from './graphql/request/input/CreateEdgeImpulse';
 import {DeleteEdgeImpulse} from './graphql/request/input/DeleteEdgeImpulse';
 import {CreateIdentityImpulse} from './graphql/request/input/CreateIdentityImpulse';
@@ -69,6 +69,10 @@ import {UpdateUserImpulse} from './graphql/request/input/UpdateUserImpulse';
 import {User} from './graphql/request/type/User';
 import {GaiaClientFactory} from './graphql/GaiaClientFactory';
 import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
+import {EdgeType} from "./graphql/request/enumeration/EdgeType";
+import {Observable} from "rxjs";
+import {ConnectNodeSetImpulse} from "./graphql/response/type/ConnectNodeSetImpulse";
+import {ConnectNodeUnsetImpulse} from "./graphql/response/type/ConnectNodeUnsetImpulse";
 
 export class Gaia {
 
@@ -181,6 +185,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveCreateSkillProvisions = (...impulses: [CreateSkillProvisionImpulse]) => this.fProc.preserveCreateSkillProvisions(...impulses);
     public preserveDeleteSkillProvisions = (...impulses: [DeleteSkillProvisionImpulse]) => this.fProc.preserveDeleteSkillProvisions(...impulses);
     public preserveUpdateSkillProvisions = (...impulses: [UpdateSkillProvisionImpulse]) => this.fProc.preserveUpdateSkillProvisions(...impulses);
+    public preserveConnectNodeSet = (nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number) => this.fProc.preserveConnectNodeSet(nodeId, target, edgeType, properties, weight);
+    public preserveConnectNodeUnset = (nodeId: Uuid, edgeType: EdgeType) => this.fProc.preserveConnectNodeUnset(nodeId, edgeType);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviours(identityId, config, limit, offset);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);

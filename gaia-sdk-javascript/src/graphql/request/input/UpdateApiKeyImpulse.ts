@@ -7,6 +7,7 @@ import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
+import {EdgeType} from "../enumeration/EdgeType";
 
 /**
  * The specification to update an apiKey instance

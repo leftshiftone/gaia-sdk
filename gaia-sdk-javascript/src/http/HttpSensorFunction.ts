@@ -99,7 +99,7 @@ import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillP
 import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
 import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
 import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
-import {Uuid} from "../graphql/GaiaClient";
+import {Struct, Uuid} from "../graphql/GaiaClient";
 import {GaiaCredentials} from "../api/GaiaCredentials";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
@@ -126,6 +126,9 @@ import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpuls
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
 import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
+import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
+import {EdgeType} from "../graphql/request/enumeration/EdgeType";
+import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -950,6 +953,48 @@ export class HttpSensorFunction implements ISensorFunction {
             }))
         }))));
         return Rx.flatMapM<DeletedEdgeImpulse>(observable, (e) => e.preserve!.delete!.edges!);
+    }
+
+    public preserveConnectNodeSet(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeSetImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.connect( c => {
+                c.node(nodeId, n => {
+                    n.set(edgeType, target, properties, weight, s => {
+                        s.id()
+                        s.removedEdges(e => {
+                            e.source()
+                            e.edgeId()
+                        })
+                        s.newEdge(e => {
+                            e.source()
+                            e.target()
+                            e.edgeId()
+                            e.type()
+                            e.weight()
+                            e.properties()
+                        })
+                    })
+                })
+            })
+        }))));
+        return Rx.mapM<ConnectNodeSetImpulse>(observable, (e) => e.preserve!.connect!.node!.set!);
+    }
+
+    public preserveConnectNodeUnset(nodeId: Uuid, edgeType: EdgeType): Observable<ConnectNodeUnsetImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.connect( c => {
+                c.node(nodeId, n => {
+                    n.unset(edgeType, s => {
+                        s.id()
+                        s.removedEdges(e => {
+                            e.source()
+                            e.edgeId()
+                        })
+                    })
+                })
+            })
+        }))));
+        return Rx.mapM<ConnectNodeUnsetImpulse>(observable, (e) => e.preserve!.connect!.node!.unset!);
     }
 
     public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {

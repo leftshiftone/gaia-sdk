@@ -26,5 +26,9 @@ class Preservation: Type() {
     fun delete(config: DeleteKnowledge.() -> Unit) = 
         add { "delete{ " + DeleteKnowledge().apply(config).render(it) + "}"}
 
+
+    fun connect(config: ConnectKnowledge.() -> Unit) = 
+        add { "connect{ " + ConnectKnowledge().apply(config).render(it) + "}"}
+
 }
 
