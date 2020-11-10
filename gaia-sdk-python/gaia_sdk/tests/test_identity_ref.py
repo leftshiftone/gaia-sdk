@@ -26,8 +26,12 @@ class TestIdentityRef(unittest.TestCase):
 
     @unittest.skip("Unfinished test")
     def test_export_identity_no_id(self):
-        # TODO: Test exception if no ID is given on an export call
-        pass
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/identity/source")
+            return MockResponse(bytes("hello world", encoding="utf-8"))
+
+        self.gaiaRef = mock_gaia_ref(mock)
+        self.assertRaises(ValueError, lambda: pipe(ops.first())(self.gaiaRef.identity().export()).run())
 
     @unittest.skip("Debug test on local system")
     def test_export_data_real(self):
