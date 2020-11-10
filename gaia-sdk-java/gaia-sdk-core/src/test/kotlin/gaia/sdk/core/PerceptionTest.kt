@@ -46,6 +46,10 @@ class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>):
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
         return mockHandler(MockRequest(options, type as Class<Any>, payload,"")) as Publisher<T>
     }
+
+    override fun streamTransport(options: ClientOptions, payload: Any, apiPath: String): Flowable<ByteArray> {
+        TODO("Not yet implemented")
+    }
 }
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
