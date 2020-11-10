@@ -9,6 +9,8 @@ import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.FileOutputStream
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.math.ceil
 
 class DataRef(private val uri: String, private val client: GaiaStreamClient) {
@@ -78,10 +80,18 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.fromPublisher(this.removeFileAt(this.uri))
     }
 
-    fun asFile(): Publisher<File> {
-        log.info("Download file from " + this.uri)
-        return Flowable.fromPublisher(this.client.post(BinaryReadImpulse(this.uri), File::class.java, "/data/source"))
-                .doOnError { reason -> throw RuntimeException("Download of file with uri " + this.uri + " failed: " + reason.message) }
+    fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}-${Thread.currentThread().name}"): Publisher<File> {
+        val file = File(filePath)
+        log.info("Download file from $this.uri to ${file.path}")
+        val fos = FileOutputStream(file)
+        val bytesDownloaded = AtomicLong(0)
+
+        this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source").observeOn(Schedulers.io())
+                .doOnNext { chunk -> log.trace("Downloaded bytes: ${bytesDownloaded.addAndGet(chunk.size.toLong())}") }
+                .blockingSubscribe({ fos.write(it) }, { reason -> throw RuntimeException("Download of file with uri " + this.uri + " failed: " + reason.message)  }) {
+                    fos.close()
+                }
+        return Flowable.just(file)
     }
 
 }
@@ -102,7 +112,8 @@ class DataUpload(private val uri: String, private val content: File, private val
         return Flowable.fromPublisher(initUpload(client))
                 .doOnNext { log.debug("Data uploaded initiated. UploadId ${it.uploadId}") }
                 .map { response -> response.uploadId }
-                .flatMap { uploadId -> this.uploadChunks(uploadId, client)
+                .flatMap { uploadId ->
+                    this.uploadChunks(uploadId, client)
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->
@@ -118,14 +129,14 @@ class DataUpload(private val uri: String, private val content: File, private val
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
                 .observeOn(Schedulers.io())
-                .map { sendChunk(it, uploadId,client) }
+                .map { sendChunk(it, uploadId, client) }
     }
 
-    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient): ChunkResponse{
-        val chunk= BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
-        return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk","application/octet-stream",  chunk.requestParameters()))
-                            .map { ChunkResponse(chunk.ordinal, it) }
-                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }.blockingFirst()
+    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient): ChunkResponse {
+        val chunk = BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
+        return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk", "application/octet-stream", chunk.requestParameters()))
+                .map { ChunkResponse(chunk.ordinal, it) }
+                .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }.blockingFirst()
     }
 
     private fun completeUpload(uploadId: String, chunkIds: List<ChunkResponse>, client: GaiaStreamClient) = Flowable.fromPublisher(
