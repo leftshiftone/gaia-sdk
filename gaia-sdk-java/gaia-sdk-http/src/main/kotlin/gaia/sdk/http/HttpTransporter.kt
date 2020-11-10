@@ -76,6 +76,7 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
                                 }
                                 byteArray
                             }
+                            .doOnComplete { log.debug("Stream of byte array was completed") }
                 }
     }
 

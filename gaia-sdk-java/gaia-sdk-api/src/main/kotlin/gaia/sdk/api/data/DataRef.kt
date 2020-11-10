@@ -6,6 +6,8 @@ import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -80,18 +82,41 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.fromPublisher(this.removeFileAt(this.uri))
     }
 
-    fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}-${Thread.currentThread().name}"): Publisher<File> {
-        val file = File(filePath)
-        log.info("Download file from $this.uri to ${file.path}")
-        val fos = FileOutputStream(file)
-        val bytesDownloaded = AtomicLong(0)
+    fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
+        log.info("Download file from $this.uri to ${filePath}")
+        this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source")
+                .observeOn(Schedulers.io())
+                .blockingSubscribe(FileWriteSubscriber(filePath))
 
-        this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source").observeOn(Schedulers.io())
-                .doOnNext { chunk -> log.trace("Downloaded bytes: ${bytesDownloaded.addAndGet(chunk.size.toLong())}") }
-                .blockingSubscribe({ fos.write(it) }, { reason -> throw RuntimeException("Download of file with uri " + this.uri + " failed: " + reason.message)  }) {
-                    fos.close()
-                }
-        return Flowable.just(file)
+        return Flowable.just(File(filePath))
+    }
+
+}
+
+class FileWriteSubscriber(val fos: FileOutputStream, val filePath: String) : Subscriber<ByteArray>{
+
+    val bytesDownloaded = AtomicLong(0)
+
+    constructor(filePath: String): this(FileOutputStream(filePath), filePath)
+
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(FileWriteSubscriber::class.java)
+    }
+
+    override fun onSubscribe(s: Subscription) { s.request(Long.MAX_VALUE)}
+
+    override fun onNext(bytes: ByteArray) {
+        log.debug("Downloaded bytes: ${bytesDownloaded.addAndGet(bytes.size.toLong())} to write in file ${filePath}")
+        fos.write(bytes)
+    }
+
+    override fun onError(t: Throwable?) {
+       throw RuntimeException("An error occurred while writing file $this.filePath with cause : ${t?.message}", t)
+    }
+
+    override fun onComplete() {
+        log.info("Complete signal was sent. Closing FileOutputStream")
+        fos.close()
     }
 
 }
