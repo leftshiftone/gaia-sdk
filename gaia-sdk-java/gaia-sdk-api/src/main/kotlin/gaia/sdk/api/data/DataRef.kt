@@ -4,10 +4,15 @@ import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*
 import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.FileOutputStream
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.math.ceil
 
 class DataRef(private val uri: String, private val client: GaiaStreamClient) {
@@ -37,7 +42,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      */
     fun add(fileName: String, content: File, override: Boolean = false): Flowable<DataRef> {
         log.info("Add $fileName to ${this.uri}")
-        val upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override)
+        val upload = DataUpload.create(concatUri(this.uri, fileName), content, override)
         return Flowable.fromPublisher(upload.execute(this.client))
     }
 
@@ -65,7 +70,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @returns an Observable<boolean> that is true if the file existed
      */
     fun removeFile(fileName: String): Publisher<FileRemovedImpulse> {
-        return this.removeFileAt(DataRef.concatUri(this.uri, fileName))
+        return this.removeFileAt(concatUri(this.uri, fileName))
     }
 
     /**
@@ -77,10 +82,44 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.fromPublisher(this.removeFileAt(this.uri))
     }
 
-    fun asFile(): Publisher<File> {
-        log.info("Download file from " + this.uri)
-        return Flowable.fromPublisher(this.client.post(BinaryReadImpulse(this.uri), File::class.java, "/data/source"))
-                .doOnError { reason -> throw RuntimeException("Download of file with uri " + this.uri + " failed: " + reason.message) }
+    /**
+     * It downloads a file from the DataStorage. It streams all bytes to a FileOutpuStream and once all bytes have been transferred, the created file is returned
+     * @param filePath Path of the file where the downloaded data will be persisted
+     * @return Publisher of the written file.
+     */
+    fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
+        log.info("Download file from $this.uri to ${filePath}")
+        this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source")
+                .observeOn(Schedulers.io())
+                .blockingSubscribe(FileWriteSubscriber(filePath))
+
+        return Flowable.just(File(filePath))
+    }
+
+}
+
+class FileWriteSubscriber(val fos: FileOutputStream, val filePath: String) : Subscriber<ByteArray>{
+
+    val bytesDownloaded = AtomicLong(0)
+
+    constructor(filePath: String): this(FileOutputStream(filePath), filePath)
+
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(FileWriteSubscriber::class.java)
+    }
+
+    override fun onSubscribe(s: Subscription) { s.request(Long.MAX_VALUE)}
+
+    override fun onNext(bytes: ByteArray) {
+        log.trace("Downloaded bytes: ${bytesDownloaded.addAndGet(bytes.size.toLong())} to write in file ${filePath}")
+        fos.write(bytes)
+    }
+
+    override fun onError(t: Throwable?) {} //FIXME when connection is closed, but the complete file is transferred, no exception should be thrown
+
+    override fun onComplete() {
+        log.trace("Complete signal was sent. Closing FileOutputStream")
+        fos.close()
     }
 
 }
@@ -101,7 +140,8 @@ class DataUpload(private val uri: String, private val content: File, private val
         return Flowable.fromPublisher(initUpload(client))
                 .doOnNext { log.debug("Data uploaded initiated. UploadId ${it.uploadId}") }
                 .map { response -> response.uploadId }
-                .flatMap { uploadId -> this.uploadChunks(uploadId, client)
+                .flatMap { uploadId ->
+                    this.uploadChunks(uploadId, client)
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->
@@ -116,13 +156,15 @@ class DataUpload(private val uri: String, private val content: File, private val
     private fun uploadChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
-                .map { BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value) }
-                .flatMap { chunk ->
-                    Flowable.fromPublisher(
-                            client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk","application/octet-stream",  chunk.requestParameters()))
-                            .map { ChunkResponse(chunk.ordinal, it) }
-                            .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }
-                }
+                .observeOn(Schedulers.io())
+                .map { sendChunk(it, uploadId, client) }
+    }
+
+    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient): ChunkResponse {
+        val chunk = BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
+        return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk", "application/octet-stream", chunk.requestParameters()))
+                .map { ChunkResponse(chunk.ordinal, it) }
+                .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }.blockingFirst()
     }
 
     private fun completeUpload(uploadId: String, chunkIds: List<ChunkResponse>, client: GaiaStreamClient) = Flowable.fromPublisher(

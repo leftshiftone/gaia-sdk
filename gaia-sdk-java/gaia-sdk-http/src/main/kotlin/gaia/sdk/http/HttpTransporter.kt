@@ -2,7 +2,6 @@ package gaia.sdk.http
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import gaia.sdk.GaiaStreamClient
 import gaia.sdk.HMACCredentials
 import gaia.sdk.JWTCredentials
 import gaia.sdk.spi.ClientOptions
@@ -15,7 +14,6 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClient
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.net.URLEncoder
 import java.time.Instant
 import java.util.*
@@ -30,13 +28,56 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
     }
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
-        return this.transport(options,payload, type, "")
+        return this.transport(options, payload, type, "")
+    }
+
+    override fun streamTransport(options: ClientOptions, payload: Any, apiPath: String): Flowable<ByteArray> {
+        val bytes = convertToByteArray(payload)
+        return Flowable.fromPublisher(this.streamTransport(options, bytes, apiPath, buildAuthorizationHeader(options, convertToByteArray(payload))))
     }
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String): Publisher<T> {
         val bytes = convertToByteArray(payload)
-        return this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, convertToByteArray(payload)))
-                .byteArrayCast(jsonparser, type)
+        return this.transport(options, bytes, apiPath, buildAuthorizationHeader(options, convertToByteArray(payload))).byteArrayCast(jsonparser, type)
+    }
+
+    fun streamTransport(options: ClientOptions, payload: ByteArray, apiPath: String, authorization: String): Publisher<ByteArray> {
+
+        return httpClient
+                .headers {
+                    it.add("Content-Type", options.contentType)
+                    it.add("Authorization", authorization)
+                }
+
+                .followRedirect(true)
+                .post()
+                .uri("${baseUrl}${apiPath}")
+                .send(Mono.just(Unpooled.copiedBuffer(payload)))
+                .responseConnection { t, u ->
+                    u
+                            .inbound()
+                            .receive()
+                            .asByteArray()
+                            .switchIfEmpty(
+                                    Flux.just(t.status())
+                                            .flatMap {
+                                                if (it.code() >= 400) {
+                                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and no payload"
+                                                    Flux.error(HttpTransportException(msg))
+                                                } else {
+                                                    Flux.empty<ByteArray>()
+                                                }
+                                            }
+                            )
+                            .map { byteArray ->
+                                if (t.status().code() >= 400) {
+                                    val msg = "Error with status code ${t.status().code()} (${t.status().reasonPhrase()}) and payload: ${String(byteArray)}"
+                                    throw HttpTransportException(msg)
+                                }
+                                byteArray
+                            }
+                            .doOnComplete { log.debug("Stream of byte array was completed") }
+                }
     }
 
     fun transport(options: ClientOptions, payload: ByteArray, apiPath: String, authorization: String): Publisher<ByteArray> {
@@ -124,13 +165,5 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
 }
 
 fun <T> Publisher<ByteArray>.byteArrayCast(jsonParser: ObjectMapper, type: Class<T>): Flowable<T> = Flowable.fromPublisher(this)
-        .map { byteArray ->
-            when (type) {
-                File::class.java -> {
-                    val file = File.createTempFile("${System.currentTimeMillis()}-", "-gaia-sdk-download")
-                    file.writeBytes(byteArray)
-                    file
-                }
-                else -> jsonParser.readValue(byteArray, type)
-            }
-        }.cast(type)
+        .map { byteArray ->jsonParser.readValue(byteArray, type)}.cast(type)
+
