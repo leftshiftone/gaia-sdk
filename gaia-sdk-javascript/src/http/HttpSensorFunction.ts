@@ -127,7 +127,7 @@ import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse"
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
 import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
-import {EdgeType} from "../graphql/request/enumeration/EdgeType";
+import {EdgeType, getEdgeTypeEnumClass} from "../graphql/request/enumeration/EdgeType";
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
 import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
@@ -961,7 +961,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.set(edgeType, target, properties, weight, s => {
+                    n.set(getEdgeTypeEnumClass(edgeType), target, properties, weight, s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()
@@ -986,7 +986,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.unset(edgeType, s => {
+                    n.unset(getEdgeTypeEnumClass(edgeType), s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()
@@ -1003,7 +1003,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.append(edgeType, target, properties, weight, s => {
+                    n.append(getEdgeTypeEnumClass(edgeType), target, properties, weight, s => {
                         s.id()
                         s.newEdge(e => {
                             e.source()
@@ -1024,7 +1024,7 @@ export class HttpSensorFunction implements ISensorFunction {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.remove(edgeType, target, s => {
+                    n.remove(getEdgeTypeEnumClass(edgeType), target, s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()
