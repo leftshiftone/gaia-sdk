@@ -5,6 +5,7 @@ import {SkillRef} from '../api/SkillRef';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
 import {GaiaStreamClientFactory} from '../graphql/GaiaStreamClientBuilder';
 import {ISensorStream} from '../api/ISensorStream';
+import {IdentityRef} from "../api/IdentityRef";
 
 export class HttpSensorStream implements ISensorStream{
     private readonly client: GaiaStreamClient;
@@ -22,5 +23,9 @@ export class HttpSensorStream implements ISensorStream{
 
     skill(skillUri: string) {
         return new SkillRef(skillUri, this.client);
+    }
+
+    identity(uri: string): IdentityRef {
+        return new IdentityRef(uri, this.client);
     }
 }

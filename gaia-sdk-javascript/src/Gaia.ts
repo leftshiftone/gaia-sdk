@@ -137,6 +137,7 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
 
     public data = (uri: string) => this.sProc.data(uri);
     public skill = (uri: string) => this.sProc.skill(uri);
+    public identity = (uri: string) => this.sProc.identity(uri);
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
     public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
