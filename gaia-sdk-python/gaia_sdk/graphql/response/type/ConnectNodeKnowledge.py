@@ -3,6 +3,10 @@ from gaia_sdk.graphql.response.type.ConnectNodeRemovedImpulse import ConnectNode
 from gaia_sdk.graphql.response.type.ConnectNodeUnsetImpulse import ConnectNodeUnsetImpulse
 from gaia_sdk.graphql.response.type.ConnectNodeAppendedImpulse import ConnectNodeAppendedImpulse
 from gaia_sdk.graphql.response.type.ConnectNodeSetImpulse import ConnectNodeSetImpulse
+from gaia_sdk.graphql.request.input.ConnectSetNodeImpulse import ConnectSetNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectAppendNodeImpulse import ConnectAppendNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectUnsetNodeImpulse import ConnectUnsetNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectRemoveNodeImpulse import ConnectRemoveNodeImpulse
 
 from typing import List
 Uuid = str

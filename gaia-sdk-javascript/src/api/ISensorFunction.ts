@@ -124,6 +124,10 @@ import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpu
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
 import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
+import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -254,13 +258,13 @@ export interface ISensorFunction {
 
     preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse>
 
-    preserveConnectNodeSet(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeSetImpulse>
+    preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Observable<ConnectNodeSetImpulse>
 
-    preserveConnectNodeUnset(nodeId: Uuid, edgeType: EdgeType): Observable<ConnectNodeUnsetImpulse>
+    preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Observable<ConnectNodeUnsetImpulse>
 
-    preserveConnectNodeAppend(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeAppendedImpulse>
+    preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Observable<ConnectNodeAppendedImpulse>
 
-    preserveConnectNodeRemove(nodeId: Uuid, target: Uuid, edgeType: EdgeType): Observable<ConnectNodeRemovedImpulse>
+    preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Observable<ConnectNodeRemovedImpulse>
 
     preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse>
 

@@ -73,6 +73,10 @@ import {EdgeType} from "./graphql/request/enumeration/EdgeType";
 import {Observable} from "rxjs";
 import {ConnectNodeSetImpulse} from "./graphql/response/type/ConnectNodeSetImpulse";
 import {ConnectNodeUnsetImpulse} from "./graphql/response/type/ConnectNodeUnsetImpulse";
+import {ConnectSetNodeImpulse} from "./graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "./graphql/request/input/ConnectUnsetNodeImpulse";
+import {ConnectAppendNodeImpulse} from "./graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "./graphql/request/input/ConnectRemoveNodeImpulse";
 
 export class Gaia {
 
@@ -185,10 +189,10 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveCreateSkillProvisions = (...impulses: [CreateSkillProvisionImpulse]) => this.fProc.preserveCreateSkillProvisions(...impulses);
     public preserveDeleteSkillProvisions = (...impulses: [DeleteSkillProvisionImpulse]) => this.fProc.preserveDeleteSkillProvisions(...impulses);
     public preserveUpdateSkillProvisions = (...impulses: [UpdateSkillProvisionImpulse]) => this.fProc.preserveUpdateSkillProvisions(...impulses);
-    public preserveConnectNodeSet = (nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number) => this.fProc.preserveConnectNodeSet(nodeId, target, edgeType, properties, weight);
-    public preserveConnectNodeUnset = (nodeId: Uuid, edgeType: EdgeType) => this.fProc.preserveConnectNodeUnset(nodeId, edgeType);
-    public preserveConnectNodeAppend = (nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number) => this.fProc.preserveConnectNodeAppend(nodeId, target, edgeType, properties, weight);
-    public preserveConnectNodeRemove = (nodeId: Uuid, target: Uuid, edgeType: EdgeType) => this.fProc.preserveConnectNodeRemove(nodeId, target, edgeType);
+    public preserveConnectNodeSet = (nodeId: Uuid, impulse: ConnectSetNodeImpulse) => this.fProc.preserveConnectNodeSet(nodeId, impulse);
+    public preserveConnectNodeUnset = (nodeId: Uuid, impulse: ConnectUnsetNodeImpulse) => this.fProc.preserveConnectNodeUnset(nodeId, impulse);
+    public preserveConnectNodeAppend = (nodeId: Uuid, impulse: ConnectAppendNodeImpulse) => this.fProc.preserveConnectNodeAppend(nodeId, impulse);
+    public preserveConnectNodeRemove = (nodeId: Uuid, impulse: ConnectRemoveNodeImpulse) => this.fProc.preserveConnectNodeRemove(nodeId, impulse);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviours(identityId, config, limit, offset);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);

@@ -34,6 +34,10 @@ import {CreateUserImpulse} from '../graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from '../graphql/request/input/DeleteUserImpulse';
 import {Mock, MockRequest} from '../mock/mock';
 import {EdgeType} from "../graphql/request/enumeration/EdgeType";
+import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
+import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
 
 describe('perception tests:', () => {
 
@@ -493,10 +497,24 @@ describe('perception tests:', () => {
     });
 
     test('test preserve set node connection', () => {
-        const gaiaRef = mockPreserve({connect: {node: {set: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}], newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IdentityWelcomeBehaviour', properties: {test: 'asdf'}}}}}});
+        const gaiaRef = Mock.gaiaRef((request: MockRequest) => {
+            expect(request.payload).toEqual({
+                "statement": "mutation gaia($nodeId1:String!, $impulse1:ConnectSetNodeImpulse!) { preserve { connect { node(nodeId:$nodeId1){set(impulse:$impulse1){id removedEdges { source edgeId } newEdge { source target edgeId type weight properties }}} } } }",
+                "variables": {
+                    "impulse1": {
+                        "properties": {},
+                        "target": "target",
+                        "type": 5,
+                        "weight": 0.8
+                    },
+                    "nodeId1": "nodeId"
+                }
+            })
+            return JSON.stringify({data: {preserve: {connect: {node: {set: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}], newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IdentityWelcomeBehaviour', properties: {test: 'asdf'}}}}}}}});
+        })
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveConnectNodeSet('nodeId', 'target', EdgeType.IdentityWelcomeBehaviour, '{}', 0.80);
+            const observable = gaiaRef.preserveConnectNodeSet('nodeId', new ConnectSetNodeImpulse(EdgeType.IdentityWelcomeBehaviour, 'target', {}, 0.80));
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 expect(e.removedEdges.length).toEqual(1)
@@ -513,10 +531,21 @@ describe('perception tests:', () => {
     });
 
     test('test preserve unset node connection', () => {
-        const gaiaRef = mockPreserve({connect: {node: {unset: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}]}}}});
+        const gaiaRef = Mock.gaiaRef((request: MockRequest) => {
+            expect(request.payload).toEqual({
+                "statement": "mutation gaia($nodeId1:String!, $impulse1:ConnectUnsetNodeImpulse!) { preserve { connect { node(nodeId:$nodeId1){unset(impulse:$impulse1){id removedEdges { source edgeId }}} } } }",
+                "variables": {
+                    "impulse1": {
+                        "type": 5
+                    },
+                    "nodeId1": "nodeId"
+                }
+            })
+            return JSON.stringify({data: {preserve: {connect: {node: {unset: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}]}}}}}});
+        })
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveConnectNodeUnset('nodeId', EdgeType.IdentityWelcomeBehaviour);
+            const observable = gaiaRef.preserveConnectNodeUnset('nodeId', new ConnectUnsetNodeImpulse(EdgeType.IdentityWelcomeBehaviour));
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 expect(e.removedEdges.length).toEqual(1)
@@ -528,10 +557,24 @@ describe('perception tests:', () => {
     });
 
     test('test preserve append node connection', () => {
-        const gaiaRef = mockPreserve({connect: {node: {append: {id: 'asdf', newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IdentityWelcomeBehaviour', properties: {test: 'asdf'}}}}}});
+        const gaiaRef = Mock.gaiaRef((request: MockRequest) => {
+            expect(request.payload).toEqual({
+                "statement": "mutation gaia($nodeId1:String!, $impulse1:ConnectAppendNodeImpulse!) { preserve { connect { node(nodeId:$nodeId1){append(impulse:$impulse1){id newEdge { source target edgeId type weight properties }}} } } }",
+                "variables": {
+                    "impulse1": {
+                        "properties": {},
+                        "target": "target",
+                        "type": 5,
+                        "weight": 0.8
+                    },
+                    "nodeId1": "nodeId"
+                }
+            })
+            return JSON.stringify({data: {preserve: {connect: {node: {append: {id: 'asdf', newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IdentityWelcomeBehaviour', properties: {test: 'asdf'}}}}}}}});
+        })
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveConnectNodeAppend('nodeId', 'target', EdgeType.IdentityWelcomeBehaviour, '{}', 0.80);
+            const observable = gaiaRef.preserveConnectNodeAppend('nodeId', new ConnectAppendNodeImpulse(EdgeType.IdentityWelcomeBehaviour, 'target', {}, 0.80));
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 expect(e.newEdge.source).toEqual('b')
@@ -546,12 +589,21 @@ describe('perception tests:', () => {
 
     test('test preserve remove node connection', () => {
         const gaiaRef = Mock.gaiaRef((request: MockRequest) => {
-            expect(request.payload).toEqual({"statement": "mutation gaia($nodeId1:String!, $type1:EdgeType!, $target1:String!) { preserve { connect { node(nodeId:$nodeId1){remove(type:$type1, target:$target1){id removedEdges { source edgeId }}} } } }", "variables": {"nodeId1": "nodeId", "target1": "target", "type1": "IdentityWelcomeBehaviour"}})
+            expect(request.payload).toEqual({
+                "statement": "mutation gaia($nodeId1:String!, $impulse1:ConnectRemoveNodeImpulse!) { preserve { connect { node(nodeId:$nodeId1){remove(impulse:$impulse1){id removedEdges { source edgeId }}} } } }",
+                "variables": {
+                    "impulse1": {
+                        "target": "target",
+                        "type": 5
+                    },
+                    "nodeId1": "nodeId"
+                }
+            })
             return JSON.stringify({data: {preserve: {connect: {node: {remove: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}]}}}}}});
         })
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.preserveConnectNodeRemove('nodeId', 'target', EdgeType.IdentityWelcomeBehaviour);
+            const observable = gaiaRef.preserveConnectNodeRemove('nodeId', new ConnectRemoveNodeImpulse(EdgeType.IdentityWelcomeBehaviour, 'target'));
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 expect(e.removedEdges.length).toEqual(1)

@@ -11,31 +11,24 @@ import gaia.sdk.request.enumeration.*
 
 class ConnectNodeKnowledge: Type() {
 
-    fun append(type : EdgeType, target : Uuid, properties : Struct?, weight : Double?, config: ConnectNodeAppendedImpulse.() -> Unit) = add {
-        val name1 = it.register("type", type)
-        val name2 = it.register("target", target)
-        val name3 = it.register("properties", properties)
-        val name4 = it.register("weight", weight)
-        "append(type:$name1, target:$name2, properties:$name3, weight:$name4){" + ConnectNodeAppendedImpulse().apply(config).render(it) + "}"
+    fun append(impulse : ConnectAppendNodeImpulse?, config: ConnectNodeAppendedImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "append(impulse:$name1){" + ConnectNodeAppendedImpulse().apply(config).render(it) + "}"
     }
 
-    fun remove(type : EdgeType, target : Uuid, config: ConnectNodeRemovedImpulse.() -> Unit) = add {
-        val name1 = it.register("type", type)
-        val name2 = it.register("target", target)
-        "remove(type:$name1, target:$name2){" + ConnectNodeRemovedImpulse().apply(config).render(it) + "}"
+    fun remove(impulse : ConnectRemoveNodeImpulse?, config: ConnectNodeRemovedImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "remove(impulse:$name1){" + ConnectNodeRemovedImpulse().apply(config).render(it) + "}"
     }
 
-    fun set(type : EdgeType, target : Uuid, properties : Struct?, weight : Double?, config: ConnectNodeSetImpulse.() -> Unit) = add {
-        val name1 = it.register("type", type)
-        val name2 = it.register("target", target)
-        val name3 = it.register("properties", properties)
-        val name4 = it.register("weight", weight)
-        "set(type:$name1, target:$name2, properties:$name3, weight:$name4){" + ConnectNodeSetImpulse().apply(config).render(it) + "}"
+    fun set(impulse : ConnectSetNodeImpulse?, config: ConnectNodeSetImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "set(impulse:$name1){" + ConnectNodeSetImpulse().apply(config).render(it) + "}"
     }
 
-    fun unset(type : EdgeType, config: ConnectNodeUnsetImpulse.() -> Unit) = add {
-        val name1 = it.register("type", type)
-        "unset(type:$name1){" + ConnectNodeUnsetImpulse().apply(config).render(it) + "}"
+    fun unset(impulse : ConnectUnsetNodeImpulse?, config: ConnectNodeUnsetImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "unset(impulse:$name1){" + ConnectNodeUnsetImpulse().apply(config).render(it) + "}"
     }
 }
 

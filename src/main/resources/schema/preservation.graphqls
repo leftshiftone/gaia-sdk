@@ -14,11 +14,11 @@ type ConnectKnowledge {
 }
 
 type ConnectNodeKnowledge {
-    append(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float): ConnectNodeAppendedImpulse
-    remove(type: EdgeType!, target: Uuid!): ConnectNodeRemovedImpulse
+    append(impulse: ConnectAppendNodeImpulse): ConnectNodeAppendedImpulse
+    remove(impulse: ConnectRemoveNodeImpulse): ConnectNodeRemovedImpulse
 
-    set(type: EdgeType!, target: Uuid!, properties: Struct, weight: Float): ConnectNodeSetImpulse
-    unset(type: EdgeType!): ConnectNodeUnsetImpulse
+    set(impulse: ConnectSetNodeImpulse): ConnectNodeSetImpulse
+    unset(impulse: ConnectUnsetNodeImpulse): ConnectNodeUnsetImpulse
 }
 
 enum EdgeType {
@@ -632,6 +632,29 @@ type UpdatedSkillProvisionImpulse implements Impulse {
 type DeletedSkillProvisionImpulse implements Impulse {
     id: Uuid!
     data: TenantKeyOne
+}
+"The specification to set an edge for a node"
+input ConnectSetNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
+    properties: Struct
+    weight: Float
+}
+"The specification to unset edges of a certain type for a node"
+input ConnectUnsetNodeImpulse {
+    type: EdgeType!
+}
+"The specification to append an edge to a node"
+input ConnectAppendNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
+    properties: Struct
+    weight: Float
+}
+"The specification to remove an edge of a certain type with a certain target from a node"
+input ConnectRemoveNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
 }
 "Impulse which indicates the result setting a node connection"
 type ConnectNodeSetImpulse implements Impulse {

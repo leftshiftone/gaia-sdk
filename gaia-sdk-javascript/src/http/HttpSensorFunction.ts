@@ -131,6 +131,10 @@ import {EdgeType, getEdgeTypeEnumClass} from "../graphql/request/enumeration/Edg
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
 import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
+import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -957,11 +961,11 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.flatMapM<DeletedEdgeImpulse>(observable, (e) => e.preserve!.delete!.edges!);
     }
 
-    public preserveConnectNodeSet(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeSetImpulse> {
+    public preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Observable<ConnectNodeSetImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.set(getEdgeTypeEnumClass(edgeType), target, properties, weight, s => {
+                    n.set(impulse, s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()
@@ -982,11 +986,11 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<ConnectNodeSetImpulse>(observable, (e) => e.preserve!.connect!.node!.set!);
     }
 
-    public preserveConnectNodeUnset(nodeId: Uuid, edgeType: EdgeType): Observable<ConnectNodeUnsetImpulse> {
+    public preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Observable<ConnectNodeUnsetImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.unset(getEdgeTypeEnumClass(edgeType), s => {
+                    n.unset(impulse, s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()
@@ -999,11 +1003,11 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<ConnectNodeUnsetImpulse>(observable, (e) => e.preserve!.connect!.node!.unset!);
     }
 
-    public preserveConnectNodeAppend(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeAppendedImpulse> {
+    public preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Observable<ConnectNodeAppendedImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.append(getEdgeTypeEnumClass(edgeType), target, properties, weight, s => {
+                    n.append(impulse, s => {
                         s.id()
                         s.newEdge(e => {
                             e.source()
@@ -1020,11 +1024,11 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<ConnectNodeAppendedImpulse>(observable, (e) => e.preserve!.connect!.node!.append!);
     }
 
-    public preserveConnectNodeRemove(nodeId: Uuid, target: Uuid, edgeType: EdgeType): Observable<ConnectNodeRemovedImpulse> {
+    public preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Observable<ConnectNodeRemovedImpulse> {
         const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
-                    n.remove(getEdgeTypeEnumClass(edgeType), target, s => {
+                    n.remove(impulse, s => {
                         s.id()
                         s.removedEdges(e => {
                             e.source()

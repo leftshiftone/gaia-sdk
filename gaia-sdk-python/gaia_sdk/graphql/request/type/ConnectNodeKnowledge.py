@@ -3,6 +3,10 @@ from gaia_sdk.graphql.request.type.ConnectNodeRemovedImpulse import ConnectNodeR
 from gaia_sdk.graphql.request.type.ConnectNodeUnsetImpulse import ConnectNodeUnsetImpulse
 from gaia_sdk.graphql.request.type.ConnectNodeAppendedImpulse import ConnectNodeAppendedImpulse
 from gaia_sdk.graphql.request.type.ConnectNodeSetImpulse import ConnectNodeSetImpulse
+from gaia_sdk.graphql.request.input.ConnectSetNodeImpulse import ConnectSetNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectAppendNodeImpulse import ConnectAppendNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectUnsetNodeImpulse import ConnectUnsetNodeImpulse
+from gaia_sdk.graphql.request.input.ConnectRemoveNodeImpulse import ConnectRemoveNodeImpulse
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -13,43 +17,36 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 
 class ConnectNodeKnowledge(list):
 
-    def append(self, type: EdgeType, target: str, properties: dict, weight: float, config: Callable[['ConnectNodeAppendedImpulse'], None]):
+    def append(self, impulse: ConnectAppendNodeImpulse, config: Callable[['ConnectNodeAppendedImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("type", type)
-            name2 = registry.register("target", target)
-            name3 = registry.register("properties", properties)
-            name4 = registry.register("weight", weight)
+            name1 = registry.register("impulse", impulse)
             entity = ConnectNodeAppendedImpulse()
             config(entity)
-            return f'append(type:{name1}, target:{name2}, properties:{name3}, weight:{name4})' + '{' + entity.render(registry) + '}'
+            return f'append(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def remove(self, type: EdgeType, target: str, config: Callable[['ConnectNodeRemovedImpulse'], None]):
+    def remove(self, impulse: ConnectRemoveNodeImpulse, config: Callable[['ConnectNodeRemovedImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("type", type)
-            name2 = registry.register("target", target)
+            name1 = registry.register("impulse", impulse)
             entity = ConnectNodeRemovedImpulse()
             config(entity)
-            return f'remove(type:{name1}, target:{name2})' + '{' + entity.render(registry) + '}'
+            return f'remove(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def set(self, type: EdgeType, target: str, properties: dict, weight: float, config: Callable[['ConnectNodeSetImpulse'], None]):
+    def set(self, impulse: ConnectSetNodeImpulse, config: Callable[['ConnectNodeSetImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("type", type)
-            name2 = registry.register("target", target)
-            name3 = registry.register("properties", properties)
-            name4 = registry.register("weight", weight)
+            name1 = registry.register("impulse", impulse)
             entity = ConnectNodeSetImpulse()
             config(entity)
-            return f'set(type:{name1}, target:{name2}, properties:{name3}, weight:{name4})' + '{' + entity.render(registry) + '}'
+            return f'set(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def unset(self, type: EdgeType, config: Callable[['ConnectNodeUnsetImpulse'], None]):
+    def unset(self, impulse: ConnectUnsetNodeImpulse, config: Callable[['ConnectNodeUnsetImpulse'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("type", type)
+            name1 = registry.register("impulse", impulse)
             entity = ConnectNodeUnsetImpulse()
             config(entity)
-            return f'unset(type:{name1})' + '{' + entity.render(registry) + '}'
+            return f'unset(impulse:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):
