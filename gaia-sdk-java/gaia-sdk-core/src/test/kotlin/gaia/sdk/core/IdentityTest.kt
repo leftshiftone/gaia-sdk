@@ -6,6 +6,8 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
 import gaia.sdk.http.TransporterFactory
 import io.reactivex.Flowable
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.*
 import java.util.concurrent.TimeUnit
 
@@ -46,7 +48,6 @@ internal class IdentityTest {
     }
 
     @Test
-//    @Disabled("Unfinished test")
     fun `successful identity export`() {
         // Imagine there's an identity instead of the text file
         configureStub("Bearer", errorCode = 200, responseFile = "ok_download_file.txt", uri = "/api/identity/source")
@@ -60,19 +61,16 @@ internal class IdentityTest {
     }
 
     @Test
-//    @Disabled("Unfinished test")
     fun `failed identity export due to missing identity id`() {
         configureStub("Bearer", errorCode = 200, responseFile = "ok_download_file.txt", uri = "/api/data/source")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val identityRef = gaiaRef.identity()
-        val ts = Flowable.fromPublisher(identityRef.export()).test()
-
-        ts.awaitDone(10, TimeUnit.SECONDS)
-        ts.assertNoErrors()
-        ts.assertValueCount(0)
-
-//        ts.assertError { t -> t.message!!.contains("Exporting identity with id") }
-//        ts.assertNotComplete()
+        try {
+            Flowable.fromPublisher(identityRef.export()).test()
+            fail<String>("No exception thrown")
+        } catch (e: NullPointerException) {
+            assertThat(e.message).isEqualTo("identity is null, is required for export")
+        }
     }
 
     @Test

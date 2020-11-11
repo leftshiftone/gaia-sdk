@@ -4,6 +4,7 @@ import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.DataRef
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
 import io.reactivex.Flowable
+import io.reactivex.internal.functions.ObjectHelper
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
 import org.reactivestreams.Subscriber
@@ -19,6 +20,9 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
     private val log: Logger = LoggerFactory.getLogger(DataRef::class.java)
 
     fun export(): Publisher<File> {
+
+        ObjectHelper.requireNonNull(this.id, "identity is null, is required for export")
+
         return Flowable.fromPublisher(doExport())
                 .doOnError { reason ->
                     throw RuntimeException("Exporting identity with id ${this.id} failed: ${reason.message}") }
@@ -27,16 +31,10 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
 
     private fun doExport(): Publisher<File> {
 
-        if (this.id == null) {
-            return Flowable.empty()
-//            throw IllegalArgumentException("Identity ID of IdentityRef must be set in order to export an identity")
-//            return Flowable.error<IllegalArgumentException>(IllegalArgumentException("Identity ID of IdentityRef must be set in order to export an identity"))
-        }
-
         val identityName = this.id + "_" + System.currentTimeMillis()
 
         log.info("Export identity with ID $this.id")
-        this.client.streamBytes(IdentitySourceRequestImpulse(this.id), "/identity/source")
+        this.client.streamBytes(IdentitySourceRequestImpulse(this.id!!), "/identity/source")
                 .observeOn(Schedulers.io())
                 .blockingSubscribe(IdentityWriteSubscriber(identityName))
 
@@ -46,7 +44,7 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
 
 class IdentityWriteSubscriber(private val fos: FileOutputStream, private val filePath: String) : Subscriber<ByteArray> {
 
-    val bytesDownloaded = AtomicLong(0)
+    private val bytesDownloaded = AtomicLong(0)
 
     constructor(filePath: String): this(FileOutputStream(filePath), filePath)
 
