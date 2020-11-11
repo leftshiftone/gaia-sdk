@@ -23,23 +23,38 @@ export function getOrderByFieldEnumClass(enumValue: OrderByField): any {
 }
 
 export class id {
-    public _typeName = "id";
+    public _typeName = "OrderByField";
+    public _isWrapper = true;
+    public _wrappedValue = "id";
+
     constructor() {}
 }
 export class qualifier {
-    public _typeName = "qualifier";
+    public _typeName = "OrderByField";
+    public _isWrapper = true;
+    public _wrappedValue = "qualifier";
+
     constructor() {}
 }
 export class appendent {
-    public _typeName = "appendent";
+    public _typeName = "OrderByField";
+    public _isWrapper = true;
+    public _wrappedValue = "appendent";
+
     constructor() {}
 }
 export class createdAt {
-    public _typeName = "createdAt";
+    public _typeName = "OrderByField";
+    public _isWrapper = true;
+    public _wrappedValue = "createdAt";
+
     constructor() {}
 }
 export class updatedAt {
-    public _typeName = "updatedAt";
+    public _typeName = "OrderByField";
+    public _isWrapper = true;
+    public _wrappedValue = "updatedAt";
+
     constructor() {}
 }
 

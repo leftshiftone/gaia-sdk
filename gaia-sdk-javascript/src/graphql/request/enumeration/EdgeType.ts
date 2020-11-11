@@ -26,27 +26,45 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
 }
 
 export class Supervisor {
-    public _typeName = "Supervisor";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "Supervisor";
+
     constructor() {}
 }
 export class IdentityNerSkill {
-    public _typeName = "IdentityNerSkill";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityNerSkill";
+
     constructor() {}
 }
 export class IdentityErrorStatement {
-    public _typeName = "IdentityErrorStatement";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityErrorStatement";
+
     constructor() {}
 }
 export class IdentityUnknownBehaviour {
-    public _typeName = "IdentityUnknownBehaviour";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityUnknownBehaviour";
+
     constructor() {}
 }
 export class IdentityDiscontinuableStatement {
-    public _typeName = "IdentityDiscontinuableStatement";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityDiscontinuableStatement";
+
     constructor() {}
 }
 export class IdentityWelcomeBehaviour {
-    public _typeName = "IdentityWelcomeBehaviour";
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityWelcomeBehaviour";
+
     constructor() {}
 }
 

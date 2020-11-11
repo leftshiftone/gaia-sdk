@@ -11,7 +11,10 @@ export function getRuntimeStateEnumClass(enumValue: RuntimeState): any {
 }
 
 export class RUNNING {
-    public _typeName = "RUNNING";
+    public _typeName = "RuntimeState";
+    public _isWrapper = true;
+    public _wrappedValue = "RUNNING";
+
     constructor() {}
 }
 

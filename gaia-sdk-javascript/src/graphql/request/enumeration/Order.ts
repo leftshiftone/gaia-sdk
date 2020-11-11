@@ -14,11 +14,17 @@ export function getOrderEnumClass(enumValue: Order): any {
 }
 
 export class ASC {
-    public _typeName = "ASC";
+    public _typeName = "Order";
+    public _isWrapper = true;
+    public _wrappedValue = "ASC";
+
     constructor() {}
 }
 export class DESC {
-    public _typeName = "DESC";
+    public _typeName = "Order";
+    public _isWrapper = true;
+    public _wrappedValue = "DESC";
+
     constructor() {}
 }
 

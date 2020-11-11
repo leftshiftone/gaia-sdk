@@ -16,7 +16,10 @@ export function get${ast.name}EnumClass(enumValue: ${ast.name}): any {
 
 #foreach($value in $ast.values)
 export class $value {
-    public _typeName = "$value";
+    public _typeName = "${ast.name}";
+    public _isWrapper = true;
+    public _wrappedValue = "${value}";
+
     constructor() {}
 }
 #end

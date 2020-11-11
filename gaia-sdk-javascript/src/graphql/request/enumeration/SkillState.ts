@@ -11,7 +11,10 @@ export function getSkillStateEnumClass(enumValue: SkillState): any {
 }
 
 export class RUNNING {
-    public _typeName = "RUNNING";
+    public _typeName = "SkillState";
+    public _isWrapper = true;
+    public _wrappedValue = "RUNNING";
+
     constructor() {}
 }
 
