@@ -19,26 +19,23 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
 
     private val log: Logger = LoggerFactory.getLogger(DataRef::class.java)
 
-    fun export(): Publisher<File> {
-
+    fun export(filePath: String = "SDK-IdentityRef.export_${System.currentTimeMillis()}_${this.id}.zip"): Publisher<File> {
         ObjectHelper.requireNonNull(this.id, "identity is null, is required for export")
 
-        return Flowable.fromPublisher(doExport())
+        return Flowable.fromPublisher(doExport(filePath))
                 .doOnError { reason ->
-                    throw RuntimeException("Exporting identity with id ${this.id} failed: ${reason.message}") }
+                    throw RuntimeException("Exporting identity with id ${this.id} failed: ${reason.message}")
+                }
                 .onErrorResumeNext(Flowable.empty())
     }
 
-    private fun doExport(): Publisher<File> {
-
-        val identityName = this.id + "_" + System.currentTimeMillis()
-
+    private fun doExport(filePath: String): Publisher<File> {
         log.info("Export identity with ID $this.id")
         this.client.streamBytes(IdentitySourceRequestImpulse(this.id!!), "/identity/source")
                 .observeOn(Schedulers.io())
-                .blockingSubscribe(IdentityWriteSubscriber(identityName))
+                .blockingSubscribe(IdentityWriteSubscriber(filePath))
 
-        return Flowable.just(File(identityName))
+        return Flowable.just(File(filePath))
     }
 }
 
@@ -46,13 +43,15 @@ class IdentityWriteSubscriber(private val fos: FileOutputStream, private val fil
 
     private val bytesDownloaded = AtomicLong(0)
 
-    constructor(filePath: String): this(FileOutputStream(filePath), filePath)
+    constructor(filePath: String) : this(FileOutputStream(filePath), filePath)
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(IdentityWriteSubscriber::class.java)
     }
 
-    override fun onSubscribe(s: Subscription) { s.request(Long.MAX_VALUE)}
+    override fun onSubscribe(s: Subscription) {
+        s.request(Long.MAX_VALUE)
+    }
 
     override fun onNext(bytes: ByteArray) {
         log.trace("Downloaded bytes: ${bytesDownloaded.addAndGet(bytes.size.toLong())} to write in file $filePath")

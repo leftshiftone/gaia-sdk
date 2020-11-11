@@ -18,7 +18,7 @@ internal class IdentityTest {
 
     @BeforeEach
     fun setup() {
-        Gaia.transporterFactory= TransporterFactory()
+        Gaia.transporterFactory = TransporterFactory()
         wireMockServer.start()
     }
 
@@ -75,7 +75,7 @@ internal class IdentityTest {
 
     @Test
     @Disabled("Local execution only")
-    fun `real identity`() {
+    fun `successful identity export (local e2e)`() {
         val gaiaCredentials = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
         val gaiaRef = Gaia.connect("http://localhost:8080", gaiaCredentials)
         val identityRef = gaiaRef.identity("d32829c8-5900-4346-9577-25e8146d1e78")
@@ -83,7 +83,8 @@ internal class IdentityTest {
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
-        val values = ts.values()
-        println(values)
+        ts.assertValueAt(0) {
+            it.length() == 21582.toLong()
+        }
     }
 }
