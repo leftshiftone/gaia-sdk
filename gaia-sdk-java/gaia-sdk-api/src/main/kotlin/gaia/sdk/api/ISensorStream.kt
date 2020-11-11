@@ -9,7 +9,7 @@ import gaia.sdk.api.skill.SkillRef
 interface ISensorStream {
     fun skill(uri: String): SkillRef
     fun data(uri: String): DataRef
-    fun identity(id: String?): IdentityRef
+    fun identity(id: String? = null): IdentityRef
 }
 
 data class SkillProvisionStatus @JsonCreator constructor(
