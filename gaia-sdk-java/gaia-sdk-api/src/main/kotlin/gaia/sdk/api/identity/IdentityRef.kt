@@ -19,8 +19,18 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
     private val log: Logger = LoggerFactory.getLogger(DataRef::class.java)
 
     fun export(): Publisher<File> {
+        return Flowable.fromPublisher(doExport())
+                .doOnError { reason ->
+                    throw RuntimeException("Exporting identity with id ${this.id} failed: ${reason.message}") }
+                .onErrorResumeNext(Flowable.empty())
+    }
+
+    private fun doExport(): Publisher<File> {
+
         if (this.id == null) {
-            throw IllegalArgumentException("Identity ID of IdentityRef must be set in order to export an identity")
+            return Flowable.empty()
+//            throw IllegalArgumentException("Identity ID of IdentityRef must be set in order to export an identity")
+//            return Flowable.error<IllegalArgumentException>(IllegalArgumentException("Identity ID of IdentityRef must be set in order to export an identity"))
         }
 
         val identityName = this.id + "_" + System.currentTimeMillis()
@@ -30,8 +40,7 @@ class IdentityRef(private val id: String?, private val client: GaiaStreamClient)
                 .observeOn(Schedulers.io())
                 .blockingSubscribe(IdentityWriteSubscriber(identityName))
 
-        return Flowable.just(File(identityName))//.doOnError { reason ->
-//            throw RuntimeException("Exporting identity with id ${this.id} failed: ${reason.message}") }
+        return Flowable.just(File(identityName))
     }
 }
 
