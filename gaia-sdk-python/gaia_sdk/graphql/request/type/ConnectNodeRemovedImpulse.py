@@ -1,6 +1,5 @@
 
 from gaia_sdk.graphql.request.type.EdgeKeyOne import EdgeKeyOne
-from gaia_sdk.graphql.request.type.Edge import Edge
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -18,23 +17,13 @@ class ConnectNodeRemovedImpulse(list):
         self.append(lambda x: "id")
 
     """
-    all edges that are set after this request
+    edges removed by this request
     """
-    def all_edges(self, config: Callable[['Edge'], None]):
-        def callback(registry: VariableRegistry):
-            entity = Edge()
-            config(entity)
-            return "all_edges {" + entity.render(registry) + "}"
-        self.append(callback)
-
-    """
-    edge removed by this request
-    """
-    def removed_edge(self, config: Callable[['EdgeKeyOne'], None]):
+    def removed_edges(self, config: Callable[['EdgeKeyOne'], None]):
         def callback(registry: VariableRegistry):
             entity = EdgeKeyOne()
             config(entity)
-            return "removed_edge {" + entity.render(registry) + "}"
+            return "removed_edges {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

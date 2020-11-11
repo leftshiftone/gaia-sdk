@@ -187,6 +187,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveUpdateSkillProvisions = (...impulses: [UpdateSkillProvisionImpulse]) => this.fProc.preserveUpdateSkillProvisions(...impulses);
     public preserveConnectNodeSet = (nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number) => this.fProc.preserveConnectNodeSet(nodeId, target, edgeType, properties, weight);
     public preserveConnectNodeUnset = (nodeId: Uuid, edgeType: EdgeType) => this.fProc.preserveConnectNodeUnset(nodeId, edgeType);
+    public preserveConnectNodeAppend = (nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number) => this.fProc.preserveConnectNodeAppend(nodeId, target, edgeType, properties, weight);
+    public preserveConnectNodeRemove = (nodeId: Uuid, target: Uuid, edgeType: EdgeType) => this.fProc.preserveConnectNodeRemove(nodeId, target, edgeType);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviours(identityId, config, limit, offset);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);

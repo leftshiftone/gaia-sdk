@@ -19,17 +19,10 @@ class ConnectNodeRemovedImpulse: Type() {
     }
 
     /**
-     * all edges that are set after this request
+     * edges removed by this request
      */
-    fun allEdges(config: Edge.() -> Unit) = 
-        add { "allEdges{ " + Edge().apply(config).render(it) + "}"}
-
-
-    /**
-     * edge removed by this request
-     */
-    fun removedEdge(config: EdgeKeyOne.() -> Unit) = 
-        add { "removedEdge{ " + EdgeKeyOne().apply(config).render(it) + "}"}
+    fun removedEdges(config: EdgeKeyOne.() -> Unit) = 
+        add { "removedEdges{ " + EdgeKeyOne().apply(config).render(it) + "}"}
 
 }
 

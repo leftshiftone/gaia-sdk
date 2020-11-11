@@ -17,16 +17,6 @@ class ConnectNodeAppendedImpulse(list):
         self.append(lambda x: "id")
 
     """
-    all edges that are set after this request
-    """
-    def all_edges(self, config: Callable[['Edge'], None]):
-        def callback(registry: VariableRegistry):
-            entity = Edge()
-            config(entity)
-            return "all_edges {" + entity.render(registry) + "}"
-        self.append(callback)
-
-    """
     edge created by this request
     """
     def new_edge(self, config: Callable[['Edge'], None]):

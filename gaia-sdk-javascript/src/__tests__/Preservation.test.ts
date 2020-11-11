@@ -526,6 +526,38 @@ describe('perception tests:', () => {
             },                   reject);
         });
     });
+
+    test('test preserve append node connection', () => {
+        const gaiaRef = mockPreserve({connect: {node: {append: {id: 'asdf', newEdge: {source: 'b', target: 'c', edgeId: 'd', type: 'IDENTITY_WELCOME_BEHAVIOUR', properties: {test: 'asdf'}}}}}});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveConnectNodeAppend('nodeId', 'target', EdgeType.IDENTITY_WELCOME_BEHAVIOUR, '{}', 0.80);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                expect(e.newEdge.source).toEqual('b')
+                expect(e.newEdge.target).toEqual('c')
+                expect(e.newEdge.edgeId).toEqual('d')
+                expect(e.newEdge.type).toEqual('IDENTITY_WELCOME_BEHAVIOUR')
+                expect(e.newEdge.properties.test).toEqual('asdf')
+                resolve(e);
+            },                   reject);
+        });
+    });
+
+    test('test preserve remove node connection', () => {
+        const gaiaRef = mockPreserve({connect: {node: {remove: {id: 'asdf', removedEdges:[{source: 'a', edgeId: 'b'}]}}}});
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveConnectNodeRemove('nodeId', 'target', EdgeType.IDENTITY_WELCOME_BEHAVIOUR);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                expect(e.removedEdges.length).toEqual(1)
+                expect(e.removedEdges[0].source).toEqual('a')
+                expect(e.removedEdges[0].edgeId).toEqual('b')
+                resolve(e);
+            },                   reject);
+        });
+    });
 });
 
 function mockPreserve(query: object) {

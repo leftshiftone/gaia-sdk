@@ -19,13 +19,6 @@ class ConnectNodeAppendedImpulse: Type() {
     }
 
     /**
-     * all edges that are set after this request
-     */
-    fun allEdges(config: Edge.() -> Unit) = 
-        add { "allEdges{ " + Edge().apply(config).render(it) + "}"}
-
-
-    /**
      * edge created by this request
      */
     fun newEdge(config: Edge.() -> Unit) = 

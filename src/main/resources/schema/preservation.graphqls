@@ -22,13 +22,12 @@ type ConnectNodeKnowledge {
 }
 
 enum EdgeType {
-    SUPERVISOR
-
-    IDENTITY_NER_SKILL
-    IDENTITY_ERROR_STATEMENT
-    IDENTITY_UNKNOWN_BEHAVIOUR
-    IDENTITY_DISCONTINUABLE_STATEMENT
-    IDENTITY_WELCOME_BEHAVIOUR
+    Supervisor
+    IdentityNerSkill
+    IdentityErrorStatement
+    IdentityUnknownBehaviour
+    IdentityDiscontinuableStatement
+    IdentityWelcomeBehaviour
 }
 
 type CreateKnowledge {
@@ -651,16 +650,12 @@ type ConnectNodeUnsetImpulse implements Impulse {
 "Impulse which indicates the result appending a node connection"
 type ConnectNodeAppendedImpulse implements Impulse {
     id: Uuid!
-    "all edges that are set after this request"
-    allEdges: [Edge]
     "edge created by this request"
     newEdge: Edge
 }
 "Impulse which indicates the result removing a node connection"
 type ConnectNodeRemovedImpulse implements Impulse {
     id: Uuid!
-    "all edges that are set after this request"
-    allEdges: [Edge]
-    "edge removed by this request"
-    removedEdge: EdgeKeyOne
+    "edges removed by this request"
+    removedEdges: [EdgeKeyOne]
 }

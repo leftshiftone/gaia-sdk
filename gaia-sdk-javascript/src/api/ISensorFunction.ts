@@ -122,6 +122,8 @@ import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpuls
 import {EdgeType} from "../graphql/request/enumeration/EdgeType";
 import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
+import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
+import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -255,6 +257,10 @@ export interface ISensorFunction {
     preserveConnectNodeSet(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeSetImpulse>
 
     preserveConnectNodeUnset(nodeId: Uuid, edgeType: EdgeType): Observable<ConnectNodeUnsetImpulse>
+
+    preserveConnectNodeAppend(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeAppendedImpulse>
+
+    preserveConnectNodeRemove(nodeId: Uuid, target: Uuid, edgeType: EdgeType): Observable<ConnectNodeRemovedImpulse>
 
     preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse>
 

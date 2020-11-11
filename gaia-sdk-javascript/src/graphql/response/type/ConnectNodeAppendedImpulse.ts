@@ -14,10 +14,6 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface ConnectNodeAppendedImpulse {
     id?:Uuid, 
     /**
-    * all edges that are set after this request
-    */
-    allEdges?:[Edge], 
-    /**
     * edge created by this request
     */
     newEdge?:Edge

@@ -14,10 +14,6 @@ import gaia.sdk.request.enumeration.*
 data class ConnectNodeAppendedImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid? = null, 
     /**
-    * all edges that are set after this request
-    */
-    @JsonProperty("allEdges") val allEdges:List<Edge>? = null, 
-    /**
     * edge created by this request
     */
     @JsonProperty("newEdge") val newEdge:Edge? = null

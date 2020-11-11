@@ -129,6 +129,8 @@ import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
 import {EdgeType} from "../graphql/request/enumeration/EdgeType";
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
+import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
+import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
 
 export class HttpSensorFunction implements ISensorFunction {
 
@@ -995,6 +997,44 @@ export class HttpSensorFunction implements ISensorFunction {
             })
         }))));
         return Rx.mapM<ConnectNodeUnsetImpulse>(observable, (e) => e.preserve!.connect!.node!.unset!);
+    }
+
+    public preserveConnectNodeAppend(nodeId: Uuid, target: Uuid, edgeType: EdgeType, properties: Struct, weight: Number): Observable<ConnectNodeAppendedImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.connect( c => {
+                c.node(nodeId, n => {
+                    n.append(edgeType, target, properties, weight, s => {
+                        s.id()
+                        s.newEdge(e => {
+                            e.source()
+                            e.target()
+                            e.edgeId()
+                            e.type()
+                            e.weight()
+                            e.properties()
+                        })
+                    })
+                })
+            })
+        }))));
+        return Rx.mapM<ConnectNodeAppendedImpulse>(observable, (e) => e.preserve!.connect!.node!.append!);
+    }
+
+    public preserveConnectNodeRemove(nodeId: Uuid, target: Uuid, edgeType: EdgeType): Observable<ConnectNodeRemovedImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.connect( c => {
+                c.node(nodeId, n => {
+                    n.remove(edgeType, target, s => {
+                        s.id()
+                        s.removedEdges(e => {
+                            e.source()
+                            e.edgeId()
+                        })
+                    })
+                })
+            })
+        }))));
+        return Rx.mapM<ConnectNodeRemovedImpulse>(observable, (e) => e.preserve!.connect!.node!.remove!);
     }
 
     public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {

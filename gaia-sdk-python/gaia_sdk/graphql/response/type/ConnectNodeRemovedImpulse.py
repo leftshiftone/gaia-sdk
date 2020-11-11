@@ -1,6 +1,5 @@
 
 from gaia_sdk.graphql.response.type.EdgeKeyOne import EdgeKeyOne
-from gaia_sdk.graphql.response.type.Edge import Edge
 
 from typing import List
 Uuid = str
@@ -37,14 +36,8 @@ class ConnectNodeRemovedImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     """
-    all edges that are set after this request
+    edges removed by this request
     """
     @property
-    def all_edges(self) -> List[Edge]:
-        return list(map(lambda x: Edge(x), self.dictionary.get("allEdges")))
-    """
-    edge removed by this request
-    """
-    @property
-    def removed_edge(self) -> EdgeKeyOne:
-        return EdgeKeyOne(self.dictionary.get("removedEdge"))
+    def removed_edges(self) -> List[EdgeKeyOne]:
+        return list(map(lambda x: EdgeKeyOne(x), self.dictionary.get("removedEdges")))

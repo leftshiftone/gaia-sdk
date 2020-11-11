@@ -20,15 +20,6 @@ public _typeName = "ConnectNodeAppendedImpulse";
     };
 
     /**
-     * all edges that are set after this request
-     */
-    public allEdges = (config: (_:Edge) => void) => this.push((registry) => {
-        const entity = new Edge();
-        config(entity);
-        return "allEdges { " + entity.render(registry) + " }";
-    });
-
-    /**
      * edge created by this request
      */
     public newEdge = (config: (_:Edge) => void) => this.push((registry) => {

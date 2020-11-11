@@ -14,11 +14,7 @@ import gaia.sdk.request.enumeration.*
 data class ConnectNodeRemovedImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid? = null, 
     /**
-    * all edges that are set after this request
+    * edges removed by this request
     */
-    @JsonProperty("allEdges") val allEdges:List<Edge>? = null, 
-    /**
-    * edge removed by this request
-    */
-    @JsonProperty("removedEdge") val removedEdge:EdgeKeyOne? = null
+    @JsonProperty("removedEdges") val removedEdges:List<EdgeKeyOne>? = null
 )

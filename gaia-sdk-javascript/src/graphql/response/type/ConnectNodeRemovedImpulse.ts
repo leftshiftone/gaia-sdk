@@ -1,6 +1,5 @@
 
 import {EdgeKeyOne} from "./EdgeKeyOne";
-import {Edge} from "./Edge";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -15,11 +14,7 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface ConnectNodeRemovedImpulse {
     id?:Uuid, 
     /**
-    * all edges that are set after this request
+    * edges removed by this request
     */
-    allEdges?:[Edge], 
-    /**
-    * edge removed by this request
-    */
-    removedEdge?:EdgeKeyOne
+    removedEdges?:[EdgeKeyOne]
 }

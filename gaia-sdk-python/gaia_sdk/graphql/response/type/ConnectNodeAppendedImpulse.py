@@ -36,12 +36,6 @@ class ConnectNodeAppendedImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     """
-    all edges that are set after this request
-    """
-    @property
-    def all_edges(self) -> List[Edge]:
-        return list(map(lambda x: Edge(x), self.dictionary.get("allEdges")))
-    """
     edge created by this request
     """
     @property
