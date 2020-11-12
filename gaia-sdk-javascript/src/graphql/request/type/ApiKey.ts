@@ -29,6 +29,13 @@ public _typeName = "ApiKey";
     };
 
     /**
+     * The description of the api key
+     */
+    public description = () => { 
+        this.push(_ => "description")
+    };
+
+    /**
      * The secret of the api key
      */
     public secret = () => { 

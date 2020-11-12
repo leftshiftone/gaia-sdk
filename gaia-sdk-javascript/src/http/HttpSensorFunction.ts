@@ -2,6 +2,7 @@ import {GaiaClient, GaiaClientBuilder, GaiaRequest} from "..";
 import {Rx} from "../api/rx"
 import {
     ApiKeyReq, ApiKeyRes,
+    RoleReq, RoleRes,
     BehaviourReq,
     BehaviourRes,
     CodeReq,
@@ -125,6 +126,12 @@ import {UpdateApiKeyImpulse} from "../graphql/request/input/UpdateApiKeyImpulse"
 import {UpdatedApiKeyImpulse} from "../graphql/response/type/UpdatedApiKeyImpulse";
 import {DeleteApiKeyImpulse} from "../graphql/request/input/DeleteApiKeyImpulse";
 import {DeletedApiKeyImpulse} from "../graphql/response/type/DeletedApiKeyImpulse";
+import {CreateRoleImpulse} from "../graphql/request/input/CreateRoleImpulse";
+import {CreatedRoleImpulse} from "../graphql/response/type/CreatedRoleImpulse";
+import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
+import {UpdatedRoleImpulse} from "../graphql/response/type/UpdatedRoleImpulse";
+import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
+import {DeletedRoleImpulse} from "../graphql/response/type/DeletedRoleImpulse";
 import {GaiaClientFactory} from '../graphql/GaiaClientFactory';
 import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
 import {EdgeType, getEdgeTypeEnumClass} from "../graphql/request/enumeration/EdgeType";
@@ -232,6 +239,20 @@ export class HttpSensorFunction implements ISensorFunction {
             g.knowledge(g => g.apiKey(apiKeyId, config));
         }))));
         return Rx.mapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKey!);
+    }
+
+    public retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.roles(limit, offset, undefined, undefined, config));
+        }))));
+        return Rx.flatMapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.roles!);
+    }
+
+    public retrieveRole(roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.role(roleId, config));
+        }))));
+        return Rx.mapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.role!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes> {
@@ -448,11 +469,9 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.userId()
                     d.username()
-                    d.groups()
-                    d.permissions()
-                    d.roles()
-                    d.using2FA()
-                    d.tenants()
+                    d.email()
+                    d.firstName()
+                    d.lastName()
                 })
             }));
         }))));
@@ -466,11 +485,9 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.userId()
                     d.username()
-                    d.groups()
-                    d.permissions()
-                    d.roles()
-                    d.using2FA()
-                    d.tenants()
+                    d.email()
+                    d.firstName()
+                    d.lastName()
                 })
             }))
         }))));
@@ -496,6 +513,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.apiKeyId()
                     d.name()
+                    d.description()
                     d.secret()
                     d.enabled()
                 })
@@ -511,6 +529,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.data(d => {
                     d.apiKeyId()
                     d.name()
+                    d.description()
                     d.secret()
                     d.enabled()
                 })
@@ -529,6 +548,46 @@ export class HttpSensorFunction implements ISensorFunction {
             }))
         }))));
         return Rx.flatMapM<DeletedApiKeyImpulse>(observable, (e) => e.preserve!.delete!.apiKeys!);
+    }
+
+    public preserveCreateRoles(...impulses: [CreateRoleImpulse]): Observable<CreatedRoleImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.create(_ => _.roles(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.roleId()
+                    d.name()
+                    d.permissions()
+                })
+            }));
+        }))));
+        return Rx.flatMapM<CreatedRoleImpulse>(observable, (e) => e.preserve!.create!.roles!);
+    }
+
+    public preserveUpdateRoles(...impulses: [UpdateRoleImpulse]): Observable<UpdatedRoleImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.update(_ => _.roles(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.roleId()
+                    d.name()
+                    d.permissions()
+                })
+            }))
+        }))));
+        return Rx.flatMapM<UpdatedRoleImpulse>(observable, (e) => e.preserve!.update!.roles!);
+    }
+
+    public preserveDeleteRoles(...impulses: [DeleteRoleImpulse]): Observable<DeletedRoleImpulse> {
+        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+            p.delete(_ => _.roles(impulses, i => {
+                i.id()
+                i.data(d => {
+                    d.roleId()
+                })
+            }))
+        }))));
+        return Rx.flatMapM<DeletedRoleImpulse>(observable, (e) => e.preserve!.delete!.roles!);
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {

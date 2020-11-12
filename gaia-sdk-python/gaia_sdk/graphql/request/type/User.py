@@ -25,6 +25,24 @@ class User(list):
         self.append(lambda x: "username")
 
     """
+    The email of the user
+    """
+    def email(self):
+        self.append(lambda x: "email")
+
+    """
+    The first name of the user
+    """
+    def first_name(self):
+        self.append(lambda x: "firstName")
+
+    """
+    The last name of the user
+    """
+    def last_name(self):
+        self.append(lambda x: "lastName")
+
+    """
     Is the User using 2FA
     """
     def using2_f_a(self):

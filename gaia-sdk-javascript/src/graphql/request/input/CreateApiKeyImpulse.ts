@@ -15,10 +15,12 @@ import {EdgeType} from "../enumeration/EdgeType";
 export class CreateApiKeyImpulse {
 public _typeName = "CreateApiKeyImpulse";
     private name:String;
+    private description:String;
     private enabled:Boolean;
 
-    constructor (name:String, enabled:Boolean) {
+    constructor (name:String, description:String, enabled:Boolean) {
         this.name = name;
+        this.description = description;
         this.enabled = enabled;
     }
 }

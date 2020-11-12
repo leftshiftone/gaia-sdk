@@ -32,7 +32,10 @@ import {DeleteTenantImpulse} from '../graphql/request/input/DeleteTenantImpulse'
 import {UpdateUserImpulse} from '../graphql/request/input/UpdateUserImpulse';
 import {CreateUserImpulse} from '../graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from '../graphql/request/input/DeleteUserImpulse';
-import {Mock, MockRequest} from '../mock/mock';
+import {Mock} from '../mock/mock';
+import {CreateRoleImpulse} from '../graphql/request/input/CreateRoleImpulse';
+import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
+import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
 import {EdgeType} from "../graphql/request/enumeration/EdgeType";
 import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpulse";
 import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
@@ -50,7 +53,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -63,7 +66,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -76,33 +79,33 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test preserve create user', () => {
         const gaiaRef = mockCreate({users: [{id: 'asdf'}]});
-        const impulse = new CreateUserImpulse('someUsername', 'somePassword', false, [], [], [], []);
+        const impulse = new CreateUserImpulse('someUsername', 'foo@bar', 'foo', 'bar', 'somePassword', false, [], [], [], []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateUsers(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test preserve update user', () => {
         const gaiaRef = mockUpdate({users: [{id: 'asdf'}]});
-        const impulse = new UpdateUserImpulse(uuid(), 'someUsername', 'password', false, [], [], [], []);
+        const impulse = new UpdateUserImpulse(uuid(), 'someUsername', 'foo@bar', 'foo', 'bar', 'password', false, [], [], [], []);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateUsers(impulse);
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -115,7 +118,46 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
+        });
+    });
+
+    test('test preserve create role', () => {
+        const gaiaRef = mockCreate({roles: [{id: 'asdf'}]});
+        const impulse = new CreateRoleImpulse('Super Admin', ["*"]);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveCreateRoles(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve update role', () => {
+        const gaiaRef = mockUpdate({roles: [{id: 'asdf'}]});
+        const impulse = new UpdateRoleImpulse(uuid(), 'SuperAdmin', ["*"]);
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveUpdateRoles(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete role', () => {
+        const gaiaRef = mockDelete({roles: [{id: 'asdf'}]});
+        const impulse = new DeleteRoleImpulse(uuid());
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.preserveDeleteRoles(impulse);
+            observable.subscribe(e => {
+                expect(e.id !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
         });
     });
 
@@ -128,7 +170,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -141,7 +183,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -154,7 +196,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -167,7 +209,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -180,7 +222,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -193,7 +235,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -206,7 +248,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -219,7 +261,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -232,7 +274,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -245,7 +287,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -258,7 +300,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -271,7 +313,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -284,7 +326,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -297,7 +339,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -310,7 +352,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -323,7 +365,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -336,7 +378,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -349,7 +391,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -362,7 +404,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -375,7 +417,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -388,7 +430,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -401,7 +443,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -414,7 +456,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -427,7 +469,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -440,7 +482,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -453,7 +495,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -466,7 +508,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -479,7 +521,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -492,7 +534,7 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.id !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 

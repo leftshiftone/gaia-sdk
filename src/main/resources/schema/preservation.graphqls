@@ -39,6 +39,8 @@ type CreateKnowledge {
     users(impulses: [CreateUserImpulse]): [CreatedUserImpulse]
     "creates a list of api keys with the given specifications"
     apiKeys(impulses: [CreateApiKeyImpulse]): [CreatedApiKeyImpulse]
+    "creates a list of roles with the given specifications"
+    roles(impulses: [CreateRoleImpulse]): [CreatedRoleImpulse]
     "creates a list of intents with the given specifications"
     intents(impulses: [CreateIntentImpulse]): [CreatedIntentImpulse]
     "creates a list of prompts with the given specifications"
@@ -67,6 +69,8 @@ type UpdateKnowledge {
     users(impulses: [UpdateUserImpulse]): [UpdatedUserImpulse]
     "updates a list of api keys with the given specifications"
     apiKeys(impulses: [UpdateApiKeyImpulse]): [UpdatedApiKeyImpulse]
+    "updates a list of roles with the given specifications"
+    roles(impulses: [UpdateRoleImpulse]): [UpdatedRoleImpulse]
     "updates a list of intents with the given specifications"
     intents(impulses: [UpdateIntentImpulse]): [UpdatedIntentImpulse]
     "updates a list of prompts with the given specifications"
@@ -93,6 +97,8 @@ type DeleteKnowledge {
     users(impulses: [DeleteUserImpulse]): [DeletedUserImpulse]
     "deletes a list of api keys with the given specifications"
     apiKeys(impulses: [DeleteApiKeyImpulse]): [DeletedApiKeyImpulse]
+    "deletes a list of roles with the given specifications"
+    roles(impulses: [DeleteRoleImpulse]): [DeletedRoleImpulse]
     "deletes a list of intents with the given specifications"
     intents(impulses: [DeleteIntentImpulse]): [DeletedIntentImpulse]
     "deletes a list of prompts with the given specifications"
@@ -127,9 +133,6 @@ input DeleteIdentityImpulse {
     identityId: Uuid!
 }
 
-type UserKeyOne {
-    userId: Uuid
-}
 "Impulse which indicates the result of a create identity impulse"
 type CreatedIdentityImpulse implements Impulse {
     id: Uuid!
@@ -148,26 +151,35 @@ type DeletedIdentityImpulse implements Impulse {
     data: KeyOne
 }
 
+type UserKeyOne {
+    userId: Uuid
+}
 "The specification to create an user instance"
 input CreateUserImpulse {
     username: String!
+    email: String
+    firstName: String
+    lastName: String
     password: String!
-    using2FA: Boolean = false
-    tenants: [String]
-    roles: [String]
-    groups: [String]
-    permissions: [String]
+    using2FA: Boolean = false # deprecated: not in use
+    tenants: [String] # deprecated: not in use
+    roles: [String] # deprecated: not in use
+    groups: [String] # deprecated: not in use
+    permissions: [String] # deprecated: not in use
 }
 "The specification to update a user instance"
 input UpdateUserImpulse {
     userId: Uuid
     username: String
+    email: String
+    firstName: String
+    lastName: String
     password: String
-    using2FA: Boolean
-    tenants: [String]
-    roles: [String]
-    groups: [String]
-    permissions: [String]
+    using2FA: Boolean # deprecated: not in use
+    tenants: [String] # deprecated: not in use
+    roles: [String] # deprecated: not in use
+    groups: [String] # deprecated: not in use
+    permissions: [String] # deprecated: not in use
 }
 "The specification to delete a user instance"
 input DeleteUserImpulse {
@@ -195,6 +207,7 @@ type ApiKeyKeyOne {
 "The specification to create an api key instance"
 input CreateApiKeyImpulse {
     name: String!
+    description: String
     enabled: Boolean
 }
 "The specification to update an apiKey instance"
@@ -202,6 +215,7 @@ input UpdateApiKeyImpulse {
     apiKeyId: Uuid!
     secret: String!
     name: String!
+    description: String
     enabled: Boolean
 }
 "The specification to delete an api key instance"
@@ -222,6 +236,40 @@ type UpdatedApiKeyImpulse implements Impulse {
 type DeletedApiKeyImpulse implements Impulse {
     id: Uuid!
     data: ApiKeyKeyOne
+}
+
+type RoleKeyOne {
+    roleId: Uuid
+}
+"The specification to create a role instance"
+input CreateRoleImpulse {
+    name: String!
+    permissions: [String]
+}
+"The specification to update a role instance"
+input UpdateRoleImpulse {
+    roleId: Uuid!
+    name: String
+    permissions: [String]
+}
+"The specification to delete a role instance"
+input DeleteRoleImpulse {
+    roleId: Uuid!
+}
+"Impulse which indicates the result of a create role impulse"
+type CreatedRoleImpulse implements Impulse {
+    id: Uuid!
+    data: Role
+}
+"Impulse which indicates the result of a update role impulse"
+type UpdatedRoleImpulse implements Impulse {
+    id: Uuid!
+    data: Role
+}
+"Impulse which indicates the result of a delete role impulse"
+type DeletedRoleImpulse implements Impulse {
+    id: Uuid!
+    data: RoleKeyOne
 }
 
 "This entity represents the output of a delete tenant impulse"

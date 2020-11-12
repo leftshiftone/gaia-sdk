@@ -1,28 +1,30 @@
 
 import {UpdatedUserImpulse} from "./UpdatedUserImpulse";
 import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
-import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
-import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
 import {UpdatedApiKeyImpulse} from "./UpdatedApiKeyImpulse";
+import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
+import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
+import {UpdatedRoleImpulse} from "./UpdatedRoleImpulse";
+import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
+import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
+import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedSkillProvisionImpulse} from "./UpdatedSkillProvisionImpulse";
 import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
-import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
 import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
-import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
-import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
-import {UpdateStatementImpulse} from "../input/UpdateStatementImpulse";
-import {UpdateApiKeyImpulse} from "../input/UpdateApiKeyImpulse";
 import {UpdateBehaviourImpulse} from "../input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../input/UpdateSkillProvisionImpulse";
-import {UpdateTenantImpulse} from "../input/UpdateTenantImpulse";
 import {UpdateUserImpulse} from "../input/UpdateUserImpulse";
 import {UpdateIntentImpulse} from "../input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../input/UpdatePromptImpulse";
-import {UpdateFulfilmentImpulse} from "../input/UpdateFulfilmentImpulse";
 import {UpdateSkillImpulse} from "../input/UpdateSkillImpulse";
 import {UpdateIdentityImpulse} from "../input/UpdateIdentityImpulse";
+import {UpdateStatementImpulse} from "../input/UpdateStatementImpulse";
+import {UpdateApiKeyImpulse} from "../input/UpdateApiKeyImpulse";
+import {UpdateRoleImpulse} from "../input/UpdateRoleImpulse";
+import {UpdateTenantImpulse} from "../input/UpdateTenantImpulse";
+import {UpdateFulfilmentImpulse} from "../input/UpdateFulfilmentImpulse";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -73,6 +75,16 @@ public _typeName = "UpdateKnowledge";
         const entity = new UpdatedApiKeyImpulse();
         config(entity);
         return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * updates a list of roles with the given specifications
+     */
+    public roles = (impulses: [UpdateRoleImpulse]|undefined, config: (_:UpdatedRoleImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new UpdatedRoleImpulse();
+        config(entity);
+        return `roles(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

@@ -1,28 +1,30 @@
 
 import {UpdatedUserImpulse} from "./UpdatedUserImpulse";
 import {UpdatedTenantImpulse} from "./UpdatedTenantImpulse";
-import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
-import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedBehaviourImpulse} from "./UpdatedBehaviourImpulse";
 import {UpdatedApiKeyImpulse} from "./UpdatedApiKeyImpulse";
+import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
+import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
+import {UpdatedRoleImpulse} from "./UpdatedRoleImpulse";
+import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
+import {UpdatedStatementImpulse} from "./UpdatedStatementImpulse";
+import {UpdatedFulfilmentImpulse} from "./UpdatedFulfilmentImpulse";
 import {UpdatedSkillProvisionImpulse} from "./UpdatedSkillProvisionImpulse";
 import {UpdatedIdentityImpulse} from "./UpdatedIdentityImpulse";
-import {UpdatedSkillImpulse} from "./UpdatedSkillImpulse";
 import {UpdatedPromptImpulse} from "./UpdatedPromptImpulse";
-import {UpdatedCodeImpulse} from "./UpdatedCodeImpulse";
-import {UpdatedIntentImpulse} from "./UpdatedIntentImpulse";
-import {UpdateStatementImpulse} from "../../request/input/UpdateStatementImpulse";
-import {UpdateApiKeyImpulse} from "../../request/input/UpdateApiKeyImpulse";
 import {UpdateBehaviourImpulse} from "../../request/input/UpdateBehaviourImpulse";
 import {UpdateSkillProvisionImpulse} from "../../request/input/UpdateSkillProvisionImpulse";
-import {UpdateTenantImpulse} from "../../request/input/UpdateTenantImpulse";
 import {UpdateUserImpulse} from "../../request/input/UpdateUserImpulse";
 import {UpdateIntentImpulse} from "../../request/input/UpdateIntentImpulse";
 import {UpdateCodeImpulse} from "../../request/input/UpdateCodeImpulse";
 import {UpdatePromptImpulse} from "../../request/input/UpdatePromptImpulse";
-import {UpdateFulfilmentImpulse} from "../../request/input/UpdateFulfilmentImpulse";
 import {UpdateSkillImpulse} from "../../request/input/UpdateSkillImpulse";
 import {UpdateIdentityImpulse} from "../../request/input/UpdateIdentityImpulse";
+import {UpdateStatementImpulse} from "../../request/input/UpdateStatementImpulse";
+import {UpdateApiKeyImpulse} from "../../request/input/UpdateApiKeyImpulse";
+import {UpdateRoleImpulse} from "../../request/input/UpdateRoleImpulse";
+import {UpdateTenantImpulse} from "../../request/input/UpdateTenantImpulse";
+import {UpdateFulfilmentImpulse} from "../../request/input/UpdateFulfilmentImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -48,6 +50,10 @@ export interface UpdateKnowledge {
     * updates a list of api keys with the given specifications
     */
     apiKeys?:[UpdatedApiKeyImpulse], 
+    /**
+    * updates a list of roles with the given specifications
+    */
+    roles?:[UpdatedRoleImpulse], 
     /**
     * updates a list of intents with the given specifications
     */

@@ -6,6 +6,7 @@ from gaia_sdk.graphql.response.type.DeletedTenantImpulse import DeletedTenantImp
 from gaia_sdk.graphql.response.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.response.type.DeletedStatementImpulse import DeletedStatementImpulse
 from gaia_sdk.graphql.response.type.DeletedSkillImpulse import DeletedSkillImpulse
+from gaia_sdk.graphql.response.type.DeletedRoleImpulse import DeletedRoleImpulse
 from gaia_sdk.graphql.response.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.response.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
@@ -24,6 +25,7 @@ from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatemen
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteTenantImpulse import DeleteTenantImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.request.input.DeleteRoleImpulse import DeleteRoleImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
 
 from typing import List
@@ -78,6 +80,12 @@ class DeleteKnowledge:
     @property
     def api_keys(self) -> List[DeletedApiKeyImpulse]:
         return list(map(lambda x: DeletedApiKeyImpulse(x), self.dictionary.get("apiKeys")))
+    """
+    deletes a list of roles with the given specifications
+    """
+    @property
+    def roles(self) -> List[DeletedRoleImpulse]:
+        return list(map(lambda x: DeletedRoleImpulse(x), self.dictionary.get("roles")))
     """
     deletes a list of intents with the given specifications
     """

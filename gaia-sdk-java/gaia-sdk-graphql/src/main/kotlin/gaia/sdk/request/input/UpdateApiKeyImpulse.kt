@@ -15,5 +15,6 @@ import gaia.sdk.request.enumeration.*
 class UpdateApiKeyImpulse(val apiKeyId:Uuid, 
    val secret:String, 
    val name:String, 
+   val description:String, 
    val enabled:Boolean) : Input()
 

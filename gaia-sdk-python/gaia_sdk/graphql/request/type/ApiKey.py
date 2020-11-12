@@ -25,6 +25,12 @@ class ApiKey(list):
         self.append(lambda x: "name")
 
     """
+    The description of the api key
+    """
+    def description(self):
+        self.append(lambda x: "description")
+
+    """
     The secret of the api key
     """
     def secret(self):

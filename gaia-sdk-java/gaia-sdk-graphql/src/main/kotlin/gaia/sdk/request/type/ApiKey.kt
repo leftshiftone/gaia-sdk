@@ -29,6 +29,13 @@ class ApiKey: Type() {
     }
 
     /**
+     * The description of the api key
+     */
+    fun description() { 
+        add {"description" } 
+    }
+
+    /**
      * The secret of the api key
      */
     fun secret() { 
