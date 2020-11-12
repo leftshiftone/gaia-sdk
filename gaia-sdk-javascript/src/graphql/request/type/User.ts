@@ -28,6 +28,27 @@ public _typeName = "User";
     };
 
     /**
+     * The email of the user
+     */
+    public email = () => { 
+        this.push(_ => "email")
+    };
+
+    /**
+     * The first name of the user
+     */
+    public firstName = () => { 
+        this.push(_ => "firstName")
+    };
+
+    /**
+     * The last name of the user
+     */
+    public lastName = () => { 
+        this.push(_ => "lastName")
+    };
+
+    /**
      * Is the User using 2FA
      */
     public using2FA = () => { 

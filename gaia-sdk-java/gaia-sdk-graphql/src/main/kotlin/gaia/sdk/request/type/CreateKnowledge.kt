@@ -44,6 +44,14 @@ class CreateKnowledge: Type() {
     }
 
     /**
+     * creates a list of roles with the given specifications
+     */
+    fun roles(impulses : Array<out CreateRoleImpulse>?, config: CreatedRoleImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "roles(impulses:$name1){" + CreatedRoleImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * creates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out CreateIntentImpulse>?, config: CreatedIntentImpulse.() -> Unit) = add {

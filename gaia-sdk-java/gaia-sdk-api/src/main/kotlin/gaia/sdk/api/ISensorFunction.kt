@@ -15,10 +15,12 @@ interface ISensorFunction {
     fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveTenants(config: Tenant.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Tenant>
     fun retrieveTenant(tenantId: Uuid, config: Tenant.() -> Unit): Publisher<gaia.sdk.response.type.Tenant>
-    fun retrieveApiKeys(config: ApiKey.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.ApiKey>
-    fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit): Publisher<gaia.sdk.response.type.ApiKey>
     fun retrieveUsers(config: User.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.User>
     fun retrieveUser(userId: Uuid, config: User.() -> Unit): Publisher<gaia.sdk.response.type.User>
+    fun retrieveApiKeys(config: ApiKey.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.ApiKey>
+    fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit): Publisher<gaia.sdk.response.type.ApiKey>
+    fun retrieveRoles(config: Role.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Role>
+    fun retrieveRole(roleId: Uuid, config: Role.() -> Unit): Publisher<gaia.sdk.response.type.Role>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Prompt>
@@ -50,6 +52,9 @@ interface ISensorFunction {
     fun preserveCreateApiKeys(vararg impulses: CreateApiKeyImpulse): Publisher<gaia.sdk.response.type.CreatedApiKeyImpulse>
     fun preserveUpdateApiKeys(vararg impulses: UpdateApiKeyImpulse): Publisher<gaia.sdk.response.type.UpdatedApiKeyImpulse>
     fun preserveDeleteApiKeys(vararg impulses: DeleteApiKeyImpulse): Publisher<gaia.sdk.response.type.DeletedApiKeyImpulse>
+    fun preserveCreateRoles(vararg impulses: CreateRoleImpulse): Publisher<gaia.sdk.response.type.CreatedRoleImpulse>
+    fun preserveUpdateRoles(vararg impulses: UpdateRoleImpulse): Publisher<gaia.sdk.response.type.UpdatedRoleImpulse>
+    fun preserveDeleteRoles(vararg impulses: DeleteRoleImpulse): Publisher<gaia.sdk.response.type.DeletedRoleImpulse>
     fun preserveCreateIntents(vararg impulses: CreateIntentImpulse): Publisher<gaia.sdk.response.type.CreatedIntentImpulse>
     fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse): Publisher<gaia.sdk.response.type.UpdatedIntentImpulse>
     fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse): Publisher<gaia.sdk.response.type.DeletedIntentImpulse>

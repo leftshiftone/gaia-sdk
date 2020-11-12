@@ -6,6 +6,7 @@ from gaia_sdk.graphql.request.type.DeletedTenantImpulse import DeletedTenantImpu
 from gaia_sdk.graphql.request.type.DeletedSkillProvisionImpulse import DeletedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.DeletedStatementImpulse import DeletedStatementImpulse
 from gaia_sdk.graphql.request.type.DeletedSkillImpulse import DeletedSkillImpulse
+from gaia_sdk.graphql.request.type.DeletedRoleImpulse import DeletedRoleImpulse
 from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.request.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.request.type.DeletedIdentityImpulse import DeletedIdentityImpulse
@@ -24,6 +25,7 @@ from gaia_sdk.graphql.request.input.DeleteStatementImpulse import DeleteStatemen
 from gaia_sdk.graphql.request.input.DeletePromptImpulse import DeletePromptImpulse
 from gaia_sdk.graphql.request.input.DeleteTenantImpulse import DeleteTenantImpulse
 from gaia_sdk.graphql.request.input.DeleteIntentImpulse import DeleteIntentImpulse
+from gaia_sdk.graphql.request.input.DeleteRoleImpulse import DeleteRoleImpulse
 from gaia_sdk.graphql.request.input.DeleteSkillProvisionImpulse import DeleteSkillProvisionImpulse
 
 from typing import Callable, List
@@ -77,6 +79,17 @@ class DeleteKnowledge(list):
             entity = DeletedApiKeyImpulse()
             config(entity)
             return f'apiKeys(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    deletes a list of roles with the given specifications
+    """
+    def roles(self, impulses: List[DeleteRoleImpulse], config: Callable[['DeletedRoleImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = DeletedRoleImpulse()
+            config(entity)
+            return f'roles(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

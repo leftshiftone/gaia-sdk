@@ -9,6 +9,7 @@ from gaia_sdk.graphql.response.type.CreatedUserImpulse import CreatedUserImpulse
 from gaia_sdk.graphql.response.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
 from gaia_sdk.graphql.response.type.CreatedTenantImpulse import CreatedTenantImpulse
 from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
+from gaia_sdk.graphql.response.type.CreatedRoleImpulse import CreatedRoleImpulse
 from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
 from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
 from gaia_sdk.graphql.response.type.CreatedApiKeyImpulse import CreatedApiKeyImpulse
@@ -20,6 +21,7 @@ from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
 from gaia_sdk.graphql.request.input.CreateSkillProvisionImpulse import CreateSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.CreateRoleImpulse import CreateRoleImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
@@ -78,6 +80,12 @@ class CreateKnowledge:
     @property
     def api_keys(self) -> List[CreatedApiKeyImpulse]:
         return list(map(lambda x: CreatedApiKeyImpulse(x), self.dictionary.get("apiKeys")))
+    """
+    creates a list of roles with the given specifications
+    """
+    @property
+    def roles(self) -> List[CreatedRoleImpulse]:
+        return list(map(lambda x: CreatedRoleImpulse(x), self.dictionary.get("roles")))
     """
     creates a list of intents with the given specifications
     """

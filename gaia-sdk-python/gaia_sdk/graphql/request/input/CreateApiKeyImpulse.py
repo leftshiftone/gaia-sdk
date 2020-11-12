@@ -12,16 +12,18 @@ class CreateApiKeyImpulse():
     The specification to create an api key instance
     """
     name: str
+    description: str
     enabled: bool
 
-    def __init__(self, name: str, enabled: bool):
+    def __init__(self, name: str, description: str, enabled: bool):
         self.name = name
+        self.description = description
         self.enabled = enabled
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.name == other.name and self.enabled == other.enabled
+            return self.name == other.name and self.description == other.description and self.enabled == other.enabled
         return False
 
     def __repr__(self):
-        return {'name': self.name, 'enabled': self.enabled}
+        return {'name': self.name, 'description': self.description, 'enabled': self.enabled}

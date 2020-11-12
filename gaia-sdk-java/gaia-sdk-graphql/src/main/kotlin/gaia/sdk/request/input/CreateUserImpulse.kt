@@ -13,6 +13,9 @@ import gaia.sdk.request.enumeration.*
  * The specification to create an user instance
  */
 class CreateUserImpulse(val username:String, 
+   val email:String, 
+   val firstName:String, 
+   val lastName:String, 
    val password:String, 
    val using2FA:Boolean, 
    val tenants:Array<out String>, 
