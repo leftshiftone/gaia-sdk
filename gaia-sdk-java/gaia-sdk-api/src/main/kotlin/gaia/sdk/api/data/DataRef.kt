@@ -96,6 +96,15 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
         return Flowable.just(File(filePath))
     }
 
+
+    /**
+     * It downloads a file from the DataStorage. It streams all bytes
+     * @return Publisher of the byteArrays that are part of the content of the uri
+     */
+    fun asStream(): Publisher<ByteArray> {
+        log.info("Download bytes from $this.uri")
+        return this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source")
+    }
 }
 
 class FileWriteSubscriber(val fos: FileOutputStream, val filePath: String) : Subscriber<ByteArray>{

@@ -53,10 +53,8 @@ class HttpTransporter(private val baseUrl: String, private val httpClient: HttpC
                 .post()
                 .uri("${baseUrl}${apiPath}")
                 .send(Mono.just(Unpooled.copiedBuffer(payload)))
-                .responseConnection { t, u ->
+                .response { t, u ->
                     u
-                            .inbound()
-                            .receive()
                             .asByteArray()
                             .switchIfEmpty(
                                     Flux.just(t.status())
