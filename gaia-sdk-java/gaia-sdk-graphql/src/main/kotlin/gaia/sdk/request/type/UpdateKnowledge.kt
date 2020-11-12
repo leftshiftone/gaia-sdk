@@ -44,6 +44,14 @@ class UpdateKnowledge: Type() {
     }
 
     /**
+     * updates a list of roles with the given specifications
+     */
+    fun roles(impulses : Array<out UpdateRoleImpulse>?, config: UpdatedRoleImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "roles(impulses:$name1){" + UpdatedRoleImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * updates a list of intents with the given specifications
      */
     fun intents(impulses : Array<out UpdateIntentImpulse>?, config: UpdatedIntentImpulse.() -> Unit) = add {

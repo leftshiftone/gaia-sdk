@@ -9,6 +9,7 @@ import {CreatedUserImpulse} from "./CreatedUserImpulse";
 import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
 import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
+import {CreatedRoleImpulse} from "./CreatedRoleImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
 import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedApiKeyImpulse} from "./CreatedApiKeyImpulse";
@@ -20,6 +21,7 @@ import {CreateCodeImpulse} from "../../request/input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../../request/input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../../request/input/CreateStatementImpulse";
 import {CreateSkillProvisionImpulse} from "../../request/input/CreateSkillProvisionImpulse";
+import {CreateRoleImpulse} from "../../request/input/CreateRoleImpulse";
 import {CreateIntentImpulse} from "../../request/input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../../request/input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../../request/input/CreateBehaviourImpulse";
@@ -50,6 +52,10 @@ export interface CreateKnowledge {
     * creates a list of api keys with the given specifications
     */
     apiKeys?:[CreatedApiKeyImpulse], 
+    /**
+    * creates a list of roles with the given specifications
+    */
+    roles?:[CreatedRoleImpulse], 
     /**
     * creates a list of intents with the given specifications
     */

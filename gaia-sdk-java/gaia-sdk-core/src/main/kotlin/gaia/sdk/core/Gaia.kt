@@ -16,16 +16,11 @@ import gaia.sdk.http.HttpTransportException
 import gaia.sdk.http.TransporterFactory
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
-import gaia.sdk.request.type.*
-import gaia.sdk.response.type.CreatedApiKeyImpulse
-import gaia.sdk.response.type.CreatedTenantImpulse
-import gaia.sdk.response.type.CreatedUserImpulse
-import gaia.sdk.response.type.DeletedApiKeyImpulse
-import gaia.sdk.response.type.DeletedTenantImpulse
-import gaia.sdk.response.type.DeletedUserImpulse
-import gaia.sdk.response.type.UpdatedApiKeyImpulse
-import gaia.sdk.response.type.UpdatedTenantImpulse
-import gaia.sdk.response.type.UpdatedUserImpulse
+import gaia.sdk.request.type.Edge
+import gaia.sdk.request.type.Experience
+import gaia.sdk.request.type.Knowledge
+import gaia.sdk.request.type.Retrieval
+import gaia.sdk.response.type.*
 import gaia.sdk.spi.QueueOptions
 import io.netty.buffer.Unpooled
 import org.reactivestreams.Publisher
@@ -125,6 +120,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveUser(userId: Uuid, config: gaia.sdk.request.type.User.() -> Unit) = fProc.retrieveUser(userId, config)
     override fun retrieveApiKeys(config: gaia.sdk.request.type.ApiKey.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveApiKeys(config, limit, offset)
     override fun retrieveApiKey(apiKeyId: Uuid, config: gaia.sdk.request.type.ApiKey.() -> Unit) = fProc.retrieveApiKey(apiKeyId, config)
+    override fun retrieveRoles(config: gaia.sdk.request.type.Role.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveRoles(config, limit, offset)
+    override fun retrieveRole(roleId: Uuid, config: gaia.sdk.request.type.Role.() -> Unit) = fProc.retrieveRole(roleId, config)
     override fun retrievePrompts(identityId: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit, limit: Int?, offset: Long?) = fProc.retrievePrompts(identityId, config, limit, offset)
     override fun retrievePrompt(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Prompt.() -> Unit) = fProc.retrievePrompt(identityId, reference, config)
     override fun retrieveStatements(identityId: Uuid, config: gaia.sdk.request.type.Statement.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveStatements(identityId, config, limit, offset)
@@ -154,6 +151,9 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun preserveCreateApiKeys(vararg impulses: CreateApiKeyImpulse): Publisher<CreatedApiKeyImpulse> = fProc.preserveCreateApiKeys(*impulses)
     override fun preserveUpdateApiKeys(vararg impulses: UpdateApiKeyImpulse): Publisher<UpdatedApiKeyImpulse> = fProc.preserveUpdateApiKeys(*impulses)
     override fun preserveDeleteApiKeys(vararg impulses: DeleteApiKeyImpulse): Publisher<DeletedApiKeyImpulse> = fProc.preserveDeleteApiKeys(*impulses)
+    override fun preserveCreateRoles(vararg impulses: CreateRoleImpulse): Publisher<CreatedRoleImpulse> = fProc.preserveCreateRoles(*impulses)
+    override fun preserveUpdateRoles(vararg impulses: UpdateRoleImpulse): Publisher<UpdatedRoleImpulse> = fProc.preserveUpdateRoles(*impulses)
+    override fun preserveDeleteRoles(vararg impulses: DeleteRoleImpulse): Publisher<DeletedRoleImpulse> = fProc.preserveDeleteRoles(*impulses)
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) = fProc.preserveCreateIntents(*impulses)
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) = fProc.preserveUpdateIntents(*impulses)
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) = fProc.preserveDeleteIntents(*impulses)

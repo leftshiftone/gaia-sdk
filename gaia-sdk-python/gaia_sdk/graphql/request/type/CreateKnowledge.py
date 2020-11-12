@@ -9,6 +9,7 @@ from gaia_sdk.graphql.request.type.CreatedUserImpulse import CreatedUserImpulse
 from gaia_sdk.graphql.request.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
 from gaia_sdk.graphql.request.type.CreatedTenantImpulse import CreatedTenantImpulse
 from gaia_sdk.graphql.request.type.CreatedStatementImpulse import CreatedStatementImpulse
+from gaia_sdk.graphql.request.type.CreatedRoleImpulse import CreatedRoleImpulse
 from gaia_sdk.graphql.request.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
 from gaia_sdk.graphql.request.type.CreatedIdentityImpulse import CreatedIdentityImpulse
 from gaia_sdk.graphql.request.type.CreatedApiKeyImpulse import CreatedApiKeyImpulse
@@ -20,6 +21,7 @@ from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
 from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
 from gaia_sdk.graphql.request.input.CreateSkillProvisionImpulse import CreateSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.CreateRoleImpulse import CreateRoleImpulse
 from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
 from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
@@ -77,6 +79,17 @@ class CreateKnowledge(list):
             entity = CreatedApiKeyImpulse()
             config(entity)
             return f'apiKeys(impulses:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    """
+    creates a list of roles with the given specifications
+    """
+    def roles(self, impulses: List[CreateRoleImpulse], config: Callable[['CreatedRoleImpulse'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("impulses", impulses)
+            entity = CreatedRoleImpulse()
+            config(entity)
+            return f'roles(impulses:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     """

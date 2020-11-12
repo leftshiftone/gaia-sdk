@@ -9,6 +9,7 @@ import {CreatedUserImpulse} from "./CreatedUserImpulse";
 import {CreatedSkillProvisionImpulse} from "./CreatedSkillProvisionImpulse";
 import {CreatedTenantImpulse} from "./CreatedTenantImpulse";
 import {CreatedStatementImpulse} from "./CreatedStatementImpulse";
+import {CreatedRoleImpulse} from "./CreatedRoleImpulse";
 import {CreatedBehaviourImpulse} from "./CreatedBehaviourImpulse";
 import {CreatedIdentityImpulse} from "./CreatedIdentityImpulse";
 import {CreatedApiKeyImpulse} from "./CreatedApiKeyImpulse";
@@ -20,6 +21,7 @@ import {CreateCodeImpulse} from "../input/CreateCodeImpulse";
 import {CreateFulfilmentImpulse} from "../input/CreateFulfilmentImpulse";
 import {CreateStatementImpulse} from "../input/CreateStatementImpulse";
 import {CreateSkillProvisionImpulse} from "../input/CreateSkillProvisionImpulse";
+import {CreateRoleImpulse} from "../input/CreateRoleImpulse";
 import {CreateIntentImpulse} from "../input/CreateIntentImpulse";
 import {CreatePromptImpulse} from "../input/CreatePromptImpulse";
 import {CreateBehaviourImpulse} from "../input/CreateBehaviourImpulse";
@@ -74,6 +76,16 @@ public _typeName = "CreateKnowledge";
         const entity = new CreatedApiKeyImpulse();
         config(entity);
         return `apiKeys(impulses:${name1}){` + entity.render(registry) + "}"
+    });
+
+    /**
+     * creates a list of roles with the given specifications
+     */
+    public roles = (impulses: [CreateRoleImpulse]|undefined, config: (_:CreatedRoleImpulse) => void) => this.push((registry) => {
+        const name1 = registry.register("impulses", impulses);
+        const entity = new CreatedRoleImpulse();
+        config(entity);
+        return `roles(impulses:${name1}){` + entity.render(registry) + "}"
     });
 
     /**

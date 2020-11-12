@@ -44,6 +44,14 @@ class DeleteKnowledge: Type() {
     }
 
     /**
+     * deletes a list of roles with the given specifications
+     */
+    fun roles(impulses : Array<out DeleteRoleImpulse>?, config: DeletedRoleImpulse.() -> Unit) = add {
+        val name1 = it.register("impulses", impulses)
+        "roles(impulses:$name1){" + DeletedRoleImpulse().apply(config).render(it) + "}"
+    }
+
+    /**
      * deletes a list of intents with the given specifications
      */
     fun intents(impulses : Array<out DeleteIntentImpulse>?, config: DeletedIntentImpulse.() -> Unit) = add {
