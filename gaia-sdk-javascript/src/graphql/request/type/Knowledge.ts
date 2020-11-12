@@ -6,6 +6,7 @@ import {Behaviour} from "./Behaviour";
 import {Statement} from "./Statement";
 import {Intent} from "./Intent";
 import {Code} from "./Code";
+import {Role} from "./Role";
 import {SkillProvision} from "./SkillProvision";
 import {Skill} from "./Skill";
 import {Tenant} from "./Tenant";
@@ -40,23 +41,6 @@ public _typeName = "Knowledge";
         return `user(userId:${name1}){` + entity.render(registry) + "}"
     });
 
-    public tenants = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Tenant) => void) => this.push((registry) => {
-        const name1 = registry.register("limit", limit);
-        const name2 = registry.register("offset", offset);
-        const name3 = registry.register("orderBy", orderBy);
-        const name4 = registry.register("order", order);
-        const entity = new Tenant();
-        config(entity);
-        return `tenants(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
-    });
-
-    public tenant = (tenantId: Uuid|undefined, config: (_:Tenant) => void) => this.push((registry) => {
-        const name1 = registry.register("tenantId", tenantId);
-        const entity = new Tenant();
-        config(entity);
-        return `tenant(tenantId:${name1}){` + entity.render(registry) + "}"
-    });
-
     public apiKeys = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:ApiKey) => void) => this.push((registry) => {
         const name1 = registry.register("limit", limit);
         const name2 = registry.register("offset", offset);
@@ -72,6 +56,40 @@ public _typeName = "Knowledge";
         const entity = new ApiKey();
         config(entity);
         return `apiKey(apiKeyId:${name1}){` + entity.render(registry) + "}"
+    });
+
+    public roles = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Role) => void) => this.push((registry) => {
+        const name1 = registry.register("limit", limit);
+        const name2 = registry.register("offset", offset);
+        const name3 = registry.register("orderBy", orderBy);
+        const name4 = registry.register("order", order);
+        const entity = new Role();
+        config(entity);
+        return `roles(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
+    });
+
+    public role = (roleId: Uuid|undefined, config: (_:Role) => void) => this.push((registry) => {
+        const name1 = registry.register("roleId", roleId);
+        const entity = new Role();
+        config(entity);
+        return `role(roleId:${name1}){` + entity.render(registry) + "}"
+    });
+
+    public tenants = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Tenant) => void) => this.push((registry) => {
+        const name1 = registry.register("limit", limit);
+        const name2 = registry.register("offset", offset);
+        const name3 = registry.register("orderBy", orderBy);
+        const name4 = registry.register("order", order);
+        const entity = new Tenant();
+        config(entity);
+        return `tenants(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
+    });
+
+    public tenant = (tenantId: Uuid|undefined, config: (_:Tenant) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const entity = new Tenant();
+        config(entity);
+        return `tenant(tenantId:${name1}){` + entity.render(registry) + "}"
     });
 
     public identities = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Identity) => void) => this.push((registry) => {

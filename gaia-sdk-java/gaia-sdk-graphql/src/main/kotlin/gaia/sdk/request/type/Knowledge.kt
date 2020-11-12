@@ -24,19 +24,6 @@ class Knowledge: Type() {
         "user(userId:$name1){" + User().apply(config).render(it) + "}"
     }
 
-    fun tenants(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Tenant.() -> Unit) = add {
-        val name1 = it.register("limit", limit)
-        val name2 = it.register("offset", offset)
-        val name3 = it.register("orderBy", orderBy)
-        val name4 = it.register("order", order)
-        "tenants(limit:$name1, offset:$name2, orderBy:$name3, order:$name4){" + Tenant().apply(config).render(it) + "}"
-    }
-
-    fun tenant(tenantId : Uuid?, config: Tenant.() -> Unit) = add {
-        val name1 = it.register("tenantId", tenantId)
-        "tenant(tenantId:$name1){" + Tenant().apply(config).render(it) + "}"
-    }
-
     fun apiKeys(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: ApiKey.() -> Unit) = add {
         val name1 = it.register("limit", limit)
         val name2 = it.register("offset", offset)
@@ -48,6 +35,32 @@ class Knowledge: Type() {
     fun apiKey(apiKeyId : Uuid?, config: ApiKey.() -> Unit) = add {
         val name1 = it.register("apiKeyId", apiKeyId)
         "apiKey(apiKeyId:$name1){" + ApiKey().apply(config).render(it) + "}"
+    }
+
+    fun roles(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Role.() -> Unit) = add {
+        val name1 = it.register("limit", limit)
+        val name2 = it.register("offset", offset)
+        val name3 = it.register("orderBy", orderBy)
+        val name4 = it.register("order", order)
+        "roles(limit:$name1, offset:$name2, orderBy:$name3, order:$name4){" + Role().apply(config).render(it) + "}"
+    }
+
+    fun role(roleId : Uuid?, config: Role.() -> Unit) = add {
+        val name1 = it.register("roleId", roleId)
+        "role(roleId:$name1){" + Role().apply(config).render(it) + "}"
+    }
+
+    fun tenants(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Tenant.() -> Unit) = add {
+        val name1 = it.register("limit", limit)
+        val name2 = it.register("offset", offset)
+        val name3 = it.register("orderBy", orderBy)
+        val name4 = it.register("order", order)
+        "tenants(limit:$name1, offset:$name2, orderBy:$name3, order:$name4){" + Tenant().apply(config).render(it) + "}"
+    }
+
+    fun tenant(tenantId : Uuid?, config: Tenant.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        "tenant(tenantId:$name1){" + Tenant().apply(config).render(it) + "}"
     }
 
     fun identities(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Identity.() -> Unit) = add {

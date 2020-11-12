@@ -17,13 +17,36 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated identities', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'i1', qualifier: '101'}, {identityId: 'i2', qualifier: '102'}, {identityId: 'i3', qualifier: '103'}, {identityId: 'i4', qualifier: '104'}, {identityId: 'i5', qualifier: '105'}, {identityId: 'i6', qualifier: '106'}, {identityId: 'i7', qualifier: '107'}, {identityId: 'i8', qualifier: '108'}, {identityId: 'i9', qualifier: '109'}, {identityId: 'i10', qualifier: '110'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            identities: [{
+                                identityId: 'i1',
+                                qualifier: '101'
+                            }, {identityId: 'i2', qualifier: '102'}, {
+                                identityId: 'i3',
+                                qualifier: '103'
+                            }, {identityId: 'i4', qualifier: '104'}, {
+                                identityId: 'i5',
+                                qualifier: '105'
+                            }, {identityId: 'i6', qualifier: '106'}, {
+                                identityId: 'i7',
+                                qualifier: '107'
+                            }, {identityId: 'i8', qualifier: '108'}, {
+                                identityId: 'i9',
+                                qualifier: '109'
+                            }, {identityId: 'i10', qualifier: '110'}]
+                        }
+                    }
+                }
+            })
         );
         let latestExpectedIndex = 100;
 
@@ -31,13 +54,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveIdentities(_ => {
                 _.identityId();
                 _.qualifier();
-            },                                            10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -56,7 +79,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -73,13 +96,24 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated tenants', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {tenants: [{tenantId: 'i1', qualifier: '101'}, {tenantId: 'i2', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            tenants: [{tenantId: 'i1', qualifier: '101'}, {
+                                tenantId: 'i2',
+                                qualifier: '102'
+                            }]
+                        }
+                    }
+                }
+            })
         );
         let latestExpectedIndex = 100;
 
@@ -87,13 +121,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveTenants(_ => {
                 _.tenantId();
                 _.qualifier();
-            },                                         10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -112,7 +146,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -129,13 +163,24 @@ describe('perception tests:', () => {
                 expect(e.userId !== undefined).toBeTruthy();
                 expect(e.username !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated users', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {users: [{userId: 'i1', username: '101'}, {userId: 'i2', username: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            users: [{userId: 'i1', username: '101'}, {
+                                userId: 'i2',
+                                username: '102'
+                            }]
+                        }
+                    }
+                }
+            })
         );
         let latestExpectedIndex = 100;
 
@@ -143,13 +188,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveUsers(_ => {
                 _.userId();
                 _.username();
-            },                                       10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.userId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.username === "" + latestExpectedIndex).toBeTruthy()
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -168,7 +213,80 @@ describe('perception tests:', () => {
                 expect(e.username !== undefined).toBeTruthy();
                 expect(e.userId !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
+        });
+    });
+
+    test('test retrieve roles', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({data: {retrieve: {knowledge: {roles: [{roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
+        );
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveRoles(_ => {
+                _.roleId();
+                _.name();
+                _.permissions();
+            });
+            observable.subscribe(e => {
+                expect(e.roleId !== undefined).toBeTruthy();
+                expect(e.name !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated roles', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            roles: [
+                                {roleId: 'i1', name: '101', permissions: ["*"]},
+                                {roleId: 'i2', name: '102', permissions: ["*"]},
+                                {roleId: 'i3', name: '103', permissions: ["*"]},
+                                {roleId: 'i4', name: '104', permissions: ["*"]},
+                                {roleId: 'i5', name: '105', permissions: ["*"]},
+                            ]
+                        }
+                    }
+                }
+            })
+        );
+        let latestExpectedIndex = 100;
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveRoles(_ => {
+                _.roleId();
+                _.name();
+                _.permissions();
+            }, 10, 100);
+            observable.subscribe(e => {
+                expect(e.roleId !== undefined).toBeTruthy();
+                latestExpectedIndex++;
+                expect(e.name === "" + latestExpectedIndex).toBeTruthy()
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve role', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({data: {retrieve: {knowledge: {role: {roleId: 'i1', name: '101', permissions: ["*"]}}}}})
+        );
+        const roleId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveRole(roleId, _ => {
+                _.roleId();
+                _.name();
+                _.permissions();
+            });
+            observable.subscribe(e => {
+                expect(e.roleId !== undefined).toBeTruthy();
+                expect(e.name !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
         });
     });
 
@@ -187,13 +305,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated behaviours', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {behaviours: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            behaviours: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -203,14 +333,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                            10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -230,7 +360,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -249,13 +379,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated codes', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {codes: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            codes: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -265,14 +407,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                       10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -292,7 +434,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -311,13 +453,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated intents', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {intents: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            intents: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -327,14 +481,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                         10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -354,7 +508,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -373,13 +527,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated prompts', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {prompts: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            prompts: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -389,14 +555,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                         10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -416,7 +582,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -435,13 +601,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated fulfilments', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {fulfilments: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            fulfilments: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -451,14 +629,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                             10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -478,7 +656,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -497,13 +675,25 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated statements', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {statements: [{identityId: 'i1', reference: '101', qualifier: '101'}, {identityId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            statements: [{
+                                identityId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {identityId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const identityId = uuidv4();
         let latestExpectedIndex = 100;
@@ -513,14 +703,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            },                                            10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -540,7 +730,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -559,13 +749,25 @@ describe('perception tests:', () => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated edges', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {edges: [{source: 'i1', target: '101', type: '101'}, {source: 'i1', target: '101', type: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            edges: [{
+                                source: 'i1',
+                                target: '101',
+                                type: '101'
+                            }, {source: 'i1', target: '101', type: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const source = uuidv4();
         let latestExpectedIndex = 100;
@@ -575,14 +777,14 @@ describe('perception tests:', () => {
                 _.source();
                 _.target();
                 _.type();
-            },                                       10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.type === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -602,7 +804,7 @@ describe('perception tests:', () => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -622,13 +824,25 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated skills', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {skills: [{tenantId: 'i1', reference: '101', qualifier: '101'}, {tenantId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            skills: [{
+                                tenantId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {tenantId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const tenantId = uuidv4();
         let latestExpectedIndex = 100;
@@ -638,14 +852,14 @@ describe('perception tests:', () => {
                 _.tenantId();
                 _.reference();
                 _.qualifier();
-            },                                        10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -665,7 +879,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -684,13 +898,25 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
     test('test retrieve paginated skillProvisions', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {skillProvisions: [{tenantId: 'i1', reference: '101', qualifier: '101'}, {tenantId: 'i1', reference: '101', qualifier: '102'}]}}}})
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        knowledge: {
+                            skillProvisions: [{
+                                tenantId: 'i1',
+                                reference: '101',
+                                qualifier: '101'
+                            }, {tenantId: 'i1', reference: '101', qualifier: '102'}]
+                        }
+                    }
+                }
+            })
         );
         const tenantId = uuidv4();
         let latestExpectedIndex = 100;
@@ -700,14 +926,14 @@ describe('perception tests:', () => {
                 _.tenantId();
                 _.reference();
                 _.qualifier();
-            },                                                 10, 100);
+            }, 10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 
@@ -727,7 +953,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            },                   reject);
+            }, reject);
         });
     });
 

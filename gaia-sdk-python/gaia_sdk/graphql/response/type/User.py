@@ -44,6 +44,24 @@ class User:
     def username(self) -> String:
         return String(self.dictionary.get("username"))
     """
+    The email of the user
+    """
+    @property
+    def email(self) -> String:
+        return String(self.dictionary.get("email"))
+    """
+    The first name of the user
+    """
+    @property
+    def first_name(self) -> String:
+        return String(self.dictionary.get("firstName"))
+    """
+    The last name of the user
+    """
+    @property
+    def last_name(self) -> String:
+        return String(self.dictionary.get("lastName"))
+    """
     Is the User using 2FA
     """
     @property

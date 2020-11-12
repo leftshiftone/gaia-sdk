@@ -2,7 +2,6 @@ package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaResponse
-import gaia.sdk.http.HttpTransporter
 import gaia.sdk.http.TransporterFactory
 import gaia.sdk.request.input.PerceiveActionImpulse
 import gaia.sdk.request.input.PerceiveDataImpulse
@@ -12,16 +11,16 @@ import gaia.sdk.response.type.Perception
 import gaia.sdk.spi.ClientOptions
 import gaia.sdk.spi.ITransporter
 import io.reactivex.Flowable
-import org.assertj.core.api.Assert
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
-import sun.net.www.http.HttpClient
 import java.util.*
 import kotlin.collections.HashMap
 
-class MockTransporterFactory(private val mockHandler: (MockRequest) -> Publisher<Any>): TransporterFactory() {
+class MockTransporterFactory(private val mockHandler: (MockRequest) -> Publisher<Any>) : TransporterFactory() {
     override fun create(url: String): ITransporter {
         return MockTransporter(mockHandler)
     }
@@ -34,7 +33,7 @@ data class MockRequest(
         val apiPath: String
 )
 
-class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>): ITransporter {
+class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>) : ITransporter {
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>, apiPath: String, queryParameters: Map<String, Any>): Publisher<T> {
         return mockHandler(MockRequest(options, type as Class<Any>, payload, apiPath)) as Publisher<T>
     }
@@ -44,7 +43,7 @@ class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>):
     }
 
     override fun <T> transport(options: ClientOptions, payload: Any, type: Class<T>): Publisher<T> {
-        return mockHandler(MockRequest(options, type as Class<Any>, payload,"")) as Publisher<T>
+        return mockHandler(MockRequest(options, type as Class<Any>, payload, "")) as Publisher<T>
     }
 
     override fun streamTransport(options: ClientOptions, payload: Any, apiPath: String): Flowable<ByteArray> {
@@ -55,11 +54,11 @@ class MockTransporter(private val mockHandler: (MockRequest) -> Publisher<Any>):
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class PerceptionTest {
 
-    lateinit var credentials : GaiaCredentials
+    lateinit var credentials: GaiaCredentials
 
     @BeforeAll
     fun beforeAll() {
-        credentials= retrieveCredentials()
+        credentials = retrieveCredentials()
     }
 
     abstract fun retrieveCredentials(): GaiaCredentials
@@ -73,8 +72,8 @@ abstract class PerceptionTest {
         val publisher = gaiaRef.perceiveData(impulse)
         val result = Flux.from(publisher).blockFirst()
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!.id)
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isNotBlank()
     }
 
     @Test
@@ -86,8 +85,8 @@ abstract class PerceptionTest {
         val publisher = gaiaRef.perceiveAction(impulse)
         val result = Flux.from(publisher).blockFirst()
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!.id)
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isNotBlank()
     }
 
     @Test
@@ -98,17 +97,17 @@ abstract class PerceptionTest {
         val impulse2 = PerceiveDataImpulse(UUID.randomUUID().toString(), "test", HashMap())
 
         val publisher = gaiaRef.perceive {
-            perceiveAction(impulse1) {id()}
-            perceiveData(impulse2) {id()}
+            perceiveAction(impulse1) { id() }
+            perceiveData(impulse2) { id() }
         }
         val result = Flux.from(publisher).blockFirst()
 
-        Assertions.assertNotNull(result)
-        Assertions.assertNotNull(result!!)
-        Assertions.assertNotNull(result.perceiveAction)
-        Assertions.assertNotNull(result.perceiveAction!!.id)
-        Assertions.assertNotNull(result.perceiveData)
-        Assertions.assertNotNull(result.perceiveData!!.id)
+        assertThat(result).isNotNull
+        assertThat(result!!).isNotNull
+        assertThat(result.perceiveAction).isNotNull
+        assertThat(result.perceiveAction!!.id).isNotBlank()
+        assertThat(result.perceiveData).isNotNull
+        assertThat(result.perceiveData!!.id).isNotBlank()
     }
 
 }

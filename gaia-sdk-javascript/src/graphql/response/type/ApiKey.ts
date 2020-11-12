@@ -20,6 +20,10 @@ export interface ApiKey {
     */
     name?:string, 
     /**
+    * The description of the api key
+    */
+    description?:string, 
+    /**
     * The secret of the api key
     */
     secret?:string, 

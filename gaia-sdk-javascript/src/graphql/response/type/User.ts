@@ -20,6 +20,18 @@ export interface User {
     */
     username?:string, 
     /**
+    * The email of the user
+    */
+    email?:string, 
+    /**
+    * The first name of the user
+    */
+    firstName?:string, 
+    /**
+    * The last name of the user
+    */
+    lastName?:string, 
+    /**
     * Is the User using 2FA
     */
     using2FA?:Boolean, 

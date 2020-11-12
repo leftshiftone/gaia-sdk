@@ -44,6 +44,12 @@ class ApiKey:
     def name(self) -> String:
         return String(self.dictionary.get("name"))
     """
+    The description of the api key
+    """
+    @property
+    def description(self) -> String:
+        return String(self.dictionary.get("description"))
+    """
     The secret of the api key
     """
     @property

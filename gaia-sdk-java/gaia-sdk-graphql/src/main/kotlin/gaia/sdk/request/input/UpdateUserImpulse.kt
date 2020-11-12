@@ -14,6 +14,9 @@ import gaia.sdk.request.enumeration.*
  */
 class UpdateUserImpulse(val userId:Uuid, 
    val username:String, 
+   val email:String, 
+   val firstName:String, 
+   val lastName:String, 
    val password:String, 
    val using2FA:Boolean, 
    val tenants:Array<out String>, 
