@@ -164,7 +164,9 @@
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -381,10 +383,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -599,7 +602,7 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE",
+            "requested": "1.0.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql"
@@ -607,8 +610,11 @@
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -829,10 +835,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1212,7 +1219,9 @@
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -1448,7 +1457,7 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE",
+            "requested": "1.0.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql"
@@ -1456,8 +1465,11 @@
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -1714,7 +1726,9 @@
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -1931,10 +1945,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -2170,10 +2185,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -2434,7 +2450,9 @@
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {
@@ -2675,7 +2693,7 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE",
+            "requested": "1.0.0",
             "transitive": [
                 "one.leftshift.gaia-sdk:gaia-sdk-api",
                 "one.leftshift.gaia-sdk:gaia-sdk-graphql"
@@ -2683,8 +2701,11 @@
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.6.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
-                "io.projectreactor.netty:reactor-netty"
+                "io.projectreactor.netty:reactor-netty",
+                "one.leftshift.gaia-sdk:gaia-sdk-api",
+                "one.leftshift.gaia-sdk:gaia-sdk-graphql"
             ]
         },
         "io.reactivex.rxjava2:rxjava": {

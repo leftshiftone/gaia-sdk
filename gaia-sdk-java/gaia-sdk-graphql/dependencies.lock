@@ -128,10 +128,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -329,10 +330,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -532,10 +534,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -892,10 +895,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1095,10 +1099,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1325,10 +1330,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
@@ -1578,10 +1584,11 @@
         },
         "io.projectreactor.netty:reactor-netty": {
             "locked": "0.8.4.RELEASE",
-            "requested": "0.8.4.RELEASE"
+            "requested": "1.0.0"
         },
         "io.projectreactor:reactor-core": {
             "locked": "3.3.4.RELEASE",
+            "requested": "3.4.0",
             "transitive": [
                 "io.projectreactor.netty:reactor-netty"
             ]
