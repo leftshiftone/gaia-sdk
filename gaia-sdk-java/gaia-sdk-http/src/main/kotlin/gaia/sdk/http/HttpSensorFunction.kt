@@ -200,6 +200,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     email()
                     firstName()
                     lastName()
+                    tenants()
                 }
             } } } })) {
                 it.preserve?.create?.users!!
@@ -214,6 +215,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     email()
                     firstName()
                     lastName()
+                    tenants()
                 }
             } } } })) {
                 it.preserve?.update?.users!!
