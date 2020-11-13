@@ -45,7 +45,7 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_create_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"identities": [{"id": "asdf", "data": { "identityId": "i1"}}]}}}}))
 
-        impulses = CreateIdentityImpulse(str(""))
+        impulses = CreateIdentityImpulse(str(uuid4()), str(""))
         result = pipe(ops.first())(gaia_ref.preserve_create_identities([impulses])).run()
         self.assertEqual(result.dictionary.get("id"), "asdf")
         data = result.dictionary.get("data")
@@ -54,7 +54,7 @@ class TestPreservation(unittest.TestCase):
     def test_preserve_update_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"update": {"identities": [{"id": "asdf"}]}}}}))
 
-        impulses = UpdateIdentityImpulse(str(uuid4()), "")
+        impulses = UpdateIdentityImpulse(str(uuid4()), str(uuid4()), "")
         result = pipe(ops.first())(gaia_ref.preserve_update_identities([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 
