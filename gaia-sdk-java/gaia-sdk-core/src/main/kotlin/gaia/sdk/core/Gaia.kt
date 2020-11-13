@@ -180,6 +180,10 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse) = fProc.preserveCreateSkillProvisions(*impulses)
     override fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse) = fProc.preserveUpdateSkillProvisions(*impulses)
     override fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse) = fProc.preserveDeleteSkillProvisions(*impulses)
+    override fun preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse) = fProc.preserveConnectNodeSet(nodeId, impulse);
+    override fun preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse) = fProc.preserveConnectNodeUnset(nodeId, impulse);
+    override fun preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse) = fProc.preserveConnectNodeAppend(nodeId, impulse);
+    override fun preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse) = fProc.preserveConnectNodeRemove(nodeId, impulse);
     override fun perceive(config: gaia.sdk.request.type.Perception.() -> Unit) = fProc.perceive(config)
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)

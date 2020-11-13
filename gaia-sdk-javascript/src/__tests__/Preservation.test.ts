@@ -32,7 +32,7 @@ import {DeleteTenantImpulse} from '../graphql/request/input/DeleteTenantImpulse'
 import {UpdateUserImpulse} from '../graphql/request/input/UpdateUserImpulse';
 import {CreateUserImpulse} from '../graphql/request/input/CreateUserImpulse';
 import {DeleteUserImpulse} from '../graphql/request/input/DeleteUserImpulse';
-import {Mock} from '../mock/mock';
+import {Mock, MockRequest} from '../mock/mock';
 import {CreateRoleImpulse} from '../graphql/request/input/CreateRoleImpulse';
 import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
 import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";

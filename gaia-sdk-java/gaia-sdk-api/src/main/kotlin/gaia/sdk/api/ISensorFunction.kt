@@ -81,6 +81,10 @@ interface ISensorFunction {
     fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.CreatedSkillProvisionImpulse>
     fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.UpdatedSkillProvisionImpulse>
     fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse): Publisher<gaia.sdk.response.type.DeletedSkillProvisionImpulse>
+    fun preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeSetImpulse>
+    fun preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeUnsetImpulse>
+    fun preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeAppendedImpulse>
+    fun preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeRemovedImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>

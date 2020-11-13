@@ -2,6 +2,7 @@ package gaia.sdk.core
 
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaResponse
+import gaia.sdk.request.enumeration.EdgeType
 import gaia.sdk.request.input.*
 import gaia.sdk.response.type.*
 import io.reactivex.Flowable
@@ -519,5 +520,93 @@ abstract class PreservationTest {
         assertThat(result!!.id).isNotBlank()
     }
 
+    @Test
+    fun `test preserve set node connection`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(connect = ConnectKnowledge(node = ConnectNodeKnowledge(set = ConnectNodeSetImpulse(
+                id = "impulseId",
+                removedEdges = listOf(EdgeKeyOne("deletedSource", "deletedEdgeId")),
+                newEdge = Edge("source", "target", "edgeId", "type", 0.95f, mapOf("hello" to "world"))
+        ))))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val impulse = ConnectSetNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn", mapOf("foo" to "bar"), 0.85f)
 
+        val publisher = gaiaRef.preserveConnectNodeSet("nodeIn", impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isEqualTo("impulseId")
+        assertThat(result!!.removedEdges).hasSize(1)
+        assertThat(result!!.removedEdges!!.first().source).isEqualTo("deletedSource")
+        assertThat(result!!.removedEdges!!.first().edgeId).isEqualTo("deletedEdgeId")
+        assertThat(result!!.newEdge!!.source).isEqualTo("source")
+        assertThat(result!!.newEdge!!.target).isEqualTo("target")
+        assertThat(result!!.newEdge!!.edgeId).isEqualTo("edgeId")
+        assertThat(result!!.newEdge!!.type).isEqualTo("type")
+        assertThat(result!!.newEdge!!.weight).isEqualTo(0.95f)
+        assertThat(result!!.newEdge!!.properties).isEqualTo(mapOf("hello" to "world"))
+    }
+
+    @Test
+    fun `test preserve unset node connection`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(connect = ConnectKnowledge(node = ConnectNodeKnowledge(unset = ConnectNodeUnsetImpulse(
+                    id = "impulseId",
+                    removedEdges = listOf(EdgeKeyOne("deletedSource", "deletedEdgeId"))
+            ))))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val impulse = ConnectUnsetNodeImpulse(EdgeType.IdentityWelcomeBehaviour)
+
+        val publisher = gaiaRef.preserveConnectNodeUnset("nodeIn", impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isEqualTo("impulseId")
+        assertThat(result!!.removedEdges).hasSize(1)
+        assertThat(result!!.removedEdges!!.first().source).isEqualTo("deletedSource")
+        assertThat(result!!.removedEdges!!.first().edgeId).isEqualTo("deletedEdgeId")
+    }
+
+    @Test
+    fun `test preserve append node connection`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(connect = ConnectKnowledge(node = ConnectNodeKnowledge(append = ConnectNodeAppendedImpulse(
+                    id = "impulseId",
+                    newEdge = Edge("source", "target", "edgeId", "type", 0.95f, mapOf("hello" to "world"))
+            ))))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val impulse = ConnectAppendNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn", mapOf("foo" to "bar"), 0.85f)
+
+        val publisher = gaiaRef.preserveConnectNodeAppend("nodeIn", impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isEqualTo("impulseId")
+        assertThat(result!!.newEdge!!.source).isEqualTo("source")
+        assertThat(result!!.newEdge!!.target).isEqualTo("target")
+        assertThat(result!!.newEdge!!.edgeId).isEqualTo("edgeId")
+        assertThat(result!!.newEdge!!.type).isEqualTo("type")
+        assertThat(result!!.newEdge!!.weight).isEqualTo(0.95f)
+        assertThat(result!!.newEdge!!.properties).isEqualTo(mapOf("hello" to "world"))
+    }
+
+    @Test
+    fun `test preserve remove node connection`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(connect = ConnectKnowledge(node = ConnectNodeKnowledge(remove = ConnectNodeRemovedImpulse(
+                    id = "impulseId",
+                    removedEdges = listOf(EdgeKeyOne("deletedSource", "deletedEdgeId"))
+            ))))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val impulse = ConnectRemoveNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn")
+
+        val publisher = gaiaRef.preserveConnectNodeRemove("nodeIn", impulse)
+        val result = Flux.from(publisher).blockFirst()
+
+        assertThat(result).isNotNull
+        assertThat(result!!.id).isEqualTo("impulseId")
+        assertThat(result!!.removedEdges).hasSize(1)
+        assertThat(result!!.removedEdges!!.first().source).isEqualTo("deletedSource")
+        assertThat(result!!.removedEdges!!.first().edgeId).isEqualTo("deletedEdgeId")
+    }
 }
