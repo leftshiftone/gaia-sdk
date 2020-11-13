@@ -531,7 +531,7 @@ abstract class PreservationTest {
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val impulse = ConnectSetNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn", mapOf("foo" to "bar"), 0.85f)
 
-        val publisher = gaiaRef.preserveConnectNodeSet("nodeIn", impulse)
+        val publisher = gaiaRef.preserveConnectNodeSet(UUID.randomUUID().toString(), impulse)
         val result = Flux.from(publisher).blockFirst()
 
         assertThat(result).isNotNull
@@ -557,7 +557,7 @@ abstract class PreservationTest {
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val impulse = ConnectUnsetNodeImpulse(EdgeType.IdentityWelcomeBehaviour)
 
-        val publisher = gaiaRef.preserveConnectNodeUnset("nodeIn", impulse)
+        val publisher = gaiaRef.preserveConnectNodeUnset(UUID.randomUUID().toString(), impulse)
         val result = Flux.from(publisher).blockFirst()
 
         assertThat(result).isNotNull
@@ -577,7 +577,7 @@ abstract class PreservationTest {
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val impulse = ConnectAppendNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn", mapOf("foo" to "bar"), 0.85f)
 
-        val publisher = gaiaRef.preserveConnectNodeAppend("nodeIn", impulse)
+        val publisher = gaiaRef.preserveConnectNodeAppend(UUID.randomUUID().toString(), impulse)
         val result = Flux.from(publisher).blockFirst()
 
         assertThat(result).isNotNull
@@ -600,7 +600,7 @@ abstract class PreservationTest {
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val impulse = ConnectRemoveNodeImpulse(EdgeType.IdentityWelcomeBehaviour, "targetIn")
 
-        val publisher = gaiaRef.preserveConnectNodeRemove("nodeIn", impulse)
+        val publisher = gaiaRef.preserveConnectNodeRemove(UUID.randomUUID().toString(), impulse)
         val result = Flux.from(publisher).blockFirst()
 
         assertThat(result).isNotNull
