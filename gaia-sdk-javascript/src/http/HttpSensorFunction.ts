@@ -463,6 +463,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.email()
                     d.firstName()
                     d.lastName()
+                    d.tenants()
                 })
             }));
         }))));
@@ -479,6 +480,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.email()
                     d.firstName()
                     d.lastName()
+                    d.tenants()
                 })
             }))
         }))));
