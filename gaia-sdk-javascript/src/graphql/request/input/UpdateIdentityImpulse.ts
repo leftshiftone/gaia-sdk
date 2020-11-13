@@ -14,10 +14,12 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 export class UpdateIdentityImpulse {
 public _typeName = "UpdateIdentityImpulse";
     private identityId:Uuid;
+    private tenantId:String;
     private qualifier:String;
 
-    constructor (identityId:Uuid, qualifier:String) {
+    constructor (identityId:Uuid, tenantId:String, qualifier:String) {
         this.identityId = identityId;
+        this.tenantId = tenantId;
         this.qualifier = qualifier;
     }
 }
