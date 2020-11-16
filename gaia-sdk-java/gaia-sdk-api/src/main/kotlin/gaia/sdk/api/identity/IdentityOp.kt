@@ -2,6 +2,7 @@ package gaia.sdk.api.identity
 
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
+import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
@@ -23,18 +24,26 @@ class IdentityOp(private val client: GaiaStreamClient) {
     fun export(id: String, filePath: String = "SDK-IdentityRef.export_${System.currentTimeMillis()}_$id.zip"): Publisher<File> {
         assert(!id.isBlank()) { "Identity ID must be set in order to export an identity" }
 
-        log.info("Exporting identity with ID $id to $filePath")
-        return this.client.streamBytes(IdentitySourceRequestImpulse(id), "/identity/source")
-                .observeOn(Schedulers.io())
-                .reduce(FileOutputStream(filePath), { result: FileOutputStream, nextBytes: ByteArray ->
-                    result.write(nextBytes)
-                    result
-                })
-                .map { fos ->
-                    fos.close()
-                    File(filePath)
-                }.toFlowable()
+        return Flowable.fromCallable {
+            log.info("Exporting identity with ID $id to $filePath")
+            FileOutputStream(filePath)
+        }
+                .flatMap { fos -> exportToStream(fos, id, filePath) }
+                .doOnComplete { log.info("Identity with ID $id successfully exported to $filePath.") }
     }
+
+    private fun exportToStream(identityOutputStream: FileOutputStream, identityId: String, filePath: String) =
+            this.client.streamBytes(IdentitySourceRequestImpulse(identityId), "/identity/source")
+                    .observeOn(Schedulers.io())
+                    .reduce(identityOutputStream, { result: FileOutputStream, nextBytes: ByteArray ->
+                        result.write(nextBytes)
+                        result
+                    })
+                    .map { File(filePath) }
+                    .doOnError { log.error("Export of identity with id $identityId to $filePath failed.", it) }
+                    .doFinally { identityOutputStream.close() }
+                    .toFlowable()
+
 
     fun import(id: String?): Unit {
         throw NotImplementedError("Implement identity import functionality is not yet implemented")
