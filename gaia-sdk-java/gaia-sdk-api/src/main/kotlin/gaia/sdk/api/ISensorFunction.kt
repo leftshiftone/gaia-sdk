@@ -10,7 +10,7 @@ interface ISensorFunction {
     fun retrieveExperience(config: Experience.() -> Unit): Publisher<gaia.sdk.response.type.Experience>
     fun retrieveKnowledge(config: Knowledge.() -> Unit): Publisher<gaia.sdk.response.type.Knowledge>
     fun retrieveEdges(source: Uuid, config: Edge.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Edge>
-    fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
+    fun retrieveEdge(source: Uuid, edgeId: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
     fun retrieveIdentities(config: Identity.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveTenants(config: Tenant.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Tenant>

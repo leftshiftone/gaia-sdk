@@ -178,9 +178,9 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.flatMapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
     }
 
-    public retrieveEdge(source: Uuid, target: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes> {
+    public retrieveEdge(source: Uuid, edgeId: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
-            r.knowledge(k => k.edge(source, target, config));
+            r.knowledge(k => k.edge(source, edgeId, config));
         }))));
         return Rx.mapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edge!);
     }

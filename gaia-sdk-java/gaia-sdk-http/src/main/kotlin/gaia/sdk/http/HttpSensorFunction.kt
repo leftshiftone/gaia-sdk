@@ -33,8 +33,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveEdges(source: Uuid, config: Edge.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(source, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.edges!! }
 
-    override fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit) =
-            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, target, config) } } })) { it.retrieve?.knowledge?.edge!! }
+    override fun retrieveEdge(source: Uuid, edgeId: Uuid, config: Edge.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, edgeId, config) } } })) { it.retrieve?.knowledge?.edge!! }
 
     override fun retrieveIdentities(config: Identity.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { identities(limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.identities!! }

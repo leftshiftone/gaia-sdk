@@ -109,7 +109,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveExperience(config: Experience.() -> Unit) = fProc.retrieveExperience(config)
     override fun retrieveKnowledge(config: Knowledge.() -> Unit) = fProc.retrieveKnowledge(config)
     override fun retrieveEdges(source: Uuid, config: Edge.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveEdges(source, config, limit, offset)
-    override fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit) = fProc.retrieveEdge(source, target, config)
+    override fun retrieveEdge(source: Uuid, edgeId: Uuid, config: Edge.() -> Unit) = fProc.retrieveEdge(source, edgeId, config)
     override fun retrieveIntents(identityId: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveIntents(identityId, config, limit, offset)
     override fun retrieveIntent(identityId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Intent.() -> Unit) = fProc.retrieveIntent(identityId, reference, config)
     override fun retrieveIdentities(config: gaia.sdk.request.type.Identity.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveIdentities(config, limit, offset)
