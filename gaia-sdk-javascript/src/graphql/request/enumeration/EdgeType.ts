@@ -1,15 +1,20 @@
 export enum EdgeType {
+    TenantIdentity, 
     Supervisor, 
     IdentityNerSkill, 
     IdentityErrorStatement, 
     IdentityUnknownBehaviour, 
     IdentityDiscontinuableStatement, 
-    IdentityWelcomeBehaviour
+    IdentityWelcomeBehaviour, 
+    UserRole, 
+    ApiKeyRole
 }
 
 
 export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
     switch (enumValue) {
+        case EdgeType.TenantIdentity:
+            return new TenantIdentity();
         case EdgeType.Supervisor:
             return new Supervisor();
         case EdgeType.IdentityNerSkill:
@@ -22,9 +27,20 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new IdentityDiscontinuableStatement();
         case EdgeType.IdentityWelcomeBehaviour:
             return new IdentityWelcomeBehaviour();
+        case EdgeType.UserRole:
+            return new UserRole();
+        case EdgeType.ApiKeyRole:
+            return new ApiKeyRole();
     }
 }
 
+export class TenantIdentity {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "TenantIdentity";
+
+    constructor() {}
+}
 export class Supervisor {
     public _typeName = "EdgeType";
     public _isWrapper = true;
@@ -64,6 +80,20 @@ export class IdentityWelcomeBehaviour {
     public _typeName = "EdgeType";
     public _isWrapper = true;
     public _wrappedValue = "IdentityWelcomeBehaviour";
+
+    constructor() {}
+}
+export class UserRole {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "UserRole";
+
+    constructor() {}
+}
+export class ApiKeyRole {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "ApiKeyRole";
 
     constructor() {}
 }

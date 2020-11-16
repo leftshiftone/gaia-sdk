@@ -2,15 +2,21 @@ from enum import Enum
 
 
 class EdgeType(Enum):
-    Supervisor = 1
+    TenantIdentity = 1
 
-    IdentityNerSkill = 2
+    Supervisor = 2
 
-    IdentityErrorStatement = 3
+    IdentityNerSkill = 3
 
-    IdentityUnknownBehaviour = 4
+    IdentityErrorStatement = 4
 
-    IdentityDiscontinuableStatement = 5
+    IdentityUnknownBehaviour = 5
 
-    IdentityWelcomeBehaviour = 6
+    IdentityDiscontinuableStatement = 6
+
+    IdentityWelcomeBehaviour = 7
+
+    UserRole = 8
+
+    ApiKeyRole = 9
 

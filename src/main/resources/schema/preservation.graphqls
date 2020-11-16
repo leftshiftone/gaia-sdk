@@ -22,12 +22,15 @@ type ConnectNodeKnowledge {
 }
 
 enum EdgeType {
+    TenantIdentity
     Supervisor
     IdentityNerSkill
     IdentityErrorStatement
     IdentityUnknownBehaviour
     IdentityDiscontinuableStatement
     IdentityWelcomeBehaviour
+    UserRole
+    ApiKeyRole
 }
 
 type CreateKnowledge {
