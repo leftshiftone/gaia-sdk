@@ -6,6 +6,31 @@ type Preservation {
     create: CreateKnowledge
     update: UpdateKnowledge
     delete: DeleteKnowledge
+    connect: ConnectKnowledge
+}
+
+type ConnectKnowledge {
+    node(nodeId: Uuid!): ConnectNodeKnowledge
+}
+
+type ConnectNodeKnowledge {
+    append(impulse: ConnectAppendNodeImpulse): ConnectNodeAppendedImpulse
+    remove(impulse: ConnectRemoveNodeImpulse): ConnectNodeRemovedImpulse
+
+    set(impulse: ConnectSetNodeImpulse): ConnectNodeSetImpulse
+    unset(impulse: ConnectUnsetNodeImpulse): ConnectNodeUnsetImpulse
+}
+
+enum EdgeType {
+    TenantIdentity
+    Supervisor
+    IdentityNerSkill
+    IdentityErrorStatement
+    IdentityUnknownBehaviour
+    IdentityDiscontinuableStatement
+    IdentityWelcomeBehaviour
+    UserRole
+    ApiKeyRole
 }
 
 type CreateKnowledge {
@@ -661,5 +686,52 @@ type DeletedSkillProvisionImpulse implements Impulse {
     id: Uuid!
     data: TenantKeyOne
 }
-
-
+"The specification to set an edge for a node"
+input ConnectSetNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
+    properties: Struct
+    weight: Float
+}
+"The specification to unset edges of a certain type for a node"
+input ConnectUnsetNodeImpulse {
+    type: EdgeType!
+}
+"The specification to append an edge to a node"
+input ConnectAppendNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
+    properties: Struct
+    weight: Float
+}
+"The specification to remove an edge of a certain type with a certain target from a node"
+input ConnectRemoveNodeImpulse {
+    type: EdgeType!
+    target: Uuid!
+}
+"Impulse which indicates the result setting a node connection"
+type ConnectNodeSetImpulse implements Impulse {
+    id: Uuid!
+    "edges removed before setting the new edge"
+    removedEdges: [EdgeKeyOne]
+    "edge created by this request"
+    newEdge: Edge
+}
+"Impulse which indicates the result unsetting a node connection"
+type ConnectNodeUnsetImpulse implements Impulse {
+    id: Uuid!
+    "edges removed by this request"
+    removedEdges: [EdgeKeyOne]
+}
+"Impulse which indicates the result appending a node connection"
+type ConnectNodeAppendedImpulse implements Impulse {
+    id: Uuid!
+    "edge created by this request"
+    newEdge: Edge
+}
+"Impulse which indicates the result removing a node connection"
+type ConnectNodeRemovedImpulse implements Impulse {
+    id: Uuid!
+    "edges removed by this request"
+    removedEdges: [EdgeKeyOne]
+}

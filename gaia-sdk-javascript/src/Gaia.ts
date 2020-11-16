@@ -44,7 +44,7 @@ import {CreateSkillProvisionImpulse} from './graphql/request/input/CreateSkillPr
 import {CreateCodeImpulse} from './graphql/request/input/CreateCodeImpulse';
 import {DeleteCodeImpulse} from './graphql/request/input/DeleteCodeImpulse';
 import {UpdateCodeImpulse} from './graphql/request/input/UpdateCodeImpulse';
-import {Uuid} from './graphql/GaiaClient';
+import {Struct, Uuid} from './graphql/GaiaClient';
 import {CreateEdgeImpulse} from './graphql/request/input/CreateEdgeImpulse';
 import {DeleteEdgeImpulse} from './graphql/request/input/DeleteEdgeImpulse';
 import {CreateIdentityImpulse} from './graphql/request/input/CreateIdentityImpulse';
@@ -73,6 +73,14 @@ import {UpdateRoleImpulse} from "./graphql/request/input/UpdateRoleImpulse";
 import {Role} from "./graphql/request/type/Role";
 import {GaiaClientFactory} from './graphql/GaiaClientFactory';
 import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
+import {EdgeType} from "./graphql/request/enumeration/EdgeType";
+import {Observable} from "rxjs";
+import {ConnectNodeSetImpulse} from "./graphql/response/type/ConnectNodeSetImpulse";
+import {ConnectNodeUnsetImpulse} from "./graphql/response/type/ConnectNodeUnsetImpulse";
+import {ConnectSetNodeImpulse} from "./graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "./graphql/request/input/ConnectUnsetNodeImpulse";
+import {ConnectAppendNodeImpulse} from "./graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "./graphql/request/input/ConnectRemoveNodeImpulse";
 
 export class Gaia {
 
@@ -189,6 +197,10 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public preserveCreateSkillProvisions = (...impulses: [CreateSkillProvisionImpulse]) => this.fProc.preserveCreateSkillProvisions(...impulses);
     public preserveDeleteSkillProvisions = (...impulses: [DeleteSkillProvisionImpulse]) => this.fProc.preserveDeleteSkillProvisions(...impulses);
     public preserveUpdateSkillProvisions = (...impulses: [UpdateSkillProvisionImpulse]) => this.fProc.preserveUpdateSkillProvisions(...impulses);
+    public preserveConnectNodeSet = (nodeId: Uuid, impulse: ConnectSetNodeImpulse) => this.fProc.preserveConnectNodeSet(nodeId, impulse);
+    public preserveConnectNodeUnset = (nodeId: Uuid, impulse: ConnectUnsetNodeImpulse) => this.fProc.preserveConnectNodeUnset(nodeId, impulse);
+    public preserveConnectNodeAppend = (nodeId: Uuid, impulse: ConnectAppendNodeImpulse) => this.fProc.preserveConnectNodeAppend(nodeId, impulse);
+    public preserveConnectNodeRemove = (nodeId: Uuid, impulse: ConnectRemoveNodeImpulse) => this.fProc.preserveConnectNodeRemove(nodeId, impulse);
     public retrieve = (config: (x: Retrieval) => void) => this.fProc.retrieve(config);
     public retrieveBehaviours = (identityId: Uuid, config: (x: Behaviour) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviours(identityId, config, limit, offset);
     public retrieveBehaviour = (identityId: Uuid, reference: Uuid, config: (x: Behaviour) => void) => this.fProc.retrieveBehaviour(identityId, reference, config);
@@ -211,7 +223,7 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);
     public retrieveEdges = (source: Uuid, config: (x: Edge) => void, limit?: Number, offset?: Number) => this.fProc.retrieveEdges(source, config, limit, offset);
-    public retrieveEdge = (source: Uuid, target: Uuid, config: (x: Edge) => void) => this.fProc.retrieveEdge(source, target, config);
+    public retrieveEdge = (source: Uuid, edgeId: Uuid, config: (x: Edge) => void) => this.fProc.retrieveEdge(source, edgeId, config);
     public retrievePrompts = (identityId: Uuid, config: (x: Prompt) => void, limit?: Number, offset?: Number) => this.fProc.retrievePrompts(identityId, config, limit, offset);
     public retrievePrompt = (identityId: Uuid, reference: Uuid, config: (x: Prompt) => void) => this.fProc.retrievePrompt(identityId, reference, config);
     public retrieveStatements = (identityId: Uuid, config: (x: Statement) => void, limit?: Number, offset?: Number) => this.fProc.retrieveStatements(identityId, config, limit, offset);

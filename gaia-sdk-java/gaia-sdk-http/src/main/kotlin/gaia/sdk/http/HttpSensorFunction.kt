@@ -33,8 +33,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveEdges(source: Uuid, config: Edge.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { edges(source, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.edges!! }
 
-    override fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit) =
-            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, target, config) } } })) { it.retrieve?.knowledge?.edge!! }
+    override fun retrieveEdge(source: Uuid, edgeId: Uuid, config: Edge.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { edge(source, edgeId, config) } } })) { it.retrieve?.knowledge?.edge!! }
 
     override fun retrieveIdentities(config: Identity.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { identities(limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.identities!! }
@@ -684,6 +684,62 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 })
             } } } })) {
                 it.preserve?.delete?.skillProvisions!!
+            }
+
+    override fun preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse) =
+            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { set(impulse) {
+                id()
+                removedEdges({
+                    source()
+                    edgeId()
+                })
+                newEdge({
+                    source()
+                    target()
+                    edgeId()
+                    type()
+                    weight()
+                    properties()
+                })
+            } } } } })) {
+                it.preserve?.connect?.node?.set!!
+            }
+
+    override fun preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse) =
+            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { unset(impulse) {
+                id()
+                removedEdges({
+                    source()
+                    edgeId()
+                })
+            } } } } })) {
+                it.preserve?.connect?.node?.unset!!
+            }
+
+    override fun preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse) =
+            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { append(impulse) {
+                id()
+                newEdge({
+                    source()
+                    target()
+                    edgeId()
+                    type()
+                    weight()
+                    properties()
+                })
+            } } } } })) {
+                it.preserve?.connect?.node?.append!!
+            }
+
+    override fun preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse) =
+            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { remove(impulse) {
+                id()
+                removedEdges({
+                    source()
+                    edgeId()
+                })
+            } } } } })) {
+                it.preserve?.connect?.node?.remove!!
             }
 
     override fun perceive(config: Perception.() -> Unit) =

@@ -108,8 +108,8 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
             Observable[EdgeRes]:
         return self.f_proc.retrieve_edges(source, config, limit, offset)
 
-    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
-        return self.f_proc.retrieve_edge(source, target, config)
+    def retrieve_edge(self, source: Uuid, edgeId: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+        return self.f_proc.retrieve_edge(source, edgeId, config)
 
     def retrieve_identities(self, config: Callable[[IdentityReq], None], limit: int = None, offset: int = None) -> \
             Observable[IdentityRes]:

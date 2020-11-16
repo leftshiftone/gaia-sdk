@@ -15,5 +15,6 @@ import gaia.sdk.request.enumeration.*
 data class Preservation @JsonCreator constructor(
     @JsonProperty("create") val create:CreateKnowledge? = null, 
     @JsonProperty("update") val update:UpdateKnowledge? = null, 
-    @JsonProperty("delete") val delete:DeleteKnowledge? = null
+    @JsonProperty("delete") val delete:DeleteKnowledge? = null, 
+    @JsonProperty("connect") val connect:ConnectKnowledge? = null
 )

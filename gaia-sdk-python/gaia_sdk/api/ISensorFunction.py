@@ -40,7 +40,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+    def retrieve_edge(self, source: Uuid, edgeId: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
         pass
 
     @abstractmethod

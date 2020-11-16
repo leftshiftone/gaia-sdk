@@ -36,7 +36,7 @@ internal class VariableRegistryTest {
         val field= "identityId"
         registry.register(field, uuid)
         val datatypes = registry.getDatatypes()
-        assertThat(datatypes).first().isEqualTo("\$${field}1: Uuid")
+        assertThat(datatypes).first().isEqualTo("\$${field}1: Uuid!")
         val variables = registry.getVariables()
         assertThat(variables).isNotEmpty
         assertThat(variables).extracting("${field}1").first().isEqualTo(uuid)
@@ -48,7 +48,7 @@ internal class VariableRegistryTest {
         val field= "name"
         registry.register(field, value)
         val datatypes = registry.getDatatypes()
-        assertThat(datatypes).first().isEqualTo("\$${field}1: String")
+        assertThat(datatypes).first().isEqualTo("\$${field}1: String!")
         val variables = registry.getVariables()
         assertThat(variables).isNotEmpty
         assertThat(variables).extracting("${field}1").first().isEqualTo(value)

@@ -13,6 +13,7 @@ import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
+import {EdgeType} from "../enumeration/EdgeType";
 
 /**
  * Type which contains all impulses needed for the maintainence of a conversation

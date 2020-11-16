@@ -68,8 +68,8 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
-    def retrieve_edge(self, source: Uuid, target: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
-        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edge(source, target, config)
+    def retrieve_edge(self, source: Uuid, edgeId: Uuid, config: Callable[[EdgeReq], None]) -> Observable[EdgeRes]:
+        knowledge_req: Callable[[KnowledgeReq], None] = lambda x: x.edge(source, edgeId, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.knowledge(knowledge_req)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
         query_res: Callable[[QueryRes], EdgeRes] = lambda x: x.retrieve.knowledge.edge
