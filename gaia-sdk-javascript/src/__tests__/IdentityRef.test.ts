@@ -8,7 +8,8 @@ describe('dataref tests:', () => {
     test('test export identity', () => {
         return new Promise(async (resolve, reject) => {
             const Blob = require("cross-blob");
-            const blob = new Blob(['234']);
+            const obj = {hello: 'world'};
+            const blob = new Blob([JSON.stringify(obj, null, 2)], {type : 'application/json'});
 
             const gaiaRef = Mock.gaiaRef((request) => {
                 expect(request.urlPostFix).toEqual('/identity/source');
@@ -18,6 +19,7 @@ describe('dataref tests:', () => {
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
                 expect(e.length).toEqual(1);
+                expect(e[0] === blob).toBeTruthy();
                 resolve(e || '');
             }, reject);
         });
