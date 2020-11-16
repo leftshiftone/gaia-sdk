@@ -16,6 +16,10 @@ export interface Identity {
     */
     identityId?:Uuid, 
     /**
+    * The tenant id
+    */
+    tenantId?:Uuid, 
+    /**
     * The name of the identity
     */
     qualifier?:string

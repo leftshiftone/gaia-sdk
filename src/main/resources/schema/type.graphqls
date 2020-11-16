@@ -6,6 +6,8 @@
 type Identity {
     "The identity id"
     identityId: Uuid
+    "The tenant id"
+    tenantId: Uuid
     "The name of the identity"
     qualifier: String
 }

@@ -41,7 +41,7 @@ describe('perception tests:', () => {
 
     test('test preserve create identity', () => {
         const gaiaRef = mockCreate({identities: [{id: 'asdf'}]});
-        const impulse = new CreateIdentityImpulse('');
+        const impulse = new CreateIdentityImpulse('', '');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateIdentities(impulse);
@@ -54,7 +54,7 @@ describe('perception tests:', () => {
 
     test('test preserve update identity', () => {
         const gaiaRef = mockUpdate({identities: [{id: 'asdf'}]});
-        const impulse = new UpdateIdentityImpulse(uuid(), '');
+        const impulse = new UpdateIdentityImpulse(uuid(), '', '');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateIdentities(impulse);

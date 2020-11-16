@@ -379,6 +379,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.id()
                 i.data(d => {
                     d.identityId()
+                    d.tenantId()
                     d.qualifier()
                 })
             }))
@@ -392,6 +393,7 @@ export class HttpSensorFunction implements ISensorFunction {
                 i.id()
                 i.data(d => {
                     d.identityId()
+                    d.tenantId()
                     d.qualifier()
                 })
             }))

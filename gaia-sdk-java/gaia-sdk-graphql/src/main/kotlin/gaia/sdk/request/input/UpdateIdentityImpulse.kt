@@ -13,5 +13,6 @@ import gaia.sdk.request.enumeration.*
  * The specification to update an identity instance
  */
 class UpdateIdentityImpulse(val identityId:Uuid, 
+   val tenantId:String, 
    val qualifier:String) : Input()
 
