@@ -22,6 +22,13 @@ class Identity: Type() {
     }
 
     /**
+     * The tenant id
+     */
+    fun tenantId() { 
+        add {"tenantId" } 
+    }
+
+    /**
      * The name of the identity
      */
     fun qualifier() { 

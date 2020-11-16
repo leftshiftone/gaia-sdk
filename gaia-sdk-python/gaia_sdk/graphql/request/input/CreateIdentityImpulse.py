@@ -11,15 +11,17 @@ class CreateIdentityImpulse():
     """
     The specification to create an identity instance
     """
+    tenantId: str
     qualifier: str
 
-    def __init__(self, qualifier: str):
+    def __init__(self, tenantId: str, qualifier: str):
+        self.tenantId = tenantId
         self.qualifier = qualifier
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.qualifier == other.qualifier
+            return self.tenantId == other.tenantId and self.qualifier == other.qualifier
         return False
 
     def __repr__(self):
-        return {'qualifier': self.qualifier}
+        return {'tenantId': self.tenantId, 'qualifier': self.qualifier}

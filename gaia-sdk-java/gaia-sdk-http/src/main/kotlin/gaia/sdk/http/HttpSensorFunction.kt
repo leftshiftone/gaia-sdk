@@ -128,6 +128,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     id()
                     data({
                         identityId()
+                        tenantId()
                         qualifier()
                     })
                 } } } })) {
@@ -139,6 +140,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 id()
                 data({
                     identityId()
+                    tenantId()
                     qualifier()
                 })
             } } } })) {

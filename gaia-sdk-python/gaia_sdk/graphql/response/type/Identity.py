@@ -38,6 +38,12 @@ class Identity:
     def identity_id(self) -> Uuid:
         return Uuid(self.dictionary.get("identityId"))
     """
+    The tenant id
+    """
+    @property
+    def tenant_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("tenantId"))
+    """
     The name of the identity
     """
     @property

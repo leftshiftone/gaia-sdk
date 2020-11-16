@@ -13,9 +13,11 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
  */
 export class CreateIdentityImpulse {
 public _typeName = "CreateIdentityImpulse";
+    private tenantId:String;
     private qualifier:String;
 
-    constructor (qualifier:String) {
+    constructor (tenantId:String, qualifier:String) {
+        this.tenantId = tenantId;
         this.qualifier = qualifier;
     }
 }

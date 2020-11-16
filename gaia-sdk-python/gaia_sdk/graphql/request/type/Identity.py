@@ -19,6 +19,12 @@ class Identity(list):
         self.append(lambda x: "identityId")
 
     """
+    The tenant id
+    """
+    def tenant_id(self):
+        self.append(lambda x: "tenantId")
+
+    """
     The name of the identity
     """
     def qualifier(self):
