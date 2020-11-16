@@ -30,7 +30,7 @@ abstract class PreservationTest {
     fun `test preserve create identity`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(identities = listOf(CreatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = CreateIdentityImpulse("")
+        val impulse = CreateIdentityImpulse("", "")
 
         val publisher = gaiaRef.preserveCreateIdentities(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -43,7 +43,7 @@ abstract class PreservationTest {
     fun `test preserve update identity`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(identities = listOf(UpdatedIdentityImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "")
+        val impulse = UpdateIdentityImpulse(UUID.randomUUID().toString(), "", "")
 
         val publisher = gaiaRef.preserveUpdateIdentities(impulse)
         val result = Flux.from(publisher).blockFirst()

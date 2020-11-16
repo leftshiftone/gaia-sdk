@@ -121,11 +121,13 @@ type DeleteKnowledge {
 
 "The specification to create an identity instance"
 input CreateIdentityImpulse {
+    tenantId: String!
     qualifier: String!
 }
 "The specification to update an identity instance"
 input UpdateIdentityImpulse {
     identityId: Uuid!
+    tenantId: String!
     qualifier: String!
 }
 "The specification to delete an identity instance"

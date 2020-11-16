@@ -38,7 +38,7 @@ describe('perception tests:', () => {
 
     test('a List of CreateIdentityImpulse variable is identified as list CreateIdentityImpulse', () => {
         const registry = new VariableRegistry();
-        const list = [new CreateIdentityImpulse('qualifier1'), new CreateIdentityImpulse('qualifier2')];
+        const list = [new CreateIdentityImpulse('00000000-0000-0000-0000-000000000001', 'qualifier1'), new CreateIdentityImpulse('00000000-0000-0000-0000-000000000002', 'qualifier2')];
         const field = 'fieldName';
         registry.register(field, list);
         const datatypes = registry.getDatatypes();
@@ -48,7 +48,7 @@ describe('perception tests:', () => {
     test('a single CreateIdentityImpulse variable is identified as CreateIdentityImpulse', () => {
         const registry = new VariableRegistry();
         const field = 'fieldName';
-        registry.register(field, new CreateIdentityImpulse('qualifier1'));
+        registry.register(field, new CreateIdentityImpulse('00000000-0000-0000-0000-000000000001','qualifier1'));
         const datatypes = registry.getDatatypes();
         expect(datatypes[0]).toEqual('$' + field + '1:CreateIdentityImpulse!');
     });

@@ -22,6 +22,13 @@ public _typeName = "Identity";
     };
 
     /**
+     * The tenant id
+     */
+    public tenantId = () => { 
+        this.push(_ => "tenantId")
+    };
+
+    /**
      * The name of the identity
      */
     public qualifier = () => { 
