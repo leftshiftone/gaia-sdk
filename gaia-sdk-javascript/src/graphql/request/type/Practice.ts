@@ -9,6 +9,7 @@ import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
+import {EdgeType} from "../enumeration/EdgeType";
 
 /**
  * This type contains all practice sensor impulses which are used to support

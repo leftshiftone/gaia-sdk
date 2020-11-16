@@ -35,7 +35,7 @@ class VariableRegistry {
             return "[" + value.javaClass.simpleName
                     .replace("[", "")
                     .replace("]", "") + "]"
-        return value.let { return if(isUuid(it))  "Uuid" else mapDatatype(it) }
+        return value.let { return if(isUuid(it))  "Uuid!" else mapDatatype(it) + "!" }
     }
 
     private fun mapDatatype(type: Any): String {

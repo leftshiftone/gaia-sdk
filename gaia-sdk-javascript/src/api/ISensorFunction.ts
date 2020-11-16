@@ -94,7 +94,7 @@ import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillP
 import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
 import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
 import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
-import {Uuid} from "../graphql/GaiaClient";
+import {Struct, Uuid} from "../graphql/GaiaClient";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
 import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
@@ -125,6 +125,15 @@ import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
 import {UpdatedRoleImpulse} from "../graphql/response/type/UpdatedRoleImpulse";
 import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
 import {DeletedRoleImpulse} from "../graphql/response/type/DeletedRoleImpulse";
+import {EdgeType} from "../graphql/request/enumeration/EdgeType";
+import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
+import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
+import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
+import {ConnectNodeRemovedImpulse} from "../graphql/response/type/ConnectNodeRemovedImpulse";
+import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpulse";
+import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
+import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
+import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -135,7 +144,7 @@ export interface ISensorFunction {
 
     retrieveEdges(source: Uuid, config: (x: EdgeReq) => void, limit?: Number, offset?: Number): Observable<EdgeRes>
 
-    retrieveEdge(source: Uuid, target: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
+    retrieveEdge(source: Uuid, edgeId: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes>
 
     retrieveIdentities(config: (x: IdentityReq) => void, limit?: Number, offset?: Number): Observable<IdentityRes>
 
@@ -264,6 +273,14 @@ export interface ISensorFunction {
     preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse>
 
     preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse>
+
+    preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Observable<ConnectNodeSetImpulse>
+
+    preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Observable<ConnectNodeUnsetImpulse>
+
+    preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Observable<ConnectNodeAppendedImpulse>
+
+    preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Observable<ConnectNodeRemovedImpulse>
 
     preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse>
 

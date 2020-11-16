@@ -19,6 +19,8 @@ export default class VariableRegistry {
         var clonedValue = JSON.parse(JSON.stringify(value));
         if (Array.isArray(clonedValue)) {
             clonedValue.forEach(it => delete it._typeName);
+        } else if (clonedValue._isWrapper === true) {
+            clonedValue = clonedValue._wrappedValue;
         } else {
             delete clonedValue._typeName;
         }

@@ -10,7 +10,7 @@ interface ISensorFunction {
     fun retrieveExperience(config: Experience.() -> Unit): Publisher<gaia.sdk.response.type.Experience>
     fun retrieveKnowledge(config: Knowledge.() -> Unit): Publisher<gaia.sdk.response.type.Knowledge>
     fun retrieveEdges(source: Uuid, config: Edge.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Edge>
-    fun retrieveEdge(source: Uuid, target: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
+    fun retrieveEdge(source: Uuid, edgeId: Uuid, config: Edge.() -> Unit): Publisher<gaia.sdk.response.type.Edge>
     fun retrieveIdentities(config: Identity.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveIdentity(identityId: Uuid, config: Identity.() -> Unit): Publisher<gaia.sdk.response.type.Identity>
     fun retrieveTenants(config: Tenant.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Tenant>
@@ -81,6 +81,10 @@ interface ISensorFunction {
     fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.CreatedSkillProvisionImpulse>
     fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse): Publisher<gaia.sdk.response.type.UpdatedSkillProvisionImpulse>
     fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse): Publisher<gaia.sdk.response.type.DeletedSkillProvisionImpulse>
+    fun preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeSetImpulse>
+    fun preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeUnsetImpulse>
+    fun preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeAppendedImpulse>
+    fun preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Publisher<gaia.sdk.response.type.ConnectNodeRemovedImpulse>
     fun perceive(config: Perception.() -> Unit): Publisher<gaia.sdk.response.type.Perception>
     fun perceiveAction(impulse: PerceiveActionImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
     fun perceiveData(impulse: PerceiveDataImpulse): Publisher<gaia.sdk.response.type.PerceivedImpulse>
