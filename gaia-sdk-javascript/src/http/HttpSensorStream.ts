@@ -4,7 +4,6 @@ import {SkillRef} from '../api/SkillRef';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
 import {GaiaStreamClientFactory} from '../graphql/GaiaStreamClientBuilder';
 import {ISensorStream} from '../api/ISensorStream';
-import {IdentityRef} from "../api/IdentityRef";
 import {IdentityOp} from "../api/IdentityOp";
 
 export class HttpSensorStream implements ISensorStream{
@@ -24,11 +23,7 @@ export class HttpSensorStream implements ISensorStream{
         return new SkillRef(skillUri, this.client);
     }
 
-    identity(identityId: string): IdentityRef | IdentityOp {
-        if (identityId) {
-            return new IdentityRef(identityId, this.client);
-        } else {
-            return new IdentityOp(this.client)
-        }
+    identity(): IdentityOp {
+        return new IdentityOp(this.client)
     }
 }

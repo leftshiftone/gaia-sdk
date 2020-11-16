@@ -1,5 +1,6 @@
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
-import {Observable} from "rxjs";
+import {from, Observable} from "rxjs";
+import {IdentitySourceRequestImpulse} from "../graphql/request/input/IdentitySourceRequestImpulse";
 
 export class IdentityOp {
     private readonly client: GaiaStreamClient;
@@ -8,8 +9,15 @@ export class IdentityOp {
         this.client = client;
     }
 
-    public import(): Observable<Blob> | undefined {
+    public import(identityId?: string): Observable<Blob> | undefined {
         console.log("TODO: implement import identity");
         return undefined;
+    }
+
+    public export(identityId: string): Observable<Blob> {
+        return from(this.client.postAndRetrieveBinary(new IdentitySourceRequestImpulse(identityId), '/identity/source')
+            .catch((reason) => {
+                throw new Error('Exporting identity with id ' + identityId + ' failed: ' + reason);
+            }));
     }
 }
