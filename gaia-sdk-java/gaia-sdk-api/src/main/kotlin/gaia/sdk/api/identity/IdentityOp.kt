@@ -1,9 +1,7 @@
 package gaia.sdk.api.identity
 
 import gaia.sdk.GaiaStreamClient
-import gaia.sdk.api.data.DataRef
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
-import io.reactivex.internal.functions.ObjectHelper
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
@@ -13,7 +11,7 @@ import java.io.FileOutputStream
 
 class IdentityOp(private val client: GaiaStreamClient) {
 
-    private val log: Logger = LoggerFactory.getLogger(DataRef::class.java)
+    private val log: Logger = LoggerFactory.getLogger(IdentityOp::class.java)
 
     /**
      * Exports an identity from the DataStorage. It streams all bytes to a FileOutpuStream and once all bytes have been
