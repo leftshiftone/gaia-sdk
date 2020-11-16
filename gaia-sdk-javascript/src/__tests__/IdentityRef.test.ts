@@ -7,9 +7,12 @@ describe('dataref tests:', () => {
 
     test('test export identity', () => {
         return new Promise(async (resolve, reject) => {
+            const Blob = require("cross-blob");
+            const blob = new Blob(['234']);
+
             const gaiaRef = Mock.gaiaRef((request) => {
                 expect(request.urlPostFix).toEqual('/identity/source');
-                return ['blob'];
+                return [blob];
             });
             const observable = gaiaRef.identity('identityId').export();
             observable.subscribe(e => {
