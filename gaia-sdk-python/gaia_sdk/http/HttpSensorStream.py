@@ -14,7 +14,7 @@ class HttpSensorStream(ISensorStream):
         self._scheduler = scheduler
 
     def data(self, uri: str):
-        return DataRef(uri, self._client)
+        return DataRef(uri, self._client, self._scheduler)
 
     def identity(self, identity_id: str):
         return IdentityRef(identity_id, self._client, self._scheduler)
