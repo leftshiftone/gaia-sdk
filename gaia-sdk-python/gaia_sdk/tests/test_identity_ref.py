@@ -33,4 +33,4 @@ class TestIdentityRef(unittest.TestCase):
 
         result = pipe(ops.first())(
             self.gaiaRef.identity("d32829c8-5900-4346-9577-25e8146d1e78").export()).run()
-        self.assertEqual(len(result), 21582)
+        self.assertEqual(len(result), 28311)
