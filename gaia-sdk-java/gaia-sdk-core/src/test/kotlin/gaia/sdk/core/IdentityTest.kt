@@ -69,7 +69,7 @@ internal class IdentityTest {
             Flowable.fromPublisher(identityRef.export()).test()
             fail<String>("No exception thrown")
         } catch (e: NullPointerException) {
-            assertThat(e.message).isEqualTo("identity is null, is required for export")
+            assertThat(e.message).isEqualTo("Identity ID of IdentityRef must be set in order to export an identity")
         }
     }
 
@@ -84,7 +84,7 @@ internal class IdentityTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.length() == 21582.toLong()
+            it.length() == 28311.toLong()
         }
     }
 }
