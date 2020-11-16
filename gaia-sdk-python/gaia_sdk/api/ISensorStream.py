@@ -9,7 +9,7 @@ class ISensorStream(ABC):
         pass
 
     @abstractmethod
-    def identity(self, identity_id: str):
+    def identity(self):
         pass
 
     @abstractmethod

@@ -4,7 +4,7 @@ import requests
 from rx.core.typing import Observable
 from rx.scheduler import ThreadPoolScheduler
 
-from gaia_sdk.api import ISensorStream, IdentityRef
+from gaia_sdk.api import ISensorStream, IdentityOp
 from gaia_sdk.api.DataRef import DataRef
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, GaiaCredentials, JWTCredentials
 from gaia_sdk.api.ISensorFunction import ISensorFunction
@@ -89,8 +89,8 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def data(self, uri: str) -> DataRef:
         return self.s_proc.data(uri)
 
-    def identity(self, identity_id: str = None) -> IdentityRef:
-        return self.s_proc.identity(identity_id)
+    def identity(self) -> IdentityOp:
+        return self.s_proc.identity()
 
     def skill(self, url: str) -> SkillRef:
         return self.s_proc.skill(url)
