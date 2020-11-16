@@ -547,7 +547,7 @@ describe('perception tests:', () => {
                     "impulse1": {
                         "properties": {},
                         "target": "target",
-                        "type": 5,
+                        "type": 6,
                         "weight": 0.8
                     },
                     "nodeId1": nodeId
@@ -580,7 +580,7 @@ describe('perception tests:', () => {
                 "statement": "mutation gaia($nodeId1:Uuid!, $impulse1:ConnectUnsetNodeImpulse!) { preserve { connect { node(nodeId:$nodeId1){unset(impulse:$impulse1){id removedEdges { source edgeId }}} } } }",
                 "variables": {
                     "impulse1": {
-                        "type": 5
+                        "type": 6
                     },
                     "nodeId1": nodeId
                 }
@@ -609,7 +609,7 @@ describe('perception tests:', () => {
                     "impulse1": {
                         "properties": {},
                         "target": "target",
-                        "type": 5,
+                        "type": 6,
                         "weight": 0.8
                     },
                     "nodeId1": nodeId
@@ -640,7 +640,7 @@ describe('perception tests:', () => {
                 "variables": {
                     "impulse1": {
                         "target": "target",
-                        "type": 5
+                        "type": 6
                     },
                     "nodeId1": nodeId
                 }
