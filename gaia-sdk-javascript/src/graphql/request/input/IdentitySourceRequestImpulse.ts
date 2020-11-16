@@ -1,7 +1,7 @@
 export class IdentitySourceRequestImpulse {
     identityId: string
 
-    constructor(uri: string) {
-        this.identityId = uri;
+    constructor(identityId: string) {
+        this.identityId = identityId;
     }
 }
