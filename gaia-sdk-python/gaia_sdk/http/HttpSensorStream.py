@@ -17,7 +17,7 @@ class HttpSensorStream(ISensorStream):
         return DataRef(uri, self._client)
 
     def identity(self, identity_id: str):
-        return IdentityRef(identity_id, self._client)
+        return IdentityRef(identity_id, self._client, self._scheduler)
 
     def skill(self, uri: str) -> SkillRef:
         return SkillRef(uri, self._client, self._scheduler)

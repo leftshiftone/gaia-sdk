@@ -1,16 +1,18 @@
 import logging
 
-from rx import of
-from rx.core.typing import Observable
+import rx
+import rx.operators as ops
+from rx.core.typing import Observable, Scheduler
 from gaia_sdk.http import GaiaStreamClient
 from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
 
 
 class IdentityRef:
-    def __init__(self, identity_id: str, client: GaiaStreamClient):
+    def __init__(self, identity_id: str, client: GaiaStreamClient, scheduler: Scheduler):
         self.identity_id = identity_id
-        self.client = client
-        self.logger = logging.getLogger("IdentityRef")
+        self._client = client
+        self._logger = logging.getLogger("IdentityRef")
+        self._scheduler = scheduler
 
     def export(self) -> Observable[bytes]:
         r"""Exports the identity with the current identity ID and returns it as bytes.
@@ -22,7 +24,11 @@ class IdentityRef:
         if self.identity_id is None:
             raise ValueError("Identity ID of IdentityRef must be set in order to export an identity")
 
-        self.logger.debug(f"Started export of {self.identity_id}")
-        response = self.client.post_json(IdentitySourceRequestImpulse(self.identity_id), "/identity/source").content
-        self.logger.debug(f"Completed export of {self.identity_id}")
-        return of(response)
+        self._logger.debug(f"Started export of {self.identity_id}")
+
+        return rx.from_callable(
+            lambda: self._client.post_json(IdentitySourceRequestImpulse(self.identity_id),
+                                           url_postfix="/identity/source"),
+            self._scheduler) \
+            .pipe(
+            ops.map(lambda response: response.content))
