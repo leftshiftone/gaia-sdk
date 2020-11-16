@@ -5,7 +5,7 @@ import gaia.sdk.GaiaStreamingClientBuilder
 import gaia.sdk.api.ISensorStream
 import gaia.sdk.api.skill.ISkillSpec
 import gaia.sdk.api.data.DataRef
-import gaia.sdk.api.identity.IdentityRef
+import gaia.sdk.api.identity.IdentityOp
 import gaia.sdk.api.skill.SkillRef
 
 class HttpSensorStream(url: String, credentials: GaiaCredentials, transporterFactory: TransporterFactory) : ISensorStream {
@@ -22,7 +22,7 @@ class HttpSensorStream(url: String, credentials: GaiaCredentials, transporterFac
         return DataRef(uri, this.client)
     }
 
-    override fun identity(id: String?): IdentityRef {
-        return IdentityRef(id, this.client)
+    override fun identity(): IdentityOp {
+        return IdentityOp(this.client)
     }
 }

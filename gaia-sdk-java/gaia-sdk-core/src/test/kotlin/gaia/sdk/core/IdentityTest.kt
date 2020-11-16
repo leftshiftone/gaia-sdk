@@ -52,8 +52,8 @@ internal class IdentityTest {
         // Imagine there's an identity instead of the text file
         configureStub("Bearer", errorCode = 200, responseFile = "ok_download_file.txt", uri = "/api/identity/source")
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
-        val identityRef = gaiaRef.identity("00000000-0000-0000-0000-000000000000")
-        val ts = Flowable.fromPublisher(identityRef.export()).test()
+        val identityRef = gaiaRef.identity()
+        val ts = Flowable.fromPublisher(identityRef.export("00000000-0000-0000-0000-000000000000")).test()
 
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
@@ -66,10 +66,10 @@ internal class IdentityTest {
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val identityRef = gaiaRef.identity()
         try {
-            Flowable.fromPublisher(identityRef.export()).test()
+            Flowable.fromPublisher(identityRef.export("")).test()
             fail<String>("No exception thrown")
-        } catch (e: NullPointerException) {
-            assertThat(e.message).isEqualTo("Identity ID of IdentityRef must be set in order to export an identity")
+        } catch (e: AssertionError) {
+            assertThat(e.message).isEqualTo("Identity ID must be set in order to export an identity")
         }
     }
 
@@ -78,8 +78,8 @@ internal class IdentityTest {
     fun `successful identity export (local e2e)`() {
         val gaiaCredentials = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
         val gaiaRef = Gaia.connect("http://localhost:8080", gaiaCredentials)
-        val identityRef = gaiaRef.identity("d32829c8-5900-4346-9577-25e8146d1e78")
-        val ts = Flowable.fromPublisher(identityRef.export()).test()
+        val identityRef = gaiaRef.identity()
+        val ts = Flowable.fromPublisher(identityRef.export("d32829c8-5900-4346-9577-25e8146d1e78")).test()
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)

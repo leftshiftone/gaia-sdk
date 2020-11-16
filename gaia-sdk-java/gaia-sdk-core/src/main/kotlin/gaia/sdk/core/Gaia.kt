@@ -188,7 +188,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     // data api
     override fun data(url: String) = sProc.data(url)
     // identity api
-    override fun identity(id: String?) = sProc.identity(id)
+    override fun identity() = sProc.identity()
     // skill api
     override fun skill(url: String) = sProc.skill(url)
 }
