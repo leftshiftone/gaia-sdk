@@ -1,4 +1,4 @@
-package gaia.sdk.api
+package gaia.sdk.api.data
 
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*

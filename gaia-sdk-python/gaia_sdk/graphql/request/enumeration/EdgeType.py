@@ -16,7 +16,9 @@ class EdgeType(Enum):
 
     IdentityWelcomeBehaviour = 7
 
-    UserRole = 8
+    IdentityIntentDetectionSkill = 8
 
-    ApiKeyRole = 9
+    UserRole = 9
+
+    ApiKeyRole = 10
 

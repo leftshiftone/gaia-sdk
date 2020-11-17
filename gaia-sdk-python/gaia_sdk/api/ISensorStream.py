@@ -9,5 +9,9 @@ class ISensorStream(ABC):
         pass
 
     @abstractmethod
+    def identity(self):
+        pass
+
+    @abstractmethod
     def skill(self, uri: str) -> SkillRef:
         pass

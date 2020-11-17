@@ -1,9 +1,12 @@
-import functools
-import logging
 from math import ceil
 from rx import of
+from rx.core.abc import Scheduler
 from rx.core.typing import Observable
 from typing import List
+import functools
+import logging
+import rx
+import rx.operators as ops
 
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
 from gaia_sdk.http.request.BinaryReadImpulse import BinaryReadImpulse
@@ -21,9 +24,10 @@ CHUNK_SIZE = 1024 * 1024 * 5
 
 
 class DataRef:
-    def __init__(self, uri: str, client: GaiaStreamClient):
+    def __init__(self, uri: str, client: GaiaStreamClient, scheduler: Scheduler):
         self.uri = uri
         self.client = client
+        self.scheduler = scheduler
         self.logger = logging.getLogger("HttpTransporter")
 
     def add(self, file_name: str, content: bytes, override: bool = False) -> Observable['DataRef']:
@@ -39,7 +43,7 @@ class DataRef:
         file_uri = DataRef.concat_uri(self.uri, file_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
         self.logger.debug(f"Started upload to uri {self.uri}")
-        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override).execute(self.client)
+        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override).execute(self.client, self.scheduler)
         self.logger.debug(f"Finished upload to uri {self.uri}")
         return of(new_file_data_ref)
 
@@ -60,10 +64,12 @@ class DataRef:
         :return: :class:`Observable[bytes]` object: File as bytes.
         :exception HttpError: Error thrown if the download operation fails.
         """
-        self.logger.debug(f"Started download from {self.uri}")
-        response = self.client.post_json(BinaryReadImpulse(self.uri), "/data/source").content
-        self.logger.debug(f"Completed download from {self.uri}")
-        return of(response)
+        return rx.from_callable(
+            lambda: self.client.post_json(BinaryReadImpulse(self.uri),
+                                          url_postfix="/data/source"),
+            self.scheduler) \
+            .pipe(
+            ops.map(lambda response: response.content))
 
     def as_stream(self):
         r"""Not implemented in backend"""
@@ -125,11 +131,11 @@ class DataUpload:
                 'number_of_chunks': self.number_of_chunks,
                 'override': self.override}
 
-    def execute(self, client: GaiaStreamClient) -> DataRef:
+    def execute(self, client: GaiaStreamClient, scheduler: Scheduler) -> DataRef:
         upload_id = self.init_upload(client).upload_id
         chunk_ids = self.upload_chunks(client, upload_id)
         self.complete_upload(client, upload_id, chunk_ids)
-        return DataRef(self.uri, client)
+        return DataRef(self.uri, client, scheduler)
 
     def init_upload(self, client: GaiaStreamClient) -> InitializedBinaryWrite:
         response = client.post_json(InitBinaryWriteImpulse(self.uri,
