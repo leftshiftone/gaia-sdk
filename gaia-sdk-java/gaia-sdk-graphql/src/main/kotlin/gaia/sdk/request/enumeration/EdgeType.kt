@@ -4,11 +4,11 @@ enum class EdgeType {
     TenantIdentity, 
     Supervisor, 
     IdentityNerSkill, 
-    IdentityIntentSkill, 
     IdentityErrorStatement, 
     IdentityUnknownBehaviour, 
     IdentityDiscontinuableStatement, 
     IdentityWelcomeBehaviour, 
+    IdentityIntentSkill, 
     UserRole, 
     ApiKeyRole
 }

@@ -1,13 +1,13 @@
 export enum EdgeType {
-    TenantIdentity,
-    Supervisor,
-    IdentityNerSkill,
-    IdentityIntentSkill,
-    IdentityErrorStatement,
-    IdentityUnknownBehaviour,
-    IdentityDiscontinuableStatement,
-    IdentityWelcomeBehaviour,
-    UserRole,
+    TenantIdentity, 
+    Supervisor, 
+    IdentityNerSkill, 
+    IdentityErrorStatement, 
+    IdentityUnknownBehaviour, 
+    IdentityDiscontinuableStatement, 
+    IdentityWelcomeBehaviour, 
+    IdentityIntentSkill, 
+    UserRole, 
     ApiKeyRole
 }
 
@@ -20,8 +20,6 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new Supervisor();
         case EdgeType.IdentityNerSkill:
             return new IdentityNerSkill();
-        case EdgeType.IdentityIntentSkill:
-            return new IdentityIntentSkill();
         case EdgeType.IdentityErrorStatement:
             return new IdentityErrorStatement();
         case EdgeType.IdentityUnknownBehaviour:
@@ -30,6 +28,8 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new IdentityDiscontinuableStatement();
         case EdgeType.IdentityWelcomeBehaviour:
             return new IdentityWelcomeBehaviour();
+        case EdgeType.IdentityIntentSkill:
+            return new IdentityIntentSkill();
         case EdgeType.UserRole:
             return new UserRole();
         case EdgeType.ApiKeyRole:
@@ -58,13 +58,6 @@ export class IdentityNerSkill {
 
     constructor() {}
 }
-export class IdentityIntentSkill {
-    public _typeName = "EdgeType";
-    public _isWrapper = true;
-    public _wrappedValue = "IdentityIntentSkill";
-
-    constructor() {}
-}
 export class IdentityErrorStatement {
     public _typeName = "EdgeType";
     public _isWrapper = true;
@@ -90,6 +83,13 @@ export class IdentityWelcomeBehaviour {
     public _typeName = "EdgeType";
     public _isWrapper = true;
     public _wrappedValue = "IdentityWelcomeBehaviour";
+
+    constructor() {}
+}
+export class IdentityIntentSkill {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityIntentSkill";
 
     constructor() {}
 }
