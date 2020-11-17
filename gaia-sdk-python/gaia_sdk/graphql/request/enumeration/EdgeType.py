@@ -8,15 +8,17 @@ class EdgeType(Enum):
 
     IdentityNerSkill = 3
 
-    IdentityErrorStatement = 4
+    IdentityIntentSkill = 4
 
-    IdentityUnknownBehaviour = 5
+    IdentityErrorStatement = 5
 
-    IdentityDiscontinuableStatement = 6
+    IdentityUnknownBehaviour = 6
 
-    IdentityWelcomeBehaviour = 7
+    IdentityDiscontinuableStatement = 7
 
-    UserRole = 8
+    IdentityWelcomeBehaviour = 8
 
-    ApiKeyRole = 9
+    UserRole = 9
+
+    ApiKeyRole = 10
 

@@ -1,12 +1,13 @@
 export enum EdgeType {
-    TenantIdentity, 
-    Supervisor, 
-    IdentityNerSkill, 
-    IdentityErrorStatement, 
-    IdentityUnknownBehaviour, 
-    IdentityDiscontinuableStatement, 
-    IdentityWelcomeBehaviour, 
-    UserRole, 
+    TenantIdentity,
+    Supervisor,
+    IdentityNerSkill,
+    IdentityIntentSkill,
+    IdentityErrorStatement,
+    IdentityUnknownBehaviour,
+    IdentityDiscontinuableStatement,
+    IdentityWelcomeBehaviour,
+    UserRole,
     ApiKeyRole
 }
 
@@ -19,6 +20,8 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new Supervisor();
         case EdgeType.IdentityNerSkill:
             return new IdentityNerSkill();
+        case EdgeType.IdentityIntentSkill:
+            return new IdentityIntentSkill();
         case EdgeType.IdentityErrorStatement:
             return new IdentityErrorStatement();
         case EdgeType.IdentityUnknownBehaviour:
@@ -52,6 +55,13 @@ export class IdentityNerSkill {
     public _typeName = "EdgeType";
     public _isWrapper = true;
     public _wrappedValue = "IdentityNerSkill";
+
+    constructor() {}
+}
+export class IdentityIntentSkill {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityIntentSkill";
 
     constructor() {}
 }
