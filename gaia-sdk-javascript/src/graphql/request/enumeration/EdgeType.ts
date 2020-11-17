@@ -6,6 +6,7 @@ export enum EdgeType {
     IdentityUnknownBehaviour, 
     IdentityDiscontinuableStatement, 
     IdentityWelcomeBehaviour, 
+    IdentityIntentDetectionSkill, 
     UserRole, 
     ApiKeyRole
 }
@@ -27,6 +28,8 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new IdentityDiscontinuableStatement();
         case EdgeType.IdentityWelcomeBehaviour:
             return new IdentityWelcomeBehaviour();
+        case EdgeType.IdentityIntentDetectionSkill:
+            return new IdentityIntentDetectionSkill();
         case EdgeType.UserRole:
             return new UserRole();
         case EdgeType.ApiKeyRole:
@@ -80,6 +83,13 @@ export class IdentityWelcomeBehaviour {
     public _typeName = "EdgeType";
     public _isWrapper = true;
     public _wrappedValue = "IdentityWelcomeBehaviour";
+
+    constructor() {}
+}
+export class IdentityIntentDetectionSkill {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityIntentDetectionSkill";
 
     constructor() {}
 }
