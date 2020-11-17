@@ -1,4 +1,4 @@
-package gaia.sdk.api
+package gaia.sdk.api.data
 
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*
@@ -88,7 +88,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @return Publisher of the written file.
      */
     fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
-        log.info("Download file from $this.uri to ${filePath}")
+        log.info("Download file from ${this.uri} to $filePath")
         return this.client.streamBytes(BinaryReadImpulse(this.uri), "/data/source")
                 .observeOn(Schedulers.io())
                 .reduce(FileOutputStream(filePath), { result: FileOutputStream, nextBytes: ByteArray ->

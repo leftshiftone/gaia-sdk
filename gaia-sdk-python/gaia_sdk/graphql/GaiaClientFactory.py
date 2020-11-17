@@ -1,6 +1,5 @@
-from gaia_sdk.api.client_options import ClientOptions
-from gaia_sdk.http.HttpTransporter import HttpTransporter
-from gaia_sdk.graphql.GaiaClient import GaiaClient
+from gaia_sdk.graphql.GaiaClientBuilder import GaiaHttpClientBuilder
+
 
 class GaiaClientFactory:
 
