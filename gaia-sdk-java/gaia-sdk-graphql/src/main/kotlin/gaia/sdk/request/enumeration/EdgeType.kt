@@ -9,7 +9,7 @@ enum class EdgeType {
     IdentityDiscontinuableStatement, 
     IdentityWelcomeBehaviour, 
     IdentityIntentDetectionSkill, 
-    IdentityDisambiguationBehaviour, 
     UserRole, 
-    ApiKeyRole
+    ApiKeyRole, 
+    IdentityDisambiguationBehaviour
 }
