@@ -131,10 +131,10 @@ internal class GaiaStreamClientTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it[0] == FileListing("0000-0000-abc", "/0abc/defg") &&
-                    it[1] == FileListing("1000-0000-abc", "/1abc/defg") &&
-                    it[2] == FileListing("2000-0000-abc", "/2abc/defg") &&
-                    it[3] == FileListing("3000-0000-abc", "/3abc/defg") &&
+            it[0] == FileListing("0000-0000-abc", "/0abc/defg", "2020-11-18", 1000) &&
+                    it[1] == FileListing("1000-0000-abc", "/1abc/defg", "2020-11-19", 1001) &&
+                    it[2] == FileListing("2000-0000-abc", "/2abc/defg", "2020-11-20", 1002) &&
+                    it[3] == FileListing("3000-0000-abc", "/3abc/defg", "2020-11-21", 1003) &&
                     it.size == 4
         }
     }

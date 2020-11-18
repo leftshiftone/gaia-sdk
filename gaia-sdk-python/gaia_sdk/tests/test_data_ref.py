@@ -2,15 +2,13 @@ import logging
 import unittest
 
 from rx import operators as ops, pipe
-from gaia_sdk.gaia import Gaia
-from gaia_sdk.api.GaiaCredentials import HMACCredentials
 
 from gaia_sdk.http.response.FileListing import FileListing
 from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
 
-
 logging.basicConfig(level=logging.DEBUG)
+
 
 class TestDataRef(unittest.TestCase):
 
@@ -46,12 +44,14 @@ class TestDataRef(unittest.TestCase):
     def test_list_files_in_existing_dir(self):
         def mock(request):
             self.assertEqual(request.url_post_fix, "/data/list")
-            return MockResponse([{"tenant": "tenant1", "filePath": "existingDirectory/file1"}])
+            return MockResponse([{"tenant": "tenant1", "filePath": "existingDirectory/file1",
+                                  "lastModified": "2020-11-18", "size": "1000"}])
 
         self.gaiaRef = mock_gaia_ref(mock)
         result = pipe(ops.first())(self.gaiaRef.data("gaia://usr@tenant1/existingDirectory").list()).run()
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0], FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1"}))
+        self.assertEqual(result[0], FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1",
+                                                 "lastModified": "2020-11-18", "size": "1000"}))
 
     def test_list_files_in_nonexistent_dir(self):
         def mock(request):
