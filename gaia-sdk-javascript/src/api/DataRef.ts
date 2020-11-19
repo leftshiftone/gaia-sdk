@@ -99,12 +99,12 @@ export class DataRef {
     }
 }
 
-class DataUpload {
-    private static readonly CHUNK_SIZE = 1024 * 1024 * 5;
-    private readonly uri: string;
-    private readonly content: Blob;
-    private readonly totalNumberOfChunks: number;
-    private readonly override: boolean;
+export class DataUpload {
+    protected static readonly CHUNK_SIZE = 1024 * 1024 * 5;
+    protected readonly uri: string;
+    protected readonly content: Blob;
+    protected readonly totalNumberOfChunks: number;
+    protected readonly override: boolean;
 
     constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
         this.uri = uri;
