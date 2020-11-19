@@ -8,7 +8,8 @@ export enum EdgeType {
     IdentityWelcomeBehaviour, 
     IdentityIntentDetectionSkill, 
     UserRole, 
-    ApiKeyRole
+    ApiKeyRole, 
+    IdentityDisambiguationBehaviour
 }
 
 
@@ -34,6 +35,8 @@ export function getEdgeTypeEnumClass(enumValue: EdgeType): any {
             return new UserRole();
         case EdgeType.ApiKeyRole:
             return new ApiKeyRole();
+        case EdgeType.IdentityDisambiguationBehaviour:
+            return new IdentityDisambiguationBehaviour();
     }
 }
 
@@ -104,6 +107,13 @@ export class ApiKeyRole {
     public _typeName = "EdgeType";
     public _isWrapper = true;
     public _wrappedValue = "ApiKeyRole";
+
+    constructor() {}
+}
+export class IdentityDisambiguationBehaviour {
+    public _typeName = "EdgeType";
+    public _isWrapper = true;
+    public _wrappedValue = "IdentityDisambiguationBehaviour";
 
     constructor() {}
 }
