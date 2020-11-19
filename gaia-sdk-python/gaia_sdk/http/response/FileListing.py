@@ -16,11 +16,11 @@ class FileListing:
 
     @property
     def file_path(self):
-        return self.dictionary.get("file_path")
+        return self.dictionary.get("filePath")
 
     @property
     def last_modified(self):
-        return self.dictionary.get("last_modified")
+        return self.dictionary.get("lastModified")
 
     @property
     def size(self):
