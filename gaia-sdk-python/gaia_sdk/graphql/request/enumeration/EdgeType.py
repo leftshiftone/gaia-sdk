@@ -22,3 +22,5 @@ class EdgeType(Enum):
 
     ApiKeyRole = 10
 
+    IdentityDisambiguationBehaviour = 11
+
