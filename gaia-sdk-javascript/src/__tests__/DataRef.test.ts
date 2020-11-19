@@ -13,7 +13,6 @@ describe('dataref tests:', () => {
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder/somefolder/asdf1.pdf').asFile();
             observable.subscribe(reject, error => resolve(error));
         });
-
     });
 
     test.skip('test write new file', () => {
