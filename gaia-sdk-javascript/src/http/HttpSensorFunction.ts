@@ -390,6 +390,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.identityId()
                     d.tenantId()
                     d.qualifier()
+                    d.availableLanguages()
                 })
             }))
         }))));
@@ -404,6 +405,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.identityId()
                     d.tenantId()
                     d.qualifier()
+                    d.availableLanguages()
                 })
             }))
         }))));

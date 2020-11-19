@@ -4,8 +4,6 @@ from uuid import uuid4
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.api.GaiaCredentials import HMACCredentials
-from gaia_sdk.gaia import Gaia
 from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
 from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
 from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
@@ -43,18 +41,18 @@ class RxException(Exception):
 class TestPreservation(unittest.TestCase):
 
     def test_preserve_create_identity(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"identities": [{"id": "asdf", "data": { "identityId": "i1"}}]}}}}))
-
-        impulses = CreateIdentityImpulse(str(uuid4()), str(""))
+        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"identities": [{"id": "asdf", "data": { "identityId": "i1", "availableLanguages": {"de": "Deutsch"}}}]}}}}))
+        impulses = CreateIdentityImpulse(str(uuid4()), str(""), {"de": "Deutsch"})
         result = pipe(ops.first())(gaia_ref.preserve_create_identities([impulses])).run()
         self.assertEqual(result.dictionary.get("id"), "asdf")
         data = result.dictionary.get("data")
         self.assertEqual(data.get("identityId"), "i1")
+        self.assertEqual(data.get("availableLanguages"),  {"de": "Deutsch"})
 
     def test_preserve_update_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"update": {"identities": [{"id": "asdf"}]}}}}))
 
-        impulses = UpdateIdentityImpulse(str(uuid4()), str(uuid4()), "")
+        impulses = UpdateIdentityImpulse(str(uuid4()), str(uuid4()), "qualifier", {"de": "Deutsch"})
         result = pipe(ops.first())(gaia_ref.preserve_update_identities([impulses])).run()
         assert result.dictionary.get("id") is not None, "ID  is in response"
 

@@ -126,23 +126,25 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { identities(impulses) {
                     id()
-                    data({
+                    data {
                         identityId()
                         tenantId()
                         qualifier()
-                    })
-                } } } })) {
+                        availableLanguages()
+                    }
+            } } } })) {
                 it.preserve?.create?.identities!!
             }
 
     override fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { identities(impulses) {
                 id()
-                data({
+                data {
                     identityId()
                     tenantId()
                     qualifier()
-                })
+                    availableLanguages()
+                }
             } } } })) {
                 it.preserve?.update?.identities!!
             }
