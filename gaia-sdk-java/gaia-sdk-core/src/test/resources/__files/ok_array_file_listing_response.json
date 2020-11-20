@@ -1,18 +1,26 @@
 [
   {
     "tenant": "0000-0000-abc",
-    "filePath": "/0abc/defg"
+    "filePath": "/0abc/defg",
+    "lastModified": "2020-11-18",
+    "size": 1000
   },
   {
     "tenant": "1000-0000-abc",
-    "filePath": "/1abc/defg"
+    "filePath": "/1abc/defg",
+    "lastModified": "2020-11-19",
+    "size": 1001
   },
   {
     "tenant": "2000-0000-abc",
-    "filePath": "/2abc/defg"
+    "filePath": "/2abc/defg",
+    "lastModified": "2020-11-20",
+    "size": 1002
   },
   {
     "tenant": "3000-0000-abc",
-    "filePath": "/3abc/defg"
+    "filePath": "/3abc/defg",
+    "lastModified": "2020-11-21",
+    "size": 1003
   }
 ]
