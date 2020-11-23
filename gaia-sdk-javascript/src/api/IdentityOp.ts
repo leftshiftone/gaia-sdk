@@ -5,6 +5,7 @@ import {InitBinaryWriteImpulse} from "../graphql/request/input/InitBinaryWriteIm
 import {BinaryWriteChunkImpulse} from "../graphql/request/input/BinaryWriteChunkImpulse";
 import {DataRef, DataUpload} from "./DataRef";
 import {CompleteIdentityUploadImpulse} from "../graphql/request/input/CompleteIdentityUploadImpulse";
+import {UUID} from "../graphql/GaiaScalars";
 
 export class IdentityOp {
     private readonly client: GaiaStreamClient;
@@ -25,7 +26,7 @@ export class IdentityOp {
 
         const upload = IdentityUpload.createIdentityUpload(DataRef.concatUri(uri, file.name),
                                         tenantId,
-                                        identityId || this.uuidv4(),
+                                        identityId || UUID.randomUUID().toString(),
                                         identityName,
                                         content,
                                         override);
@@ -37,13 +38,6 @@ export class IdentityOp {
             .catch((reason) => {
                 throw new Error('Exporting identity with id ' + identityId + ' failed: ' + reason);
             }));
-    }
-
-    private uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
     }
 }
 
