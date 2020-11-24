@@ -14,7 +14,7 @@ export class IdentityOp {
         this.client = client;
     }
 
-    public import(uri: string, tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<DataRef> {
+    public import(tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<DataRef> {
         // As long as the gaia uri is "gaia://user@tenant..." we have to send the uri as well because of the "user"
         // TODO: remove user
 
@@ -24,6 +24,7 @@ export class IdentityOp {
             throw new Error('Import identity failed: Selected file is not a valid identity');
         }
 
+        const uri = `gaia://user@${tenantId}/identities/`;
         const upload = IdentityUpload.createIdentityUpload(DataRef.concatUri(uri, file.name),
                                         tenantId,
                                         identityId || UUID.randomUUID().toString(),

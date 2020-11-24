@@ -89,7 +89,7 @@ internal class IdentityTest {
         val identityRef = gaiaRef.identity()
 
         val fileToUpload = File("src/test/resources/identity-Generic-Blubb.zip")
-        val ts = Flowable.fromPublisher(identityRef.import("gaia://usr@tenant/identities/", "00000000-0000-0000-0000-000000000000",
+        val ts = Flowable.fromPublisher(identityRef.import("00000000-0000-0000-0000-000000000000",
                 "identity-default", fileToUpload, false, "00000000-0000-0000-0000-000000000000")).test()
 
         ts.awaitDone(10, TimeUnit.SECONDS)

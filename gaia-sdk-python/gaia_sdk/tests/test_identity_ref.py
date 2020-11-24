@@ -34,3 +34,19 @@ class TestIdentityRef(unittest.TestCase):
         result = pipe(ops.first())(
             self.gaiaRef.identity().export("d32829c8-5900-4346-9577-25e8146d1e78")).run()
         self.assertEqual(len(result), 28311)
+
+    def test_import_identity(self):
+        self.gaiaRef = mock_gaia_ref(self.mock_write)
+        data = bytes("identity content", encoding="utf-8")
+        response = self.gaiaRef.identity().import_identity('tenantId', 'identityName', data, False)
+        assert pipe(ops.first())(response).run().uri == "gaia://user@tenantId/identities/identityName"
+
+    def mock_write(self, request):
+        if request.url_post_fix == "/identity/sink/init":
+            return MockResponse({"uploadId": "A123"})
+        elif request.url_post_fix == "/identity/sink/chunk":
+            return MockResponse({"chunkId": "B123"})
+        elif request.url_post_fix == "/identity/sink/complete":
+            return MockResponse("asdfqwer")
+        else:
+            raise RuntimeError('On purpose')

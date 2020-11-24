@@ -40,8 +40,8 @@ describe('dataref tests:', () => {
                 return [identityBlob];
             });
 
-            const observable = gaiaRef.identity().import('gaia://usr@tenant/identities/',
-                'tenantId','identityName', identityBlob, true);
+            const observable = gaiaRef.identity().import('tenantId','identityName',
+                identityBlob, true);
 
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();

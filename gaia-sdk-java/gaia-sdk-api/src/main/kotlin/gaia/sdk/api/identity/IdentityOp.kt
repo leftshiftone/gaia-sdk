@@ -53,8 +53,8 @@ class IdentityOp(private val client: GaiaStreamClient) {
                     .toFlowable()
 
 
-    fun import(uri: String, tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String?): Flowable<DataRef> {
-        log.info("IdentityID: " + identityId)
+    fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String?): Flowable<DataRef> {
+        val uri = "gaia://user@$tenantId/identities/";
         val upload = IdentityUpload.create(DataRef.concatUri(uri, content.name),
                 tenantId,
                 identityId ?: UUID.randomUUID().toString(),
