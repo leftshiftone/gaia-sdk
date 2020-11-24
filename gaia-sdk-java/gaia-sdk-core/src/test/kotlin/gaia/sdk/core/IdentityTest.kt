@@ -77,7 +77,7 @@ internal class IdentityTest {
 
     @Test
     fun `successful identity import`() {
-        val gaiaStorageUri = "gaia://usr@tenant/identities/"
+        val gaiaStorageUri = "gaia://user@00000000-0000-0000-0000-000000000000/identities/"
         val fileName = "identity-Generic-Blubb.zip"
         val uploadId = "0123456789" //HardCoded in mapping file ok_data_chunk_upload_response.json
         val sizeInBytes = 37721 //HardCoded in mapping file ok_data_chunk_upload_response.json
@@ -96,7 +96,7 @@ internal class IdentityTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.getUri() == "gaia://usr@tenant/identities/identity-Generic-Blubb.zip"
+            it.getUri() == "gaia://user@00000000-0000-0000-0000-000000000000/identities/identity-Generic-Blubb.zip"
         }
     }
 
