@@ -7,6 +7,8 @@ import logging
 import rx
 import rx.operators as ops
 
+import uuid
+
 from gaia_sdk.api.DataRef import DataRef
 from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
 
@@ -18,6 +20,12 @@ from gaia_sdk.http.response.BinaryChunkWritten import BinaryChunkWritten
 from gaia_sdk.http.response.InitializedBinaryWrite import InitializedBinaryWrite
 
 CHUNK_SIZE = 1024 * 1024 * 5
+
+
+def check_identity_id(identity_id):
+    if identity_id is None:
+        return str(uuid.uuid4())
+    return identity_id
 
 
 class IdentityOp:
@@ -48,8 +56,8 @@ class IdentityOp:
         uri = "gaia://user@{}/identities/".format(tenant_id)
         file_uri = DataRef.concat_uri(uri, identity_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
-        new_file_data_ref = IdentityUpload(file_uri, tenant_id, identity_id, identity_name, content, number_of_chunks,
-                                           override).execute(self._client, self._scheduler)
+        new_file_data_ref = IdentityUpload(file_uri, tenant_id, check_identity_id(identity_id), identity_name, content,
+                                           number_of_chunks, override).execute(self._client, self._scheduler)
         self._logger.debug(f"Finished import to uri {uri}")
         return of(new_file_data_ref)
 
@@ -116,4 +124,5 @@ class IdentityUpload:
 
     def complete_upload(self, client: GaiaStreamClient, upload_id: str, chunk_ids: List[str]) -> dict:
         return client.post_json(CompleteIdentityWriteImpulse(self.uri, self.tenant_id, self.identity_id,
-                                self.identity_name, upload_id, chunk_ids), "/identity/sink/complete").json()
+                                self.identity_name, upload_id, chunk_ids, self.override),
+                                "/identity/sink/complete").json()

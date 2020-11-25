@@ -41,6 +41,20 @@ class TestIdentityRef(unittest.TestCase):
         response = self.gaiaRef.identity().import_identity('tenantId', 'identityName', data, False)
         assert pipe(ops.first())(response).run().uri == "gaia://user@tenantId/identities/identityName"
 
+    def test_import_identity_e2e(self):
+        self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
+        data = bytes("identity content", encoding="utf-8")
+        result = pipe(ops.first())(
+            self.gaiaRef.identity().import_identity('2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da',
+                                                    'identityName', data, True)).run()
+        self.assertEqual(len(result.uri), 72)
+
+        result = pipe(ops.first())(
+            self.gaiaRef.data("gaia://user@2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da/").list()).run()
+        self.assertEqual(result[0].dictionary, {'filePath': 'identities/identityName',
+                                                'tenant': '2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da'})
+        pass
+
     def mock_write(self, request):
         if request.url_post_fix == "/identity/sink/init":
             return MockResponse({"uploadId": "A123"})
