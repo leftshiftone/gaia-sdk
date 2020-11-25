@@ -5,5 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class FileListing @JsonCreator constructor(
         @JsonProperty("tenant") val tenant:String,
-        @JsonProperty("filePath") val filePath:String
+        @JsonProperty("filePath") val filePath:String,
+        @JsonProperty("lastModified") val lastModified:String,
+        @JsonProperty("size") val size:Long
 )
