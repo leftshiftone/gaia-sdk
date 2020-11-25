@@ -41,6 +41,7 @@ class TestIdentityRef(unittest.TestCase):
         response = self.gaiaRef.identity().import_identity('tenantId', 'identityName', data, False)
         assert pipe(ops.first())(response).run().uri == "gaia://user@tenantId/identities/identityName"
 
+    @unittest.skip("E2E test, for local use or future E2E use")
     def test_import_identity_e2e(self):
         self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
         data = bytes("identity content", encoding="utf-8")
