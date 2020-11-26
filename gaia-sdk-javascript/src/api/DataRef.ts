@@ -25,11 +25,11 @@ export class DataRef {
      * @param fileName name of the new file to be written
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
+     * @param config optional interface which currently only contains onUploadProgress callback
      */
-    public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef> {
-        console.log('Add ' + fileName + ' to ' + this.uri);
+    public add(fileName: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): Observable<DataRef> {
         const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override);
-        return from(upload.execute(this.client));
+        return from(upload.execute(this.client, config));
     }
 
 
@@ -37,7 +37,6 @@ export class DataRef {
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
-        console.log('List from ' + this.uri);
         return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
                 throw new Error('Listing files at uri ' + this.uri + ' failed: ' + reason);
@@ -45,7 +44,6 @@ export class DataRef {
     }
 
     private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
-        console.log('Remove: ' + uri);
         return from(this.client.post(new RemoveFileImpulse(uri), '/data/remove')
             .catch((reason) => {
                 throw new Error('Removing file with uri ' + uri + ' failed: ' + reason);
@@ -72,7 +70,6 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
-        console.log('Download file from ' + this.uri);
         return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), '/data/source')
             .catch((reason) => {
                 throw new Error('Download of file with uri ' + this.uri + ' failed: ' + reason);
@@ -118,16 +115,26 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override);
     }
 
-    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
+    private async sendChunks(uploadId: string, client: GaiaStreamClient, config?: DataRefRequestConfig) {
+        let currentChunk = 1;
         return await Promise.all(
             this.getChunkRequests(uploadId)
-                .map(chunk => chunk.data().then(data => client.postStream(data, chunk.requestParameters(), '/data/sink/chunk')))
+                .map(chunk => chunk.data().then(data => {
+                    return client.postStream(data, chunk.requestParameters(), '/data/sink/chunk').then((value) => {
+                        if (config && config.onUploadProgress) {
+                            let progress = (100 * (currentChunk++)) / this.totalNumberOfChunks;
+                            config.onUploadProgress(Math.ceil(progress));
+                        }
+
+                        return value;
+                    })
+                }))
         );
     }
 
-    public async execute(client: GaiaStreamClient): Promise<DataRef> {
+    public async execute(client: GaiaStreamClient, config?: DataRefRequestConfig): Promise<DataRef> {
         const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), '/data/sink/init');
-        const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
+        const chunkResponses = await this.sendChunks(initResponse.uploadId, client, config);
         const chunkIds = chunkResponses.map(r => r.chunkId);
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
@@ -143,4 +150,8 @@ class DataUpload {
         }
         return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk));
     }
+}
+
+export interface DataRefRequestConfig {
+    onUploadProgress?: (progressEvent: any) => void;
 }
