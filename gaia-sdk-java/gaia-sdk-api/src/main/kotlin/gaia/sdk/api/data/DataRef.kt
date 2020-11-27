@@ -116,7 +116,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
     }
 }
 
-class DataUpload(private val uri: String, private val content: File, private val totalNumberOfChunks: Long, private val override: Boolean) {
+class DataUpload(private val uri: String, private val content: File, private val override: Boolean) {
     companion object {
         private val CHUNK_SIZE: Int = 1024 * 1024 * 5
         private val log: Logger = LoggerFactory.getLogger(DataUpload::class.java)
@@ -124,7 +124,7 @@ class DataUpload(private val uri: String, private val content: File, private val
         fun create(uri: String, content: File, override: Boolean = false): DataUpload {
             val numberOfChunks = ceil(content.length().toDouble().div(CHUNK_SIZE.toDouble())).toLong()
             log.info("Upload will be chunked in $numberOfChunks chunks of size: $CHUNK_SIZE")
-            return DataUpload(uri, content, numberOfChunks, override)
+            return DataUpload(uri, content, override)
         }
     }
 
@@ -143,7 +143,7 @@ class DataUpload(private val uri: String, private val content: File, private val
                 }
     }
 
-    private fun initUpload(client: GaiaStreamClient) = client.post(InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override), DataUploadResponse::class.java, "/data/sink/init")
+    private fun initUpload(client: GaiaStreamClient) = client.post(InitBinaryWriteImpulse(this.uri, this.override), DataUploadResponse::class.java, "/data/sink/init")
 
     private fun uploadChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()

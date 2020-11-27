@@ -126,7 +126,7 @@ class DataUpload {
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
-        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), '/data/sink/init');
+        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
         const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
         const chunkIds = chunkResponses.map(r => r.chunkId);
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')

@@ -139,8 +139,6 @@ class DataUpload:
 
     def init_upload(self, client: GaiaStreamClient) -> InitializedBinaryWrite:
         response = client.post_json(InitBinaryWriteImpulse(self.uri,
-                                                           self.number_of_chunks,
-                                                           len(self.content),
                                                            self.override), "/data/sink/init")
         return InitializedBinaryWrite(response.json())
 
