@@ -37,6 +37,7 @@ export class DataRef {
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
+        console.log("⚠️ USING LOCAL GAIA-SDK 🪲"); // TODO: Remove before commit
         console.log('List from ' + this.uri);
         return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
@@ -94,7 +95,7 @@ export class DataRef {
             const uriWithTrailingSlash = uri.endsWith('/') ? uri : uri + '/';
             const pathWithoutLeadingSlash = path.startsWith('/') ? path.substr(1) : path;
             return uriWithTrailingSlash + pathWithoutLeadingSlash;
-        },                       baseUri);
+        }, baseUri);
         return uri.endsWith('/') ? uri.substr(0, uri.length - 1) : uri;
     }
 }
@@ -118,16 +119,9 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override);
     }
 
-    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
-        return await Promise.all(
-            this.getChunkRequests(uploadId)
-                .map(chunk => chunk.data().then(data => client.postStream(data, chunk.requestParameters(), '/data/sink/chunk')))
-        );
-    }
-
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
         const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
-        const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
+        const chunkResponses = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
         const chunkIds = chunkResponses.map(r => r.chunkId);
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
@@ -136,11 +130,15 @@ class DataUpload {
             );
     }
 
-    private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {
-        const chunks = new Array<Blob>();
+    private async getChunkRequestsAndSendChunks(uploadId: string, client: GaiaStreamClient) {
+        const chunkResponses = Array<any>();
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
-            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size)));
+            const chunk: Blob = this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size));
+            const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
+            const data = await binaryWriteChunkImpulse.data();
+            const chunkResponse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
+            chunkResponses.push(chunkResponse);
         }
-        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk));
+        return chunkResponses;
     }
 }
