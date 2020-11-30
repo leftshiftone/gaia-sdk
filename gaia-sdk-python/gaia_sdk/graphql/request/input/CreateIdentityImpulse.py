@@ -14,15 +14,17 @@ class CreateIdentityImpulse():
     """
     tenantId: str
     qualifier: str
+    availableLanguages: dict
 
-    def __init__(self, tenantId: str, qualifier: str):
+    def __init__(self, tenantId: str, qualifier: str, availableLanguages: dict):
         self.tenantId = tenantId
         self.qualifier = qualifier
+        self.availableLanguages = availableLanguages
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.tenantId == other.tenantId and self.qualifier == other.qualifier
+            return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.availableLanguages == other.availableLanguages
         return False
 
     def __repr__(self):
-        return {'tenantId': self.tenantId, 'qualifier': self.qualifier}
+        return {'tenantId': self.tenantId, 'qualifier': self.qualifier, 'availableLanguages': self.availableLanguages}
