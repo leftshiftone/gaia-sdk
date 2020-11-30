@@ -3,7 +3,7 @@ from math import ceil
 from rx import of
 from rx.core.abc import Scheduler
 from rx.core.typing import Observable
-from typing import List
+from typing import List, Callable
 import functools
 import logging
 import rx
@@ -25,7 +25,7 @@ CHUNK_SIZE = 1024 * 1024 * 5
 
 
 class DataRefRequestConfig:
-    def __init__(self, on_upload_progress: any):
+    def __init__(self, on_upload_progress: Callable[[int], None]):
         self.on_upload_progress = on_upload_progress
 
     def on_upload_progress(self, progress: int):
@@ -55,8 +55,8 @@ class DataRef:
         file_uri = DataRef.concat_uri(self.uri, file_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
         self.logger.debug(f"Started upload to uri {self.uri}")
-        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override)\
-            .execute(self.client, self.scheduler, config)
+        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override, config)\
+            .execute(self.client, self.scheduler)
         self.logger.debug(f"Finished upload to uri {self.uri}")
         return of(new_file_data_ref)
 
@@ -125,28 +125,33 @@ class DataUpload:
     content: bytes
     number_of_chunks: int
     override: bool = False
+    config: DataRefRequestConfig = None
 
-    def __init__(self, uri: str, content: bytes, number_of_chunks: int, override: bool = False):
+    def __init__(self, uri: str, content: bytes, number_of_chunks: int, override: bool = False,
+                 config: DataRefRequestConfig = None):
         self.uri = uri
         self.content = content
         self.number_of_chunks = number_of_chunks
         self.override = override
+        self.config = config
 
     def __eq__(self, other):
         return self.uri == other.uri \
                and self.content == other.content \
                and self.number_of_chunks == other.number_of_chunks \
-               and self.override == other.override
+               and self.override == other.override \
+               and self.config == other.config
 
     def __repr__(self):
         return {'uri': self.uri,
                 'content': self.content,
                 'number_of_chunks': self.number_of_chunks,
-                'override': self.override}
+                'override': self.override,
+                'config': self.config}
 
-    def execute(self, client: GaiaStreamClient, scheduler: Scheduler, config: DataRefRequestConfig) -> DataRef:
+    def execute(self, client: GaiaStreamClient, scheduler: Scheduler) -> DataRef:
         upload_id = self.init_upload(client).upload_id
-        chunk_ids = self.upload_chunks(client, upload_id, config)
+        chunk_ids = self.upload_chunks(client, upload_id)
         self.complete_upload(client, upload_id, chunk_ids)
         return DataRef(self.uri, client, scheduler)
 
@@ -157,7 +162,7 @@ class DataUpload:
                                                            self.override), "/data/sink/init")
         return InitializedBinaryWrite(response.json())
 
-    def upload_chunks(self, client: GaiaStreamClient, upload_id: str, config: DataRefRequestConfig) -> List[str]:
+    def upload_chunks(self, client: GaiaStreamClient, upload_id: str) -> List[str]:
         chunk_ids: List[str] = []
         current_chunk: int = 1
         for index in range(self.number_of_chunks):
@@ -166,10 +171,10 @@ class DataUpload:
             response = client.post_stream(chunk_impulse.data(), chunk_impulse.request_parameters(),
                                           "/data/sink/chunk").json()
             chunk_ids.insert(index, BinaryChunkWritten(response).chunk_id)
-            if config is not None:
+            if self.config is not None:
                 progress = (100 * current_chunk) / self.number_of_chunks
                 current_chunk += 1
-                config.on_upload_progress(math.ceil(progress))
+                self.config.on_upload_progress(math.ceil(progress))
         return chunk_ids
 
     def complete_upload(self, client: GaiaStreamClient, upload_id: str, chunk_ids: List[str]) -> dict:

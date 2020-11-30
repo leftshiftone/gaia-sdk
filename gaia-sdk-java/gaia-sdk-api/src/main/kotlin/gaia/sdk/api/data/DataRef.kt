@@ -47,8 +47,8 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      */
     fun add(fileName: String, content: File, override: Boolean = false, config: DataRefRequestConfig? = null): Flowable<DataRef> {
         log.info("Add $fileName to ${this.uri}")
-        val upload = DataUpload.create(concatUri(this.uri, fileName), content, override)
-        return Flowable.fromPublisher(upload.execute(this.client, config))
+        val upload = DataUpload.create(concatUri(this.uri, fileName), content, override, config)
+        return Flowable.fromPublisher(upload.execute(this.client))
     }
 
     /**
@@ -121,24 +121,25 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
     }
 }
 
-class DataUpload(private val uri: String, private val content: File, private val totalNumberOfChunks: Long, private val override: Boolean) {
+class DataUpload(private val uri: String, private val content: File, private val totalNumberOfChunks: Long,
+                 private val override: Boolean, private val config: DataRefRequestConfig? = null) {
     companion object {
         private val CHUNK_SIZE: Int = 1024 * 1024 * 5
         private val log: Logger = LoggerFactory.getLogger(DataUpload::class.java)
 
-        fun create(uri: String, content: File, override: Boolean = false): DataUpload {
+        fun create(uri: String, content: File, override: Boolean = false, config: DataRefRequestConfig? = null): DataUpload {
             val numberOfChunks = ceil(content.length().toDouble().div(CHUNK_SIZE.toDouble())).toLong()
             log.info("Upload will be chunked in $numberOfChunks chunks of size: $CHUNK_SIZE")
-            return DataUpload(uri, content, numberOfChunks, override)
+            return DataUpload(uri, content, numberOfChunks, override, config)
         }
     }
 
-    fun execute(client: GaiaStreamClient, config: DataRefRequestConfig?): Publisher<DataRef> {
+    fun execute(client: GaiaStreamClient): Publisher<DataRef> {
         return Flowable.fromPublisher(initUpload(client))
                 .doOnNext { log.debug("Data uploaded initiated. UploadId ${it.uploadId}") }
                 .map { response -> response.uploadId }
                 .flatMap { uploadId ->
-                    this.uploadChunks(uploadId, client, config)
+                    this.uploadChunks(uploadId, client)
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->
@@ -150,21 +151,21 @@ class DataUpload(private val uri: String, private val content: File, private val
 
     private fun initUpload(client: GaiaStreamClient) = client.post(InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override), DataUploadResponse::class.java, "/data/sink/init")
 
-    private fun uploadChunks(uploadId: String, client: GaiaStreamClient, config: DataRefRequestConfig?): Flowable<ChunkResponse> {
+    private fun uploadChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
                 .observeOn(Schedulers.io())
-                .map { sendChunk(it, uploadId, client, config) }
+                .map { sendChunk(it, uploadId, client) }
     }
 
-    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient, config: DataRefRequestConfig?): ChunkResponse {
+    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient): ChunkResponse {
         val chunk = BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
         return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk", "application/octet-stream", chunk.requestParameters()))
                 .map { ChunkResponse(chunk.ordinal, it) }
                 .doOnNext {
                     log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received")
                     val progress = (100 * (it.ordinal)) / this.totalNumberOfChunks
-                    config?.onUploadProgress(progress)
+                    this.config?.onUploadProgress(progress)
                 }.blockingFirst()
     }
 

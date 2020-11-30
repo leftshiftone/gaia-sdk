@@ -28,8 +28,8 @@ export class DataRef {
      * @param config optional interface which currently only contains onUploadProgress callback
      */
     public add(fileName: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): Observable<DataRef> {
-        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override);
-        return from(upload.execute(this.client, config));
+        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override, config);
+        return from(upload.execute(this.client));
     }
 
 
@@ -102,28 +102,30 @@ class DataUpload {
     private readonly content: Blob;
     private readonly totalNumberOfChunks: number;
     private readonly override: boolean;
+    private readonly config?: DataRefRequestConfig;
 
-    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
+    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean, config?: DataRefRequestConfig) {
         this.uri = uri;
         this.content = content;
         this.totalNumberOfChunks = totalNumberOfChunks;
         this.override = override;
+        this.config = config;
     }
 
-    public static create(uri: string, content: Blob, override: boolean = false): DataUpload {
+    public static create(uri: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): DataUpload {
         const numberOfChunks = Math.ceil(content.size / DataUpload.CHUNK_SIZE);
-        return new DataUpload(uri, content, numberOfChunks, override);
+        return new DataUpload(uri, content, numberOfChunks, override, config);
     }
 
-    private async sendChunks(uploadId: string, client: GaiaStreamClient, config?: DataRefRequestConfig) {
+    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
         let currentChunk = 1;
         return await Promise.all(
             this.getChunkRequests(uploadId)
                 .map(chunk => chunk.data().then(data => {
                     return client.postStream(data, chunk.requestParameters(), '/data/sink/chunk').then((value) => {
-                        if (config && config.onUploadProgress) {
+                        if (this.config && this.config.onUploadProgress) {
                             let progress = (100 * (currentChunk++)) / this.totalNumberOfChunks;
-                            config.onUploadProgress(Math.ceil(progress));
+                            this.config.onUploadProgress(Math.ceil(progress));
                         }
 
                         return value;
@@ -132,9 +134,9 @@ class DataUpload {
         );
     }
 
-    public async execute(client: GaiaStreamClient, config?: DataRefRequestConfig): Promise<DataRef> {
+    public async execute(client: GaiaStreamClient): Promise<DataRef> {
         const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), '/data/sink/init');
-        const chunkResponses = await this.sendChunks(initResponse.uploadId, client, config);
+        const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
         const chunkIds = chunkResponses.map(r => r.chunkId);
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
@@ -153,5 +155,5 @@ class DataUpload {
 }
 
 export interface DataRefRequestConfig {
-    onUploadProgress?: (progress: any) => void;
+    onUploadProgress?: (progress: number) => void;
 }
