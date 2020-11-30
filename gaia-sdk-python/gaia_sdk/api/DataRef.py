@@ -24,7 +24,10 @@ from gaia_sdk.http.response.InitializedBinaryWrite import InitializedBinaryWrite
 CHUNK_SIZE = 1024 * 1024 * 5
 
 
-class DataRefRequestConfig(object):
+class DataRefRequestConfig:
+    def __init__(self, on_upload_progress: any):
+        self.on_upload_progress = on_upload_progress
+
     def on_upload_progress(self, progress: int):
         """Return current upload progress"""
         pass
@@ -53,7 +56,7 @@ class DataRef:
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
         self.logger.debug(f"Started upload to uri {self.uri}")
         new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override)\
-            .execute(self.client,self.scheduler, config)
+            .execute(self.client, self.scheduler, config)
         self.logger.debug(f"Finished upload to uri {self.uri}")
         return of(new_file_data_ref)
 
