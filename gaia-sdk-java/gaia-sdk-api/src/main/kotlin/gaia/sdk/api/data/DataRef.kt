@@ -165,7 +165,7 @@ class DataUpload(private val uri: String, private val content: File, private val
                 .doOnNext {
                     log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received")
                     val progress = (100 * (it.ordinal)) / this.totalNumberOfChunks
-                    this.config?.onUploadProgress(progress)
+                    this.config?.onUploadProgress(ceil(progress.toDouble()).toInt())
                 }.blockingFirst()
     }
 
@@ -199,5 +199,5 @@ fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
 }
 
 public interface DataRefRequestConfig {
-    fun onUploadProgress(progress: Long);
+    fun onUploadProgress(progress: Int);
 }
