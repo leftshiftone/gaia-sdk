@@ -50,3 +50,9 @@ class Identity:
     @property
     def qualifier(self) -> String:
         return String(self.dictionary.get("qualifier"))
+    """
+    The available languages of the identity
+    """
+    @property
+    def available_languages(self) -> Struct:
+        return Struct(self.dictionary.get("availableLanguages"))

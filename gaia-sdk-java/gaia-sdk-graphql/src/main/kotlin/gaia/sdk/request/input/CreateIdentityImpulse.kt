@@ -13,5 +13,6 @@ import gaia.sdk.request.enumeration.*
  * The specification to create an identity instance
  */
 class CreateIdentityImpulse(val tenantId:String, 
-   val qualifier:String) : Input()
+   val qualifier:String, 
+   val availableLanguages:Struct) : Input()
 
