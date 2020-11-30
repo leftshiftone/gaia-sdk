@@ -1,10 +1,14 @@
 package gaia.sdk.api.data
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.request.*
 import gaia.sdk.api.data.response.*
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import jdk.nashorn.internal.runtime.Undefined
 import org.reactivestreams.Publisher
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
@@ -40,10 +44,10 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
      */
-    fun add(fileName: String, content: File, override: Boolean = false): Flowable<DataRef> {
+    fun add(fileName: String, content: File, override: Boolean = false, config: DataRefRequestConfig? = null): Flowable<DataRef> {
         log.info("Add $fileName to ${this.uri}")
         val upload = DataUpload.create(concatUri(this.uri, fileName), content, override)
-        return Flowable.fromPublisher(upload.execute(this.client))
+        return Flowable.fromPublisher(upload.execute(this.client, config))
     }
 
     /**
@@ -128,12 +132,12 @@ class DataUpload(private val uri: String, private val content: File, private val
         }
     }
 
-    fun execute(client: GaiaStreamClient): Publisher<DataRef> {
+    fun execute(client: GaiaStreamClient, config: DataRefRequestConfig?): Publisher<DataRef> {
         return Flowable.fromPublisher(initUpload(client))
                 .doOnNext { log.debug("Data uploaded initiated. UploadId ${it.uploadId}") }
                 .map { response -> response.uploadId }
                 .flatMap { uploadId ->
-                    this.uploadChunks(uploadId, client)
+                    this.uploadChunks(uploadId, client, config)
                             .toList()
                             .toFlowable()
                             .flatMap { chunkIds ->
@@ -145,18 +149,22 @@ class DataUpload(private val uri: String, private val content: File, private val
 
     private fun initUpload(client: GaiaStreamClient) = client.post(InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.length(), this.override), DataUploadResponse::class.java, "/data/sink/init")
 
-    private fun uploadChunks(uploadId: String, client: GaiaStreamClient): Flowable<ChunkResponse> {
+    private fun uploadChunks(uploadId: String, client: GaiaStreamClient, config: DataRefRequestConfig?): Flowable<ChunkResponse> {
         val fileChunkIterator = this.content.chunkedSequence(CHUNK_SIZE).iterator()
         return Flowable.fromIterable(ChunkIterable(fileChunkIterator.withIndex()))
                 .observeOn(Schedulers.io())
-                .map { sendChunk(it, uploadId, client) }
+                .map { sendChunk(it, uploadId, client, config) }
     }
 
-    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient): ChunkResponse {
+    private fun sendChunk(it: IndexedValue<ByteArray>, uploadId: String, client: GaiaStreamClient, config: DataRefRequestConfig?): ChunkResponse {
         val chunk = BinaryWriteChunkImpulse(uri, uploadId, it.index.toLong() + 1, it.value.size.toLong(), it.value)
         return Flowable.fromPublisher(client.post(chunk.chunk, DataUploadChunkResponse::class.java, "/data/sink/chunk", "application/octet-stream", chunk.requestParameters()))
                 .map { ChunkResponse(chunk.ordinal, it) }
-                .doOnNext { log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received") }.blockingFirst()
+                .doOnNext {
+                    log.debug("Chunk number ${it.ordinal} was sent and response ${it.res} was received")
+                    val progress = (100 * (it.ordinal)) / this.totalNumberOfChunks
+                    config?.onUploadProgress(progress)
+                }.blockingFirst()
     }
 
     private fun completeUpload(uploadId: String, chunkIds: List<ChunkResponse>, client: GaiaStreamClient) = Flowable.fromPublisher(
@@ -186,4 +194,8 @@ fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
             null
         }
     }
+}
+
+interface DataRefRequestConfig {
+    fun onUploadProgress(progress: Long): Void;
 }
