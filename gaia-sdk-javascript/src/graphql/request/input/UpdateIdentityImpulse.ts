@@ -17,10 +17,12 @@ public _typeName = "UpdateIdentityImpulse";
     private identityId:Uuid;
     private tenantId:String;
     private qualifier:String;
+    private availableLanguages:Struct;
 
-    constructor (identityId:Uuid, tenantId:String, qualifier:String) {
+    constructor (identityId:Uuid, tenantId:String, qualifier:String, availableLanguages:Struct) {
         this.identityId = identityId;
         this.tenantId = tenantId;
         this.qualifier = qualifier;
+        this.availableLanguages = availableLanguages;
     }
 }

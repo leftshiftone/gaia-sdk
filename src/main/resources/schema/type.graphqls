@@ -10,6 +10,8 @@ type Identity {
     tenantId: Uuid
     "The name of the identity"
     qualifier: String
+    "The available languages of the identity"
+    availableLanguages: Struct
 }
 
 "Represents tenant information"

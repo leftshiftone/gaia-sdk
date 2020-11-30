@@ -23,5 +23,9 @@ data class Identity @JsonCreator constructor(
     /**
     * The name of the identity
     */
-    @JsonProperty("qualifier") val qualifier:String? = null
+    @JsonProperty("qualifier") val qualifier:String? = null, 
+    /**
+    * The available languages of the identity
+    */
+    @JsonProperty("availableLanguages") val availableLanguages:Struct? = null
 )

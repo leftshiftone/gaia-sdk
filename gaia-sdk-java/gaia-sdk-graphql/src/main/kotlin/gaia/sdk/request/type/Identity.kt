@@ -34,5 +34,12 @@ class Identity: Type() {
     fun qualifier() { 
         add {"qualifier" } 
     }
+
+    /**
+     * The available languages of the identity
+     */
+    fun availableLanguages() { 
+        add {"availableLanguages" } 
+    }
 }
 
