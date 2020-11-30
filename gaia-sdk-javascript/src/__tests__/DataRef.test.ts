@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import {Gaia} from '../Gaia';
-import {HMACCredentials, UsernamePasswordCredentials} from '..';
+import {HMACCredentials} from '..';
 import {Mock} from '../mock/mock';
 import CrossBlob from 'cross-blob';
 
