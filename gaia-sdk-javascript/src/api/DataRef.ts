@@ -8,6 +8,8 @@ import {RemoveFileImpulse} from '../graphql/request/input/RemoveFileImpulse';
 import {FileRemovedImpulse} from '../graphql/response/type/FileRemovedImpulse';
 import {BinaryReadImpulse} from '../graphql/request/input/BinaryReadImpulse';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
+import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
+import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
 
 export class DataRef {
     private readonly client: GaiaStreamClient;
@@ -37,7 +39,6 @@ export class DataRef {
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
-        console.log("⚠️ USING LOCAL GAIA-SDK 🪲"); // TODO: Remove before commit
         console.log('List from ' + this.uri);
         return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
@@ -120,8 +121,8 @@ class DataUpload {
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
-        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
-        const chunkResponses = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
+        const initResponse: BinaryWriteInitiatedImpulse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
+        const chunkResponses: BinaryChunkWrittenImpulse[] = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
         const chunkIds = chunkResponses.map(r => r.chunkId);
         return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
@@ -135,7 +136,7 @@ class DataUpload {
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
             const chunk: Blob = this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size));
             const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
-            const data = await binaryWriteChunkImpulse.data();
+            const data: Blob | Buffer = await binaryWriteChunkImpulse.data();
             const chunkResponse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
             chunkResponses.push(chunkResponse);
         }

@@ -2,10 +2,13 @@
  * @jest-environment node
  */
 import {Gaia} from '../Gaia';
-import {HMACCredentials} from '..';
+import {HMACCredentials, UsernamePasswordCredentials} from '..';
 import {Mock} from '../mock/mock';
+import CrossBlob from 'cross-blob';
 
 describe('dataref tests:', () => {
+
+    const acceptableRequestUrlPostFixes = ['/data/sink/init', '/data/sink/chunk', '/data/sink/complete'];
 
     test('test http error code raises exception', () => {
         return new Promise(async (resolve, reject) => {
@@ -15,13 +18,12 @@ describe('dataref tests:', () => {
         });
     });
 
-    test.skip('test write new file', () => {
-        // FIXME ReferenceError Blob -> when running with nodejs
-        const blob = new Blob(['234']);
+    test('test write new file', () => {
+        const blob = new CrossBlob(['234']);
 
         return new Promise(async (resolve, reject) => {
             const gaiaRef = Mock.gaiaRef((request) => {
-                expect(request.urlPostFix).toEqual('/data/sink/init');
+                expect(acceptableRequestUrlPostFixes).toContain(request.urlPostFix);
                 return {uploadId: 'A123', chunkId: 'B123'};
             });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder').add('newFile', blob);
@@ -61,12 +63,11 @@ describe('dataref tests:', () => {
         });
     });
 
-    test.skip('test overwrite file with override', () => {
-        // FIXME ReferenceError Blob -> when running with nodejs
-        const blob = new Blob(['234']);
+    test('test overwrite file with override', () => {
+        const blob = new CrossBlob(['234']);
         return new Promise(async (resolve, reject) => {
             const gaiaRef = Mock.gaiaRef((request) => {
-                expect(request.urlPostFix).toEqual('/data/sink/init');
+                expect(acceptableRequestUrlPostFixes).toContain(request.urlPostFix);
                 return {uploadId: 'A123'};
             });
             const observable = gaiaRef.data('gaia://usr@tenant/somefolder').add('existingFile', blob, true);
