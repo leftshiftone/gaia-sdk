@@ -43,6 +43,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @param fileName name of the new file to be written
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
+     * @param config interface which currently only contains onUploadProgress callback
      */
     fun add(fileName: String, content: File, override: Boolean = false, config: DataRefRequestConfig? = null): Flowable<DataRef> {
         log.info("Add $fileName to ${this.uri}")
@@ -196,6 +197,6 @@ fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
     }
 }
 
-interface DataRefRequestConfig {
+public interface DataRefRequestConfig {
     fun onUploadProgress(progress: Long): Void;
 }

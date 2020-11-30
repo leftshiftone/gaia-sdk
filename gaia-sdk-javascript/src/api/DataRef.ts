@@ -153,5 +153,5 @@ class DataUpload {
 }
 
 export interface DataRefRequestConfig {
-    onUploadProgress?: (progressEvent: any) => void;
+    onUploadProgress?: (progress: any) => void;
 }
