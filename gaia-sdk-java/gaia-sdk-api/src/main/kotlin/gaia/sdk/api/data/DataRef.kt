@@ -198,5 +198,5 @@ fun File.chunkedSequence(chunk: Int): Sequence<ByteArray> {
 }
 
 public interface DataRefRequestConfig {
-    fun onUploadProgress(progress: Long): Void;
+    fun onUploadProgress(progress: Long);
 }
