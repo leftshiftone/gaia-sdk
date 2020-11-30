@@ -47,7 +47,7 @@ class TestDataRef(unittest.TestCase):
 
         config: DataRefRequestConfig = DataRefRequestConfig(test_progress)
 
-        response = self.gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", data, True, config)
+        response = self.gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", data, False, config)
         assert pipe(ops.first())(response).run().uri == "gaia://usr@tenant/somefolder/newFile"
 
     def test_overwrite_file(self):
