@@ -5,5 +5,7 @@ Leftshift One <contact@leftshift.one>
 :toc:
 
 include::preface.adoc[]
+include::authentication.adoc[]
+include::crud.adoc[]
 
 //todo: add documentation
