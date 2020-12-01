@@ -137,8 +137,8 @@ internal class GaiaStreamClientTest {
         val fileToUpload = File("src/test/resources/fileToUpload.txt")
 
         val config = object: DataRefRequestConfig {
-            override fun onUploadProgress(progress: Long) {
-                val testValue: Long = 100
+            override fun onUploadProgress(progress: Int) {
+                val testValue: Int = 100
                 assert(progress == testValue)
             }
         }
