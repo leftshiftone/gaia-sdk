@@ -1,0 +1,15 @@
+
+== Authentication
+Every interaction with AIOS through the SDK can be accomplished with an authenticated GaiaRef object.
+Obtaining an authenticated GaiaRef is possible via the methods connect (for HMAC & JWT credentials) or login
+(for username password credentials):
+```javascript
+const hmacCredentials = new HMACCredentials("exampleApiKey", "exampleApiSecret")
+const gaiaRef = Gaia.connect("http://example.heimdall.url:8080", hmacCredentials)
+```
+
+```javascript
+const credentials = new UsernamePasswordCredentials("exampleUser", "examplePassword")
+const gaiaRef = Gaia.login("http://example.heimdall.url:8080", credentials)
+```
+
