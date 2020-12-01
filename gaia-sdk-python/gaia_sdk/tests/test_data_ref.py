@@ -3,6 +3,7 @@ import unittest
 
 from rx import operators as ops, pipe
 
+from gaia_sdk.api.DataRef import DataRefRequestConfig
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials
 from gaia_sdk.http.response.FileListing import FileListing
@@ -36,6 +37,18 @@ class TestDataRef(unittest.TestCase):
         self.assertRaises(Exception,
                           lambda: self.gaiaRef.data("gaia://usr@tenant/somefolder").add("existingFile", data).pipe(
                               ops.first()).run())
+
+    def test_write_new_file_progress(self):
+        self.gaiaRef = mock_gaia_ref(self.mock_write)
+        data = bytes("234", encoding="utf-8")
+
+        def test_progress(value):
+            assert value == 100
+
+        config: DataRefRequestConfig = DataRefRequestConfig(test_progress)
+
+        response = self.gaiaRef.data("gaia://usr@tenant/somefolder").add("newFile", data, False, config)
+        assert pipe(ops.first())(response).run().uri == "gaia://usr@tenant/somefolder/newFile"
 
     def test_overwrite_file(self):
         self.gaiaRef = mock_gaia_ref(self.mock_write)

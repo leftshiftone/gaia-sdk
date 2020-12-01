@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
+import gaia.sdk.api.data.DataRefRequestConfig
 import gaia.sdk.api.data.response.FileListing
 import gaia.sdk.http.TransporterFactory
 import io.reactivex.Flowable
@@ -110,7 +111,39 @@ internal class GaiaStreamClientTest {
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val dataRef = gaiaRef.data(gaiaStorageUri)
         val fileToUpload = File("src/test/resources/fileToUpload.txt")
+
         val ts = Flowable.fromPublisher(dataRef.add(fileName, fileToUpload)).test()
+
+        ts.awaitDone(10, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0) {
+            it.getUri() == "gaia://usr@tenant/somefolder/new_uploaded_file.txt"
+        }
+    }
+
+    @Test
+    fun `successful upload file with progress`() {
+        val gaiaStorageUri = "gaia://usr@tenant/somefolder/"
+        val fileName = "new_uploaded_file.txt"
+        val uploadId = "0123456789" //HardCoded in mapping file ok_data_chunk_upload_response.json
+        val sizeInBytes = 446 //HardCoded in mapping file ok_data_chunk_upload_response.json
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/init")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$fileName", "UTF-8")}")
+
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/complete")
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
+        val dataRef = gaiaRef.data(gaiaStorageUri)
+        val fileToUpload = File("src/test/resources/fileToUpload.txt")
+
+        val config = object: DataRefRequestConfig {
+            override fun onUploadProgress(progress: Int) {
+                val testValue: Int = 100
+                assert(progress == testValue)
+            }
+        }
+
+        val ts = Flowable.fromPublisher(dataRef.add(fileName, fileToUpload, false, config)).test()
 
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()

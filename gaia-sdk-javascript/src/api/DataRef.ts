@@ -27,10 +27,10 @@ export class DataRef {
      * @param fileName name of the new file to be written
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
+     * @param config optional interface which currently only contains onUploadProgress callback
      */
-    public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef> {
-        console.log('Add ' + fileName + ' to ' + this.uri);
-        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override);
+    public add(fileName: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): Observable<DataRef> {
+        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override, config);
         return from(upload.execute(this.client));
     }
 
@@ -39,7 +39,6 @@ export class DataRef {
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
-        console.log('List from ' + this.uri);
         return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
                 throw new Error('Listing files at uri ' + this.uri + ' failed: ' + reason);
@@ -47,7 +46,6 @@ export class DataRef {
     }
 
     private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
-        console.log('Remove: ' + uri);
         return from(this.client.post(new RemoveFileImpulse(uri), '/data/remove')
             .catch((reason) => {
                 throw new Error('Removing file with uri ' + uri + ' failed: ' + reason);
@@ -74,7 +72,6 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
-        console.log('Download file from ' + this.uri);
         return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), '/data/source')
             .catch((reason) => {
                 throw new Error('Download of file with uri ' + this.uri + ' failed: ' + reason);
@@ -107,17 +104,19 @@ class DataUpload {
     private readonly content: Blob;
     private readonly totalNumberOfChunks: number;
     private readonly override: boolean;
+    private readonly config?: DataRefRequestConfig;
 
-    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
+    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean, config?: DataRefRequestConfig) {
         this.uri = uri;
         this.content = content;
         this.totalNumberOfChunks = totalNumberOfChunks;
         this.override = override;
+        this.config = config;
     }
 
-    public static create(uri: string, content: Blob, override: boolean = false): DataUpload {
+    public static create(uri: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): DataUpload {
         const numberOfChunks = Math.ceil(content.size / DataUpload.CHUNK_SIZE);
-        return new DataUpload(uri, content, numberOfChunks, override);
+        return new DataUpload(uri, content, numberOfChunks, override, config);
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
@@ -137,8 +136,16 @@ class DataUpload {
             const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
             const data: Blob | Buffer = await binaryWriteChunkImpulse.data();
             const chunkResponse: BinaryChunkWrittenImpulse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
+            if (this.config && this.config.onUploadProgress) {
+                let progress = (100 * (index + 1)) / this.totalNumberOfChunks;
+                this.config.onUploadProgress(Math.ceil(progress));
+            }
             chunkResponsesIds.push(chunkResponse.chunkId);
         }
         return chunkResponsesIds;
     }
+}
+
+export interface DataRefRequestConfig {
+    onUploadProgress?: (progress: number) => void;
 }
