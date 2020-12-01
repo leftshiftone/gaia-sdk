@@ -14,5 +14,6 @@ import gaia.sdk.request.enumeration.*
  */
 class UpdateIdentityImpulse(val identityId:Uuid, 
    val tenantId:String, 
-   val qualifier:String) : Input()
+   val qualifier:String, 
+   val availableLanguages:Struct) : Input()
 

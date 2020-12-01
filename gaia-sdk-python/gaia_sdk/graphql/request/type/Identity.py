@@ -31,5 +31,11 @@ class Identity(list):
     def qualifier(self):
         self.append(lambda x: "qualifier")
 
+    """
+    The available languages of the identity
+    """
+    def available_languages(self):
+        self.append(lambda x: "availableLanguages")
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

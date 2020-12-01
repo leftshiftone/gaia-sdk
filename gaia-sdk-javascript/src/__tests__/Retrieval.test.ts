@@ -6,16 +6,18 @@ describe('perception tests:', () => {
 
     test('test retrieve identities', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'asdf', qualifier: 'q1'}]}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: "Deutsch"}}]}}}})
         );
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveIdentities(_ => {
                 _.identityId();
                 _.qualifier();
+                _.availableLanguages();
             });
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
+                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
                 resolve(e);
             }, reject);
         });
@@ -29,20 +31,20 @@ describe('perception tests:', () => {
                         knowledge: {
                             identities: [{
                                 identityId: 'i1',
-                                qualifier: '101'
-                            }, {identityId: 'i2', qualifier: '102'}, {
+                                qualifier: '101', availableLanguages: {de: "Deutsch"}
+                            }, {identityId: 'i2', qualifier: '102', availableLanguages: {de: "Deutsch"}}, {
                                 identityId: 'i3',
-                                qualifier: '103'
-                            }, {identityId: 'i4', qualifier: '104'}, {
+                                qualifier: '103', availableLanguages: {de: "Deutsch"}
+                            }, {identityId: 'i4', qualifier: '104', availableLanguages: {de: "Deutsch"}}, {
                                 identityId: 'i5',
-                                qualifier: '105'
-                            }, {identityId: 'i6', qualifier: '106'}, {
+                                qualifier: '105', availableLanguages: {de: "Deutsch"}
+                            }, {identityId: 'i6', qualifier: '106', availableLanguages: {de: "Deutsch"}}, {
                                 identityId: 'i7',
-                                qualifier: '107'
-                            }, {identityId: 'i8', qualifier: '108'}, {
+                                qualifier: '107', availableLanguages: {de: "Deutsch"}
+                            }, {identityId: 'i8', qualifier: '108', availableLanguages: {de: "Deutsch"}}, {
                                 identityId: 'i9',
-                                qualifier: '109'
-                            }, {identityId: 'i10', qualifier: '110'}]
+                                qualifier: '109', availableLanguages: {de: "Deutsch"}
+                            }, {identityId: 'i10', qualifier: '110', availableLanguages: {de: "Deutsch"}}]
                         }
                     }
                 }
@@ -54,11 +56,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveIdentities(_ => {
                 _.identityId();
                 _.qualifier();
+                _.availableLanguages();
             }, 10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
+                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
                 resolve(e);
             }, reject);
         });
@@ -66,7 +70,7 @@ describe('perception tests:', () => {
 
     test('test retrieve identity', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {identity: {identityId: 'asdf', qualifier: 'q1'}}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {identity: {identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: "Deutsch"}}}}}})
         );
         const identityId = uuidv4();
 
@@ -74,10 +78,12 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveIdentity(identityId, _ => {
                 _.identityId();
                 _.qualifier();
+                _.availableLanguages();
             });
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
+                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
                 resolve(e);
             }, reject);
         });

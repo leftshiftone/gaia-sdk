@@ -16,9 +16,11 @@ export class CreateIdentityImpulse {
 public _typeName = "CreateIdentityImpulse";
     private tenantId:String;
     private qualifier:String;
+    private availableLanguages:Struct;
 
-    constructor (tenantId:String, qualifier:String) {
+    constructor (tenantId:String, qualifier:String, availableLanguages:Struct) {
         this.tenantId = tenantId;
         this.qualifier = qualifier;
+        this.availableLanguages = availableLanguages;
     }
 }
