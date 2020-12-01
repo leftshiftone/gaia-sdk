@@ -122,24 +122,23 @@ class DataUpload {
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
         const initResponse: BinaryWriteInitiatedImpulse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
-        const chunkResponses: BinaryChunkWrittenImpulse[] = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
-        const chunkIds = chunkResponses.map(r => r.chunkId);
-        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
+        const chunkResponsesIds: string[] = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
+        return client.post(new CompleteBinaryWriteImpulse(this.uri, initResponse.uploadId, chunkResponsesIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
                     throw new Error('Upload to uri ' + this.uri + ' failed: ' + reason.stack);
                 }
             );
     }
 
-    private async getChunkRequestsAndSendChunks(uploadId: string, client: GaiaStreamClient) {
-        const chunkResponses = Array<any>();
+    private async getChunkRequestsAndSendChunks(uploadId: string, client: GaiaStreamClient): Promise<string[]> {
+        const chunkResponsesIds = Array<string>();
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
             const chunk: Blob = this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size));
             const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
             const data: Blob | Buffer = await binaryWriteChunkImpulse.data();
-            const chunkResponse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
-            chunkResponses.push(chunkResponse);
+            const chunkResponse: BinaryChunkWrittenImpulse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
+            chunkResponsesIds.push(chunkResponse.chunkId);
         }
-        return chunkResponses;
+        return chunkResponsesIds;
     }
 }
