@@ -1,8 +1,9 @@
+import math
 from math import ceil
 from rx import of
 from rx.core.abc import Scheduler
 from rx.core.typing import Observable
-from typing import List
+from typing import List, Callable
 import functools
 import logging
 import rx
@@ -23,6 +24,15 @@ from gaia_sdk.http.response.InitializedBinaryWrite import InitializedBinaryWrite
 CHUNK_SIZE = 1024 * 1024 * 5
 
 
+class DataRefRequestConfig:
+    def __init__(self, on_upload_progress: Callable[[int], None]):
+        self.on_upload_progress = on_upload_progress
+
+    def on_upload_progress(self, progress: int):
+        """Return current upload progress"""
+        pass
+
+
 class DataRef:
     def __init__(self, uri: str, client: GaiaStreamClient, scheduler: Scheduler):
         self.uri = uri
@@ -30,12 +40,14 @@ class DataRef:
         self.scheduler = scheduler
         self.logger = logging.getLogger("HttpTransporter")
 
-    def add(self, file_name: str, content: bytes, override: bool = False) -> Observable['DataRef']:
+    def add(self, file_name: str, content: bytes, override: bool = False,
+            config: DataRefRequestConfig = None) -> Observable['DataRef']:
         r"""Uploads a file with a given name and content to the storage.
 
         :param file_name: Name of the file to be uploaded.
         :param content: Content of the file to be uploaded in bytes.
         :param override: (optional) Flag to specify if existing files should be overwritten. If set to false, the method
+        :param config: (optional) Interface which currently only contains onUploadProgress callback
         will throw an exception when trying to overwrite an existing file.
         :return: :class:`Observable[DataRef]` object: Reference to the newly uploaded file
         :exception HttpError: Error thrown if the upload fails due to override being set to false.
@@ -43,7 +55,8 @@ class DataRef:
         file_uri = DataRef.concat_uri(self.uri, file_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
         self.logger.debug(f"Started upload to uri {self.uri}")
-        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override).execute(self.client, self.scheduler)
+        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override, config)\
+            .execute(self.client, self.scheduler)
         self.logger.debug(f"Finished upload to uri {self.uri}")
         return of(new_file_data_ref)
 
@@ -112,24 +125,29 @@ class DataUpload:
     content: bytes
     number_of_chunks: int
     override: bool = False
+    config: DataRefRequestConfig = None
 
-    def __init__(self, uri: str, content: bytes, number_of_chunks: int, override: bool = False):
+    def __init__(self, uri: str, content: bytes, number_of_chunks: int, override: bool = False,
+                 config: DataRefRequestConfig = None):
         self.uri = uri
         self.content = content
         self.number_of_chunks = number_of_chunks
         self.override = override
+        self.config = config
 
     def __eq__(self, other):
         return self.uri == other.uri \
                and self.content == other.content \
                and self.number_of_chunks == other.number_of_chunks \
-               and self.override == other.override
+               and self.override == other.override \
+               and self.config == other.config
 
     def __repr__(self):
         return {'uri': self.uri,
                 'content': self.content,
                 'number_of_chunks': self.number_of_chunks,
-                'override': self.override}
+                'override': self.override,
+                'config': self.config}
 
     def execute(self, client: GaiaStreamClient, scheduler: Scheduler) -> DataRef:
         upload_id = self.init_upload(client).upload_id
@@ -146,11 +164,17 @@ class DataUpload:
 
     def upload_chunks(self, client: GaiaStreamClient, upload_id: str) -> List[str]:
         chunk_ids: List[str] = []
+        current_chunk: int = 1
         for index in range(self.number_of_chunks):
             chunk_data = self.content[index * CHUNK_SIZE: min((index + 1) * CHUNK_SIZE, len(self.content))]
             chunk_impulse = BinaryWriteChunkImpulse(self.uri, upload_id, index + 1, len(chunk_data), chunk_data)
-            response = client.post_stream(chunk_impulse.data(), chunk_impulse.request_parameters(), "/data/sink/chunk").json()
+            response = client.post_stream(chunk_impulse.data(), chunk_impulse.request_parameters(),
+                                          "/data/sink/chunk").json()
             chunk_ids.insert(index, BinaryChunkWritten(response).chunk_id)
+            if self.config is not None:
+                progress = (100 * current_chunk) / self.number_of_chunks
+                current_chunk += 1
+                self.config.on_upload_progress(math.ceil(progress))
         return chunk_ids
 
     def complete_upload(self, client: GaiaStreamClient, upload_id: str, chunk_ids: List[str]) -> dict:
