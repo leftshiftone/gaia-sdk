@@ -8,6 +8,8 @@ import {RemoveFileImpulse} from '../graphql/request/input/RemoveFileImpulse';
 import {FileRemovedImpulse} from '../graphql/response/type/FileRemovedImpulse';
 import {BinaryReadImpulse} from '../graphql/request/input/BinaryReadImpulse';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
+import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
+import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
 
 export class DataRef {
     private readonly client: GaiaStreamClient;
@@ -91,7 +93,7 @@ export class DataRef {
             const uriWithTrailingSlash = uri.endsWith('/') ? uri : uri + '/';
             const pathWithoutLeadingSlash = path.startsWith('/') ? path.substr(1) : path;
             return uriWithTrailingSlash + pathWithoutLeadingSlash;
-        },                       baseUri);
+        }, baseUri);
         return uri.endsWith('/') ? uri.substr(0, uri.length - 1) : uri;
     }
 }
@@ -117,40 +119,30 @@ class DataUpload {
         return new DataUpload(uri, content, numberOfChunks, override, config);
     }
 
-    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
-        let currentChunk = 1;
-        return await Promise.all(
-            this.getChunkRequests(uploadId)
-                .map(chunk => chunk.data().then(data => {
-                    return client.postStream(data, chunk.requestParameters(), '/data/sink/chunk').then((value) => {
-                        if (this.config && this.config.onUploadProgress) {
-                            let progress = (100 * (currentChunk++)) / this.totalNumberOfChunks;
-                            this.config.onUploadProgress(Math.ceil(progress));
-                        }
-
-                        return value;
-                    })
-                }))
-        );
-    }
-
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
-        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), '/data/sink/init');
-        const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
-        const chunkIds = chunkResponses.map(r => r.chunkId);
-        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
+        const initResponse: BinaryWriteInitiatedImpulse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
+        const chunkResponsesIds: string[] = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
+        return client.post(new CompleteBinaryWriteImpulse(this.uri, initResponse.uploadId, chunkResponsesIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
                     throw new Error('Upload to uri ' + this.uri + ' failed: ' + reason.stack);
                 }
             );
     }
 
-    private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {
-        const chunks = new Array<Blob>();
+    private async getChunkRequestsAndSendChunks(uploadId: string, client: GaiaStreamClient): Promise<string[]> {
+        const chunkResponsesIds = Array<string>();
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
-            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size)));
+            const chunk: Blob = this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size));
+            const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
+            const data: Blob | Buffer = await binaryWriteChunkImpulse.data();
+            const chunkResponse: BinaryChunkWrittenImpulse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
+            if (this.config && this.config.onUploadProgress) {
+                let progress = (100 * (index + 1)) / this.totalNumberOfChunks;
+                this.config.onUploadProgress(Math.ceil(progress));
+            }
+            chunkResponsesIds.push(chunkResponse.chunkId);
         }
-        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk));
+        return chunkResponsesIds;
     }
 }
 
