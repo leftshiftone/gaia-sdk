@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -39,6 +40,13 @@ class BehaviourExecution(list):
 
     def parent_process_id(self):
         self.append(lambda x: "parentProcessId")
+
+    def nodes(self, config: Callable[['BehaviourNodeExecution'], None]):
+        def callback(registry: VariableRegistry):
+            entity = BehaviourNodeExecution()
+            config(entity)
+            return "nodes {" + entity.render(registry) + "}"
+        self.append(callback)
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

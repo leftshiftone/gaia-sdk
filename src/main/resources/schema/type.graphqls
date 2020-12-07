@@ -206,6 +206,7 @@ type BehaviourExecution {
     initAttributes: Struct
     processId: Uuid
     parentProcessId: Uuid
+    nodes: [BehaviourNodeExecution]
 }
 
 "Represents behaviour node execution information"

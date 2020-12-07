@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
 
 from typing import List
 Uuid = str
@@ -59,3 +60,6 @@ class BehaviourExecution:
     @property
     def parent_process_id(self) -> Uuid:
         return Uuid(self.dictionary.get("parentProcessId"))
+    @property
+    def nodes(self) -> List[BehaviourNodeExecution]:
+        return list(map(lambda x: BehaviourNodeExecution(x), self.dictionary.get("nodes")))

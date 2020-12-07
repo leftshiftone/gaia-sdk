@@ -35,6 +35,9 @@ class Experience:
         return {'dictionary': self.dictionary}
 
     @property
+    def behaviour_execution(self) -> BehaviourExecution:
+        return BehaviourExecution(self.dictionary.get("behaviourExecution"))
+    @property
     def behaviour_executions(self) -> List[BehaviourExecution]:
         return list(map(lambda x: BehaviourExecution(x), self.dictionary.get("behaviourExecutions")))
     @property

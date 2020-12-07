@@ -38,7 +38,8 @@ type Knowledge {
 
 "Container type for runtime information"
 type Experience {
-    behaviourExecutions: [BehaviourExecution]
+    behaviourExecution(processInstanceId: Uuid): BehaviourExecution
+    behaviourExecutions(identityId: Uuid): [BehaviourExecution]
     behaviourNodeExecutions: [BehaviourNodeExecution]
 }
 

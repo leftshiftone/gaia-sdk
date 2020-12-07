@@ -49,5 +49,9 @@ class BehaviourExecution: Type() {
     fun parentProcessId() { 
         add {"parentProcessId" } 
     }
+
+    fun nodes(config: BehaviourNodeExecution.() -> Unit) = 
+        add { "nodes{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
+
 }
 
