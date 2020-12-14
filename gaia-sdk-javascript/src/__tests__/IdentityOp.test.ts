@@ -36,7 +36,7 @@ describe('dataref tests:', () => {
             const identityBlob = new Blob([JSON.stringify(obj)], {type : 'application/zip'});
 
             const gaiaRef = Mock.gaiaRef((request) => {
-                expect(request.urlPostFix).toEqual('/identity/sink');
+                expect(request.urlPostFix).toEqual('/identity/import');
                 return [identityBlob];
             });
 
