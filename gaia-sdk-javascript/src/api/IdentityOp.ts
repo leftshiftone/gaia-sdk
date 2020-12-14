@@ -21,7 +21,7 @@ export class IdentityOp {
 
         const uri = DataRef.concatUri(`gaia://${tenantId}/identities/`, identityName);
         const upload = DataUpload.create(uri, content, override);
-        return from(upload.execute(this.client).then(result => {
+        return from(upload.execute(this.client).then(() => {
             return this.importIdentity(uri, tenantId, identityName, override, identityId);
         }).catch(reason => {
             throw new Error('Identity Upload failed: ' + reason);
