@@ -8,6 +8,8 @@ import {RemoveFileImpulse} from '../graphql/request/input/RemoveFileImpulse';
 import {FileRemovedImpulse} from '../graphql/response/type/FileRemovedImpulse';
 import {BinaryReadImpulse} from '../graphql/request/input/BinaryReadImpulse';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
+import {BinaryWriteInitiatedImpulse} from "../graphql/response/type/BinaryWriteInitiatedImpulse";
+import {BinaryChunkWrittenImpulse} from "../graphql/response/type/BinaryChunkWrittenImpulse";
 
 export class DataRef {
     private readonly client: GaiaStreamClient;
@@ -25,10 +27,10 @@ export class DataRef {
      * @param fileName name of the new file to be written
      * @param content binary content of the file to be written
      * @param override flag to decide if existing files should be overwritten
+     * @param config optional interface which currently only contains onUploadProgress callback
      */
-    public add(fileName: string, content: Blob, override: boolean = false): Observable<DataRef> {
-        console.log('Add ' + fileName + ' to ' + this.uri);
-        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override);
+    public add(fileName: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): Observable<DataRef> {
+        const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override, config);
         return from(upload.execute(this.client));
     }
 
@@ -37,7 +39,6 @@ export class DataRef {
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
-        console.log('List from ' + this.uri);
         return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
                 throw new Error('Listing files at uri ' + this.uri + ' failed: ' + reason);
@@ -45,7 +46,6 @@ export class DataRef {
     }
 
     private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
-        console.log('Remove: ' + uri);
         return from(this.client.post(new RemoveFileImpulse(uri), '/data/remove')
             .catch((reason) => {
                 throw new Error('Removing file with uri ' + uri + ' failed: ' + reason);
@@ -72,7 +72,6 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
-        console.log('Download file from ' + this.uri);
         return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), '/data/source')
             .catch((reason) => {
                 throw new Error('Download of file with uri ' + this.uri + ' failed: ' + reason);
@@ -94,53 +93,59 @@ export class DataRef {
             const uriWithTrailingSlash = uri.endsWith('/') ? uri : uri + '/';
             const pathWithoutLeadingSlash = path.startsWith('/') ? path.substr(1) : path;
             return uriWithTrailingSlash + pathWithoutLeadingSlash;
-        },                       baseUri);
+        }, baseUri);
         return uri.endsWith('/') ? uri.substr(0, uri.length - 1) : uri;
     }
 }
 
 export class DataUpload {
-    protected static readonly CHUNK_SIZE = 1024 * 1024 * 5;
-    protected readonly uri: string;
-    protected readonly content: Blob;
-    protected readonly totalNumberOfChunks: number;
-    protected readonly override: boolean;
+    private static readonly CHUNK_SIZE = 1024 * 1024 * 5;
+    private readonly uri: string;
+    private readonly content: Blob;
+    private readonly totalNumberOfChunks: number;
+    private readonly override: boolean;
+    private readonly config?: DataRefRequestConfig;
 
-    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean) {
+    constructor(uri: string, content: Blob, totalNumberOfChunks: number, override: boolean, config?: DataRefRequestConfig) {
         this.uri = uri;
         this.content = content;
         this.totalNumberOfChunks = totalNumberOfChunks;
         this.override = override;
+        this.config = config;
     }
 
-    public static create(uri: string, content: Blob, override: boolean = false): DataUpload {
+    public static create(uri: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): DataUpload {
         const numberOfChunks = Math.ceil(content.size / DataUpload.CHUNK_SIZE);
-        return new DataUpload(uri, content, numberOfChunks, override);
-    }
-
-    private async sendChunks(uploadId: string, client: GaiaStreamClient) {
-        return await Promise.all(
-            this.getChunkRequests(uploadId)
-                .map(chunk => chunk.data().then(data => client.postStream(data, chunk.requestParameters(), '/data/sink/chunk')))
-        );
+        return new DataUpload(uri, content, numberOfChunks, override, config);
     }
 
     public async execute(client: GaiaStreamClient): Promise<DataRef> {
-        const initResponse = await client.post(new InitBinaryWriteImpulse(this.uri, this.totalNumberOfChunks, this.content.size, this.override), '/data/sink/init');
-        const chunkResponses = await this.sendChunks(initResponse.uploadId, client);
-        const chunkIds = chunkResponses.map(r => r.chunkId);
-        return client.post(new CompleteBinaryWriteImpulse(this.uri, chunkResponses[0].uploadId, chunkIds), '/data/sink/complete')
+        const initResponse: BinaryWriteInitiatedImpulse = await client.post(new InitBinaryWriteImpulse(this.uri, this.override), '/data/sink/init');
+        const chunkResponsesIds: string[] = await this.getChunkRequestsAndSendChunks(initResponse.uploadId, client);
+        return client.post(new CompleteBinaryWriteImpulse(this.uri, initResponse.uploadId, chunkResponsesIds), '/data/sink/complete')
             .then(() => new DataRef(this.uri, client), (reason) => {
                     throw new Error('Upload to uri ' + this.uri + ' failed: ' + reason.stack);
                 }
             );
     }
 
-    private getChunkRequests(uploadId: string): BinaryWriteChunkImpulse[] {
-        const chunks = new Array<Blob>();
+    private async getChunkRequestsAndSendChunks(uploadId: string, client: GaiaStreamClient): Promise<string[]> {
+        const chunkResponsesIds = Array<string>();
         for (let index = 0; index < this.totalNumberOfChunks; index++) {
-            chunks.push(this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size)));
+            const chunk: Blob = this.content.slice(DataUpload.CHUNK_SIZE * index, Math.min(DataUpload.CHUNK_SIZE * (index + 1), this.content.size));
+            const binaryWriteChunkImpulse = new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk);
+            const data: Blob | Buffer = await binaryWriteChunkImpulse.data();
+            const chunkResponse: BinaryChunkWrittenImpulse = await client.postStream(data, binaryWriteChunkImpulse.requestParameters(), '/data/sink/chunk');
+            if (this.config && this.config.onUploadProgress) {
+                let progress = (100 * (index + 1)) / this.totalNumberOfChunks;
+                this.config.onUploadProgress(Math.ceil(progress));
+            }
+            chunkResponsesIds.push(chunkResponse.chunkId);
         }
-        return chunks.map((chunk, index) => new BinaryWriteChunkImpulse(this.uri, uploadId, index + 1, chunk.size, chunk));
+        return chunkResponsesIds;
     }
+}
+
+export interface DataRefRequestConfig {
+    onUploadProgress?: (progress: number) => void;
 }
