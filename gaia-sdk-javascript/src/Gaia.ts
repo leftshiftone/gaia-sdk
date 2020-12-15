@@ -44,7 +44,7 @@ import {CreateSkillProvisionImpulse} from './graphql/request/input/CreateSkillPr
 import {CreateCodeImpulse} from './graphql/request/input/CreateCodeImpulse';
 import {DeleteCodeImpulse} from './graphql/request/input/DeleteCodeImpulse';
 import {UpdateCodeImpulse} from './graphql/request/input/UpdateCodeImpulse';
-import {Struct, Uuid} from './graphql/GaiaClient';
+import {Uuid} from './graphql/GaiaClient';
 import {CreateEdgeImpulse} from './graphql/request/input/CreateEdgeImpulse';
 import {DeleteEdgeImpulse} from './graphql/request/input/DeleteEdgeImpulse';
 import {CreateIdentityImpulse} from './graphql/request/input/CreateIdentityImpulse';
@@ -73,10 +73,6 @@ import {UpdateRoleImpulse} from "./graphql/request/input/UpdateRoleImpulse";
 import {Role} from "./graphql/request/type/Role";
 import {GaiaClientFactory} from './graphql/GaiaClientFactory';
 import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
-import {EdgeType} from "./graphql/request/enumeration/EdgeType";
-import {Observable} from "rxjs";
-import {ConnectNodeSetImpulse} from "./graphql/response/type/ConnectNodeSetImpulse";
-import {ConnectNodeUnsetImpulse} from "./graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectSetNodeImpulse} from "./graphql/request/input/ConnectSetNodeImpulse";
 import {ConnectUnsetNodeImpulse} from "./graphql/request/input/ConnectUnsetNodeImpulse";
 import {ConnectAppendNodeImpulse} from "./graphql/request/input/ConnectAppendNodeImpulse";
@@ -109,7 +105,7 @@ export class Gaia {
             },    url + '/api/auth/access')
             .then((response) => {
                 const cr = new JWTCredentials(response.accessToken);
-                return new GaiaRef(new GaiaConfig(url, cr, Gaia.clientFactory,  Gaia.streamClientFactory));
+                return new GaiaRef(new GaiaConfig(url, cr, Gaia.clientFactory,  Gaia.streamClientFactory, response.permissions));
             });
     }
 }
@@ -121,16 +117,19 @@ export class GaiaConfig {
     readonly streamClientFactory: GaiaStreamClientFactory;
     readonly functionProcessor: ISensorFunction;
     readonly streamProcessor: ISensorStream;
+    readonly permissions: string[];
 
     constructor(url: string, credentials: GaiaCredentials,
                 clientFactory: GaiaClientFactory,
                 streamClientFactory: GaiaStreamClientFactory,
+                permissions?: string[],
                 functionProcessor?: ISensorFunction,
                 streamProcessor?: ISensorStream) {
         this.url = url;
         this.credentials = credentials;
         this.clientFactory = clientFactory;
         this.streamClientFactory = streamClientFactory;
+        this.permissions = permissions || [];
         this.functionProcessor = functionProcessor ||  new HttpSensorFunction(url, credentials, this.clientFactory);
         this.streamProcessor = streamProcessor || new HttpSensorStream(url, credentials, this.streamClientFactory);
     }
