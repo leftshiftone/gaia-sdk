@@ -136,7 +136,7 @@ export class GaiaConfig {
 }
 
 export class GaiaRef implements ISensorFunction, ISensorStream {
-    private readonly config: GaiaConfig;
+    readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
     private readonly sProc: ISensorStream;
 
