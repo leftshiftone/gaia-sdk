@@ -1,7 +1,7 @@
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
 import {from, Observable} from "rxjs";
 import {IdentitySourceRequestImpulse} from "../graphql/request/input/IdentitySourceRequestImpulse";
-import {DataRef, DataUpload} from "./DataRef";
+import {DataRef} from "./DataRef";
 import {IdentityImportImpulse} from "../graphql/request/input/IdentityImportImpulse";
 import {UUID} from "../graphql/GaiaScalars";
 
@@ -19,10 +19,10 @@ export class IdentityOp {
             throw new Error('Import identity failed: Selected file is not a valid identity');
         }
 
-        const uri = DataRef.concatUri(`gaia://${tenantId}/identities/`, identityName);
-        const upload = DataUpload.create(uri, content, override);
-        return from(upload.execute(this.client).then(() => {
-            return this.importIdentity(uri, tenantId, identityName, override, identityId);
+        return from(new DataRef(`gaia://${tenantId}/identities/`, this.client)
+            .add(file.name, content, override).toPromise()
+            .then((dataRef) => {
+                return this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId);
         }).catch(reason => {
             throw new Error('Identity Upload failed: ' + reason);
         }))

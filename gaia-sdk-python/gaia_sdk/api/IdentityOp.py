@@ -2,22 +2,19 @@ from math import ceil
 from rx import of
 from rx.core.abc import Scheduler
 from rx.core.typing import Observable
-from typing import List
 import logging
 import rx
 import rx.operators as ops
 
 import uuid
 
-from gaia_sdk.api.DataRef import DataRef, DataUpload
+from gaia_sdk.api.DataRef import DataRef
 from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
 
+from gaia_sdk.http.response.IdentityImported import IdentityImported
+
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
-from gaia_sdk.http.request.BinaryWriteChunkImpulse import BinaryWriteChunkImpulse
 from gaia_sdk.http.request.IdentityImportImpulse import IdentityImportImpulse
-from gaia_sdk.http.request.InitBinaryWriteImpulse import InitBinaryWriteImpulse
-from gaia_sdk.http.response.BinaryChunkWritten import BinaryChunkWritten
-from gaia_sdk.http.response.InitializedBinaryWrite import InitializedBinaryWrite
 
 CHUNK_SIZE = 1024 * 1024 * 5
 
@@ -51,23 +48,17 @@ class IdentityOp:
             ops.map(lambda response: response.content))
 
     def import_identity(self, tenant_id: str, identity_name: str, content: bytes, override: bool = False,
-                        identity_id: str = None) -> Observable['IdentityOp']:
+                        identity_id: str = None) -> Observable[IdentityImported]:
+        def complete_import(data_ref: DataRef) -> dict:
+            self._logger.debug(f"Started import of identity {identity_name}")
+            return self._client.post_json(IdentityImportImpulse(data_ref.uri, tenant_id, check_identity_id(identity_id),
+                                                                identity_name, override),
+                                          "/identity/import").json()
+
         uri = "gaia://{}/identities/".format(tenant_id)
-        file_uri = DataRef.concat_uri(uri, identity_name)
-        number_of_chunks = ceil(len(content) / CHUNK_SIZE)
 
         self._logger.debug(f"Started upload to uri {uri}")
-        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override) \
-            .execute(self._client, self._scheduler)
+        new_file_data_ref = DataRef(uri, self._client, self._scheduler) \
+            .add(identity_name, content, override)
 
-        self._logger.debug(f"Started import of identity {identity_name}")
-        self.complete_import(file_uri, tenant_id, identity_name, True, identity_id)
-
-        self._logger.debug(f"Finished import to uri {uri}")
-        return of(new_file_data_ref)
-
-    def complete_import(self, uri: str, tenant_id: str, identity_name: str, override: bool = False,
-                        identity_id: str = None) -> dict:
-        return self._client.post_json(IdentityImportImpulse(uri, tenant_id, check_identity_id(identity_id),
-                                                            identity_name, override),
-                                      "/identity/import").json()
+        return new_file_data_ref.pipe(ops.map(complete_import))

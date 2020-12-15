@@ -38,8 +38,9 @@ class TestIdentityRef(unittest.TestCase):
     def test_import_identity(self):
         self.gaiaRef = mock_gaia_ref(self.mock_write)
         data = bytes("identity content", encoding="utf-8")
-        response = self.gaiaRef.identity().import_identity('tenantId', 'identityName', data)
-        assert pipe(ops.first())(response).run().uri == "gaia://tenantId/identities/identityName"
+        result = pipe(ops.first())(self.gaiaRef.identity().import_identity('tenantId', 'identityName', data)).run()
+        self.assertEqual(result['uri'], 'gaia://tenantId/identities/identityName')
+        self.assertEqual(result['partitionKey'], '0123456789')
 
     @unittest.skip("E2E test, for local use or future E2E use")
     def test_import_identity_e2e(self):
@@ -64,6 +65,6 @@ class TestIdentityRef(unittest.TestCase):
         elif request.url_post_fix == "/data/sink/complete":
             return MockResponse("asdfqwer")
         elif request.url_post_fix == "/identity/import":
-            return MockResponse("asdfqwer")
+            return MockResponse({'partitionKey': '0123456789', 'uri': 'gaia://tenantId/identities/identityName'})
         else:
             raise RuntimeError('On purpose')

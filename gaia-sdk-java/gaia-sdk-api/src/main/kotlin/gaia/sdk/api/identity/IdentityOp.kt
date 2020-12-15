@@ -6,6 +6,7 @@ import gaia.sdk.api.data.DataRef
 import gaia.sdk.api.data.DataUpload
 import gaia.sdk.api.identity.request.IdentityImportImpulse
 import gaia.sdk.api.data.response.DataUploadResponse
+import gaia.sdk.api.data.response.IdentityImportResponse
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -52,24 +53,21 @@ class IdentityOp(private val client: GaiaStreamClient) {
 
 
     fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String? = null): Flowable<DataRef> {
-        val uri = DataRef.concatUri("gaia://$tenantId/identities/", content.name)
-        val upload = DataUpload.create(uri, content, override)
-        return Flowable.fromPublisher(upload.execute(this.client))
+        return Flowable.fromPublisher(DataRef("gaia://$tenantId/identities/", this.client).add(content.name, content, override))
             .flatMap { dataRef ->
-                Flowable.fromPublisher(client.post(IdentityImportImpulse(uri,
+                Flowable.fromPublisher(client.post(IdentityImportImpulse(dataRef.getUri(),
                     tenantId,
                     identityId ?: UUID.randomUUID().toString(),
                     identityName,
-                    override), DataUploadResponse::class.java, "/identity/import"))
+                    override), IdentityImportResponse::class.java, "/identity/import"))
                 .doOnError { reason ->
                     val msg = "Importing Identity " + identityName + " failed: " + reason.message
                     log.error(msg)
-                    throw RuntimeException(msg)
                 }
                 .map {
                     dataRef
                 }
             }
-            .doOnError { log.error("Upload of identity with name $identityName to $uri failed.") }
+            .doOnError { log.error("Upload of identity with name $identityName failed.") }
     }
 }

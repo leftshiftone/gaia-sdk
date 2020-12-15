@@ -85,7 +85,7 @@ internal class IdentityTest {
         configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/init")
         configureStub("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$fileName", "UTF-8")}")
         configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/complete")
-        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/identity/import")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_identity_import_response.json", uri = "/api/identity/import")
 
         val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
         val identityRef = gaiaRef.identity()

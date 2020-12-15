@@ -34,7 +34,6 @@ export class DataRef {
         return from(upload.execute(this.client));
     }
 
-
     /**
      * Lists all files whose uri has the current uri member as its prefix.
      */
@@ -96,9 +95,13 @@ export class DataRef {
         }, baseUri);
         return uri.endsWith('/') ? uri.substr(0, uri.length - 1) : uri;
     }
+
+    public getUri() {
+        return this.uri;
+    }
 }
 
-export class DataUpload {
+class DataUpload {
     private static readonly CHUNK_SIZE = 1024 * 1024 * 5;
     private readonly uri: string;
     private readonly content: Blob;
