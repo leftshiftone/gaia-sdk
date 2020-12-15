@@ -4,6 +4,7 @@ import {IdentitySourceRequestImpulse} from "../graphql/request/input/IdentitySou
 import {DataRef} from "./DataRef";
 import {IdentityImportImpulse} from "../graphql/request/input/IdentityImportImpulse";
 import {UUID} from "../graphql/GaiaScalars";
+import {IIdentityImported} from "../graphql/response/type/IdentityImported";
 
 export class IdentityOp {
     private readonly client: GaiaStreamClient;
@@ -51,9 +52,4 @@ export class IdentityOp {
                 throw new Error('Exporting identity with id ' + identityId + ' failed: ' + reason);
             }));
     }
-}
-
-interface IIdentityImported {
-    partitionKey: string
-    uri: string
 }
