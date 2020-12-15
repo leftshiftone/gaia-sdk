@@ -1,5 +1,4 @@
 
-import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -19,43 +18,33 @@ public _typeName = "BehaviourExecution";
         this.push(_ => "processInstanceId")
     };
 
+    public identityId = () => { 
+        this.push(_ => "identityId")
+    };
+
     public state = () => { 
         this.push(_ => "state")
     };
 
-    public timestamp = () => { 
-        this.push(_ => "timestamp")
+    public name = () => { 
+        this.push(_ => "name")
     };
 
     public duration = () => { 
         this.push(_ => "duration")
     };
 
-    public startEventType = () => { 
-        this.push(_ => "startEventType")
+    public behaviourId = () => { 
+        this.push(_ => "behaviourId")
     };
 
-    public startEventId = () => { 
-        this.push(_ => "startEventId")
+    public created = () => { 
+        this.push(_ => "created")
     };
 
-    public initAttributes = () => { 
-        this.push(_ => "initAttributes")
+    public updated = () => { 
+        this.push(_ => "updated")
     };
-
-    public processId = () => { 
-        this.push(_ => "processId")
-    };
-
-    public parentProcessId = () => { 
-        this.push(_ => "parentProcessId")
-    };
-
-    public nodes = (config: (_:BehaviourNodeExecution) => void) => this.push((registry) => {
-        const entity = new BehaviourNodeExecution();
-        config(entity);
-        return "nodes { " + entity.render(registry) + " }";
-    });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

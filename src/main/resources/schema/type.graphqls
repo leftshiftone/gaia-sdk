@@ -198,15 +198,13 @@ type Edge {
 "Represents behaviour execution information"
 type BehaviourExecution {
     processInstanceId: Uuid
+    identityId: Uuid
     state: String
-    timestamp: ISO8601
-    duration: ISO8601
-    startEventType: String
-    startEventId: Uuid
-    initAttributes: Struct
-    processId: Uuid
-    parentProcessId: Uuid
-    nodes: [BehaviourNodeExecution]
+    name: String
+    duration: Int
+    behaviourId: Uuid
+    created: ISO8601
+    updated: ISO8601
 }
 
 "Represents behaviour node execution information"

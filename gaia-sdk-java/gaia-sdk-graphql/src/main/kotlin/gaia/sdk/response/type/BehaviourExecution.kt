@@ -13,13 +13,11 @@ import gaia.sdk.request.enumeration.*
 */
 data class BehaviourExecution @JsonCreator constructor(
     @JsonProperty("processInstanceId") val processInstanceId:Uuid? = null, 
+    @JsonProperty("identityId") val identityId:Uuid? = null, 
     @JsonProperty("state") val state:String? = null, 
-    @JsonProperty("timestamp") val timestamp:ISO8601? = null, 
-    @JsonProperty("duration") val duration:ISO8601? = null, 
-    @JsonProperty("startEventType") val startEventType:String? = null, 
-    @JsonProperty("startEventId") val startEventId:Uuid? = null, 
-    @JsonProperty("initAttributes") val initAttributes:Struct? = null, 
-    @JsonProperty("processId") val processId:Uuid? = null, 
-    @JsonProperty("parentProcessId") val parentProcessId:Uuid? = null, 
-    @JsonProperty("nodes") val nodes:List<BehaviourNodeExecution>? = null
+    @JsonProperty("name") val name:String? = null, 
+    @JsonProperty("duration") val duration:Int? = null, 
+    @JsonProperty("behaviourId") val behaviourId:Uuid? = null, 
+    @JsonProperty("created") val created:ISO8601? = null, 
+    @JsonProperty("updated") val updated:ISO8601? = null
 )
