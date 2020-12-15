@@ -1,3 +1,4 @@
 {
-  "identityId" : "0123456789"
+  "partitionKey" : "0123456789",
+  "uri" : "gaia://tenant/identities/identity-Generic-Blubb.zip"
 }

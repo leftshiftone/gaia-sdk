@@ -52,7 +52,7 @@ class IdentityOp(private val client: GaiaStreamClient) {
                     .toFlowable()
 
 
-    fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String? = null): Flowable<DataRef> {
+    fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String? = null): Flowable<IdentityImportResponse> {
         return Flowable.fromPublisher(DataRef("gaia://$tenantId/identities/", this.client).add(content.name, content, override))
             .flatMap { dataRef ->
                 Flowable.fromPublisher(client.post(IdentityImportImpulse(dataRef.getUri(),
@@ -65,7 +65,7 @@ class IdentityOp(private val client: GaiaStreamClient) {
                     log.error(msg)
                 }
                 .map {
-                    dataRef
+                    it
                 }
             }
             .doOnError { log.error("Upload of identity with name $identityName failed.") }

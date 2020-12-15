@@ -12,7 +12,7 @@ export class IdentityOp {
         this.client = client;
     }
 
-    public import(tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<DataRef> {
+    public import(tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<IIdentityImported> {
         let file = content as File;
 
         if (!file.name) {
@@ -23,22 +23,26 @@ export class IdentityOp {
             .add(file.name, content, override).toPromise()
             .then((dataRef) => {
                 return this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId);
-        }).catch(reason => {
-            throw new Error('Identity Upload failed: ' + reason);
-        }))
+            }).catch(reason => {
+                throw new Error('Identity Upload failed: ' + reason);
+            }))
     }
 
-    private importIdentity(uri: string, tenantId: string, identityName: string, override: boolean = false, identityId?: string): Promise<any> {
+    private importIdentity(uri: string, tenantId: string, identityName: string, override: boolean = false, identityId?: string): Promise<IIdentityImported> {
         return this.client.post(new IdentityImportImpulse(uri,
             tenantId,
             identityId || UUID.randomUUID().toString(),
             identityName,
             override),
             '/identity/import')
-            .then(() => new DataRef(uri, this.client), (reason) => {
-                    throw new Error('Identity Import failed: ' + reason);
+            .then((response) => {
+                return {
+                    partitionKey: response.partitionKey,
+                    uri: response.uri
                 }
-            );
+            }, (reason) => {
+                throw new Error('Identity Import failed: ' + reason);
+            });
     }
 
     public export(identityId: string): Observable<Blob> {
@@ -47,4 +51,9 @@ export class IdentityOp {
                 throw new Error('Exporting identity with id ' + identityId + ' failed: ' + reason);
             }));
     }
+}
+
+interface IIdentityImported {
+    partitionKey: string
+    uri: string
 }

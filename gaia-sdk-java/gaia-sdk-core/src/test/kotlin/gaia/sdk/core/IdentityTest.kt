@@ -98,7 +98,8 @@ internal class IdentityTest {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.getUri() == "gaia://tenant/identities/identity-Generic-Blubb.zip"
+            it.uri == "gaia://tenant/identities/identity-Generic-Blubb.zip"
+            it.partitionKey == "0123456789"
         }
     }
 
