@@ -15,12 +15,13 @@ class Experience(list):
     Container type for runtime information
     """
 
-    def behaviour_execution(self, processInstanceId: str, config: Callable[['BehaviourExecution'], None]):
+    def behaviour_execution(self, identityId: str, processInstanceId: str, config: Callable[['BehaviourExecution'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("processInstanceId", processInstanceId)
+            name1 = registry.register("identityId", identityId)
+            name2 = registry.register("processInstanceId", processInstanceId)
             entity = BehaviourExecution()
             config(entity)
-            return f'behaviourExecution(processInstanceId:{name1})' + '{' + entity.render(registry) + '}'
+            return f'behaviourExecution(identityId:{name1}, processInstanceId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def behaviour_executions(self, identityId: str, config: Callable[['BehaviourExecution'], None]):

@@ -17,28 +17,28 @@ public _typeName = "Identity";
     /**
      * The identity id
      */
-    public identityId = () => {
+    public identityId = () => { 
         this.push(_ => "identityId")
     };
 
     /**
      * The tenant id
      */
-    public tenantId = () => {
+    public tenantId = () => { 
         this.push(_ => "tenantId")
     };
 
     /**
      * The name of the identity
      */
-    public qualifier = () => {
+    public qualifier = () => { 
         this.push(_ => "qualifier")
     };
 
     /**
      * The available languages of the identity
      */
-    public availableLanguages = () => {
+    public availableLanguages = () => { 
         this.push(_ => "availableLanguages")
     };
 

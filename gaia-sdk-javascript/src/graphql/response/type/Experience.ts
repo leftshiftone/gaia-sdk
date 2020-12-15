@@ -13,7 +13,7 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 * Container type for runtime information
 */
 export interface Experience {
-    behaviourExecution?:BehaviourExecution,
-    behaviourExecutions?:[BehaviourExecution],
+    behaviourExecution?:BehaviourExecution, 
+    behaviourExecutions?:[BehaviourExecution], 
     behaviourNodeExecutions?:[BehaviourNodeExecution]
 }

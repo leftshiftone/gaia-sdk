@@ -15,39 +15,39 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class BehaviourExecution extends Array<(_:VariableRegistry) => string> {
 public _typeName = "BehaviourExecution";
-    public processInstanceId = () => {
+    public processInstanceId = () => { 
         this.push(_ => "processInstanceId")
     };
 
-    public state = () => {
+    public state = () => { 
         this.push(_ => "state")
     };
 
-    public timestamp = () => {
+    public timestamp = () => { 
         this.push(_ => "timestamp")
     };
 
-    public duration = () => {
+    public duration = () => { 
         this.push(_ => "duration")
     };
 
-    public startEventType = () => {
+    public startEventType = () => { 
         this.push(_ => "startEventType")
     };
 
-    public startEventId = () => {
+    public startEventId = () => { 
         this.push(_ => "startEventId")
     };
 
-    public initAttributes = () => {
+    public initAttributes = () => { 
         this.push(_ => "initAttributes")
     };
 
-    public processId = () => {
+    public processId = () => { 
         this.push(_ => "processId")
     };
 
-    public parentProcessId = () => {
+    public parentProcessId = () => { 
         this.push(_ => "parentProcessId")
     };
 

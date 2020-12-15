@@ -16,11 +16,12 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class Experience extends Array<(_:VariableRegistry) => string> {
 public _typeName = "Experience";
-    public behaviourExecution = (processInstanceId: Uuid|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
-        const name1 = registry.register("processInstanceId", processInstanceId);
+    public behaviourExecution = (identityId: Uuid|undefined, processInstanceId: Uuid|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("processInstanceId", processInstanceId);
         const entity = new BehaviourExecution();
         config(entity);
-        return `behaviourExecution(processInstanceId:${name1}){` + entity.render(registry) + "}"
+        return `behaviourExecution(identityId:${name1}, processInstanceId:${name2}){` + entity.render(registry) + "}"
     });
 
     public behaviourExecutions = (identityId: Uuid|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {

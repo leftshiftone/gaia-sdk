@@ -12,14 +12,14 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 * Represents behaviour execution information
 */
 export interface BehaviourExecution {
-    processInstanceId?:Uuid,
-    state?:string,
-    timestamp?:ISO8601,
-    duration?:ISO8601,
-    startEventType?:string,
-    startEventId?:Uuid,
-    initAttributes?:Struct,
-    processId?:Uuid,
-    parentProcessId?:Uuid,
+    processInstanceId?:Uuid, 
+    state?:string, 
+    timestamp?:ISO8601, 
+    duration?:ISO8601, 
+    startEventType?:string, 
+    startEventId?:Uuid, 
+    initAttributes?:Struct, 
+    processId?:Uuid, 
+    parentProcessId?:Uuid, 
     nodes?:[BehaviourNodeExecution]
 }
