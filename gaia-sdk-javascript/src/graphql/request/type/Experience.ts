@@ -1,6 +1,7 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
+import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -16,10 +17,10 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class Experience extends Array<(_:VariableRegistry) => string> {
 public _typeName = "Experience";
-    public behaviourExecution = (identityId: Uuid|undefined, processInstanceId: Uuid|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
+    public behaviourExecution = (identityId: Uuid|undefined, processInstanceId: Uuid|undefined, config: (_:BehaviourExecutionDetail) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("processInstanceId", processInstanceId);
-        const entity = new BehaviourExecution();
+        const entity = new BehaviourExecutionDetail();
         config(entity);
         return `behaviourExecution(identityId:${name1}, processInstanceId:${name2}){` + entity.render(registry) + "}"
     });

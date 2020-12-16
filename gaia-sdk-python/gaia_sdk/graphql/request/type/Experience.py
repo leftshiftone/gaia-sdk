@@ -1,6 +1,7 @@
 
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
+from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -15,11 +16,11 @@ class Experience(list):
     Container type for runtime information
     """
 
-    def behaviour_execution(self, identityId: str, processInstanceId: str, config: Callable[['BehaviourExecution'], None]):
+    def behaviour_execution(self, identityId: str, processInstanceId: str, config: Callable[['BehaviourExecutionDetail'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("identityId", identityId)
             name2 = registry.register("processInstanceId", processInstanceId)
-            entity = BehaviourExecution()
+            entity = BehaviourExecutionDetail()
             config(entity)
             return f'behaviourExecution(identityId:{name1}, processInstanceId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)

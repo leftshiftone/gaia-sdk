@@ -1,7 +1,5 @@
 
-from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
-from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
 from typing import List
 Uuid = str
@@ -18,9 +16,9 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class Experience:
+class BehaviourExecutionDetail:
     """
-    Container type for runtime information
+    Represents a detailed summary of executed prompts to a given processInstanceId
     """
     dictionary: dict
 
@@ -36,11 +34,20 @@ class Experience:
         return {'dictionary': self.dictionary}
 
     @property
-    def behaviour_execution(self) -> BehaviourExecutionDetail:
-        return BehaviourExecutionDetail(self.dictionary.get("behaviourExecution"))
+    def process_instance_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("processInstanceId"))
     @property
-    def behaviour_executions(self) -> List[BehaviourExecution]:
-        return list(map(lambda x: BehaviourExecution(x), self.dictionary.get("behaviourExecutions")))
+    def identity_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("identityId"))
     @property
-    def behaviour_node_executions(self) -> List[BehaviourNodeExecution]:
-        return list(map(lambda x: BehaviourNodeExecution(x), self.dictionary.get("behaviourNodeExecutions")))
+    def qualifier(self) -> String:
+        return String(self.dictionary.get("qualifier"))
+    @property
+    def behaviour(self) -> String:
+        return String(self.dictionary.get("behaviour"))
+    @property
+    def behaviour_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("behaviourId"))
+    @property
+    def nodes(self) -> List[BehaviourNodeExecution]:
+        return list(map(lambda x: BehaviourNodeExecution(x), self.dictionary.get("nodes")))

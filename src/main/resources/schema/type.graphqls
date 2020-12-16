@@ -207,18 +207,25 @@ type BehaviourExecution {
     updated: ISO8601
 }
 
+"Represents a detailed summary of executed prompts to a given processInstanceId"
+type BehaviourExecutionDetail {
+    processInstanceId: Uuid
+    identityId: Uuid
+    qualifier: String
+    behaviour: String
+    behaviourId: Uuid
+    nodes: [BehaviourNodeExecution]
+}
+
 "Represents behaviour node execution information"
 type BehaviourNodeExecution {
-    processInstanceId: Uuid
-    nodeInstanceId: Uuid
+    activityId: String
+    reference: Uuid
+    qualifier: String
     state: String
-    executionGroupId: Uuid
-    nodeId: Uuid
-    processId: Uuid
     type: String
     transitions: Struct
-    timestamp: ISO8601
-    parentProcessId: Uuid
+    created: ISO8601
 }
 
 
