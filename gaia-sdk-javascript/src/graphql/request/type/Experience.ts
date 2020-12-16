@@ -25,11 +25,13 @@ public _typeName = "Experience";
         return `behaviourExecution(identityId:${name1}, processInstanceId:${name2}){` + entity.render(registry) + "}"
     });
 
-    public behaviourExecutions = (identityId: Uuid|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
+    public behaviourExecutions = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("limit", limit);
+        const name3 = registry.register("offset", offset);
         const entity = new BehaviourExecution();
         config(entity);
-        return `behaviourExecutions(identityId:${name1}){` + entity.render(registry) + "}"
+        return `behaviourExecutions(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
     });
 
     public behaviourNodeExecutions = (config: (_:BehaviourNodeExecution) => void) => this.push((registry) => {

@@ -20,9 +20,11 @@ class Experience: Type() {
         "behaviourExecution(identityId:$name1, processInstanceId:$name2){" + BehaviourExecutionDetail().apply(config).render(it) + "}"
     }
 
-    fun behaviourExecutions(identityId : Uuid?, config: BehaviourExecution.() -> Unit) = add {
+    fun behaviourExecutions(identityId : Uuid?, limit : Int?, offset : Int?, config: BehaviourExecution.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
-        "behaviourExecutions(identityId:$name1){" + BehaviourExecution().apply(config).render(it) + "}"
+        val name2 = it.register("limit", limit)
+        val name3 = it.register("offset", offset)
+        "behaviourExecutions(identityId:$name1, limit:$name2, offset:$name3){" + BehaviourExecution().apply(config).render(it) + "}"
     }
 
     fun behaviourNodeExecutions(config: BehaviourNodeExecution.() -> Unit) = 
