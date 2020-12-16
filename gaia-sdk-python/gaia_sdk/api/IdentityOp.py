@@ -55,7 +55,7 @@ class IdentityOp:
                                                                 identity_name, override),
                                           "/identity/import").json()
 
-        uri = "gaia://{}/identities/".format(tenant_id)
+        uri = f"gaia://{tenant_id}/identities/"
 
         self._logger.debug(f"Started upload to uri {uri}")
         new_file_data_ref = DataRef(uri, self._client, self._scheduler) \

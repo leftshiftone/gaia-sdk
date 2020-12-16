@@ -64,9 +64,6 @@ class IdentityOp(private val client: GaiaStreamClient) {
                     val msg = "Importing Identity " + identityName + " failed: " + reason.message
                     log.error(msg)
                 }
-                .map {
-                    it
-                }
             }
             .doOnError { log.error("Upload of identity with name $identityName failed.") }
     }

@@ -5,6 +5,7 @@ import {DataRef} from "./DataRef";
 import {IdentityImportImpulse} from "../graphql/request/input/IdentityImportImpulse";
 import {UUID} from "../graphql/GaiaScalars";
 import {IIdentityImported} from "../graphql/response/type/IdentityImported";
+import {mergeMap} from "rxjs/operators";
 
 export class IdentityOp {
     private readonly client: GaiaStreamClient;
@@ -20,13 +21,12 @@ export class IdentityOp {
             throw new Error('Import identity failed: Selected file is not a valid identity');
         }
 
-        return from(new DataRef(`gaia://${tenantId}/identities/`, this.client)
-            .add(file.name, content, override).toPromise()
-            .then((dataRef) => {
-                return this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId);
-            }).catch(reason => {
-                throw new Error('Identity Upload failed: ' + reason);
-            }))
+        return new DataRef(`gaia://${tenantId}/identities/`, this.client)
+            .add(file.name, content, override)
+            .pipe(mergeMap(dataRef =>
+                from(this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId)
+                    .catch(reason => { throw new Error('Identity Upload failed: ' + reason); }))
+            ))
     }
 
     private importIdentity(uri: string, tenantId: string, identityName: string, override: boolean = false, identityId?: string): Promise<IIdentityImported> {
