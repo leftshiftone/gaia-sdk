@@ -16,6 +16,5 @@ export interface BehaviourNodeExecution {
     qualifier?:string, 
     state?:string, 
     type?:string, 
-    transitions?:Struct, 
     created?:ISO8601
 }

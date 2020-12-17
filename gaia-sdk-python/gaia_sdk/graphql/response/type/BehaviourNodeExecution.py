@@ -48,8 +48,5 @@ class BehaviourNodeExecution:
     def type(self) -> String:
         return String(self.dictionary.get("type"))
     @property
-    def transitions(self) -> Struct:
-        return Struct(self.dictionary.get("transitions"))
-    @property
     def created(self) -> ISO8601:
         return ISO8601(self.dictionary.get("created"))

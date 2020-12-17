@@ -34,10 +34,6 @@ class BehaviourNodeExecution: Type() {
         add {"type" } 
     }
 
-    fun transitions() { 
-        add {"transitions" } 
-    }
-
     fun created() { 
         add {"created" } 
     }

@@ -224,7 +224,6 @@ type BehaviourNodeExecution {
     qualifier: String
     state: String
     type: String
-    transitions: Struct
     created: ISO8601
 }
 

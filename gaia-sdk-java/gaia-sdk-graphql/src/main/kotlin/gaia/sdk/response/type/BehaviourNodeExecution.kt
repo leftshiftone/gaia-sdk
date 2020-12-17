@@ -17,6 +17,5 @@ data class BehaviourNodeExecution @JsonCreator constructor(
     @JsonProperty("qualifier") val qualifier:String? = null, 
     @JsonProperty("state") val state:String? = null, 
     @JsonProperty("type") val type:String? = null, 
-    @JsonProperty("transitions") val transitions:Struct? = null, 
     @JsonProperty("created") val created:ISO8601? = null
 )
