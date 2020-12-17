@@ -34,3 +34,37 @@ class TestIdentityRef(unittest.TestCase):
         result = pipe(ops.first())(
             self.gaiaRef.identity().export("d32829c8-5900-4346-9577-25e8146d1e78")).run()
         self.assertEqual(len(result), 28311)
+
+    def test_import_identity(self):
+        self.gaiaRef = mock_gaia_ref(self.mock_write)
+        data = bytes("identity content", encoding="utf-8")
+        result = pipe(ops.first())(self.gaiaRef.identity().import_identity('tenantId', 'identityName', data)).run()
+        self.assertEqual(result['uri'], 'gaia://tenantId/identities/identityName')
+        self.assertEqual(result['partitionKey'], '0123456789')
+
+    @unittest.skip("E2E test, for local use or future E2E use")
+    def test_import_identity_e2e(self):
+        self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
+        data = bytes("identity content", encoding="utf-8")
+        result = pipe(ops.first())(
+            self.gaiaRef.identity().import_identity('2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da',
+                                                    'identityName', data, True)).run()
+        self.assertEqual(len(result.uri), 72)
+
+        result = pipe(ops.first())(
+            self.gaiaRef.data("gaia://2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da/").list()).run()
+        self.assertEqual(result[0].dictionary, {'filePath': 'identities/identityName',
+                                                'tenant': '2fa4ff18-5c30-497b-9ad2-0d8eb51cd4da'})
+        pass
+
+    def mock_write(self, request):
+        if request.url_post_fix == "/data/sink/init":
+            return MockResponse({"uploadId": "A123"})
+        elif request.url_post_fix == "/data/sink/chunk":
+            return MockResponse({"chunkId": "B123"})
+        elif request.url_post_fix == "/data/sink/complete":
+            return MockResponse("asdfqwer")
+        elif request.url_post_fix == "/identity/import":
+            return MockResponse({'partitionKey': '0123456789', 'uri': 'gaia://tenantId/identities/identityName'})
+        else:
+            raise RuntimeError('On purpose')

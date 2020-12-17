@@ -34,7 +34,6 @@ export class DataRef {
         return from(upload.execute(this.client));
     }
 
-
     /**
      * Lists all files whose uri has the current uri member as its prefix.
      */
@@ -95,6 +94,10 @@ export class DataRef {
             return uriWithTrailingSlash + pathWithoutLeadingSlash;
         }, baseUri);
         return uri.endsWith('/') ? uri.substr(0, uri.length - 1) : uri;
+    }
+
+    public getUri() {
+        return this.uri;
     }
 }
 
