@@ -207,7 +207,7 @@ type BehaviourExecution {
     updated: ISO8601
 }
 
-"Represents a detailed summary of executed prompts to a given processInstanceId"
+"Represents a detailed summary of executed entities to a given processInstanceId"
 type BehaviourExecutionDetail {
     processInstanceId: Uuid
     identityId: Uuid

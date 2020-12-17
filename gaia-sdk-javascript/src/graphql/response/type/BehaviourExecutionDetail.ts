@@ -9,7 +9,7 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 /**
-* Represents a detailed summary of executed prompts to a given processInstanceId
+* Represents a detailed summary of executed entities to a given processInstanceId
 */
 export interface BehaviourExecutionDetail {
     processInstanceId?:Uuid, 

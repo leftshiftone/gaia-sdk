@@ -11,7 +11,7 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
 /**
- * Represents a detailed summary of executed prompts to a given processInstanceId
+ * Represents a detailed summary of executed entities to a given processInstanceId
  */
 export class BehaviourExecutionDetail extends Array<(_:VariableRegistry) => string> {
 public _typeName = "BehaviourExecutionDetail";
