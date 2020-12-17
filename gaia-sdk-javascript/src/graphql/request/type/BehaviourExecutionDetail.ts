@@ -1,4 +1,5 @@
 
+import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -10,10 +11,10 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
 /**
- * Represents behaviour execution information
+ * Represents a detailed summary of executed entities to a given processInstanceId
  */
-export class BehaviourExecution extends Array<(_:VariableRegistry) => string> {
-public _typeName = "BehaviourExecution";
+export class BehaviourExecutionDetail extends Array<(_:VariableRegistry) => string> {
+public _typeName = "BehaviourExecutionDetail";
     public processInstanceId = () => { 
         this.push(_ => "processInstanceId")
     };
@@ -22,29 +23,23 @@ public _typeName = "BehaviourExecution";
         this.push(_ => "identityId")
     };
 
-    public state = () => { 
-        this.push(_ => "state")
+    public qualifier = () => { 
+        this.push(_ => "qualifier")
     };
 
-    public name = () => { 
-        this.push(_ => "name")
-    };
-
-    public duration = () => { 
-        this.push(_ => "duration")
+    public behaviour = () => { 
+        this.push(_ => "behaviour")
     };
 
     public behaviourId = () => { 
         this.push(_ => "behaviourId")
     };
 
-    public created = () => { 
-        this.push(_ => "created")
-    };
-
-    public updated = () => { 
-        this.push(_ => "updated")
-    };
+    public nodes = (config: (_:BehaviourNodeExecution) => void) => this.push((registry) => {
+        const entity = new BehaviourNodeExecution();
+        config(entity);
+        return "nodes { " + entity.render(registry) + " }";
+    });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

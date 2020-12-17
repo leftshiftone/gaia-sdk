@@ -1,4 +1,5 @@
 
+import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -8,13 +9,13 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 /**
-* Represents behaviour node execution information
+* Represents a detailed summary of executed entities to a given processInstanceId
 */
-export interface BehaviourNodeExecution {
-    activityId?:string, 
-    reference?:Uuid, 
+export interface BehaviourExecutionDetail {
+    processInstanceId?:Uuid, 
+    identityId?:Uuid, 
     qualifier?:string, 
-    state?:string, 
-    type?:string, 
-    created?:ISO8601
+    behaviour?:string, 
+    behaviourId?:Uuid, 
+    nodes?:[BehaviourNodeExecution]
 }

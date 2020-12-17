@@ -13,35 +13,23 @@ class BehaviourNodeExecution(list):
     Represents behaviour node execution information
     """
 
-    def process_instance_id(self):
-        self.append(lambda x: "processInstanceId")
+    def activity_id(self):
+        self.append(lambda x: "activityId")
 
-    def node_instance_id(self):
-        self.append(lambda x: "nodeInstanceId")
+    def reference(self):
+        self.append(lambda x: "reference")
+
+    def qualifier(self):
+        self.append(lambda x: "qualifier")
 
     def state(self):
         self.append(lambda x: "state")
 
-    def execution_group_id(self):
-        self.append(lambda x: "executionGroupId")
-
-    def node_id(self):
-        self.append(lambda x: "nodeId")
-
-    def process_id(self):
-        self.append(lambda x: "processId")
-
     def type(self):
         self.append(lambda x: "type")
 
-    def transitions(self):
-        self.append(lambda x: "transitions")
-
-    def timestamp(self):
-        self.append(lambda x: "timestamp")
-
-    def parent_process_id(self):
-        self.append(lambda x: "parentProcessId")
+    def created(self):
+        self.append(lambda x: "created")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

@@ -14,44 +14,28 @@ import gaia.sdk.request.enumeration.*
  */
 class BehaviourNodeExecution: Type() {
 
-    fun processInstanceId() { 
-        add {"processInstanceId" } 
+    fun activityId() { 
+        add {"activityId" } 
     }
 
-    fun nodeInstanceId() { 
-        add {"nodeInstanceId" } 
+    fun reference() { 
+        add {"reference" } 
+    }
+
+    fun qualifier() { 
+        add {"qualifier" } 
     }
 
     fun state() { 
         add {"state" } 
     }
 
-    fun executionGroupId() { 
-        add {"executionGroupId" } 
-    }
-
-    fun nodeId() { 
-        add {"nodeId" } 
-    }
-
-    fun processId() { 
-        add {"processId" } 
-    }
-
     fun type() { 
         add {"type" } 
     }
 
-    fun transitions() { 
-        add {"transitions" } 
-    }
-
-    fun timestamp() { 
-        add {"timestamp" } 
-    }
-
-    fun parentProcessId() { 
-        add {"parentProcessId" } 
+    fun created() { 
+        add {"created" } 
     }
 }
 

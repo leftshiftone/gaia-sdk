@@ -14,9 +14,18 @@ import gaia.sdk.request.enumeration.*
  */
 class Experience: Type() {
 
-    fun behaviourExecutions(config: BehaviourExecution.() -> Unit) = 
-        add { "behaviourExecutions{ " + BehaviourExecution().apply(config).render(it) + "}"}
+    fun behaviourExecution(identityId : Uuid?, processInstanceId : Uuid?, config: BehaviourExecutionDetail.() -> Unit) = add {
+        val name1 = it.register("identityId", identityId)
+        val name2 = it.register("processInstanceId", processInstanceId)
+        "behaviourExecution(identityId:$name1, processInstanceId:$name2){" + BehaviourExecutionDetail().apply(config).render(it) + "}"
+    }
 
+    fun behaviourExecutions(identityId : Uuid?, limit : Int?, offset : Int?, config: BehaviourExecution.() -> Unit) = add {
+        val name1 = it.register("identityId", identityId)
+        val name2 = it.register("limit", limit)
+        val name3 = it.register("offset", offset)
+        "behaviourExecutions(identityId:$name1, limit:$name2, offset:$name3){" + BehaviourExecution().apply(config).render(it) + "}"
+    }
 
     fun behaviourNodeExecutions(config: BehaviourNodeExecution.() -> Unit) = 
         add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}

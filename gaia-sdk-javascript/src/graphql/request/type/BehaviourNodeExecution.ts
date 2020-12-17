@@ -14,44 +14,28 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class BehaviourNodeExecution extends Array<(_:VariableRegistry) => string> {
 public _typeName = "BehaviourNodeExecution";
-    public processInstanceId = () => { 
-        this.push(_ => "processInstanceId")
+    public activityId = () => { 
+        this.push(_ => "activityId")
     };
 
-    public nodeInstanceId = () => { 
-        this.push(_ => "nodeInstanceId")
+    public reference = () => { 
+        this.push(_ => "reference")
+    };
+
+    public qualifier = () => { 
+        this.push(_ => "qualifier")
     };
 
     public state = () => { 
         this.push(_ => "state")
     };
 
-    public executionGroupId = () => { 
-        this.push(_ => "executionGroupId")
-    };
-
-    public nodeId = () => { 
-        this.push(_ => "nodeId")
-    };
-
-    public processId = () => { 
-        this.push(_ => "processId")
-    };
-
     public type = () => { 
         this.push(_ => "type")
     };
 
-    public transitions = () => { 
-        this.push(_ => "transitions")
-    };
-
-    public timestamp = () => { 
-        this.push(_ => "timestamp")
-    };
-
-    public parentProcessId = () => { 
-        this.push(_ => "parentProcessId")
+    public created = () => { 
+        this.push(_ => "created")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

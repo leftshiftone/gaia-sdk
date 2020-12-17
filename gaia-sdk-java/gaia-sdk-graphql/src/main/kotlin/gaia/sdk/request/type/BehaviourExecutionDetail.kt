@@ -10,9 +10,9 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Represents behaviour execution information
+ * Represents a detailed summary of executed entities to a given processInstanceId
  */
-class BehaviourExecution: Type() {
+class BehaviourExecutionDetail: Type() {
 
     fun processInstanceId() { 
         add {"processInstanceId" } 
@@ -22,28 +22,20 @@ class BehaviourExecution: Type() {
         add {"identityId" } 
     }
 
-    fun state() { 
-        add {"state" } 
+    fun qualifier() { 
+        add {"qualifier" } 
     }
 
-    fun name() { 
-        add {"name" } 
-    }
-
-    fun duration() { 
-        add {"duration" } 
+    fun behaviour() { 
+        add {"behaviour" } 
     }
 
     fun behaviourId() { 
         add {"behaviourId" } 
     }
 
-    fun created() { 
-        add {"created" } 
-    }
+    fun nodes(config: BehaviourNodeExecution.() -> Unit) = 
+        add { "nodes{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
 
-    fun updated() { 
-        add {"updated" } 
-    }
 }
 

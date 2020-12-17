@@ -9,15 +9,13 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Represents behaviour execution information
+* Represents a detailed summary of executed entities to a given processInstanceId
 */
-data class BehaviourExecution @JsonCreator constructor(
+data class BehaviourExecutionDetail @JsonCreator constructor(
     @JsonProperty("processInstanceId") val processInstanceId:Uuid? = null, 
     @JsonProperty("identityId") val identityId:Uuid? = null, 
-    @JsonProperty("state") val state:String? = null, 
-    @JsonProperty("name") val name:String? = null, 
-    @JsonProperty("duration") val duration:Int? = null, 
+    @JsonProperty("qualifier") val qualifier:String? = null, 
+    @JsonProperty("behaviour") val behaviour:String? = null, 
     @JsonProperty("behaviourId") val behaviourId:Uuid? = null, 
-    @JsonProperty("created") val created:ISO8601? = null, 
-    @JsonProperty("updated") val updated:ISO8601? = null
+    @JsonProperty("nodes") val nodes:List<BehaviourNodeExecution>? = null
 )
