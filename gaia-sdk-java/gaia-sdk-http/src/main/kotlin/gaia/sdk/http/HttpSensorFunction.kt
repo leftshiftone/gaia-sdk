@@ -114,6 +114,12 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { skillProvision(tenantId, reference, config) } } })) { it.retrieve?.knowledge?.skillProvision!! }
 
+    override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { experience { behaviourExecution(identityId, processInstanceId, config) } } })) { it.retrieve?.experience?.behaviourExecution!! }
+
+    override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { experience { behaviourExecutions(identityId, limit, offset?.toInt(), config) } } })) { it.retrieve?.experience?.behaviourExecutions!! }
+
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
 

@@ -43,6 +43,10 @@ import {
     SkillProvisionRes,
     SkillReq,
     SkillRes,
+    BehaviourExecutionReq,
+    BehaviourExecutionRes,
+    BehaviourExecutionDetailReq,
+    BehaviourExecutionDetailRes,
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
@@ -134,6 +138,7 @@ import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpu
 import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
 import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
 import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
+import {BehaviourExecution} from "../graphql/request/type/BehaviourExecution";
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -197,6 +202,10 @@ export interface ISensorFunction {
     retrieveSkillProvisions(tenantId: Uuid, config: (x: SkillProvisionReq) => void, limit?: Number, offset?: Number): Observable<SkillProvisionRes>
 
     retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes>
+
+    retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes>
+
+    retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number): Observable<BehaviourExecutionRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 

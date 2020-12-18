@@ -963,5 +963,60 @@ describe('perception tests:', () => {
         });
     });
 
+    test('test retrieve behaviourExecution', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({data: {retrieve: {experience: {behaviourExecution: {processInstanceId: 'i1', behaviourId: '101'}}}}})
+        );
+        const identityId = uuidv4();
+        const processInstanceId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecution(identityId, processInstanceId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+            });
+            observable.subscribe(e => {
+                expect(e.processInstanceId !== undefined).toBeTruthy();
+                expect(e.behaviourId !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated behaviourExecutions', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        experience: {
+                            behaviourExecutions: [{
+                                processInstanceId: 'i1',
+                                behaviourId: '101',
+                                state: '101'
+                            }, {processInstanceId: 'i1', behaviourId: '101', state: '102'}]
+                        }
+                    }
+                }
+            })
+        );
+        const identityId = uuidv4();
+        let latestExpectedIndex = 100;
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecutions(identityId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+                _.state();
+            }, 10, 100);
+            observable.subscribe(e => {
+                expect(e.processInstanceId !== undefined).toBeTruthy();
+                expect(e.behaviourId !== undefined).toBeTruthy();
+                latestExpectedIndex++;
+                expect(e.state === '' + latestExpectedIndex).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
 
 });
