@@ -5,17 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.GaiaCredentials
+import gaia.sdk.GaiaRequest
 import gaia.sdk.JWTCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
+import gaia.sdk.api.extension.map
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
 import gaia.sdk.http.TransporterFactory
 import gaia.sdk.mqtt.MqttSensorQueue
 import gaia.sdk.request.input.*
+import gaia.sdk.request.type.BehaviourExecution
+import gaia.sdk.request.type.BehaviourExecutionDetail
 import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
@@ -136,6 +140,8 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveSkill(tenantId: Uuid, reference: Uuid, config: gaia.sdk.request.type.Skill.() -> Unit) = fProc.retrieveSkill(tenantId, reference, config)
     override fun retrieveSkillProvisions(tenantId: Uuid, config: gaia.sdk.request.type.SkillProvision.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveSkillProvisions(tenantId, config, limit, offset)
     override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: gaia.sdk.request.type.SkillProvision.() -> Unit) = fProc.retrieveSkillProvision(tenantId, reference, config)
+    override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) = fProc.retrieveBehaviourExecution(identityId, processInstanceId, config)
+    override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveBehaviourExecutions(identityId, config, limit, offset)
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
     override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)

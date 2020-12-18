@@ -1031,4 +1031,60 @@ abstract class RetrievalTest() {
         ts.assertNoValues()
     }
 
+    @Test
+    fun `test retrieve behaviourExecution`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(behaviourExecution = BehaviourExecutionDetail(processInstanceId = UUID.randomUUID().toString(), behaviourId = UUID.randomUUID().toString())))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val identityId = UUID.randomUUID().toString()
+        val processInstanceId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveBehaviourExecution(identityId, processInstanceId) {
+            processInstanceId()
+            behaviourId()
+        }
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0) {
+            it.behaviourId != null && it.processInstanceId != null
+        }
+    }
+
+    @Test
+    fun `test retrieve paginated behaviourExecutions`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(behaviourExecutions = listOf(
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "101"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "102"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "103"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "104"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "105"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "106"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "107"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "108"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "109"),
+                    BehaviourExecution(processInstanceId = UUID.randomUUID().toString(), state = "110")
+            ))))))
+        }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val processInstanceId = UUID.randomUUID().toString()
+
+        val publisher = gaiaRef.retrieveBehaviourExecutions(processInstanceId, {
+            processInstanceId()
+            state()
+        }, 10, 100)
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(10)
+
+        ts.assertValueAt(0) {
+            it.processInstanceId != null && it.state == "101"
+        }
+        ts.assertValueAt(9) {
+            it.processInstanceId != null && it.state == "110"
+        }
+    }
+
 }

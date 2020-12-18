@@ -4,6 +4,8 @@ import {Introspection} from './graphql/request/type/Introspection';
 import {SkillIntrospection} from './graphql/request/type/SkillIntrospection';
 import {Perception} from './graphql/request/type/Perception';
 import {
+    BehaviourExecutionReq,
+    BehaviourExecutionDetailReq,
     CreateIntentImpulse,
     DeleteIntentImpulse,
     PerceiveActionImpulse,
@@ -231,4 +233,6 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkill = (tenantId: Uuid, reference: Uuid, config: (x: Skill) => void) => this.fProc.retrieveSkill(tenantId, reference, config);
     public retrieveSkillProvisions = (tenantId: Uuid, config: (x: SkillProvision) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkillProvisions(tenantId, config, limit, offset);
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
+    public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
+    public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset);
 }

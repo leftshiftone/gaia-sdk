@@ -49,7 +49,11 @@ import {
     UserReq,
     UserRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse
+    UpdateIntentImpulse,
+    BehaviourExecutionReq,
+    BehaviourExecutionRes,
+    BehaviourExecutionDetailReq,
+    BehaviourExecutionDetailRes
 } from "../graphql";
 import {ISensorFunction} from "../api/ISensorFunction";
 import {from, Observable} from "rxjs";
@@ -365,6 +369,20 @@ export class HttpSensorFunction implements ISensorFunction {
             g.knowledge(k => k.skillProvision(tenantId, reference, config));
         }))));
         return Rx.mapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvision!);
+    }
+
+    public retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.behaviourExecution(identityId, processInstanceId, config));
+        }))));
+        return Rx.mapQ<BehaviourExecutionDetailRes>(observable, (e) => e.retrieve!.experience!.behaviourExecution!);
+    }
+
+    public retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number): Observable<BehaviourExecutionRes> {
+        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.behaviourExecutions(identityId, limit, offset, config));
+        }))));
+        return Rx.flatMapQ<BehaviourExecutionRes>(observable, (e) => e.retrieve!.experience!.behaviourExecutions!);
     }
 
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {
