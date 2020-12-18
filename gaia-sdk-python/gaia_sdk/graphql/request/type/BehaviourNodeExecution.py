@@ -28,9 +28,6 @@ class BehaviourNodeExecution(list):
     def type(self):
         self.append(lambda x: "type")
 
-    def transitions(self):
-        self.append(lambda x: "transitions")
-
     def created(self):
         self.append(lambda x: "created")
 

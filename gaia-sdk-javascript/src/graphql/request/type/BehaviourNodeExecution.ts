@@ -34,10 +34,6 @@ public _typeName = "BehaviourNodeExecution";
         this.push(_ => "type")
     };
 
-    public transitions = () => { 
-        this.push(_ => "transitions")
-    };
-
     public created = () => { 
         this.push(_ => "created")
     };

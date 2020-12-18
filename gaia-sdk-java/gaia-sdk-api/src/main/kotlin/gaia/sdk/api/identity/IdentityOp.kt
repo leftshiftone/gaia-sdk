@@ -1,6 +1,12 @@
 package gaia.sdk.api.identity
 
+import com.sun.net.httpserver.Authenticator
 import gaia.sdk.GaiaStreamClient
+import gaia.sdk.api.data.DataRef
+import gaia.sdk.api.data.DataUpload
+import gaia.sdk.api.identity.request.IdentityImportImpulse
+import gaia.sdk.api.data.response.DataUploadResponse
+import gaia.sdk.api.data.response.IdentityImportResponse
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -9,6 +15,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 
 class IdentityOp(private val client: GaiaStreamClient) {
 
@@ -45,7 +52,19 @@ class IdentityOp(private val client: GaiaStreamClient) {
                     .toFlowable()
 
 
-    fun import(id: String?): Unit {
-        throw NotImplementedError("Implement identity import functionality is not yet implemented")
+    fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String? = null): Flowable<IdentityImportResponse> {
+        return Flowable.fromPublisher(DataRef("gaia://$tenantId/identities/", this.client).add(content.name, content, override))
+            .flatMap { dataRef ->
+                Flowable.fromPublisher(client.post(IdentityImportImpulse(dataRef.getUri(),
+                    tenantId,
+                    identityId ?: UUID.randomUUID().toString(),
+                    identityName,
+                    override), IdentityImportResponse::class.java, "/identity/import"))
+                .doOnError { reason ->
+                    val msg = "Importing Identity " + identityName + " failed: " + reason.message
+                    log.error(msg)
+                }
+            }
+            .doOnError { log.error("Upload of identity with name $identityName failed.") }
     }
 }

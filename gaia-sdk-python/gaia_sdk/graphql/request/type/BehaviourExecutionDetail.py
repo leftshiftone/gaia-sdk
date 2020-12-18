@@ -11,7 +11,7 @@ from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class BehaviourExecutionDetail(list):
     """
-    Represents a detailed summary of executed prompts to a given processInstanceId
+    Represents a detailed summary of executed entities to a given processInstanceId
     """
 
     def process_instance_id(self):

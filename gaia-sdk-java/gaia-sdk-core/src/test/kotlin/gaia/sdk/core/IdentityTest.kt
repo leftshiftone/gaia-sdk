@@ -4,11 +4,14 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import gaia.sdk.JWTCredentials
+import gaia.sdk.api.data.DataRefRequestConfig
 import gaia.sdk.http.TransporterFactory
 import io.reactivex.Flowable
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.*
+import java.io.File
+import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -70,6 +73,33 @@ internal class IdentityTest {
             fail<String>("No exception thrown")
         } catch (e: AssertionError) {
             assertThat(e.message).isEqualTo("Identity ID must be set in order to export an identity")
+        }
+    }
+
+    @Test
+    fun `successful identity import`() {
+        val gaiaStorageUri = "gaia://tenant/identities/"
+        val fileName = "identity-Generic-Blubb.zip"
+        val uploadId = "0123456789" //HardCoded in mapping file ok_data_chunk_upload_response.json
+        val sizeInBytes = 37721 //HardCoded in mapping file ok_data_chunk_upload_response.json
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/init")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$fileName", "UTF-8")}")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/complete")
+        configureStub("Bearer", errorCode = 200, responseFile = "ok_identity_import_response.json", uri = "/api/identity/import")
+
+        val gaiaRef = Gaia.connect("http://localhost:8083", JWTCredentials("684684"))
+        val identityRef = gaiaRef.identity()
+
+        val fileToUpload = File("src/test/resources/identity-Generic-Blubb.zip")
+        val ts = Flowable.fromPublisher(identityRef.import("tenant",
+                "identity-default", fileToUpload)).test()
+
+        ts.awaitDone(10, TimeUnit.SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0) {
+            it.uri == "gaia://tenant/identities/identity-Generic-Blubb.zip"
+            it.partitionKey == "0123456789"
         }
     }
 

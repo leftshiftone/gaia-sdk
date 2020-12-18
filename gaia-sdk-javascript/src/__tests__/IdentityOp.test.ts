@@ -15,7 +15,7 @@ describe('dataref tests:', () => {
                 expect(request.urlPostFix).toEqual('/identity/source');
                 return [blob];
             });
-            
+
             const observable = gaiaRef.identity().export('identityId');
             observable.subscribe(e => {
                 expect(e !== null).toBeTruthy();
@@ -26,27 +26,29 @@ describe('dataref tests:', () => {
         });
     });
 
-    test('test import identity', () => {
+    test.skip('test import identity', () => {
+        // FIXME empty Blob -> cross-blob always empty???
         return new Promise(async (resolve, reject) => {
-            const gaiaRef = Mock.gaiaRef((request) => {
-                expect(request.urlPostFix).toEqual('/identity/sink');
-                return ['blob'];
-            });
-            const observable = gaiaRef.identity().import();
-            expect(observable === undefined).toBeTruthy();
-            resolve('TODO: implement import identity test');
-        });
-    });
+            const Blob = require("cross-blob");
+            const obj = {
+                name: 'identity-new.zip'
+            };
+            const identityBlob = new Blob([JSON.stringify(obj)], {type : 'application/zip'});
 
-    test('test overwrite identity', () => {
-        return new Promise(async (resolve, reject) => {
             const gaiaRef = Mock.gaiaRef((request) => {
-                expect(request.urlPostFix).toEqual('/identity/sink');
-                return ['blob'];
+                expect(request.urlPostFix).toEqual('/identity/import');
+                return [identityBlob];
             });
-            const observable = gaiaRef.identity().import('identityId');
-            expect(observable === undefined).toBeTruthy();
-            resolve('TODO: implement overwrite identity test');
+
+            const observable = gaiaRef.identity().import('tenantId','identityName',
+                identityBlob, true);
+
+            observable.subscribe(e => {
+                expect(e !== null).toBeTruthy();
+                expect(e.length).toEqual(1);
+                expect(e[0] === identityBlob).toBeTruthy();
+                resolve(e || '');
+            }, reject);
         });
     });
 });

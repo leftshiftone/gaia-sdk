@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Represents a detailed summary of executed prompts to a given processInstanceId
+* Represents a detailed summary of executed entities to a given processInstanceId
 */
 data class BehaviourExecutionDetail @JsonCreator constructor(
     @JsonProperty("processInstanceId") val processInstanceId:Uuid? = null, 

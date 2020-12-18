@@ -10,7 +10,7 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Represents a detailed summary of executed prompts to a given processInstanceId
+ * Represents a detailed summary of executed entities to a given processInstanceId
  */
 class BehaviourExecutionDetail: Type() {
 
