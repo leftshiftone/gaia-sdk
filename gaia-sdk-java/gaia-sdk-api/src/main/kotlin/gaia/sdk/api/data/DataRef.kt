@@ -92,7 +92,7 @@ class DataRef(private val uri: String, private val client: GaiaStreamClient) {
      * @param filePath Path of the file where the downloaded data will be persisted
      * @return Publisher of the written file.
      */
-    fun asFile(filePath: String = "SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
+    fun asFile(filePath: String = "build/SDK-DataRef.asFile-${System.currentTimeMillis()}"): Publisher<File> {
         log.info("Download file from ${this.uri} to $filePath")
         return Flowable.fromCallable { FileOutputStream(filePath) }
                 .flatMap { downloadToStream(it, filePath) }

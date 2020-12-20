@@ -28,7 +28,7 @@ class IdentityOp(private val client: GaiaStreamClient) {
      * @param filePath Path of the file where the downloaded data will be persisted
      * @return Publisher of the written file
      */
-    fun export(id: String, filePath: String = "SDK-IdentityRef.export_${System.currentTimeMillis()}_$id.zip"): Publisher<File> {
+    fun export(id: String, filePath: String = "build/SDK-IdentityRef.export_${System.currentTimeMillis()}_$id.zip"): Publisher<File> {
         assert(!id.isBlank()) { "Identity ID must be set in order to export an identity" }
 
         return Flowable.fromCallable {

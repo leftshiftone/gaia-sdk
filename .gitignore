@@ -18,3 +18,4 @@ logs
 **/.python-version
 # GraphQL
 **/.graphqlconfig
+# Test files
