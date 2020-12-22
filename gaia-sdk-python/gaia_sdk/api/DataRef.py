@@ -54,11 +54,15 @@ class DataRef:
         """
         file_uri = DataRef.concat_uri(self.uri, file_name)
         number_of_chunks = ceil(len(content) / CHUNK_SIZE)
-        self.logger.debug(f"Started upload to uri {self.uri}")
-        new_file_data_ref = DataUpload(file_uri, content, number_of_chunks, override, config)\
-            .execute(self.client, self.scheduler)
-        self.logger.debug(f"Finished upload to uri {self.uri}")
-        return of(new_file_data_ref)
+        upload = DataUpload(file_uri, content, number_of_chunks, override, config)
+
+        def execute_upload() -> DataRef:
+            self.logger.debug(f"Started upload to uri {file_uri}")
+            new_file_data_ref = upload.execute(self.client, self.scheduler)
+            self.logger.debug(f"Finished upload to uri {file_uri}")
+            return new_file_data_ref
+
+        return rx.from_callable(execute_upload)
 
     def list(self) -> Observable[List[FileListing]]:
         r"""Lists all files sharing the current uri as prefix.
@@ -66,10 +70,13 @@ class DataRef:
         :return: :class:`Observable[List[FileListing]]` object: List of files that share the current uri as prefix.
         :exception HttpError: Error thrown if the list operation fails.
         """
-        self.logger.debug(f"Started list at uri {self.uri}")
-        response = self.client.post_json(ListFilesImpulse(self.uri), "/data/list").json()
-        self.logger.debug(f"Completed list at uri {self.uri}")
-        return of([FileListing(listing) for listing in response])
+        def execute_list() -> List[FileListing]:
+            self.logger.debug(f"Started list at uri {self.uri}")
+            response = self.client.post_json(ListFilesImpulse(self.uri), "/data/list").json()
+            self.logger.debug(f"Completed list at uri {self.uri}")
+            return [FileListing(listing) for listing in response]
+
+        return rx.from_callable(execute_list)
 
     def as_bytes(self) -> Observable[bytes]:
         r"""Downloads the file at the current uri and returns it as bytes.
@@ -105,11 +112,14 @@ class DataRef:
         file existed.
         :exception HttpError: Error thrown if the remove operation fails.
         """
-        file_uri = DataRef.concat_uri(self.uri, file_name)
-        self.logger.debug(f"Started removing file at {file_uri}")
-        response = self.client.post_json(RemoveFileImpulse(file_uri), "/data/remove").json()
-        self.logger.debug(f"Completed removing file at {file_uri}")
-        return of(FileRemoved(response))
+        def execute_remove_file() -> FileRemoved:
+            file_uri = DataRef.concat_uri(self.uri, file_name)
+            self.logger.debug(f"Started removing file at {file_uri}")
+            response = self.client.post_json(RemoveFileImpulse(file_uri), "/data/remove").json()
+            self.logger.debug(f"Completed removing file at {file_uri}")
+            return FileRemoved(response)
+
+        return rx.from_callable(execute_remove_file)
 
     def append(self):
         r"""Not implemented in backend"""
