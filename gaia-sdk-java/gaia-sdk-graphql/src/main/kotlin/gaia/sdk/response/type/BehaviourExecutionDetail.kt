@@ -15,7 +15,7 @@ data class BehaviourExecutionDetail @JsonCreator constructor(
     @JsonProperty("processInstanceId") val processInstanceId:Uuid? = null, 
     @JsonProperty("identityId") val identityId:Uuid? = null, 
     @JsonProperty("qualifier") val qualifier:String? = null, 
-    @JsonProperty("behaviour") val behaviour:String? = null, 
+    @JsonProperty("behaviours") val behaviours:Struct? = null, 
     @JsonProperty("behaviourId") val behaviourId:Uuid? = null, 
     @JsonProperty("nodes") val nodes:List<BehaviourNodeExecution>? = null
 )

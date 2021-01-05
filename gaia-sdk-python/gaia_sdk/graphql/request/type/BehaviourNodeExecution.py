@@ -16,6 +16,12 @@ class BehaviourNodeExecution(list):
     def activity_id(self):
         self.append(lambda x: "activityId")
 
+    def behaviour_qualifier(self):
+        self.append(lambda x: "behaviourQualifier")
+
+    def behaviour_id(self):
+        self.append(lambda x: "behaviourId")
+
     def reference(self):
         self.append(lambda x: "reference")
 

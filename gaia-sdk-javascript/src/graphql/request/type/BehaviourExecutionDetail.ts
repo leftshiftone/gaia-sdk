@@ -27,8 +27,8 @@ public _typeName = "BehaviourExecutionDetail";
         this.push(_ => "qualifier")
     };
 
-    public behaviour = () => { 
-        this.push(_ => "behaviour")
+    public behaviours = () => { 
+        this.push(_ => "behaviours")
     };
 
     public behaviourId = () => { 
