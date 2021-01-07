@@ -554,7 +554,6 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.apiKeyId()
                     d.name()
                     d.description()
-                    d.secret()
                     d.enabled()
                 })
             }))

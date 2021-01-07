@@ -8,9 +8,9 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
-class ApiKey(list):
+class CreatedApiKey(list):
     """
-    Represents api key information
+    Represents api key information including the secret
     """
 
     """
@@ -30,6 +30,12 @@ class ApiKey(list):
     """
     def description(self):
         self.append(lambda x: "description")
+
+    """
+    The secret of the api key
+    """
+    def secret(self):
+        self.append(lambda x: "secret")
 
     """
     The flag to enable the api key

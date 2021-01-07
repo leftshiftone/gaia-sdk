@@ -10,10 +10,10 @@ import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
 /**
- * Represents api key information
+ * Represents api key information including the secret
  */
-export class ApiKey extends Array<(_:VariableRegistry) => string> {
-public _typeName = "ApiKey";
+export class CreatedApiKey extends Array<(_:VariableRegistry) => string> {
+public _typeName = "CreatedApiKey";
     /**
      * The api key id
      */
@@ -33,6 +33,13 @@ public _typeName = "ApiKey";
      */
     public description = () => { 
         this.push(_ => "description")
+    };
+
+    /**
+     * The secret of the api key
+     */
+    public secret = () => { 
+        this.push(_ => "secret")
     };
 
     /**

@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Represents api key information
+* Represents api key information including the secret
 */
-data class ApiKey @JsonCreator constructor(
+data class CreatedApiKey @JsonCreator constructor(
     /**
     * The api key id
     */
@@ -24,6 +24,10 @@ data class ApiKey @JsonCreator constructor(
     * The description of the api key
     */
     @JsonProperty("description") val description:String? = null, 
+    /**
+    * The secret of the api key
+    */
+    @JsonProperty("secret") val secret:String? = null, 
     /**
     * The flag to enable the api key
     */

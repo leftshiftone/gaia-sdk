@@ -10,9 +10,9 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Represents api key information
+ * Represents api key information including the secret
  */
-class ApiKey: Type() {
+class CreatedApiKey: Type() {
 
     /**
      * The api key id
@@ -33,6 +33,13 @@ class ApiKey: Type() {
      */
     fun description() { 
         add {"description" } 
+    }
+
+    /**
+     * The secret of the api key
+     */
+    fun secret() { 
+        add {"secret" } 
     }
 
     /**

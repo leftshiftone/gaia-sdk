@@ -234,7 +234,7 @@ input DeleteApiKeyImpulse {
 "Impulse which indicates the result of a create api key impulse"
 type CreatedApiKeyImpulse implements Impulse {
     id: Uuid!
-    data: ApiKey
+    data: CreatedApiKey
 }
 "Impulse which indicates the result of a update api key impulse"
 type UpdatedApiKeyImpulse implements Impulse {
