@@ -31,12 +31,14 @@ from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatemen
 from gaia_sdk.graphql.request.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
 from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
+from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
 from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
 from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImpulse
 from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
 from gaia_sdk.graphql.response.type.DeletedBehaviourImpulse import DeletedBehaviourImpulse
+from gaia_sdk.graphql.response.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.response.type.DeletedFulfilmentImpulse import DeletedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.DeletedIdentityImpulse import DeletedIdentityImpulse
 from gaia_sdk.graphql.response.type.DeletedIntentImpulse import DeletedIntentImpulse
@@ -129,6 +131,24 @@ class TestPreservation(unittest.TestCase):
 
         self.codeDeleteMockResponse: Callable[[str], MockResponse] = lambda: self.deleteMockResponse("codes")
 
+        self.edgeCreateMockResponse: Callable[[str], MockResponse] = lambda: MockResponse(
+            {"data": {"preserve": {"create": {"edges": [
+                {"id": "asdf", "data": {"source": "n1",
+                                        "target": "n2",
+                                        "type": "someType",
+                                        "weight": 2.7,
+                                        "edgeId": "e1",
+                                        "properties": {}}}
+            ]}}}}
+        )
+
+        self.edgeDeleteMockResponse: Callable[[str], MockResponse] = lambda: MockResponse(
+            {"data": {"preserve": {"delete": {"edges": [
+                {"id": "asdf", "data": {"source": "n1",
+                                        "edgeId": "e1"}}
+            ]}}}}
+        )
+
     ####################################################################################################################
     # Assertions
     ####################################################################################################################
@@ -201,6 +221,22 @@ class TestPreservation(unittest.TestCase):
 
     def assert_delete_code(self, result: DeletedCodeImpulse):
         self.assert_delete(result)
+
+    def assert_create_edge(self, result: CreatedEdgeImpulse):
+        self.assertEqual(result.dictionary.get("id"), "asdf")
+        data = result.dictionary.get("data")
+        self.assertEqual(data.get("source"), "n1")
+        self.assertEqual(data.get("target"), "n2")
+        self.assertEqual(data.get("type"), "someType")
+        self.assertEqual(data.get("weight"), 2.7)
+        self.assertEqual(data.get("edgeId"), "e1")
+        self.assertEqual(data.get("properties"), {})
+
+    def assert_delete_edge(self, result: DeletedEdgeImpulse):
+        self.assertEqual(result.dictionary.get("id"), "asdf")
+        data = result.dictionary.get("data")
+        self.assertEqual(data.get("source"), "n1")
+        self.assertEqual(data.get("edgeId"), "e1")
 
     ####################################################################################################################
     # Tests
@@ -332,18 +368,16 @@ class TestPreservation(unittest.TestCase):
         self.assert_delete_code(result)
 
     def test_preserve_create_edge(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"create": {"edges": [{"id": "asdf"}]}}}}))
-
-        impulses = CreateEdgeImpulse(str(uuid4()), str(uuid4()), "sometype", 2.7, dict())
-        result = pipe(ops.first())(gaia_ref.preserve_create_edges([impulses])).run()
-        assert result.dictionary.get("id") is not None, "ID  is in response"
+        gaia_ref = mock_gaia_ref(lambda request: self.edgeCreateMockResponse())
+        impulses = CreateEdgeImpulse(str(uuid4()), str(uuid4()), "someType", 2.7, dict())
+        result: CreatedEdgeImpulse = pipe(ops.first())(gaia_ref.preserve_create_edges([impulses])).run()
+        self.assert_create_edge(result)
 
     def test_preserve_delete_edge(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"preserve": {"delete": {"edges": [{"id": "asdf"}]}}}}))
-
+        gaia_ref = mock_gaia_ref(lambda request: self.edgeDeleteMockResponse())
         impulses = DeleteEdgeImpulse(str(uuid4()), str(uuid4()))
-        result = pipe(ops.first())(gaia_ref.preserve_delete_edges([impulses])).run()
-        assert result.dictionary.get("id") is not None, "ID  is in response"
+        result: DeletedEdgeImpulse = pipe(ops.first())(gaia_ref.preserve_delete_edges([impulses])).run()
+        self.assert_delete_edge(result)
 
 
 if __name__ == '__main__':
