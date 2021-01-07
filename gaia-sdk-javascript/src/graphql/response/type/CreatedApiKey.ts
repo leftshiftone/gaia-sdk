@@ -8,9 +8,9 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 /**
-* Represents api key information
+* Represents api key information including the secret
 */
-export interface ApiKey {
+export interface CreatedApiKey {
     /**
     * The api key id
     */
@@ -23,6 +23,10 @@ export interface ApiKey {
     * The description of the api key
     */
     description?:string, 
+    /**
+    * The secret of the api key
+    */
+    secret?:string, 
     /**
     * The flag to enable the api key
     */

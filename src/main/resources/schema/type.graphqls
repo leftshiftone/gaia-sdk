@@ -58,6 +58,18 @@ type ApiKey {
     name: String
     "The description of the api key"
     description: String
+    "The flag to enable the api key"
+    enabled: Boolean
+}
+
+"Represents api key information including the secret"
+type CreatedApiKey {
+    "The api key id"
+    apiKeyId: Uuid
+    "The name of the api key"
+    name: String
+    "The description of the api key"
+    description: String
     "The secret of the api key"
     secret: String
     "The flag to enable the api key"

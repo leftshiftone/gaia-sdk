@@ -262,7 +262,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     apiKeyId()
                     name()
                     description()
-                    secret()
                     enabled()
                 }
             } } } })) {
