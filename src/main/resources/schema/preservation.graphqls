@@ -222,7 +222,7 @@ input CreateApiKeyImpulse {
 "The specification to update an apiKey instance"
 input UpdateApiKeyImpulse {
     apiKeyId: Uuid!
-    secret: String!
+    secret: String
     name: String!
     description: String
     enabled: Boolean
