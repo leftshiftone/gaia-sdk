@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class CreatedApiKeyImpulse @JsonCreator constructor(
     @JsonProperty("id") val id:Uuid? = null, 
-    @JsonProperty("data") val data:ApiKey? = null
+    @JsonProperty("data") val data:CreatedApiKey? = null
 )

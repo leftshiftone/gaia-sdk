@@ -1,5 +1,5 @@
 
-import {ApiKey} from "./ApiKey";
+import {CreatedApiKey} from "./CreatedApiKey";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -19,8 +19,8 @@ public _typeName = "CreatedApiKeyImpulse";
         this.push(_ => "id")
     };
 
-    public data = (config: (_:ApiKey) => void) => this.push((registry) => {
-        const entity = new ApiKey();
+    public data = (config: (_:CreatedApiKey) => void) => this.push((registry) => {
+        const entity = new CreatedApiKey();
         config(entity);
         return "data { " + entity.render(registry) + " }";
     });

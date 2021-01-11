@@ -1,5 +1,4 @@
 
-from gaia_sdk.graphql.response.type.CreatedApiKey import CreatedApiKey
 
 from typing import List
 Uuid = str
@@ -16,9 +15,9 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class CreatedApiKeyImpulse:
+class CreatedApiKey:
     """
-    Impulse which indicates the result of a create api key impulse
+    Represents api key information including the secret
     """
     dictionary: dict
 
@@ -33,9 +32,33 @@ class CreatedApiKeyImpulse:
     def __repr__(self):
         return {'dictionary': self.dictionary}
 
+    """
+    The api key id
+    """
     @property
-    def id(self) -> Uuid:
-        return Uuid(self.dictionary.get("id"))
+    def api_key_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("apiKeyId"))
+    """
+    The name of the api key
+    """
     @property
-    def data(self) -> CreatedApiKey:
-        return CreatedApiKey(self.dictionary.get("data"))
+    def name(self) -> String:
+        return String(self.dictionary.get("name"))
+    """
+    The description of the api key
+    """
+    @property
+    def description(self) -> String:
+        return String(self.dictionary.get("description"))
+    """
+    The secret of the api key
+    """
+    @property
+    def secret(self) -> String:
+        return String(self.dictionary.get("secret"))
+    """
+    The flag to enable the api key
+    """
+    @property
+    def enabled(self) -> Boolean:
+        return Boolean(self.dictionary.get("enabled"))

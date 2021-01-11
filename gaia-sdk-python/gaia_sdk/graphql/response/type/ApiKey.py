@@ -51,12 +51,6 @@ class ApiKey:
     def description(self) -> String:
         return String(self.dictionary.get("description"))
     """
-    The secret of the api key
-    """
-    @property
-    def secret(self) -> String:
-        return String(self.dictionary.get("secret"))
-    """
     The flag to enable the api key
     """
     @property
