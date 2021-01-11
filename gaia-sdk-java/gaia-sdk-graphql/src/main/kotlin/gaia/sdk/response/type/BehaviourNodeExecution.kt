@@ -13,6 +13,8 @@ import gaia.sdk.request.enumeration.*
 */
 data class BehaviourNodeExecution @JsonCreator constructor(
     @JsonProperty("activityId") val activityId:String? = null, 
+    @JsonProperty("behaviourQualifier") val behaviourQualifier:String? = null, 
+    @JsonProperty("behaviourId") val behaviourId:String? = null, 
     @JsonProperty("reference") val reference:Uuid? = null, 
     @JsonProperty("qualifier") val qualifier:String? = null, 
     @JsonProperty("state") val state:String? = null, 

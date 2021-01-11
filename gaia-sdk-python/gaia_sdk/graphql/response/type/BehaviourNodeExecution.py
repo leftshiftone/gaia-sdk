@@ -36,6 +36,12 @@ class BehaviourNodeExecution:
     def activity_id(self) -> String:
         return String(self.dictionary.get("activityId"))
     @property
+    def behaviour_qualifier(self) -> String:
+        return String(self.dictionary.get("behaviourQualifier"))
+    @property
+    def behaviour_id(self) -> String:
+        return String(self.dictionary.get("behaviourId"))
+    @property
     def reference(self) -> Uuid:
         return Uuid(self.dictionary.get("reference"))
     @property

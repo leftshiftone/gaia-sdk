@@ -224,7 +224,7 @@ type BehaviourExecutionDetail {
     processInstanceId: Uuid
     identityId: Uuid
     qualifier: String
-    behaviour: String
+    behaviours: Struct
     behaviourId: Uuid
     nodes: [BehaviourNodeExecution]
 }
@@ -232,6 +232,8 @@ type BehaviourExecutionDetail {
 "Represents behaviour node execution information"
 type BehaviourNodeExecution {
     activityId: String
+    behaviourQualifier: String
+    behaviourId: String
     reference: Uuid
     qualifier: String
     state: String

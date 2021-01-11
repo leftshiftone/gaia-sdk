@@ -43,8 +43,8 @@ class BehaviourExecutionDetail:
     def qualifier(self) -> String:
         return String(self.dictionary.get("qualifier"))
     @property
-    def behaviour(self) -> String:
-        return String(self.dictionary.get("behaviour"))
+    def behaviours(self) -> Struct:
+        return Struct(self.dictionary.get("behaviours"))
     @property
     def behaviour_id(self) -> Uuid:
         return Uuid(self.dictionary.get("behaviourId"))
