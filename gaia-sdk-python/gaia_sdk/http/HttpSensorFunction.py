@@ -233,12 +233,12 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapQ(observable, query_res)
 
     def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) \
-            -> Observable[BehaviourExecutionRes]:
+            -> Observable[BehaviourExecutionDetailRes]:
 
-        behaviour_exec_query: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_execution(identity_id, process_instance_id, config)
+        behaviour_exec_query: Callable[[BehaviourExecutionDetailRes], None] = lambda x: x.behaviour_execution(identity_id, process_instance_id, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(behaviour_exec_query)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], BehaviourExecutionRes] = lambda x: x.retrieve.experience.behaviour_execution
+        query_res: Callable[[QueryRes], BehaviourExecutionDetailRes] = lambda x: x.retrieve.experience.behaviour_execution
 
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
