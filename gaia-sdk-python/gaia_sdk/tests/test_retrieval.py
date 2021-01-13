@@ -285,15 +285,44 @@ class TestRetrieval(unittest.TestCase):
         assert result.dictionary.get("target") is not None, "target is in response"
 
     def test_retrieve_behaviour_execution(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse({
-            {"data": {"retrieve": {"experience": {"behaviourExecution": {"processInstanceId": 'i1', "behaviourId": '101'}}}}}
-        }))
+        gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"retrieve": {"experience": {"behaviourExecution": {"processInstanceId": 'i1', "behaviourId": '101'}}}}}))
 
         def config(x):
             x.identity_id()
             x.process_instance_id()
 
         result = pipe(ops.first())(gaia_ref.retrieve_behaviour_execution(str(uuid4()), str(uuid4()), config)).run()
+        assert result.dictionary.get("processInstanceId") is not None, "processInstanceId missing"
+        assert result.dictionary.get("behaviourId") is not None, "behaviourId missing"
+
+    def test_retrieve_paginated_behaviour_executions(self):
+        gaia_ref = mock_gaia_ref(lambda request: MockResponse(
+            {
+                "data": {
+                    "retrieve": {
+                        "experience": {
+                            "behaviourExecutions": [{
+                                "processInstanceId": 'i1',
+                                "behaviourId": '101',
+                                "state": '101'
+                            }, {"processInstanceId": 'i2', "behaviourId": '102', "state": '102'}]
+                        }
+                    }
+                }
+            }
+        ))
+
+        def config(x):
+            x.process_instance_id()
+            x.behaviour_id()
+            x.state()
+
+        result = pipe(ops.to_list())(gaia_ref.retrieve_behaviour_executions(str(uuid4()), config, 100, 10)).run()
+
+        assert(len(result)) == 2, "unexpected executions count"
+        for r in result:
+            assert r.dictionary.get("processInstanceId") is not None, "processInstanceId missing"
+            assert r.dictionary.get("behaviourId") is not None, "behaviourId missing"
 
 
 if __name__ == '__main__':
