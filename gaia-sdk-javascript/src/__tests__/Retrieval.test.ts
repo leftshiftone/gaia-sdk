@@ -1007,7 +1007,7 @@ describe('perception tests:', () => {
                 _.processInstanceId();
                 _.behaviourId();
                 _.state();
-            }, 10, 100);
+            }, 10, 100, null, null);
             observable.subscribe(e => {
                 expect(e.processInstanceId !== undefined).toBeTruthy();
                 expect(e.behaviourId !== undefined).toBeTruthy();

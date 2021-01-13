@@ -38,7 +38,7 @@ interface ISensorFunction {
     fun retrieveSkillProvisions(tenantId: Uuid, config: SkillProvision.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.SkillProvision>
     fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit): Publisher<gaia.sdk.response.type.SkillProvision>
     fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit): Publisher<gaia.sdk.response.type.BehaviourExecutionDetail>
-    fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
+    fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null, startDate: String? = null, endDate: String? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>

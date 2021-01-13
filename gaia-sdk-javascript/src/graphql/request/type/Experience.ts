@@ -25,13 +25,15 @@ public _typeName = "Experience";
         return `behaviourExecution(identityId:${name1}, processInstanceId:${name2}){` + entity.render(registry) + "}"
     });
 
-    public behaviourExecutions = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
+    public behaviourExecutions = (identityId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, startDate: string|undefined, endDate: string|undefined, config: (_:BehaviourExecution) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("limit", limit);
         const name3 = registry.register("offset", offset);
+        const name4 = registry.register("startDate", startDate);
+        const name5 = registry.register("endDate", endDate);
         const entity = new BehaviourExecution();
         config(entity);
-        return `behaviourExecutions(identityId:${name1}, limit:${name2}, offset:${name3}){` + entity.render(registry) + "}"
+        return `behaviourExecutions(identityId:${name1}, limit:${name2}, offset:${name3}, startDate:${name4}, endDate:${name5}){` + entity.render(registry) + "}"
     });
 
     public behaviourNodeExecutions = (config: (_:BehaviourNodeExecution) => void) => this.push((registry) => {
