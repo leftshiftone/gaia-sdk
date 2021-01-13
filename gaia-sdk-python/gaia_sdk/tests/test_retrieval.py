@@ -284,6 +284,17 @@ class TestRetrieval(unittest.TestCase):
         assert result.dictionary.get("source") is not None, "source is in response"
         assert result.dictionary.get("target") is not None, "target is in response"
 
+    def test_retrieve_behaviour_execution(self):
+        gaia_ref = mock_gaia_ref(lambda request: MockResponse({
+            {"data": {"retrieve": {"experience": {"behaviourExecution": {"processInstanceId": 'i1', "behaviourId": '101'}}}}}
+        }))
+
+        def config(x):
+            x.identity_id()
+            x.process_instance_id()
+
+        result = pipe(ops.first())(gaia_ref.retrieve_behaviour_execution(str(uuid4()), str(uuid4()), config)).run()
+
 
 if __name__ == '__main__':
     unittest.main()
