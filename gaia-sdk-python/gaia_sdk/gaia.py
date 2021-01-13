@@ -25,7 +25,9 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
-    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
+    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes
+
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
 from gaia_sdk.http.response.LoggedIn import LoggedIn
@@ -165,6 +167,13 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def retrieve_behaviour(self, identityId: Uuid, reference: Uuid, config: Callable[[BehaviourReq], None]) -> \
             Observable[BehaviourRes]:
         return self.f_proc.retrieve_behaviour(identityId, reference, config)
+
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None) \
+            -> Observable[BehaviourExecutionRes]:
+        return self.f_proc.retrieve_behaviour_executions(identity_id, config, limit, offset)
+
+    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) -> Observable[BehaviourExecutionDetailRes]:
+        return self.f_proc.retrieve_behaviour_execution(identity_id, process_instance_id, config)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         return self.f_proc.introspect(config)
