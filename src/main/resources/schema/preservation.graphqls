@@ -248,21 +248,25 @@ type DeletedApiKeyImpulse implements Impulse {
 }
 
 type RoleKeyOne {
+    tenantId: Uuid
     roleId: Uuid
 }
 "The specification to create a role instance"
 input CreateRoleImpulse {
+    tenantId: Uuid!
     name: String!
     permissions: [String]
 }
 "The specification to update a role instance"
 input UpdateRoleImpulse {
+    tenantId: Uuid!
     roleId: Uuid!
     name: String
     permissions: [String]
 }
 "The specification to delete a role instance"
 input DeleteRoleImpulse {
+    tenantId: Uuid!
     roleId: Uuid!
 }
 "Impulse which indicates the result of a create role impulse"

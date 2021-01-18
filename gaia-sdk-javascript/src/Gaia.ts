@@ -218,8 +218,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveUsers = (config: (x: User) => void, limit?: Number, offset?: Number) => this.fProc.retrieveUsers(config, limit, offset);
     public retrieveApiKey = (apiKeyId: Uuid, config: (x: ApiKey) => void) => this.fProc.retrieveApiKey(apiKeyId, config);
     public retrieveApiKeys = (config: (x: ApiKey) => void, limit?: Number, offset?: Number) => this.fProc.retrieveApiKeys(config, limit, offset);
-    public retrieveRole = (roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(roleId, config);
-    public retrieveRoles = (config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(config, limit, offset);
+    public retrieveRole = (tenantId: Uuid, roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(tenantId, roleId, config);
+    public retrieveRoles = (tenantId: Uuid, config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(tenantId, config, limit, offset);
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void, limit?: Number, offset?: Number) => this.fProc.retrieveIntents(identityId, config, limit, offset);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);

@@ -124,7 +124,7 @@ describe('perception tests:', () => {
 
     test('test preserve create role', () => {
         const gaiaRef = mockCreate({roles: [{id: 'asdf'}]});
-        const impulse = new CreateRoleImpulse('Super Admin', ["*"]);
+        const impulse = new CreateRoleImpulse(uuid(), 'Super Admin', ["*"]);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateRoles(impulse);
@@ -137,7 +137,7 @@ describe('perception tests:', () => {
 
     test('test preserve update role', () => {
         const gaiaRef = mockUpdate({roles: [{id: 'asdf'}]});
-        const impulse = new UpdateRoleImpulse(uuid(), 'SuperAdmin', ["*"]);
+        const impulse = new UpdateRoleImpulse(uuid(), uuid(), 'SuperAdmin', ["*"]);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateRoles(impulse);
@@ -150,7 +150,7 @@ describe('perception tests:', () => {
 
     test('test preserve delete role', () => {
         const gaiaRef = mockDelete({roles: [{id: 'asdf'}]});
-        const impulse = new DeleteRoleImpulse(uuid());
+        const impulse = new DeleteRoleImpulse(uuid(), uuid());
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveDeleteRoles(impulse);

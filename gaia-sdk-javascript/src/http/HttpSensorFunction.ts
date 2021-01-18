@@ -245,16 +245,16 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKey!);
     }
 
-    public retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes> {
+    public retrieveRoles(tenantId: Uuid, config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(g => g.roles(limit, offset, undefined, undefined, config));
+            g.knowledge(g => g.roles(tenantId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.roles!);
     }
 
-    public retrieveRole(roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes> {
+    public retrieveRole(tenantId: Uuid,roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes> {
         const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(g => g.role(roleId, config));
+            g.knowledge(g => g.role(tenantId, roleId, config));
         }))));
         return Rx.mapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.role!);
     }
@@ -578,6 +578,7 @@ export class HttpSensorFunction implements ISensorFunction {
             p.create(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                     d.name()
                     d.permissions()
@@ -592,6 +593,7 @@ export class HttpSensorFunction implements ISensorFunction {
             p.update(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                     d.name()
                     d.permissions()
@@ -606,6 +608,7 @@ export class HttpSensorFunction implements ISensorFunction {
             p.delete(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                 })
             }))

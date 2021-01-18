@@ -225,15 +225,17 @@ describe('perception tests:', () => {
 
     test('test retrieve roles', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {roles: [{roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {roles: [{tenantId: 't1', roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
         );
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRoles(_ => {
+            const observable = gaiaRef.retrieveRoles(uuidv4(), _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             });
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);
@@ -248,11 +250,11 @@ describe('perception tests:', () => {
                     retrieve: {
                         knowledge: {
                             roles: [
-                                {roleId: 'i1', name: '101', permissions: ["*"]},
-                                {roleId: 'i2', name: '102', permissions: ["*"]},
-                                {roleId: 'i3', name: '103', permissions: ["*"]},
-                                {roleId: 'i4', name: '104', permissions: ["*"]},
-                                {roleId: 'i5', name: '105', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i2', name: '102', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i3', name: '103', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i4', name: '104', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i5', name: '105', permissions: ["*"]},
                             ]
                         }
                     }
@@ -262,12 +264,14 @@ describe('perception tests:', () => {
         let latestExpectedIndex = 100;
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRoles(_ => {
+            const observable = gaiaRef.retrieveRoles(uuidv4(), _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             }, 10, 100);
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.name === "" + latestExpectedIndex).toBeTruthy()
@@ -278,17 +282,20 @@ describe('perception tests:', () => {
 
     test('test retrieve role', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {role: {roleId: 'i1', name: '101', permissions: ["*"]}}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {role: {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]}}}}})
         );
+        const tenantId = uuidv4();
         const roleId = uuidv4();
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRole(roleId, _ => {
+            const observable = gaiaRef.retrieveRole(tenantId, roleId, _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             });
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);

@@ -3,6 +3,7 @@ package gaia.sdk.core
 import gaia.sdk.GaiaCredentials
 import gaia.sdk.GaiaResponse
 import gaia.sdk.response.type.*
+import io.mockk.InternalPlatformDsl.toStr
 import io.reactivex.Flowable
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -260,10 +261,11 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve roles`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(roles = listOf(Role(roleId = UUID.randomUUID().toString(), name = "Super Admin", permissions = listOf("user:read:*", "identity:*")))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(roles = listOf(Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Super Admin", permissions = listOf("user:read:*", "identity:*")))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
-        val publisher = gaiaRef.retrieveRoles({
+        val publisher = gaiaRef.retrieveRoles(UUID.randomUUID().toString(), {
+            tenantId()
             roleId()
             name()
             permissions()
@@ -274,7 +276,7 @@ abstract class RetrievalTest() {
                 .assertNoErrors()
                 .assertValueCount(1)
                 .assertValueAt(0) {
-                    it.roleId != null
+                    it.tenantId != null && it.roleId != null
                 }
     }
 
@@ -282,21 +284,22 @@ abstract class RetrievalTest() {
     fun `test retrieve paginated roles`() {
         Gaia.transporterFactory = MockTransporterFactory { request ->
             Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(roles = listOf(
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 101", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 102", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 103", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 104", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 105", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 106", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 107", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 108", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 109", permissions = listOf("*")),
-                    Role(roleId = UUID.randomUUID().toString(), name = "Role 110", permissions = listOf("*"))
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 101", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 102", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 103", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 104", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 105", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 106", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 107", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 108", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 109", permissions = listOf("*")),
+                    Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Role 110", permissions = listOf("*"))
             ))))))
         }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
-        val publisher = gaiaRef.retrieveRoles({
+        val publisher = gaiaRef.retrieveRoles(UUID.randomUUID().toString(), {
+            tenantId()
             roleId()
             name()
             permissions()
@@ -307,10 +310,10 @@ abstract class RetrievalTest() {
                 .assertNoErrors()
                 .assertValueCount(10)
                 .assertValueAt(0) {
-                    it.roleId != null && it.name == "Role 101"
+                    it.tenantId != null && it.roleId != null && it.name == "Role 101"
                 }
                 .assertValueAt(9) {
-                    it.roleId != null && it.name == "Role 110"
+                    it.tenantId != null && it.roleId != null && it.name == "Role 110"
                 }
     }
 
@@ -318,9 +321,11 @@ abstract class RetrievalTest() {
     fun `test retrieve role`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(role = Role(roleId = UUID.randomUUID().toString(), name = "Super Admin", permissions = listOf("user:read:*", "identity:*"))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+        val tenantId = UUID.randomUUID().toString()
         val roleId = UUID.randomUUID().toString()
 
-        val publisher = gaiaRef.retrieveRole(roleId) {
+        val publisher = gaiaRef.retrieveRole(tenantId, roleId) {
+            tenantId()
             roleId()
             name()
         }
@@ -330,7 +335,7 @@ abstract class RetrievalTest() {
                 .assertNoErrors()
                 .assertValueCount(1)
                 .assertValueAt(0) {
-                    it.roleId != null && it.name != null
+                    it.tenantId != null && it.roleId != null && it.name != null
                 }
     }
 

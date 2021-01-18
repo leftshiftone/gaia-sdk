@@ -12,15 +12,17 @@ class DeleteRoleImpulse():
     """
     The specification to delete a role instance
     """
+    tenantId: str
     roleId: str
 
-    def __init__(self, roleId: str):
+    def __init__(self, tenantId: str, roleId: str):
+        self.tenantId = tenantId
         self.roleId = roleId
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.roleId == other.roleId
+            return self.tenantId == other.tenantId and self.roleId == other.roleId
         return False
 
     def __repr__(self):
-        return {'roleId': self.roleId}
+        return {'tenantId': self.tenantId, 'roleId': self.roleId}
