@@ -141,7 +141,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveSkillProvisions(tenantId: Uuid, config: gaia.sdk.request.type.SkillProvision.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveSkillProvisions(tenantId, config, limit, offset)
     override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: gaia.sdk.request.type.SkillProvision.() -> Unit) = fProc.retrieveSkillProvision(tenantId, reference, config)
     override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) = fProc.retrieveBehaviourExecution(identityId, processInstanceId, config)
-    override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?) = fProc.retrieveBehaviourExecutions(identityId, config, limit, offset)
+    override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) = fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate)
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
     override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)

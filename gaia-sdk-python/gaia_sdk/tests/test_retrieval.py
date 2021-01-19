@@ -317,7 +317,7 @@ class TestRetrieval(unittest.TestCase):
             x.behaviour_id()
             x.state()
 
-        result = pipe(ops.to_list())(gaia_ref.retrieve_behaviour_executions(str(uuid4()), config, 100, 10)).run()
+        result = pipe(ops.to_list())(gaia_ref.retrieve_behaviour_executions(str(uuid4()), config, 100, 10, None, None)).run()
 
         assert(len(result)) == 2, "unexpected executions count"
         for r in result:

@@ -106,7 +106,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None) \
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
             -> Observable[BehaviourExecutionRes]:
         pass
 

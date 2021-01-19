@@ -221,9 +221,9 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
-    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None) \
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
         -> Observable[BehaviourExecutionRes]:
-        executions_req: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_executions(identity_id, limit, offset, config)
+        executions_req: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_executions(identity_id, limit, offset, startDate, endDate, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(executions_req)
 
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
