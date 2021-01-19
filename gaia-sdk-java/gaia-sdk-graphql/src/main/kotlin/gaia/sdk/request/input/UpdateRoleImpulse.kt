@@ -12,7 +12,8 @@ import gaia.sdk.request.enumeration.*
 /**
  * The specification to update a role instance
  */
-class UpdateRoleImpulse(val roleId:Uuid, 
+class UpdateRoleImpulse(val tenantId:Uuid, 
+   val roleId:Uuid, 
    val name:String, 
    val permissions:Array<out String>) : Input()
 

@@ -19,8 +19,8 @@ interface ISensorFunction {
     fun retrieveUser(userId: Uuid, config: User.() -> Unit): Publisher<gaia.sdk.response.type.User>
     fun retrieveApiKeys(config: ApiKey.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.ApiKey>
     fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit): Publisher<gaia.sdk.response.type.ApiKey>
-    fun retrieveRoles(config: Role.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Role>
-    fun retrieveRole(roleId: Uuid, config: Role.() -> Unit): Publisher<gaia.sdk.response.type.Role>
+    fun retrieveRoles(tenantId: Uuid, config: Role.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Role>
+    fun retrieveRole(tenantId: Uuid, roleId: Uuid, config: Role.() -> Unit): Publisher<gaia.sdk.response.type.Role>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Prompt>

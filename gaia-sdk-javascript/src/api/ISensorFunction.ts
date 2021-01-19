@@ -167,9 +167,9 @@ export interface ISensorFunction {
 
     retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void) : Observable<ApiKeyRes>
 
-    retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
+    retrieveRoles(tenantId: Uuid, config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
 
-    retrieveRole(roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
+    retrieveRole(tenantId: Uuid, roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 

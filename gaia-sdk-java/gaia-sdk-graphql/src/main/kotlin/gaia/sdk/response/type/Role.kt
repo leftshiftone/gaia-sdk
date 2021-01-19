@@ -13,6 +13,10 @@ import gaia.sdk.request.enumeration.*
 */
 data class Role @JsonCreator constructor(
     /**
+    * Id of the tenant
+    */
+    @JsonProperty("tenantId") val tenantId:Uuid? = null, 
+    /**
     * Id of the role
     */
     @JsonProperty("roleId") val roleId:Uuid? = null, 

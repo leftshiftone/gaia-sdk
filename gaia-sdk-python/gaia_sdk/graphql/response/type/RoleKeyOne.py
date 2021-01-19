@@ -30,5 +30,8 @@ class RoleKeyOne:
         return {'dictionary': self.dictionary}
 
     @property
+    def tenant_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("tenantId"))
+    @property
     def role_id(self) -> Uuid:
         return Uuid(self.dictionary.get("roleId"))

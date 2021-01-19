@@ -8,5 +8,6 @@ import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
 export interface RoleKeyOne {
+    tenantId?:Uuid, 
     roleId?:Uuid
 }

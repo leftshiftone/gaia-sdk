@@ -14,9 +14,11 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class DeleteRoleImpulse {
 public _typeName = "DeleteRoleImpulse";
+    private tenantId:Uuid;
     private roleId:Uuid;
 
-    constructor (roleId:Uuid) {
+    constructor (tenantId:Uuid, roleId:Uuid) {
+        this.tenantId = tenantId;
         this.roleId = roleId;
     }
 }

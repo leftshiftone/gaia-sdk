@@ -15,6 +15,13 @@ import {EdgeType} from "../enumeration/EdgeType";
 export class Role extends Array<(_:VariableRegistry) => string> {
 public _typeName = "Role";
     /**
+     * Id of the tenant
+     */
+    public tenantId = () => { 
+        this.push(_ => "tenantId")
+    };
+
+    /**
      * Id of the role
      */
     public roleId = () => { 

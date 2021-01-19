@@ -78,6 +78,8 @@ type CreatedApiKey {
 
 "Represents Role information"
 type Role {
+    "Id of the tenant"
+    tenantId: Uuid
     "Id of the role"
     roleId: Uuid
     "The name of the role"
