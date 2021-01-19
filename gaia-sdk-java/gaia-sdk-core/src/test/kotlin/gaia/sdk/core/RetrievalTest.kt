@@ -319,7 +319,7 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve role`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(role = Role(roleId = UUID.randomUUID().toString(), name = "Super Admin", permissions = listOf("user:read:*", "identity:*"))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(role = Role(tenantId = UUID.randomUUID().toString(), roleId = UUID.randomUUID().toString(), name = "Super Admin", permissions = listOf("user:read:*", "identity:*"))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val tenantId = UUID.randomUUID().toString()
         val roleId = UUID.randomUUID().toString()
