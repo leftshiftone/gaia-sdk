@@ -168,9 +168,9 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
             Observable[BehaviourRes]:
         return self.f_proc.retrieve_behaviour(identityId, reference, config)
 
-    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None) \
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
             -> Observable[BehaviourExecutionRes]:
-        return self.f_proc.retrieve_behaviour_executions(identity_id, config, limit, offset)
+        return self.f_proc.retrieve_behaviour_executions(identity_id, config, limit, offset, startDate, endDate)
 
     def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) -> Observable[BehaviourExecutionDetailRes]:
         return self.f_proc.retrieve_behaviour_execution(identity_id, process_instance_id, config)

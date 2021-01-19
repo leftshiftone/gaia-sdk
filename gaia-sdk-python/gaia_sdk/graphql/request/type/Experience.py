@@ -25,14 +25,16 @@ class Experience(list):
             return f'behaviourExecution(identityId:{name1}, processInstanceId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def behaviour_executions(self, identityId: str, limit: int, offset: int, config: Callable[['BehaviourExecution'], None]):
+    def behaviour_executions(self, identityId: str, limit: int, offset: int, startDate: str, endDate: str, config: Callable[['BehaviourExecution'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("identityId", identityId)
             name2 = registry.register("limit", limit)
             name3 = registry.register("offset", offset)
+            name4 = registry.register("startDate", startDate)
+            name5 = registry.register("endDate", endDate)
             entity = BehaviourExecution()
             config(entity)
-            return f'behaviourExecutions(identityId:{name1}, limit:{name2}, offset:{name3})' + '{' + entity.render(registry) + '}'
+            return f'behaviourExecutions(identityId:{name1}, limit:{name2}, offset:{name3}, startDate:{name4}, endDate:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def behaviour_node_executions(self, config: Callable[['BehaviourNodeExecution'], None]):

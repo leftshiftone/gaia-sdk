@@ -205,7 +205,7 @@ export interface ISensorFunction {
 
     retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes>
 
-    retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number): Observable<BehaviourExecutionRes>
+    retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string): Observable<BehaviourExecutionRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 
