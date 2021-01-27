@@ -6,7 +6,12 @@ export class HttpClient {
         return axios.post(url, body, config)
             .then(response => response.data)
             .catch(err => {
-                throw new Error(err + ": " + (err.response || {}).data)
+                let data = (err.response || {}).data
+                if (data instanceof ArrayBuffer) {
+                    // @ts-ignore
+                    data = String.fromCharCode.apply(null, new Uint8Array(data))
+                }
+                throw new Error(err + ": " + data)
             })
     }
 

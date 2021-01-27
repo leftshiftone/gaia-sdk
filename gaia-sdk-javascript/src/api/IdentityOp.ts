@@ -15,14 +15,9 @@ export class IdentityOp {
     }
 
     public import(tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<IIdentityImported> {
-        let file = content as File;
-
-        if (!file.name) {
-            throw new Error('Import identity failed: Selected file is not a valid identity');
-        }
-
+        const fileName = `${identityName}-${Date.now()}`;
         return new DataRef(`gaia://${tenantId}/identities/`, this.client)
-            .add(file.name, content, override)
+            .add(fileName, content, override)
             .pipe(mergeMap(dataRef =>
                 from(this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId)
                     .catch(reason => { throw new Error('Identity Upload failed: ' + reason); }))
