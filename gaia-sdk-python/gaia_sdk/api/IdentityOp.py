@@ -5,7 +5,7 @@ from rx.core.typing import Observable
 import logging
 import rx
 import rx.operators as ops
-
+import time
 import uuid
 
 from gaia_sdk.api.DataRef import DataRef
@@ -58,7 +58,8 @@ class IdentityOp:
         uri = f"gaia://{tenant_id}/identities/"
 
         self._logger.debug(f"Started upload to uri {uri}")
+        file_name = f"{identity_name}-{round(time.time() * 1000)}"
         new_file_data_ref = DataRef(uri, self._client, self._scheduler) \
-            .add(identity_name, content, override)
+            .add(file_name, content, override)
 
         return new_file_data_ref.pipe(ops.map(complete_import))

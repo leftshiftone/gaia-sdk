@@ -1,12 +1,9 @@
 package gaia.sdk.api.identity
 
-import com.sun.net.httpserver.Authenticator
 import gaia.sdk.GaiaStreamClient
 import gaia.sdk.api.data.DataRef
-import gaia.sdk.api.data.DataUpload
-import gaia.sdk.api.identity.request.IdentityImportImpulse
-import gaia.sdk.api.data.response.DataUploadResponse
 import gaia.sdk.api.data.response.IdentityImportResponse
+import gaia.sdk.api.identity.request.IdentityImportImpulse
 import gaia.sdk.api.identity.request.IdentitySourceRequestImpulse
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -15,6 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileOutputStream
+import java.time.Instant
 import java.util.*
 
 class IdentityOp(private val client: GaiaStreamClient) {
@@ -29,7 +27,7 @@ class IdentityOp(private val client: GaiaStreamClient) {
      * @return Publisher of the written file
      */
     fun export(id: String, filePath: String = "build/SDK-IdentityRef.export_${System.currentTimeMillis()}_$id.zip"): Publisher<File> {
-        assert(!id.isBlank()) { "Identity ID must be set in order to export an identity" }
+        assert(id.isNotBlank()) { "Identity ID must be set in order to export an identity" }
 
         return Flowable.fromCallable {
             log.info("Exporting identity with ID $id to $filePath")
@@ -53,7 +51,8 @@ class IdentityOp(private val client: GaiaStreamClient) {
 
 
     fun import(tenantId: String, identityName: String, content: File, override: Boolean = false, identityId: String? = null): Flowable<IdentityImportResponse> {
-        return Flowable.fromPublisher(DataRef("gaia://$tenantId/identities/", this.client).add(content.name, content, override))
+        val fileName = "$identityName-${Instant.now().toEpochMilli()}"
+        return Flowable.fromPublisher(DataRef("gaia://$tenantId/identities/", this.client).add(fileName, content, override))
             .flatMap { dataRef ->
                 Flowable.fromPublisher(client.post(IdentityImportImpulse(dataRef.getUri(),
                     tenantId,
