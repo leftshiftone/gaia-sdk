@@ -110,3 +110,15 @@ class SkillProvision:
     @property
     def environment(self) -> Struct:
         return Struct(self.dictionary.get("environment"))
+    """
+    Whether the skill provision has been built
+    """
+    @property
+    def built(self) -> Boolean:
+        return Boolean(self.dictionary.get("built"))
+    """
+    The current status of the skill provision
+    """
+    @property
+    def status(self) -> Struct:
+        return Struct(self.dictionary.get("status"))
