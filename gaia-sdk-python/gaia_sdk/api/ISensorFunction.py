@@ -18,7 +18,8 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
-    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
+    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
 
 Uuid = str
 
@@ -108,6 +109,10 @@ class ISensorFunction(ABC):
     @abstractmethod
     def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
             -> Observable[BehaviourExecutionRes]:
+        pass
+
+    @abstractmethod
+    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
         pass
 
     @abstractmethod
