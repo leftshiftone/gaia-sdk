@@ -1038,7 +1038,10 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve behaviourExecution`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(behaviourExecution = BehaviourExecutionDetail(processInstanceId = UUID.randomUUID().toString(), behaviourId = UUID.randomUUID().toString())))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse
+                .QueryResponse(Query(retrieve = Retrieval(experience = Experience(behaviourExecution =
+                BehaviourExecutionDetail(processInstanceId = UUID.randomUUID().toString(),
+                        behaviourId = UUID.randomUUID().toString())))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val identityId = UUID.randomUUID().toString()
         val processInstanceId = UUID.randomUUID().toString()
@@ -1089,6 +1092,25 @@ abstract class RetrievalTest() {
         }
         ts.assertValueAt(9) {
             it.processInstanceId != null && it.state == "110"
+        }
+    }
+
+    @Test
+    fun `test retrieve metrics`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(metrics = Metrics(UUID.randomUUID().toString(), mapOf("prompts" to 1, "intents" to 2, "statements" to 100, "fulfilments" to 30, "codes" to 0, "behaviuors" to 1))))))) }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+
+        val publisher = gaiaRef.retrieveMetrics(UUID.randomUUID().toString()) {
+            identityId()
+            entityCount()
+        }
+
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0) {
+            it.identityId != null && it.entityCount != null
         }
     }
 

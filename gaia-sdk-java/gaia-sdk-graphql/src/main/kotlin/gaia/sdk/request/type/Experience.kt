@@ -32,5 +32,10 @@ class Experience: Type() {
     fun behaviourNodeExecutions(config: BehaviourNodeExecution.() -> Unit) = 
         add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
 
+
+    fun metrics(identityId : Uuid?, config: Metrics.() -> Unit) = add {
+        val name1 = it.register("identityId", identityId)
+        "metrics(identityId:$name1){" + Metrics().apply(config).render(it) + "}"
+    }
 }
 

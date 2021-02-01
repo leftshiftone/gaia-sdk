@@ -243,6 +243,11 @@ type BehaviourNodeExecution {
     created: ISO8601
 }
 
+"Represents metrics information"
+type Metrics {
+    identityId: Uuid
+    entityCount: Struct
+}
 
 # ****************
 # Skill types
