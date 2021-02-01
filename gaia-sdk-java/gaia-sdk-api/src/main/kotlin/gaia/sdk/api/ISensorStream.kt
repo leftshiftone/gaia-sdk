@@ -25,3 +25,7 @@ data class SkillProvisionLogs @JsonCreator constructor(
 data class SkillProvisionBuildCanceledResponse @JsonCreator constructor(
     @JsonProperty("reference") val reference: String
 )
+
+data class SkillProvisionBuildResponse @JsonCreator constructor(
+    @JsonProperty("reference") val reference: String
+)

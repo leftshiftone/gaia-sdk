@@ -31,13 +31,32 @@ class SkillRef:
         self._client = client
         self._scheduler = scheduler
 
-    def cancel(self) -> Observable[SkillProvisionCanceledResponse]:
-        request = {'uri': self._uri}
-        return rx.from_callable(self._client.post_json(request, url_postfix="/skill/cancel"),
-                                self._scheduler) \
+    def start(self) -> Observable[any]:
+        return rx.from_callable(lambda: self._client.post_json({'uri': self._uri}, url_postfix="/skill/start"), self._scheduler) \
             .pipe(
-            ops.map(lambda response: json.loads(response.content)),
-            ops.map(lambda r: SkillProvisionCanceledResponse(r["reference"])))
+            ops.map(lambda r: {})
+        )
+
+    def stop(self) -> Observable[any]:
+        return rx.from_callable(lambda: self._client.post_json({'uri': self._uri}, url_postfix="/skill/stop"), self._scheduler) \
+            .pipe(
+            ops.map(lambda r: {})
+        )
+
+    def logs(self, number_of_lines: int) -> Observable[str]:
+        return rx.from_callable(lambda: self._client.post_json({'uri': self._uri, 'numberOfLines': number_of_lines}, url_postfix="/skill/logs"), self._scheduler)\
+            .pipe(
+            ops.map(lambda r: json.loads(r.content)),
+            ops.flat_map(lambda r: rx.from_iterable(r['logLines']))
+        )
+
+    def cancel(self) -> Observable[SkillProvisionCanceledResponse]:
+        return rx.from_callable(lambda: self._client.post_json({'uri': self._uri}, url_postfix="/skill/cancel"),
+                                self._scheduler)\
+        .pipe(
+            ops.map(lambda r: json.loads(r.content)),
+            ops.map(lambda r: SkillProvisionCanceledResponse(r["reference"]))
+        )
 
     def evaluate(self, payload: dict, contract: str = None) -> Observable[SkillEvaluation]:
         request = {'uri': self._uri, 'payload': payload}
