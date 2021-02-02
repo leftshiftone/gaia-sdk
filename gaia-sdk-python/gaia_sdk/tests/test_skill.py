@@ -38,3 +38,13 @@ class TestSkill(unittest.TestCase):
             .pipe(ops.to_list()) \
             .run()
         self.assertEqual(r, ['a', 'b', 'c'])
+
+    def test_build(self):
+        def mock(request):
+            self.assertEqual(request.url_post_fix, "/skill/build")
+            return MockResponse(b'{"reference": "1234"}')
+
+        gaia_ref = mock_gaia_ref(mock)
+        skill_ref = gaia_ref.skill("skillProvision://8db77283-f25b-4cbb-8d26-692bb2672fb3/some-prov-1")
+        r = skill_ref.build().run()
+        self.assertEqual(r.reference, "1234")
