@@ -1097,12 +1097,19 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve metrics`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(metrics = Metrics(UUID.randomUUID().toString(), mapOf("prompts" to 1, "intents" to 2, "statements" to 100, "fulfilments" to 30, "codes" to 0, "behaviuors" to 1))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(metrics = Metrics(UUID.randomUUID().toString(), MetricsEntityCount(1,2,100, 30,0,1))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
         val publisher = gaiaRef.retrieveMetrics(UUID.randomUUID().toString()) {
             identityId()
-            entityCount()
+            entityCount {
+                intents()
+                prompts()
+                codes()
+                fulfilments()
+                behaviours()
+                statements()
+            }
         }
 
         val ts = Flowable.fromPublisher(publisher).test()
@@ -1110,7 +1117,13 @@ abstract class RetrievalTest() {
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.identityId != null && it.entityCount != null
+            it.identityId != null
+                    && it.entityCount!!.prompts != null
+                    && it.entityCount!!.intents != null
+                    && it.entityCount!!.codes != null
+                    && it.entityCount!!.fulfilments != null
+                    && it.entityCount!!.behaviours != null
+                    && it.entityCount!!.statements != null
         }
     }
 

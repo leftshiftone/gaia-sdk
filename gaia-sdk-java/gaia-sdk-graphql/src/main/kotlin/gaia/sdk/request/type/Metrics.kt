@@ -18,8 +18,8 @@ class Metrics: Type() {
         add {"identityId" } 
     }
 
-    fun entityCount() { 
-        add {"entityCount" } 
-    }
+    fun entityCount(config: MetricsEntityCount.() -> Unit) = 
+        add { "entityCount{ " + MetricsEntityCount().apply(config).render(it) + "}"}
+
 }
 

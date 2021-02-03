@@ -13,5 +13,5 @@ import gaia.sdk.request.enumeration.*
 */
 data class Metrics @JsonCreator constructor(
     @JsonProperty("identityId") val identityId:Uuid? = null, 
-    @JsonProperty("entityCount") val entityCount:Struct? = null
+    @JsonProperty("entityCount") val entityCount:MetricsEntityCount? = null
 )

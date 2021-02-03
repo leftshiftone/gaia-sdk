@@ -246,7 +246,15 @@ type BehaviourNodeExecution {
 "Represents metrics information"
 type Metrics {
     identityId: Uuid
-    entityCount: Struct
+    entityCount: MetricsEntityCount
+}
+type MetricsEntityCount {
+    intents: Int
+    prompts: Int
+    statements: Int
+    fulfilments: Int
+    behaviours: Int
+    codes: Int
 }
 
 # ****************
