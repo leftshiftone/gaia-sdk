@@ -138,7 +138,7 @@ describe('dataref tests:', () => {
 
 
 
-    test('test async behaviour of observable', () => {
+    test('test async behaviour of observable (DataRef)', () => {
         return new Promise(async (resolve, reject) => {
             const mock = jest.fn(() => []);
             const gaiaRef = Mock.gaiaRef(mock);

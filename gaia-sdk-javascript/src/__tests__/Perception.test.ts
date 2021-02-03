@@ -52,7 +52,7 @@ describe('perception tests:', () => {
         });
     });
 
-    test('test async behaviour of observable', () => {
+    test('test async behaviour of observable (Perception)', () => {
         return new Promise(async (resolve, reject) => {
             const mock = jest.fn(() => JSON.stringify({data: { perceive: { perceiveData: {id: 'asdf'}}}}));
             const gaiaRef = Mock.gaiaRef(mock);
