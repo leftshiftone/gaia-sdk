@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gaia-sdk"
-version = "3.2.0-rc.3"
+version = "3.2.0"
 description = "Python SDK for the GAIA ecosystem."
 authors = ["Leftshift One <contact@leftshift.one>"]
 

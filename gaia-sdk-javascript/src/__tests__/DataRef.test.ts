@@ -14,7 +14,7 @@ describe('dataref tests:', () => {
         return new Promise(async (resolve, reject) => {
             const gaiaRef = Gaia.connect('https://neuron.beta.gaia.leftshift.one,', new HMACCredentials('incorrectApiKey', 'incorrectApiSecret'));
             const observable = gaiaRef.data('gaia://tenant/somefolder/somefolder/asdf1.pdf').asFile();
-            observable.subscribe(reject, error => resolve(error));
+            observable.subscribe(reject, error => resolve(error), reject);
         });
     });
 
