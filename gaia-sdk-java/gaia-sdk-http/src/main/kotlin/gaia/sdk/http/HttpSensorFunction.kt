@@ -120,6 +120,11 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) =
             flatMap(client.query(GaiaRequest.query { retrieve { experience { behaviourExecutions(identityId, limit, offset?.toInt(), startDate, endDate, config) } } })) { it.retrieve?.experience?.behaviourExecutions!! }
 
+    override fun retrieveSkillProvisionBuildJobs(
+        tenandId: Uuid,
+        config: SkillProvisionBuildJob.() -> Unit
+    ): Publisher<gaia.sdk.response.type.SkillProvisionBuildJob> = flatMap(client.query(GaiaRequest.query { retrieve { experience { skillProvisionBuildJobs(tenandId, config) } } } )) { it.retrieve?.experience?.skillProvisionBuildJobs!! }
+
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
 

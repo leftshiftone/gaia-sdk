@@ -23,6 +23,10 @@ export class SkillRef {
         return from(this.client.post({"uri": this.uri}, "/skill/status"))
     }
 
+    public cancel(): Observable<SkillProvisionBuildCanceledResponse> {
+        return from(this.client.post({"uri": this.uri}, "/skill/cancel"))
+    }
+
     public logs(numberOfLines?: number): Observable<string> {
         return this.logsInternal(numberOfLines)
             .pipe(flatMap(response => from(response.logLines)))
@@ -32,6 +36,9 @@ export class SkillRef {
         return from(this.client.post({"uri": this.uri, "numberOfLines": numberOfLines}, "/skill/logs"))
     }
 
+    public build(): Observable<SkillProvisionBuildResponse> {
+        return from(this.client.post({"uri": this.uri}, "/skill/build"))
+    }
 
     public evaluate(contract: string, payload: any): Observable<SkillEvaluation>;
     public evaluate(payload: any): Observable<SkillEvaluation>;
@@ -48,7 +55,21 @@ export class SkillRef {
 
 
 }
+export class SkillProvisionBuildCanceledResponse {
+    reference: string;
 
+    constructor(reference: string) {
+        this.reference = reference;
+    }
+}
+
+export class SkillProvisionBuildResponse {
+    reference: string;
+
+    constructor(reference: string) {
+        this.reference = reference;
+    }
+}
 export class SkillProvisionStatus {
     name: string;
     status: string;

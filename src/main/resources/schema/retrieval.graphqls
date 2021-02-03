@@ -41,6 +41,7 @@ type Experience {
     behaviourExecution(identityId: Uuid, processInstanceId: Uuid): BehaviourExecutionDetail
     behaviourExecutions(identityId: Uuid, limit: Int, offset: Int, startDate: String, endDate: String): [BehaviourExecution]
     behaviourNodeExecutions: [BehaviourNodeExecution]
+    skillProvisionBuildJobs(tenantId: Uuid): [SkillProvisionBuildJob]
 }
 
 enum OrderByField {

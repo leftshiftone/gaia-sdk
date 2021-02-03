@@ -1,5 +1,6 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
+import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
@@ -16,5 +17,6 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface Experience {
     behaviourExecution?:BehaviourExecutionDetail, 
     behaviourExecutions?:[BehaviourExecution], 
-    behaviourNodeExecutions?:[BehaviourNodeExecution]
+    behaviourNodeExecutions?:[BehaviourNodeExecution], 
+    skillProvisionBuildJobs?:[SkillProvisionBuildJob]
 }
