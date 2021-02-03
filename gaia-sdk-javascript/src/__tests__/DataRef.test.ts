@@ -5,6 +5,7 @@ import {Gaia} from '../Gaia';
 import {HMACCredentials} from '..';
 import {Mock} from '../mock/mock';
 import CrossBlob from 'cross-blob';
+import sleep from "./utils/sleep";
 
 describe('dataref tests:', () => {
 
@@ -132,6 +133,23 @@ describe('dataref tests:', () => {
                 expect(e.fileExisted).toEqual(false);
                 resolve(e || '');
             },                   reject);
+        });
+    });
+
+
+
+    test('test async behaviour of observable', () => {
+        return new Promise(async (resolve, reject) => {
+            const mock = jest.fn(() => []);
+            const gaiaRef = Mock.gaiaRef(mock);
+            const observable = gaiaRef.data('gaia://tenant/somefolder/somefolder/asdf1.pdf').asFile();
+            await sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
+            }, reject);
         });
     });
 });

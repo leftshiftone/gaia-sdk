@@ -1,6 +1,7 @@
 import {PerceiveActionImpulse, PerceiveDataImpulse} from '../graphql';
 import {v4 as uuid} from 'uuid';
 import {Mock} from '../mock/mock';
+import sleep from "./utils/sleep";
 
 describe('perception tests:', () => {
 
@@ -48,6 +49,23 @@ describe('perception tests:', () => {
                 expect(e.perceiveData!!.id !== undefined).toBeTruthy();
                 expect(e.perceiveAction!!.id !== undefined).toBeTruthy();
                 resolve(e); },   reject);
+        });
+    });
+
+    test('test async behaviour of observable', () => {
+        return new Promise(async (resolve, reject) => {
+            const mock = jest.fn(() => JSON.stringify({data: { perceive: { perceiveData: {id: 'asdf'}}}}));
+            const gaiaRef = Mock.gaiaRef(mock);
+
+            const impulse = new PerceiveDataImpulse(uuid(), '{eventName}', {});
+            const observable = gaiaRef.perceiveData(impulse);
+            await sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
+            },                   reject);
         });
     });
 

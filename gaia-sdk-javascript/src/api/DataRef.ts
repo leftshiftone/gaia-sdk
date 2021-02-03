@@ -1,7 +1,7 @@
 import {InitBinaryWriteImpulse} from '../graphql/request/input/InitBinaryWriteImpulse';
 import {CompleteBinaryWriteImpulse} from '../graphql/request/input/CompleteBinaryWriteImpulse';
 import {BinaryWriteChunkImpulse} from '../graphql/request/input/BinaryWriteChunkImpulse';
-import {from, Observable} from 'rxjs';
+import {defer, Observable} from 'rxjs';
 import {ListFilesImpulse} from '../graphql/request/input/ListFilesImpulse';
 import {FileListing} from '../graphql/response/type/FileListing';
 import {RemoveFileImpulse} from '../graphql/request/input/RemoveFileImpulse';
@@ -31,21 +31,21 @@ export class DataRef {
      */
     public add(fileName: string, content: Blob, override: boolean = false, config?: DataRefRequestConfig): Observable<DataRef> {
         const upload = DataUpload.create(DataRef.concatUri(this.uri, fileName), content, override, config);
-        return from(upload.execute(this.client));
+        return defer(() => upload.execute(this.client));
     }
 
     /**
      * Lists all files whose uri has the current uri member as its prefix.
      */
     public list(): Observable<FileListing[]> {
-        return from(this.client.post(new ListFilesImpulse(this.uri), '/data/list')
+        return defer(() => this.client.post(new ListFilesImpulse(this.uri), '/data/list')
             .catch((reason) => {
                 throw new Error('Listing files at uri ' + this.uri + ' failed: ' + reason);
             }));
     }
 
     private removeFileAt(uri: string): Observable<FileRemovedImpulse> {
-        return from(this.client.post(new RemoveFileImpulse(uri), '/data/remove')
+        return defer(() => this.client.post(new RemoveFileImpulse(uri), '/data/remove')
             .catch((reason) => {
                 throw new Error('Removing file with uri ' + uri + ' failed: ' + reason);
             }));
@@ -71,7 +71,7 @@ export class DataRef {
     }
 
     public asFile(): Observable<Blob> {
-        return from(this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), '/data/source')
+        return defer(() => this.client.postAndRetrieveBinary(new BinaryReadImpulse(this.uri), '/data/source')
             .catch((reason) => {
                 throw new Error('Download of file with uri ' + this.uri + ' failed: ' + reason);
             }));

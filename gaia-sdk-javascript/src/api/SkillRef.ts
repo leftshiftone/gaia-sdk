@@ -1,4 +1,4 @@
-import {from, Observable} from "rxjs";
+import {defer, Observable} from "rxjs";
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
 import {flatMap, map} from "rxjs/operators";
 
@@ -12,24 +12,24 @@ export class SkillRef {
     }
 
     public start(): Observable<{}> {
-        return from(this.client.post({"uri": this.uri}, "/skill/start"))
+        return defer(() => this.client.post({"uri": this.uri}, "/skill/start"));
     }
 
     public stop(): Observable<{}> {
-        return from(this.client.post({"uri": this.uri}, "/skill/stop"))
+        return defer(() => this.client.post({"uri": this.uri}, "/skill/stop"));
     }
 
     public status(): Observable<SkillProvisionStatus> {
-        return from(this.client.post({"uri": this.uri}, "/skill/status"))
+        return defer(() => this.client.post({"uri": this.uri}, "/skill/status"));
     }
 
     public logs(numberOfLines?: number): Observable<string> {
         return this.logsInternal(numberOfLines)
-            .pipe(flatMap(response => from(response.logLines)))
+            .pipe(flatMap(response => defer(() => response.logLines)))
     }
 
     private logsInternal(numberOfLines?: number): Observable<SkillProvisionLogs> {
-        return from(this.client.post({"uri": this.uri, "numberOfLines": numberOfLines}, "/skill/logs"))
+        return defer(() => this.client.post({"uri": this.uri, "numberOfLines": numberOfLines}, "/skill/logs"));
     }
 
 
@@ -41,7 +41,7 @@ export class SkillRef {
         if (contract) {
             request['contract'] = contract;
         }
-        return from(this.client.post(request, '/skill/evaluate'))
+        return defer(() => this.client.post(request, '/skill/evaluate'))
             .pipe(map(r => new SkillEvaluation(r)));
     }
 
