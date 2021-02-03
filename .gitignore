@@ -16,6 +16,7 @@ logs
 *.log
 # Python
 **/.python-version
+.venv
 # GraphQL
 **/.graphqlconfig
 # Test files
