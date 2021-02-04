@@ -62,5 +62,13 @@ export interface SkillProvision {
     /**
     * Value-Key pairs with information needed for the skill provision
     */
-    environment?:Struct
+    environment?:Struct, 
+    /**
+    * Whether the skill provision has been built
+    */
+    built?:Boolean, 
+    /**
+    * The current status of the skill provision
+    */
+    status?:Struct
 }

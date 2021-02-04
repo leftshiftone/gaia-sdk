@@ -53,7 +53,7 @@ import {
     BehaviourExecutionReq,
     BehaviourExecutionRes,
     BehaviourExecutionDetailReq,
-    BehaviourExecutionDetailRes
+    BehaviourExecutionDetailRes, SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
 } from "../graphql";
 import {ISensorFunction} from "../api/ISensorFunction";
 import {defer, Observable} from "rxjs";
@@ -362,6 +362,11 @@ export class HttpSensorFunction implements ISensorFunction {
             g.knowledge(k => k.skillProvisions(tenantId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvisions!);
+    }
+
+    public retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillProvisionBuildJobRes> {
+        const observable = from(this.client.query(GaiaRequest.query(c => c.retrieve(r => r.experience(e => e.skillProvisionBuildJobs(tenantId, config))))));
+        return Rx.flatMapQ<SkillProvisionBuildJobRes>(observable, (e) => e.retrieve!.experience!.skillProvisionBuildJobs!);
     }
 
     public retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes> {

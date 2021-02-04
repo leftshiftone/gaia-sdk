@@ -23,7 +23,8 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
-    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
+    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
 
 from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
@@ -242,6 +243,15 @@ class HttpSensorFunction(ISensorFunction):
 
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
+
+
+    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
+        skill_build_jobs_query: Callable[[ExperienceReq], None] = lambda x: x.skill_provision_build_jobs(tenant_id, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(skill_build_jobs_query)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res = lambda x: x.retrieve.experience.skill_provision_build_jobs
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+        return flat_mapQ(observable, query_res)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(config)

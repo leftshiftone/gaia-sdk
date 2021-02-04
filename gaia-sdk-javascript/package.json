@@ -1,6 +1,6 @@
 {
     "name": "@leftshiftone/gaia-sdk",
-    "version": "3.2.0",
+    "version": "3.3.0-rc.1",
     "description": "JavaScript SDK for the GAIA ecosystem.",
     "main": "dist/all.js",
     "dependencies": {
