@@ -24,7 +24,7 @@ export class SkillRef {
     }
 
     public cancel(): Observable<SkillProvisionBuildCanceledResponse> {
-        return from(this.client.post({"uri": this.uri}, "/skill/cancel"))
+        return defer(() => this.client.post({"uri": this.uri}, "/skill/cancel"))
     }
 
     public logs(numberOfLines?: number): Observable<string> {
@@ -37,7 +37,7 @@ export class SkillRef {
     }
 
     public build(): Observable<SkillProvisionBuildResponse> {
-        return from(this.client.post({"uri": this.uri}, "/skill/build"))
+        return defer(() => this.client.post({"uri": this.uri}, "/skill/build"))
     }
 
     public evaluate(contract: string, payload: any): Observable<SkillEvaluation>;

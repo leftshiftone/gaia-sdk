@@ -365,7 +365,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillProvisionBuildJobRes> {
-        const observable = from(this.client.query(GaiaRequest.query(c => c.retrieve(r => r.experience(e => e.skillProvisionBuildJobs(tenantId, config))))));
+        const observable = defer(() => this.client.query(GaiaRequest.query(c => c.retrieve(r => r.experience(e => e.skillProvisionBuildJobs(tenantId, config))))));
         return Rx.flatMapQ<SkillProvisionBuildJobRes>(observable, (e) => e.retrieve!.experience!.skillProvisionBuildJobs!);
     }
 
