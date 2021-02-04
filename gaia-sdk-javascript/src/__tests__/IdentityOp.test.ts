@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import {Mock} from '../mock/mock';
+import sleep from "./utils/sleep";
 
 describe('IdentityOp tests:', () => {
 
@@ -54,6 +55,21 @@ describe('IdentityOp tests:', () => {
                 expect(e !== null).toBeTruthy();
                 expect(e.partitionKey).toEqual(identityId);
                 resolve(e || '');
+            }, reject);
+        });
+    });
+
+    test('test async behaviour of observable (IdentityOP)', () => {
+        return new Promise(async (resolve, reject) => {
+            const mock = jest.fn(() => []);
+            const gaiaRef = Mock.gaiaRef(mock);
+            const observable = gaiaRef.identity().export(identityId);
+            await sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
             }, reject);
         });
     });

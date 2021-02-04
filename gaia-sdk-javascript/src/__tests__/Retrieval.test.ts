@@ -1,4 +1,5 @@
 import {Mock} from '../mock/mock';
+import sleep from "./utils/sleep";
 
 const {v4: uuidv4} = require('uuid');
 
@@ -1021,6 +1022,30 @@ describe('perception tests:', () => {
                 latestExpectedIndex++;
                 expect(e.state === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
+            }, reject);
+        });
+    });
+
+
+
+    test('test async behaviour of observable (RetrievalTest)', () => {
+        const mock = jest.fn(() =>
+            JSON.stringify({data: {retrieve: {experience: {behaviourExecution: {processInstanceId: 'i1', behaviourId: '101'}}}}})
+        );
+        const gaiaRef = Mock.gaiaRef(mock);
+        const identityId = uuidv4();
+        const processInstanceId = uuidv4();
+
+        return new Promise(async (resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecution(identityId, processInstanceId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+            });
+            await sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
             }, reject);
         });
     });
