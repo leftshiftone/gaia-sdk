@@ -50,7 +50,7 @@ import {
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes
+    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes, SkillProvisionBuildJobReq
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -202,6 +202,8 @@ export interface ISensorFunction {
     retrieveSkillProvisions(tenantId: Uuid, config: (x: SkillProvisionReq) => void, limit?: Number, offset?: Number): Observable<SkillProvisionRes>
 
     retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes>
+
+    retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillIntrospectionRes>
 
     retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes>
 

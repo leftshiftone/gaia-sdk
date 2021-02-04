@@ -1,5 +1,6 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
+import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
@@ -40,6 +41,13 @@ public _typeName = "Experience";
         const entity = new BehaviourNodeExecution();
         config(entity);
         return "behaviourNodeExecutions { " + entity.render(registry) + " }";
+    });
+
+    public skillProvisionBuildJobs = (tenantId: Uuid|undefined, config: (_:SkillProvisionBuildJob) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const entity = new SkillProvisionBuildJob();
+        config(entity);
+        return `skillProvisionBuildJobs(tenantId:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

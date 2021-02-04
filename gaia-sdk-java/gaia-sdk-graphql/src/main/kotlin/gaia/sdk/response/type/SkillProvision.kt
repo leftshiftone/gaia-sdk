@@ -63,5 +63,13 @@ data class SkillProvision @JsonCreator constructor(
     /**
     * Value-Key pairs with information needed for the skill provision
     */
-    @JsonProperty("environment") val environment:Struct? = null
+    @JsonProperty("environment") val environment:Struct? = null, 
+    /**
+    * Whether the skill provision has been built
+    */
+    @JsonProperty("built") val built:Boolean? = null, 
+    /**
+    * The current status of the skill provision
+    */
+    @JsonProperty("status") val status:Struct? = null
 )

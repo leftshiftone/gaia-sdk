@@ -91,5 +91,7 @@ from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution 
 from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailReq
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution as BehaviourExecutionRes
 from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailRes
+from gaia_sdk.graphql.request.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobReq
+from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobRes
 
 Uuid = dict
