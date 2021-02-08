@@ -53,7 +53,11 @@ import {
     BehaviourExecutionReq,
     BehaviourExecutionRes,
     BehaviourExecutionDetailReq,
-    BehaviourExecutionDetailRes, SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
+    BehaviourExecutionDetailRes,
+    SkillProvisionBuildJobReq,
+    SkillProvisionBuildJobRes,
+    MetricsReq,
+    MetricsRes
 } from "../graphql";
 import {ISensorFunction} from "../api/ISensorFunction";
 import {defer, Observable} from "rxjs";
@@ -388,6 +392,13 @@ export class HttpSensorFunction implements ISensorFunction {
             g.experience(e => e.behaviourExecutions(identityId, limit, offset, startDate, endDate, config));
         }))));
         return Rx.flatMapQ<BehaviourExecutionRes>(observable, (e) => e.retrieve!.experience!.behaviourExecutions!);
+    }
+
+    public retrieveMetrics(identityId: Uuid, config: (x: MetricsReq) => void): Observable<MetricsRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.metrics(identityId, config));
+        }))));
+        return Rx.mapQ<MetricsRes>(observable, (e) => e.retrieve!.experience!.metrics!);
     }
 
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {

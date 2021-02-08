@@ -1050,5 +1050,43 @@ describe('perception tests:', () => {
         });
     });
 
+    test('test retrieve metrics', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({
+                data: { retrieve: { experience: { metrics: { identityId: 'i1',
+                                entityCount: {
+                                    prompts: 1, statements: 2, intents: 3, fulfilments: 4, behaviours: 5, codes: 6,
+                                }
+                            } } } }
+            })
+        );
+        const identityId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveMetrics(identityId, _ => {
+                _.identityId();
+                _.entityCount(ec => {
+                    ec.prompts();
+                    ec.statements();
+                    ec.intents();
+                    ec.fulfilments();
+                    ec.behaviours();
+                    ec.codes();
+                });
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.entityCount !== undefined).toBeTruthy();
+                expect(e.entityCount.prompts).toEqual(1);
+                expect(e.entityCount.statements).toEqual(2);
+                expect(e.entityCount.intents).toEqual(3);
+                expect(e.entityCount.fulfilments).toEqual(4);
+                expect(e.entityCount.behaviours).toEqual(5);
+                expect(e.entityCount.codes).toEqual(6);
+                resolve(e);
+            }, reject);
+        });
+    });
+
 
 });
