@@ -1,6 +1,7 @@
 
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.request.type.SkillProvisionBuildJob import SkillProvisionBuildJob
+from gaia_sdk.graphql.request.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
@@ -43,6 +44,14 @@ class Experience(list):
             entity = BehaviourNodeExecution()
             config(entity)
             return "behaviour_node_executions {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    def identity_metrics(self, identityId: str, config: Callable[['IdentityMetrics'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("identityId", identityId)
+            entity = IdentityMetrics()
+            config(entity)
+            return f'identityMetrics(identityId:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def skill_provision_build_jobs(self, tenantId: str, config: Callable[['SkillProvisionBuildJob'], None]):
