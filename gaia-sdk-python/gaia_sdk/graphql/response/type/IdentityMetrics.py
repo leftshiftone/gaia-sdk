@@ -17,9 +17,9 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class Metrics:
+class IdentityMetrics:
     """
-    Represents metrics information
+    Represents identity metrics information
     """
     dictionary: dict
 

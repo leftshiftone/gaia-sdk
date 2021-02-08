@@ -1,7 +1,7 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
-import {Metrics} from "./Metrics";
 import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
+import {IdentityMetrics} from "./IdentityMetrics";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
@@ -19,6 +19,6 @@ export interface Experience {
     behaviourExecution?:BehaviourExecutionDetail, 
     behaviourExecutions?:[BehaviourExecution], 
     behaviourNodeExecutions?:[BehaviourNodeExecution], 
-    metrics?:Metrics, 
+    identityMetrics?:IdentityMetrics, 
     skillProvisionBuildJobs?:[SkillProvisionBuildJob]
 }

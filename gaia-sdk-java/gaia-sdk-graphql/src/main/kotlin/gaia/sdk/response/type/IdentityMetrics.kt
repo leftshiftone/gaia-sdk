@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 /**
-* Represents metrics information
+* Represents identity metrics information
 */
-data class Metrics @JsonCreator constructor(
+data class IdentityMetrics @JsonCreator constructor(
     @JsonProperty("identityId") val identityId:Uuid? = null, 
     @JsonProperty("entityCount") val entityCount:MetricsEntityCount? = null, 
     @JsonProperty("topExecutedBehaviours") val topExecutedBehaviours:List<TopExecutedBehaviour>? = null

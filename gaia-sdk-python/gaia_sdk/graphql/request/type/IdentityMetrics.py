@@ -10,9 +10,9 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
-class Metrics(list):
+class IdentityMetrics(list):
     """
-    Represents metrics information
+    Represents identity metrics information
     """
 
     def identity_id(self):

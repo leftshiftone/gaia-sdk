@@ -10,9 +10,9 @@ import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
 /**
- * Represents metrics information
+ * Represents identity metrics information
  */
-class Metrics: Type() {
+class IdentityMetrics: Type() {
 
     fun identityId() { 
         add {"identityId" } 

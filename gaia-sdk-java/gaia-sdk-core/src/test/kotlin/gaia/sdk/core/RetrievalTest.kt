@@ -1097,11 +1097,11 @@ abstract class RetrievalTest() {
     }
 
     @Test
-    fun `test retrieve metrics`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(metrics = Metrics(UUID.randomUUID().toString(), MetricsEntityCount(1,2,100, 30,0,1), listOf(TopExecutedBehaviour("top1", "beh1", 17)))))))) }
+    fun `test retrieve identity metrics`() {
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(identityMetrics = IdentityMetrics(UUID.randomUUID().toString(), MetricsEntityCount(1,2,100, 30,0,1), listOf(TopExecutedBehaviour("top1", "beh1", 17)))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
-        val publisher = gaiaRef.retrieveMetrics(UUID.randomUUID().toString()) {
+        val publisher = gaiaRef.retrieveIdentityMetrics(UUID.randomUUID().toString()) {
             identityId()
             entityCount {
                 intents()

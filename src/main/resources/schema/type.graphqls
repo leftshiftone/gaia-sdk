@@ -243,8 +243,8 @@ type BehaviourNodeExecution {
     created: ISO8601
 }
 
-"Represents metrics information"
-type Metrics {
+"Represents identity metrics information"
+type IdentityMetrics {
     identityId: Uuid
     entityCount: MetricsEntityCount
     topExecutedBehaviours: [TopExecutedBehaviour]
