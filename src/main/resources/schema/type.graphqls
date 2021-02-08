@@ -247,6 +247,7 @@ type BehaviourNodeExecution {
 type Metrics {
     identityId: Uuid
     entityCount: MetricsEntityCount
+    topExecutedBehaviours: [TopExecutedBehaviour]
 }
 type MetricsEntityCount {
     intents: Int
@@ -255,6 +256,11 @@ type MetricsEntityCount {
     fulfilments: Int
     behaviours: Int
     codes: Int
+}
+type TopExecutedBehaviour {
+    behaviourId: String
+    behaviourName: String
+    numberOfExecutions: Int
 }
 
 # ****************

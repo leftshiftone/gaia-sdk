@@ -21,5 +21,9 @@ class Metrics: Type() {
     fun entityCount(config: MetricsEntityCount.() -> Unit) = 
         add { "entityCount{ " + MetricsEntityCount().apply(config).render(it) + "}"}
 
+
+    fun topExecutedBehaviours(config: TopExecutedBehaviour.() -> Unit) = 
+        add { "topExecutedBehaviours{ " + TopExecutedBehaviour().apply(config).render(it) + "}"}
+
 }
 
