@@ -32,6 +32,8 @@ export {BehaviourExecution as BehaviourExecutionReq} from "./request/type/Behavi
 export {BehaviourExecution as BehaviourExecutionRes} from "./response/type/BehaviourExecution";
 export {BehaviourExecutionDetail as BehaviourExecutionDetailReq} from "./request/type/BehaviourExecutionDetail";
 export {BehaviourExecutionDetail as BehaviourExecutionDetailRes} from "./response/type/BehaviourExecutionDetail";
+export {IdentityMetrics as IdentityMetricsReq} from "./request/type/IdentityMetrics";
+export {IdentityMetrics as IdentityMetricsRes} from "./response/type/IdentityMetrics";
 export {Skill as SkillReq} from "./request/type/Skill";
 export {Skill as SkillRes} from "./response/type/Skill";
 export {SkillProvision as SkillProvisionReq} from "./request/type/SkillProvision";

@@ -1050,5 +1050,75 @@ describe('perception tests:', () => {
         });
     });
 
+    test('test retrieve metrics', () => {
+        const mockResponse = {
+            data: {
+                retrieve: {
+                    experience: {
+                        identityMetrics: {
+                            identityId: 'i1',
+                            entityCount: {
+                                prompts: 1,
+                                statements: 2,
+                                intents: 3,
+                                fulfilments: 4,
+                                behaviours: 5,
+                                codes: 6,
+                            }, topExecutedBehaviours: [
+                                {
+                                    behaviourId: 'b1',
+                                    behaviourName: 'name1',
+                                    numberOfExecutions: 2
+                                },
+                                {
+                                    behaviourId: 'b2',
+                                    behaviourName: 'name2',
+                                    numberOfExecutions: 1
+                                },
+                            ]
+                        }
+                    }
+                }
+            }
+        };
+        const gaiaRef = Mock.gaiaRef(() => JSON.stringify(mockResponse));
+        const identityId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveIdentityMetrics(identityId, _ => {
+                _.identityId();
+                _.entityCount(ec => {
+                    ec.prompts();
+                    ec.statements();
+                    ec.intents();
+                    ec.fulfilments();
+                    ec.behaviours();
+                    ec.codes();
+                });
+                _.topExecutedBehaviours(tb => {
+                    tb.behaviourId();
+                    tb.behaviourName();
+                    tb.numberOfExecutions();
+                });
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.entityCount !== undefined).toBeTruthy();
+                expect(e.topExecutedBehaviours !== undefined).toBeTruthy();
+                expect(e.entityCount.prompts).toEqual(1);
+                expect(e.entityCount.statements).toEqual(2);
+                expect(e.entityCount.intents).toEqual(3);
+                expect(e.entityCount.fulfilments).toEqual(4);
+                expect(e.entityCount.behaviours).toEqual(5);
+                expect(e.entityCount.codes).toEqual(6);
+                expect(e.topExecutedBehaviours.length).toEqual(2);
+                expect(e.topExecutedBehaviours).toEqual(
+                    mockResponse.data.retrieve.experience.identityMetrics.topExecutedBehaviours
+                );
+                resolve(e);
+            }, reject);
+        });
+    });
+
 
 });
