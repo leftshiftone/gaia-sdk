@@ -47,8 +47,8 @@ import {
     BehaviourExecutionRes,
     BehaviourExecutionDetailReq,
     BehaviourExecutionDetailRes,
-    MetricsReq,
-    MetricsRes,
+    IdentityMetricsReq,
+    IdentityMetricsRes,
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
@@ -211,7 +211,7 @@ export interface ISensorFunction {
 
     retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string): Observable<BehaviourExecutionRes>
 
-    retrieveMetrics(identityId: Uuid, config: (x: MetricsReq) => void): Observable<MetricsRes>
+    retrieveIdentityMetrics(identityId: Uuid, config: (x: IdentityMetricsReq) => void): Observable<IdentityMetricsRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 

@@ -12,7 +12,7 @@ import {
     PerceiveDataImpulse,
     UpdateIntentImpulse,
     SkillProvisionBuildJobReq,
-    MetricsReq
+    IdentityMetricsReq
 } from './graphql';
 import {Preservation} from './graphql/request/type/Preservation';
 import {Retrieval} from './graphql/request/type/Retrieval';
@@ -237,6 +237,6 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
     public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
     public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
-    public retrieveMetrics = (identityId: Uuid, config: (x: MetricsReq) => void) => this.fProc.retrieveMetrics(identityId, config);
+    public retrieveIdentityMetrics = (identityId: Uuid, config: (x: IdentityMetricsReq) => void) => this.fProc.retrieveIdentityMetrics(identityId, config);
     public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config)
 }
