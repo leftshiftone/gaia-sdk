@@ -15,7 +15,7 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class MetricsEntityCount:
+class TopExecutedBehaviour:
     dictionary: dict
 
     def __init__(self, dictionary: dict):
@@ -30,20 +30,11 @@ class MetricsEntityCount:
         return {'dictionary': self.dictionary}
 
     @property
-    def intents(self) -> Int:
-        return Int(self.dictionary.get("intents"))
+    def behaviour_id(self) -> String:
+        return String(self.dictionary.get("behaviourId"))
     @property
-    def prompts(self) -> Int:
-        return Int(self.dictionary.get("prompts"))
+    def behaviour_name(self) -> String:
+        return String(self.dictionary.get("behaviourName"))
     @property
-    def statements(self) -> Int:
-        return Int(self.dictionary.get("statements"))
-    @property
-    def fulfilments(self) -> Int:
-        return Int(self.dictionary.get("fulfilments"))
-    @property
-    def behaviours(self) -> Int:
-        return Int(self.dictionary.get("behaviours"))
-    @property
-    def codes(self) -> Int:
-        return Int(self.dictionary.get("codes"))
+    def number_of_executions(self) -> Int:
+        return Int(self.dictionary.get("numberOfExecutions"))

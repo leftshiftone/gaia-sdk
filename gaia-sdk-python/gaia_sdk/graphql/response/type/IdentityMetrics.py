@@ -1,4 +1,6 @@
 
+from gaia_sdk.graphql.response.type.TopExecutedBehaviour import TopExecutedBehaviour
+from gaia_sdk.graphql.response.type.MetricsEntityCount import MetricsEntityCount
 
 from typing import List
 Uuid = str
@@ -15,7 +17,10 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class MetricsEntityCount:
+class IdentityMetrics:
+    """
+    Represents identity metrics information
+    """
     dictionary: dict
 
     def __init__(self, dictionary: dict):
@@ -30,20 +35,11 @@ class MetricsEntityCount:
         return {'dictionary': self.dictionary}
 
     @property
-    def intents(self) -> Int:
-        return Int(self.dictionary.get("intents"))
+    def identity_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("identityId"))
     @property
-    def prompts(self) -> Int:
-        return Int(self.dictionary.get("prompts"))
+    def entity_count(self) -> MetricsEntityCount:
+        return MetricsEntityCount(self.dictionary.get("entityCount"))
     @property
-    def statements(self) -> Int:
-        return Int(self.dictionary.get("statements"))
-    @property
-    def fulfilments(self) -> Int:
-        return Int(self.dictionary.get("fulfilments"))
-    @property
-    def behaviours(self) -> Int:
-        return Int(self.dictionary.get("behaviours"))
-    @property
-    def codes(self) -> Int:
-        return Int(self.dictionary.get("codes"))
+    def top_executed_behaviours(self) -> List[TopExecutedBehaviour]:
+        return list(map(lambda x: TopExecutedBehaviour(x), self.dictionary.get("topExecutedBehaviours")))

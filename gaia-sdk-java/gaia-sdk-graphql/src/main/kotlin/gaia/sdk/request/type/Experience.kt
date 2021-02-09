@@ -33,9 +33,9 @@ class Experience: Type() {
         add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
 
 
-    fun metrics(identityId : Uuid?, config: Metrics.() -> Unit) = add {
+    fun identityMetrics(identityId : Uuid?, config: IdentityMetrics.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
-        "metrics(identityId:$name1){" + Metrics().apply(config).render(it) + "}"
+        "identityMetrics(identityId:$name1){" + IdentityMetrics().apply(config).render(it) + "}"
     }
 
     fun skillProvisionBuildJobs(tenantId : Uuid?, config: SkillProvisionBuildJob.() -> Unit) = add {

@@ -8,25 +8,16 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
-class MetricsEntityCount(list):
+class TopExecutedBehaviour(list):
 
-    def intents(self):
-        self.append(lambda x: "intents")
+    def behaviour_id(self):
+        self.append(lambda x: "behaviourId")
 
-    def prompts(self):
-        self.append(lambda x: "prompts")
+    def behaviour_name(self):
+        self.append(lambda x: "behaviourName")
 
-    def statements(self):
-        self.append(lambda x: "statements")
-
-    def fulfilments(self):
-        self.append(lambda x: "fulfilments")
-
-    def behaviours(self):
-        self.append(lambda x: "behaviours")
-
-    def codes(self):
-        self.append(lambda x: "codes")
+    def number_of_executions(self):
+        self.append(lambda x: "numberOfExecutions")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

@@ -117,8 +117,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { experience { behaviourExecution(identityId, processInstanceId, config) } } })) { it.retrieve?.experience?.behaviourExecution!! }
 
-    override fun retrieveMetrics(identityId: Uuid, config: Metrics.() -> Unit): Publisher<gaia.sdk.response.type.Metrics> =
-            map(client.query(GaiaRequest.query { retrieve { experience { metrics(identityId, config) } } })) { it.retrieve?.experience?.metrics!! }
+    override fun retrieveIdentityMetrics(identityId: Uuid, config: IdentityMetrics.() -> Unit): Publisher<gaia.sdk.response.type.IdentityMetrics> =
+            map(client.query(GaiaRequest.query { retrieve { experience { identityMetrics(identityId, config) } } })) { it.retrieve?.experience?.identityMetrics!! }
 
     override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) =
             flatMap(client.query(GaiaRequest.query { retrieve { experience { behaviourExecutions(identityId, limit, offset?.toInt(), startDate, endDate, config) } } })) { it.retrieve?.experience?.behaviourExecutions!! }

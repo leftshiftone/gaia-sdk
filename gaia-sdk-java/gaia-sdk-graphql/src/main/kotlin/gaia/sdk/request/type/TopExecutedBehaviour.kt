@@ -9,17 +9,18 @@ import gaia.sdk.Struct
 import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
-/**
- * Represents metrics information
- */
-class Metrics: Type() {
+class TopExecutedBehaviour: Type() {
 
-    fun identityId() { 
-        add {"identityId" } 
+    fun behaviourId() { 
+        add {"behaviourId" } 
     }
 
-    fun entityCount(config: MetricsEntityCount.() -> Unit) = 
-        add { "entityCount{ " + MetricsEntityCount().apply(config).render(it) + "}"}
+    fun behaviourName() { 
+        add {"behaviourName" } 
+    }
 
+    fun numberOfExecutions() { 
+        add {"numberOfExecutions" } 
+    }
 }
 

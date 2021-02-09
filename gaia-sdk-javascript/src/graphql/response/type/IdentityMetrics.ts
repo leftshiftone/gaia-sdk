@@ -1,4 +1,6 @@
 
+import {TopExecutedBehaviour} from "./TopExecutedBehaviour";
+import {MetricsEntityCount} from "./MetricsEntityCount";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -7,11 +9,11 @@ import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
-export interface MetricsEntityCount {
-    intents?:number, 
-    prompts?:number, 
-    statements?:number, 
-    fulfilments?:number, 
-    behaviours?:number, 
-    codes?:number
+/**
+* Represents identity metrics information
+*/
+export interface IdentityMetrics {
+    identityId?:Uuid, 
+    entityCount?:MetricsEntityCount, 
+    topExecutedBehaviours?:[TopExecutedBehaviour]
 }
