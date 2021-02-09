@@ -396,9 +396,9 @@ export class HttpSensorFunction implements ISensorFunction {
 
     public retrieveMetrics(identityId: Uuid, config: (x: MetricsReq) => void): Observable<MetricsRes> {
         const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.experience(e => e.metrics(identityId, config));
+            g.experience(e => e.identityMetrics(identityId, config));
         }))));
-        return Rx.mapQ<MetricsRes>(observable, (e) => e.retrieve!.experience!.metrics!);
+        return Rx.mapQ<MetricsRes>(observable, (e) => e.retrieve!.experience!.identityMetrics!);
     }
 
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {

@@ -1053,7 +1053,7 @@ describe('perception tests:', () => {
     test('test retrieve metrics', () => {
         const gaiaRef = Mock.gaiaRef(() =>
             JSON.stringify({
-                data: { retrieve: { experience: { metrics: { identityId: 'i1',
+                data: { retrieve: { experience: { identityMetrics: { identityId: 'i1',
                                 entityCount: {
                                     prompts: 1, statements: 2, intents: 3, fulfilments: 4, behaviours: 5, codes: 6,
                                 }
