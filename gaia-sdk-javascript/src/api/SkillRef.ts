@@ -1,6 +1,6 @@
-import {defer, Observable} from "rxjs";
-import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
-import {flatMap, map} from "rxjs/operators";
+import {defer, Observable} from 'rxjs';
+import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
+import {flatMap, map} from 'rxjs/operators';
 
 export class SkillRef {
     private readonly client: GaiaStreamClient;
@@ -12,49 +12,59 @@ export class SkillRef {
     }
 
     public start(): Observable<{}> {
-        return defer(() => this.client.post({"uri": this.uri}, "/skill/start"));
+        return defer(() => this.client.post({uri: this.uri}, '/skill/start'));
     }
 
     public stop(): Observable<{}> {
-        return defer(() => this.client.post({"uri": this.uri}, "/skill/stop"));
+        return defer(() => this.client.post({uri: this.uri}, '/skill/stop'));
     }
 
     public status(): Observable<SkillProvisionStatus> {
-        return defer(() => this.client.post({"uri": this.uri}, "/skill/status"));
+        return defer(() => this.client.post({uri: this.uri}, '/skill/status'));
     }
 
     public cancel(): Observable<SkillProvisionBuildCanceledResponse> {
-        return defer(() => this.client.post({"uri": this.uri}, "/skill/cancel"))
+        return defer(() => this.client.post({uri: this.uri}, '/skill/cancel'));
     }
 
     public logs(numberOfLines?: number): Observable<string> {
         return this.logsInternal(numberOfLines)
-            .pipe(flatMap(response => defer(() => response.logLines)))
+            .pipe(flatMap(response => defer(() => response.logLines)));
     }
 
     private logsInternal(numberOfLines?: number): Observable<SkillProvisionLogs> {
-        return defer(() => this.client.post({"uri": this.uri, "numberOfLines": numberOfLines}, "/skill/logs"));
+        return defer(() => this.client.post({uri: this.uri, numberOfLines: numberOfLines}, '/skill/logs'));
     }
 
     public build(): Observable<SkillProvisionBuildResponse> {
-        return defer(() => this.client.post({"uri": this.uri}, "/skill/build"))
+        return defer(() => this.client.post({uri: this.uri}, '/skill/build'));
     }
 
     public evaluate(contract: string, payload: any): Observable<SkillEvaluation>;
     public evaluate(payload: any): Observable<SkillEvaluation>;
-    public evaluate(payload: any, contract?: string): Observable<SkillEvaluation> {
-        if (!payload) throw new Error('You must provide a payload');
-        const request = {'uri': this.uri, 'payload': payload};
+    public evaluate(first: any, second?: any): Observable<SkillEvaluation> {
+        if (typeof first === 'string' && second !== undefined) {
+            //corresponds to evaluate(contract, payload)
+            return this.doEvaluate(first, second);
+        }
+        if (typeof first !== 'string' && second === undefined) {
+            // corresponds to evaluate(payload)
+            return this.doEvaluate(undefined, first);
+        }
+        throw new Error('Either use evaluate(contract:string, payload:{}) or evaluate(payload: {})');
+    }
+
+    private doEvaluate(contract: string | undefined, p: any):  Observable<SkillEvaluation> {
+        if (!p) throw new Error('You must provide a payload');
+        const request = {uri: this.uri, payload: p};
         if (contract) {
             request['contract'] = contract;
         }
         return defer(() => this.client.post(request, '/skill/evaluate'))
             .pipe(map(r => new SkillEvaluation(r)));
     }
-
-
-
 }
+
 export class SkillProvisionBuildCanceledResponse {
     reference: string;
 
@@ -77,8 +87,8 @@ export class SkillProvisionStatus {
 
     constructor(name: string, status: string, createdAt: string) {
         this.name = name;
-        this.status = status
-        this.createdAt = createdAt
+        this.status = status;
+        this.createdAt = createdAt;
     }
 }
 

@@ -40,6 +40,16 @@ describe('skillref tests:', () => {
             },                        reject);
         });
     });
+
+    test('evaluate', () => {
+        return new Promise((resolve, reject) => {
+            const ref = getSkillRef('/skill/evaluate', {response: 'xyz'});
+            ref.evaluate('abc', {request: 'abc'}).subscribe(next => {
+                expect(next).toEqual({response: {response: 'xyz'}});
+                resolve();
+            }, err => reject(err));
+        });
+    });
 });
 
 function getSkillRef(urlPostFix: string, mockResponse?: any): SkillRef {
