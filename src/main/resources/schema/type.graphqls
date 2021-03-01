@@ -248,6 +248,7 @@ type IdentityMetrics {
     identityId: Uuid
     entityCount: MetricsEntityCount
     topExecutedBehaviours: [TopExecutedBehaviour]
+    behaviourStates: [BehaviourState]
 }
 type MetricsEntityCount {
     intents: Int
@@ -261,6 +262,15 @@ type TopExecutedBehaviour {
     behaviourId: String
     behaviourName: String
     numberOfExecutions: Int
+}
+type BehaviourState {
+    behaviourId: String
+    behaviourName: String
+    numberOfExecutions: Int
+    running: Float
+    success: Float
+    waiting: Float
+    failed: Float
 }
 
 # ****************
