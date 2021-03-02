@@ -1,5 +1,6 @@
 
 from gaia_sdk.graphql.request.type.TopExecutedBehaviour import TopExecutedBehaviour
+from gaia_sdk.graphql.request.type.BehaviourState import BehaviourState
 from gaia_sdk.graphql.request.type.MetricsEntityCount import MetricsEntityCount
 
 from typing import Callable, List
@@ -30,6 +31,13 @@ class IdentityMetrics(list):
             entity = TopExecutedBehaviour()
             config(entity)
             return "top_executed_behaviours {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    def behaviour_states(self, config: Callable[['BehaviourState'], None]):
+        def callback(registry: VariableRegistry):
+            entity = BehaviourState()
+            config(entity)
+            return "behaviour_states {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

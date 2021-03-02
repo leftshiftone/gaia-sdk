@@ -1,5 +1,6 @@
 
 import {TopExecutedBehaviour} from "./TopExecutedBehaviour";
+import {BehaviourState} from "./BehaviourState";
 import {MetricsEntityCount} from "./MetricsEntityCount";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -30,6 +31,12 @@ public _typeName = "IdentityMetrics";
         const entity = new TopExecutedBehaviour();
         config(entity);
         return "topExecutedBehaviours { " + entity.render(registry) + " }";
+    });
+
+    public behaviourStates = (config: (_:BehaviourState) => void) => this.push((registry) => {
+        const entity = new BehaviourState();
+        config(entity);
+        return "behaviourStates { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

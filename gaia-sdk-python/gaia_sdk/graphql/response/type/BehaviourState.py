@@ -1,7 +1,4 @@
 
-from gaia_sdk.graphql.response.type.TopExecutedBehaviour import TopExecutedBehaviour
-from gaia_sdk.graphql.response.type.BehaviourState import BehaviourState
-from gaia_sdk.graphql.response.type.MetricsEntityCount import MetricsEntityCount
 
 from typing import List
 Uuid = str
@@ -18,10 +15,7 @@ from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class IdentityMetrics:
-    """
-    Represents identity metrics information
-    """
+class BehaviourState:
     dictionary: dict
 
     def __init__(self, dictionary: dict):
@@ -36,14 +30,23 @@ class IdentityMetrics:
         return {'dictionary': self.dictionary}
 
     @property
-    def identity_id(self) -> Uuid:
-        return Uuid(self.dictionary.get("identityId"))
+    def behaviour_id(self) -> String:
+        return String(self.dictionary.get("behaviourId"))
     @property
-    def entity_count(self) -> MetricsEntityCount:
-        return MetricsEntityCount(self.dictionary.get("entityCount"))
+    def behaviour_name(self) -> String:
+        return String(self.dictionary.get("behaviourName"))
     @property
-    def top_executed_behaviours(self) -> List[TopExecutedBehaviour]:
-        return list(map(lambda x: TopExecutedBehaviour(x), self.dictionary.get("topExecutedBehaviours")))
+    def number_of_executions(self) -> Int:
+        return Int(self.dictionary.get("numberOfExecutions"))
     @property
-    def behaviour_states(self) -> List[BehaviourState]:
-        return list(map(lambda x: BehaviourState(x), self.dictionary.get("behaviourStates")))
+    def running(self) -> Float:
+        return Float(self.dictionary.get("running"))
+    @property
+    def success(self) -> Float:
+        return Float(self.dictionary.get("success"))
+    @property
+    def waiting(self) -> Float:
+        return Float(self.dictionary.get("waiting"))
+    @property
+    def failed(self) -> Float:
+        return Float(self.dictionary.get("failed"))

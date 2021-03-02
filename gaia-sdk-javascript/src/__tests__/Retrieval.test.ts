@@ -1085,7 +1085,7 @@ describe('perception tests:', () => {
         const identityId = uuidv4();
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveIdentityMetrics(identityId, _ => {
+            const observable = gaiaRef.retrieveIdentityMetrics(identityId, '2021-01-13T00:01:29.271Z', _ => {
                 _.identityId();
                 _.entityCount(ec => {
                     ec.prompts();
