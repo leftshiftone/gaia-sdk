@@ -46,14 +46,15 @@ class Experience(list):
             return "behaviour_node_executions {" + entity.render(registry) + "}"
         self.append(callback)
 
-    def identity_metrics(self, identityId: str, startDate: str, limit: int, config: Callable[['IdentityMetrics'], None]):
+    def identity_metrics(self, identityId: str, startDate: str, endDate: str, limit: int, config: Callable[['IdentityMetrics'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("identityId", identityId)
             name2 = registry.register("startDate", startDate)
-            name3 = registry.register("limit", limit)
+            name3 = registry.register("endDate", endDate)
+            name4 = registry.register("limit", limit)
             entity = IdentityMetrics()
             config(entity)
-            return f'identityMetrics(identityId:{name1}, startDate:{name2}, limit:{name3})' + '{' + entity.render(registry) + '}'
+            return f'identityMetrics(identityId:{name1}, startDate:{name2}, endDate:{name3}, limit:{name4})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def skill_provision_build_jobs(self, tenantId: str, config: Callable[['SkillProvisionBuildJob'], None]):
