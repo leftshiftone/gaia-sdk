@@ -237,6 +237,6 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
     public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
     public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
-    public retrieveIdentityMetrics = (identityId: Uuid, config: (x: IdentityMetricsReq) => void) => this.fProc.retrieveIdentityMetrics(identityId, config);
-    public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config)
+    public retrieveIdentityMetrics = (identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number) => this.fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit);
+    public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config);
 }

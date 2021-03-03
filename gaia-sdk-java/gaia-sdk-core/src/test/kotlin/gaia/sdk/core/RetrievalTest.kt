@@ -1098,10 +1098,26 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve identity metrics`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(experience = Experience(identityMetrics = IdentityMetrics(UUID.randomUUID().toString(), MetricsEntityCount(1,2,100, 30,0,1), listOf(TopExecutedBehaviour("top1", "beh1", 17)))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(
+                    GaiaResponse.QueryResponse(
+                            Query(retrieve = Retrieval(
+                                    experience = Experience(
+                                            identityMetrics = IdentityMetrics(
+                                                    UUID.randomUUID().toString(),
+                                                    MetricsEntityCount(1, 2, 100, 30, 0, 1),
+                                                    listOf(TopExecutedBehaviour("top1", "beh1", 17)),
+                                                    listOf(BehaviourState("top1", "beh1", 10, 0.25f, 0.25f, 0.25f, 0.25f))
+                                            )
+                                    )
+                            )
+                            )
+                    )
+            )
+        }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
-        val publisher = gaiaRef.retrieveIdentityMetrics(UUID.randomUUID().toString()) {
+        val publisher = gaiaRef.retrieveIdentityMetrics(UUID.randomUUID().toString(), "2021-01-13T00:01:29.271Z", "2021-01-31T00:01:29.271Z", {
             identityId()
             entityCount {
                 intents()
@@ -1111,7 +1127,16 @@ abstract class RetrievalTest() {
                 behaviours()
                 statements()
             }
-        }
+            behaviourStates {
+                behaviourId()
+                behaviourName()
+                numberOfExecutions()
+                running()
+                waiting()
+                failed()
+                success()
+            }
+        }, null)
 
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
@@ -1131,6 +1156,13 @@ abstract class RetrievalTest() {
         assertThat(result.topExecutedBehaviours!!.first().behaviourId).isEqualTo("top1")
         assertThat(result.topExecutedBehaviours!!.first().behaviourName).isEqualTo("beh1")
         assertThat(result.topExecutedBehaviours!!.first().numberOfExecutions).isEqualTo(17)
+
+        assertThat(result.behaviourStates?.size).isEqualTo(1)
+        assertThat(result.behaviourStates!!.first().behaviourId).isEqualTo("top1")
+        assertThat(result.behaviourStates!!.first().behaviourName).isEqualTo("beh1")
+        assertThat(result.behaviourStates!!.first().numberOfExecutions).isEqualTo(10)
+        assertThat(result.behaviourStates!!.first().failed).isEqualTo(0.25f)
+        assertThat(result.behaviourStates!!.first().success).isEqualTo(0.25f)
     }
 
 }

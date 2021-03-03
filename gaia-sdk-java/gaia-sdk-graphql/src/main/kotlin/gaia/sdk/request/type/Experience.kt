@@ -33,9 +33,12 @@ class Experience: Type() {
         add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
 
 
-    fun identityMetrics(identityId : Uuid?, config: IdentityMetrics.() -> Unit) = add {
+    fun identityMetrics(identityId : Uuid?, startDate : String?, endDate : String?, limit : Int?, config: IdentityMetrics.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
-        "identityMetrics(identityId:$name1){" + IdentityMetrics().apply(config).render(it) + "}"
+        val name2 = it.register("startDate", startDate)
+        val name3 = it.register("endDate", endDate)
+        val name4 = it.register("limit", limit)
+        "identityMetrics(identityId:$name1, startDate:$name2, endDate:$name3, limit:$name4){" + IdentityMetrics().apply(config).render(it) + "}"
     }
 
     fun skillProvisionBuildJobs(tenantId : Uuid?, config: SkillProvisionBuildJob.() -> Unit) = add {

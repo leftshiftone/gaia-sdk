@@ -394,9 +394,9 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.flatMapQ<BehaviourExecutionRes>(observable, (e) => e.retrieve!.experience!.behaviourExecutions!);
     }
 
-    public retrieveIdentityMetrics(identityId: Uuid, config: (x: IdentityMetricsReq) => void): Observable<IdentityMetricsRes> {
+    public retrieveIdentityMetrics(identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number): Observable<IdentityMetricsRes> {
         const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.experience(e => e.identityMetrics(identityId, config));
+            g.experience(e => e.identityMetrics(identityId, startDate, endDate, limit, config));
         }))));
         return Rx.mapQ<IdentityMetricsRes>(observable, (e) => e.retrieve!.experience!.identityMetrics!);
     }

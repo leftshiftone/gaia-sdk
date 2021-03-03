@@ -25,5 +25,9 @@ class IdentityMetrics: Type() {
     fun topExecutedBehaviours(config: TopExecutedBehaviour.() -> Unit) = 
         add { "topExecutedBehaviours{ " + TopExecutedBehaviour().apply(config).render(it) + "}"}
 
+
+    fun behaviourStates(config: BehaviourState.() -> Unit) = 
+        add { "behaviourStates{ " + BehaviourState().apply(config).render(it) + "}"}
+
 }
 

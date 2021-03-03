@@ -1,5 +1,6 @@
 
 import {TopExecutedBehaviour} from "./TopExecutedBehaviour";
+import {BehaviourState} from "./BehaviourState";
 import {MetricsEntityCount} from "./MetricsEntityCount";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -15,5 +16,6 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface IdentityMetrics {
     identityId?:Uuid, 
     entityCount?:MetricsEntityCount, 
-    topExecutedBehaviours?:[TopExecutedBehaviour]
+    topExecutedBehaviours?:[TopExecutedBehaviour], 
+    behaviourStates?:[BehaviourState]
 }
