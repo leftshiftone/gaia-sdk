@@ -1117,7 +1117,7 @@ abstract class RetrievalTest() {
         }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
-        val publisher = gaiaRef.retrieveIdentityMetrics(UUID.randomUUID().toString(), "2021-01-13T00:01:29.271Z") {
+        val publisher = gaiaRef.retrieveIdentityMetrics(UUID.randomUUID().toString(), "2021-01-13T00:01:29.271Z", {
             identityId()
             entityCount {
                 intents()
@@ -1136,7 +1136,7 @@ abstract class RetrievalTest() {
                 failed()
                 success()
             }
-        }
+        }, null)
 
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)

@@ -41,7 +41,7 @@ type Experience {
     behaviourExecution(identityId: Uuid, processInstanceId: Uuid): BehaviourExecutionDetail
     behaviourExecutions(identityId: Uuid, limit: Int, offset: Int, startDate: String, endDate: String): [BehaviourExecution]
     behaviourNodeExecutions: [BehaviourNodeExecution]
-    identityMetrics(identityId: Uuid, startDate: String): IdentityMetrics
+    identityMetrics(identityId: Uuid, startDate: String, limit: Int): IdentityMetrics
     skillProvisionBuildJobs(tenantId: Uuid): [SkillProvisionBuildJob]
 }
 

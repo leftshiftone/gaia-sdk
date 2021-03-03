@@ -44,12 +44,13 @@ public _typeName = "Experience";
         return "behaviourNodeExecutions { " + entity.render(registry) + " }";
     });
 
-    public identityMetrics = (identityId: Uuid|undefined, startDate: string|undefined, config: (_:IdentityMetrics) => void) => this.push((registry) => {
+    public identityMetrics = (identityId: Uuid|undefined, startDate: string|undefined, limit: Number|undefined, config: (_:IdentityMetrics) => void) => this.push((registry) => {
         const name1 = registry.register("identityId", identityId);
         const name2 = registry.register("startDate", startDate);
+        const name3 = registry.register("limit", limit);
         const entity = new IdentityMetrics();
         config(entity);
-        return `identityMetrics(identityId:${name1}, startDate:${name2}){` + entity.render(registry) + "}"
+        return `identityMetrics(identityId:${name1}, startDate:${name2}, limit:${name3}){` + entity.render(registry) + "}"
     });
 
     public skillProvisionBuildJobs = (tenantId: Uuid|undefined, config: (_:SkillProvisionBuildJob) => void) => this.push((registry) => {

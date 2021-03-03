@@ -33,10 +33,11 @@ class Experience: Type() {
         add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
 
 
-    fun identityMetrics(identityId : Uuid?, startDate : String?, config: IdentityMetrics.() -> Unit) = add {
+    fun identityMetrics(identityId : Uuid?, startDate : String?, limit : Int?, config: IdentityMetrics.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
         val name2 = it.register("startDate", startDate)
-        "identityMetrics(identityId:$name1, startDate:$name2){" + IdentityMetrics().apply(config).render(it) + "}"
+        val name3 = it.register("limit", limit)
+        "identityMetrics(identityId:$name1, startDate:$name2, limit:$name3){" + IdentityMetrics().apply(config).render(it) + "}"
     }
 
     fun skillProvisionBuildJobs(tenantId : Uuid?, config: SkillProvisionBuildJob.() -> Unit) = add {
