@@ -34,6 +34,7 @@ apply plugin: "one.leftshift.asteria-email"
 apply plugin: "one.leftshift.asteria-report"
 apply plugin: "one.leftshift.asteria-publish"
 
+apply plugin: "org.jetbrains.dokka"
 apply plugin: "maven-publish"
 apply plugin: "signing"
 apply plugin: "io.codearte.nexus-staging"
