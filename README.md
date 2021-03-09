@@ -20,17 +20,17 @@ Run `./gradlew generateSource`.
 Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
 
 #### Major
-Run `./gradlew final -x bintrayUpload -Prelease.scope=major` locally.
+Run `./gradlew final -Prelease.scope=major` locally.
 
 #### Minor
-Run `./gradlew final -x bintrayUpload -Prelease.scope=minor` locally.
+Run `./gradlew final -Prelease.scope=minor` locally.
 
 #### Patch
 Must be released from branch (e.g. `release/1.0.x`)
 
-Run `./gradlew final -x bintrayUpload -Prelease.scope=patch` locally.
+Run `./gradlew final -Prelease.scope=patch` locally.
 
 #### Release Candidate
 Set the release scope by replacing `$scope` with the version of the release candidate (major, minor, patch).
 
-Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail -x bintrayUpload` locally.
+Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail` locally.
