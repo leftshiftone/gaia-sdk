@@ -1,5 +1,10 @@
 import math
+import shutil
+import time
 from math import ceil
+from pathlib import Path
+
+from requests import Response
 from rx import of
 from rx.core.abc import Scheduler
 from rx.core.typing import Observable
@@ -90,6 +95,22 @@ class DataRef:
             self.scheduler) \
             .pipe(
             ops.map(lambda response: response.content))
+
+    def as_file(self, file_path: str = f"SDK-DataRef.as_file-{time.time()}") -> Observable[Path]:
+        r"""TODO: Update docs
+
+        :return: :class:`Observable[bytes]` object: File as bytes.
+        :exception HttpError: Error thrown if the download operation fails.
+        """
+        def send_request_and_copy(fp: str) -> Path:
+            response: Response = self.client.post_json(BinaryReadImpulse(self.uri),
+                                                       url_postfix="/data/source")
+            # https://stackoverflow.com/a/39217788/4644044
+            with open(fp, 'wb+') as f:
+                shutil.copyfileobj(response.raw, f)
+                return Path(fp)
+
+        return rx.from_callable(lambda: send_request_and_copy(file_path), self.scheduler)
 
     def as_stream(self):
         r"""Not implemented in backend"""
