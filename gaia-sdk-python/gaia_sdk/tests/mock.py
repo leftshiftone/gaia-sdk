@@ -1,3 +1,6 @@
+import io
+from typing import BinaryIO
+
 from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaClientBuilder import GaiaHttpClientBuilder
 from gaia_sdk.graphql.GaiaClient import GaiaClient
@@ -37,6 +40,10 @@ class MockResponse(object):
 
     def data(self):
         return self.content
+
+    @property
+    def raw(self) -> BinaryIO:
+        return io.BytesIO(self.content)
 
 class MockRequest(object):
 

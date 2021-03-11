@@ -91,8 +91,9 @@ class DataRef:
             ops.map(lambda response: response.content))
 
     def as_file(self, file_path: str = f"SDK-DataRef.as_file-{time.time()}") -> Observable[Path]:
-        r"""TODO: Update docs
+        r"""Downloads the file at the current uri and saves it at specified/returned location.
 
+        :param file_path: Location where the file should be saved.
         :return: :class:`Observable[bytes]` object: File as bytes.
         :exception HttpError: Error thrown if the download operation fails.
         """
