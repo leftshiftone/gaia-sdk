@@ -1,9 +1,10 @@
 import logging
 import unittest
+from pathlib import Path
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.api.DataRef import DataRefRequestConfig
+from gaia_sdk.api.data.DataRef import DataRefRequestConfig, DataRef
 from gaia_sdk.gaia import Gaia
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials
 from gaia_sdk.http.response.FileListing import FileListing
@@ -68,13 +69,26 @@ class TestDataRef(unittest.TestCase):
         self.assertEqual(result[0], FileListing({"tenant": "tenant1", "filePath": "existingDirectory/file1",
                                                  "lastModified": "2020-11-18", "size": "1000"}))
 
-    @unittest.skip("E2E test, for local use or future E2E use")
-    def test_list_files_local_e2e(self):
-        self.gaiaRef = Gaia.login("http://localhost:8080", UsernamePasswordCredentials("admin", "admin"))
+    # @unittest.skip("used for local testing only")
+    def test_e2e_local_1(self):
+        self.gaiaRef = Gaia.login("https://beta.api.leftshift.one",
+                                  UsernamePasswordCredentials("lorenz.leitner@leftshift.one", "W734WWFRs8vv93B"))
 
-        result = pipe(ops.first())(
-            self.gaiaRef.data("gaia://e3514269-a8a8-45df-8df8-851eccff6f55/cat1.jpg").list()).run()
-        self.assertEqual(len(result), 14)
+        result: Path = pipe(ops.first())(
+            self.gaiaRef.data("gaia://8db77283-f25b-4cbb-8d26-692bb2672fb3/cat1.jpg").as_file("cat1.jpg")).run()
+        print(result.absolute())
+
+    # @unittest.skip("used for local testing only")
+    def test_e2e_local_2(self):
+        self.gaiaRef = Gaia.login("https://beta.api.leftshift.one",
+                                  UsernamePasswordCredentials("lorenz.leitner@leftshift.one", "W734WWFRs8vv93B"))
+
+        result: DataRef = pipe(ops.first())(
+            self.gaiaRef.data("gaia://8db77283-f25b-4cbb-8d26-692bb2672fb3/").add("test.txt",
+                                                                                  bytes("this is a test",
+                                                                                        encoding="utf-8"),
+                                                                                  override=True)).run()
+        print(result)
 
     def test_list_files_in_nonexistent_dir(self):
         def mock(request):
