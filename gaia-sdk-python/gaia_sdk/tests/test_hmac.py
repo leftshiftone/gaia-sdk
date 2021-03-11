@@ -3,7 +3,6 @@ import unittest
 from gaia_sdk.api.crypto import HMAC
 
 
-# TODO: Why is this test here, why was import failing?
 class TestHMAC(unittest.TestCase):
 
     def test_hash(self):
