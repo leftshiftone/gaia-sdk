@@ -1,5 +1,3 @@
-from math import ceil
-from rx import of
 from rx.core.abc import Scheduler
 from rx.core.typing import Observable
 import logging
@@ -8,15 +6,13 @@ import rx.operators as ops
 import time
 import uuid
 
-from gaia_sdk.api.DataRef import DataRef
+from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
 
 from gaia_sdk.http.response.IdentityImported import IdentityImported
 
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
 from gaia_sdk.http.request.IdentityImportImpulse import IdentityImportImpulse
-
-CHUNK_SIZE = 1024 * 1024 * 5
 
 
 def check_identity_id(identity_id):
