@@ -27,7 +27,7 @@ class HttpTransporter(ITransporter):
         url = self.url + url_post_fix
         self.logger.debug("request to %s header:%s payload:%r", url, headers, data)
         if payload.payload_type == Payload.JSON:
-            response = requests.post(url, json=data, headers=headers)
+            response = requests.post(url, json=data, headers=headers, stream=True)
         elif payload.payload_type == Payload.FORM_DATA:
             response = requests.post(url, files=data, headers=headers)
         elif payload.payload_type == Payload.STREAM:
