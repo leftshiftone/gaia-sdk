@@ -1,4 +1,5 @@
 
+import {IntentDetectionRate} from "./IntentDetectionRate";
 import {TopExecutedBehaviour} from "./TopExecutedBehaviour";
 import {BehaviourState} from "./BehaviourState";
 import {MetricsEntityCount} from "./MetricsEntityCount";
@@ -37,6 +38,12 @@ public _typeName = "IdentityMetrics";
         const entity = new BehaviourState();
         config(entity);
         return "behaviourStates { " + entity.render(registry) + " }";
+    });
+
+    public intentDetectionRate = (config: (_:IntentDetectionRate) => void) => this.push((registry) => {
+        const entity = new IntentDetectionRate();
+        config(entity);
+        return "intentDetectionRate { " + entity.render(registry) + " }";
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

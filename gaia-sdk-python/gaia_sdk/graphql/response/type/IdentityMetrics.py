@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.IntentDetectionRate import IntentDetectionRate
 from gaia_sdk.graphql.response.type.TopExecutedBehaviour import TopExecutedBehaviour
 from gaia_sdk.graphql.response.type.BehaviourState import BehaviourState
 from gaia_sdk.graphql.response.type.MetricsEntityCount import MetricsEntityCount
@@ -47,3 +48,6 @@ class IdentityMetrics:
     @property
     def behaviour_states(self) -> List[BehaviourState]:
         return list(map(lambda x: BehaviourState(x), self.dictionary.get("behaviourStates")))
+    @property
+    def intent_detection_rate(self) -> IntentDetectionRate:
+        return IntentDetectionRate(self.dictionary.get("intentDetectionRate"))

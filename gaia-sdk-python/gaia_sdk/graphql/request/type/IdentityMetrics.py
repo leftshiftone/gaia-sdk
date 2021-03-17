@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.IntentDetectionRate import IntentDetectionRate
 from gaia_sdk.graphql.request.type.TopExecutedBehaviour import TopExecutedBehaviour
 from gaia_sdk.graphql.request.type.BehaviourState import BehaviourState
 from gaia_sdk.graphql.request.type.MetricsEntityCount import MetricsEntityCount
@@ -38,6 +39,13 @@ class IdentityMetrics(list):
             entity = BehaviourState()
             config(entity)
             return "behaviour_states {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    def intent_detection_rate(self, config: Callable[['IntentDetectionRate'], None]):
+        def callback(registry: VariableRegistry):
+            entity = IntentDetectionRate()
+            config(entity)
+            return "intent_detection_rate {" + entity.render(registry) + "}"
         self.append(callback)
 
     def render(self, registry: VariableRegistry):
