@@ -1107,7 +1107,8 @@ abstract class RetrievalTest() {
                                                     UUID.randomUUID().toString(),
                                                     MetricsEntityCount(1, 2, 100, 30, 0, 1),
                                                     listOf(TopExecutedBehaviour("top1", "beh1", 17)),
-                                                    listOf(BehaviourState("top1", "beh1", 10, 0.25f, 0.25f, 0.25f, 0.25f))
+                                                    listOf(BehaviourState("top1", "beh1", 10, 0.25f, 0.25f, 0.25f, 0.25f)),
+                                                    IntentDetectionRate(10, 5)
                                             )
                                     )
                             )
@@ -1136,6 +1137,10 @@ abstract class RetrievalTest() {
                 failed()
                 success()
             }
+            intentDetectionRate {
+                detected()
+                unaware()
+            }
         }, null)
 
         val ts = Flowable.fromPublisher(publisher).test()
@@ -1163,6 +1168,9 @@ abstract class RetrievalTest() {
         assertThat(result.behaviourStates!!.first().numberOfExecutions).isEqualTo(10)
         assertThat(result.behaviourStates!!.first().failed).isEqualTo(0.25f)
         assertThat(result.behaviourStates!!.first().success).isEqualTo(0.25f)
+
+        assertThat(result.intentDetectionRate?.detected).isEqualTo(10)
+        assertThat(result.intentDetectionRate?.unaware).isEqualTo(5)
     }
 
 }

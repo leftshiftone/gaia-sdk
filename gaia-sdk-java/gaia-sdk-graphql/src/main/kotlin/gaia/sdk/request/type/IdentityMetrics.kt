@@ -29,5 +29,9 @@ class IdentityMetrics: Type() {
     fun behaviourStates(config: BehaviourState.() -> Unit) = 
         add { "behaviourStates{ " + BehaviourState().apply(config).render(it) + "}"}
 
+
+    fun intentDetectionRate(config: IntentDetectionRate.() -> Unit) = 
+        add { "intentDetectionRate{ " + IntentDetectionRate().apply(config).render(it) + "}"}
+
 }
 
