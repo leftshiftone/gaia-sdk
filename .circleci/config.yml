@@ -51,7 +51,7 @@ jobs:
           command: ./gradlew assemble --stacktrace
       - run:
           name: Publish Java snapshots
-          command: ./gradlew :publish :gaia-sdk-java:publish -x publishReleasePublicationToSonatypeRepository --stacktrace
+          command: ./gradlew :publish :gaia-sdk-java:publish -x publishReleasePublicationToSonatypeRepository -x publishMavenPomPublicationToSonatypeRepository --stacktrace
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
