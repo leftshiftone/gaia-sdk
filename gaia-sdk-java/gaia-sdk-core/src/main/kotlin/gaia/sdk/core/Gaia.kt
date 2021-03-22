@@ -24,6 +24,7 @@ import gaia.sdk.request.type.Edge
 import gaia.sdk.request.type.Experience
 import gaia.sdk.request.type.Knowledge
 import gaia.sdk.request.type.IdentityMetrics
+import gaia.sdk.request.type.BehaviourMetrics
 import gaia.sdk.request.type.Retrieval
 import gaia.sdk.response.type.*
 import gaia.sdk.spi.QueueOptions
@@ -145,6 +146,7 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) = fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate)
     override fun retrieveSkillProvisionBuildJobs(tenandId: Uuid, config: gaia.sdk.request.type.SkillProvisionBuildJob.() -> Unit): Publisher<SkillProvisionBuildJob>  = fProc.retrieveSkillProvisionBuildJobs(tenandId, config)
     override fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?) = fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit)
+    override fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?) = fProc.retrieveBehaviourMetrics(identityId, behaviourId, startDate, endDate, config, limit)
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
     override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)
