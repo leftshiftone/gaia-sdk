@@ -16,5 +16,6 @@ data class Experience @JsonCreator constructor(
     @JsonProperty("behaviourExecutions") val behaviourExecutions:List<BehaviourExecution>? = null, 
     @JsonProperty("behaviourNodeExecutions") val behaviourNodeExecutions:List<BehaviourNodeExecution>? = null, 
     @JsonProperty("identityMetrics") val identityMetrics:IdentityMetrics? = null, 
-    @JsonProperty("skillProvisionBuildJobs") val skillProvisionBuildJobs:List<SkillProvisionBuildJob>? = null
+    @JsonProperty("skillProvisionBuildJobs") val skillProvisionBuildJobs:List<SkillProvisionBuildJob>? = null, 
+    @JsonProperty("behaviourMetrics") val behaviourMetrics:BehaviourMetrics? = null
 )
