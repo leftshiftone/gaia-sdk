@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.SkillStatus import SkillStatus
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -44,7 +45,7 @@ class SkillProvision(list):
         self.append(lambda x: "labelList")
 
     """
-    The version of the skill
+    The version used by this skill provision
     """
     def version(self):
         self.append(lambda x: "version")
@@ -92,16 +93,20 @@ class SkillProvision(list):
         self.append(lambda x: "environment")
 
     """
-    Whether the skill provision has been built
-    """
-    def built(self):
-        self.append(lambda x: "built")
-
-    """
     The current status of the skill provision
     """
-    def status(self):
-        self.append(lambda x: "status")
+    def status(self, config: Callable[['SkillStatus'], None]):
+        def callback(registry: VariableRegistry):
+            entity = SkillStatus()
+            config(entity)
+            return "status {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    """
+    The contract associated with this provision
+    """
+    def contract(self):
+        self.append(lambda x: "contract")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

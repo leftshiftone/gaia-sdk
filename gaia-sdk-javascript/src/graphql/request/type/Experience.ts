@@ -1,6 +1,5 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
-import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
 import {IdentityMetrics} from "./IdentityMetrics";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
@@ -52,13 +51,6 @@ public _typeName = "Experience";
         const entity = new IdentityMetrics();
         config(entity);
         return `identityMetrics(identityId:${name1}, startDate:${name2}, endDate:${name3}, limit:${name4}){` + entity.render(registry) + "}"
-    });
-
-    public skillProvisionBuildJobs = (tenantId: Uuid|undefined, config: (_:SkillProvisionBuildJob) => void) => this.push((registry) => {
-        const name1 = registry.register("tenantId", tenantId);
-        const entity = new SkillProvisionBuildJob();
-        config(entity);
-        return `skillProvisionBuildJobs(tenantId:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

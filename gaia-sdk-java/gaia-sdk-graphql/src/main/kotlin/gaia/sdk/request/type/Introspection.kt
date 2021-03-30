@@ -11,28 +11,12 @@ import gaia.sdk.request.enumeration.*
 
 class Introspection: Type() {
 
-    fun cpu() { 
-        add {"cpu" } 
+    /**
+     * Introspects the build jobs currently available in the system
+     */
+    fun buildJobs(tenantId : Uuid, config: SkillBuildJob.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        "buildJobs(tenantId:$name1){" + SkillBuildJob().apply(config).render(it) + "}"
     }
-
-    fun gpu() { 
-        add {"gpu" } 
-    }
-
-    fun memory() { 
-        add {"memory" } 
-    }
-
-    fun state() { 
-        add {"state" } 
-    }
-
-    fun started() { 
-        add {"started" } 
-    }
-
-    fun skills(config: SkillIntrospection.() -> Unit) = 
-        add { "skills{ " + SkillIntrospection().apply(config).render(it) + "}"}
-
 }
 

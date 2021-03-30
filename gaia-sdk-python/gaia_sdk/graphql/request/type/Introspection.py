@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.request.type.SkillIntrospection import SkillIntrospection
+from gaia_sdk.graphql.request.type.SkillBuildJob import SkillBuildJob
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -11,26 +11,15 @@ from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class Introspection(list):
 
-    def cpu(self):
-        self.append(lambda x: "cpu")
-
-    def gpu(self):
-        self.append(lambda x: "gpu")
-
-    def memory(self):
-        self.append(lambda x: "memory")
-
-    def state(self):
-        self.append(lambda x: "state")
-
-    def started(self):
-        self.append(lambda x: "started")
-
-    def skills(self, config: Callable[['SkillIntrospection'], None]):
+    """
+    Introspects the build jobs currently available in the system
+    """
+    def build_jobs(self, tenantId: str, config: Callable[['SkillBuildJob'], None]):
         def callback(registry: VariableRegistry):
-            entity = SkillIntrospection()
+            name1 = registry.register("tenantId", tenantId)
+            entity = SkillBuildJob()
             config(entity)
-            return "skills {" + entity.render(registry) + "}"
+            return f'buildJobs(tenantId:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

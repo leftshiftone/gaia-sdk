@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.SkillStatus import SkillStatus
 
 from typing import List
 Uuid = str
@@ -63,7 +64,7 @@ class SkillProvision:
     def label_list(self) -> List[String]:
         return list(map(lambda x: String(x), self.dictionary.get("labelList")))
     """
-    The version of the skill
+    The version used by this skill provision
     """
     @property
     def version(self) -> String:
@@ -111,14 +112,14 @@ class SkillProvision:
     def environment(self) -> Struct:
         return Struct(self.dictionary.get("environment"))
     """
-    Whether the skill provision has been built
-    """
-    @property
-    def built(self) -> Boolean:
-        return Boolean(self.dictionary.get("built"))
-    """
     The current status of the skill provision
     """
     @property
-    def status(self) -> Struct:
-        return Struct(self.dictionary.get("status"))
+    def status(self) -> SkillStatus:
+        return SkillStatus(self.dictionary.get("status"))
+    """
+    The contract associated with this provision
+    """
+    @property
+    def contract(self) -> String:
+        return String(self.dictionary.get("contract"))

@@ -9,4 +9,32 @@ type Practice {
     a connection to the streaming api.
     """
     prepare(impulse: StreamImpulse): StreamingImpulse
+
+    build(impulse: CreateSkillBuildJobImpulse): CreatedSkillBuildJobImpulse
+    cancel(impulse: CancelSkillBuildJobImpulse): CanceledSkillBuildJobImpulse
+}
+
+input CreateSkillBuildJobImpulse {
+    tenantId: Uuid!
+    "The reference of the skill being built"
+    skillRef: Uuid!
+    "The tag that is being built"
+    tag: String!
+}
+
+type CreatedSkillBuildJobImpulse {
+    id: Uuid
+    data: SkillBuildJob
+}
+
+input CancelSkillBuildJobImpulse {
+    "Tenant of the build job"
+    tenantId: Uuid!
+    "The id of the build job being canceled"
+    buildJobRef: Uuid!
+}
+
+type CanceledSkillBuildJobImpulse {
+    id: Uuid!
+    data: SkillBuildJob
 }

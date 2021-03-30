@@ -40,10 +40,5 @@ class Experience: Type() {
         val name4 = it.register("limit", limit)
         "identityMetrics(identityId:$name1, startDate:$name2, endDate:$name3, limit:$name4){" + IdentityMetrics().apply(config).render(it) + "}"
     }
-
-    fun skillProvisionBuildJobs(tenantId : Uuid?, config: SkillProvisionBuildJob.() -> Unit) = add {
-        val name1 = it.register("tenantId", tenantId)
-        "skillProvisionBuildJobs(tenantId:$name1){" + SkillProvisionBuildJob().apply(config).render(it) + "}"
-    }
 }
 

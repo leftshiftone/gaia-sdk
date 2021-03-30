@@ -8,19 +8,22 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
-data class SkillProvisionBuildJob @JsonCreator constructor(
+/**
+* A skill build job creates definitive versions for Skill
+*/
+data class SkillBuildJob @JsonCreator constructor(
+    /**
+    * The reference of this build job
+    */
+    @JsonProperty("reference") val reference:Uuid? = null, 
     /**
     * Id of the tenant
     */
     @JsonProperty("tenantId") val tenantId:Uuid? = null, 
     /**
-    * Reference to the skill provision for that build job
+    * the associated version tag
     */
-    @JsonProperty("provisionRef") val provisionRef:String? = null, 
-    /**
-    * Reference to the skill
-    */
-    @JsonProperty("skillRef") val skillRef:String? = null, 
+    @JsonProperty("tag") val tag:String? = null, 
     /**
     * The name of the build job
     */
@@ -28,5 +31,5 @@ data class SkillProvisionBuildJob @JsonCreator constructor(
     /**
     * The current status of the build job
     */
-    @JsonProperty("status") val status:Struct? = null
+    @JsonProperty("status") val status:SkillStatus? = null
 )

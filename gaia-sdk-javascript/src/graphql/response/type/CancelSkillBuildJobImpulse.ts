@@ -1,5 +1,4 @@
 
-import {SkillBuildJob} from "./SkillBuildJob";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -8,9 +7,14 @@ import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
-export interface Introspection {
+export interface CancelSkillBuildJobImpulse {
+    id?:Uuid, 
     /**
-    * Introspects the build jobs currently available in the system
+    * Tenant of the build job
     */
-    buildJobs?:[SkillBuildJob]
+    tenantId?:Uuid, 
+    /**
+    * The id of the build job being canceled
+    */
+    buildJobRef?:Uuid
 }

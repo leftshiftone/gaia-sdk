@@ -1,4 +1,5 @@
 
+import {SkillVersion} from "./SkillVersion";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -34,5 +35,13 @@ export interface Skill {
     /**
     * The uri of the repository where the skill is
     */
-    repositoryUri?:string
+    repositoryUri?:string, 
+    /**
+    * The list of available and build skill versions
+    */
+    versions?:[SkillVersion], 
+    /**
+    * A list of all available version tags
+    */
+    tags?:[string]
 }

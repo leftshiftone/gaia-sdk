@@ -1,18 +1,19 @@
 import {ISensorFunction} from './api/ISensorFunction';
 import {HttpSensorFunction} from './http/HttpSensorFunction';
 import {Introspection} from './graphql/request/type/Introspection';
-import {SkillIntrospection} from './graphql/request/type/SkillIntrospection';
 import {Perception} from './graphql/request/type/Perception';
 import {
-    BehaviourExecutionReq,
     BehaviourExecutionDetailReq,
+    BehaviourExecutionReq,
+    CanceledSkillBuildJobImpulseReq,
+    CreatedSkillBuildJobImpulseReq,
     CreateIntentImpulse,
     DeleteIntentImpulse,
+    IdentityMetricsReq,
     PerceiveActionImpulse,
     PerceiveDataImpulse,
-    UpdateIntentImpulse,
-    SkillProvisionBuildJobReq,
-    IdentityMetricsReq
+    SkillBuildJobReq,
+    UpdateIntentImpulse
 } from './graphql';
 import {Preservation} from './graphql/request/type/Preservation';
 import {Retrieval} from './graphql/request/type/Retrieval';
@@ -81,6 +82,9 @@ import {ConnectSetNodeImpulse} from "./graphql/request/input/ConnectSetNodeImpul
 import {ConnectUnsetNodeImpulse} from "./graphql/request/input/ConnectUnsetNodeImpulse";
 import {ConnectAppendNodeImpulse} from "./graphql/request/input/ConnectAppendNodeImpulse";
 import {ConnectRemoveNodeImpulse} from "./graphql/request/input/ConnectRemoveNodeImpulse";
+import {Practice} from './graphql/request/type/Practice';
+import {CreateSkillBuildJobImpulse} from './graphql/request/input/CreateSkillBuildJobImpulse';
+import {CancelSkillBuildJobImpulse} from './graphql/request/input/CancelSkillBuildJobImpulse';
 
 export class Gaia {
 
@@ -154,7 +158,6 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public skill = (uri: string) => this.sProc.skill(uri);
     public identity = () => this.sProc.identity();
     public introspect = (config: (x: Introspection) => void) => this.fProc.introspect(config);
-    public introspectSkills = (config: (x: SkillIntrospection) => void) => this.fProc.introspectSkills(config);
     public perceive = (config: (x: Perception) => void) => this.fProc.perceive(config);
     public perceiveAction = (impulse: PerceiveActionImpulse) => this.fProc.perceiveAction(impulse);
     public perceiveData = (impulse: PerceiveDataImpulse) => this.fProc.perceiveData(impulse);
@@ -238,5 +241,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
     public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
     public retrieveIdentityMetrics = (identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number) => this.fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit);
-    public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config);
+    public introspectBuildJobs = (tenantId: Uuid, config: (config: SkillBuildJobReq) => void) => this.fProc.introspectBuildJobs(tenantId, config);
+    public practice = (config: (x: Practice) => void) => this.fProc.practice(config);
+    public practiceBuild = (impulse: CreateSkillBuildJobImpulse, config: (c: CreatedSkillBuildJobImpulseReq) => void) => this.fProc.practiceBuild(impulse, config);
+    public practiceCancel = (impulse: CancelSkillBuildJobImpulse, config: (c: CanceledSkillBuildJobImpulseReq) => void) => this.fProc.practiceCancel(impulse, config);
 }

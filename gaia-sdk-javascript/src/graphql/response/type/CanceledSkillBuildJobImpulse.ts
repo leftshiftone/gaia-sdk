@@ -8,9 +8,7 @@ import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 
-export interface Introspection {
-    /**
-    * Introspects the build jobs currently available in the system
-    */
-    buildJobs?:[SkillBuildJob]
+export interface CanceledSkillBuildJobImpulse {
+    id?:Uuid, 
+    data?:SkillBuildJob
 }

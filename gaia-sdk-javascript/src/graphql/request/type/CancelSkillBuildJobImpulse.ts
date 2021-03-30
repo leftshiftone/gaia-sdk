@@ -9,18 +9,24 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
-export class SkillIntrospection extends Array<(_:VariableRegistry) => string> {
-public _typeName = "SkillIntrospection";
-    public name = () => { 
-        this.push(_ => "name")
+export class CancelSkillBuildJobImpulse extends Array<(_:VariableRegistry) => string> {
+public _typeName = "CancelSkillBuildJobImpulse";
+    public id = () => { 
+        this.push(_ => "id")
     };
 
-    public state = () => { 
-        this.push(_ => "state")
+    /**
+     * Tenant of the build job
+     */
+    public tenantId = () => { 
+        this.push(_ => "tenantId")
     };
 
-    public started = () => { 
-        this.push(_ => "started")
+    /**
+     * The id of the build job being canceled
+     */
+    public buildJobRef = () => { 
+        this.push(_ => "buildJobRef")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

@@ -24,5 +24,15 @@ class Practice: Type() {
         val name1 = it.register("impulse", impulse)
         "prepare(impulse:$name1){" + StreamingImpulse().apply(config).render(it) + "}"
     }
+
+    fun build(impulse : CreateSkillBuildJobImpulse?, config: CreatedSkillBuildJobImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "build(impulse:$name1){" + CreatedSkillBuildJobImpulse().apply(config).render(it) + "}"
+    }
+
+    fun cancel(impulse : CancelSkillBuildJobImpulse?, config: CanceledSkillBuildJobImpulse.() -> Unit) = add {
+        val name1 = it.register("impulse", impulse)
+        "cancel(impulse:$name1){" + CanceledSkillBuildJobImpulse().apply(config).render(it) + "}"
+    }
 }
 

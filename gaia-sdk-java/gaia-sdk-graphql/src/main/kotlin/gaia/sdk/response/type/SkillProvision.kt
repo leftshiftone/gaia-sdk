@@ -33,7 +33,7 @@ data class SkillProvision @JsonCreator constructor(
     */
     @JsonProperty("labelList") val labelList:List<String>? = null, 
     /**
-    * The version of the skill
+    * The version used by this skill provision
     */
     @JsonProperty("version") val version:String? = null, 
     /**
@@ -65,11 +65,11 @@ data class SkillProvision @JsonCreator constructor(
     */
     @JsonProperty("environment") val environment:Struct? = null, 
     /**
-    * Whether the skill provision has been built
-    */
-    @JsonProperty("built") val built:Boolean? = null, 
-    /**
     * The current status of the skill provision
     */
-    @JsonProperty("status") val status:Struct? = null
+    @JsonProperty("status") val status:SkillStatus? = null, 
+    /**
+    * The contract associated with this provision
+    */
+    @JsonProperty("contract") val contract:String? = null
 )

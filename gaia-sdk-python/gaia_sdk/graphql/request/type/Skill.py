@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.request.type.SkillVersion import SkillVersion
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -48,6 +49,22 @@ class Skill(list):
     """
     def repository_uri(self):
         self.append(lambda x: "repositoryUri")
+
+    """
+    The list of available and build skill versions
+    """
+    def versions(self, config: Callable[['SkillVersion'], None]):
+        def callback(registry: VariableRegistry):
+            entity = SkillVersion()
+            config(entity)
+            return "versions {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    """
+    A list of all available version tags
+    """
+    def tags(self):
+        self.append(lambda x: "tags")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

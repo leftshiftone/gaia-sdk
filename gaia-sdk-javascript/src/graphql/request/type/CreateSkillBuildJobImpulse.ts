@@ -1,5 +1,4 @@
 
-import {SkillBuildJob} from "./SkillBuildJob";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -10,17 +9,25 @@ import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
-export class Introspection extends Array<(_:VariableRegistry) => string> {
-public _typeName = "Introspection";
+export class CreateSkillBuildJobImpulse extends Array<(_:VariableRegistry) => string> {
+public _typeName = "CreateSkillBuildJobImpulse";
     /**
-     * Introspects the build jobs currently available in the system
+     * The unique identifier of this specific impulse
      */
-    public buildJobs = (tenantId: Uuid, config: (_:SkillBuildJob) => void) => this.push((registry) => {
-        const name1 = registry.register("tenantId", tenantId);
-        const entity = new SkillBuildJob();
-        config(entity);
-        return `buildJobs(tenantId:${name1}){` + entity.render(registry) + "}"
-    });
+    public id = () => { 
+        this.push(_ => "id")
+    };
+
+    /**
+     * The reference of the skill being built
+     */
+    public skillRef = () => { 
+        this.push(_ => "skillRef")
+    };
+
+    public tag = () => { 
+        this.push(_ => "tag")
+    };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

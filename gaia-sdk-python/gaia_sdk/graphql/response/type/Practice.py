@@ -1,6 +1,10 @@
 
+from gaia_sdk.graphql.response.type.CreatedSkillBuildJobImpulse import CreatedSkillBuildJobImpulse
 from gaia_sdk.graphql.response.type.StreamingImpulse import StreamingImpulse
+from gaia_sdk.graphql.response.type.CanceledSkillBuildJobImpulse import CanceledSkillBuildJobImpulse
 from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
+from gaia_sdk.graphql.request.input.CreateSkillBuildJobImpulse import CreateSkillBuildJobImpulse
+from gaia_sdk.graphql.request.input.CancelSkillBuildJobImpulse import CancelSkillBuildJobImpulse
 
 from typing import List
 Uuid = str
@@ -43,3 +47,9 @@ class Practice:
     @property
     def prepare(self) -> StreamingImpulse:
         return StreamingImpulse(self.dictionary.get("prepare"))
+    @property
+    def build(self) -> CreatedSkillBuildJobImpulse:
+        return CreatedSkillBuildJobImpulse(self.dictionary.get("build"))
+    @property
+    def cancel(self) -> CanceledSkillBuildJobImpulse:
+        return CanceledSkillBuildJobImpulse(self.dictionary.get("cancel"))

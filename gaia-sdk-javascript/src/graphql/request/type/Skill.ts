@@ -1,4 +1,5 @@
 
+import {SkillVersion} from "./SkillVersion";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
@@ -54,6 +55,22 @@ public _typeName = "Skill";
      */
     public repositoryUri = () => { 
         this.push(_ => "repositoryUri")
+    };
+
+    /**
+     * The list of available and build skill versions
+     */
+    public versions = (config: (_:SkillVersion) => void) => this.push((registry) => {
+        const entity = new SkillVersion();
+        config(entity);
+        return "versions { " + entity.render(registry) + " }";
+    });
+
+    /**
+     * A list of all available version tags
+     */
+    public tags = () => { 
+        this.push(_ => "tags")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

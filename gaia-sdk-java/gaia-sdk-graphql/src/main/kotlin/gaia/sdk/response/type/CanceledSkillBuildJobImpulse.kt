@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
-data class Introspection @JsonCreator constructor(
-    /**
-    * Introspects the build jobs currently available in the system
-    */
-    @JsonProperty("buildJobs") val buildJobs:List<SkillBuildJob>? = null
+data class CanceledSkillBuildJobImpulse @JsonCreator constructor(
+    @JsonProperty("id") val id:Uuid? = null, 
+    @JsonProperty("data") val data:SkillBuildJob? = null
 )
