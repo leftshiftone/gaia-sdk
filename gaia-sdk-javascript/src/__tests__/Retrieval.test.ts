@@ -1,4 +1,5 @@
 import {Mock} from '../mock/mock';
+import sleep from "./utils/sleep";
 
 const {v4: uuidv4} = require('uuid');
 
@@ -225,15 +226,17 @@ describe('perception tests:', () => {
 
     test('test retrieve roles', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {roles: [{roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {roles: [{tenantId: 't1', roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
         );
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRoles(_ => {
+            const observable = gaiaRef.retrieveRoles(uuidv4(), _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             });
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);
@@ -248,11 +251,11 @@ describe('perception tests:', () => {
                     retrieve: {
                         knowledge: {
                             roles: [
-                                {roleId: 'i1', name: '101', permissions: ["*"]},
-                                {roleId: 'i2', name: '102', permissions: ["*"]},
-                                {roleId: 'i3', name: '103', permissions: ["*"]},
-                                {roleId: 'i4', name: '104', permissions: ["*"]},
-                                {roleId: 'i5', name: '105', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i2', name: '102', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i3', name: '103', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i4', name: '104', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i5', name: '105', permissions: ["*"]},
                             ]
                         }
                     }
@@ -262,12 +265,14 @@ describe('perception tests:', () => {
         let latestExpectedIndex = 100;
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRoles(_ => {
+            const observable = gaiaRef.retrieveRoles(uuidv4(), _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             }, 10, 100);
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.name === "" + latestExpectedIndex).toBeTruthy()
@@ -278,17 +283,20 @@ describe('perception tests:', () => {
 
     test('test retrieve role', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {role: {roleId: 'i1', name: '101', permissions: ["*"]}}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {role: {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]}}}}})
         );
+        const tenantId = uuidv4();
         const roleId = uuidv4();
 
         return new Promise((resolve, reject) => {
-            const observable = gaiaRef.retrieveRole(roleId, _ => {
+            const observable = gaiaRef.retrieveRole(tenantId, roleId, _ => {
+                _.tenantId();
                 _.roleId();
                 _.name();
                 _.permissions();
             });
             observable.subscribe(e => {
+                expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);
@@ -958,6 +966,155 @@ describe('perception tests:', () => {
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve behaviourExecution', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({data: {retrieve: {experience: {behaviourExecution: {processInstanceId: 'i1', behaviourId: '101'}}}}})
+        );
+        const identityId = uuidv4();
+        const processInstanceId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecution(identityId, processInstanceId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+            });
+            observable.subscribe(e => {
+                expect(e.processInstanceId !== undefined).toBeTruthy();
+                expect(e.behaviourId !== undefined).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test retrieve paginated behaviourExecutions', () => {
+        const gaiaRef = Mock.gaiaRef(() =>
+            JSON.stringify({
+                data: {
+                    retrieve: {
+                        experience: {
+                            behaviourExecutions: [{
+                                processInstanceId: 'i1',
+                                behaviourId: '101',
+                                state: '101'
+                            }, {processInstanceId: 'i1', behaviourId: '101', state: '102'}]
+                        }
+                    }
+                }
+            })
+        );
+        const identityId = uuidv4();
+        let latestExpectedIndex = 100;
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecutions(identityId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+                _.state();
+            }, 10, 100, null, null);
+            observable.subscribe(e => {
+                expect(e.processInstanceId !== undefined).toBeTruthy();
+                expect(e.behaviourId !== undefined).toBeTruthy();
+                latestExpectedIndex++;
+                expect(e.state === '' + latestExpectedIndex).toBeTruthy();
+                resolve(e);
+            }, reject);
+        });
+    });
+
+
+
+    test('test async behaviour of observable (RetrievalTest)', () => {
+        const mock = jest.fn(() =>
+            JSON.stringify({data: {retrieve: {experience: {behaviourExecution: {processInstanceId: 'i1', behaviourId: '101'}}}}})
+        );
+        const gaiaRef = Mock.gaiaRef(mock);
+        const identityId = uuidv4();
+        const processInstanceId = uuidv4();
+
+        return new Promise(async (resolve, reject) => {
+            const observable = gaiaRef.retrieveBehaviourExecution(identityId, processInstanceId, _ => {
+                _.processInstanceId();
+                _.behaviourId();
+            });
+            await sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
+            }, reject);
+        });
+    });
+
+    test('test retrieve metrics', () => {
+        const mockResponse = {
+            data: {
+                retrieve: {
+                    experience: {
+                        identityMetrics: {
+                            identityId: 'i1',
+                            entityCount: {
+                                prompts: 1,
+                                statements: 2,
+                                intents: 3,
+                                fulfilments: 4,
+                                behaviours: 5,
+                                codes: 6,
+                            }, topExecutedBehaviours: [
+                                {
+                                    behaviourId: 'b1',
+                                    behaviourName: 'name1',
+                                    numberOfExecutions: 2
+                                },
+                                {
+                                    behaviourId: 'b2',
+                                    behaviourName: 'name2',
+                                    numberOfExecutions: 1
+                                },
+                            ]
+                        }
+                    }
+                }
+            }
+        };
+        const gaiaRef = Mock.gaiaRef(() => JSON.stringify(mockResponse));
+        const identityId = uuidv4();
+
+        return new Promise((resolve, reject) => {
+            const observable = gaiaRef.retrieveIdentityMetrics(identityId, '2021-01-13T00:01:29.271Z', '2021-01-31T00:01:29.271Z', _ => {
+                _.identityId();
+                _.entityCount(ec => {
+                    ec.prompts();
+                    ec.statements();
+                    ec.intents();
+                    ec.fulfilments();
+                    ec.behaviours();
+                    ec.codes();
+                });
+                _.topExecutedBehaviours(tb => {
+                    tb.behaviourId();
+                    tb.behaviourName();
+                    tb.numberOfExecutions();
+                });
+            });
+            observable.subscribe(e => {
+                expect(e.identityId !== undefined).toBeTruthy();
+                expect(e.entityCount !== undefined).toBeTruthy();
+                expect(e.topExecutedBehaviours !== undefined).toBeTruthy();
+                expect(e.entityCount.prompts).toEqual(1);
+                expect(e.entityCount.statements).toEqual(2);
+                expect(e.entityCount.intents).toEqual(3);
+                expect(e.entityCount.fulfilments).toEqual(4);
+                expect(e.entityCount.behaviours).toEqual(5);
+                expect(e.entityCount.codes).toEqual(6);
+                expect(e.topExecutedBehaviours.length).toEqual(2);
+                expect(e.topExecutedBehaviours).toEqual(
+                    mockResponse.data.retrieve.experience.identityMetrics.topExecutedBehaviours
+                );
                 resolve(e);
             }, reject);
         });

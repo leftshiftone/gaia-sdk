@@ -16,5 +16,9 @@ logs
 *.log
 # Python
 **/.python-version
+.venv
 # GraphQL
 **/.graphqlconfig
+# Others
+.sdkmanrc
+

@@ -60,11 +60,11 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { apiKey(apiKeyId, config) } } })) { it.retrieve?.knowledge?.apiKey!! }
 
-    override fun retrieveRoles(config: Role.() -> Unit, limit: Int?, offset: Long?) =
-            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { roles(limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.roles!! }
+    override fun retrieveRoles(tenantId: Uuid, config: Role.() -> Unit, limit: Int?, offset: Long?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { knowledge { roles(tenantId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.roles!! }
 
-    override fun retrieveRole(roleId: Uuid, config: Role.() -> Unit) =
-            map(client.query(GaiaRequest.query { retrieve { knowledge { role(roleId, config) } } })) { it.retrieve?.knowledge?.role!! }
+    override fun retrieveRole(tenantId: Uuid, roleId: Uuid, config: Role.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { knowledge { role(tenantId, roleId, config) } } })) { it.retrieve?.knowledge?.role!! }
 
     override fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int?, offset: Long?) =
             flatMap(client.query(GaiaRequest.query { retrieve { knowledge { intents(identityId, limit, offset?.toInt(), null, null, config) } } })) { it.retrieve?.knowledge?.intents!! }
@@ -113,6 +113,23 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
 
     override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit) =
             map(client.query(GaiaRequest.query { retrieve { knowledge { skillProvision(tenantId, reference, config) } } })) { it.retrieve?.knowledge?.skillProvision!! }
+
+    override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) =
+            map(client.query(GaiaRequest.query { retrieve { experience { behaviourExecution(identityId, processInstanceId, config) } } })) { it.retrieve?.experience?.behaviourExecution!! }
+
+    override fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.IdentityMetrics> =
+            map(client.query(GaiaRequest.query { retrieve { experience { identityMetrics(identityId, startDate, endDate, limit, config) } } })) { it.retrieve?.experience?.identityMetrics!! }
+
+    override fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.BehaviourMetrics> =
+            map(client.query(GaiaRequest.query { retrieve { experience { behaviourMetrics(identityId, behaviourId, startDate, endDate, limit, config) } } })) { it.retrieve?.experience?.behaviourMetrics!! }
+
+    override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) =
+            flatMap(client.query(GaiaRequest.query { retrieve { experience { behaviourExecutions(identityId, limit, offset?.toInt(), startDate, endDate, config) } } })) { it.retrieve?.experience?.behaviourExecutions!! }
+
+    override fun retrieveSkillProvisionBuildJobs(
+        tenandId: Uuid,
+        config: SkillProvisionBuildJob.() -> Unit
+    ): Publisher<gaia.sdk.response.type.SkillProvisionBuildJob> = flatMap(client.query(GaiaRequest.query { retrieve { experience { skillProvisionBuildJobs(tenandId, config) } } } )) { it.retrieve?.experience?.skillProvisionBuildJobs!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
@@ -256,7 +273,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                     apiKeyId()
                     name()
                     description()
-                    secret()
                     enabled()
                 }
             } } } })) {
@@ -276,7 +292,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun preserveCreateRoles(vararg impulses: CreateRoleImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { roles(impulses) {
                 id()
-                data{
+                data {
+                    tenantId()
                     roleId()
                     name()
                     permissions()
@@ -288,7 +305,8 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun preserveUpdateRoles(vararg impulses: UpdateRoleImpulse) =
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { roles(impulses) {
                 id()
-                data{
+                data {
+                    tenantId()
                     roleId()
                     name()
                     permissions()
@@ -301,6 +319,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
             flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { roles(impulses) {
                 id()
                 data {
+                    tenantId()
                     roleId()
                 }
             } } } })) {

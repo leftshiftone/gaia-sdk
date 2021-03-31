@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.request.type.ApiKey import ApiKey
+from gaia_sdk.graphql.request.type.CreatedApiKey import CreatedApiKey
 
 from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
@@ -17,9 +17,9 @@ class CreatedApiKeyImpulse(list):
     def id(self):
         self.append(lambda x: "id")
 
-    def data(self, config: Callable[['ApiKey'], None]):
+    def data(self, config: Callable[['CreatedApiKey'], None]):
         def callback(registry: VariableRegistry):
-            entity = ApiKey()
+            entity = CreatedApiKey()
             config(entity)
             return "data {" + entity.render(registry) + "}"
         self.append(callback)

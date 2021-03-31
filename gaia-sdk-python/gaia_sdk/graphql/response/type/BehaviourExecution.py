@@ -36,26 +36,23 @@ class BehaviourExecution:
     def process_instance_id(self) -> Uuid:
         return Uuid(self.dictionary.get("processInstanceId"))
     @property
+    def identity_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("identityId"))
+    @property
     def state(self) -> String:
         return String(self.dictionary.get("state"))
     @property
-    def timestamp(self) -> ISO8601:
-        return ISO8601(self.dictionary.get("timestamp"))
+    def name(self) -> String:
+        return String(self.dictionary.get("name"))
     @property
-    def duration(self) -> ISO8601:
-        return ISO8601(self.dictionary.get("duration"))
+    def duration(self) -> Int:
+        return Int(self.dictionary.get("duration"))
     @property
-    def start_event_type(self) -> String:
-        return String(self.dictionary.get("startEventType"))
+    def behaviour_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("behaviourId"))
     @property
-    def start_event_id(self) -> Uuid:
-        return Uuid(self.dictionary.get("startEventId"))
+    def created(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("created"))
     @property
-    def init_attributes(self) -> Struct:
-        return Struct(self.dictionary.get("initAttributes"))
-    @property
-    def process_id(self) -> Uuid:
-        return Uuid(self.dictionary.get("processId"))
-    @property
-    def parent_process_id(self) -> Uuid:
-        return Uuid(self.dictionary.get("parentProcessId"))
+    def updated(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("updated"))

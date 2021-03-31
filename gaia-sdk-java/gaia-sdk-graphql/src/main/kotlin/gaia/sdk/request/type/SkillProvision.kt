@@ -104,5 +104,19 @@ class SkillProvision: Type() {
     fun environment() { 
         add {"environment" } 
     }
+
+    /**
+     * Whether the skill provision has been built
+     */
+    fun built() { 
+        add {"built" } 
+    }
+
+    /**
+     * The current status of the skill provision
+     */
+    fun status() { 
+        add {"status" } 
+    }
 }
 

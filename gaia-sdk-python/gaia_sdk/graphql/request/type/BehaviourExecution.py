@@ -16,29 +16,26 @@ class BehaviourExecution(list):
     def process_instance_id(self):
         self.append(lambda x: "processInstanceId")
 
+    def identity_id(self):
+        self.append(lambda x: "identityId")
+
     def state(self):
         self.append(lambda x: "state")
 
-    def timestamp(self):
-        self.append(lambda x: "timestamp")
+    def name(self):
+        self.append(lambda x: "name")
 
     def duration(self):
         self.append(lambda x: "duration")
 
-    def start_event_type(self):
-        self.append(lambda x: "startEventType")
+    def behaviour_id(self):
+        self.append(lambda x: "behaviourId")
 
-    def start_event_id(self):
-        self.append(lambda x: "startEventId")
+    def created(self):
+        self.append(lambda x: "created")
 
-    def init_attributes(self):
-        self.append(lambda x: "initAttributes")
-
-    def process_id(self):
-        self.append(lambda x: "processId")
-
-    def parent_process_id(self):
-        self.append(lambda x: "parentProcessId")
+    def updated(self):
+        self.append(lambda x: "updated")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

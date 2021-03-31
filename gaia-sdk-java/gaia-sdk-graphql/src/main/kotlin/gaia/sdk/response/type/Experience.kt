@@ -12,6 +12,10 @@ import gaia.sdk.request.enumeration.*
 * Container type for runtime information
 */
 data class Experience @JsonCreator constructor(
+    @JsonProperty("behaviourExecution") val behaviourExecution:BehaviourExecutionDetail? = null, 
     @JsonProperty("behaviourExecutions") val behaviourExecutions:List<BehaviourExecution>? = null, 
-    @JsonProperty("behaviourNodeExecutions") val behaviourNodeExecutions:List<BehaviourNodeExecution>? = null
+    @JsonProperty("behaviourNodeExecutions") val behaviourNodeExecutions:List<BehaviourNodeExecution>? = null, 
+    @JsonProperty("identityMetrics") val identityMetrics:IdentityMetrics? = null, 
+    @JsonProperty("skillProvisionBuildJobs") val skillProvisionBuildJobs:List<SkillProvisionBuildJob>? = null, 
+    @JsonProperty("behaviourMetrics") val behaviourMetrics:BehaviourMetrics? = null
 )

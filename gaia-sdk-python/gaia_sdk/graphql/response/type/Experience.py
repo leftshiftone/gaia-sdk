@@ -1,6 +1,10 @@
 
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
+from gaia_sdk.graphql.response.type.BehaviourMetrics import BehaviourMetrics
+from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob
+from gaia_sdk.graphql.response.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
+from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
 from typing import List
 Uuid = str
@@ -35,8 +39,20 @@ class Experience:
         return {'dictionary': self.dictionary}
 
     @property
+    def behaviour_execution(self) -> BehaviourExecutionDetail:
+        return BehaviourExecutionDetail(self.dictionary.get("behaviourExecution"))
+    @property
     def behaviour_executions(self) -> List[BehaviourExecution]:
         return list(map(lambda x: BehaviourExecution(x), self.dictionary.get("behaviourExecutions")))
     @property
     def behaviour_node_executions(self) -> List[BehaviourNodeExecution]:
         return list(map(lambda x: BehaviourNodeExecution(x), self.dictionary.get("behaviourNodeExecutions")))
+    @property
+    def identity_metrics(self) -> IdentityMetrics:
+        return IdentityMetrics(self.dictionary.get("identityMetrics"))
+    @property
+    def skill_provision_build_jobs(self) -> List[SkillProvisionBuildJob]:
+        return list(map(lambda x: SkillProvisionBuildJob(x), self.dictionary.get("skillProvisionBuildJobs")))
+    @property
+    def behaviour_metrics(self) -> BehaviourMetrics:
+        return BehaviourMetrics(self.dictionary.get("behaviourMetrics"))

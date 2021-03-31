@@ -59,21 +59,23 @@ public _typeName = "Knowledge";
         return `apiKey(apiKeyId:${name1}){` + entity.render(registry) + "}"
     });
 
-    public roles = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Role) => void) => this.push((registry) => {
-        const name1 = registry.register("limit", limit);
-        const name2 = registry.register("offset", offset);
-        const name3 = registry.register("orderBy", orderBy);
-        const name4 = registry.register("order", order);
+    public roles = (tenantId: Uuid|undefined, limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Role) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("limit", limit);
+        const name3 = registry.register("offset", offset);
+        const name4 = registry.register("orderBy", orderBy);
+        const name5 = registry.register("order", order);
         const entity = new Role();
         config(entity);
-        return `roles(limit:${name1}, offset:${name2}, orderBy:${name3}, order:${name4}){` + entity.render(registry) + "}"
+        return `roles(tenantId:${name1}, limit:${name2}, offset:${name3}, orderBy:${name4}, order:${name5}){` + entity.render(registry) + "}"
     });
 
-    public role = (roleId: Uuid|undefined, config: (_:Role) => void) => this.push((registry) => {
-        const name1 = registry.register("roleId", roleId);
+    public role = (tenantId: Uuid|undefined, roleId: Uuid|undefined, config: (_:Role) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const name2 = registry.register("roleId", roleId);
         const entity = new Role();
         config(entity);
-        return `role(roleId:${name1}){` + entity.render(registry) + "}"
+        return `role(tenantId:${name1}, roleId:${name2}){` + entity.render(registry) + "}"
     });
 
     public tenants = (limit: Number|undefined, offset: Number|undefined, orderBy: OrderByField|undefined, order: Order|undefined, config: (_:Tenant) => void) => this.push((registry) => {

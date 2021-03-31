@@ -4,11 +4,15 @@ import {Introspection} from './graphql/request/type/Introspection';
 import {SkillIntrospection} from './graphql/request/type/SkillIntrospection';
 import {Perception} from './graphql/request/type/Perception';
 import {
+    BehaviourExecutionReq,
+    BehaviourExecutionDetailReq,
     CreateIntentImpulse,
     DeleteIntentImpulse,
     PerceiveActionImpulse,
     PerceiveDataImpulse,
-    UpdateIntentImpulse
+    UpdateIntentImpulse,
+    SkillProvisionBuildJobReq,
+    IdentityMetricsReq
 } from './graphql';
 import {Preservation} from './graphql/request/type/Preservation';
 import {Retrieval} from './graphql/request/type/Retrieval';
@@ -44,7 +48,7 @@ import {CreateSkillProvisionImpulse} from './graphql/request/input/CreateSkillPr
 import {CreateCodeImpulse} from './graphql/request/input/CreateCodeImpulse';
 import {DeleteCodeImpulse} from './graphql/request/input/DeleteCodeImpulse';
 import {UpdateCodeImpulse} from './graphql/request/input/UpdateCodeImpulse';
-import {Struct, Uuid} from './graphql/GaiaClient';
+import {Uuid} from './graphql/GaiaClient';
 import {CreateEdgeImpulse} from './graphql/request/input/CreateEdgeImpulse';
 import {DeleteEdgeImpulse} from './graphql/request/input/DeleteEdgeImpulse';
 import {CreateIdentityImpulse} from './graphql/request/input/CreateIdentityImpulse';
@@ -73,10 +77,6 @@ import {UpdateRoleImpulse} from "./graphql/request/input/UpdateRoleImpulse";
 import {Role} from "./graphql/request/type/Role";
 import {GaiaClientFactory} from './graphql/GaiaClientFactory';
 import {GaiaStreamClientFactory} from './graphql/GaiaStreamClientBuilder';
-import {EdgeType} from "./graphql/request/enumeration/EdgeType";
-import {Observable} from "rxjs";
-import {ConnectNodeSetImpulse} from "./graphql/response/type/ConnectNodeSetImpulse";
-import {ConnectNodeUnsetImpulse} from "./graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectSetNodeImpulse} from "./graphql/request/input/ConnectSetNodeImpulse";
 import {ConnectUnsetNodeImpulse} from "./graphql/request/input/ConnectUnsetNodeImpulse";
 import {ConnectAppendNodeImpulse} from "./graphql/request/input/ConnectAppendNodeImpulse";
@@ -109,7 +109,7 @@ export class Gaia {
             },    url + '/api/auth/access')
             .then((response) => {
                 const cr = new JWTCredentials(response.accessToken);
-                return new GaiaRef(new GaiaConfig(url, cr, Gaia.clientFactory,  Gaia.streamClientFactory));
+                return new GaiaRef(new GaiaConfig(url, cr, Gaia.clientFactory,  Gaia.streamClientFactory, response.permissions));
             });
     }
 }
@@ -121,23 +121,26 @@ export class GaiaConfig {
     readonly streamClientFactory: GaiaStreamClientFactory;
     readonly functionProcessor: ISensorFunction;
     readonly streamProcessor: ISensorStream;
+    readonly permissions: string[];
 
     constructor(url: string, credentials: GaiaCredentials,
                 clientFactory: GaiaClientFactory,
                 streamClientFactory: GaiaStreamClientFactory,
+                permissions?: string[],
                 functionProcessor?: ISensorFunction,
                 streamProcessor?: ISensorStream) {
         this.url = url;
         this.credentials = credentials;
         this.clientFactory = clientFactory;
         this.streamClientFactory = streamClientFactory;
+        this.permissions = permissions || [];
         this.functionProcessor = functionProcessor ||  new HttpSensorFunction(url, credentials, this.clientFactory);
         this.streamProcessor = streamProcessor || new HttpSensorStream(url, credentials, this.streamClientFactory);
     }
 }
 
 export class GaiaRef implements ISensorFunction, ISensorStream {
-    private readonly config: GaiaConfig;
+    readonly config: GaiaConfig;
     private readonly fProc: ISensorFunction;
     private readonly sProc: ISensorStream;
 
@@ -217,8 +220,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveUsers = (config: (x: User) => void, limit?: Number, offset?: Number) => this.fProc.retrieveUsers(config, limit, offset);
     public retrieveApiKey = (apiKeyId: Uuid, config: (x: ApiKey) => void) => this.fProc.retrieveApiKey(apiKeyId, config);
     public retrieveApiKeys = (config: (x: ApiKey) => void, limit?: Number, offset?: Number) => this.fProc.retrieveApiKeys(config, limit, offset);
-    public retrieveRole = (roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(roleId, config);
-    public retrieveRoles = (config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(config, limit, offset);
+    public retrieveRole = (tenantId: Uuid, roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(tenantId, roleId, config);
+    public retrieveRoles = (tenantId: Uuid, config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(tenantId, config, limit, offset);
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void, limit?: Number, offset?: Number) => this.fProc.retrieveIntents(identityId, config, limit, offset);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);
@@ -232,4 +235,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkill = (tenantId: Uuid, reference: Uuid, config: (x: Skill) => void) => this.fProc.retrieveSkill(tenantId, reference, config);
     public retrieveSkillProvisions = (tenantId: Uuid, config: (x: SkillProvision) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkillProvisions(tenantId, config, limit, offset);
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
+    public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
+    public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
+    public retrieveIdentityMetrics = (identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number) => this.fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit);
+    public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config);
 }

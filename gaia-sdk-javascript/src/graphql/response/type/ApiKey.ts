@@ -24,10 +24,6 @@ export interface ApiKey {
     */
     description?:string, 
     /**
-    * The secret of the api key
-    */
-    secret?:string, 
-    /**
     * The flag to enable the api key
     */
     enabled?:Boolean

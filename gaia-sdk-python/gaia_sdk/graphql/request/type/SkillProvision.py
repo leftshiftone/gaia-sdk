@@ -91,5 +91,17 @@ class SkillProvision(list):
     def environment(self):
         self.append(lambda x: "environment")
 
+    """
+    Whether the skill provision has been built
+    """
+    def built(self):
+        self.append(lambda x: "built")
+
+    """
+    The current status of the skill provision
+    """
+    def status(self):
+        self.append(lambda x: "status")
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

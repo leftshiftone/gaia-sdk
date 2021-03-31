@@ -10,6 +10,9 @@ from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class RoleKeyOne(list):
 
+    def tenant_id(self):
+        self.append(lambda x: "tenantId")
+
     def role_id(self):
         self.append(lambda x: "roleId")
 

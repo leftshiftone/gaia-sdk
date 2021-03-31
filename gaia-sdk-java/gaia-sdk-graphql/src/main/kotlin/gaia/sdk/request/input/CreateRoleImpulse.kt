@@ -12,6 +12,7 @@ import gaia.sdk.request.enumeration.*
 /**
  * The specification to create a role instance
  */
-class CreateRoleImpulse(val name:String, 
+class CreateRoleImpulse(val tenantId:Uuid, 
+   val name:String, 
    val permissions:Array<out String>) : Input()
 

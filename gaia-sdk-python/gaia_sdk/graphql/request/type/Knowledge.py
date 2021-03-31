@@ -62,23 +62,25 @@ class Knowledge(list):
             return f'apiKey(apiKeyId:{name1})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def roles(self, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Role'], None]):
+    def roles(self, tenantId: str, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Role'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("limit", limit)
-            name2 = registry.register("offset", offset)
-            name3 = registry.register("orderBy", orderBy)
-            name4 = registry.register("order", order)
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("limit", limit)
+            name3 = registry.register("offset", offset)
+            name4 = registry.register("orderBy", orderBy)
+            name5 = registry.register("order", order)
             entity = Role()
             config(entity)
-            return f'roles(limit:{name1}, offset:{name2}, orderBy:{name3}, order:{name4})' + '{' + entity.render(registry) + '}'
+            return f'roles(tenantId:{name1}, limit:{name2}, offset:{name3}, orderBy:{name4}, order:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def role(self, roleId: str, config: Callable[['Role'], None]):
+    def role(self, tenantId: str, roleId: str, config: Callable[['Role'], None]):
         def callback(registry: VariableRegistry):
-            name1 = registry.register("roleId", roleId)
+            name1 = registry.register("tenantId", tenantId)
+            name2 = registry.register("roleId", roleId)
             entity = Role()
             config(entity)
-            return f'role(roleId:{name1})' + '{' + entity.render(registry) + '}'
+            return f'role(tenantId:{name1}, roleId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def tenants(self, limit: int, offset: int, orderBy: OrderByField, order: Order, config: Callable[['Tenant'], None]):

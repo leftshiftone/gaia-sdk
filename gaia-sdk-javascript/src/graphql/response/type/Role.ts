@@ -12,6 +12,10 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface Role {
     /**
+    * Id of the tenant
+    */
+    tenantId?:Uuid, 
+    /**
     * Id of the role
     */
     roleId?:Uuid, 

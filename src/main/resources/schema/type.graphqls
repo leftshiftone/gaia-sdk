@@ -58,6 +58,18 @@ type ApiKey {
     name: String
     "The description of the api key"
     description: String
+    "The flag to enable the api key"
+    enabled: Boolean
+}
+
+"Represents api key information including the secret"
+type CreatedApiKey {
+    "The api key id"
+    apiKeyId: Uuid
+    "The name of the api key"
+    name: String
+    "The description of the api key"
+    description: String
     "The secret of the api key"
     secret: String
     "The flag to enable the api key"
@@ -66,6 +78,8 @@ type ApiKey {
 
 "Represents Role information"
 type Role {
+    "Id of the tenant"
+    tenantId: Uuid
     "Id of the role"
     roleId: Uuid
     "The name of the role"
@@ -198,30 +212,84 @@ type Edge {
 "Represents behaviour execution information"
 type BehaviourExecution {
     processInstanceId: Uuid
+    identityId: Uuid
     state: String
-    timestamp: ISO8601
-    duration: ISO8601
-    startEventType: String
-    startEventId: Uuid
-    initAttributes: Struct
-    processId: Uuid
-    parentProcessId: Uuid
+    name: String
+    duration: Int
+    behaviourId: Uuid
+    created: ISO8601
+    updated: ISO8601
+}
+
+"Represents a detailed summary of executed entities to a given processInstanceId"
+type BehaviourExecutionDetail {
+    processInstanceId: Uuid
+    identityId: Uuid
+    qualifier: String
+    behaviours: Struct
+    behaviourId: Uuid
+    nodes: [BehaviourNodeExecution]
 }
 
 "Represents behaviour node execution information"
 type BehaviourNodeExecution {
-    processInstanceId: Uuid
-    nodeInstanceId: Uuid
+    activityId: String
+    behaviourQualifier: String
+    behaviourId: String
+    reference: Uuid
+    qualifier: String
     state: String
-    executionGroupId: Uuid
-    nodeId: Uuid
-    processId: Uuid
     type: String
-    transitions: Struct
-    timestamp: ISO8601
-    parentProcessId: Uuid
+    created: ISO8601
 }
 
+"Represents identity metrics information"
+type IdentityMetrics {
+    identityId: Uuid
+    entityCount: MetricsEntityCount
+    topExecutedBehaviours: [TopExecutedBehaviour]
+    behaviourStates: [BehaviourState]
+    intentDetectionRate: IntentDetectionRate
+}
+type MetricsEntityCount {
+    intents: Int
+    prompts: Int
+    statements: Int
+    fulfilments: Int
+    behaviours: Int
+    codes: Int
+}
+type TopExecutedBehaviour {
+    behaviourId: String
+    behaviourName: String
+    numberOfExecutions: Int
+}
+type BehaviourState {
+    behaviourId: String
+    behaviourName: String
+    numberOfExecutions: Int
+    running: Float
+    success: Float
+    waiting: Float
+    failed: Float
+}
+type IntentDetectionRate {
+    detected: Int
+    unaware: Int
+}
+
+type BehaviourMetrics {
+    identityId: Uuid
+    behaviourId: Uuid
+    statesPerDay: [BehaviourStatesPerDay]
+}
+type BehaviourStatesPerDay {
+    date: ISO8601
+    running: Int
+    success: Int
+    waiting: Int
+    failed: Int
+}
 
 # ****************
 # Skill types
@@ -271,5 +339,20 @@ type SkillProvision {
     bootstrapTimeout: Int
     "Value-Key pairs with information needed for the skill provision"
     environment: Struct
-
+    "Whether the skill provision has been built"
+    built: Boolean
+    "The current status of the skill provision"
+    status: Struct
+}
+type SkillProvisionBuildJob {
+    "Id of the tenant"
+    tenantId: Uuid
+    "Reference to the skill provision for that build job"
+    provisionRef: String
+    "Reference to the skill"
+    skillRef: String
+    "The name of the build job"
+    name: String
+    "The current status of the build job"
+    status: Struct
 }

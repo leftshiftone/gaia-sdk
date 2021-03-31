@@ -18,36 +18,32 @@ class BehaviourExecution: Type() {
         add {"processInstanceId" } 
     }
 
+    fun identityId() { 
+        add {"identityId" } 
+    }
+
     fun state() { 
         add {"state" } 
     }
 
-    fun timestamp() { 
-        add {"timestamp" } 
+    fun name() { 
+        add {"name" } 
     }
 
     fun duration() { 
         add {"duration" } 
     }
 
-    fun startEventType() { 
-        add {"startEventType" } 
+    fun behaviourId() { 
+        add {"behaviourId" } 
     }
 
-    fun startEventId() { 
-        add {"startEventId" } 
+    fun created() { 
+        add {"created" } 
     }
 
-    fun initAttributes() { 
-        add {"initAttributes" } 
-    }
-
-    fun processId() { 
-        add {"processId" } 
-    }
-
-    fun parentProcessId() { 
-        add {"parentProcessId" } 
+    fun updated() { 
+        add {"updated" } 
     }
 }
 

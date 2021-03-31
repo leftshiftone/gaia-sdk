@@ -87,5 +87,11 @@ from gaia_sdk.graphql.request.type.Conversational import Conversational as Conve
 from gaia_sdk.graphql.response.type.Conversational import Conversational as ConversationalRes
 from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
+from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution as BehaviourExecutionReq
+from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailReq
+from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution as BehaviourExecutionRes
+from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailRes
+from gaia_sdk.graphql.request.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobReq
+from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobRes
 
 Uuid = dict

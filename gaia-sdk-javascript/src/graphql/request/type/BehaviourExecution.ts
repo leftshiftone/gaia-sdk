@@ -18,36 +18,32 @@ public _typeName = "BehaviourExecution";
         this.push(_ => "processInstanceId")
     };
 
+    public identityId = () => { 
+        this.push(_ => "identityId")
+    };
+
     public state = () => { 
         this.push(_ => "state")
     };
 
-    public timestamp = () => { 
-        this.push(_ => "timestamp")
+    public name = () => { 
+        this.push(_ => "name")
     };
 
     public duration = () => { 
         this.push(_ => "duration")
     };
 
-    public startEventType = () => { 
-        this.push(_ => "startEventType")
+    public behaviourId = () => { 
+        this.push(_ => "behaviourId")
     };
 
-    public startEventId = () => { 
-        this.push(_ => "startEventId")
+    public created = () => { 
+        this.push(_ => "created")
     };
 
-    public initAttributes = () => { 
-        this.push(_ => "initAttributes")
-    };
-
-    public processId = () => { 
-        this.push(_ => "processId")
-    };
-
-    public parentProcessId = () => { 
-        this.push(_ => "parentProcessId")
+    public updated = () => { 
+        this.push(_ => "updated")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

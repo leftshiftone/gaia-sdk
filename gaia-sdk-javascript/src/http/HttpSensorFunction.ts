@@ -49,10 +49,18 @@ import {
     UserReq,
     UserRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse
+    UpdateIntentImpulse,
+    BehaviourExecutionReq,
+    BehaviourExecutionRes,
+    BehaviourExecutionDetailReq,
+    BehaviourExecutionDetailRes,
+    SkillProvisionBuildJobReq,
+    SkillProvisionBuildJobRes,
+    IdentityMetricsReq,
+    IdentityMetricsRes
 } from "../graphql";
 import {ISensorFunction} from "../api/ISensorFunction";
-import {from, Observable} from "rxjs";
+import {defer, Observable} from "rxjs";
 import {Retrieval as RetrievalOut} from "../graphql/response/type/Retrieval";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -155,235 +163,261 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(config))));
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(config))));
         return Rx.mapQ<RetrievalOut>(observable, (e) => e.retrieve!);
     }
 
     public retrieveKnowledge(config: (x: KnowledgeReq) => void): Observable<KnowledgeRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(r => {
             r.knowledge(config)
         }))));
         return Rx.mapQ<KnowledgeRes>(observable, (e) => e.retrieve!.knowledge!);
     }
 
     public retrieveExperience(config: (x: ExperienceReq) => void): Observable<ExperienceRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => r.experience(config)))));
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(r => r.experience(config)))));
         return Rx.mapQ<ExperienceRes>(observable, (e) => e.retrieve!.experience!);
     };
 
     public retrieveEdges(source: Uuid, config: (x: EdgeReq) => void, limit?: Number, offset?: Number): Observable<EdgeRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(r => {
             r.knowledge(k => k.edges(source, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edges!);
     }
 
     public retrieveEdge(source: Uuid, edgeId: Uuid, config: (x: EdgeReq) => void): Observable<EdgeRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(r => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(r => {
             r.knowledge(k => k.edge(source, edgeId, config));
         }))));
         return Rx.mapQ<EdgeRes>(observable, (e) => e.retrieve!.knowledge!.edge!);
     }
 
     public retrieveIdentities(config: (x: IdentityReq) => void, limit?: Number, offset?: Number): Observable<IdentityRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.identities(limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<IdentityRes>(observable, (e) => e.retrieve!.knowledge!.identities!);
     }
 
     public retrieveIdentity(identityId: Uuid, config: (x: IdentityReq) => void): Observable<IdentityRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.identity(identityId, config));
         }))));
         return Rx.mapQ<IdentityRes>(observable, (e) => e.retrieve!.knowledge!.identity!);
     }
 
     public retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.tenants(limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<TenantRes>(observable, (e) => e.retrieve!.knowledge!.tenants!);
     }
 
     public retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void): Observable<TenantRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.tenant(tenantId, config));
         }))));
         return Rx.mapQ<TenantRes>(observable, (e) => e.retrieve!.knowledge!.tenant!);
     }
 
     public retrieveUsers(config: (x: UserReq) => void, limit?: Number, offset?: Number): Observable<UserRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.users(limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<UserRes>(observable, (e) => e.retrieve!.knowledge!.users!);
     }
 
     public retrieveUser(userId: Uuid, config: (x: UserReq) => void): Observable<UserRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.user(userId, config));
         }))));
         return Rx.mapQ<UserRes>(observable, (e) => e.retrieve!.knowledge!.user!);
     }
 
     public retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.apiKeys(limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKeys!);
     }
 
     public retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void): Observable<ApiKeyRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.apiKey(apiKeyId, config));
         }))));
         return Rx.mapQ<ApiKeyRes>(observable, (e) => e.retrieve!.knowledge!.apiKey!);
     }
 
-    public retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(g => g.roles(limit, offset, undefined, undefined, config));
+    public retrieveRoles(tenantId: Uuid, config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.roles(tenantId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.roles!);
     }
 
-    public retrieveRole(roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
-            g.knowledge(g => g.role(roleId, config));
+    public retrieveRole(tenantId: Uuid,roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.knowledge(g => g.role(tenantId, roleId, config));
         }))));
         return Rx.mapQ<RoleRes>(observable, (e) => e.retrieve!.knowledge!.role!);
     }
 
     public retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.intents(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intents!);
     }
 
     public retrieveIntent(identityId: Uuid, reference: Uuid, config: (x: IntentReq) => void): Observable<IntentRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(g => g.intent(identityId, reference, config));
         }))));
         return Rx.mapQ<IntentRes>(observable, (e) => e.retrieve!.knowledge!.intent!);
     }
 
     public retrievePrompts(identityId: Uuid, config: (x: PromptReq) => void, limit?: Number, offset?: Number): Observable<PromptRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.prompts(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompts!);
     }
 
     public retrievePrompt(identityId: Uuid, reference: Uuid, config: (x: PromptReq) => void): Observable<PromptRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.prompt(identityId, reference, config));
         }))));
         return Rx.mapQ<PromptRes>(observable, (e) => e.retrieve!.knowledge!.prompt!);
     }
 
     public retrieveStatements(identityId: Uuid, config: (x: StatementReq) => void, limit?: Number, offset?: Number): Observable<StatementRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.statements(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statements!);
     }
 
     public retrieveStatement(identityId: Uuid, reference: Uuid, config: (x: StatementReq) => void): Observable<StatementRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.statement(identityId, reference, config));
         }))));
         return Rx.mapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.statement!);
     }
 
     public retrieveFulfilments(identityId: Uuid, config: (x: FulfilmentReq) => void, limit?: Number, offset?: Number): Observable<FulfilmentRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.fulfilments(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilments!);
     }
 
     public retrieveFulfilment(identityId: Uuid, reference: Uuid, config: (x: FulfilmentReq) => void): Observable<FulfilmentRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.fulfilment(identityId, reference, config));
         }))));
         return Rx.mapQ<StatementRes>(observable, (e) => e.retrieve!.knowledge!.fulfilment!);
     }
 
     public retrieveCodes(identityId: Uuid, config: (x: CodeReq) => void, limit?: Number, offset?: Number): Observable<CodeRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.codes(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.codes!);
     }
 
     public retrieveCode(identityId: Uuid, reference: Uuid, config: (x: CodeReq) => void): Observable<CodeRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.code(identityId, reference, config));
         }))));
         return Rx.mapQ<CodeRes>(observable, (e) => e.retrieve!.knowledge!.code!);
     }
 
     public retrieveBehaviours(identityId: Uuid, config: (x: BehaviourReq) => void, limit?: Number, offset?: Number): Observable<BehaviourRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.behaviours(identityId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviours!);
     }
 
     public retrieveBehaviour(identityId: Uuid, reference: Uuid, config: (x: BehaviourReq) => void): Observable<BehaviourRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.behaviour(identityId, reference, config));
         }))));
         return Rx.mapQ<BehaviourRes>(observable, (e) => e.retrieve!.knowledge!.behaviour!);
     }
 
     public retrieveSkills(tenantId: Uuid, config: (x: SkillReq) => void, limit?: Number, offset?: Number): Observable<SkillRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.skills(tenantId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<SkillRes>(observable, (e) => e.retrieve!.knowledge!.skills!);
     }
 
     public retrieveSkill(tenantId: Uuid, reference: Uuid, config: (x: SkillReq) => void): Observable<SkillRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.skill(tenantId, reference, config));
         }))));
         return Rx.mapQ<SkillRes>(observable, (e) => e.retrieve!.knowledge!.skill!);
     }
 
     public retrieveSkillProvisions(tenantId: Uuid, config: (x: SkillProvisionReq) => void, limit?: Number, offset?: Number): Observable<SkillProvisionRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.skillProvisions(tenantId, limit, offset, undefined, undefined, config));
         }))));
         return Rx.flatMapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvisions!);
     }
 
+    public retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillProvisionBuildJobRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(c => c.retrieve(r => r.experience(e => e.skillProvisionBuildJobs(tenantId, config))))));
+        return Rx.flatMapQ<SkillProvisionBuildJobRes>(observable, (e) => e.retrieve!.experience!.skillProvisionBuildJobs!);
+    }
+
     public retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
             g.knowledge(k => k.skillProvision(tenantId, reference, config));
         }))));
         return Rx.mapQ<SkillProvisionRes>(observable, (e) => e.retrieve!.knowledge!.skillProvision!);
     }
 
+    public retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.behaviourExecution(identityId, processInstanceId, config));
+        }))));
+        return Rx.mapQ<BehaviourExecutionDetailRes>(observable, (e) => e.retrieve!.experience!.behaviourExecution!);
+    }
+
+    public retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string): Observable<BehaviourExecutionRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.behaviourExecutions(identityId, limit, offset, startDate, endDate, config));
+        }))));
+        return Rx.flatMapQ<BehaviourExecutionRes>(observable, (e) => e.retrieve!.experience!.behaviourExecutions!);
+    }
+
+    public retrieveIdentityMetrics(identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number): Observable<IdentityMetricsRes> {
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.retrieve(g => {
+            g.experience(e => e.identityMetrics(identityId, startDate, endDate, limit, config));
+        }))));
+        return Rx.mapQ<IdentityMetricsRes>(observable, (e) => e.retrieve!.experience!.identityMetrics!);
+    }
+
     public introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(config))));
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.introspect(config))));
         return Rx.mapQ<IntrospectionRes>(observable, (e) => e.introspect!);
     };
 
     public introspectSkills(config: (x: SkillIntrospectionReq) => void): Observable<SkillIntrospectionRes> {
-        const observable = from(this.client.query(GaiaRequest.query(q => q.introspect(g => g.skills(config)))));
+        const observable = defer(() => this.client.query(GaiaRequest.query(q => q.introspect(g => g.skills(config)))));
         return Rx.flatMapQ<SkillIntrospectionRes>(observable, (e) => e.introspect!.skills!);
     }
 
     public preserve(config: (x: PreservationReq) => void): Observable<PreservationRes> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(config))));
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(config))));
         return Rx.mapM<PreservationRes>(observable, (e) => e.preserve!);
     }
 
     public preserveCreateIdentities(...impulses: [CreateIdentityImpulse]): Observable<CreatedIdentityImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.identities(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -398,7 +432,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateIdentities(...impulses: [UpdateIdentityImpulse]): Observable<UpdatedIdentityImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.identities(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -413,7 +447,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteIdentities(...impulses: [DeleteIdentityImpulse]): Observable<DeletedIdentityImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.identities(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -425,7 +459,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateTenants(...impulses: [CreateTenantImpulse]): Observable<CreatedTenantImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.tenants(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -440,7 +474,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateTenants(...impulses: [UpdateTenantImpulse]): Observable<UpdatedTenantImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.tenants(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -455,7 +489,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteTenants(...impulses: [DeleteTenantImpulse]): Observable<DeletedTenantImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.tenants(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -467,7 +501,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateUsers(...impulses: [CreateUserImpulse]): Observable<CreatedUserImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.users(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -484,7 +518,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateUsers(...impulses: [UpdateUserImpulse]): Observable<UpdatedUserImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.users(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -501,7 +535,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteUsers(...impulses: [DeleteUserImpulse]): Observable<DeletedUserImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.users(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -513,7 +547,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateApiKeys(...impulses: [CreateApiKeyImpulse]): Observable<CreatedApiKeyImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.apiKeys(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -529,14 +563,13 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateApiKeys(...impulses: [UpdateApiKeyImpulse]): Observable<UpdatedApiKeyImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.apiKeys(impulses, i => {
                 i.id()
                 i.data(d => {
                     d.apiKeyId()
                     d.name()
                     d.description()
-                    d.secret()
                     d.enabled()
                 })
             }))
@@ -545,7 +578,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteApiKeys(...impulses: [DeleteApiKeyImpulse]): Observable<DeletedApiKeyImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.apiKeys(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -557,10 +590,11 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateRoles(...impulses: [CreateRoleImpulse]): Observable<CreatedRoleImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                     d.name()
                     d.permissions()
@@ -571,10 +605,11 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateRoles(...impulses: [UpdateRoleImpulse]): Observable<UpdatedRoleImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                     d.name()
                     d.permissions()
@@ -585,10 +620,11 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteRoles(...impulses: [DeleteRoleImpulse]): Observable<DeletedRoleImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.roles(impulses, i => {
                 i.id()
                 i.data(d => {
+                    d.tenantId()
                     d.roleId()
                 })
             }))
@@ -597,7 +633,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateIntents(...impulses: [CreateIntentImpulse]): Observable<CreatedIntentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.intents(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -615,7 +651,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateIntents(...impulses: [UpdateIntentImpulse]): Observable<UpdatedIntentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.intents(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -633,7 +669,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteIntents(...impulses: [DeleteIntentImpulse]): Observable<DeletedIntentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.intents(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -646,7 +682,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreatePrompts(...impulses: [CreatePromptImpulse]): Observable<CreatedPromptImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.prompts(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -664,7 +700,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdatePrompts(...impulses: [UpdatePromptImpulse]): Observable<UpdatedPromptImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.prompts(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -682,7 +718,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeletePrompts(...impulses: [DeletePromptImpulse]): Observable<DeletedPromptImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.prompts(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -695,7 +731,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateStatements(...impulses: [CreateStatementImpulse]): Observable<CreatedStatementImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.statements(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -713,7 +749,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateStatements(...impulses: [UpdateStatementImpulse]): Observable<UpdatedStatementImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.statements(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -731,7 +767,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteStatements(...impulses: [DeleteStatementImpulse]): Observable<DeletedStatementImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.statements(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -744,7 +780,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateSkills(...impulses: [CreateSkillImpulse]): Observable<CreatedSkillImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.skills(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -761,7 +797,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateSkills(...impulses: [UpdateSkillImpulse]): Observable<UpdatedSkillImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.skills(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -778,7 +814,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteSkills(...impulses: [DeleteSkillImpulse]): Observable<DeletedSkillImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.skills(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -791,7 +827,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateSkillProvisions(...impulses: [CreateSkillProvisionImpulse]): Observable<CreatedSkillProvisionImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.skillProvisions(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -815,7 +851,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateSkillProvisions(...impulses: [UpdateSkillProvisionImpulse]): Observable<UpdatedSkillProvisionImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.skillProvisions(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -839,7 +875,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteSkillProvisions(...impulses: [DeleteSkillProvisionImpulse]): Observable<DeletedSkillProvisionImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.skillProvisions(impulses, i => {
                     i.id()
                     i.data(d => {
@@ -852,7 +888,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateFulfilments(...impulses: [CreateFulfilmentImpulse]): Observable<CreatedFulfilmentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.fulfilments(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -870,7 +906,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateFulfilments(...impulses: [UpdateFulfilmentImpulse]): Observable<UpdatedFulfilmentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.fulfilments(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -888,7 +924,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteFulfilments(...impulses: [DeleteFulfilmentImpulse]): Observable<DeletedFulfilmentImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.fulfilments(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -901,7 +937,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateBehaviours(...impulses: [CreateBehaviourImpulse]): Observable<CreatedBehaviourImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.behaviours(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -918,7 +954,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateBehaviours(...impulses: [UpdateBehaviourImpulse]): Observable<UpdatedBehaviourImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.behaviours(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -935,7 +971,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteBehaviours(...impulses: [DeleteBehaviourImpulse]): Observable<DeletedBehaviourImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.behaviours(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -948,7 +984,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateCodes(...impulses: [CreateCodeImpulse]): Observable<CreatedCodeImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.codes(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -966,7 +1002,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveUpdateCodes(...impulses: [UpdateCodeImpulse]): Observable<UpdatedCodeImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.update(_ => _.codes(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -984,7 +1020,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteCodes(...impulses: [DeleteCodeImpulse]): Observable<DeletedCodeImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.codes(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -997,7 +1033,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveCreateEdges(...impulses: [CreateEdgeImpulse]): Observable<CreatedEdgeImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.create(_ => _.edges(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -1014,7 +1050,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveDeleteEdges(...impulses: [DeleteEdgeImpulse]): Observable<DeletedEdgeImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.delete(_ => _.edges(impulses, i => {
                 i.id()
                 i.data(d => {
@@ -1027,7 +1063,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse): Observable<ConnectNodeSetImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
                     n.set(impulse, s => {
@@ -1052,7 +1088,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse): Observable<ConnectNodeUnsetImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
                     n.unset(impulse, s => {
@@ -1069,7 +1105,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse): Observable<ConnectNodeAppendedImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
                     n.append(impulse, s => {
@@ -1090,7 +1126,7 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse): Observable<ConnectNodeRemovedImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.preserve(p => {
             p.connect( c => {
                 c.node(nodeId, n => {
                     n.remove(impulse, s => {
@@ -1107,19 +1143,19 @@ export class HttpSensorFunction implements ISensorFunction {
     }
 
     public perceive(config: (x: PerceptionReq) => void): Observable<PerceptionRes> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => q.perceive(config))));
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => q.perceive(config))));
         return Rx.mapM<PerceptionRes>(observable, (e) => e.perceive!);
     }
 
     public perceiveAction(impulse: PerceiveActionImpulse): Observable<PerceivedImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => {
             q.perceive(p => p.perceiveAction(impulse, a => a.id()))
         })));
         return Rx.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveAction!);
     }
 
     public perceiveData(impulse: PerceiveDataImpulse): Observable<PerceivedImpulse> {
-        const observable = from(this.client.mutation(GaiaRequest.mutation(q => {
+        const observable = defer(() => this.client.mutation(GaiaRequest.mutation(q => {
             q.perceive(p => p.perceiveData(impulse, a => a.id()))
         })));
         return Rx.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveData!);
