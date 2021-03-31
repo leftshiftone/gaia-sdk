@@ -1,5 +1,7 @@
 
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
+from gaia_sdk.graphql.response.type.BehaviourMetrics import BehaviourMetrics
+from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob
 from gaia_sdk.graphql.response.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
@@ -48,3 +50,6 @@ class Experience:
     @property
     def identity_metrics(self) -> IdentityMetrics:
         return IdentityMetrics(self.dictionary.get("identityMetrics"))
+    @property
+    def behaviour_metrics(self) -> BehaviourMetrics:
+        return BehaviourMetrics(self.dictionary.get("behaviourMetrics"))

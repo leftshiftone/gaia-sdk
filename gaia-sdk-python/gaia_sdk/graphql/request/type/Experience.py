@@ -1,5 +1,6 @@
 
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
+from gaia_sdk.graphql.request.type.BehaviourMetrics import BehaviourMetrics
 from gaia_sdk.graphql.request.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
@@ -54,6 +55,18 @@ class Experience(list):
             entity = IdentityMetrics()
             config(entity)
             return f'identityMetrics(identityId:{name1}, startDate:{name2}, endDate:{name3}, limit:{name4})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def behaviour_metrics(self, identityId: str, behaviourId: str, startDate: str, endDate: str, limit: int, config: Callable[['BehaviourMetrics'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("identityId", identityId)
+            name2 = registry.register("behaviourId", behaviourId)
+            name3 = registry.register("startDate", startDate)
+            name4 = registry.register("endDate", endDate)
+            name5 = registry.register("limit", limit)
+            entity = BehaviourMetrics()
+            config(entity)
+            return f'behaviourMetrics(identityId:{name1}, behaviourId:{name2}, startDate:{name3}, endDate:{name4}, limit:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

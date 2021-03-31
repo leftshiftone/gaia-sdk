@@ -40,5 +40,13 @@ class Experience: Type() {
         val name4 = it.register("limit", limit)
         "identityMetrics(identityId:$name1, startDate:$name2, endDate:$name3, limit:$name4){" + IdentityMetrics().apply(config).render(it) + "}"
     }
+    fun behaviourMetrics(identityId : Uuid?, behaviourId : Uuid?, startDate : String?, endDate : String?, limit : Int?, config: BehaviourMetrics.() -> Unit) = add {
+        val name1 = it.register("identityId", identityId)
+        val name2 = it.register("behaviourId", behaviourId)
+        val name3 = it.register("startDate", startDate)
+        val name4 = it.register("endDate", endDate)
+        val name5 = it.register("limit", limit)
+        "behaviourMetrics(identityId:$name1, behaviourId:$name2, startDate:$name3, endDate:$name4, limit:$name5){" + BehaviourMetrics().apply(config).render(it) + "}"
+    }
 }
 

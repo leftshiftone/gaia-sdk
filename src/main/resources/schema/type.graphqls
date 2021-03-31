@@ -278,6 +278,19 @@ type IntentDetectionRate {
     unaware: Int
 }
 
+type BehaviourMetrics {
+    identityId: Uuid
+    behaviourId: Uuid
+    statesPerDay: [BehaviourStatesPerDay]
+}
+type BehaviourStatesPerDay {
+    date: ISO8601
+    running: Int
+    success: Int
+    waiting: Int
+    failed: Int
+}
+
 # ****************
 # Skill types
 # ****************

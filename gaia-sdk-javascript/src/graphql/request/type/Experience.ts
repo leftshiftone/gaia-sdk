@@ -1,5 +1,6 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
+import {BehaviourMetrics} from "./BehaviourMetrics";
 import {IdentityMetrics} from "./IdentityMetrics";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
@@ -51,6 +52,17 @@ public _typeName = "Experience";
         const entity = new IdentityMetrics();
         config(entity);
         return `identityMetrics(identityId:${name1}, startDate:${name2}, endDate:${name3}, limit:${name4}){` + entity.render(registry) + "}"
+    });
+
+    public behaviourMetrics = (identityId: Uuid|undefined, behaviourId: Uuid|undefined, startDate: string|undefined, endDate: string|undefined, limit: Number|undefined, config: (_:BehaviourMetrics) => void) => this.push((registry) => {
+        const name1 = registry.register("identityId", identityId);
+        const name2 = registry.register("behaviourId", behaviourId);
+        const name3 = registry.register("startDate", startDate);
+        const name4 = registry.register("endDate", endDate);
+        const name5 = registry.register("limit", limit);
+        const entity = new BehaviourMetrics();
+        config(entity);
+        return `behaviourMetrics(identityId:${name1}, behaviourId:${name2}, startDate:${name3}, endDate:${name4}, limit:${name5}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

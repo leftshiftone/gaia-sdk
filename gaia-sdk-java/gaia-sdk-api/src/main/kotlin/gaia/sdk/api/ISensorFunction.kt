@@ -43,6 +43,7 @@ interface ISensorFunction {
     fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit): Publisher<gaia.sdk.response.type.BehaviourExecutionDetail>
     fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null, startDate: String? = null, endDate: String? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
     fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.IdentityMetrics>
+    fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.BehaviourMetrics>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectBuildJobs(tenantId: Uuid, config: (SkillBuildJob.() -> Unit)? = null): Publisher<gaia.sdk.response.type.SkillBuildJob>
     fun practice(config: gaia.sdk.request.type.Practice.() -> Unit): Publisher<Practice>
