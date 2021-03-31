@@ -1,10 +1,11 @@
 import unittest
 
 from rx import operators as ops, pipe
+
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials
-from gaia_sdk.tests.mock import mock_gaia_ref
-from gaia_sdk.tests.mock import MockResponse
 from gaia_sdk.gaia import Gaia
+from gaia_sdk.tests.mock import MockResponse
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 
 class TestIdentityRef(unittest.TestCase):

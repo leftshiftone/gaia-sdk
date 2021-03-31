@@ -1,22 +1,22 @@
 import io
+import json
 from typing import BinaryIO
 
-from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
-from gaia_sdk.graphql.GaiaClientBuilder import GaiaHttpClientBuilder
-from gaia_sdk.graphql.GaiaClient import GaiaClient
-from gaia_sdk.api.GaiaCredentials import GaiaCredentials
-
-from gaia_sdk.api.client_options import ClientOptions
-from gaia_sdk.http.request.Payload import Payload
-from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
-from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
-from gaia_sdk.http.GaiaStreamClientBuilder import GaiaHttpStreamClientBuilder
 from requests import Response
-from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 
+from gaia_sdk.api.GaiaCredentials import GaiaCredentials
 from gaia_sdk.api.GaiaCredentials import HMACCredentials
+from gaia_sdk.api.client_options import ClientOptions
+from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 from gaia_sdk.gaia import Gaia
-import json
+from gaia_sdk.graphql.GaiaClient import GaiaClient
+from gaia_sdk.graphql.GaiaClientBuilder import GaiaHttpClientBuilder
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
+from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
+from gaia_sdk.http.GaiaStreamClientBuilder import GaiaHttpStreamClientBuilder
+from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
+from gaia_sdk.http.request.Payload import Payload
+
 
 def mock_gaia_ref(mock_response_handler):
     mock_client_factory = MockClientFactory()

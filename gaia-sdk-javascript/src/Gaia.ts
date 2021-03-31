@@ -241,8 +241,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
     public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
     public retrieveIdentityMetrics = (identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number) => this.fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit);
-    public introspectBuildJobs = (tenantId: Uuid, config: (config: SkillBuildJobReq) => void) => this.fProc.introspectBuildJobs(tenantId, config);
+    public introspectBuildJobs = (tenantId: Uuid, config: ((config: SkillBuildJobReq) => void) | undefined = undefined) => this.fProc.introspectBuildJobs(tenantId, config);
     public practice = (config: (x: Practice) => void) => this.fProc.practice(config);
-    public practiceBuild = (impulse: CreateSkillBuildJobImpulse, config: (c: CreatedSkillBuildJobImpulseReq) => void) => this.fProc.practiceBuild(impulse, config);
-    public practiceCancel = (impulse: CancelSkillBuildJobImpulse, config: (c: CanceledSkillBuildJobImpulseReq) => void) => this.fProc.practiceCancel(impulse, config);
+    public practiceBuild = (impulse: CreateSkillBuildJobImpulse, config: ((c: CreatedSkillBuildJobImpulseReq) => void) | undefined = undefined) => this.fProc.practiceBuild(impulse, config);
+    public practiceCancel = (impulse: CancelSkillBuildJobImpulse, config: ((c: CanceledSkillBuildJobImpulseReq) => void) | undefined = undefined) => this.fProc.practiceCancel(impulse, config);
 }

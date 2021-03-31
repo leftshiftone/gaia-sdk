@@ -4,9 +4,8 @@ from uuid import uuid4
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
-import pytest
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 logging.basicConfig(level=logging.DEBUG)
 

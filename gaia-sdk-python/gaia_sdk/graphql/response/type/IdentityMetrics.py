@@ -1,10 +1,11 @@
 
-from gaia_sdk.graphql.response.type.IntentDetectionRate import IntentDetectionRate
-from gaia_sdk.graphql.response.type.TopExecutedBehaviour import TopExecutedBehaviour
-from gaia_sdk.graphql.response.type.BehaviourState import BehaviourState
-from gaia_sdk.graphql.response.type.MetricsEntityCount import MetricsEntityCount
-
 from typing import List
+
+from gaia_sdk.graphql.response.type.BehaviourState import BehaviourState
+from gaia_sdk.graphql.response.type.IntentDetectionRate import IntentDetectionRate
+from gaia_sdk.graphql.response.type.MetricsEntityCount import MetricsEntityCount
+from gaia_sdk.graphql.response.type.TopExecutedBehaviour import TopExecutedBehaviour
+
 Uuid = str
 String = str
 ISO8601 = str
@@ -12,12 +13,7 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
+
 
 class IdentityMetrics:
     """

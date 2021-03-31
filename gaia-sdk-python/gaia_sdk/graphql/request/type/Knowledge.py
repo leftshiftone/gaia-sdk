@@ -1,25 +1,24 @@
 
-from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
-from gaia_sdk.graphql.request.type.User import User
-from gaia_sdk.graphql.request.type.ApiKey import ApiKey
-from gaia_sdk.graphql.request.type.Behaviour import Behaviour
-from gaia_sdk.graphql.request.type.Statement import Statement
-from gaia_sdk.graphql.request.type.Intent import Intent
-from gaia_sdk.graphql.request.type.Code import Code
-from gaia_sdk.graphql.request.type.Role import Role
-from gaia_sdk.graphql.request.type.SkillProvision import SkillProvision
-from gaia_sdk.graphql.request.type.Skill import Skill
-from gaia_sdk.graphql.request.type.Tenant import Tenant
-from gaia_sdk.graphql.request.type.Prompt import Prompt
-from gaia_sdk.graphql.request.type.Identity import Identity
-from gaia_sdk.graphql.request.type.Edge import Edge
+from typing import Callable
 
-from typing import Callable, List
 from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
+from gaia_sdk.graphql.request.type.ApiKey import ApiKey
+from gaia_sdk.graphql.request.type.Behaviour import Behaviour
+from gaia_sdk.graphql.request.type.Code import Code
+from gaia_sdk.graphql.request.type.Edge import Edge
+from gaia_sdk.graphql.request.type.Fulfilment import Fulfilment
+from gaia_sdk.graphql.request.type.Identity import Identity
+from gaia_sdk.graphql.request.type.Intent import Intent
+from gaia_sdk.graphql.request.type.Prompt import Prompt
+from gaia_sdk.graphql.request.type.Role import Role
+from gaia_sdk.graphql.request.type.Skill import Skill
+from gaia_sdk.graphql.request.type.SkillProvision import SkillProvision
+from gaia_sdk.graphql.request.type.Statement import Statement
+from gaia_sdk.graphql.request.type.Tenant import Tenant
+from gaia_sdk.graphql.request.type.User import User
 
 
 class Knowledge(list):

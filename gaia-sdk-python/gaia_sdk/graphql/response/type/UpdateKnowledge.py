@@ -1,32 +1,20 @@
 
-from gaia_sdk.graphql.response.type.UpdatedUserImpulse import UpdatedUserImpulse
-from gaia_sdk.graphql.response.type.UpdatedTenantImpulse import UpdatedTenantImpulse
-from gaia_sdk.graphql.response.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
-from gaia_sdk.graphql.response.type.UpdatedApiKeyImpulse import UpdatedApiKeyImpulse
-from gaia_sdk.graphql.response.type.UpdatedSkillImpulse import UpdatedSkillImpulse
-from gaia_sdk.graphql.response.type.UpdatedCodeImpulse import UpdatedCodeImpulse
-from gaia_sdk.graphql.response.type.UpdatedRoleImpulse import UpdatedRoleImpulse
-from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
-from gaia_sdk.graphql.response.type.UpdatedStatementImpulse import UpdatedStatementImpulse
-from gaia_sdk.graphql.response.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
-from gaia_sdk.graphql.response.type.UpdatedSkillProvisionImpulse import UpdatedSkillProvisionImpulse
-from gaia_sdk.graphql.response.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
-from gaia_sdk.graphql.response.type.UpdatedPromptImpulse import UpdatedPromptImpulse
-from gaia_sdk.graphql.request.input.UpdateBehaviourImpulse import UpdateBehaviourImpulse
-from gaia_sdk.graphql.request.input.UpdateSkillProvisionImpulse import UpdateSkillProvisionImpulse
-from gaia_sdk.graphql.request.input.UpdateUserImpulse import UpdateUserImpulse
-from gaia_sdk.graphql.request.input.UpdateIntentImpulse import UpdateIntentImpulse
-from gaia_sdk.graphql.request.input.UpdateCodeImpulse import UpdateCodeImpulse
-from gaia_sdk.graphql.request.input.UpdatePromptImpulse import UpdatePromptImpulse
-from gaia_sdk.graphql.request.input.UpdateSkillImpulse import UpdateSkillImpulse
-from gaia_sdk.graphql.request.input.UpdateIdentityImpulse import UpdateIdentityImpulse
-from gaia_sdk.graphql.request.input.UpdateStatementImpulse import UpdateStatementImpulse
-from gaia_sdk.graphql.request.input.UpdateApiKeyImpulse import UpdateApiKeyImpulse
-from gaia_sdk.graphql.request.input.UpdateRoleImpulse import UpdateRoleImpulse
-from gaia_sdk.graphql.request.input.UpdateTenantImpulse import UpdateTenantImpulse
-from gaia_sdk.graphql.request.input.UpdateFulfilmentImpulse import UpdateFulfilmentImpulse
-
 from typing import List
+
+from gaia_sdk.graphql.response.type.UpdatedApiKeyImpulse import UpdatedApiKeyImpulse
+from gaia_sdk.graphql.response.type.UpdatedBehaviourImpulse import UpdatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.UpdatedCodeImpulse import UpdatedCodeImpulse
+from gaia_sdk.graphql.response.type.UpdatedFulfilmentImpulse import UpdatedFulfilmentImpulse
+from gaia_sdk.graphql.response.type.UpdatedIdentityImpulse import UpdatedIdentityImpulse
+from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
+from gaia_sdk.graphql.response.type.UpdatedPromptImpulse import UpdatedPromptImpulse
+from gaia_sdk.graphql.response.type.UpdatedRoleImpulse import UpdatedRoleImpulse
+from gaia_sdk.graphql.response.type.UpdatedSkillImpulse import UpdatedSkillImpulse
+from gaia_sdk.graphql.response.type.UpdatedSkillProvisionImpulse import UpdatedSkillProvisionImpulse
+from gaia_sdk.graphql.response.type.UpdatedStatementImpulse import UpdatedStatementImpulse
+from gaia_sdk.graphql.response.type.UpdatedTenantImpulse import UpdatedTenantImpulse
+from gaia_sdk.graphql.response.type.UpdatedUserImpulse import UpdatedUserImpulse
+
 Uuid = str
 String = str
 ISO8601 = str
@@ -34,12 +22,7 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
+
 
 class UpdateKnowledge:
     dictionary: dict

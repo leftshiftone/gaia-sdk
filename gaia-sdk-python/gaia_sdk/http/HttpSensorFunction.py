@@ -27,7 +27,6 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     CancelSkillBuildJobImpulse, CreateSkillBuildJobImpulse, CanceledSkillBuildJobImpulseRes, \
     CanceledSkillBuildJobImpulseReq, \
     PracticeReq, PracticeRes, SkillBuildJobRes, SkillBuildJobReq, SkillStatusReq, FailureReq
-
 from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 
@@ -773,9 +772,9 @@ class HttpSensorFunction(ISensorFunction):
         return mapM(observable, mutation_res)
 
     def practice_build(self, impulse: CreateSkillBuildJobImpulse,
-                       config: Union[Callable[[CreatedSkillBuildJobImpulseReq], None], None]) -> Observable[
+                       config: Union[Callable[[CreatedSkillBuildJobImpulseReq], None], None] = None) -> Observable[
         CreatedSkillBuildJobImpulseRes]:
-        if config is None:
+        if config is not None:
             practice_req: Callable[[PracticeReq], None] = lambda p: p.build(impulse, config)
             mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
             mutation_res: Callable[[MutationRes], CreatedSkillBuildJobImpulseRes] = lambda ms: ms.practice.build
@@ -801,9 +800,9 @@ class HttpSensorFunction(ISensorFunction):
             return mapM(obs, mutation_res)
 
     def practice_cancel(self, impulse: CancelSkillBuildJobImpulse,
-                        config: Union[Callable[[CanceledSkillBuildJobImpulseReq], None], None]) -> Observable[
+                        config: Union[Callable[[CanceledSkillBuildJobImpulseReq], None], None] = None) -> Observable[
         CanceledSkillBuildJobImpulseRes]:
-        if config is None:
+        if config is not None:
             practice_req: Callable[[PracticeReq], None] = lambda p: p.cancel(impulse, config)
             mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
             mutation_res: Callable[[MutationRes], CanceledSkillBuildJobImpulseRes] = lambda ms: ms.practice.cancel
@@ -824,12 +823,12 @@ class HttpSensorFunction(ISensorFunction):
 
             practice_req: Callable[[PracticeReq], None] = lambda p: p.cancel(impulse, r_cfg)
             mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
-            mutation_res: Callable[[MutationRes], CanceledSkillBuildJobImpulseRes] = lambda ms: ms.practice.build
+            mutation_res: Callable[[MutationRes], CanceledSkillBuildJobImpulseRes] = lambda ms: ms.practice.cancel
             obs = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)), self._scheduler)
             return mapM(obs, mutation_res)
 
 
-    def introspect_build_jobs(self, tenant_id: Uuid, config: Union[Callable[[SkillBuildJobReq], None], None]) -> \
+    def introspect_build_jobs(self, tenant_id: Uuid, config: Union[Callable[[SkillBuildJobReq], None], None] = None) -> \
             Observable[SkillBuildJobRes]:
         if config is not None:
             introspect_req: Callable[[IntrospectionReq], None] = lambda irq: irq.build_jobs(tenant_id, config)

@@ -1,17 +1,13 @@
 
+from typing import Callable
+
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.input.CancelSkillBuildJobImpulse import CancelSkillBuildJobImpulse
+from gaia_sdk.graphql.request.input.CreateSkillBuildJobImpulse import CreateSkillBuildJobImpulse
+from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
+from gaia_sdk.graphql.request.type.CanceledSkillBuildJobImpulse import CanceledSkillBuildJobImpulse
 from gaia_sdk.graphql.request.type.CreatedSkillBuildJobImpulse import CreatedSkillBuildJobImpulse
 from gaia_sdk.graphql.request.type.StreamingImpulse import StreamingImpulse
-from gaia_sdk.graphql.request.type.CanceledSkillBuildJobImpulse import CanceledSkillBuildJobImpulse
-from gaia_sdk.graphql.request.input.StreamImpulse import StreamImpulse
-from gaia_sdk.graphql.request.input.CreateSkillBuildJobImpulse import CreateSkillBuildJobImpulse
-from gaia_sdk.graphql.request.input.CancelSkillBuildJobImpulse import CancelSkillBuildJobImpulse
-
-from typing import Callable, List
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Practice(list):

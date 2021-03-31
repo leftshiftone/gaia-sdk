@@ -1,7 +1,6 @@
 import time
 from abc import ABC, abstractmethod
 
-import json
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.graphql.GaiaScalars import UUID
 from gaia_sdk.http.HMACTokenBuilder import HMACTokenBuilder

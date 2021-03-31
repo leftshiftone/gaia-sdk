@@ -4,7 +4,7 @@ import {
     GaiaCredentials,
     HMACCredentials,
     GaiaClientBuilder,
-    ITransporter
+    ITransporter, GaiaRef
 } from '../index';
 import {Gaia} from '../Gaia';
 
@@ -14,7 +14,7 @@ import {IStreamTransporter} from '../api/IStreamTransporter';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
 
 export class Mock {
-    static gaiaRef(mockResponseHandler: (request: MockRequest) => void) {
+    static gaiaRef(mockResponseHandler: (request: MockRequest) => void): GaiaRef {
         const mockClientFactory = new MockClientFactory();
         mockClientFactory.setMockResponseHandler(mockResponseHandler);
 

@@ -1,11 +1,11 @@
 from typing import Callable, List, TypeVar
 
-import rx
-from rx import operators as ops, pipe
 from rx.core.typing import Observable
 
+import rx
 from gaia_sdk.graphql import QueryRes, MutationRes
 from gaia_sdk.graphql.GaiaResponse import QueryResponse, MutationResponse
+from rx import operators as ops, pipe
 
 T = TypeVar('T')
 

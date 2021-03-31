@@ -1,10 +1,7 @@
 
 from gaia_sdk.graphql.response.type.Conversational import Conversational
 from gaia_sdk.graphql.response.type.PerceivedImpulse import PerceivedImpulse
-from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
-from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 
-from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -12,12 +9,7 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
-from gaia_sdk.graphql.request.enumeration.Order import Order
-from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
-from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
+
 
 class Perception:
     """

@@ -1,14 +1,14 @@
-from typing import Callable, List
+from typing import Callable, List, Union
 
 import requests
 from rx.core.typing import Observable
 from rx.scheduler import ThreadPoolScheduler
 
 from gaia_sdk.api import ISensorStream, IdentityOp
-from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, GaiaCredentials, JWTCredentials
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.SkillRef import SkillRef
+from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
     IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
@@ -25,13 +25,16 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
-    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes
-
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
+    CreatedSkillBuildJobImpulseRes, CreatedSkillBuildJobImpulseReq, \
+    CancelSkillBuildJobImpulse, CreateSkillBuildJobImpulse, CanceledSkillBuildJobImpulseRes, \
+    CanceledSkillBuildJobImpulseReq, \
+    PracticeReq, PracticeRes, SkillBuildJobRes, SkillBuildJobReq
+from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
+from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
 from gaia_sdk.http.response.LoggedIn import LoggedIn
-from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
-from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 
 Uuid = str
 
@@ -53,6 +56,7 @@ class Gaia:
         response = requests.post(f"{url}/api/auth/access", json=credentials.__repr__(), headers=headers)
         response.raise_for_status()
         return Gaia.connect(url, JWTCredentials(LoggedIn(response.json()).access_token))
+
 
 class GaiaConfig:
     url: str
@@ -167,11 +171,14 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
             Observable[BehaviourRes]:
         return self.f_proc.retrieve_behaviour(identityId, reference, config)
 
-    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None],
+                                      limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
             -> Observable[BehaviourExecutionRes]:
         return self.f_proc.retrieve_behaviour_executions(identity_id, config, limit, offset, startDate, endDate)
 
-    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) -> Observable[BehaviourExecutionDetailRes]:
+    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid,
+                                     config: Callable[[BehaviourExecutionDetailReq], None]) -> Observable[
+        BehaviourExecutionDetailRes]:
         return self.f_proc.retrieve_behaviour_execution(identity_id, process_instance_id, config)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
@@ -260,3 +267,20 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
 
     def perceive_data(self, impulse: PerceiveDataImpulse) -> Observable[PerceivedImpulse]:
         return self.f_proc.perceive_data(impulse)
+
+    def practice(self, config: Callable[[PracticeReq], None]) -> Observable[PracticeRes]:
+        return self.f_proc.practice(config)
+
+    def practice_build(self, impulse: CreateSkillBuildJobImpulse,
+                       config: Union[Callable[[CreatedSkillBuildJobImpulseReq], None], None] = None) -> Observable[
+        CreatedSkillBuildJobImpulseRes]:
+        return self.f_proc.practice_build(impulse, config)
+
+    def practice_cancel(self, impulse: CancelSkillBuildJobImpulse,
+                        config: Union[Callable[[CanceledSkillBuildJobImpulseReq], None], None] = None) -> Observable[
+        CanceledSkillBuildJobImpulseRes]:
+        return self.f_proc.practice_cancel(impulse, config)
+
+    def introspect_build_jobs(self, tenant_id: Uuid, config: Union[Callable[[SkillBuildJobReq], None], None] = None) -> \
+            Observable[SkillBuildJobRes]:
+        return self.f_proc.introspect_build_jobs(tenant_id, config)

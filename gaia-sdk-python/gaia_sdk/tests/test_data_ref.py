@@ -5,12 +5,10 @@ from pathlib import Path
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.api.data.DataRef import DataRefRequestConfig, DataRef
-from gaia_sdk.gaia import Gaia
-from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials
+from gaia_sdk.api.data.DataRef import DataRefRequestConfig
 from gaia_sdk.http.response.FileListing import FileListing
-from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 logging.basicConfig(level=logging.DEBUG)
 

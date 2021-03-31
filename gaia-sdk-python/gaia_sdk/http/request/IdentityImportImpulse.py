@@ -1,6 +1,3 @@
-from typing import List
-
-
 class IdentityImportImpulse:
     uri: str
     tenant_id: str

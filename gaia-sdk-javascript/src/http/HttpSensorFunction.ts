@@ -1188,7 +1188,7 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<PracticeRes>(obs, m => m.practice!);
     }
 
-    public practiceBuild(impulse: CreateSkillBuildJobImpulse, config: ((r: CreatedSkillBuildJobImpulseReq) => void) | undefined): Observable<CreatedSkillBuildJobImpulseRes> {
+    public practiceBuild(impulse: CreateSkillBuildJobImpulse, config: ((r: CreatedSkillBuildJobImpulseReq) => void) | undefined = undefined): Observable<CreatedSkillBuildJobImpulseRes> {
         if (config) {
             const obs = defer(() => this.client.mutation(GaiaRequest.mutation(m => m.practice(p => p.build(impulse, config)))));
             return Rx.mapM<CreatedSkillBuildJobImpulseRes>(obs, m => m.practice!.build!!)
@@ -1205,7 +1205,7 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<CreatedSkillBuildJobImpulseRes>(obs, m => m.practice!.build!!)
     }
 
-    public practiceCancel(impulse: CancelSkillBuildJobImpulse, config: ((c: CanceledSkillBuildJobImpulseReq) => void) | undefined): Observable<CanceledSkillBuildJobImpulseRes> {
+    public practiceCancel(impulse: CancelSkillBuildJobImpulse, config: ((c: CanceledSkillBuildJobImpulseReq) => void) | undefined = undefined): Observable<CanceledSkillBuildJobImpulseRes> {
         if (config) {
             const obs = defer(() => this.client.mutation(GaiaRequest.mutation(m => m.practice(p => p.cancel(impulse, config)))));
             return Rx.mapM<CreatedSkillBuildJobImpulseRes>(obs, m => m.practice!.cancel!!)

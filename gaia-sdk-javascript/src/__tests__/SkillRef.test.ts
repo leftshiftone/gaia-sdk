@@ -19,18 +19,6 @@ describe('skillref tests:', () => {
         });
     });
 
-    test('skillprovision status', () => {
-        return new Promise((resolve, reject) => {
-            const skillRef: SkillRef = getSkillRef('/skill/status', {createdAt: '01.01.1970', name: 'mockSkillName', status: 'mockStatus'});
-            skillRef.status().subscribe((e: SkillProvisionStatus) => {
-                expect(e.createdAt).toEqual('01.01.1970');
-                expect(e.name).toEqual('mockSkillName');
-                expect(e.status).toEqual('mockStatus');
-                resolve(e);
-            },                          reject);
-        });
-    });
-
     test('skillprovision logs', () => {
         return new Promise((resolve, reject) => {
             const skillRef: SkillRef = getSkillRef('/skill/logs', {logLines: 'l'});
