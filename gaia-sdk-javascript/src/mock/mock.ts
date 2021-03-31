@@ -14,7 +14,7 @@ import {IStreamTransporter} from '../api/IStreamTransporter';
 import {GaiaStreamClient} from '../graphql/GaiaStreamClient';
 
 export class Mock {
-    static gaiaRef(mockResponseHandler: (request: MockRequest) => void): GaiaRef {
+    static gaiaRef(mockResponseHandler: (request: MockRequest) => void) {
         const mockClientFactory = new MockClientFactory();
         mockClientFactory.setMockResponseHandler(mockResponseHandler);
 

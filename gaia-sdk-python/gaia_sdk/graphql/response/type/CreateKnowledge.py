@@ -1,21 +1,34 @@
 
-from typing import List
-
-from gaia_sdk.graphql.response.type.CreatedApiKeyImpulse import CreatedApiKeyImpulse
-from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
-from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
 from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
-from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
-from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
-from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
+from gaia_sdk.graphql.response.type.CreatedCodeImpulse import CreatedCodeImpulse
 from gaia_sdk.graphql.response.type.CreatedPromptImpulse import CreatedPromptImpulse
-from gaia_sdk.graphql.response.type.CreatedRoleImpulse import CreatedRoleImpulse
+from gaia_sdk.graphql.response.type.CreatedIntentImpulse import CreatedIntentImpulse
 from gaia_sdk.graphql.response.type.CreatedSkillImpulse import CreatedSkillImpulse
-from gaia_sdk.graphql.response.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
-from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
-from gaia_sdk.graphql.response.type.CreatedTenantImpulse import CreatedTenantImpulse
+from gaia_sdk.graphql.response.type.CreatedFulfilmentImpulse import CreatedFulfilmentImpulse
 from gaia_sdk.graphql.response.type.CreatedUserImpulse import CreatedUserImpulse
+from gaia_sdk.graphql.response.type.CreatedSkillProvisionImpulse import CreatedSkillProvisionImpulse
+from gaia_sdk.graphql.response.type.CreatedTenantImpulse import CreatedTenantImpulse
+from gaia_sdk.graphql.response.type.CreatedStatementImpulse import CreatedStatementImpulse
+from gaia_sdk.graphql.response.type.CreatedRoleImpulse import CreatedRoleImpulse
+from gaia_sdk.graphql.response.type.CreatedBehaviourImpulse import CreatedBehaviourImpulse
+from gaia_sdk.graphql.response.type.CreatedIdentityImpulse import CreatedIdentityImpulse
+from gaia_sdk.graphql.response.type.CreatedApiKeyImpulse import CreatedApiKeyImpulse
+from gaia_sdk.graphql.request.input.CreateTenantImpulse import CreateTenantImpulse
+from gaia_sdk.graphql.request.input.CreateSkillImpulse import CreateSkillImpulse
+from gaia_sdk.graphql.request.input.CreateEdgeImpulse import CreateEdgeImpulse
+from gaia_sdk.graphql.request.input.CreateIdentityImpulse import CreateIdentityImpulse
+from gaia_sdk.graphql.request.input.CreateCodeImpulse import CreateCodeImpulse
+from gaia_sdk.graphql.request.input.CreateFulfilmentImpulse import CreateFulfilmentImpulse
+from gaia_sdk.graphql.request.input.CreateStatementImpulse import CreateStatementImpulse
+from gaia_sdk.graphql.request.input.CreateSkillProvisionImpulse import CreateSkillProvisionImpulse
+from gaia_sdk.graphql.request.input.CreateRoleImpulse import CreateRoleImpulse
+from gaia_sdk.graphql.request.input.CreateIntentImpulse import CreateIntentImpulse
+from gaia_sdk.graphql.request.input.CreatePromptImpulse import CreatePromptImpulse
+from gaia_sdk.graphql.request.input.CreateBehaviourImpulse import CreateBehaviourImpulse
+from gaia_sdk.graphql.request.input.CreateUserImpulse import CreateUserImpulse
+from gaia_sdk.graphql.request.input.CreateApiKeyImpulse import CreateApiKeyImpulse
 
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -23,7 +36,10 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class CreateKnowledge:
     dictionary: dict

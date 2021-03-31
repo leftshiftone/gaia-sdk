@@ -1,10 +1,6 @@
-
 import {Intent} from "./Intent";
 
-import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
+import VariableRegistry from "../../../api/VariableRegistry";
 
 /**
  * Impulse which indicates the resulf of a delete intent impulse

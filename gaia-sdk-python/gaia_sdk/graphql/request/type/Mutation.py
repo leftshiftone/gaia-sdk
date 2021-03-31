@@ -1,12 +1,16 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.type.Activation import Activation
 from gaia_sdk.graphql.request.type.Evaluation import Evaluation
-from gaia_sdk.graphql.request.type.Perception import Perception
-from gaia_sdk.graphql.request.type.Practice import Practice
 from gaia_sdk.graphql.request.type.Preservation import Preservation
+from gaia_sdk.graphql.request.type.Practice import Practice
+from gaia_sdk.graphql.request.type.Perception import Perception
+from gaia_sdk.graphql.request.type.Activation import Activation
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Mutation(list):

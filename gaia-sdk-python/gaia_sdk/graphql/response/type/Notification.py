@@ -1,8 +1,9 @@
 
-from gaia_sdk.graphql.response.type.OnCreated import OnCreated
-from gaia_sdk.graphql.response.type.OnDeleted import OnDeleted
 from gaia_sdk.graphql.response.type.OnUpdated import OnUpdated
+from gaia_sdk.graphql.response.type.OnDeleted import OnDeleted
+from gaia_sdk.graphql.response.type.OnCreated import OnCreated
 
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -10,7 +11,10 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class Notification:
     dictionary: dict

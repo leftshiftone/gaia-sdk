@@ -5,8 +5,6 @@ import {PerceiveDataImpulse} from "../../request/input/PerceiveDataImpulse";
 import {PerceiveActionImpulse} from "../../request/input/PerceiveActionImpulse";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../../request/enumeration/RuntimeState";
-import {SkillState} from "../../request/enumeration/SkillState";
 import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";

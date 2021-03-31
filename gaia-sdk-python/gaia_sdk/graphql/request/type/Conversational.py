@@ -1,13 +1,17 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.input.PerceiveButtonImpulse import PerceiveButtonImpulse
-from gaia_sdk.graphql.request.input.PerceiveReceptionImpulse import PerceiveReceptionImpulse
-from gaia_sdk.graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
-from gaia_sdk.graphql.request.input.PerceiveSuggestionImpulse import PerceiveSuggestionImpulse
-from gaia_sdk.graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
 from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
+from gaia_sdk.graphql.request.input.PerceiveReceptionImpulse import PerceiveReceptionImpulse
+from gaia_sdk.graphql.request.input.PerceiveSuggestionImpulse import PerceiveSuggestionImpulse
+from gaia_sdk.graphql.request.input.PerceiveButtonImpulse import PerceiveButtonImpulse
+from gaia_sdk.graphql.request.input.PerceiveUtteranceImpulse import PerceiveUtteranceImpulse
+from gaia_sdk.graphql.request.input.PerceiveSubmitImpulse import PerceiveSubmitImpulse
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Conversational(list):

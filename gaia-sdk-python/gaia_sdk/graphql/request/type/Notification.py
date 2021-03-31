@@ -1,10 +1,14 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.type.OnCreated import OnCreated
-from gaia_sdk.graphql.request.type.OnDeleted import OnDeleted
 from gaia_sdk.graphql.request.type.OnUpdated import OnUpdated
+from gaia_sdk.graphql.request.type.OnDeleted import OnDeleted
+from gaia_sdk.graphql.request.type.OnCreated import OnCreated
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Notification(list):

@@ -1,9 +1,8 @@
 
-from typing import List
-
-from gaia_sdk.graphql.response.type.Edge import Edge
 from gaia_sdk.graphql.response.type.EdgeKeyOne import EdgeKeyOne
+from gaia_sdk.graphql.response.type.Edge import Edge
 
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -11,7 +10,10 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class ConnectNodeSetImpulse:
     """

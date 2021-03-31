@@ -1,6 +1,4 @@
-
-
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import {Struct, Uuid} from "../../GaiaClient";
 
 /**
 * This impulse returns the result of a skill practice query request

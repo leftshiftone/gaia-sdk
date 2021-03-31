@@ -1,11 +1,15 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
-from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
-from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
 from gaia_sdk.graphql.request.type.Conversational import Conversational
 from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
+from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
+from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Perception(list):

@@ -1,12 +1,16 @@
 
-from typing import Callable
-
-from gaia_sdk.api.VariableRegistry import VariableRegistry
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
-from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 from gaia_sdk.graphql.request.type.BehaviourMetrics import BehaviourMetrics
-from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.request.type.IdentityMetrics import IdentityMetrics
+from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
+from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
+
+from typing import Callable, List
+from gaia_sdk.api.VariableRegistry import VariableRegistry
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
 class Experience(list):

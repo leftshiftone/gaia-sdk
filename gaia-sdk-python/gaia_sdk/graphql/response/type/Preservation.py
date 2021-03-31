@@ -1,9 +1,10 @@
 
-from gaia_sdk.graphql.response.type.ConnectKnowledge import ConnectKnowledge
-from gaia_sdk.graphql.response.type.CreateKnowledge import CreateKnowledge
 from gaia_sdk.graphql.response.type.DeleteKnowledge import DeleteKnowledge
 from gaia_sdk.graphql.response.type.UpdateKnowledge import UpdateKnowledge
+from gaia_sdk.graphql.response.type.CreateKnowledge import CreateKnowledge
+from gaia_sdk.graphql.response.type.ConnectKnowledge import ConnectKnowledge
 
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -11,7 +12,10 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class Preservation:
     """

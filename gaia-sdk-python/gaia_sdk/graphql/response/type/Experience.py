@@ -1,12 +1,11 @@
 
-from typing import List
-
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
-from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 from gaia_sdk.graphql.response.type.BehaviourMetrics import BehaviourMetrics
-from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.response.type.IdentityMetrics import IdentityMetrics
+from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
+from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
+from typing import List
 Uuid = str
 String = str
 ISO8601 = str
@@ -14,7 +13,10 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-
+from gaia_sdk.graphql.request.enumeration.Order import Order
+from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
+from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 class Experience:
     """

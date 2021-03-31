@@ -1,18 +1,11 @@
-
-
-import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../../request/enumeration/RuntimeState";
-import {SkillState} from "../../request/enumeration/SkillState";
-import {Order} from "../../request/enumeration/Order";
-import {OrderByField} from "../../request/enumeration/OrderByField";
-import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
+import {Uuid} from "../../GaiaClient";
 
 export interface CancelSkillBuildJobImpulse {
-    id?:Uuid, 
+    id?:Uuid,
     /**
     * Tenant of the build job
     */
-    tenantId?:Uuid, 
+    tenantId?:Uuid,
     /**
     * The id of the build job being canceled
     */

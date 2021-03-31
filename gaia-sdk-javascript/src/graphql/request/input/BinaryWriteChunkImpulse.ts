@@ -1,4 +1,4 @@
-import Blob from "cross-blob"
+import Blob from "cross-blob";
 
 export class BinaryWriteChunkImpulse {
     private readonly uri: string

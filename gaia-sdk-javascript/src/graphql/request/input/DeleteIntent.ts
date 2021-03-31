@@ -1,9 +1,4 @@
-
-
-import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
+import {Uuid} from "../../GaiaClient";
 
 /**
  * The specification to delete an intent instance
