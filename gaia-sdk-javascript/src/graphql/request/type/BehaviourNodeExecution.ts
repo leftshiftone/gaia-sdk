@@ -18,6 +18,14 @@ public _typeName = "BehaviourNodeExecution";
         this.push(_ => "activityId")
     };
 
+    public behaviourQualifier = () => { 
+        this.push(_ => "behaviourQualifier")
+    };
+
+    public behaviourId = () => { 
+        this.push(_ => "behaviourId")
+    };
+
     public reference = () => { 
         this.push(_ => "reference")
     };

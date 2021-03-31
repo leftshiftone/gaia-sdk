@@ -62,8 +62,23 @@ export class HMACTokenBuilder {
            return new Buffer(arrBuff).toString('base64')
         } else {
             let stringData = HttpClient.asString(data)
-            return typeof btoa !== 'undefined' && btoa(stringData) || Buffer.from(stringData, 'binary').toString('base64');
+            return typeof btoa !== 'undefined' && this.b64EncodeUnicode(stringData) || Buffer.from(this.encodeWithFixedSpecialChars(stringData), 'binary').toString('base64');
         }
+    }
+
+    // see https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+    private b64EncodeUnicode(str: any) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(this.encodeWithFixedSpecialChars(str));
+    }
+
+    private encodeWithFixedSpecialChars(str: any) {
+        return encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode(Number('0x' + p1));
+            });
     }
 
     private isBuffer(b: Buffer): b is Buffer {

@@ -1,5 +1,5 @@
 import {GaiaStreamClient} from "../graphql/GaiaStreamClient";
-import {from, Observable} from "rxjs";
+import {defer, Observable} from "rxjs";
 import {IdentitySourceRequestImpulse} from "../graphql/request/input/IdentitySourceRequestImpulse";
 import {DataRef} from "./DataRef";
 import {IdentityImportImpulse} from "../graphql/request/input/IdentityImportImpulse";
@@ -15,18 +15,13 @@ export class IdentityOp {
     }
 
     public import(tenantId: string, identityName: string, content: Blob, override: boolean = false, identityId?: string): Observable<IIdentityImported> {
-        let file = content as File;
-
-        if (!file.name) {
-            throw new Error('Import identity failed: Selected file is not a valid identity');
-        }
-
+        const fileName = `${identityName}-${Date.now()}`;
         return new DataRef(`gaia://${tenantId}/identities/`, this.client)
-            .add(file.name, content, override)
+            .add(fileName, content, override)
             .pipe(mergeMap(dataRef =>
-                from(this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId)
+                defer(() => this.importIdentity(dataRef.getUri(), tenantId, identityName, override, identityId)
                     .catch(reason => { throw new Error('Identity Upload failed: ' + reason); }))
-            ))
+            ));
     }
 
     private importIdentity(uri: string, tenantId: string, identityName: string, override: boolean = false, identityId?: string): Promise<IIdentityImported> {
@@ -47,7 +42,7 @@ export class IdentityOp {
     }
 
     public export(identityId: string): Observable<Blob> {
-        return from(this.client.postAndRetrieveBinary(new IdentitySourceRequestImpulse(identityId), '/identity/source')
+        return defer(() => this.client.postAndRetrieveBinary(new IdentitySourceRequestImpulse(identityId), '/identity/source')
             .catch((reason) => {
                 throw new Error('Exporting identity with id ' + identityId + ' failed: ' + reason);
             }));

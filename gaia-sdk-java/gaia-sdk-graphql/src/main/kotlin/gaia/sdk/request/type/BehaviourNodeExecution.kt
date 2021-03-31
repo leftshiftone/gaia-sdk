@@ -18,6 +18,14 @@ class BehaviourNodeExecution: Type() {
         add {"activityId" } 
     }
 
+    fun behaviourQualifier() { 
+        add {"behaviourQualifier" } 
+    }
+
+    fun behaviourId() { 
+        add {"behaviourId" } 
+    }
+
     fun reference() { 
         add {"reference" } 
     }

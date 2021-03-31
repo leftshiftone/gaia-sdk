@@ -47,10 +47,12 @@ import {
     BehaviourExecutionRes,
     BehaviourExecutionDetailReq,
     BehaviourExecutionDetailRes,
+    IdentityMetricsReq,
+    IdentityMetricsRes,
     StatementReq,
     StatementRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes
+    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes, SkillProvisionBuildJobReq
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -167,9 +169,9 @@ export interface ISensorFunction {
 
     retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void) : Observable<ApiKeyRes>
 
-    retrieveRoles(config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
+    retrieveRoles(tenantId: Uuid, config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
 
-    retrieveRole(roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
+    retrieveRole(tenantId: Uuid, roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
@@ -203,9 +205,13 @@ export interface ISensorFunction {
 
     retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes>
 
+    retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillIntrospectionRes>
+
     retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes>
 
-    retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number): Observable<BehaviourExecutionRes>
+    retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string): Observable<BehaviourExecutionRes>
+
+    retrieveIdentityMetrics(identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number): Observable<IdentityMetricsRes>
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 

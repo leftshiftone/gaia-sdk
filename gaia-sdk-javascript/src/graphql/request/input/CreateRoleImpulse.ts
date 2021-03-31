@@ -14,10 +14,12 @@ import {EdgeType} from "../enumeration/EdgeType";
  */
 export class CreateRoleImpulse {
 public _typeName = "CreateRoleImpulse";
+    private tenantId:Uuid;
     private name:String;
     private permissions:Array<String>;
 
-    constructor (name:String, permissions:Array<String>) {
+    constructor (tenantId:Uuid, name:String, permissions:Array<String>) {
+        this.tenantId = tenantId;
         this.name = name;
         this.permissions = permissions;
     }

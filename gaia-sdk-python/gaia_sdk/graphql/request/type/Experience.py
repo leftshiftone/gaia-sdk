@@ -1,5 +1,8 @@
 
 from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution
+from gaia_sdk.graphql.request.type.BehaviourMetrics import BehaviourMetrics
+from gaia_sdk.graphql.request.type.SkillProvisionBuildJob import SkillProvisionBuildJob
+from gaia_sdk.graphql.request.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.request.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail
 
@@ -25,14 +28,16 @@ class Experience(list):
             return f'behaviourExecution(identityId:{name1}, processInstanceId:{name2})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
-    def behaviour_executions(self, identityId: str, limit: int, offset: int, config: Callable[['BehaviourExecution'], None]):
+    def behaviour_executions(self, identityId: str, limit: int, offset: int, startDate: str, endDate: str, config: Callable[['BehaviourExecution'], None]):
         def callback(registry: VariableRegistry):
             name1 = registry.register("identityId", identityId)
             name2 = registry.register("limit", limit)
             name3 = registry.register("offset", offset)
+            name4 = registry.register("startDate", startDate)
+            name5 = registry.register("endDate", endDate)
             entity = BehaviourExecution()
             config(entity)
-            return f'behaviourExecutions(identityId:{name1}, limit:{name2}, offset:{name3})' + '{' + entity.render(registry) + '}'
+            return f'behaviourExecutions(identityId:{name1}, limit:{name2}, offset:{name3}, startDate:{name4}, endDate:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def behaviour_node_executions(self, config: Callable[['BehaviourNodeExecution'], None]):
@@ -40,6 +45,37 @@ class Experience(list):
             entity = BehaviourNodeExecution()
             config(entity)
             return "behaviour_node_executions {" + entity.render(registry) + "}"
+        self.append(callback)
+
+    def identity_metrics(self, identityId: str, startDate: str, endDate: str, limit: int, config: Callable[['IdentityMetrics'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("identityId", identityId)
+            name2 = registry.register("startDate", startDate)
+            name3 = registry.register("endDate", endDate)
+            name4 = registry.register("limit", limit)
+            entity = IdentityMetrics()
+            config(entity)
+            return f'identityMetrics(identityId:{name1}, startDate:{name2}, endDate:{name3}, limit:{name4})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def skill_provision_build_jobs(self, tenantId: str, config: Callable[['SkillProvisionBuildJob'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("tenantId", tenantId)
+            entity = SkillProvisionBuildJob()
+            config(entity)
+            return f'skillProvisionBuildJobs(tenantId:{name1})' + '{' + entity.render(registry) + '}'
+        self.append(callback)
+
+    def behaviour_metrics(self, identityId: str, behaviourId: str, startDate: str, endDate: str, limit: int, config: Callable[['BehaviourMetrics'], None]):
+        def callback(registry: VariableRegistry):
+            name1 = registry.register("identityId", identityId)
+            name2 = registry.register("behaviourId", behaviourId)
+            name3 = registry.register("startDate", startDate)
+            name4 = registry.register("endDate", endDate)
+            name5 = registry.register("limit", limit)
+            entity = BehaviourMetrics()
+            config(entity)
+            return f'behaviourMetrics(identityId:{name1}, behaviourId:{name2}, startDate:{name3}, endDate:{name4}, limit:{name5})' + '{' + entity.render(registry) + '}'
         self.append(callback)
 
     def render(self, registry: VariableRegistry):

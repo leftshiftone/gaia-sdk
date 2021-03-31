@@ -26,8 +26,8 @@ class BehaviourExecutionDetail: Type() {
         add {"qualifier" } 
     }
 
-    fun behaviour() { 
-        add {"behaviour" } 
+    fun behaviours() { 
+        add {"behaviours" } 
     }
 
     fun behaviourId() { 

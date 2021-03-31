@@ -5,7 +5,8 @@ import org.gradle.api.tasks.bundling.Jar
 apply plugin: "java"
 apply plugin: "one.leftshift.asteria-docs"
 apply plugin: "one.leftshift.asteria-publish"
-apply plugin: "com.jfrog.bintray"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "signing"
 
 asteriaDocs {
     documents = ["index.adoc"]
@@ -22,22 +23,31 @@ sourceSets {
     }
 }
 
-publish.dependsOn docsJar
-publish.dependsOn docsZip
-if (System.getenv("CI")) {
-    publish.finalizedBy bintrayUpload
-}
-
 asteriaPublish {
     enableBranchSnapshotRepositories = true
 }
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = "javadoc"
+    outputDirectory = "${buildDir}/dokkaJavadoc"
+}
+task javadocJar(type: Jar) {
+    from dokkaJavadoc
+    classifier "javadoc"
+}
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier "sources"
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        release(MavenPublication) {
             artifactId = project.name
             from components.java
-            artifact docsJar
-            artifact docsZip
+            artifact sourceJar
+            artifact javadocJar
             pom.withXml {
                 Node root = asNode()
                 root.appendNode("name", "GAIA SDK")
@@ -64,22 +74,22 @@ publishing {
             }
         }
     }
-}
-
-bintray {
-    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publish = true
-    override = true
-    pkg {
-        repo = "gaia-sdk"
-        name = "${project.group}.${project.name}"
-        userOrg = "leftshiftone"
-        licenses = ["MIT"]
-        vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
-        publications = ["mavenJava"]
+    repositories {
+        maven {
+            name = "sonatype"
+            url = version.toString().endsWith("SNAPSHOT") ? "https://s01.oss.sonatype.org/content/repositories/snapshots" : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username System.getenv("OSSRH_LOGIN_NAME")
+                password System.getenv("OSSRH_LOGIN_PASSWORD")
+            }
+        }
     }
+}
+ext."signing.keyId" = System.getenv("OSSRH_SIGN_KEY_ID")
+ext."signing.password" = System.getenv("OSSRH_SIGN_KEY_PASSWORD")
+ext."signing.secretKeyRingFile" = System.getenv("OSSRH_SIGN_KEY_PATH")
+signing {
+    sign publishing.publications
 }
 
 if (System.getenv("CI") == null || System.getenv("CI") != "true") {

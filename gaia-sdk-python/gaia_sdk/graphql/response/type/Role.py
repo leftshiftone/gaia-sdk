@@ -33,6 +33,12 @@ class Role:
         return {'dictionary': self.dictionary}
 
     """
+    Id of the tenant
+    """
+    @property
+    def tenant_id(self) -> Uuid:
+        return Uuid(self.dictionary.get("tenantId"))
+    """
     Id of the role
     """
     @property

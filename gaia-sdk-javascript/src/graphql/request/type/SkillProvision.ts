@@ -105,6 +105,20 @@ public _typeName = "SkillProvision";
         this.push(_ => "environment")
     };
 
+    /**
+     * Whether the skill provision has been built
+     */
+    public built = () => { 
+        this.push(_ => "built")
+    };
+
+    /**
+     * The current status of the skill provision
+     */
+    public status = () => { 
+        this.push(_ => "status")
+    };
+
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

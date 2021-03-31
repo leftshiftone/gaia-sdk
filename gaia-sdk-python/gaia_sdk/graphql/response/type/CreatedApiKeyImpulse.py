@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.response.type.ApiKey import ApiKey
+from gaia_sdk.graphql.response.type.CreatedApiKey import CreatedApiKey
 
 from typing import List
 Uuid = str
@@ -37,5 +37,5 @@ class CreatedApiKeyImpulse:
     def id(self) -> Uuid:
         return Uuid(self.dictionary.get("id"))
     @property
-    def data(self) -> ApiKey:
-        return ApiKey(self.dictionary.get("data"))
+    def data(self) -> CreatedApiKey:
+        return CreatedApiKey(self.dictionary.get("data"))

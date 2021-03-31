@@ -23,8 +23,8 @@ class BehaviourExecutionDetail(list):
     def qualifier(self):
         self.append(lambda x: "qualifier")
 
-    def behaviour(self):
-        self.append(lambda x: "behaviour")
+    def behaviours(self):
+        self.append(lambda x: "behaviours")
 
     def behaviour_id(self):
         self.append(lambda x: "behaviourId")

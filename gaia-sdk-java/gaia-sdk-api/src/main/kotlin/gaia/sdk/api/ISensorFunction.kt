@@ -19,8 +19,8 @@ interface ISensorFunction {
     fun retrieveUser(userId: Uuid, config: User.() -> Unit): Publisher<gaia.sdk.response.type.User>
     fun retrieveApiKeys(config: ApiKey.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.ApiKey>
     fun retrieveApiKey(apiKeyId: Uuid, config: ApiKey.() -> Unit): Publisher<gaia.sdk.response.type.ApiKey>
-    fun retrieveRoles(config: Role.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Role>
-    fun retrieveRole(roleId: Uuid, config: Role.() -> Unit): Publisher<gaia.sdk.response.type.Role>
+    fun retrieveRoles(tenantId: Uuid, config: Role.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Role>
+    fun retrieveRole(tenantId: Uuid, roleId: Uuid, config: Role.() -> Unit): Publisher<gaia.sdk.response.type.Role>
     fun retrieveIntents(identityId: Uuid, config: Intent.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Intent>
     fun retrieveIntent(identityId: Uuid, reference: Uuid, config: Intent.() -> Unit): Publisher<gaia.sdk.response.type.Intent>
     fun retrievePrompts(identityId: Uuid, config: Prompt.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.Prompt>
@@ -38,7 +38,10 @@ interface ISensorFunction {
     fun retrieveSkillProvisions(tenantId: Uuid, config: SkillProvision.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.SkillProvision>
     fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: SkillProvision.() -> Unit): Publisher<gaia.sdk.response.type.SkillProvision>
     fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit): Publisher<gaia.sdk.response.type.BehaviourExecutionDetail>
-    fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
+    fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null, startDate: String? = null, endDate: String? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
+    fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.IdentityMetrics>
+    fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.BehaviourMetrics>
+    fun retrieveSkillProvisionBuildJobs(tenandId: Uuid, config: SkillProvisionBuildJob.() -> Unit): Publisher<gaia.sdk.response.type.SkillProvisionBuildJob>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
     fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>

@@ -12,6 +12,8 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface BehaviourNodeExecution {
     activityId?:string, 
+    behaviourQualifier?:string, 
+    behaviourId?:string, 
     reference?:Uuid, 
     qualifier?:string, 
     state?:string, 

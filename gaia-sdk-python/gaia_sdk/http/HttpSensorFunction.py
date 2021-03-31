@@ -22,7 +22,10 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     DeletedFulfilmentImpulse, CreateBehaviourImpulse, UpdateBehaviourImpulse, DeleteBehaviourImpulse, \
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
-    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse
+    DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
+    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
+
 from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 
@@ -219,6 +222,37 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
+        -> Observable[BehaviourExecutionRes]:
+        executions_req: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_executions(identity_id, limit, offset, startDate, endDate, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(executions_req)
+
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res: Callable[[QueryRes], BehaviourExecutionRes] = lambda x: x.retrieve.experience.behaviour_executions
+
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+        return flat_mapQ(observable, query_res)
+
+    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) \
+            -> Observable[BehaviourExecutionDetailRes]:
+
+        behaviour_exec_query: Callable[[BehaviourExecutionDetailRes], None] = lambda x: x.behaviour_execution(identity_id, process_instance_id, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(behaviour_exec_query)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res: Callable[[QueryRes], BehaviourExecutionDetailRes] = lambda x: x.retrieve.experience.behaviour_execution
+
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+        return mapQ(observable, query_res)
+
+
+    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
+        skill_build_jobs_query: Callable[[ExperienceReq], None] = lambda x: x.skill_provision_build_jobs(tenant_id, config)
+        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(skill_build_jobs_query)
+        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
+        query_res = lambda x: x.retrieve.experience.skill_provision_build_jobs
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+        return flat_mapQ(observable, query_res)
+
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(config)
         query_res: Callable[[QueryRes], IntrospectionRes] = lambda x: x.introspect
@@ -245,6 +279,9 @@ class HttpSensorFunction(ISensorFunction):
     def preserve_create_identities(self, impulses: List[CreateIdentityImpulse]) -> Observable[CreatedIdentityImpulse]:
         def data_req(x):
             x.identity_id()
+            x.tenant_id()
+            x.qualifier()
+            x.available_languages()
 
         def identities_req(x):
             x.id()
@@ -260,7 +297,16 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_identities(self, impulses: List[UpdateIdentityImpulse]) -> Observable[UpdatedIdentityImpulse]:
-        identities_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.tenant_id()
+            x.qualifier()
+            x.available_languages()
+
+        def identities_req(x):
+            x.id()
+            x.data(data_req)
+
         update_identities: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.identities(impulses, identities_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_identities)
@@ -271,7 +317,13 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_identities(self, impulses: List[DeleteIdentityImpulse]) -> Observable[DeletedIdentityImpulse]:
-        identities_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+
+        def identities_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_identities: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.identities(impulses, identities_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_identities)
@@ -282,7 +334,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_intents(self, impulses: List[CreateIntentImpulse]) -> Observable[CreatedIntentImpulse]:
-        intent_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def intent_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.intents(impulses, intent_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
         mutation_res: Callable[[MutationRes], CreatedIntentImpulse] = lambda x: x.preserve.create.intents
@@ -292,7 +356,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_intents(self, impulses: List[UpdateIntentImpulse]) -> Observable[UpdatedIntentImpulse]:
-        intent_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def intent_req(x):
+            x.id()
+            x.data(data_req)
+
         update_intents: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.intents(impulses, intent_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_intents)
@@ -303,7 +379,13 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_intents(self, impulses: List[DeleteIntentImpulse]) -> Observable[DeletedIntentImpulse]:
-        intent_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def intent_req(x):
+            x.id()
+            x.data(data_req)
         delete_intents: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.intents(impulses, intent_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_intents)
@@ -314,7 +396,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_prompts(self, impulses: List[CreatePromptImpulse]) -> Observable[CreatedPromptImpulse]:
-        prompt_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def prompt_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.prompts(impulses, prompt_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
         mutation_res: Callable[[MutationRes], CreatedPromptImpulse] = lambda x: x.preserve.create.prompts
@@ -324,7 +418,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_prompts(self, impulses: List[UpdatePromptImpulse]) -> Observable[UpdatedPromptImpulse]:
-        prompt_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def prompt_req(x):
+            x.id()
+            x.data(data_req)
+
         update_prompts: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.prompts(impulses, prompt_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_prompts)
@@ -335,7 +441,14 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_prompts(self, impulses: List[DeletePromptImpulse]) -> Observable[DeletedPromptImpulse]:
-        prompt_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def prompt_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_prompts: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.prompts(impulses, prompt_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_prompts)
@@ -346,7 +459,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_statements(self, impulses: List[CreateStatementImpulse]) -> Observable[CreatedStatementImpulse]:
-        statement_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def statement_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(
             lambda e: e.statements(impulses, statement_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
@@ -357,7 +482,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_statements(self, impulses: List[UpdateStatementImpulse]) -> Observable[UpdatedStatementImpulse]:
-        statement_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def statement_req(x):
+            x.id()
+            x.data(data_req)
+
         update_statements: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.statements(impulses, statement_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_statements)
@@ -368,7 +505,14 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_statements(self, impulses: List[DeleteStatementImpulse]) -> Observable[DeletedStatementImpulse]:
-        statement_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def statement_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_statements: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.statements(impulses, statement_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_statements)
@@ -378,9 +522,20 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[
-        CreatedFulfilmentImpulse]:
-        fulfilment_req = lambda x: x.id()
+    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[CreatedFulfilmentImpulse]:
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def fulfilment_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(
             lambda e: e.fulfilments(impulses, fulfilment_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
@@ -390,9 +545,20 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[
-        UpdatedFulfilmentImpulse]:
-        fulfilment_req = lambda x: x.id()
+    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[UpdatedFulfilmentImpulse]:
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.utterance()
+            x.label_list()
+            x.version()
+
+        def fulfilment_req(x):
+            x.id()
+            x.data(data_req)
+
         update_fulfilments: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.fulfilments(impulses, fulfilment_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_fulfilments)
@@ -402,9 +568,15 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[
-        DeletedFulfilmentImpulse]:
-        fulfilment_req = lambda x: x.id()
+    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[DeletedFulfilmentImpulse]:
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def fulfilment_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_fulfilments: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.fulfilments(impulses, fulfilment_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_fulfilments)
@@ -415,7 +587,17 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_behaviours(self, impulses: List[CreateBehaviourImpulse]) -> Observable[CreatedBehaviourImpulse]:
-        behaviour_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.label_list()
+
+        def behaviour_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(
             lambda e: e.behaviours(impulses, behaviour_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
@@ -426,7 +608,17 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_behaviours(self, impulses: List[UpdateBehaviourImpulse]) -> Observable[UpdatedBehaviourImpulse]:
-        behaviour_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.label_list()
+
+        def behaviour_req(x):
+            x.id()
+            x.data(data_req)
+
         update_behaviours: Callable[[PreservationReq], None] = lambda x: x.update(
             lambda e: e.behaviours(impulses, behaviour_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_behaviours)
@@ -437,7 +629,14 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_behaviours(self, impulses: List[DeleteBehaviourImpulse]) -> Observable[DeletedBehaviourImpulse]:
-        behaviour_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def behaviour_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_behaviours: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.behaviours(impulses, behaviour_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_behaviours)
@@ -448,7 +647,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_codes(self, impulses: List[CreateCodeImpulse]) -> Observable[CreatedCodeImpulse]:
-        code_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.code()
+            x.type()
+            x.label_list()
+
+        def code_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.codes(impulses, code_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
         mutation_res: Callable[[MutationRes], CreatedCodeImpulse] = lambda x: x.preserve.create.codes
@@ -458,7 +669,19 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_update_codes(self, impulses: List[UpdateCodeImpulse]) -> Observable[UpdatedCodeImpulse]:
-        code_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+            x.qualifier()
+            x.appendent()
+            x.code()
+            x.type()
+            x.label_list()
+
+        def code_req(x):
+            x.id()
+            x.data(data_req)
+
         update_codes: Callable[[PreservationReq], None] = lambda x: x.update(lambda e: e.codes(impulses, code_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(update_codes)
         mutation_res: Callable[[MutationRes], UpdatedCodeImpulse] = lambda x: x.preserve.update.codes
@@ -468,7 +691,14 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_codes(self, impulses: List[DeleteCodeImpulse]) -> Observable[DeletedCodeImpulse]:
-        code_req = lambda x: x.id()
+        def data_req(x):
+            x.identity_id()
+            x.reference()
+
+        def code_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_codes: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.codes(impulses, code_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_codes)
         mutation_res: Callable[[MutationRes], DeletedCodeImpulse] = lambda x: x.preserve.delete.codes
@@ -478,7 +708,18 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_create_edges(self, impulses: List[CreateEdgeImpulse]) -> Observable[CreatedEdgeImpulse]:
-        edge_req = lambda x: x.id()
+        def data_req(x):
+            x.source()
+            x.target()
+            x.type()
+            x.weight()
+            x.edge_id()
+            x.properties()
+
+        def edge_req(x):
+            x.id()
+            x.data(data_req)
+
         create_req: Callable[[PreservationReq], None] = lambda x: x.create(lambda e: e.edges(impulses, edge_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(create_req)
         mutation_res: Callable[[MutationRes], CreatedEdgeImpulse] = lambda x: x.preserve.create.edges
@@ -488,7 +729,14 @@ class HttpSensorFunction(ISensorFunction):
         return flat_mapM(observable, mutation_res)
 
     def preserve_delete_edges(self, impulses: List[DeleteEdgeImpulse]) -> Observable[DeletedEdgeImpulse]:
-        edge_req = lambda x: x.id()
+        def data_req(x):
+            x.source()
+            x.edge_id()
+
+        def edge_req(x):
+            x.id()
+            x.data(data_req)
+
         delete_edges: Callable[[PreservationReq], None] = lambda x: x.delete(lambda e: e.edges(impulses, edge_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_edges)
         mutation_res: Callable[[MutationRes], DeletedEdgeImpulse] = lambda x: x.preserve.delete.edges
