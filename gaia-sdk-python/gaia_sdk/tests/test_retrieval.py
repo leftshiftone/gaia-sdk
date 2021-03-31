@@ -4,7 +4,6 @@ from uuid import uuid4
 
 from rx import operators as ops, pipe
 
-from gaia_sdk.graphql.request.type import SkillProvisionBuildJob
 from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
 import pytest
@@ -387,29 +386,6 @@ class TestRetrieval(unittest.TestCase):
         for r in result:
             assert r.dictionary.get("processInstanceId") is not None, "processInstanceId missing"
             assert r.dictionary.get("behaviourId") is not None, "behaviourId missing"
-
-    def test_retrieve_build_jobs(self):
-        gaia_ref = mock_gaia_ref(lambda request: MockResponse(
-            {"data": {"retrieve": {"experience": {"skillProvisionBuildJobs": [
-                {"skillRef": "44d44584-90b4-4770-b45a-d535392b5031",
-                 "provisionRef": "bf8929ab-b432-470e-acb2-bce380f61333", "name": "first-7ac19-build",
-                 "status": {"running": "0", "failures": [
-                     {"reason": "Failed with an Error", "failureType": "FAILED_UNKNOWN", "exitCode": "1",
-                      "logs": "everything is kaputt!",
-                      "affectedContainer": "first-dl-init"}], "health": "UNHEALTHY"}},
-                {"skillRef": "28c79644-3512-4751-9a0e-6a9b2ef0fdd2",
-                 "provisionRef": "a11c745c-72b3-4a75-9f94-ece2a95495d6", "name": "skill-echo-demo-1-fc3bf-build",
-                 "status": {"running": "0", "failures": [], "health": "COMPLETED"}}]}}}}
-        ))
-
-        def config(x: SkillProvisionBuildJob):
-            x.skill_ref()
-
-        result = pipe(ops.to_list())(gaia_ref.retrieve_skill_provision_build_jobs(str(uuid4()), config)).run()
-
-        assert len(result) == 2
-        assert result[0].skill_ref == "44d44584-90b4-4770-b45a-d535392b5031"
-        assert result[1].provision_ref == "a11c745c-72b3-4a75-9f94-ece2a95495d6" #TODO: something is wrong here...
 
 
 if __name__ == '__main__':

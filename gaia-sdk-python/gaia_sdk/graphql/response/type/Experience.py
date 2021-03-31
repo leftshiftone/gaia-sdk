@@ -1,7 +1,6 @@
 
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution
 from gaia_sdk.graphql.response.type.BehaviourMetrics import BehaviourMetrics
-from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob
 from gaia_sdk.graphql.response.type.IdentityMetrics import IdentityMetrics
 from gaia_sdk.graphql.response.type.BehaviourNodeExecution import BehaviourNodeExecution
 from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail
