@@ -43,6 +43,7 @@ type Experience {
     behaviourNodeExecutions: [BehaviourNodeExecution]
     identityMetrics(identityId: Uuid, startDate: String, endDate: String, limit: Int): IdentityMetrics
     skillProvisionBuildJobs(tenantId: Uuid): [SkillProvisionBuildJob]
+    behaviourMetrics(identityId: Uuid, behaviourId: Uuid, startDate: String, endDate: String, limit: Int): BehaviourMetrics
 }
 
 enum OrderByField {

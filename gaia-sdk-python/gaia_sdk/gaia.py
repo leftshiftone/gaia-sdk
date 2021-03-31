@@ -5,7 +5,7 @@ from rx.core.typing import Observable
 from rx.scheduler import ThreadPoolScheduler
 
 from gaia_sdk.api import ISensorStream, IdentityOp
-from gaia_sdk.api.DataRef import DataRef
+from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.api.GaiaCredentials import UsernamePasswordCredentials, GaiaCredentials, JWTCredentials
 from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.SkillRef import SkillRef

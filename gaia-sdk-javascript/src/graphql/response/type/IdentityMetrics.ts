@@ -1,4 +1,5 @@
 
+import {IntentDetectionRate} from "./IntentDetectionRate";
 import {TopExecutedBehaviour} from "./TopExecutedBehaviour";
 import {BehaviourState} from "./BehaviourState";
 import {MetricsEntityCount} from "./MetricsEntityCount";
@@ -17,5 +18,6 @@ export interface IdentityMetrics {
     identityId?:Uuid, 
     entityCount?:MetricsEntityCount, 
     topExecutedBehaviours?:[TopExecutedBehaviour], 
-    behaviourStates?:[BehaviourState]
+    behaviourStates?:[BehaviourState], 
+    intentDetectionRate?:IntentDetectionRate
 }

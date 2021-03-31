@@ -1107,7 +1107,8 @@ abstract class RetrievalTest() {
                                                     UUID.randomUUID().toString(),
                                                     MetricsEntityCount(1, 2, 100, 30, 0, 1),
                                                     listOf(TopExecutedBehaviour("top1", "beh1", 17)),
-                                                    listOf(BehaviourState("top1", "beh1", 10, 0.25f, 0.25f, 0.25f, 0.25f))
+                                                    listOf(BehaviourState("top1", "beh1", 10, 0.25f, 0.25f, 0.25f, 0.25f)),
+                                                    IntentDetectionRate(10, 5)
                                             )
                                     )
                             )
@@ -1136,6 +1137,10 @@ abstract class RetrievalTest() {
                 failed()
                 success()
             }
+            intentDetectionRate {
+                detected()
+                unaware()
+            }
         }, null)
 
         val ts = Flowable.fromPublisher(publisher).test()
@@ -1163,6 +1168,56 @@ abstract class RetrievalTest() {
         assertThat(result.behaviourStates!!.first().numberOfExecutions).isEqualTo(10)
         assertThat(result.behaviourStates!!.first().failed).isEqualTo(0.25f)
         assertThat(result.behaviourStates!!.first().success).isEqualTo(0.25f)
+
+        assertThat(result.intentDetectionRate?.detected).isEqualTo(10)
+        assertThat(result.intentDetectionRate?.unaware).isEqualTo(5)
+    }
+
+    @Test
+    fun `test retrieve behaviour metrics`() {
+        Gaia.transporterFactory = MockTransporterFactory { request ->
+            Flowable.just(
+                    GaiaResponse.QueryResponse(
+                            Query(retrieve = Retrieval(
+                                    experience = Experience(
+                                            behaviourMetrics = BehaviourMetrics(
+                                                    UUID.randomUUID().toString(),
+                                                    UUID.randomUUID().toString(),
+                                                    listOf(BehaviourStatesPerDay("2021-01-13", 1, 2, 3, 4))
+                                            )
+                                    )
+                            ))
+                    )
+            )
+        }
+        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
+
+        val publisher = gaiaRef.retrieveBehaviourMetrics(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "2021-01-13T00:01:29.271Z", "2021-01-31T00:01:29.271Z", {
+            identityId()
+            behaviourId()
+            statesPerDay {
+                date()
+                running()
+                waiting()
+                success()
+                failed()
+            }
+        }, null)
+
+        val ts = Flowable.fromPublisher(publisher).test()
+        ts.awaitDone(5, SECONDS)
+        ts.assertNoErrors()
+        ts.assertValueCount(1)
+        ts.assertValueAt(0) {
+            it.identityId != null && it.behaviourId != null
+        }
+        val result = ts.values().first()
+        assertThat(result.statesPerDay?.size).isEqualTo(1)
+        assertThat(result.statesPerDay!!.first().date).isEqualTo("2021-01-13")
+        assertThat(result.statesPerDay!!.first().running).isEqualTo(1)
+        assertThat(result.statesPerDay!!.first().success).isEqualTo(2)
+        assertThat(result.statesPerDay!!.first().waiting).isEqualTo(3)
+        assertThat(result.statesPerDay!!.first().failed).isEqualTo(4)
     }
 
 }

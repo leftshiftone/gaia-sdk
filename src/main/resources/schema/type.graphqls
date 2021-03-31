@@ -249,6 +249,7 @@ type IdentityMetrics {
     entityCount: MetricsEntityCount
     topExecutedBehaviours: [TopExecutedBehaviour]
     behaviourStates: [BehaviourState]
+    intentDetectionRate: IntentDetectionRate
 }
 type MetricsEntityCount {
     intents: Int
@@ -271,6 +272,23 @@ type BehaviourState {
     success: Float
     waiting: Float
     failed: Float
+}
+type IntentDetectionRate {
+    detected: Int
+    unaware: Int
+}
+
+type BehaviourMetrics {
+    identityId: Uuid
+    behaviourId: Uuid
+    statesPerDay: [BehaviourStatesPerDay]
+}
+type BehaviourStatesPerDay {
+    date: ISO8601
+    running: Int
+    success: Int
+    waiting: Int
+    failed: Int
 }
 
 # ****************

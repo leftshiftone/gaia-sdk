@@ -51,7 +51,7 @@ jobs:
           command: ./gradlew assemble --stacktrace
       - run:
           name: Publish Java snapshots
-          command: ./gradlew :publish :gaia-sdk-java:publish -x publishReleasePublicationToSonatypeRepository --stacktrace
+          command: ./gradlew :publish :gaia-sdk-java:publish -x publishReleasePublicationToSonatypeRepository -x publishMavenPomPublicationToSonatypeRepository --stacktrace
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
@@ -106,7 +106,7 @@ jobs:
       - run: chmod a+x gradlew
       - run: ./gradlew dependencies installDependencies
       - run: ./gradlew assemble --stacktrace
-      - run: ./gradlew candidate publish -x test -x publishReleasePublicationToSonatypeRepository -Prelease.useLastTag=true --stacktrace
+      - run: ./gradlew candidate publish -x test -x publishReleasePublicationToSonatypeRepository -x publishMavenPomPublicationToSonatypeRepository -Prelease.useLastTag=true --stacktrace
       - run:
           <<: *webhook-failed
 

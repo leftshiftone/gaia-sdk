@@ -1,7 +1,6 @@
 import unittest
-import base64
 
-from api.crypto import HMAC
+from gaia_sdk.api.crypto import HMAC
 
 
 class TestHMAC(unittest.TestCase):
