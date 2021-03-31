@@ -54,7 +54,7 @@ jobs:
           command: ./gradlew :publish :gaia-sdk-java:publish -x publishReleasePublicationToSonatypeRepository -x publishMavenPomPublicationToSonatypeRepository --stacktrace
       - run:
           name: Test all projects
-          command: ./gradlew test --stacktrace --debug
+          command: ./gradlew test --stacktrace
       - run:
           name: Run coverage for JS
           command: yarn --cwd ./gaia-sdk-javascript coverage
