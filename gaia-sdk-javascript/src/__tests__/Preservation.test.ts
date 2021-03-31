@@ -41,6 +41,7 @@ import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpu
 import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
 import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
 import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
+import sleep from "./utils/sleep";
 
 describe('perception tests:', () => {
 
@@ -124,7 +125,7 @@ describe('perception tests:', () => {
 
     test('test preserve create role', () => {
         const gaiaRef = mockCreate({roles: [{id: 'asdf'}]});
-        const impulse = new CreateRoleImpulse('Super Admin', ["*"]);
+        const impulse = new CreateRoleImpulse(uuid(), 'Super Admin', ["*"]);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateRoles(impulse);
@@ -137,7 +138,7 @@ describe('perception tests:', () => {
 
     test('test preserve update role', () => {
         const gaiaRef = mockUpdate({roles: [{id: 'asdf'}]});
-        const impulse = new UpdateRoleImpulse(uuid(), 'SuperAdmin', ["*"]);
+        const impulse = new UpdateRoleImpulse(uuid(), uuid(), 'SuperAdmin', ["*"]);
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateRoles(impulse);
@@ -150,7 +151,7 @@ describe('perception tests:', () => {
 
     test('test preserve delete role', () => {
         const gaiaRef = mockDelete({roles: [{id: 'asdf'}]});
-        const impulse = new DeleteRoleImpulse(uuid());
+        const impulse = new DeleteRoleImpulse(uuid(), uuid());
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveDeleteRoles(impulse);
@@ -656,6 +657,22 @@ describe('perception tests:', () => {
                 expect(e.removedEdges[0].source).toEqual('a')
                 expect(e.removedEdges[0].edgeId).toEqual('b')
                 resolve(e);
+            }, reject);
+        });
+    });
+
+    test('test preserve delete skill', () => {
+        return new Promise((resolve, reject) => {
+            const mock = jest.fn(() => JSON.stringify({data: {preserve: {delete: {skills: [{id: 'asdf'}]}}}}));
+            const gaiaRef = Mock.gaiaRef(mock);
+            const impulse = new DeleteSkillImpulse(uuid(), uuid());
+
+            const observable = gaiaRef.preserveDeleteSkills(impulse);
+            sleep(250);
+            expect(mock.mock.calls.length).toBe(0);
+            observable.subscribe(() => {
+                expect(mock.mock.calls.length).toBe(1);
+                resolve();
             }, reject);
         });
     });

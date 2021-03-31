@@ -32,6 +32,8 @@ export {BehaviourExecution as BehaviourExecutionReq} from "./request/type/Behavi
 export {BehaviourExecution as BehaviourExecutionRes} from "./response/type/BehaviourExecution";
 export {BehaviourExecutionDetail as BehaviourExecutionDetailReq} from "./request/type/BehaviourExecutionDetail";
 export {BehaviourExecutionDetail as BehaviourExecutionDetailRes} from "./response/type/BehaviourExecutionDetail";
+export {IdentityMetrics as IdentityMetricsReq} from "./request/type/IdentityMetrics";
+export {IdentityMetrics as IdentityMetricsRes} from "./response/type/IdentityMetrics";
 export {Skill as SkillReq} from "./request/type/Skill";
 export {Skill as SkillRes} from "./response/type/Skill";
 export {SkillProvision as SkillProvisionReq} from "./request/type/SkillProvision";
@@ -53,4 +55,6 @@ export {Perception as PerceptionRes} from "./response/type/Perception";
 export {PerceiveActionImpulse} from "./request/input/PerceiveActionImpulse";
 export {PerceivedImpulse} from "./response/type/PerceivedImpulse";
 export {PerceiveDataImpulse} from "./request/input/PerceiveDataImpulse";
+export {SkillProvisionBuildJob as SkillProvisionBuildJobReq} from "./request/type/SkillProvisionBuildJob";
+export {SkillProvisionBuildJob as SkillProvisionBuildJobRes} from "./response/type/SkillProvisionBuildJob";
 export {Gaia} from "../Gaia"

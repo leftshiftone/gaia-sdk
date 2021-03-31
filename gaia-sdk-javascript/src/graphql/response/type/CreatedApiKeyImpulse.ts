@@ -1,5 +1,5 @@
 
-import {ApiKey} from "./ApiKey";
+import {CreatedApiKey} from "./CreatedApiKey";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
 import {RuntimeState} from "../../request/enumeration/RuntimeState";
@@ -13,5 +13,5 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 */
 export interface CreatedApiKeyImpulse {
     id?:Uuid, 
-    data?:ApiKey
+    data?:CreatedApiKey
 }

@@ -12,5 +12,6 @@ import gaia.sdk.request.enumeration.*
 /**
  * The specification to delete a role instance
  */
-class DeleteRoleImpulse(val roleId:Uuid) : Input()
+class DeleteRoleImpulse(val tenantId:Uuid, 
+   val roleId:Uuid) : Input()
 

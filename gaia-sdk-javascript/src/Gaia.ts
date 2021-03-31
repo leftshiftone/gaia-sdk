@@ -10,7 +10,9 @@ import {
     DeleteIntentImpulse,
     PerceiveActionImpulse,
     PerceiveDataImpulse,
-    UpdateIntentImpulse
+    UpdateIntentImpulse,
+    SkillProvisionBuildJobReq,
+    IdentityMetricsReq
 } from './graphql';
 import {Preservation} from './graphql/request/type/Preservation';
 import {Retrieval} from './graphql/request/type/Retrieval';
@@ -218,8 +220,8 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveUsers = (config: (x: User) => void, limit?: Number, offset?: Number) => this.fProc.retrieveUsers(config, limit, offset);
     public retrieveApiKey = (apiKeyId: Uuid, config: (x: ApiKey) => void) => this.fProc.retrieveApiKey(apiKeyId, config);
     public retrieveApiKeys = (config: (x: ApiKey) => void, limit?: Number, offset?: Number) => this.fProc.retrieveApiKeys(config, limit, offset);
-    public retrieveRole = (roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(roleId, config);
-    public retrieveRoles = (config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(config, limit, offset);
+    public retrieveRole = (tenantId: Uuid, roleId: Uuid, config: (x: Role) => void) => this.fProc.retrieveRole(tenantId, roleId, config);
+    public retrieveRoles = (tenantId: Uuid, config: (x: Role) => void, limit?: Number, offset?: Number) => this.fProc.retrieveRoles(tenantId, config, limit, offset);
     public retrieveIntents = (identityId: Uuid, config: (x: Intent) => void, limit?: Number, offset?: Number) => this.fProc.retrieveIntents(identityId, config, limit, offset);
     public retrieveIntent = (identityId: Uuid, reference: Uuid, config: (x: Intent) => void) => this.fProc.retrieveIntent(identityId, reference, config);
     public retrieveKnowledge = (config: (x: Knowledge) => void) => this.fProc.retrieveKnowledge(config);
@@ -234,5 +236,7 @@ export class GaiaRef implements ISensorFunction, ISensorStream {
     public retrieveSkillProvisions = (tenantId: Uuid, config: (x: SkillProvision) => void, limit?: Number, offset?: Number) => this.fProc.retrieveSkillProvisions(tenantId, config, limit, offset);
     public retrieveSkillProvision = (tenantId: Uuid, reference: Uuid, config: (x: SkillProvision) => void) => this.fProc.retrieveSkillProvision(tenantId, reference, config);
     public retrieveBehaviourExecution = (identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void) => this.fProc.retrieveBehaviourExecution(identityId, processInstanceId, config);
-    public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset);
+    public retrieveBehaviourExecutions = (identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string) => this.fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate);
+    public retrieveIdentityMetrics = (identityId: Uuid, startDate: string, endDate: string, config: (x: IdentityMetricsReq) => void, limit?: Number) => this.fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit);
+    public retrieveSkillProvisionBuildJobs = (tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void) => this.fProc.retrieveSkillProvisionBuildJobs(tenantId, config);
 }

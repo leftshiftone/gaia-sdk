@@ -51,6 +51,8 @@
     *##if($argument.type.isList())#print("[")#end#*
     *##if($type.name() == "Float" || $type.name() == "Int")#*
         *##print("Number")#*
+    *##elseif($type.name() == "String")#*
+        *##print("string")#*
     *##else#*
         *#$argument.type.name()#*
     *##end#*

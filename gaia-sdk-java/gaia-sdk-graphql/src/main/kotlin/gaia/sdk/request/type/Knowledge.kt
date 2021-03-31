@@ -37,17 +37,19 @@ class Knowledge: Type() {
         "apiKey(apiKeyId:$name1){" + ApiKey().apply(config).render(it) + "}"
     }
 
-    fun roles(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Role.() -> Unit) = add {
-        val name1 = it.register("limit", limit)
-        val name2 = it.register("offset", offset)
-        val name3 = it.register("orderBy", orderBy)
-        val name4 = it.register("order", order)
-        "roles(limit:$name1, offset:$name2, orderBy:$name3, order:$name4){" + Role().apply(config).render(it) + "}"
+    fun roles(tenantId : Uuid?, limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Role.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("limit", limit)
+        val name3 = it.register("offset", offset)
+        val name4 = it.register("orderBy", orderBy)
+        val name5 = it.register("order", order)
+        "roles(tenantId:$name1, limit:$name2, offset:$name3, orderBy:$name4, order:$name5){" + Role().apply(config).render(it) + "}"
     }
 
-    fun role(roleId : Uuid?, config: Role.() -> Unit) = add {
-        val name1 = it.register("roleId", roleId)
-        "role(roleId:$name1){" + Role().apply(config).render(it) + "}"
+    fun role(tenantId : Uuid?, roleId : Uuid?, config: Role.() -> Unit) = add {
+        val name1 = it.register("tenantId", tenantId)
+        val name2 = it.register("roleId", roleId)
+        "role(tenantId:$name1, roleId:$name2){" + Role().apply(config).render(it) + "}"
     }
 
     fun tenants(limit : Int?, offset : Int?, orderBy : OrderByField?, order : Order?, config: Tenant.() -> Unit) = add {

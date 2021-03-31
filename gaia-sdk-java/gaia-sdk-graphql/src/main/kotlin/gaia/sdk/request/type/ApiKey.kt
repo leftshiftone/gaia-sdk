@@ -36,13 +36,6 @@ class ApiKey: Type() {
     }
 
     /**
-     * The secret of the api key
-     */
-    fun secret() { 
-        add {"secret" } 
-    }
-
-    /**
      * The flag to enable the api key
      */
     fun enabled() { 

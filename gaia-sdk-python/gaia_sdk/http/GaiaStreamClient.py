@@ -1,11 +1,11 @@
-from requests import Response
-from typing import Dict
 from typing import Any
+from typing import Dict
+
+from requests import Response
 
 from gaia_sdk.api.client_options import ClientOptions
 from gaia_sdk.api.transporter.abstract_transporter import ITransporter
 from gaia_sdk.http.request.Payload import Payload
-from copy import deepcopy
 
 
 class GaiaStreamClient(object):

@@ -36,13 +36,6 @@ public _typeName = "ApiKey";
     };
 
     /**
-     * The secret of the api key
-     */
-    public secret = () => { 
-        this.push(_ => "secret")
-    };
-
-    /**
      * The flag to enable the api key
      */
     public enabled = () => { 

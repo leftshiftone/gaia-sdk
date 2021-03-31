@@ -15,6 +15,13 @@ import gaia.sdk.request.enumeration.*
 class Role: Type() {
 
     /**
+     * Id of the tenant
+     */
+    fun tenantId() { 
+        add {"tenantId" } 
+    }
+
+    /**
      * Id of the role
      */
     fun roleId() { 

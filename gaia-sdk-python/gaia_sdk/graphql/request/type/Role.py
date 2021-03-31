@@ -14,6 +14,12 @@ class Role(list):
     """
 
     """
+    Id of the tenant
+    """
+    def tenant_id(self):
+        self.append(lambda x: "tenantId")
+
+    """
     Id of the role
     """
     def role_id(self):

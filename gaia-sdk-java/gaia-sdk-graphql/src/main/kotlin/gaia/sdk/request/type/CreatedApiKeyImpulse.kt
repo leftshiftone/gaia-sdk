@@ -18,8 +18,8 @@ class CreatedApiKeyImpulse: Type() {
         add {"id" } 
     }
 
-    fun data(config: ApiKey.() -> Unit) = 
-        add { "data{ " + ApiKey().apply(config).render(it) + "}"}
+    fun data(config: CreatedApiKey.() -> Unit) = 
+        add { "data{ " + CreatedApiKey().apply(config).render(it) + "}"}
 
 }
 

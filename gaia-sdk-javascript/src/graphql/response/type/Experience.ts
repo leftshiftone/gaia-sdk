@@ -1,5 +1,8 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
+import {BehaviourMetrics} from "./BehaviourMetrics";
+import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
+import {IdentityMetrics} from "./IdentityMetrics";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
@@ -16,5 +19,8 @@ import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
 export interface Experience {
     behaviourExecution?:BehaviourExecutionDetail, 
     behaviourExecutions?:[BehaviourExecution], 
-    behaviourNodeExecutions?:[BehaviourNodeExecution]
+    behaviourNodeExecutions?:[BehaviourNodeExecution], 
+    identityMetrics?:IdentityMetrics, 
+    skillProvisionBuildJobs?:[SkillProvisionBuildJob], 
+    behaviourMetrics?:BehaviourMetrics
 }

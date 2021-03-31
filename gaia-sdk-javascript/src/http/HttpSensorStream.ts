@@ -6,7 +6,7 @@ import {GaiaStreamClientFactory} from '../graphql/GaiaStreamClientBuilder';
 import {ISensorStream} from '../api/ISensorStream';
 import {IdentityOp} from "../api/IdentityOp";
 
-export class HttpSensorStream implements ISensorStream{
+export class HttpSensorStream implements ISensorStream {
     private readonly client: GaiaStreamClient;
 
     constructor(url: string, credentials: GaiaCredentials, gaiaStreamClientFactory: GaiaStreamClientFactory) {

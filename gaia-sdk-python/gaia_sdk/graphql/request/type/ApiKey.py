@@ -32,12 +32,6 @@ class ApiKey(list):
         self.append(lambda x: "description")
 
     """
-    The secret of the api key
-    """
-    def secret(self):
-        self.append(lambda x: "secret")
-
-    """
     The flag to enable the api key
     """
     def enabled(self):

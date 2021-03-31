@@ -15,7 +15,7 @@ export interface BehaviourExecutionDetail {
     processInstanceId?:Uuid, 
     identityId?:Uuid, 
     qualifier?:string, 
-    behaviour?:string, 
+    behaviours?:Struct, 
     behaviourId?:Uuid, 
     nodes?:[BehaviourNodeExecution]
 }

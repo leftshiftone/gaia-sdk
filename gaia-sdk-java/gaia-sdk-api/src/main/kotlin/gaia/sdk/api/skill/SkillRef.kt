@@ -1,6 +1,8 @@
 package gaia.sdk.api.skill
 
 import gaia.sdk.GaiaStreamClient
+import gaia.sdk.api.SkillProvisionBuildCanceledResponse
+import gaia.sdk.api.SkillProvisionBuildResponse
 import gaia.sdk.api.SkillProvisionLogs
 import gaia.sdk.api.SkillProvisionStatus
 import io.reactivex.Flowable
@@ -41,6 +43,14 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
 
     fun status(): Publisher<SkillProvisionStatus> {
         return client.post(mapOf("uri" to spec.toUri()), SkillProvisionStatus::class.java, "/skill/status")
+    }
+
+    fun cancel(): Publisher<SkillProvisionBuildCanceledResponse> {
+        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionBuildCanceledResponse::class.java, "/skill/cancel")
+    }
+
+    fun build(): Publisher<SkillProvisionBuildResponse> {
+        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionBuildResponse::class.java, "/skill/build")
     }
 
     fun logs(numberOfLines: Int? = null): Publisher<String> {

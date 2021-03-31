@@ -147,7 +147,7 @@ abstract class PreservationTest {
     fun `test preserve create role`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(roles = listOf(CreatedRoleImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = CreateRoleImpulse("Super Admin", arrayOf("*"))
+        val impulse = CreateRoleImpulse(UUID.randomUUID().toString(), "Super Admin", arrayOf("*"))
 
         val publisher = gaiaRef.preserveCreateRoles(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -160,7 +160,7 @@ abstract class PreservationTest {
     fun `test preserve update role`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(roles = listOf(UpdatedRoleImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = UpdateRoleImpulse(UUID.randomUUID().toString(), "Super Admin", arrayOf("*"))
+        val impulse = UpdateRoleImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Super Admin", arrayOf("*"))
 
         val publisher = gaiaRef.preserveUpdateRoles(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -173,7 +173,7 @@ abstract class PreservationTest {
     fun `test preserve delete role`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(delete = DeleteKnowledge(roles = listOf(DeletedRoleImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = DeleteRoleImpulse(UUID.randomUUID().toString())
+        val impulse = DeleteRoleImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString())
 
         val publisher = gaiaRef.preserveDeleteRoles(impulse)
         val result = Flux.from(publisher).blockFirst()

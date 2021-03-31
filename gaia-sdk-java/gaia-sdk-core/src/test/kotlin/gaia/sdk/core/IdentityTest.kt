@@ -12,7 +12,9 @@ import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.*
 import java.io.File
 import java.net.URLEncoder
+import java.time.Instant
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class IdentityTest {
@@ -41,11 +43,15 @@ internal class IdentityTest {
     }
 
     private fun configureStub(authSchema: String, errorCode: Int = 200, responseFile: String, uri: String) {
-        val stub = WireMock.post(WireMock.urlEqualTo(uri))
-                .withHeader("Authorization", WireMock.matching("$authSchema.*"))
-                .willReturn(WireMock.aResponse().withHeader("Content-Type", "application/json")
-                        .withStatus(errorCode)
-                        .withBodyFile(responseFile))
+        configureStubMatching(authSchema, errorCode, responseFile, "^${Regex.escape(uri)}\$")
+    }
+
+    private fun configureStubMatching(authSchema: String, errorCode: Int = 200, responseFile: String, uri: String) {
+        val stub = WireMock.post(WireMock.urlMatching(uri))
+            .withHeader("Authorization", WireMock.matching("$authSchema.*"))
+            .willReturn(WireMock.aResponse().withHeader("Content-Type", "application/json")
+                .withStatus(errorCode)
+                .withBodyFile(responseFile))
 
         wireMockServer.stubFor(stub)
     }
@@ -79,11 +85,12 @@ internal class IdentityTest {
     @Test
     fun `successful identity import`() {
         val gaiaStorageUri = "gaia://tenant/identities/"
-        val fileName = "identity-Generic-Blubb.zip"
+        val identityName = "identity-default"
         val uploadId = "0123456789" //HardCoded in mapping file ok_data_chunk_upload_response.json
         val sizeInBytes = 37721 //HardCoded in mapping file ok_data_chunk_upload_response.json
         configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/init")
-        configureStub("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = "/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$fileName", "UTF-8")}")
+        val chunkUriRegex = Regex.escape("/api/data/sink/chunk?uploadId=$uploadId&ordinal=1&sizeInBytes=$sizeInBytes&uri=${URLEncoder.encode("$gaiaStorageUri$identityName-", "UTF-8")}")+"[0-9]+$" // Timestamp at the end of uri
+        configureStubMatching("Bearer", errorCode = 200, responseFile = "ok_data_chunk_upload_response.json", uri = chunkUriRegex)
         configureStub("Bearer", errorCode = 200, responseFile = "ok_data_upload_response.json", uri = "/api/data/sink/complete")
         configureStub("Bearer", errorCode = 200, responseFile = "ok_identity_import_response.json", uri = "/api/identity/import")
 
@@ -91,14 +98,13 @@ internal class IdentityTest {
         val identityRef = gaiaRef.identity()
 
         val fileToUpload = File("src/test/resources/identity-Generic-Blubb.zip")
-        val ts = Flowable.fromPublisher(identityRef.import("tenant",
-                "identity-default", fileToUpload)).test()
+        val ts = Flowable.fromPublisher(identityRef.import("tenant", identityName, fileToUpload)).test()
 
         ts.awaitDone(10, TimeUnit.SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.uri == "gaia://tenant/identities/identity-Generic-Blubb.zip"
+            it.uri == "gaia://tenant/identities/identity-Generic-Blubb.zip" &&
             it.partitionKey == "0123456789"
         }
     }
