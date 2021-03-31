@@ -35,7 +35,6 @@ from gaia_sdk.graphql.request.type.Preservation import Preservation as Preservat
 from gaia_sdk.graphql.request.type.Prompt import Prompt as PromptReq
 from gaia_sdk.graphql.request.type.Query import Query as QueryReq
 from gaia_sdk.graphql.request.type.Retrieval import Retrieval as RetrievalReq
-from gaia_sdk.graphql.request.type.SkillIntrospection import SkillIntrospection as SkillIntrospectionReq
 from gaia_sdk.graphql.request.type.Statement import Statement as StatementReq
 from gaia_sdk.graphql.request.type.UpdatedIntentImpulse import UpdatedIntentImpulse
 from gaia_sdk.graphql.response.type.PerceivedImpulse import PerceivedImpulse
@@ -65,7 +64,6 @@ from gaia_sdk.graphql.response.type.DeletedCodeImpulse import DeletedCodeImpulse
 from gaia_sdk.graphql.response.type.CreatedEdgeImpulse import CreatedEdgeImpulse
 from gaia_sdk.graphql.response.type.DeletedEdgeImpulse import DeletedEdgeImpulse
 from gaia_sdk.graphql.response.type.Preservation import Preservation as PreservationRes
-from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection as SkillIntrospectionRes
 from gaia_sdk.graphql.response.type.Introspection import Introspection as IntrospectionRes
 from gaia_sdk.graphql.response.type.Behaviour import Behaviour as BehaviourRes
 from gaia_sdk.graphql.response.type.Code import Code as CodeRes
@@ -80,6 +78,8 @@ from gaia_sdk.graphql.response.type.Experience import Experience as ExperienceRe
 from gaia_sdk.graphql.response.type.Retrieval import Retrieval as RetrievalRes
 from gaia_sdk.graphql.request.type.Mutation import Mutation as MutationReq
 from gaia_sdk.graphql.response.type.Mutation import Mutation as MutationRes
+from gaia_sdk.graphql.request.type.Practice import Practice as PracticeReq
+from gaia_sdk.graphql.response.type.Practice import Practice as PracticeRes
 from gaia_sdk.graphql.request.type.PerceivedImpulse import PerceivedImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 from gaia_sdk.graphql.request.input.PerceiveDataImpulse import PerceiveDataImpulse
@@ -91,7 +91,19 @@ from gaia_sdk.graphql.request.type.BehaviourExecution import BehaviourExecution 
 from gaia_sdk.graphql.request.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailReq
 from gaia_sdk.graphql.response.type.BehaviourExecution import BehaviourExecution as BehaviourExecutionRes
 from gaia_sdk.graphql.response.type.BehaviourExecutionDetail import BehaviourExecutionDetail as BehaviourExecutionDetailRes
-from gaia_sdk.graphql.request.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobReq
-from gaia_sdk.graphql.response.type.SkillProvisionBuildJob import SkillProvisionBuildJob as SkillProvisionBuildJobRes
-
+from gaia_sdk.graphql.request.type.CreatedSkillBuildJobImpulse import CreatedSkillBuildJobImpulse
+from gaia_sdk.graphql.request.input.CancelSkillBuildJobImpulse import CancelSkillBuildJobImpulse as CancelSkillBuildJobImpulse
+from gaia_sdk.graphql.request.type.CanceledSkillBuildJobImpulse import CanceledSkillBuildJobImpulse as CanceledSkillBuildJobImpulseReq
+from gaia_sdk.graphql.response.type.CanceledSkillBuildJobImpulse import CanceledSkillBuildJobImpulse as CanceledSkillBuildJobImpulseRes
+from gaia_sdk.graphql.response.type.SkillBuildJob import SkillBuildJob as SkillBuildJobRes
+from gaia_sdk.graphql.request.type.SkillBuildJob import SkillBuildJob as SkillBuildJobReq
+from gaia_sdk.graphql.request.input.CreateSkillBuildJobImpulse import CreateSkillBuildJobImpulse as CreateSkillBuildJobImpulse
+from gaia_sdk.graphql.request.type.CreatedSkillBuildJobImpulse import CreatedSkillBuildJobImpulse as CreatedSkillBuildJobImpulseReq
+from gaia_sdk.graphql.response.type.CreatedSkillBuildJobImpulse import CreatedSkillBuildJobImpulse as CreatedSkillBuildJobImpulseRes
+from gaia_sdk.graphql.request.type.SkillStatus import SkillStatus as SkillStatusReq
+from gaia_sdk.graphql.response.type.SkillStatus import SkillStatus as SkillStatusRes
+from gaia_sdk.graphql.request.type.SkillVersion import SkillVersion as SkillVersionReq
+from gaia_sdk.graphql.response.type.SkillVersion import SkillVersion as SkillVersionRes
+from gaia_sdk.graphql.request.type.Failure import Failure as FailureReq
+from gaia_sdk.graphql.response.type.Failure import Failure as FailureRes
 Uuid = dict

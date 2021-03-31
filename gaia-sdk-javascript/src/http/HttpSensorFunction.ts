@@ -1157,8 +1157,29 @@ export class HttpSensorFunction implements ISensorFunction {
         return Rx.mapM<PerceivedImpulse>(observable, (e) => e.perceive!.perceiveData!);
     }
 
-    public introspectBuildJobs(tenantId: Uuid, config: (config: SkillBuildJobReq) => void): Observable<SkillBuildJobRes> {
-        const obs = defer(() => this.client.query(GaiaRequest.query(q => q.introspect(i => i.buildJobs(tenantId, config)))));
+    public introspectBuildJobs(tenantId: Uuid, config: ((config: SkillBuildJobReq) => void) | undefined): Observable<SkillBuildJobRes> {
+        if (config) {
+            const obs = defer(() => this.client.query(GaiaRequest.query(q => q.introspect(i => i.buildJobs(tenantId, config)))));
+            return Rx.flatMapQ<SkillBuildJobRes>(obs, (e) => e.introspect!.buildJobs!);
+        }
+        const obs = defer(() => this.client.query(GaiaRequest.query(q => q.introspect(i => i.buildJobs(tenantId, c => {
+            c.tenantId()
+            c.name()
+            c.reference()
+            c.created()
+            c.skillRef()
+            c.tag()
+            c.status(s => {
+                s.health()
+                s.running()
+                s.pending()
+                s.failures(f => {
+                    f.reason()
+                    f.exitCode()
+                    f.affectedContainer()
+                })
+            })
+        })))));
         return Rx.flatMapQ<SkillBuildJobRes>(obs, (e) => e.introspect!.buildJobs!);
     }
 

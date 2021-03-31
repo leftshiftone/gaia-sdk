@@ -1,15 +1,15 @@
 from abc import abstractmethod, ABC
 from rx.core.typing import Observable
-from typing import Callable, List
+from typing import Callable, List, Union
 
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
-    IdentityReq, IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, SkillIntrospectionReq, \
+    IdentityReq, IntentReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
     CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
-    BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
+    BehaviourRes, IntrospectionRes,PreservationRes, PerceptionRes, PerceivedImpulse, \
     DeleteIdentityImpulse, UpdateIdentityImpulse, CreateIdentityImpulse, DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse,  \
-    PerceiveActionImpulse, PerceiveDataImpulse, \
+    PerceiveActionImpulse, PerceiveDataImpulse,  \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
     DeletedPromptImpulse, CreateStatementImpulse, UpdateStatementImpulse, DeleteStatementImpulse, \
     CreatedStatementImpulse, UpdatedStatementImpulse, DeletedStatementImpulse, CreateFulfilmentImpulse, \
@@ -19,7 +19,9 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
     BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
-    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
+    CreatedSkillBuildJobImpulseRes, CreatedSkillBuildJobImpulseReq, \
+    CancelSkillBuildJobImpulse, CreateSkillBuildJobImpulse, CanceledSkillBuildJobImpulseRes, CanceledSkillBuildJobImpulseReq, \
+    PracticeReq, PracticeRes,SkillBuildJobRes, SkillBuildJobReq
 
 Uuid = str
 
@@ -112,15 +114,7 @@ class ISensorFunction(ABC):
         pass
 
     @abstractmethod
-    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
-        pass
-
-    @abstractmethod
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
-        pass
-
-    @abstractmethod
-    def introspect_skills(self, config: Callable[[SkillIntrospectionReq], None]) -> Observable[SkillIntrospectionRes]:
         pass
 
     @abstractmethod
@@ -229,4 +223,20 @@ class ISensorFunction(ABC):
 
     @abstractmethod
     def perceive_data(self, impulse: PerceiveDataImpulse) -> Observable[PerceivedImpulse]:
+        pass
+
+    @abstractmethod
+    def practice(self, config: Callable[[PracticeReq], None]) -> Observable[PracticeRes]:
+        pass
+
+    @abstractmethod
+    def practice_build(self, impulse: CreateSkillBuildJobImpulse, config: Union[Callable[[CreatedSkillBuildJobImpulseReq], None], None]) -> Observable[CreatedSkillBuildJobImpulseRes]:
+        pass
+
+    @abstractmethod
+    def practice_cancel(self, impulse: CancelSkillBuildJobImpulse, config: Union[Callable[[CanceledSkillBuildJobImpulseReq], None], None]) -> Observable[CanceledSkillBuildJobImpulseRes]:
+        pass
+
+    @abstractmethod
+    def introspect_build_jobs(self, tenant_id: Uuid, config: Union[Callable[[SkillBuildJobReq], None], None]) -> Observable[SkillBuildJobRes]:
         pass

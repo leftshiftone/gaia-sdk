@@ -21,6 +21,10 @@ data class SkillBuildJob @JsonCreator constructor(
     */
     @JsonProperty("tenantId") val tenantId:Uuid? = null, 
     /**
+    * reference to the skill being built
+    */
+    @JsonProperty("skillRef") val skillRef:String? = null, 
+    /**
     * the associated version tag
     */
     @JsonProperty("tag") val tag:String? = null, 
@@ -31,5 +35,9 @@ data class SkillBuildJob @JsonCreator constructor(
     /**
     * The current status of the build job
     */
-    @JsonProperty("status") val status:SkillStatus? = null
+    @JsonProperty("status") val status:SkillStatus? = null, 
+    /**
+    * created at
+    */
+    @JsonProperty("created") val created:ISO8601? = null
 )

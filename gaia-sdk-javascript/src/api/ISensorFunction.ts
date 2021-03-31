@@ -221,7 +221,7 @@ export interface ISensorFunction {
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 
-    introspectBuildJobs(tenantId: Uuid, config: (config: SkillBuildJobReq) => void): Observable<SkillBuildJob>
+    introspectBuildJobs(tenantId: Uuid, config: ((config: SkillBuildJobReq) => void) | undefined): Observable<SkillBuildJob>
 
     practice(config: (x: PracticeReq) => void): Observable<PracticeRes>
 

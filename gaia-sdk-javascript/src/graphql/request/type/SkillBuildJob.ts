@@ -30,6 +30,13 @@ public _typeName = "SkillBuildJob";
     };
 
     /**
+     * reference to the skill being built
+     */
+    public skillRef = () => { 
+        this.push(_ => "skillRef")
+    };
+
+    /**
      * the associated version tag
      */
     public tag = () => { 
@@ -51,6 +58,13 @@ public _typeName = "SkillBuildJob";
         config(entity);
         return "status { " + entity.render(registry) + " }";
     });
+
+    /**
+     * created at
+     */
+    public created = () => { 
+        this.push(_ => "created")
+    };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }

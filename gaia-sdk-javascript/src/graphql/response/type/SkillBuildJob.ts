@@ -21,6 +21,10 @@ export interface SkillBuildJob {
     */
     tenantId?:Uuid, 
     /**
+    * reference to the skill being built
+    */
+    skillRef?:string, 
+    /**
     * the associated version tag
     */
     tag?:string, 
@@ -31,5 +35,9 @@ export interface SkillBuildJob {
     /**
     * The current status of the build job
     */
-    status?:SkillStatus
+    status?:SkillStatus, 
+    /**
+    * created at
+    */
+    created?:ISO8601
 }

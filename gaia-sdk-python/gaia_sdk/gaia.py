@@ -11,11 +11,10 @@ from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.SkillRef import SkillRef
 from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
     IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
-    SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
     CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
-    BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
+    BehaviourRes, IntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
     PerceiveDataImpulse, PerceiveActionImpulse, DeleteIdentityImpulse, UpdateIdentityImpulse, CreateIdentityImpulse, \
     DeleteIntentImpulse, UpdateIntentImpulse, CreateIntentImpulse, \
     CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, CreatedPromptImpulse, UpdatedPromptImpulse, \
@@ -26,8 +25,7 @@ from gaia_sdk.graphql import RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq,
     CreatedBehaviourImpulse, UpdatedBehaviourImpulse, DeletedBehaviourImpulse, CreateCodeImpulse, UpdateCodeImpulse, \
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
-    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
-    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
+    BehaviourExecutionDetailReq, BehaviourExecutionDetailRes
 
 from gaia_sdk.http.HttpSensorFunction import HttpSensorFunction
 from gaia_sdk.http.HttpSensorStream import HttpSensorStream
@@ -176,14 +174,8 @@ class GaiaRef(ISensorFunction):  # TODO: implement ISensorStream
     def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) -> Observable[BehaviourExecutionDetailRes]:
         return self.f_proc.retrieve_behaviour_execution(identity_id, process_instance_id, config)
 
-    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
-        return self.f_proc.retrieve_skill_provision_build_jobs(tenant_id, config)
-
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         return self.f_proc.introspect(config)
-
-    def introspect_skills(self, config: Callable[[SkillIntrospectionReq], None]) -> Observable[SkillIntrospectionRes]:
-        return self.f_proc.introspect_skills(config)
 
     def preserve(self, config: Callable[[PreservationReq], None]) -> Observable[PreservationRes]:
         return self.f_proc.preserve(config)

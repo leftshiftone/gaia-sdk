@@ -29,28 +29,12 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
         return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "contract" to contract, "payload" to payload), SkillEvaluation::class.java, "/skill/evaluate"))
     }
 
-    fun introspect(): Publisher<SkillIntrospection> {
-        return Flowable.empty()
-    }
-
     fun start(): Publisher<Void> {
         return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri()), Map::class.java, "/skill/start")).flatMap { Flowable.empty<Void>() }
     }
 
     fun stop(): Publisher<Void> {
         return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri()), Map::class.java, "/skill/stop")).flatMap { Flowable.empty<Void>() }
-    }
-
-    fun status(): Publisher<SkillProvisionStatus> {
-        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionStatus::class.java, "/skill/status")
-    }
-
-    fun cancel(): Publisher<SkillProvisionBuildCanceledResponse> {
-        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionBuildCanceledResponse::class.java, "/skill/cancel")
-    }
-
-    fun build(): Publisher<SkillProvisionBuildResponse> {
-        return client.post(mapOf("uri" to spec.toUri()), SkillProvisionBuildResponse::class.java, "/skill/build")
     }
 
     fun logs(numberOfLines: Int? = null): Publisher<String> {

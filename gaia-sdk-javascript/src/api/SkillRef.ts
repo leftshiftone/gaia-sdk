@@ -19,14 +19,6 @@ export class SkillRef {
         return defer(() => this.client.post({uri: this.uri}, '/skill/stop'));
     }
 
-    public status(): Observable<SkillProvisionStatus> {
-        return defer(() => this.client.post({uri: this.uri}, '/skill/status'));
-    }
-
-    public cancel(): Observable<SkillProvisionBuildCanceledResponse> {
-        return defer(() => this.client.post({uri: this.uri}, '/skill/cancel'));
-    }
-
     public logs(numberOfLines?: number): Observable<string> {
         return this.logsInternal(numberOfLines)
             .pipe(flatMap(response => defer(() => response.logLines)));
@@ -62,14 +54,6 @@ export class SkillRef {
         }
         return defer(() => this.client.post(request, '/skill/evaluate'))
             .pipe(map(r => new SkillEvaluation(r)));
-    }
-}
-
-export class SkillProvisionBuildCanceledResponse {
-    reference: string;
-
-    constructor(reference: string) {
-        this.reference = reference;
     }
 }
 
