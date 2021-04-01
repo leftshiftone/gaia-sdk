@@ -56,10 +56,10 @@
         "webpack:build": "webpack --mode=production",
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
-        "test": "jest",
-        "test-node": "jest --env=node --coverage",
+        "test": "jest --maxworkers=1 --maxConcurrency=1 --coverage",
+        "test-node": "jest --env=node --coverage --maxworkers=1 --maxConcurrency=1 --coverage",
         "lint": "stylelint tslint src/**/*.ts",
-        "sonarqube": "jest --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
+        "sonarqube": "jest --coverage  --maxworkers=1 --maxConcurrency=1 && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
     },
     "repository": {
         "type": "git",
