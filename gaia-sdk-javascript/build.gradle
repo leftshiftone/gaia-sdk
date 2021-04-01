@@ -24,7 +24,7 @@ task assemble() {
 }
 
 task build() {
-    dependsOn test, assemble
+    dependsOn assemble
 }
 
 task publish() {
