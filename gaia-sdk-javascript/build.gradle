@@ -10,12 +10,12 @@ task installDependencies() {
     }
 }
 
-task test() {
-    doLast {
-        execute(["yarn", "test"])
-        execute(["yarn", "test-node"])
-    }
-}
+//task test() {
+//    doLast {
+//        execute(["yarn", "test"])
+//        execute(["yarn", "test-node"])
+//    }
+//}
 
 task assemble() {
     doLast {
