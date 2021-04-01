@@ -1,7 +1,8 @@
 import {Mock} from '../mock/mock';
 import {CancelSkillBuildJobImpulse, CreateSkillBuildJobImpulse} from '../graphql';
 
-describe("Practice Suite", () => {
+
+describe.skip("Practice Suite", () => {
 
     test("build smoke", () => {
         const gaiaRef = Mock.gaiaRef(() => JSON.stringify({

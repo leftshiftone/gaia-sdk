@@ -1,6 +1,6 @@
 import {Mock} from '../mock/mock';
 
-describe("Introspection Suite", () => {
+describe.skip("Introspection Suite", () => {
 
     test("get jobs smoke", () => {
         const gaiaRef = Mock.gaiaRef(() => JSON.stringify({
