@@ -8,37 +8,19 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
-class SkillProvisionBuildJob(list):
+class SkillVersion(list):
+    """
+    A skill version is a built version of a skill created by a SkillBuildJob
+    """
 
-    """
-    Id of the tenant
-    """
-    def tenant_id(self):
-        self.append(lambda x: "tenantId")
-
-    """
-    Reference to the skill provision for that build job
-    """
-    def provision_ref(self):
-        self.append(lambda x: "provisionRef")
-
-    """
-    Reference to the skill
-    """
     def skill_ref(self):
         self.append(lambda x: "skillRef")
 
-    """
-    The name of the build job
-    """
-    def name(self):
-        self.append(lambda x: "name")
+    def version(self):
+        self.append(lambda x: "version")
 
-    """
-    The current status of the build job
-    """
-    def status(self):
-        self.append(lambda x: "status")
+    def created(self):
+        self.append(lambda x: "created")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

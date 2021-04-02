@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import gaia.sdk.GaiaCredentials
-import gaia.sdk.GaiaRequest
 import gaia.sdk.JWTCredentials
 import gaia.sdk.Uuid
 import gaia.sdk.api.ISensorFunction
 import gaia.sdk.api.ISensorQueue
 import gaia.sdk.api.ISensorStream
-import gaia.sdk.api.extension.map
 import gaia.sdk.http.HttpSensorFunction
 import gaia.sdk.http.HttpSensorStream
 import gaia.sdk.http.HttpTransportException
@@ -144,11 +142,9 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: gaia.sdk.request.type.SkillProvision.() -> Unit) = fProc.retrieveSkillProvision(tenantId, reference, config)
     override fun retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: BehaviourExecutionDetail.() -> Unit) = fProc.retrieveBehaviourExecution(identityId, processInstanceId, config)
     override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) = fProc.retrieveBehaviourExecutions(identityId, config, limit, offset, startDate, endDate)
-    override fun retrieveSkillProvisionBuildJobs(tenandId: Uuid, config: gaia.sdk.request.type.SkillProvisionBuildJob.() -> Unit): Publisher<SkillProvisionBuildJob>  = fProc.retrieveSkillProvisionBuildJobs(tenandId, config)
     override fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?) = fProc.retrieveIdentityMetrics(identityId, startDate, endDate, config, limit)
     override fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?) = fProc.retrieveBehaviourMetrics(identityId, behaviourId, startDate, endDate, config, limit)
     override fun introspect(config: gaia.sdk.request.type.Introspection.() -> Unit) = fProc.introspect(config)
-    override fun introspectSkills(config: gaia.sdk.request.type.SkillIntrospection.() -> Unit) = fProc.introspectSkills(config)
     override fun preserve(config: gaia.sdk.request.type.Preservation.() -> Unit) = fProc.preserve(config)
     override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) = fProc.preserveCreateIdentities(*impulses)
     override fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse) = fProc.preserveUpdateIdentities(*impulses)
@@ -198,7 +194,12 @@ class GaiaRef(config: GaiaConfig) : ISensorFunction, ISensorStream {
     override fun perceive(config: gaia.sdk.request.type.Perception.() -> Unit) = fProc.perceive(config)
     override fun perceiveAction(impulse: PerceiveActionImpulse) = fProc.perceiveAction(impulse)
     override fun perceiveData(impulse: PerceiveDataImpulse) = fProc.perceiveData(impulse)
-
+    override fun introspectBuildJobs(tenantId: Uuid, config: (gaia.sdk.request.type.SkillBuildJob.() -> Unit)?): Publisher<SkillBuildJob> = fProc.introspectBuildJobs(tenantId, config)
+    override fun practice(config: gaia.sdk.request.type.Practice.() -> Unit): Publisher<Practice> = fProc.practice(config)
+    override fun practiceBuild(impulse: CreateSkillBuildJobImpulse, config: (gaia.sdk.request.type.CreatedSkillBuildJobImpulse.() -> Unit)?): Publisher<CreatedSkillBuildJobImpulse> =
+            fProc.practiceBuild(impulse, config)
+    override fun practiceCancel(impulse: CancelSkillBuildJobImpulse, config: (gaia.sdk.request.type.CanceledSkillBuildJobImpulse.() -> Unit)?): Publisher<CanceledSkillBuildJobImpulse> =
+            fProc.practiceCancel(impulse, config)
 
     // data api
     override fun data(url: String) = sProc.data(url)

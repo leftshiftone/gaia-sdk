@@ -33,7 +33,7 @@
         "stylelint": "^9.5.0",
         "stylelint-config-recommended": "^2.1.0",
         "stylelint-webpack-plugin": "^0.10.5",
-        "ts-jest": "^26.4.1",
+        "ts-jest": "^26.5.4",
         "ts-loader": "^8.0.6",
         "tslint": "^6.1.3",
         "tslint-config-airbnb": "^5.11.2",
@@ -56,11 +56,10 @@
         "webpack:build": "webpack --mode=production",
         "clean": "shx rm -rf dist",
         "build": "tsc && tsc -m es2015 --outDir ./dist/esm2015 && npm run webpack:build",
-        "test": "jest",
-        "test-node": "jest --env=node",
-        "coverage": "jest --coverage",
+        "test": "jest --maxWorkers=1 --maxConcurrency=1 --coverage",
+        "test-node": "jest --env=node --coverage --maxworkers=1 --maxConcurrency=1 --coverage",
         "lint": "stylelint tslint src/**/*.ts",
-        "sonarqube": "jest --coverage && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
+        "sonarqube": "jest --coverage  --maxWorkers=1 --maxConcurrency=1 && sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN"
     },
     "repository": {
         "type": "git",

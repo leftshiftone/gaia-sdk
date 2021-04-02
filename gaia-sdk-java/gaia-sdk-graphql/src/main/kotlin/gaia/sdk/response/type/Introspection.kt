@@ -9,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import gaia.sdk.request.enumeration.*
 
 data class Introspection @JsonCreator constructor(
-    @JsonProperty("cpu") val cpu:String? = null, 
-    @JsonProperty("gpu") val gpu:String? = null, 
-    @JsonProperty("memory") val memory:String? = null, 
-    @JsonProperty("state") val state:RuntimeState? = null, 
-    @JsonProperty("started") val started:ISO8601? = null, 
-    @JsonProperty("skills") val skills:List<SkillIntrospection>? = null
+    /**
+    * Introspects the build jobs currently available in the system
+    */
+    @JsonProperty("buildJobs") val buildJobs:List<SkillBuildJob>? = null
 )

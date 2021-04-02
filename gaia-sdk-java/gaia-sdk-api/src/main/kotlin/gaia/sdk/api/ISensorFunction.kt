@@ -3,6 +3,9 @@ package gaia.sdk.api
 import gaia.sdk.Uuid
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
+import gaia.sdk.response.type.CanceledSkillBuildJobImpulse
+import gaia.sdk.response.type.CreatedSkillBuildJobImpulse
+import gaia.sdk.response.type.Practice
 import org.reactivestreams.Publisher
 
 interface ISensorFunction {
@@ -41,9 +44,11 @@ interface ISensorFunction {
     fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int? = null, offset: Long? = null, startDate: String? = null, endDate: String? = null): Publisher<gaia.sdk.response.type.BehaviourExecution>
     fun retrieveIdentityMetrics(identityId: Uuid, startDate: String, endDate: String, config: IdentityMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.IdentityMetrics>
     fun retrieveBehaviourMetrics(identityId: Uuid, behaviourId: Uuid?, startDate: String, endDate: String, config: BehaviourMetrics.() -> Unit, limit: Int?): Publisher<gaia.sdk.response.type.BehaviourMetrics>
-    fun retrieveSkillProvisionBuildJobs(tenandId: Uuid, config: SkillProvisionBuildJob.() -> Unit): Publisher<gaia.sdk.response.type.SkillProvisionBuildJob>
     fun introspect(config: Introspection.() -> Unit): Publisher<gaia.sdk.response.type.Introspection>
-    fun introspectSkills(config: SkillIntrospection.() -> Unit): Publisher<gaia.sdk.response.type.SkillIntrospection>
+    fun introspectBuildJobs(tenantId: Uuid, config: (SkillBuildJob.() -> Unit)? = null): Publisher<gaia.sdk.response.type.SkillBuildJob>
+    fun practice(config: gaia.sdk.request.type.Practice.() -> Unit): Publisher<Practice>
+    fun practiceBuild(impulse: CreateSkillBuildJobImpulse, config: (gaia.sdk.request.type.CreatedSkillBuildJobImpulse.() -> Unit)? = null): Publisher<CreatedSkillBuildJobImpulse>
+    fun practiceCancel(impulse: CancelSkillBuildJobImpulse, config: (gaia.sdk.request.type.CanceledSkillBuildJobImpulse.() -> Unit)? = null): Publisher<CanceledSkillBuildJobImpulse>
     fun preserve(config: Preservation.() -> Unit): Publisher<gaia.sdk.response.type.Preservation>
     fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse): Publisher<gaia.sdk.response.type.CreatedIdentityImpulse>
     fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse): Publisher<gaia.sdk.response.type.UpdatedIdentityImpulse>

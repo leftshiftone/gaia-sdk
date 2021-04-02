@@ -18,5 +18,7 @@ data class Practice @JsonCreator constructor(
     *     This perception impulse do not invoke the data transmission but establishes
     *     a connection to the streaming api.
     */
-    @JsonProperty("prepare") val prepare:StreamingImpulse? = null
+    @JsonProperty("prepare") val prepare:StreamingImpulse? = null, 
+    @JsonProperty("build") val build:CreatedSkillBuildJobImpulse? = null, 
+    @JsonProperty("cancel") val cancel:CanceledSkillBuildJobImpulse? = null
 )

@@ -89,24 +89,6 @@ abstract class SkillTest() {
         ts.assertNoValues()
     }
 
-    @Test
-    fun `test skill provision status`() {
-        Gaia.transporterFactory = MockTransporterFactory { request ->
-            assertThat(request.apiPath).isEqualTo("/skill/status")
-            Flowable.just(SkillProvisionStatus("mockSkillName", "mockStatus", "01.01.1970"))
-        }
-        val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val skillRef = gaiaRef.skill("skillProvision://mockTenant/mockSkillProvisionReference")
-
-        val ts = Flowable.fromPublisher(skillRef.status()).test()
-        ts.awaitDone(5, TimeUnit.SECONDS)
-        ts.assertNoErrors()
-
-        val status = ts.values().first()
-        Assertions.assertThat(status.createdAt).isEqualTo("01.01.1970")
-        Assertions.assertThat(status.name).isEqualTo("mockSkillName")
-        Assertions.assertThat(status.status).isEqualTo("mockStatus")
-    }
 
     @Test
     fun `test skill provision logs`() {

@@ -1,10 +1,8 @@
 
-import {SkillIntrospection} from "./SkillIntrospection";
+import {SkillBuildJob} from "./SkillBuildJob";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
@@ -12,30 +10,14 @@ import {EdgeType} from "../enumeration/EdgeType";
 
 export class Introspection extends Array<(_:VariableRegistry) => string> {
 public _typeName = "Introspection";
-    public cpu = () => { 
-        this.push(_ => "cpu")
-    };
-
-    public gpu = () => { 
-        this.push(_ => "gpu")
-    };
-
-    public memory = () => { 
-        this.push(_ => "memory")
-    };
-
-    public state = () => { 
-        this.push(_ => "state")
-    };
-
-    public started = () => { 
-        this.push(_ => "started")
-    };
-
-    public skills = (config: (_:SkillIntrospection) => void) => this.push((registry) => {
-        const entity = new SkillIntrospection();
+    /**
+     * Introspects the build jobs currently available in the system
+     */
+    public buildJobs = (tenantId: Uuid, config: (_:SkillBuildJob) => void) => this.push((registry) => {
+        const name1 = registry.register("tenantId", tenantId);
+        const entity = new SkillBuildJob();
         config(entity);
-        return "skills { " + entity.render(registry) + " }";
+        return `buildJobs(tenantId:${name1}){` + entity.render(registry) + "}"
     });
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

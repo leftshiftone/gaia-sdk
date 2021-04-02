@@ -40,8 +40,6 @@ export {SkillProvision as SkillProvisionReq} from "./request/type/SkillProvision
 export {SkillProvision as SkillProvisionRes} from "./response/type/SkillProvision";
 export {Introspection as IntrospectionReq} from "./request/type/Introspection";
 export {Introspection as IntrospectionRes} from "./response/type/Introspection";
-export {SkillIntrospection as SkillIntrospectionReq} from "./request/type/SkillIntrospection";
-export {SkillIntrospection as SkillIntrospectionRes} from "./response/type/SkillIntrospection";
 export {Preservation as PreservationReq} from "./request/type/Preservation";
 export {Preservation as PreservationRes} from "./response/type/Preservation";
 export {CreateIntentImpulse} from "./request/input/CreateIntentImpulse";
@@ -50,11 +48,19 @@ export {UpdateIntentImpulse} from "./request/input/UpdateIntentImpulse";
 export {DeleteIntentImpulse} from "./request/input/DeleteIntentImpulse";
 export {UpdatedIntentImpulse} from "./response/type/UpdatedIntentImpulse";
 export {DeletedIntentImpulse} from "./response/type/DeletedIntentImpulse";
+export {CreateSkillBuildJobImpulse} from "./request/input/CreateSkillBuildJobImpulse";
+export {CancelSkillBuildJobImpulse} from "./request/input/CancelSkillBuildJobImpulse";
 export {Perception as PerceptionReq} from "./request/type/Perception";
 export {Perception as PerceptionRes} from "./response/type/Perception";
 export {PerceiveActionImpulse} from "./request/input/PerceiveActionImpulse";
 export {PerceivedImpulse} from "./response/type/PerceivedImpulse";
 export {PerceiveDataImpulse} from "./request/input/PerceiveDataImpulse";
-export {SkillProvisionBuildJob as SkillProvisionBuildJobReq} from "./request/type/SkillProvisionBuildJob";
-export {SkillProvisionBuildJob as SkillProvisionBuildJobRes} from "./response/type/SkillProvisionBuildJob";
+export {Practice as PracticeReq} from "./request/type/Practice";
+export {Practice as PracticeRes} from "./response/type/Practice";
+export {SkillBuildJob as SkillBuildJobRes} from "./response/type/SkillBuildJob"
+export {SkillBuildJob as SkillBuildJobReq} from "./request/type/SkillBuildJob"
+export {CreatedSkillBuildJobImpulse as CreatedSkillBuildJobImpulseReq} from "./request/type/CreatedSkillBuildJobImpulse"
+export {CreatedSkillBuildJobImpulse as CreatedSkillBuildJobImpulseRes} from "./response/type/CreatedSkillBuildJobImpulse"
+export {CanceledSkillBuildJobImpulse as CanceledSkillBuildJobImpulseReq} from "./request/type/CanceledSkillBuildJobImpulse"
+export {CanceledSkillBuildJobImpulse as CanceledSkillBuildJobImpulseRes} from "./response/type/CanceledSkillBuildJobImpulse"
 export {Gaia} from "../Gaia"

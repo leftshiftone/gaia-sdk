@@ -55,5 +55,19 @@ class Skill: Type() {
     fun repositoryUri() { 
         add {"repositoryUri" } 
     }
+
+    /**
+     * The list of available and build skill versions
+     */
+    fun versions(config: SkillVersion.() -> Unit) = 
+        add { "versions{ " + SkillVersion().apply(config).render(it) + "}"}
+
+
+    /**
+     * A list of all available version tags
+     */
+    fun tags() { 
+        add {"tags" } 
+    }
 }
 

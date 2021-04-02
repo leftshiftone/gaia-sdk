@@ -1,5 +1,5 @@
 
-from gaia_sdk.graphql.response.type.SkillIntrospection import SkillIntrospection
+from gaia_sdk.graphql.response.type.SkillBuildJob import SkillBuildJob
 
 from typing import List
 Uuid = str
@@ -9,8 +9,6 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
@@ -30,21 +28,9 @@ class Introspection:
     def __repr__(self):
         return {'dictionary': self.dictionary}
 
+    """
+    Introspects the build jobs currently available in the system
+    """
     @property
-    def cpu(self) -> String:
-        return String(self.dictionary.get("cpu"))
-    @property
-    def gpu(self) -> String:
-        return String(self.dictionary.get("gpu"))
-    @property
-    def memory(self) -> String:
-        return String(self.dictionary.get("memory"))
-    @property
-    def state(self) -> RuntimeState:
-        return RuntimeState(self.dictionary.get("state"))
-    @property
-    def started(self) -> ISO8601:
-        return ISO8601(self.dictionary.get("started"))
-    @property
-    def skills(self) -> List[SkillIntrospection]:
-        return list(map(lambda x: SkillIntrospection(x), self.dictionary.get("skills")))
+    def build_jobs(self) -> List[SkillBuildJob]:
+        return list(map(lambda x: SkillBuildJob(x), self.dictionary.get("buildJobs")))

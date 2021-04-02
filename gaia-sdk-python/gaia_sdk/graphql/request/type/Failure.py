@@ -8,16 +8,22 @@ from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByFie
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
 
-class SkillIntrospection(list):
+class Failure(list):
 
-    def name(self):
-        self.append(lambda x: "name")
+    def reason(self):
+        self.append(lambda x: "reason")
 
-    def state(self):
-        self.append(lambda x: "state")
+    def failure_type(self):
+        self.append(lambda x: "failureType")
 
-    def started(self):
-        self.append(lambda x: "started")
+    def exit_code(self):
+        self.append(lambda x: "exitCode")
+
+    def affected_container(self):
+        self.append(lambda x: "affectedContainer")
+
+    def logs(self):
+        self.append(lambda x: "logs")
 
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

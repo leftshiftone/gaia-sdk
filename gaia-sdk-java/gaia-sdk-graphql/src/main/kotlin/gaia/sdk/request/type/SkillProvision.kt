@@ -50,7 +50,7 @@ class SkillProvision: Type() {
     }
 
     /**
-     * The version of the skill
+     * The version used by this skill provision
      */
     fun version() { 
         add {"version" } 
@@ -106,17 +106,17 @@ class SkillProvision: Type() {
     }
 
     /**
-     * Whether the skill provision has been built
-     */
-    fun built() { 
-        add {"built" } 
-    }
-
-    /**
      * The current status of the skill provision
      */
-    fun status() { 
-        add {"status" } 
+    fun status(config: SkillStatus.() -> Unit) = 
+        add { "status{ " + SkillStatus().apply(config).render(it) + "}"}
+
+
+    /**
+     * The contract associated with this provision
+     */
+    fun contract() { 
+        add {"contract" } 
     }
 }
 

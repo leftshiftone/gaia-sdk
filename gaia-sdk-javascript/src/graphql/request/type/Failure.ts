@@ -2,25 +2,31 @@
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
 import {EdgeType} from "../enumeration/EdgeType";
 
-export class SkillIntrospection extends Array<(_:VariableRegistry) => string> {
-public _typeName = "SkillIntrospection";
-    public name = () => { 
-        this.push(_ => "name")
+export class Failure extends Array<(_:VariableRegistry) => string> {
+public _typeName = "Failure";
+    public reason = () => { 
+        this.push(_ => "reason")
     };
 
-    public state = () => { 
-        this.push(_ => "state")
+    public failureType = () => { 
+        this.push(_ => "failureType")
     };
 
-    public started = () => { 
-        this.push(_ => "started")
+    public exitCode = () => { 
+        this.push(_ => "exitCode")
+    };
+
+    public affectedContainer = () => { 
+        this.push(_ => "affectedContainer")
+    };
+
+    public logs = () => { 
+        this.push(_ => "logs")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

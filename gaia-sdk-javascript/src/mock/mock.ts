@@ -4,7 +4,7 @@ import {
     GaiaCredentials,
     HMACCredentials,
     GaiaClientBuilder,
-    ITransporter
+    ITransporter, GaiaRef
 } from '../index';
 import {Gaia} from '../Gaia';
 

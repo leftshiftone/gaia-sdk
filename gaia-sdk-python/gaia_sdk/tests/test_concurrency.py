@@ -7,6 +7,7 @@ from rx import pipe
 
 from gaia_sdk.tests.mock import mock_gaia_ref
 
+
 class TestConcurrency(unittest.TestCase):
 
     def test_does_not_block(self):

@@ -1,9 +1,8 @@
 
+import {SkillStatus} from "./SkillStatus";
 
 import VariableRegistry from "../../../api/VariableRegistry"
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../enumeration/RuntimeState";
-import {SkillState} from "../enumeration/SkillState";
 import {Order} from "../enumeration/Order";
 import {OrderByField} from "../enumeration/OrderByField";
 import {EdgeOrderByField} from "../enumeration/EdgeOrderByField";
@@ -50,7 +49,7 @@ public _typeName = "SkillProvision";
     };
 
     /**
-     * The version of the skill
+     * The version used by this skill provision
      */
     public version = () => { 
         this.push(_ => "version")
@@ -106,17 +105,19 @@ public _typeName = "SkillProvision";
     };
 
     /**
-     * Whether the skill provision has been built
-     */
-    public built = () => { 
-        this.push(_ => "built")
-    };
-
-    /**
      * The current status of the skill provision
      */
-    public status = () => { 
-        this.push(_ => "status")
+    public status = (config: (_:SkillStatus) => void) => this.push((registry) => {
+        const entity = new SkillStatus();
+        config(entity);
+        return "status { " + entity.render(registry) + " }";
+    });
+
+    /**
+     * The contract associated with this provision
+     */
+    public contract = () => { 
+        this.push(_ => "contract")
     };
 
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");

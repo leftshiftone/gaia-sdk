@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.SkillStatus import SkillStatus
 
 from typing import List
 Uuid = str
@@ -8,14 +9,15 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class SkillProvisionBuildJob:
+class SkillBuildJob:
+    """
+    A skill build job creates definitive versions for Skill
+    """
     dictionary: dict
 
     def __init__(self, dictionary: dict):
@@ -30,23 +32,29 @@ class SkillProvisionBuildJob:
         return {'dictionary': self.dictionary}
 
     """
+    The reference of this build job
+    """
+    @property
+    def reference(self) -> Uuid:
+        return Uuid(self.dictionary.get("reference"))
+    """
     Id of the tenant
     """
     @property
     def tenant_id(self) -> Uuid:
         return Uuid(self.dictionary.get("tenantId"))
     """
-    Reference to the skill provision for that build job
-    """
-    @property
-    def provision_ref(self) -> String:
-        return String(self.dictionary.get("provisionRef"))
-    """
-    Reference to the skill
+    reference to the skill being built
     """
     @property
     def skill_ref(self) -> String:
         return String(self.dictionary.get("skillRef"))
+    """
+    the associated version tag
+    """
+    @property
+    def tag(self) -> String:
+        return String(self.dictionary.get("tag"))
     """
     The name of the build job
     """
@@ -57,5 +65,11 @@ class SkillProvisionBuildJob:
     The current status of the build job
     """
     @property
-    def status(self) -> Struct:
-        return Struct(self.dictionary.get("status"))
+    def status(self) -> SkillStatus:
+        return SkillStatus(self.dictionary.get("status"))
+    """
+    created at
+    """
+    @property
+    def created(self) -> ISO8601:
+        return ISO8601(self.dictionary.get("created"))

@@ -9,18 +9,14 @@ import gaia.sdk.Struct
 import gaia.sdk.request.input.*
 import gaia.sdk.request.enumeration.*
 
-class SkillIntrospection: Type() {
+class CanceledSkillBuildJobImpulse: Type() {
 
-    fun name() { 
-        add {"name" } 
+    fun id() { 
+        add {"id" } 
     }
 
-    fun state() { 
-        add {"state" } 
-    }
+    fun data(config: SkillBuildJob.() -> Unit) = 
+        add { "data{ " + SkillBuildJob().apply(config).render(it) + "}"}
 
-    fun started() { 
-        add {"started" } 
-    }
 }
 

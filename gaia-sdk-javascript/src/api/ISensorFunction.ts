@@ -1,10 +1,18 @@
 import {Observable} from "rxjs";
 import {
+    ApiKeyReq,
+    ApiKeyRes,
+    BehaviourExecutionDetailReq,
+    BehaviourExecutionDetailRes,
+    BehaviourExecutionReq,
+    BehaviourExecutionRes,
     BehaviourReq,
-    BehaviourRes,
+    BehaviourRes, CanceledSkillBuildJobImpulseReq, CanceledSkillBuildJobImpulseRes,
     CodeReq,
     CodeRes,
     CreatedIntentImpulse,
+    CreatedSkillBuildJobImpulseReq,
+    CreatedSkillBuildJobImpulseRes,
     CreateIntentImpulse,
     DeletedIntentImpulse,
     DeleteIntentImpulse,
@@ -14,12 +22,10 @@ import {
     ExperienceRes,
     FulfilmentReq,
     FulfilmentRes,
+    IdentityMetricsReq,
+    IdentityMetricsRes,
     IdentityReq,
     IdentityRes,
-    TenantReq,
-    TenantRes,
-    UserReq,
-    UserRes,
     IntentReq,
     IntentRes,
     IntrospectionReq,
@@ -31,28 +37,29 @@ import {
     PerceivedImpulse,
     PerceptionReq,
     PerceptionRes,
+    PracticeReq,
+    PracticeRes,
     PreservationReq,
     PreservationRes,
     PromptReq,
     PromptRes,
     RetrievalReq,
     RetrievalRes,
-    SkillIntrospectionReq,
-    SkillIntrospectionRes,
+    RoleReq,
+    RoleRes,
+    SkillBuildJobReq,
     SkillProvisionReq,
     SkillProvisionRes,
     SkillReq,
     SkillRes,
-    BehaviourExecutionReq,
-    BehaviourExecutionRes,
-    BehaviourExecutionDetailReq,
-    BehaviourExecutionDetailRes,
-    IdentityMetricsReq,
-    IdentityMetricsRes,
     StatementReq,
     StatementRes,
+    TenantReq,
+    TenantRes,
     UpdatedIntentImpulse,
-    UpdateIntentImpulse, ApiKeyReq, ApiKeyRes, RoleReq, RoleRes, SkillProvisionBuildJobReq
+    UpdateIntentImpulse,
+    UserReq,
+    UserRes
 } from "../graphql";
 import {CreatePromptImpulse} from "../graphql/request/input/CreatePromptImpulse";
 import {CreatedPromptImpulse} from "../graphql/response/type/CreatedPromptImpulse";
@@ -100,7 +107,7 @@ import {UpdateSkillProvisionImpulse} from "../graphql/request/input/UpdateSkillP
 import {UpdatedSkillProvisionImpulse} from "../graphql/response/type/UpdatedSkillProvisionImpulse";
 import {DeleteSkillProvisionImpulse} from "../graphql/request/input/DeleteSkillProvisionImpulse";
 import {DeletedSkillProvisionImpulse} from "../graphql/response/type/DeletedSkillProvisionImpulse";
-import {Struct, Uuid} from "../graphql/GaiaClient";
+import {Uuid} from "../graphql/GaiaClient";
 import {CreateIdentityImpulse} from "../graphql/request/input/CreateIdentityImpulse";
 import {UpdateIdentityImpulse} from "../graphql/request/input/UpdateIdentityImpulse";
 import {DeleteIdentityImpulse} from "../graphql/request/input/DeleteIdentityImpulse";
@@ -131,7 +138,6 @@ import {UpdateRoleImpulse} from "../graphql/request/input/UpdateRoleImpulse";
 import {UpdatedRoleImpulse} from "../graphql/response/type/UpdatedRoleImpulse";
 import {DeleteRoleImpulse} from "../graphql/request/input/DeleteRoleImpulse";
 import {DeletedRoleImpulse} from "../graphql/response/type/DeletedRoleImpulse";
-import {EdgeType} from "../graphql/request/enumeration/EdgeType";
 import {ConnectNodeSetImpulse} from "../graphql/response/type/ConnectNodeSetImpulse";
 import {ConnectNodeUnsetImpulse} from "../graphql/response/type/ConnectNodeUnsetImpulse";
 import {ConnectNodeAppendedImpulse} from "../graphql/response/type/ConnectNodeAppendedImpulse";
@@ -140,7 +146,9 @@ import {ConnectSetNodeImpulse} from "../graphql/request/input/ConnectSetNodeImpu
 import {ConnectAppendNodeImpulse} from "../graphql/request/input/ConnectAppendNodeImpulse";
 import {ConnectRemoveNodeImpulse} from "../graphql/request/input/ConnectRemoveNodeImpulse";
 import {ConnectUnsetNodeImpulse} from "../graphql/request/input/ConnectUnsetNodeImpulse";
-import {BehaviourExecution} from "../graphql/request/type/BehaviourExecution";
+import {SkillBuildJob} from '../graphql/response/type/SkillBuildJob';
+import {CreateSkillBuildJobImpulse} from '../graphql/request/input/CreateSkillBuildJobImpulse';
+import {CancelSkillBuildJobImpulse} from '../graphql/request/input/CancelSkillBuildJobImpulse';
 
 export interface ISensorFunction {
     retrieve(config: (x: RetrievalReq) => void): Observable<RetrievalRes>
@@ -159,19 +167,19 @@ export interface ISensorFunction {
 
     retrieveTenants(config: (x: TenantReq) => void, limit?: Number, offset?: Number): Observable<TenantRes>
 
-    retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void) : Observable<TenantRes>
+    retrieveTenant(tenantId: Uuid, config: (x: TenantReq) => void): Observable<TenantRes>
 
     retrieveUsers(config: (x: UserReq) => void, limit?: Number, offset?: Number): Observable<UserRes>
 
-    retrieveUser(userId: Uuid, config: (x: UserReq) => void) : Observable<UserRes>
+    retrieveUser(userId: Uuid, config: (x: UserReq) => void): Observable<UserRes>
 
     retrieveApiKeys(config: (x: ApiKeyReq) => void, limit?: Number, offset?: Number): Observable<ApiKeyRes>
 
-    retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void) : Observable<ApiKeyRes>
+    retrieveApiKey(apiKeyId: Uuid, config: (x: ApiKeyReq) => void): Observable<ApiKeyRes>
 
     retrieveRoles(tenantId: Uuid, config: (x: RoleReq) => void, limit?: Number, offset?: Number): Observable<RoleRes>
 
-    retrieveRole(tenantId: Uuid, roleId: Uuid, config: (x: RoleReq) => void) : Observable<RoleRes>
+    retrieveRole(tenantId: Uuid, roleId: Uuid, config: (x: RoleReq) => void): Observable<RoleRes>
 
     retrieveIntents(identityId: Uuid, config: (x: IntentReq) => void, limit?: Number, offset?: Number): Observable<IntentRes>
 
@@ -205,8 +213,6 @@ export interface ISensorFunction {
 
     retrieveSkillProvision(tenantId: Uuid, reference: Uuid, config: (x: SkillProvisionReq) => void): Observable<SkillProvisionRes>
 
-    retrieveSkillProvisionBuildJobs(tenantId: Uuid, config: (x: SkillProvisionBuildJobReq) => void): Observable<SkillIntrospectionRes>
-
     retrieveBehaviourExecution(identityId: Uuid, processInstanceId: Uuid, config: (x: BehaviourExecutionDetailReq) => void): Observable<BehaviourExecutionDetailRes>
 
     retrieveBehaviourExecutions(identityId: Uuid, config: (x: BehaviourExecutionReq) => void, limit?: Number, offset?: Number, startDate?: string, endDate?: string): Observable<BehaviourExecutionRes>
@@ -215,7 +221,13 @@ export interface ISensorFunction {
 
     introspect(config: (x: IntrospectionReq) => void): Observable<IntrospectionRes>
 
-    introspectSkills(config: (x: SkillIntrospectionReq) => void): Observable<SkillIntrospectionRes>
+    introspectBuildJobs(tenantId: Uuid, config: ((config: SkillBuildJobReq) => void) | undefined): Observable<SkillBuildJob>
+
+    practice(config: (x: PracticeReq) => void): Observable<PracticeRes>
+
+    practiceBuild(impulse: CreateSkillBuildJobImpulse, config: ((c: CreatedSkillBuildJobImpulseReq) => void) | undefined): Observable<CreatedSkillBuildJobImpulseRes>
+
+    practiceCancel(impulse: CancelSkillBuildJobImpulse, config: ((c: CanceledSkillBuildJobImpulseReq) => void) | undefined): Observable<CanceledSkillBuildJobImpulseRes>
 
     preserve(config: (x: PreservationReq) => void): Observable<PreservationRes>
 

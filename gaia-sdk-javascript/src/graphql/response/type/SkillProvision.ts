@@ -1,8 +1,7 @@
 
+import {SkillStatus} from "./SkillStatus";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../../request/enumeration/RuntimeState";
-import {SkillState} from "../../request/enumeration/SkillState";
 import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
@@ -32,7 +31,7 @@ export interface SkillProvision {
     */
     labelList?:[string], 
     /**
-    * The version of the skill
+    * The version used by this skill provision
     */
     version?:string, 
     /**
@@ -64,11 +63,11 @@ export interface SkillProvision {
     */
     environment?:Struct, 
     /**
-    * Whether the skill provision has been built
-    */
-    built?:Boolean, 
-    /**
     * The current status of the skill provision
     */
-    status?:Struct
+    status?:SkillStatus, 
+    /**
+    * The contract associated with this provision
+    */
+    contract?:string
 }

@@ -51,9 +51,8 @@ from gaia_sdk.graphql.response.type.UpdatedIdentityImpulse import UpdatedIdentit
 from gaia_sdk.graphql.response.type.UpdatedIntentImpulse import UpdatedIntentImpulse
 from gaia_sdk.graphql.response.type.UpdatedPromptImpulse import UpdatedPromptImpulse
 from gaia_sdk.graphql.response.type.UpdatedStatementImpulse import UpdatedStatementImpulse
-
-from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 logging.basicConfig(level=logging.DEBUG)
 

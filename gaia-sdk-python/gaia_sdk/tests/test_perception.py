@@ -1,13 +1,12 @@
 import logging
 import unittest
 import uuid
-import pytest
 
 from gaia_sdk.graphql import PerceiveDataImpulse
 from gaia_sdk.graphql.request.input.PerceiveActionImpulse import PerceiveActionImpulse
 from gaia_sdk.graphql.request.type import Perception
-from gaia_sdk.tests.mock import mock_gaia_ref
 from gaia_sdk.tests.mock import MockResponse
+from gaia_sdk.tests.mock import mock_gaia_ref
 
 logging.basicConfig(level=logging.DEBUG)
 from rx import operators as ops, pipe

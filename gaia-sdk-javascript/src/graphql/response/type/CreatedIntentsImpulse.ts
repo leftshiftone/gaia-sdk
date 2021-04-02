@@ -1,9 +1,6 @@
-
 import {Intent} from "./Intent";
 
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
-import {RuntimeState} from "../../request/enumeration/RuntimeState";
-import {SkillState} from "../../request/enumeration/SkillState";
+import {Uuid} from "../../GaiaClient";
 
 /**
 * Impulse which indicates the resulf of a create intent impulse

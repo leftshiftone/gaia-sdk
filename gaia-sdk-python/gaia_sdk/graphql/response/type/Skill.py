@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.SkillVersion import SkillVersion
 
 from typing import List
 Uuid = str
@@ -8,8 +9,6 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
@@ -68,3 +67,15 @@ class Skill:
     @property
     def repository_uri(self) -> String:
         return String(self.dictionary.get("repositoryUri"))
+    """
+    The list of available and build skill versions
+    """
+    @property
+    def versions(self) -> List[SkillVersion]:
+        return list(map(lambda x: SkillVersion(x), self.dictionary.get("versions")))
+    """
+    A list of all available version tags
+    """
+    @property
+    def tags(self) -> List[String]:
+        return list(map(lambda x: String(x), self.dictionary.get("tags")))

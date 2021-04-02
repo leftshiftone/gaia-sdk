@@ -1,4 +1,5 @@
 
+from gaia_sdk.graphql.response.type.SkillBuildJob import SkillBuildJob
 
 from typing import List
 Uuid = str
@@ -8,14 +9,12 @@ Struct = dict
 Float = float
 Int = int
 Boolean = bool
-from gaia_sdk.graphql.request.enumeration.RuntimeState import RuntimeState
-from gaia_sdk.graphql.request.enumeration.SkillState import SkillState
 from gaia_sdk.graphql.request.enumeration.Order import Order
 from gaia_sdk.graphql.request.enumeration.OrderByField import OrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeOrderByField import EdgeOrderByField
 from gaia_sdk.graphql.request.enumeration.EdgeType import EdgeType
 
-class SkillIntrospection:
+class CreatedSkillBuildJobImpulse:
     dictionary: dict
 
     def __init__(self, dictionary: dict):
@@ -30,11 +29,8 @@ class SkillIntrospection:
         return {'dictionary': self.dictionary}
 
     @property
-    def name(self) -> String:
-        return String(self.dictionary.get("name"))
+    def id(self) -> Uuid:
+        return Uuid(self.dictionary.get("id"))
     @property
-    def state(self) -> SkillState:
-        return SkillState(self.dictionary.get("state"))
-    @property
-    def started(self) -> ISO8601:
-        return ISO8601(self.dictionary.get("started"))
+    def data(self) -> SkillBuildJob:
+        return SkillBuildJob(self.dictionary.get("data"))

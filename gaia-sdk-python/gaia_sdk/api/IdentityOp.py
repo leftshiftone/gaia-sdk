@@ -1,18 +1,17 @@
-from rx.core.abc import Scheduler
-from rx.core.typing import Observable
 import logging
-import rx
-import rx.operators as ops
 import time
 import uuid
 
+import rx
+import rx.operators as ops
+from rx.core.abc import Scheduler
+from rx.core.typing import Observable
+
 from gaia_sdk.api.data.DataRef import DataRef
-from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
-
-from gaia_sdk.http.response.IdentityImported import IdentityImported
-
 from gaia_sdk.http.GaiaStreamClient import GaiaStreamClient
 from gaia_sdk.http.request.IdentityImportImpulse import IdentityImportImpulse
+from gaia_sdk.http.request.IdentitySourceRequestImpulse import IdentitySourceRequestImpulse
+from gaia_sdk.http.response.IdentityImported import IdentityImported
 
 
 def check_identity_id(identity_id):

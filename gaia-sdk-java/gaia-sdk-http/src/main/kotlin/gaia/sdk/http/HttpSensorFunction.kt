@@ -11,8 +11,6 @@ import gaia.sdk.api.extension.map
 import gaia.sdk.api.extension.mapM
 import gaia.sdk.request.input.*
 import gaia.sdk.request.type.*
-import gaia.sdk.spi.ClientOptions
-import gaia.sdk.spi.ITransporter
 import org.reactivestreams.Publisher
 
 class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterFactory: TransporterFactory) : ISensorFunction {
@@ -126,640 +124,911 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
     override fun retrieveBehaviourExecutions(identityId: Uuid, config: BehaviourExecution.() -> Unit, limit: Int?, offset: Long?, startDate: String?, endDate: String?) =
             flatMap(client.query(GaiaRequest.query { retrieve { experience { behaviourExecutions(identityId, limit, offset?.toInt(), startDate, endDate, config) } } })) { it.retrieve?.experience?.behaviourExecutions!! }
 
-    override fun retrieveSkillProvisionBuildJobs(
-        tenandId: Uuid,
-        config: SkillProvisionBuildJob.() -> Unit
-    ): Publisher<gaia.sdk.response.type.SkillProvisionBuildJob> = flatMap(client.query(GaiaRequest.query { retrieve { experience { skillProvisionBuildJobs(tenandId, config) } } } )) { it.retrieve?.experience?.skillProvisionBuildJobs!! }
 
     override fun introspect(config: Introspection.() -> Unit) =
             map(client.query(GaiaRequest.query { introspect(config) })) { it.introspect!! }
-
-    override fun introspectSkills(config: SkillIntrospection.() -> Unit) =
-            flatMap(client.query(GaiaRequest.query { introspect { skills(config) } })) { it.introspect?.skills!! }
 
     override fun preserve(config: Preservation.() -> Unit) =
             mapM(client.mutation(GaiaRequest.mutation { preserve(config) })) { it.preserve!! }
 
     override fun preserveCreateIdentities(vararg impulses: CreateIdentityImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { identities(impulses) {
-                    id()
-                    data {
-                        identityId()
-                        tenantId()
-                        qualifier()
-                        availableLanguages()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        identities(impulses) {
+                            id()
+                            data {
+                                identityId()
+                                tenantId()
+                                qualifier()
+                                availableLanguages()
+                            }
+                        }
                     }
-            } } } })) {
+                }
+            })) {
                 it.preserve?.create?.identities!!
             }
 
     override fun preserveUpdateIdentities(vararg impulses: UpdateIdentityImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { identities(impulses) {
-                id()
-                data {
-                    identityId()
-                    tenantId()
-                    qualifier()
-                    availableLanguages()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        identities(impulses) {
+                            id()
+                            data {
+                                identityId()
+                                tenantId()
+                                qualifier()
+                                availableLanguages()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.update?.identities!!
             }
 
     override fun preserveDeleteIdentities(vararg impulses: DeleteIdentityImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { identities(impulses) {
-                    id()
-                    data {
-                        identityId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        identities(impulses) {
+                            id()
+                            data {
+                                identityId()
+                            }
+                        }
                     }
-                } } } })) {
+                }
+            })) {
                 it.preserve?.delete?.identities!!
             }
 
     override fun preserveCreateTenants(vararg impulses: CreateTenantImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { tenants(impulses) {
-                id()
-                data{
-                    tenantId()
-                    qualifier()
-                    implicitIdentities()
-                    explicitIdentities()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        tenants(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                                qualifier()
+                                implicitIdentities()
+                                explicitIdentities()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.create?.tenants!!
             }
 
     override fun preserveUpdateTenants(vararg impulses: UpdateTenantImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { tenants(impulses) {
-                id()
-                data{
-                    tenantId()
-                    qualifier()
-                    implicitIdentities()
-                    explicitIdentities()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        tenants(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                                qualifier()
+                                implicitIdentities()
+                                explicitIdentities()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.update?.tenants!!
             }
 
     override fun preserveDeleteTenants(vararg impulses: DeleteTenantImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { tenants(impulses) {
-                id()
-                data {
-                    tenantId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        tenants(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.delete?.tenants!!
             }
 
     override fun preserveCreateUsers(vararg impulses: CreateUserImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { users(impulses) {
-                id()
-                data{
-                    userId()
-                    username()
-                    email()
-                    firstName()
-                    lastName()
-                    tenants()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        users(impulses) {
+                            id()
+                            data {
+                                userId()
+                                username()
+                                email()
+                                firstName()
+                                lastName()
+                                tenants()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.create?.users!!
             }
 
     override fun preserveUpdateUsers(vararg impulses: UpdateUserImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { users(impulses) {
-                id()
-                data{
-                    userId()
-                    username()
-                    email()
-                    firstName()
-                    lastName()
-                    tenants()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        users(impulses) {
+                            id()
+                            data {
+                                userId()
+                                username()
+                                email()
+                                firstName()
+                                lastName()
+                                tenants()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.update?.users!!
             }
 
     override fun preserveDeleteUsers(vararg impulses: DeleteUserImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { users(impulses) {
-                id()
-                data {
-                    userId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        users(impulses) {
+                            id()
+                            data {
+                                userId()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.delete?.users!!
             }
 
     override fun preserveCreateApiKeys(vararg impulses: CreateApiKeyImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { apiKeys(impulses) {
-                id()
-                data{
-                    apiKeyId()
-                    name()
-                    description()
-                    secret()
-                    enabled()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        apiKeys(impulses) {
+                            id()
+                            data {
+                                apiKeyId()
+                                name()
+                                description()
+                                secret()
+                                enabled()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.create?.apiKeys!!
             }
 
     override fun preserveUpdateApiKeys(vararg impulses: UpdateApiKeyImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { apiKeys(impulses) {
-                id()
-                data{
-                    apiKeyId()
-                    name()
-                    description()
-                    enabled()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        apiKeys(impulses) {
+                            id()
+                            data {
+                                apiKeyId()
+                                name()
+                                description()
+                                enabled()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.update?.apiKeys!!
             }
 
     override fun preserveDeleteApiKeys(vararg impulses: DeleteApiKeyImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { apiKeys(impulses) {
-                id()
-                data {
-                    apiKeyId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        apiKeys(impulses) {
+                            id()
+                            data {
+                                apiKeyId()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.delete?.apiKeys!!
             }
 
     override fun preserveCreateRoles(vararg impulses: CreateRoleImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { roles(impulses) {
-                id()
-                data {
-                    tenantId()
-                    roleId()
-                    name()
-                    permissions()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        roles(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                                roleId()
+                                name()
+                                permissions()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.create?.roles!!
             }
 
     override fun preserveUpdateRoles(vararg impulses: UpdateRoleImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { roles(impulses) {
-                id()
-                data {
-                    tenantId()
-                    roleId()
-                    name()
-                    permissions()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        roles(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                                roleId()
+                                name()
+                                permissions()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.update?.roles!!
             }
 
     override fun preserveDeleteRoles(vararg impulses: DeleteRoleImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { roles(impulses) {
-                id()
-                data {
-                    tenantId()
-                    roleId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        roles(impulses) {
+                            id()
+                            data {
+                                tenantId()
+                                roleId()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.delete?.roles!!
             }
 
     override fun preserveCreateIntents(vararg impulses: CreateIntentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { intents(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        intents(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.intents!!
             }
 
     override fun preserveUpdateIntents(vararg impulses: UpdateIntentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { intents(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        intents(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.intents!!
             }
 
     override fun preserveDeleteIntents(vararg impulses: DeleteIntentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { intents(impulses) {
-                id()
-                data {
-                    identityId()
-                    reference()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        intents(impulses) {
+                            id()
+                            data {
+                                identityId()
+                                reference()
+                            }
+                        }
+                    }
                 }
-            } } } })) {
+            })) {
                 it.preserve?.delete?.intents!!
             }
 
     override fun preserveCreatePrompts(vararg impulses: CreatePromptImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { prompts(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        prompts(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.prompts!!
             }
 
     override fun preserveUpdatePrompts(vararg impulses: UpdatePromptImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { prompts(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        prompts(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.prompts!!
             }
 
     override fun preserveDeletePrompts(vararg impulses: DeletePromptImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { prompts(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        prompts(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.prompts!!
             }
 
 
     override fun preserveCreateStatements(vararg impulses: CreateStatementImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { statements(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        statements(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.statements!!
             }
 
     override fun preserveUpdateStatements(vararg impulses: UpdateStatementImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { statements(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        statements(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.statements!!
             }
 
     override fun preserveDeleteStatements(vararg impulses: DeleteStatementImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { statements(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        statements(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.statements!!
             }
 
     override fun preserveCreateFulfilments(vararg impulses: CreateFulfilmentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { fulfilments(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        fulfilments(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.fulfilments!!
             }
 
     override fun preserveUpdateFulfilments(vararg impulses: UpdateFulfilmentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { fulfilments(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    utterance()
-                    labelList()
-                    version()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        fulfilments(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                utterance()
+                                labelList()
+                                version()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.fulfilments!!
             }
 
     override fun preserveDeleteFulfilments(vararg impulses: DeleteFulfilmentImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { fulfilments(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        fulfilments(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.fulfilments!!
             }
 
     override fun preserveCreateBehaviours(vararg impulses: CreateBehaviourImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { behaviours(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    behaviour()
-                    labelList()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        behaviours(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                behaviour()
+                                labelList()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.behaviours!!
             }
 
     override fun preserveUpdateBehaviours(vararg impulses: UpdateBehaviourImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { behaviours(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    behaviour()
-                    labelList()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        behaviours(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                behaviour()
+                                labelList()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.behaviours!!
             }
 
     override fun preserveDeleteBehaviours(vararg impulses: DeleteBehaviourImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { behaviours(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        behaviours(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.behaviours!!
             }
 
     override fun preserveCreateCodes(vararg impulses: CreateCodeImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { codes(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    code()
-                    type()
-                    labelList()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        codes(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                code()
+                                type()
+                                labelList()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.codes!!
             }
 
     override fun preserveUpdateCodes(vararg impulses: UpdateCodeImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { codes(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    code()
-                    type()
-                    labelList()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        codes(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                code()
+                                type()
+                                labelList()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.codes!!
             }
 
     override fun preserveDeleteCodes(vararg impulses: DeleteCodeImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { codes(impulses) {
-                id()
-                data({
-                    identityId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        codes(impulses) {
+                            id()
+                            data({
+                                identityId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.codes!!
             }
 
     override fun preserveCreateEdges(vararg impulses: CreateEdgeImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { edges(impulses) {
-                id()
-                data {
-                    source()
-                    target()
-                    type()
-                    weight()
-                    edgeId()
-                    properties()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        edges(impulses) {
+                            id()
+                            data {
+                                source()
+                                target()
+                                type()
+                                weight()
+                                edgeId()
+                                properties()
+                            }
+                        }
+                    }
                 }
-                } } } })) {
+            })) {
                 it.preserve?.create?.edges!!
             }
 
     override fun preserveDeleteEdges(vararg impulses: DeleteEdgeImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { edges(impulses) {
-                id()
-                data {
-                    source()
-                    edgeId()
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        edges(impulses) {
+                            id()
+                            data {
+                                source()
+                                edgeId()
+                            }
+                        }
+                    }
                 }
-                } } } })) {
+            })) {
                 it.preserve?.delete?.edges!!
             }
 
 
     override fun preserveCreateSkills(vararg impulses: CreateSkillImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { skills(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    labelList()
-                    repositoryUri()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        skills(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                labelList()
+                                repositoryUri()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.skills!!
             }
 
     override fun preserveUpdateSkills(vararg impulses: UpdateSkillImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { skills(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    labelList()
-                    repositoryUri()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        skills(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                labelList()
+                                repositoryUri()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.skills!!
             }
 
     override fun preserveDeleteSkills(vararg impulses: DeleteSkillImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skills(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        skills(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.skills!!
             }
 
 
     override fun preserveCreateSkillProvisions(vararg impulses: CreateSkillProvisionImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { create { skillProvisions(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    labelList()
-                    version()
-                    skillRef()
-                    cpu()
-                    memory()
-                    replicas()
-                    enabled()
-                    environment()
-                    bootstrapTimeout()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    create {
+                        skillProvisions(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                labelList()
+                                version()
+                                skillRef()
+                                cpu()
+                                memory()
+                                replicas()
+                                enabled()
+                                environment()
+                                bootstrapTimeout()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.create?.skillProvisions!!
             }
 
     override fun preserveUpdateSkillProvisions(vararg impulses: UpdateSkillProvisionImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { update { skillProvisions(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                    qualifier()
-                    appendent()
-                    labelList()
-                    version()
-                    skillRef()
-                    cpu()
-                    memory()
-                    replicas()
-                    enabled()
-                    environment()
-                    bootstrapTimeout()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    update {
+                        skillProvisions(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                                qualifier()
+                                appendent()
+                                labelList()
+                                version()
+                                skillRef()
+                                cpu()
+                                memory()
+                                replicas()
+                                enabled()
+                                environment()
+                                bootstrapTimeout()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.update?.skillProvisions!!
             }
 
     override fun preserveDeleteSkillProvisions(vararg impulses: DeleteSkillProvisionImpulse) =
-            flatMapM(client.mutation(GaiaRequest.mutation { preserve { delete { skillProvisions(impulses) {
-                id()
-                data({
-                    tenantId()
-                    reference()
-                })
-            } } } })) {
+            flatMapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    delete {
+                        skillProvisions(impulses) {
+                            id()
+                            data({
+                                tenantId()
+                                reference()
+                            })
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.delete?.skillProvisions!!
             }
 
     override fun preserveConnectNodeSet(nodeId: Uuid, impulse: ConnectSetNodeImpulse) =
-            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { set(impulse) {
-                id()
-                removedEdges({
-                    source()
-                    edgeId()
-                })
-                newEdge({
-                    source()
-                    target()
-                    edgeId()
-                    type()
-                    weight()
-                    properties()
-                })
-            } } } } })) {
+            mapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    connect {
+                        node(nodeId) {
+                            set(impulse) {
+                                id()
+                                removedEdges({
+                                    source()
+                                    edgeId()
+                                })
+                                newEdge({
+                                    source()
+                                    target()
+                                    edgeId()
+                                    type()
+                                    weight()
+                                    properties()
+                                })
+                            }
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.connect?.node?.set!!
             }
 
     override fun preserveConnectNodeUnset(nodeId: Uuid, impulse: ConnectUnsetNodeImpulse) =
-            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { unset(impulse) {
-                id()
-                removedEdges({
-                    source()
-                    edgeId()
-                })
-            } } } } })) {
+            mapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    connect {
+                        node(nodeId) {
+                            unset(impulse) {
+                                id()
+                                removedEdges({
+                                    source()
+                                    edgeId()
+                                })
+                            }
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.connect?.node?.unset!!
             }
 
     override fun preserveConnectNodeAppend(nodeId: Uuid, impulse: ConnectAppendNodeImpulse) =
-            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { append(impulse) {
-                id()
-                newEdge({
-                    source()
-                    target()
-                    edgeId()
-                    type()
-                    weight()
-                    properties()
-                })
-            } } } } })) {
+            mapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    connect {
+                        node(nodeId) {
+                            append(impulse) {
+                                id()
+                                newEdge({
+                                    source()
+                                    target()
+                                    edgeId()
+                                    type()
+                                    weight()
+                                    properties()
+                                })
+                            }
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.connect?.node?.append!!
             }
 
     override fun preserveConnectNodeRemove(nodeId: Uuid, impulse: ConnectRemoveNodeImpulse) =
-            mapM(client.mutation(GaiaRequest.mutation { preserve { connect { node(nodeId) { remove(impulse) {
-                id()
-                removedEdges({
-                    source()
-                    edgeId()
-                })
-            } } } } })) {
+            mapM(client.mutation(GaiaRequest.mutation {
+                preserve {
+                    connect {
+                        node(nodeId) {
+                            remove(impulse) {
+                                id()
+                                removedEdges({
+                                    source()
+                                    edgeId()
+                                })
+                            }
+                        }
+                    }
+                }
+            })) {
                 it.preserve?.connect?.node?.remove!!
             }
 
@@ -776,4 +1045,91 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                 it.perceive?.perceiveData!!
             }
 
+    override fun introspectBuildJobs(tenantId: Uuid, config: (SkillBuildJob.() -> Unit)?): Publisher<gaia.sdk.response.type.SkillBuildJob> =
+            if (config != null) {
+                flatMap(client.query(GaiaRequest.query { introspect { buildJobs(tenantId, config) } })) {
+                    it.introspect?.buildJobs!!
+                }
+            } else {
+                flatMap(client.query(GaiaRequest.query {
+                    introspect {
+                        buildJobs(tenantId, {
+                            name()
+                            created()
+                            skillRef()
+                            tag()
+                            tenantId()
+                            reference()
+                            status {
+                                health()
+                                pending()
+                                running()
+                                failures {
+                                    affectedContainer()
+                                    exitCode()
+                                    reason()
+                                    failureType()
+                                }
+                            }
+                        })
+                    }
+                })) {
+                    it.introspect?.buildJobs!!
+                }
+            }
+
+
+    override fun practice(config: Practice.() -> Unit): Publisher<gaia.sdk.response.type.Practice> =
+            mapM(client.mutation(GaiaRequest.mutation { practice(config) })) {
+                it.practice!!
+            }
+
+
+    override fun practiceBuild(impulse: CreateSkillBuildJobImpulse, config: (CreatedSkillBuildJobImpulse.() -> Unit)?): Publisher<gaia.sdk.response.type.CreatedSkillBuildJobImpulse> =
+            if (config != null) {
+                mapM(client.mutation(GaiaRequest.mutation { practice { build(impulse, config) } })) {
+                    it.practice?.build!!
+                }
+            } else {
+                mapM(client.mutation(GaiaRequest.mutation {
+                    practice {
+                        build(impulse, {
+                            id()
+                            data {
+                                name()
+                                created()
+                                reference()
+                                skillRef()
+                                tag()
+                                tenantId()
+                            }
+                        })
+                    }
+                })) {
+                    it.practice?.build!!
+                }
+            }
+
+    override fun practiceCancel(impulse: CancelSkillBuildJobImpulse, config: (CanceledSkillBuildJobImpulse.() -> Unit)?): Publisher<gaia.sdk.response.type.CanceledSkillBuildJobImpulse> = if (config != null) {
+        mapM(client.mutation(GaiaRequest.mutation { practice { cancel(impulse, config) } })) {
+            it.practice?.cancel!!
+        }
+    } else {
+        mapM(client.mutation(GaiaRequest.mutation {
+            practice {
+                cancel(impulse, {
+                    id()
+                    data {
+                        tenantId()
+                        tag()
+                        skillRef()
+                        created()
+                        name()
+                    }
+                })
+            }
+        })) {
+            it.practice?.cancel!!
+        }
+    }
 }

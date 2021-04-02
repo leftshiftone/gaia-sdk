@@ -1,7 +1,4 @@
-
-
-import VariableRegistry from "../../../api/VariableRegistry"
-import {Uuid, Timestamp, Struct, Long} from "../../GaiaClient";
+import VariableRegistry from "../../../api/VariableRegistry";
 
 /**
  * This impulse returns the result of a skill practice query request

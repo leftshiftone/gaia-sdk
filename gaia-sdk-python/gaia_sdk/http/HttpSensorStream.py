@@ -1,9 +1,9 @@
 from rx.core.abc import Scheduler
 
-from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.api.ISensorStream import ISensorStream
 from gaia_sdk.api.IdentityOp import IdentityOp
 from gaia_sdk.api.SkillRef import SkillRef
+from gaia_sdk.api.data.DataRef import DataRef
 from gaia_sdk.http.GaiaStreamClientBuilder import GaiaStreamClientFactory
 
 

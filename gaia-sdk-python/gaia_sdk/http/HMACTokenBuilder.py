@@ -1,6 +1,7 @@
-from gaia_sdk.api.crypto import HMAC
 import base64
 import json
+
+from gaia_sdk.api.crypto import HMAC
 
 
 class HMACTokenBuilder(object):

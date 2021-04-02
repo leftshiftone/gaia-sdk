@@ -1,4 +1,4 @@
-from typing import Callable, List
+from typing import Callable, List, Union
 
 import rx
 from rx.core.typing import Observable, Scheduler
@@ -7,11 +7,10 @@ from gaia_sdk.api.ISensorFunction import ISensorFunction
 from gaia_sdk.api.rx.rx import mapQ, mapM, flat_mapM, flat_mapQ
 from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, KnowledgeReq, EdgeReq, \
     IntentReq, IdentityReq, PromptReq, StatementReq, FulfilmentReq, CodeReq, BehaviourReq, IntrospectionReq, \
-    SkillIntrospectionReq, \
     PerceptionReq, PreservationReq, CreatedIdentityImpulse, UpdatedIdentityImpulse, DeletedIdentityImpulse, \
     CreatedIntentImpulse, UpdatedIntentImpulse, DeletedIntentImpulse, RetrievalRes, \
     ExperienceRes, EdgeRes, StatementRes, PromptRes, IntentRes, IdentityRes, KnowledgeRes, FulfilmentRes, CodeRes, \
-    BehaviourRes, IntrospectionRes, SkillIntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
+    BehaviourRes, IntrospectionRes, PreservationRes, PerceptionRes, PerceivedImpulse, \
     MutationReq, MutationRes, PerceiveDataImpulse, PerceiveActionImpulse, DeleteIdentityImpulse, \
     UpdateIdentityImpulse, CreateIdentityImpulse, DeleteIntentImpulse, \
     UpdateIntentImpulse, CreateIntentImpulse, CreatePromptImpulse, UpdatePromptImpulse, DeletePromptImpulse, \
@@ -24,8 +23,10 @@ from gaia_sdk.graphql import QueryReq, QueryRes, RetrievalReq, ExperienceReq, Kn
     DeleteCodeImpulse, CreatedCodeImpulse, UpdatedCodeImpulse, DeletedCodeImpulse, CreateEdgeImpulse, \
     DeleteEdgeImpulse, CreatedEdgeImpulse, DeletedEdgeImpulse, BehaviourExecutionRes, BehaviourExecutionReq, \
     BehaviourExecutionDetailReq, BehaviourExecutionDetailRes, \
-    SkillProvisionBuildJobReq, SkillProvisionBuildJobRes
-
+    CreatedSkillBuildJobImpulseRes, CreatedSkillBuildJobImpulseReq, \
+    CancelSkillBuildJobImpulse, CreateSkillBuildJobImpulse, CanceledSkillBuildJobImpulseRes, \
+    CanceledSkillBuildJobImpulseReq, \
+    PracticeReq, PracticeRes, SkillBuildJobRes, SkillBuildJobReq, SkillStatusReq, FailureReq
 from gaia_sdk.graphql.GaiaClientFactory import GaiaClientFactory
 from gaia_sdk.graphql.GaiaRequest import GaiaRequest
 
@@ -222,9 +223,12 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
 
-    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None], limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
-        -> Observable[BehaviourExecutionRes]:
-        executions_req: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_executions(identity_id, limit, offset, startDate, endDate, config)
+    def retrieve_behaviour_executions(self, identity_id: Uuid, config: Callable[[BehaviourExecutionReq], None],
+                                      limit: int = None, offset: int = None, startDate: str = None, endDate: str = None) \
+            -> Observable[BehaviourExecutionRes]:
+        executions_req: Callable[[BehaviourExecutionReq], None] = lambda x: x.behaviour_executions(identity_id, limit,
+                                                                                                   offset, startDate,
+                                                                                                   endDate, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(executions_req)
 
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
@@ -233,37 +237,22 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return flat_mapQ(observable, query_res)
 
-    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid, config: Callable[[BehaviourExecutionDetailReq], None]) \
+    def retrieve_behaviour_execution(self, identity_id: Uuid, process_instance_id: Uuid,
+                                     config: Callable[[BehaviourExecutionDetailReq], None]) \
             -> Observable[BehaviourExecutionDetailRes]:
-
-        behaviour_exec_query: Callable[[BehaviourExecutionDetailRes], None] = lambda x: x.behaviour_execution(identity_id, process_instance_id, config)
+        behaviour_exec_query: Callable[[BehaviourExecutionDetailRes], None] = lambda x: x.behaviour_execution(
+            identity_id, process_instance_id, config)
         retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(behaviour_exec_query)
         query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res: Callable[[QueryRes], BehaviourExecutionDetailRes] = lambda x: x.retrieve.experience.behaviour_execution
+        query_res: Callable[[QueryRes], BehaviourExecutionDetailRes] = lambda \
+            x: x.retrieve.experience.behaviour_execution
 
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
-
-
-    def retrieve_skill_provision_build_jobs(self, tenant_id: Uuid, config: Callable[[SkillProvisionBuildJobReq], None]) -> Observable[SkillProvisionBuildJobRes]:
-        skill_build_jobs_query: Callable[[ExperienceReq], None] = lambda x: x.skill_provision_build_jobs(tenant_id, config)
-        retrieval_req: Callable[[RetrievalReq], None] = lambda x: x.experience(skill_build_jobs_query)
-        query_req: Callable[[QueryReq], None] = lambda x: x.retrieve(retrieval_req)
-        query_res = lambda x: x.retrieve.experience.skill_provision_build_jobs
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
-        return flat_mapQ(observable, query_res)
 
     def introspect(self, config: Callable[[IntrospectionReq], None]) -> Observable[IntrospectionRes]:
         query_req: Callable[[QueryReq], None] = lambda x: x.introspect(config)
         query_res: Callable[[QueryRes], IntrospectionRes] = lambda x: x.introspect
-
-        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
-        return mapQ(observable, query_res)
-
-    def introspect_skills(self, config: Callable[[SkillIntrospectionReq], None]) -> Observable[SkillIntrospectionRes]:
-        introspect_skills: Callable[[IntrospectionReq], None] = lambda x: x.skills(config)
-        query_req: Callable[[QueryReq], None] = lambda x: x.introspect(introspect_skills)
-        query_res: Callable[[QueryRes], SkillIntrospectionRes] = lambda x: x.introspect.skills
 
         observable = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
         return mapQ(observable, query_res)
@@ -386,6 +375,7 @@ class HttpSensorFunction(ISensorFunction):
         def intent_req(x):
             x.id()
             x.data(data_req)
+
         delete_intents: Callable[[PreservationReq], None] = lambda x: x.delete(
             lambda e: e.intents(impulses, intent_req))
         mutation_req: Callable[[MutationReq], None] = lambda x: x.preserve(delete_intents)
@@ -522,7 +512,8 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[CreatedFulfilmentImpulse]:
+    def preserve_create_fulfilments(self, impulses: List[CreateFulfilmentImpulse]) -> Observable[
+        CreatedFulfilmentImpulse]:
         def data_req(x):
             x.identity_id()
             x.reference()
@@ -545,7 +536,8 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[UpdatedFulfilmentImpulse]:
+    def preserve_update_fulfilments(self, impulses: List[UpdateFulfilmentImpulse]) -> Observable[
+        UpdatedFulfilmentImpulse]:
         def data_req(x):
             x.identity_id()
             x.reference()
@@ -568,7 +560,8 @@ class HttpSensorFunction(ISensorFunction):
                                       self._scheduler)
         return flat_mapM(observable, mutation_res)
 
-    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[DeletedFulfilmentImpulse]:
+    def preserve_delete_fulfilments(self, impulses: List[DeleteFulfilmentImpulse]) -> Observable[
+        DeletedFulfilmentImpulse]:
         def data_req(x):
             x.identity_id()
             x.reference()
@@ -770,3 +763,102 @@ class HttpSensorFunction(ISensorFunction):
         observable = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)),
                                       self._scheduler)
         return mapM(observable, mutation_res)
+
+    def practice(self, config: Callable[[PracticeReq], None]) -> Observable[PracticeRes]:
+        mutation_req:Callable[[MutationReq], None] = lambda x: x.practice(config)
+        mutation_res: Callable[[MutationRes], PracticeRes] = lambda x: x.practice
+
+        observable = rx.from_callable(lambda: self.client.query(GaiaRequest.mutation(mutation_req)), self._scheduler)
+        return mapM(observable, mutation_res)
+
+    def practice_build(self, impulse: CreateSkillBuildJobImpulse,
+                       config: Union[Callable[[CreatedSkillBuildJobImpulseReq], None], None] = None) -> Observable[
+        CreatedSkillBuildJobImpulseRes]:
+        if config is not None:
+            practice_req: Callable[[PracticeReq], None] = lambda p: p.build(impulse, config)
+            mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
+            mutation_res: Callable[[MutationRes], CreatedSkillBuildJobImpulseRes] = lambda ms: ms.practice.build
+            obs = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)), self._scheduler)
+            return mapM(obs, mutation_res)
+        else:
+            def job_cfg(b: SkillBuildJobReq):
+                b.reference()
+                b.name()
+                b.tag()
+                b.skill_ref()
+                b.tenant_id()
+                b.created()
+
+            def r_cfg(x: CreatedSkillBuildJobImpulseReq):
+                x.id()
+                x.data(job_cfg)
+
+            practice_req: Callable[[PracticeReq], None] = lambda p: p.build(impulse, r_cfg)
+            mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
+            mutation_res: Callable[[MutationRes], CreatedSkillBuildJobImpulseRes] = lambda ms: ms.practice.build
+            obs = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)), self._scheduler)
+            return mapM(obs, mutation_res)
+
+    def practice_cancel(self, impulse: CancelSkillBuildJobImpulse,
+                        config: Union[Callable[[CanceledSkillBuildJobImpulseReq], None], None] = None) -> Observable[
+        CanceledSkillBuildJobImpulseRes]:
+        if config is not None:
+            practice_req: Callable[[PracticeReq], None] = lambda p: p.cancel(impulse, config)
+            mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
+            mutation_res: Callable[[MutationRes], CanceledSkillBuildJobImpulseRes] = lambda ms: ms.practice.cancel
+            obs = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)), self._scheduler)
+            return mapM(obs, mutation_res)
+        else:
+            def job_cfg(b: SkillBuildJobReq):
+                b.reference()
+                b.name()
+                b.tag()
+                b.skill_ref()
+                b.tenant_id()
+                b.created()
+
+            def r_cfg(x: CanceledSkillBuildJobImpulseReq):
+                x.id()
+                x.data(job_cfg)
+
+            practice_req: Callable[[PracticeReq], None] = lambda p: p.cancel(impulse, r_cfg)
+            mutation_req: Callable[[MutationReq], None] = lambda m: m.practice(practice_req)
+            mutation_res: Callable[[MutationRes], CanceledSkillBuildJobImpulseRes] = lambda ms: ms.practice.cancel
+            obs = rx.from_callable(lambda: self.client.mutation(GaiaRequest.mutation(mutation_req)), self._scheduler)
+            return mapM(obs, mutation_res)
+
+
+    def introspect_build_jobs(self, tenant_id: Uuid, config: Union[Callable[[SkillBuildJobReq], None], None] = None) -> \
+            Observable[SkillBuildJobRes]:
+        if config is not None:
+            introspect_req: Callable[[IntrospectionReq], None] = lambda irq: irq.build_jobs(tenant_id, config)
+            query_req: Callable[[QueryReq], None] = lambda qr: qr.introspect(introspect_req)
+            query_res: Callable[[QueryRes], List[SkillBuildJobRes]] = lambda qs: qs.introspect.build_jobs
+            obs = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+            return flat_mapQ(obs, query_res)
+        else:
+            def failure_cfg(f: FailureReq):
+                f.failure_type()
+                f.exit_code()
+                f.affected_container()
+                f.reason()
+            def status_cfg(b: SkillStatusReq):
+                b.health()
+                b.pending()
+                b.running()
+                b.failures(failure_cfg)
+
+            def job_cfg(b: SkillBuildJobReq):
+                b.reference()
+                b.name()
+                b.tag()
+                b.tenant_id()
+                b.created()
+                b.status(status_cfg)
+            introspect_req: Callable[[IntrospectionReq], None] = lambda irq: irq.build_jobs(tenant_id, job_cfg)
+            query_req: Callable[[QueryReq], None] = lambda qr: qr.introspect(introspect_req)
+            query_res: Callable[[QueryRes], List[SkillBuildJobRes]] = lambda qs: qs.introspect.build_jobs
+            obs = rx.from_callable(lambda: self.client.query(GaiaRequest.query(query_req)), self._scheduler)
+            return flat_mapQ(obs, query_res)
+
+

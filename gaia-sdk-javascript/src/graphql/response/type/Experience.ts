@@ -1,14 +1,11 @@
 
 import {BehaviourExecution} from "./BehaviourExecution";
 import {BehaviourMetrics} from "./BehaviourMetrics";
-import {SkillProvisionBuildJob} from "./SkillProvisionBuildJob";
 import {IdentityMetrics} from "./IdentityMetrics";
 import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
 import {Uuid, ISO8601, Struct} from "../../GaiaClient";
-import {RuntimeState} from "../../request/enumeration/RuntimeState";
-import {SkillState} from "../../request/enumeration/SkillState";
 import {Order} from "../../request/enumeration/Order";
 import {OrderByField} from "../../request/enumeration/OrderByField";
 import {EdgeOrderByField} from "../../request/enumeration/EdgeOrderByField";
@@ -21,6 +18,5 @@ export interface Experience {
     behaviourExecutions?:[BehaviourExecution], 
     behaviourNodeExecutions?:[BehaviourNodeExecution], 
     identityMetrics?:IdentityMetrics, 
-    skillProvisionBuildJobs?:[SkillProvisionBuildJob], 
     behaviourMetrics?:BehaviourMetrics
 }
