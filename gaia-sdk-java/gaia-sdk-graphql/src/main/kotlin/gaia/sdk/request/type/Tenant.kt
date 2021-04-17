@@ -27,19 +27,5 @@ class Tenant: Type() {
     fun qualifier() { 
         add {"qualifier" } 
     }
-
-    /**
-     * The list of implicit identities
-     */
-    fun implicitIdentities() { 
-        add {"implicitIdentities" } 
-    }
-
-    /**
-     * The list of explicit identities
-     */
-    fun explicitIdentities() { 
-        add {"explicitIdentities" } 
-    }
 }
 

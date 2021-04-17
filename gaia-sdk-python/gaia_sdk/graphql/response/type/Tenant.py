@@ -42,15 +42,3 @@ class Tenant:
     @property
     def qualifier(self) -> String:
         return String(self.dictionary.get("qualifier"))
-    """
-    The list of implicit identities
-    """
-    @property
-    def implicit_identities(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("implicitIdentities")))
-    """
-    The list of explicit identities
-    """
-    @property
-    def explicit_identities(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("explicitIdentities")))
