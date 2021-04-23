@@ -47,41 +47,6 @@ public _typeName = "User";
         this.push(_ => "lastName")
     };
 
-    /**
-     * Is the User using 2FA
-     */
-    public using2FA = () => { 
-        this.push(_ => "using2FA")
-    };
-
-    /**
-     * The tenants of the user
-     */
-    public tenants = () => { 
-        this.push(_ => "tenants")
-    };
-
-    /**
-     * The roles of the user
-     */
-    public roles = () => { 
-        this.push(_ => "roles")
-    };
-
-    /**
-     * The groups of the user
-     */
-    public groups = () => { 
-        this.push(_ => "groups")
-    };
-
-    /**
-     * The permissions of the user
-     */
-    public permissions = () => { 
-        this.push(_ => "permissions")
-    };
-
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

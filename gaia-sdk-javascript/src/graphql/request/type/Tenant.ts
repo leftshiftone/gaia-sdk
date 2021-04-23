@@ -26,20 +26,6 @@ public _typeName = "Tenant";
         this.push(_ => "qualifier")
     };
 
-    /**
-     * The list of implicit identities
-     */
-    public implicitIdentities = () => { 
-        this.push(_ => "implicitIdentities")
-    };
-
-    /**
-     * The list of explicit identities
-     */
-    public explicitIdentities = () => { 
-        this.push(_ => "explicitIdentities")
-    };
-
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

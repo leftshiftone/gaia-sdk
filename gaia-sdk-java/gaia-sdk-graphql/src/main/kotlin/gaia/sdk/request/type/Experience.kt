@@ -29,10 +29,6 @@ class Experience: Type() {
         "behaviourExecutions(identityId:$name1, limit:$name2, offset:$name3, startDate:$name4, endDate:$name5){" + BehaviourExecution().apply(config).render(it) + "}"
     }
 
-    fun behaviourNodeExecutions(config: BehaviourNodeExecution.() -> Unit) = 
-        add { "behaviourNodeExecutions{ " + BehaviourNodeExecution().apply(config).render(it) + "}"}
-
-
     fun identityMetrics(identityId : Uuid?, startDate : String?, endDate : String?, limit : Int?, config: IdentityMetrics.() -> Unit) = add {
         val name1 = it.register("identityId", identityId)
         val name2 = it.register("startDate", startDate)

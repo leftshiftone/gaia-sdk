@@ -14,13 +14,9 @@ export class UpdateTenantImpulse {
 public _typeName = "UpdateTenantImpulse";
     private tenantId:Uuid;
     private qualifier:String;
-    private implicitIdentities:Array<String>;
-    private explicitIdentities:Array<String>;
 
-    constructor (tenantId:Uuid, qualifier:String, implicitIdentities:Array<String>, explicitIdentities:Array<String>) {
+    constructor (tenantId:Uuid, qualifier:String) {
         this.tenantId = tenantId;
         this.qualifier = qualifier;
-        this.implicitIdentities = implicitIdentities;
-        this.explicitIdentities = explicitIdentities;
     }
 }

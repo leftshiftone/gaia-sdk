@@ -60,33 +60,3 @@ class User:
     @property
     def last_name(self) -> String:
         return String(self.dictionary.get("lastName"))
-    """
-    Is the User using 2FA
-    """
-    @property
-    def using2_f_a(self) -> Boolean:
-        return Boolean(self.dictionary.get("using2FA"))
-    """
-    The tenants of the user
-    """
-    @property
-    def tenants(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("tenants")))
-    """
-    The roles of the user
-    """
-    @property
-    def roles(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("roles")))
-    """
-    The groups of the user
-    """
-    @property
-    def groups(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("groups")))
-    """
-    The permissions of the user
-    """
-    @property
-    def permissions(self) -> List[String]:
-        return list(map(lambda x: String(x), self.dictionary.get("permissions")))

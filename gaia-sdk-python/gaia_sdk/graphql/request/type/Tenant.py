@@ -25,17 +25,5 @@ class Tenant(list):
     def qualifier(self):
         self.append(lambda x: "qualifier")
 
-    """
-    The list of implicit identities
-    """
-    def implicit_identities(self):
-        self.append(lambda x: "implicitIdentities")
-
-    """
-    The list of explicit identities
-    """
-    def explicit_identities(self):
-        self.append(lambda x: "explicitIdentities")
-
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

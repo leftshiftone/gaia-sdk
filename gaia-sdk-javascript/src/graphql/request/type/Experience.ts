@@ -2,7 +2,6 @@
 import {BehaviourExecution} from "./BehaviourExecution";
 import {BehaviourMetrics} from "./BehaviourMetrics";
 import {IdentityMetrics} from "./IdentityMetrics";
-import {BehaviourNodeExecution} from "./BehaviourNodeExecution";
 import {BehaviourExecutionDetail} from "./BehaviourExecutionDetail";
 
 import VariableRegistry from "../../../api/VariableRegistry"
@@ -34,12 +33,6 @@ public _typeName = "Experience";
         const entity = new BehaviourExecution();
         config(entity);
         return `behaviourExecutions(identityId:${name1}, limit:${name2}, offset:${name3}, startDate:${name4}, endDate:${name5}){` + entity.render(registry) + "}"
-    });
-
-    public behaviourNodeExecutions = (config: (_:BehaviourNodeExecution) => void) => this.push((registry) => {
-        const entity = new BehaviourNodeExecution();
-        config(entity);
-        return "behaviourNodeExecutions { " + entity.render(registry) + " }";
     });
 
     public identityMetrics = (identityId: Uuid|undefined, startDate: string|undefined, endDate: string|undefined, limit: Number|undefined, config: (_:IdentityMetrics) => void) => this.push((registry) => {

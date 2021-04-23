@@ -19,13 +19,5 @@ data class Tenant @JsonCreator constructor(
     /**
     * The name of the tenant
     */
-    @JsonProperty("qualifier") val qualifier:String? = null, 
-    /**
-    * The list of implicit identities
-    */
-    @JsonProperty("implicitIdentities") val implicitIdentities:List<String>? = null, 
-    /**
-    * The list of explicit identities
-    */
-    @JsonProperty("explicitIdentities") val explicitIdentities:List<String>? = null
+    @JsonProperty("qualifier") val qualifier:String? = null
 )

@@ -13,18 +13,14 @@ class CreateTenantImpulse():
     The specification to create a tenant
     """
     qualifier: str
-    implicitIdentities: List[str]
-    explicitIdentities: List[str]
 
-    def __init__(self, qualifier: str, implicitIdentities: List[str], explicitIdentities: List[str]):
+    def __init__(self, qualifier: str):
         self.qualifier = qualifier
-        self.implicitIdentities = implicitIdentities
-        self.explicitIdentities = explicitIdentities
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.qualifier == other.qualifier and self.implicitIdentities == other.implicitIdentities and self.explicitIdentities == other.explicitIdentities
+            return self.qualifier == other.qualifier
         return False
 
     def __repr__(self):
-        return {'qualifier': self.qualifier, 'implicitIdentities': self.implicitIdentities, 'explicitIdentities': self.explicitIdentities}
+        return {'qualifier': self.qualifier}

@@ -16,10 +16,5 @@ class CreateUserImpulse(val username:String,
    val email:String, 
    val firstName:String, 
    val lastName:String, 
-   val password:String, 
-   val using2FA:Boolean, 
-   val tenants:Array<out String>, 
-   val roles:Array<out String>, 
-   val groups:Array<out String>, 
-   val permissions:Array<out String>) : Input()
+   val password:String) : Input()
 

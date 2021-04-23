@@ -170,11 +170,6 @@ input CreateUserImpulse {
     firstName: String
     lastName: String
     password: String!
-    using2FA: Boolean = false # deprecated: not in use
-    tenants: [String] # deprecated: not in use
-    roles: [String] # deprecated: not in use
-    groups: [String] # deprecated: not in use
-    permissions: [String] # deprecated: not in use
 }
 "The specification to update a user instance"
 input UpdateUserImpulse {
@@ -184,11 +179,6 @@ input UpdateUserImpulse {
     firstName: String
     lastName: String
     password: String
-    using2FA: Boolean # deprecated: not in use
-    tenants: [String] # deprecated: not in use
-    roles: [String] # deprecated: not in use
-    groups: [String] # deprecated: not in use
-    permissions: [String] # deprecated: not in use
 }
 "The specification to delete a user instance"
 input DeleteUserImpulse {
@@ -294,15 +284,11 @@ type TenantKeyOne {
 "The specification to create a tenant"
 input CreateTenantImpulse {
     qualifier: String!
-    implicitIdentities: [String]
-    explicitIdentities: [String]
 }
 "The specification to update a tenant"
 input UpdateTenantImpulse {
     tenantId: Uuid!
     qualifier: String!
-    implicitIdentities: [String]
-    explicitIdentities: [String]
 }
 "The specification to delete a tenant"
 input DeleteTenantImpulse {

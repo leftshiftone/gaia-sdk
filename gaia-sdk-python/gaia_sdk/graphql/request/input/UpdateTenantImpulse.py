@@ -14,19 +14,15 @@ class UpdateTenantImpulse():
     """
     tenantId: str
     qualifier: str
-    implicitIdentities: List[str]
-    explicitIdentities: List[str]
 
-    def __init__(self, tenantId: str, qualifier: str, implicitIdentities: List[str], explicitIdentities: List[str]):
+    def __init__(self, tenantId: str, qualifier: str):
         self.tenantId = tenantId
         self.qualifier = qualifier
-        self.implicitIdentities = implicitIdentities
-        self.explicitIdentities = explicitIdentities
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.implicitIdentities == other.implicitIdentities and self.explicitIdentities == other.explicitIdentities
+            return self.tenantId == other.tenantId and self.qualifier == other.qualifier
         return False
 
     def __repr__(self):
-        return {'tenantId': self.tenantId, 'qualifier': self.qualifier, 'implicitIdentities': self.implicitIdentities, 'explicitIdentities': self.explicitIdentities}
+        return {'tenantId': self.tenantId, 'qualifier': self.qualifier}

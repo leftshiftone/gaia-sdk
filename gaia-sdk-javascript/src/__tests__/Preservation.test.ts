@@ -86,7 +86,7 @@ describe('perception tests:', () => {
 
     test('test preserve create user', () => {
         const gaiaRef = mockCreate({users: [{id: 'asdf'}]});
-        const impulse = new CreateUserImpulse('someUsername', 'foo@bar', 'foo', 'bar', 'somePassword', false, [], [], [], []);
+        const impulse = new CreateUserImpulse('someUsername', 'foo@bar', 'foo', 'bar', 'somePassword');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateUsers(impulse);
@@ -99,7 +99,7 @@ describe('perception tests:', () => {
 
     test('test preserve update user', () => {
         const gaiaRef = mockUpdate({users: [{id: 'asdf'}]});
-        const impulse = new UpdateUserImpulse(uuid(), 'someUsername', 'foo@bar', 'foo', 'bar', 'password', false, [], [], [], []);
+        const impulse = new UpdateUserImpulse(uuid(), 'someUsername', 'foo@bar', 'foo', 'bar', 'password');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateUsers(impulse);
@@ -164,7 +164,7 @@ describe('perception tests:', () => {
 
     test('test preserve create tenant', () => {
         const gaiaRef = mockCreate({tenants: [{id: 'asdf'}]});
-        const impulse = new CreateTenantImpulse('', [], []);
+        const impulse = new CreateTenantImpulse('');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateTenants(impulse);
@@ -177,7 +177,7 @@ describe('perception tests:', () => {
 
     test('test preserve update tenant', () => {
         const gaiaRef = mockUpdate({tenants: [{id: 'asdf'}]});
-        const impulse = new UpdateTenantImpulse(uuid(), '', [], []);
+        const impulse = new UpdateTenantImpulse(uuid(), '');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateTenants(impulse);

@@ -14,7 +14,6 @@ import gaia.sdk.request.enumeration.*
 data class Experience @JsonCreator constructor(
     @JsonProperty("behaviourExecution") val behaviourExecution:BehaviourExecutionDetail? = null, 
     @JsonProperty("behaviourExecutions") val behaviourExecutions:List<BehaviourExecution>? = null, 
-    @JsonProperty("behaviourNodeExecutions") val behaviourNodeExecutions:List<BehaviourNodeExecution>? = null, 
     @JsonProperty("identityMetrics") val identityMetrics:IdentityMetrics? = null, 
     @JsonProperty("behaviourMetrics") val behaviourMetrics:BehaviourMetrics? = null
 )

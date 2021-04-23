@@ -13,12 +13,8 @@ import {EdgeType} from "../enumeration/EdgeType";
 export class CreateTenantImpulse {
 public _typeName = "CreateTenantImpulse";
     private qualifier:String;
-    private implicitIdentities:Array<String>;
-    private explicitIdentities:Array<String>;
 
-    constructor (qualifier:String, implicitIdentities:Array<String>, explicitIdentities:Array<String>) {
+    constructor (qualifier:String) {
         this.qualifier = qualifier;
-        this.implicitIdentities = implicitIdentities;
-        this.explicitIdentities = explicitIdentities;
     }
 }
