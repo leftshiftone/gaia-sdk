@@ -28,25 +28,5 @@ export interface User {
     /**
     * The last name of the user
     */
-    lastName?:string, 
-    /**
-    * Is the User using 2FA
-    */
-    using2FA?:Boolean, 
-    /**
-    * The tenants of the user
-    */
-    tenants?:[string], 
-    /**
-    * The roles of the user
-    */
-    roles?:[string], 
-    /**
-    * The groups of the user
-    */
-    groups?:[string], 
-    /**
-    * The permissions of the user
-    */
-    permissions?:[string]
+    lastName?:string
 }

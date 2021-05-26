@@ -17,28 +17,18 @@ class CreateUserImpulse():
     firstName: str
     lastName: str
     password: str
-    using2FA: bool
-    tenants: List[str]
-    roles: List[str]
-    groups: List[str]
-    permissions: List[str]
 
-    def __init__(self, username: str, email: str, firstName: str, lastName: str, password: str, using2FA: bool, tenants: List[str], roles: List[str], groups: List[str], permissions: List[str]):
+    def __init__(self, username: str, email: str, firstName: str, lastName: str, password: str):
         self.username = username
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
         self.password = password
-        self.using2FA = using2FA
-        self.tenants = tenants
-        self.roles = roles
-        self.groups = groups
-        self.permissions = permissions
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.username == other.username and self.email == other.email and self.firstName == other.firstName and self.lastName == other.lastName and self.password == other.password and self.using2FA == other.using2FA and self.tenants == other.tenants and self.roles == other.roles and self.groups == other.groups and self.permissions == other.permissions
+            return self.username == other.username and self.email == other.email and self.firstName == other.firstName and self.lastName == other.lastName and self.password == other.password
         return False
 
     def __repr__(self):
-        return {'username': self.username, 'email': self.email, 'firstName': self.firstName, 'lastName': self.lastName, 'password': self.password, 'using2FA': self.using2FA, 'tenants': self.tenants, 'roles': self.roles, 'groups': self.groups, 'permissions': self.permissions}
+        return {'username': self.username, 'email': self.email, 'firstName': self.firstName, 'lastName': self.lastName, 'password': self.password}

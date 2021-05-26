@@ -13,7 +13,5 @@ import gaia.sdk.request.enumeration.*
  * The specification to update a tenant
  */
 class UpdateTenantImpulse(val tenantId:Uuid, 
-   val qualifier:String, 
-   val implicitIdentities:Array<out String>, 
-   val explicitIdentities:Array<out String>) : Input()
+   val qualifier:String) : Input()
 
