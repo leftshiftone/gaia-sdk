@@ -194,8 +194,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                             data {
                                 tenantId()
                                 qualifier()
-                                implicitIdentities()
-                                explicitIdentities()
                             }
                         }
                     }
@@ -213,8 +211,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                             data {
                                 tenantId()
                                 qualifier()
-                                implicitIdentities()
-                                explicitIdentities()
                             }
                         }
                     }
@@ -251,7 +247,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 email()
                                 firstName()
                                 lastName()
-                                tenants()
                             }
                         }
                     }
@@ -272,7 +267,6 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 email()
                                 firstName()
                                 lastName()
-                                tenants()
                             }
                         }
                     }

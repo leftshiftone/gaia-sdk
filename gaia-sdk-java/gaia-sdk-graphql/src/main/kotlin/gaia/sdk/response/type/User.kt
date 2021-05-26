@@ -31,25 +31,5 @@ data class User @JsonCreator constructor(
     /**
     * The last name of the user
     */
-    @JsonProperty("lastName") val lastName:String? = null, 
-    /**
-    * Is the User using 2FA
-    */
-    @JsonProperty("using2FA") val using2FA:Boolean? = null, 
-    /**
-    * The tenants of the user
-    */
-    @JsonProperty("tenants") val tenants:List<String>? = null, 
-    /**
-    * The roles of the user
-    */
-    @JsonProperty("roles") val roles:List<String>? = null, 
-    /**
-    * The groups of the user
-    */
-    @JsonProperty("groups") val groups:List<String>? = null, 
-    /**
-    * The permissions of the user
-    */
-    @JsonProperty("permissions") val permissions:List<String>? = null
+    @JsonProperty("lastName") val lastName:String? = null
 )

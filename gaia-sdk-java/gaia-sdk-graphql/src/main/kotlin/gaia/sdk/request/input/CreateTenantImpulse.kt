@@ -12,7 +12,5 @@ import gaia.sdk.request.enumeration.*
 /**
  * The specification to create a tenant
  */
-class CreateTenantImpulse(val qualifier:String, 
-   val implicitIdentities:Array<out String>, 
-   val explicitIdentities:Array<out String>) : Input()
+class CreateTenantImpulse(val qualifier:String) : Input()
 

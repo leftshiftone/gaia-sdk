@@ -112,8 +112,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveTenants({
             tenantId()
             qualifier()
-            implicitIdentities()
-            explicitIdentities()
         })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
@@ -145,8 +143,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveTenants({
             tenantId()
             qualifier()
-            implicitIdentities()
-            explicitIdentities()
         }, 10, 100)
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
@@ -188,10 +184,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveUsers({
             userId()
             username()
-            using2FA()
-            groups()
-            permissions()
-            tenants()
         })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
@@ -223,10 +215,6 @@ abstract class RetrievalTest() {
         val publisher = gaiaRef.retrieveUsers({
             userId()
             username()
-            using2FA()
-            groups()
-            permissions()
-            tenants()
         }, 10, 100)
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)

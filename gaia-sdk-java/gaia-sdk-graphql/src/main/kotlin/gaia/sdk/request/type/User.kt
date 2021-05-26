@@ -48,40 +48,5 @@ class User: Type() {
     fun lastName() { 
         add {"lastName" } 
     }
-
-    /**
-     * Is the User using 2FA
-     */
-    fun using2FA() { 
-        add {"using2FA" } 
-    }
-
-    /**
-     * The tenants of the user
-     */
-    fun tenants() { 
-        add {"tenants" } 
-    }
-
-    /**
-     * The roles of the user
-     */
-    fun roles() { 
-        add {"roles" } 
-    }
-
-    /**
-     * The groups of the user
-     */
-    fun groups() { 
-        add {"groups" } 
-    }
-
-    /**
-     * The permissions of the user
-     */
-    fun permissions() { 
-        add {"permissions" } 
-    }
 }
 

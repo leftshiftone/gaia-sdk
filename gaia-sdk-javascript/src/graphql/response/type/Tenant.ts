@@ -16,13 +16,5 @@ export interface Tenant {
     /**
     * The name of the tenant
     */
-    qualifier?:string, 
-    /**
-    * The list of implicit identities
-    */
-    implicitIdentities?:[string], 
-    /**
-    * The list of explicit identities
-    */
-    explicitIdentities?:[string]
+    qualifier?:string
 }
