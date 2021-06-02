@@ -57,6 +57,13 @@ class Skill: Type() {
     }
 
     /**
+     * The type of the repository where the skill is
+     */
+    fun repositoryType() {
+        add {"repositoryType" }
+    }
+
+    /**
      * The list of available and build skill versions
      */
     fun versions(config: SkillVersion.() -> Unit) = 

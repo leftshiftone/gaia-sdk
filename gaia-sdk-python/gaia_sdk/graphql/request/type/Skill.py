@@ -51,6 +51,12 @@ class Skill(list):
         self.append(lambda x: "repositoryUri")
 
     """
+    The type of the repository where the skill is
+    """
+    def repository_type(self):
+        self.append(lambda x: "repositoryType")
+
+    """
     The list of available and build skill versions
     """
     def versions(self, config: Callable[['SkillVersion'], None]):

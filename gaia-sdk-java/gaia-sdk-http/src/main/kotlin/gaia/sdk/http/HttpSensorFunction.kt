@@ -818,6 +818,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 appendent()
                                 labelList()
                                 repositoryUri()
+                                repositoryType()
                             })
                         }
                     }
@@ -839,6 +840,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 appendent()
                                 labelList()
                                 repositoryUri()
+                                repositoryType()
                             })
                         }
                     }

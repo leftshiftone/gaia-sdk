@@ -35,7 +35,11 @@ data class Skill @JsonCreator constructor(
     /**
     * The uri of the repository where the skill is
     */
-    @JsonProperty("repositoryUri") val repositoryUri:String? = null, 
+    @JsonProperty("repositoryUri") val repositoryUri:String? = null,
+    /**
+     * The type of the repository where the skill is
+     */
+    @JsonProperty("repositoryType") val repositoryType:String? = null,
     /**
     * The list of available and build skill versions
     */

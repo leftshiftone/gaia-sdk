@@ -17,18 +17,20 @@ class CreateSkillImpulse():
     appendent: str
     labelList: List[str]
     repositoryUri: str
+    repositoryType: str
 
-    def __init__(self, tenantId: str, qualifier: str, appendent: str, labelList: List[str], repositoryUri: str):
+    def __init__(self, tenantId: str, qualifier: str, appendent: str, labelList: List[str], repositoryUri: str, repositoryType: str):
         self.tenantId = tenantId
         self.qualifier = qualifier
         self.appendent = appendent
         self.labelList = labelList
         self.repositoryUri = repositoryUri
+        self.repositoryType = repositoryType
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.labelList == other.labelList and self.repositoryUri == other.repositoryUri
+            return self.tenantId == other.tenantId and self.qualifier == other.qualifier and self.appendent == other.appendent and self.labelList == other.labelList and self.repositoryUri == other.repositoryUri and self.repositoryType == other.repositoryType
         return False
 
     def __repr__(self):
-        return {'tenantId': self.tenantId, 'qualifier': self.qualifier, 'appendent': self.appendent, 'labelList': self.labelList, 'repositoryUri': self.repositoryUri}
+        return {'tenantId': self.tenantId, 'qualifier': self.qualifier, 'appendent': self.appendent, 'labelList': self.labelList, 'repositoryUri': self.repositoryUri, 'repositoryType': self.repositoryType}

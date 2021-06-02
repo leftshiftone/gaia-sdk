@@ -18,13 +18,15 @@ public _typeName = "UpdateSkillImpulse";
     private appendent:String;
     private labelList:Array<String>;
     private repositoryUri:String;
+    private repositoryType:String;
 
-    constructor (tenantId:Uuid, reference:Uuid, qualifier:String, appendent:String, labelList:Array<String>, repositoryUri:String) {
+    constructor (tenantId:Uuid, reference:Uuid, qualifier:String, appendent:String, labelList:Array<String>, repositoryUri:String, repositoryType:String) {
         this.tenantId = tenantId;
         this.reference = reference;
         this.qualifier = qualifier;
         this.appendent = appendent;
         this.labelList = labelList;
         this.repositoryUri = repositoryUri;
+        this.repositoryType = repositoryType;
     }
 }

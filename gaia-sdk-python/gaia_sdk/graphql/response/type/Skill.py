@@ -68,6 +68,12 @@ class Skill:
     def repository_uri(self) -> String:
         return String(self.dictionary.get("repositoryUri"))
     """
+    The type of the repository where the skill is
+    """
+    @property
+    def repository_type(self) -> String:
+        return String(self.dictionary.get("repositoryType"))
+    """
     The list of available and build skill versions
     """
     @property
