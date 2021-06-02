@@ -463,7 +463,7 @@ describe('perception tests:', () => {
 
     test('test preserve create skill', () => {
         const gaiaRef = mockCreate({skills: [{id: 'asdf'}]});
-        const impulse = new CreateSkillImpulse(uuid(), '', '', [], '');
+        const impulse = new CreateSkillImpulse(uuid(), '', '', [], '', '');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveCreateSkills(impulse);
@@ -476,7 +476,7 @@ describe('perception tests:', () => {
 
     test('test preserve update skill', () => {
         const gaiaRef = mockUpdate({skills: [{id: 'asdf'}]});
-        const impulse = new UpdateSkillImpulse(uuid(), uuid(), '', '', [], '');
+        const impulse = new UpdateSkillImpulse(uuid(), uuid(), '', '', [], '', '');
 
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.preserveUpdateSkills(impulse);
