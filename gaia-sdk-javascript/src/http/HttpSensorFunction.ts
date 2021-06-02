@@ -786,6 +786,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.appendent();
                     d.labelList();
                     d.repositoryUri();
+                    d.repositoryType();
                 });
             }));
         }))));
@@ -803,6 +804,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.appendent();
                     d.labelList();
                     d.repositoryUri();
+                    d.repositoryType();
                 });
             }));
         }))));

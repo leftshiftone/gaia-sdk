@@ -16,5 +16,6 @@ class CreateSkillImpulse(val tenantId:Uuid,
    val qualifier:String, 
    val appendent:String, 
    val labelList:Array<out String>, 
-   val repositoryUri:String) : Input()
+   val repositoryUri:String,
+   val repositoryType:String) : Input()
 
