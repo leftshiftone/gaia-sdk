@@ -59,8 +59,8 @@ class Skill: Type() {
     /**
      * The type of the repository where the skill is
      */
-    fun repositoryType() {
-        add {"repositoryType" }
+    fun repositoryType() { 
+        add {"repositoryType" } 
     }
 
     /**

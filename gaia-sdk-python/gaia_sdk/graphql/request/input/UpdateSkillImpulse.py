@@ -20,7 +20,7 @@ class UpdateSkillImpulse():
     repositoryUri: str
     repositoryType: str
 
-    def __init__(self, tenantId: str, reference: str, qualifier: str, appendent: str, labelList: List[str], repositoryUri: str, repositoryUri: str):
+    def __init__(self, tenantId: str, reference: str, qualifier: str, appendent: str, labelList: List[str], repositoryUri: str, repositoryType: str):
         self.tenantId = tenantId
         self.reference = reference
         self.qualifier = qualifier
