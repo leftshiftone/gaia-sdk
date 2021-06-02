@@ -16,49 +16,49 @@ public _typeName = "Skill";
     /**
      * Id of the tenant
      */
-    public tenantId = () => {
+    public tenantId = () => { 
         this.push(_ => "tenantId")
     };
 
     /**
      * Skill reference
      */
-    public reference = () => {
+    public reference = () => { 
         this.push(_ => "reference")
     };
 
     /**
      * The name of the skill
      */
-    public qualifier = () => {
+    public qualifier = () => { 
         this.push(_ => "qualifier")
     };
 
     /**
      * Detailed description about the skill
      */
-    public appendent = () => {
+    public appendent = () => { 
         this.push(_ => "appendent")
     };
 
     /**
      * The list of labels of the skill
      */
-    public labelList = () => {
+    public labelList = () => { 
         this.push(_ => "labelList")
     };
 
     /**
      * The uri of the repository where the skill is
      */
-    public repositoryUri = () => {
+    public repositoryUri = () => { 
         this.push(_ => "repositoryUri")
     };
 
     /**
      * The type of the repository where the skill is
      */
-    public repositoryType = () => {
+    public repositoryType = () => { 
         this.push(_ => "repositoryType")
     };
 
@@ -74,7 +74,7 @@ public _typeName = "Skill";
     /**
      * A list of all available version tags
      */
-    public tags = () => {
+    public tags = () => { 
         this.push(_ => "tags")
     };
 

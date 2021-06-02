@@ -17,6 +17,6 @@ class UpdateSkillImpulse(val tenantId:Uuid,
    val qualifier:String, 
    val appendent:String, 
    val labelList:Array<out String>, 
-   val repositoryUri:String,
+   val repositoryUri:String, 
    val repositoryType:String) : Input()
 

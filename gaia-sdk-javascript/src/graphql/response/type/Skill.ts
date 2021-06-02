@@ -13,35 +13,35 @@ export interface Skill {
     /**
     * Id of the tenant
     */
-    tenantId?:Uuid,
+    tenantId?:Uuid, 
     /**
     * Skill reference
     */
-    reference?:Uuid,
+    reference?:Uuid, 
     /**
     * The name of the skill
     */
-    qualifier?:string,
+    qualifier?:string, 
     /**
     * Detailed description about the skill
     */
-    appendent?:string,
+    appendent?:string, 
     /**
     * The list of labels of the skill
     */
-    labelList?:[string],
+    labelList?:[string], 
     /**
     * The uri of the repository where the skill is
     */
-    repositoryUri?:string,
+    repositoryUri?:string, 
     /**
     * The type of the repository where the skill is
     */
-    repositoryType?:string,
+    repositoryType?:string, 
     /**
     * The list of available and build skill versions
     */
-    versions?:[SkillVersion],
+    versions?:[SkillVersion], 
     /**
     * A list of all available version tags
     */
