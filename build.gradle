@@ -12,6 +12,7 @@ buildscript {
     }
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "one.leftshift.asteria:asteria-code-analytics:latest.release"
@@ -84,6 +85,7 @@ allprojects {
 
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     asteriaDependency {
