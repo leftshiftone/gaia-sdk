@@ -33,4 +33,4 @@ Run `./gradlew final -Prelease.scope=patch` locally.
 #### Release Candidate
 Set the release scope by replacing `$scope` with the version of the release candidate (major, minor, patch).
 
-Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail` locally.
+Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail`  locally.
