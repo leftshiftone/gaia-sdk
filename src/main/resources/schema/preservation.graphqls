@@ -593,6 +593,7 @@ input CreateSkillImpulse {
     appendent: String
     labelList: [String]
     repositoryUri: String!
+    repositoryType: String!
 }
 "The specification to update a Skill instance"
 input UpdateSkillImpulse {
@@ -602,6 +603,7 @@ input UpdateSkillImpulse {
     appendent: String
     labelList: [String]
     repositoryUri: String!
+    repositoryType: String!
 }
 "The specification to delete a Skill instance"
 input DeleteSkillImpulse {

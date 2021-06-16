@@ -446,7 +446,7 @@ abstract class PreservationTest {
     fun `test preserve create skill`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(create = CreateKnowledge(skills = listOf(CreatedSkillImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = CreateSkillImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "")
+        val impulse = CreateSkillImpulse(UUID.randomUUID().toString(), "", "", emptyArray(), "", "BITBUCKET")
 
         val publisher = gaiaRef.preserveCreateSkills(impulse)
         val result = Flux.from(publisher).blockFirst()
@@ -459,7 +459,7 @@ abstract class PreservationTest {
     fun `test preserve update skill`() {
         Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.MutationResponse(Mutation(preserve = Preservation(update = UpdateKnowledge(skills = listOf(UpdatedSkillImpulse(id = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
-        val impulse = UpdateSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "")
+        val impulse = UpdateSkillImpulse(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "", "", emptyArray(), "","BITBUCKET")
 
         val publisher = gaiaRef.preserveUpdateSkills(impulse)
         val result = Flux.from(publisher).blockFirst()

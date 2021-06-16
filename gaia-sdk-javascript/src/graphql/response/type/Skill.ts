@@ -35,6 +35,10 @@ export interface Skill {
     */
     repositoryUri?:string, 
     /**
+    * The type of the repository where the skill is
+    */
+    repositoryType?:string, 
+    /**
     * The list of available and build skill versions
     */
     versions?:[SkillVersion], 

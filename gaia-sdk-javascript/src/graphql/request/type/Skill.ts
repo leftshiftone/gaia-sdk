@@ -56,6 +56,13 @@ public _typeName = "Skill";
     };
 
     /**
+     * The type of the repository where the skill is
+     */
+    public repositoryType = () => { 
+        this.push(_ => "repositoryType")
+    };
+
+    /**
      * The list of available and build skill versions
      */
     public versions = (config: (_:SkillVersion) => void) => this.push((registry) => {

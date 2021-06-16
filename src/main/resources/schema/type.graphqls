@@ -295,6 +295,8 @@ type Skill {
     labelList: [String]
     "The uri of the repository where the skill is"
     repositoryUri: String
+    "The type of the repository where the skill is"
+    repositoryType: String
     "The list of available and build skill versions"
     versions: [SkillVersion]
     "A list of all available version tags"
