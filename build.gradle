@@ -93,8 +93,9 @@ allprojects {
     }
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.4.5") {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.4.7") {
                 bomProperty("kotlin.version", kotlinVersion)
+                bomProperty("junit-jupiter.version", "5.7.1")
             }
         }
         dependencies {
