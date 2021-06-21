@@ -8,20 +8,20 @@ import java.util.regex.Pattern
 
 buildscript {
     ext {
-        kotlinVersion = "1.4.32"
+        kotlinVersion = "1.3.41"
     }
     repositories {
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath "one.leftshift.asteria:asteria-code-analytics:latest.release"
-        classpath "one.leftshift.asteria:asteria-dependency:latest.release"
-        classpath "one.leftshift.asteria:asteria-docs:latest.release"
-        classpath "one.leftshift.asteria:asteria-email:latest.release"
-        classpath "one.leftshift.asteria:asteria-publish:latest.release"
-        classpath "one.leftshift.asteria:asteria-report:latest.release"
-        classpath "one.leftshift.asteria:asteria-version:latest.release"
+        classpath "one.leftshift.asteria:asteria-code-analytics:3.11.0"
+        classpath "one.leftshift.asteria:asteria-dependency:3.11.0"
+        classpath "one.leftshift.asteria:asteria-docs:3.11.0"
+        classpath "one.leftshift.asteria:asteria-email:3.11.0"
+        classpath "one.leftshift.asteria:asteria-publish:3.11.0"
+        classpath "one.leftshift.asteria:asteria-report:3.11.0"
+        classpath "one.leftshift.asteria:asteria-version:3.11.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
@@ -93,7 +93,7 @@ allprojects {
     }
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.4.5") {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
                 bomProperty("kotlin.version", kotlinVersion)
             }
         }
