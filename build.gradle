@@ -86,21 +86,25 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven {
+            credentials(AwsCredentials) {
+                accessKey gradle.awsAccessKey
+                secretKey gradle.awsSecretKey
+            }
+            url gradle.releasesRepositoryUrl
+        }
+        maven {
+            credentials(AwsCredentials) {
+                accessKey gradle.awsAccessKey
+                secretKey gradle.awsSecretKey
+            }
+            url gradle.snapshotsRepositoryUrl
+        }
     }
 
     asteriaDependency {
+        dependencyManagementBom = "one.leftshift:dependencies:latest.release"
         enableBranchSnapshotRepositories = true
-    }
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.4.7") {
-                bomProperty("kotlin.version", kotlinVersion)
-                bomProperty("junit-jupiter.version", "5.7.1")
-            }
-        }
-        dependencies {
-            dependency "org.apache.velocity:velocity-engine-core:2.1"
-        }
     }
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -143,7 +147,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
-    implementation "org.apache.velocity:velocity-engine-core"
+    implementation "org.apache.velocity:velocity-engine-core:2.1"
 
     testImplementation "org.junit.jupiter:junit-jupiter"
     testImplementation "org.assertj:assertj-core"
