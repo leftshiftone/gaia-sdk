@@ -181,7 +181,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -205,7 +205,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -273,7 +273,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -297,7 +297,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -365,7 +365,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -389,7 +389,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -462,7 +462,7 @@
         },
         "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable": {
             "locked": "1.3.41",
@@ -496,6 +496,61 @@
             "transitive": [
                 "org.jetbrains.kotlin:kotlin-scripting-common",
                 "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable"
+            ]
+        },
+        "org.jetbrains:annotations": {
+            "locked": "13.0",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
+            ]
+        }
+    },
+    "kotlinKlibCommonizerClasspath": {
+        "org.jetbrains.intellij.deps:trove4j": {
+            "locked": "1.0.20181211",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-compiler-embeddable": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-klib-commonizer-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-daemon-embeddable": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-klib-commonizer-embeddable": {
+            "locked": "1.4.32"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-script-runtime": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-compiler-embeddable",
+                "org.jetbrains.kotlin:kotlin-klib-commonizer-embeddable",
+                "org.jetbrains.kotlin:kotlin-reflect"
+            ]
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-common": {
+            "locked": "1.4.32",
+            "transitive": [
+                "org.jetbrains.kotlin:kotlin-stdlib"
             ]
         },
         "org.jetbrains:annotations": {
@@ -601,7 +656,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -625,7 +680,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -790,7 +845,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -814,7 +869,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -842,6 +897,13 @@
             "locked": "1.5.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.junit:junit-bom": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
         "org.opentest4j:opentest4j": {
@@ -921,7 +983,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -945,7 +1007,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -973,6 +1035,13 @@
             "locked": "1.5.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-api"
+            ]
+        },
+        "org.junit:junit-bom": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
         "org.opentest4j:opentest4j": {
@@ -1097,7 +1166,7 @@
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains.kotlin:kotlin-stdlib": {
             "locked": "1.3.71",
@@ -1121,7 +1190,7 @@
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
             "locked": "1.3.41",
-            "requested": "1.3.41"
+            "requested": "1.4.32"
         },
         "org.jetbrains:annotations": {
             "locked": "13.0",
@@ -1163,6 +1232,13 @@
             "locked": "1.5.2",
             "transitive": [
                 "org.junit.jupiter:junit-jupiter-engine"
+            ]
+        },
+        "org.junit:junit-bom": {
+            "locked": "5.6.2",
+            "transitive": [
+                "org.junit.jupiter:junit-jupiter",
+                "org.junit.jupiter:junit-jupiter-params"
             ]
         },
         "org.opentest4j:opentest4j": {
