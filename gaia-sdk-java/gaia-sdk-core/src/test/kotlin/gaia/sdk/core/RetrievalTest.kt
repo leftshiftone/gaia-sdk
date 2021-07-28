@@ -28,7 +28,7 @@ abstract class RetrievalTest() {
 
     @Test
     fun `test retrieve identities`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(identities = listOf(Identity(identityId = UUID.randomUUID().toString(), qualifier = "q1", availableLanguages = mapOf("de" to "Deutsch"), tenantId = UUID.randomUUID().toString()))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(identities = listOf(Identity(identityId = UUID.randomUUID().toString(), qualifier = "q1", availableLanguages = mapOf("de" to "Deutsch"), languageOrder= listOf("de"), tenantId = UUID.randomUUID().toString()))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
 
         val publisher = gaiaRef.retrieveIdentities({
@@ -36,13 +36,14 @@ abstract class RetrievalTest() {
             qualifier()
             tenantId()
             availableLanguages()
+            languageOrder()
         })
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.identityId != null && it.tenantId != null && it.qualifier != null && it.availableLanguages == mapOf("de" to "Deutsch")
+            it.identityId != null && it.tenantId != null && it.qualifier != null && it.availableLanguages == mapOf("de" to "Deutsch") && it.languageOrder == listOf("de")
         }
     }
 
@@ -50,16 +51,16 @@ abstract class RetrievalTest() {
     fun `test retrieve paginated identities`() {
         Gaia.transporterFactory = MockTransporterFactory { request ->
             Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(identities = listOf(
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "101", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "102", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "103", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "104", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "105", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "106", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "107", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "108", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "109", availableLanguages = mapOf("de" to "Deutsch")),
-                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "110", availableLanguages = mapOf("de" to "Deutsch"))
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "101", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "102", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "103", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "104", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "105", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "106", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "107", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "108", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "109", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de")),
+                    Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "110", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de"))
             ))))))
         }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
@@ -68,6 +69,7 @@ abstract class RetrievalTest() {
             identityId()
             qualifier()
             availableLanguages()
+            languageOrder()
             tenantId()
         }, 10, 100)
         val ts = Flowable.fromPublisher(publisher).test()
@@ -76,16 +78,16 @@ abstract class RetrievalTest() {
         ts.assertValueCount(10)
 
         ts.assertValueAt(0) {
-            it.identityId != null && it.tenantId != null && it.qualifier == "101" && it.availableLanguages == mapOf("de" to "Deutsch")
+            it.identityId != null && it.tenantId != null && it.qualifier == "101" && it.availableLanguages == mapOf("de" to "Deutsch") && it.languageOrder == listOf("de")
         }
         ts.assertValueAt(9) {
-            it.identityId != null && it.tenantId != null && it.qualifier == "110" && it.availableLanguages == mapOf("de" to "Deutsch")
+            it.identityId != null && it.tenantId != null && it.qualifier == "110" && it.availableLanguages == mapOf("de" to "Deutsch") && it.languageOrder == listOf("de")
         }
     }
 
     @Test
     fun `test retrieve identity`() {
-        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(identity = Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "q1", availableLanguages = mapOf("de" to "Deutsch"))))))) }
+        Gaia.transporterFactory = MockTransporterFactory { request -> Flowable.just(GaiaResponse.QueryResponse(Query(retrieve = Retrieval(knowledge = Knowledge(identity = Identity(identityId = UUID.randomUUID().toString(), tenantId = UUID.randomUUID().toString(), qualifier = "q1", availableLanguages = mapOf("de" to "Deutsch"), languageOrder = listOf("de"))))))) }
         val gaiaRef = Gaia.connect("http://localhost:8080", credentials)
         val identityId = UUID.randomUUID().toString()
 
@@ -94,13 +96,14 @@ abstract class RetrievalTest() {
             qualifier()
             availableLanguages()
             tenantId()
+            languageOrder()
         }
         val ts = Flowable.fromPublisher(publisher).test()
         ts.awaitDone(5, SECONDS)
         ts.assertNoErrors()
         ts.assertValueCount(1)
         ts.assertValueAt(0) {
-            it.identityId != null && it.tenantId != null && it.qualifier != null && it.availableLanguages == mapOf("de" to "Deutsch")
+            it.identityId != null && it.tenantId != null && it.qualifier != null && it.availableLanguages == mapOf("de" to "Deutsch") && it.languageOrder == listOf("de")
         }
     }
 

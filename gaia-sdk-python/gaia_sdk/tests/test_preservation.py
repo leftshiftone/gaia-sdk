@@ -72,7 +72,8 @@ class TestPreservation(unittest.TestCase):
                 {"id": "asdf", "data": {"identityId": "i1",
                                         "tenantId": "foo",
                                         "qualifier": "bar",
-                                        "availableLanguages": {"de": "Deutsch"}}}
+                                        "availableLanguages": {"de": "Deutsch"},
+                                        "languageOrder": ["de"]}}
             ]}}}}
         )
 
@@ -158,6 +159,7 @@ class TestPreservation(unittest.TestCase):
         self.assertEqual(data.get("tenantId"), "foo")
         self.assertEqual(data.get("qualifier"), "bar")
         self.assertEqual(data.get("availableLanguages"),  {"de": "Deutsch"})
+        self.assertEqual(data.get("languageOrder"),  ["de"])
 
     def assert_delete_identity(self, result: DeletedIdentityImpulse):
         self.assertEqual(result.dictionary.get("id"), "asdf")
@@ -242,13 +244,13 @@ class TestPreservation(unittest.TestCase):
     ####################################################################################################################
     def test_preserve_create_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: self.identityMockCreateUpdateResponse("create"))
-        impulses = CreateIdentityImpulse(str(uuid4()), str(""), {"de": "Deutsch"})
+        impulses = CreateIdentityImpulse(str(uuid4()), str(""), {"de": "Deutsch"}, ["de"])
         result: CreatedIdentityImpulse = pipe(ops.first())(gaia_ref.preserve_create_identities([impulses])).run()
         self.assert_create_update_identity(result)
 
     def test_preserve_update_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: self.identityMockCreateUpdateResponse("update"))
-        impulses = UpdateIdentityImpulse(str(uuid4()), str(uuid4()), "qualifier", {"de": "Deutsch"})
+        impulses = UpdateIdentityImpulse(str(uuid4()), str(uuid4()), "qualifier", {"de": "Deutsch"}, ["de"])
         result: UpdatedIdentityImpulse = pipe(ops.first())(gaia_ref.preserve_update_identities([impulses])).run()
         self.assert_create_update_identity(result)
 

@@ -40,6 +40,13 @@ public _typeName = "Identity";
         this.push(_ => "availableLanguages")
     };
 
+    /**
+     * The order of languages that will be use in case of missing translations
+     */
+    public languageOrder = () => { 
+        this.push(_ => "languageOrder")
+    };
+
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

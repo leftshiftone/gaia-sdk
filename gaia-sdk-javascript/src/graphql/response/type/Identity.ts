@@ -24,5 +24,9 @@ export interface Identity {
     /**
     * The available languages of the identity
     */
-    availableLanguages?:Struct
+    availableLanguages?:Struct, 
+    /**
+    * The order of languages that will be use in case of missing translations
+    */
+    languageOrder?:[string]
 }

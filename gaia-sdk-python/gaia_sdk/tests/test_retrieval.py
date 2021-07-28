@@ -66,34 +66,37 @@ class TestRetrieval(unittest.TestCase):
 
     def test_retrieve_identities(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"retrieve": {"knowledge": {
-            "identities": [{"identityId": "asdf", "qualifier": "q1", "availableLanguages": {"de": "Deutsch"}}]}}}}))
+            "identities": [{"identityId": "asdf", "qualifier": "q1", "availableLanguages": {"de": "Deutsch"}, "languageOrder" : ["de"]}]}}}}))
 
         def config(x):
             x.identity_id()
             x.qualifier()
             x.available_languages()
+            x.language_order()
 
         result = pipe(ops.first())(gaia_ref.retrieve_identities(config)).run()
         assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
         assert result.dictionary.get("availableLanguages") is not None, "Available Languages are in response"
+        assert result.dictionary.get("languageOrder") is not None, "LanguageOrder is in response"
 
     def test_retrieve_paginated_identities(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"retrieve": {"knowledge": {
-            "identities": [{"identityId": "i1", "qualifier": "101", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i2", "qualifier": "102", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i3", "qualifier": "103", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i4", "qualifier": "104", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i5", "qualifier": "105", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i6", "qualifier": "106", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i7", "qualifier": "107", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i8", "qualifier": "108", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i9", "qualifier": "109", "availableLanguages": {"de": "Deutsch"}},
-                           {"identityId": "i10", "qualifier": "110", "availableLanguages": {"de": "Deutsch"}}]}}}}))
+            "identities": [{"identityId": "i1", "qualifier": "101", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i2", "qualifier": "102", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i3", "qualifier": "103", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i4", "qualifier": "104", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i5", "qualifier": "105", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i6", "qualifier": "106", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i7", "qualifier": "107", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i8", "qualifier": "108", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i9", "qualifier": "109", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]},
+                           {"identityId": "i10", "qualifier": "110", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]}]}}}}))
 
         def config(x):
             x.identity_id()
             x.qualifier()
             x.available_languages()
+            x.language_order()
 
         result = pipe(ops.to_list())(gaia_ref.retrieve_identities(config, 10, 100)).run()
 
@@ -103,21 +106,24 @@ class TestRetrieval(unittest.TestCase):
         for i in range(10):
             latestExpectedIndex += 1
             assert result[i].dictionary.get("qualifier") == str(latestExpectedIndex), "index does not match"
-            assert result[i].dictionary.get("availableLanguages") is not None, "index does not match"
+            assert result[i].dictionary.get("availableLanguages") is not None, "Available Languages are in response"
+            assert result[i].dictionary.get("languageOrder") is not None, "Language order is not empty"
 
     def test_retrieve_identity(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse({"data": {"retrieve": {"knowledge": {
-            "identity": {"identityId": "asdf", "qualifier": "q1", "availableLanguages": {"de": "Deutsch"}}}}}}))
+            "identity": {"identityId": "asdf", "qualifier": "q1", "availableLanguages": {"de": "Deutsch"}, "languageOrder": ["de"]}}}}}))
 
         def config(x):
             x.identity_id()
             x.qualifier()
             x.available_languages()
+            x.language_order()
 
         result = pipe(ops.first())(gaia_ref.retrieve_identity(str(uuid4()), config)).run()
         assert result.dictionary.get("identityId") is not None, "IdentityId is in response"
         assert result.dictionary.get("qualifier") is not None, "Qualifier is in response"
         assert result.dictionary.get("availableLanguages") is not None, "Available Languages are in response"
+        assert result.dictionary.get("languageOrder") is not None, "Language order is not empty"
 
     def test_retrieve_intents(self):
         gaia_ref = mock_gaia_ref(lambda request: MockResponse(

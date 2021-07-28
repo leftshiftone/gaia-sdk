@@ -15,10 +15,12 @@ public _typeName = "CreateIdentityImpulse";
     private tenantId:String;
     private qualifier:String;
     private availableLanguages:Struct;
+    private languageOrder:Array<String>;
 
-    constructor (tenantId:String, qualifier:String, availableLanguages:Struct) {
+    constructor (tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>) {
         this.tenantId = tenantId;
         this.qualifier = qualifier;
         this.availableLanguages = availableLanguages;
+        this.languageOrder = languageOrder;
     }
 }

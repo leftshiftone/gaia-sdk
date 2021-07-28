@@ -421,6 +421,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.tenantId();
                     d.qualifier();
                     d.availableLanguages();
+                    d.languageOrder();
                 });
             }));
         }))));
@@ -436,6 +437,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.tenantId();
                     d.qualifier();
                     d.availableLanguages();
+                    d.languageOrder();
                 });
             }));
         }))));
