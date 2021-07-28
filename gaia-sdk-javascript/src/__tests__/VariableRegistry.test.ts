@@ -38,7 +38,7 @@ describe('perception tests:', () => {
 
     test('a List of CreateIdentityImpulse variable is identified as list CreateIdentityImpulse', () => {
         const registry = new VariableRegistry();
-        const list = [new CreateIdentityImpulse('00000000-0000-0000-0000-000000000001', 'qualifier1', {de: "Deutsch"}), new CreateIdentityImpulse('00000000-0000-0000-0000-000000000002', 'qualifier2', {de: "Deutsch"}, ["de"])];
+        const list = [new CreateIdentityImpulse('00000000-0000-0000-0000-000000000001', 'qualifier1', {de: "Deutsch"},["de"]), new CreateIdentityImpulse('00000000-0000-0000-0000-000000000002', 'qualifier2', {de: "Deutsch"}, ["de"])];
         const field = 'fieldName';
         registry.register(field, list);
         const datatypes = registry.getDatatypes();
