@@ -55,7 +55,7 @@ class Identity:
     def available_languages(self) -> Struct:
         return Struct(self.dictionary.get("availableLanguages"))
     """
-    The order of languages that will be use in case of missing translations
+    The order of languages that will be used in case of missing translations
     """
     @property
     def language_order(self) -> List[String]:

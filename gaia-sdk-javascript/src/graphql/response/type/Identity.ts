@@ -12,21 +12,21 @@ export interface Identity {
     /**
     * The identity id
     */
-    identityId?:Uuid, 
+    identityId?:Uuid,
     /**
     * The tenant id
     */
-    tenantId?:Uuid, 
+    tenantId?:Uuid,
     /**
     * The name of the identity
     */
-    qualifier?:string, 
+    qualifier?:string,
     /**
     * The available languages of the identity
     */
-    availableLanguages?:Struct, 
+    availableLanguages?:Struct,
     /**
-    * The order of languages that will be use in case of missing translations
+    * The order of languages that will be used in case of missing translations
     */
     languageOrder?:[string]
 }

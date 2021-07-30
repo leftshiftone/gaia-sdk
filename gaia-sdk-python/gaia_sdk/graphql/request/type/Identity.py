@@ -38,7 +38,7 @@ class Identity(list):
         self.append(lambda x: "availableLanguages")
 
     """
-    The order of languages that will be use in case of missing translations
+    The order of languages that will be used in case of missing translations
     """
     def language_order(self):
         self.append(lambda x: "languageOrder")
