@@ -27,5 +27,9 @@ data class Identity @JsonCreator constructor(
     /**
     * The available languages of the identity
     */
-    @JsonProperty("availableLanguages") val availableLanguages:Struct? = null
+    @JsonProperty("availableLanguages") val availableLanguages:Struct? = null, 
+    /**
+    * The order of languages that will be used in case of missing translations
+    */
+    @JsonProperty("languageOrder") val languageOrder:List<String>? = null
 )

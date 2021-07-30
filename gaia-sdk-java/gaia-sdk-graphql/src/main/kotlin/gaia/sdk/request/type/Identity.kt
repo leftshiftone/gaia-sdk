@@ -41,5 +41,12 @@ class Identity: Type() {
     fun availableLanguages() { 
         add {"availableLanguages" } 
     }
+
+    /**
+     * The order of languages that will be used in case of missing translations
+     */
+    fun languageOrder() { 
+        add {"languageOrder" } 
+    }
 }
 

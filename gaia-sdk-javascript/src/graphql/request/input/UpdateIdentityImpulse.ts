@@ -16,11 +16,13 @@ public _typeName = "UpdateIdentityImpulse";
     private tenantId:String;
     private qualifier:String;
     private availableLanguages:Struct;
+    private languageOrder:Array<String>;
 
-    constructor (identityId:Uuid, tenantId:String, qualifier:String, availableLanguages:Struct) {
+    constructor (identityId:Uuid, tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>) {
         this.identityId = identityId;
         this.tenantId = tenantId;
         this.qualifier = qualifier;
         this.availableLanguages = availableLanguages;
+        this.languageOrder = languageOrder;
     }
 }

@@ -1,5 +1,5 @@
 import {Mock} from '../mock/mock';
-import sleep from "./utils/sleep";
+import sleep from './utils/sleep';
 
 const {v4: uuidv4} = require('uuid');
 
@@ -7,20 +7,22 @@ describe('perception tests:', () => {
 
     test('test retrieve identities', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: "Deutsch"}}]}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {identities: [{identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}]}}}})
         );
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveIdentities(_ => {
                 _.identityId();
                 _.qualifier();
                 _.availableLanguages();
+                _.languageOrder();
             });
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
-                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
+                expect(e.availableLanguages['de'] == 'Deutsch').toBeTruthy();
+                expect(e.languageOrder[0] == 'de').toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -32,20 +34,25 @@ describe('perception tests:', () => {
                         knowledge: {
                             identities: [{
                                 identityId: 'i1',
-                                qualifier: '101', availableLanguages: {de: "Deutsch"}
-                            }, {identityId: 'i2', qualifier: '102', availableLanguages: {de: "Deutsch"}}, {
+                                qualifier: '101', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']
+                            }, {identityId: 'i2',
+                                qualifier: '102', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}, {
                                 identityId: 'i3',
-                                qualifier: '103', availableLanguages: {de: "Deutsch"}
-                            }, {identityId: 'i4', qualifier: '104', availableLanguages: {de: "Deutsch"}}, {
+                                qualifier: '103', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']
+                            }, {identityId: 'i4',
+                                qualifier: '104', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}, {
                                 identityId: 'i5',
-                                qualifier: '105', availableLanguages: {de: "Deutsch"}
-                            }, {identityId: 'i6', qualifier: '106', availableLanguages: {de: "Deutsch"}}, {
+                                qualifier: '105', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']
+                            }, {identityId: 'i6',
+                                qualifier: '106', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}, {
                                 identityId: 'i7',
-                                qualifier: '107', availableLanguages: {de: "Deutsch"}
-                            }, {identityId: 'i8', qualifier: '108', availableLanguages: {de: "Deutsch"}}, {
+                                qualifier: '107', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']
+                            }, {identityId: 'i8',
+                                qualifier: '108', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}, {
                                 identityId: 'i9',
-                                qualifier: '109', availableLanguages: {de: "Deutsch"}
-                            }, {identityId: 'i10', qualifier: '110', availableLanguages: {de: "Deutsch"}}]
+                                qualifier: '109', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']
+                            }, {identityId: 'i10',
+                                qualifier: '110', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}]
                         }
                     }
                 }
@@ -58,20 +65,22 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.qualifier();
                 _.availableLanguages();
-            }, 10, 100);
+                _.languageOrder();
+            },                                            10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
-                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
+                expect(e.availableLanguages['de'] === 'Deutsch').toBeTruthy();
+                expect(e.languageOrder[0] === 'de').toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
     test('test retrieve identity', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {identity: {identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: "Deutsch"}}}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {identity: {identityId: 'asdf', qualifier: 'q1', availableLanguages: {de: 'Deutsch'}, languageOrder: ['de']}}}}})
         );
         const identityId = uuidv4();
 
@@ -80,13 +89,15 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.qualifier();
                 _.availableLanguages();
+                _.languageOrder();
             });
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
-                expect(e.availableLanguages["de"] == "Deutsch").toBeTruthy();
+                expect(e.availableLanguages['de'] == 'Deutsch').toBeTruthy();
+                expect(e.languageOrder[0] == 'de').toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -103,7 +114,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -128,13 +139,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveTenants(_ => {
                 _.tenantId();
                 _.qualifier();
-            }, 10, 100);
+            },                                         10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -153,7 +164,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.qualifier !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -170,7 +181,7 @@ describe('perception tests:', () => {
                 expect(e.userId !== undefined).toBeTruthy();
                 expect(e.username !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -195,13 +206,13 @@ describe('perception tests:', () => {
             const observable = gaiaRef.retrieveUsers(_ => {
                 _.userId();
                 _.username();
-            }, 10, 100);
+            },                                       10, 100);
             observable.subscribe(e => {
                 expect(e.userId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
-                expect(e.username === "" + latestExpectedIndex).toBeTruthy()
+                expect(e.username === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -220,13 +231,13 @@ describe('perception tests:', () => {
                 expect(e.username !== undefined).toBeTruthy();
                 expect(e.userId !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
     test('test retrieve roles', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {roles: [{tenantId: 't1', roleId: 'i1', name: 'name', permissions: ["*"]}]}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {roles: [{tenantId: 't1', roleId: 'i1', name: 'name', permissions: ['*']}]}}}})
         );
         return new Promise((resolve, reject) => {
             const observable = gaiaRef.retrieveRoles(uuidv4(), _ => {
@@ -240,7 +251,7 @@ describe('perception tests:', () => {
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -251,11 +262,11 @@ describe('perception tests:', () => {
                     retrieve: {
                         knowledge: {
                             roles: [
-                                {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]},
-                                {tenantId: 't1', roleId: 'i2', name: '102', permissions: ["*"]},
-                                {tenantId: 't1', roleId: 'i3', name: '103', permissions: ["*"]},
-                                {tenantId: 't1', roleId: 'i4', name: '104', permissions: ["*"]},
-                                {tenantId: 't1', roleId: 'i5', name: '105', permissions: ["*"]},
+                                {tenantId: 't1', roleId: 'i1', name: '101', permissions: ['*']},
+                                {tenantId: 't1', roleId: 'i2', name: '102', permissions: ['*']},
+                                {tenantId: 't1', roleId: 'i3', name: '103', permissions: ['*']},
+                                {tenantId: 't1', roleId: 'i4', name: '104', permissions: ['*']},
+                                {tenantId: 't1', roleId: 'i5', name: '105', permissions: ['*']},
                             ]
                         }
                     }
@@ -270,20 +281,20 @@ describe('perception tests:', () => {
                 _.roleId();
                 _.name();
                 _.permissions();
-            }, 10, 100);
+            },                                       10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.roleId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
-                expect(e.name === "" + latestExpectedIndex).toBeTruthy()
+                expect(e.name === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
     test('test retrieve role', () => {
         const gaiaRef = Mock.gaiaRef(() =>
-            JSON.stringify({data: {retrieve: {knowledge: {role: {tenantId: 't1', roleId: 'i1', name: '101', permissions: ["*"]}}}}})
+            JSON.stringify({data: {retrieve: {knowledge: {role: {tenantId: 't1', roleId: 'i1', name: '101', permissions: ['*']}}}}})
         );
         const tenantId = uuidv4();
         const roleId = uuidv4();
@@ -300,7 +311,7 @@ describe('perception tests:', () => {
                 expect(e.roleId !== undefined).toBeTruthy();
                 expect(e.name !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -319,7 +330,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -347,14 +358,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                            10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -374,7 +385,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -393,7 +404,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -421,14 +432,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                       10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -448,7 +459,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -467,7 +478,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -495,14 +506,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                         10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -522,7 +533,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -541,7 +552,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -569,14 +580,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                         10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -596,7 +607,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -615,7 +626,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -643,14 +654,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                             10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -670,7 +681,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -689,7 +700,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -717,14 +728,14 @@ describe('perception tests:', () => {
                 _.identityId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                            10, 100);
             observable.subscribe(e => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -744,7 +755,7 @@ describe('perception tests:', () => {
                 expect(e.identityId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -763,7 +774,7 @@ describe('perception tests:', () => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -791,14 +802,14 @@ describe('perception tests:', () => {
                 _.source();
                 _.target();
                 _.type();
-            }, 10, 100);
+            },                                       10, 100);
             observable.subscribe(e => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.type === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -818,7 +829,7 @@ describe('perception tests:', () => {
                 expect(e.source !== undefined).toBeTruthy();
                 expect(e.target !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -838,7 +849,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -866,14 +877,14 @@ describe('perception tests:', () => {
                 _.tenantId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                        10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -893,7 +904,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -912,7 +923,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -940,14 +951,14 @@ describe('perception tests:', () => {
                 _.tenantId();
                 _.reference();
                 _.qualifier();
-            }, 10, 100);
+            },                                                 10, 100);
             observable.subscribe(e => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.qualifier === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -967,7 +978,7 @@ describe('perception tests:', () => {
                 expect(e.tenantId !== undefined).toBeTruthy();
                 expect(e.reference !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -987,7 +998,7 @@ describe('perception tests:', () => {
                 expect(e.processInstanceId !== undefined).toBeTruthy();
                 expect(e.behaviourId !== undefined).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -1015,14 +1026,14 @@ describe('perception tests:', () => {
                 _.processInstanceId();
                 _.behaviourId();
                 _.state();
-            }, 10, 100, null, null);
+            },                                                     10, 100, null, null);
             observable.subscribe(e => {
                 expect(e.processInstanceId !== undefined).toBeTruthy();
                 expect(e.behaviourId !== undefined).toBeTruthy();
                 latestExpectedIndex++;
                 expect(e.state === '' + latestExpectedIndex).toBeTruthy();
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -1046,7 +1057,7 @@ describe('perception tests:', () => {
             observable.subscribe(() => {
                 expect(mock.mock.calls.length).toBe(1);
                 resolve();
-            }, reject);
+            },                   reject);
         });
     });
 
@@ -1116,7 +1127,7 @@ describe('perception tests:', () => {
                     mockResponse.data.retrieve.experience.identityMetrics.topExecutedBehaviours
                 );
                 resolve(e);
-            }, reject);
+            },                   reject);
         });
     });
 

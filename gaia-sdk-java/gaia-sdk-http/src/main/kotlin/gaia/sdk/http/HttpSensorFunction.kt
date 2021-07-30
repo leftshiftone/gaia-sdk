@@ -142,6 +142,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 tenantId()
                                 qualifier()
                                 availableLanguages()
+                                languageOrder()
                             }
                         }
                     }
@@ -161,6 +162,7 @@ class HttpSensorFunction(url: String, credentials: GaiaCredentials, transporterF
                                 tenantId()
                                 qualifier()
                                 availableLanguages()
+                                languageOrder()
                             }
                         }
                     }

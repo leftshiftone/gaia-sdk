@@ -37,5 +37,11 @@ class Identity(list):
     def available_languages(self):
         self.append(lambda x: "availableLanguages")
 
+    """
+    The order of languages that will be used in case of missing translations
+    """
+    def language_order(self):
+        self.append(lambda x: "languageOrder")
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))
