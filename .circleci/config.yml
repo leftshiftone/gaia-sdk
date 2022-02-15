@@ -162,9 +162,6 @@ jobs:
           name: Test all projects
           command: ./gradlew test --stacktrace
       - run:
-          name: Run coverage for JS
-          command: yarn --cwd ./gaia-sdk-javascript coverage
-      - run:
           name: Collect test results java
           command: find . -type f -regex ".*/build/test-results/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
