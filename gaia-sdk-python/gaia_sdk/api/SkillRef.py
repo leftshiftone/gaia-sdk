@@ -78,7 +78,7 @@ class SkillRef:
             ops.map(lambda r: SkillBuildResponse(r["reference"]))
         )
 
-    def evaluate(self, payload: dict, timeout_in_millis: int = 5000, contract: str = None) -> Observable[SkillEvaluation]:
+    def evaluate(self, payload: dict, timeout_in_millis: int = 300000, contract: str = None) -> Observable[SkillEvaluation]:
         request = {'uri': self._uri, 'payload': payload, 'timeout': timeout_in_millis}
         if contract is not None:
             request['contract'] = contract
