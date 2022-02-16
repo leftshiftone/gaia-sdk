@@ -21,7 +21,7 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
     }
 
     /**
-     * Sends the given payload (a map satisfying contract) to this skill provision.
+     * Sends the given payload (a map satisfying contract) to this skill provision including a timeout.
      *
      * The response is wrapped in a [SkillEvaluation].
      */
@@ -30,7 +30,7 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
     }
 
     /**
-     * Sends the given payload (a map satisfying contract) to this skill provision with a manually specified namespace/contract. This might be used
+     * Sends the given payload (a map satisfying contract) to this skill provision with a manually specified namespace/contract and a timeout. This might be used
      * when sending requests to a skill that implements more than one contract (multi contract skills).
      *
      * The response is wrapped in a [SkillEvaluation].
