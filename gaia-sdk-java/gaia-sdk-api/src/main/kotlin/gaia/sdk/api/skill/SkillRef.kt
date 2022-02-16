@@ -7,6 +7,7 @@ import gaia.sdk.api.SkillProvisionLogs
 import gaia.sdk.api.SkillProvisionStatus
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
+import java.time.Duration
 
 class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClient) {
 
@@ -17,6 +18,25 @@ class SkillRef(private val spec: ISkillSpec, private val client: GaiaStreamClien
      */
     fun evaluate(payload: Map<String, Any>): Publisher<SkillEvaluation> {
         return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "payload" to payload), SkillEvaluation::class.java, "/skill/evaluate"))
+    }
+
+    /**
+     * Sends the given payload (a map satisfying contract) to this skill provision including a timeout.
+     *
+     * The response is wrapped in a [SkillEvaluation].
+     */
+    fun evaluate(payload: Map<String, Any>, timeout: Duration): Publisher<SkillEvaluation> {
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "payload" to payload, "timeout" to timeout.toMillis()), SkillEvaluation::class.java, "/skill/evaluate"))
+    }
+
+    /**
+     * Sends the given payload (a map satisfying contract) to this skill provision with a manually specified namespace/contract and a timeout. This might be used
+     * when sending requests to a skill that implements more than one contract (multi contract skills).
+     *
+     * The response is wrapped in a [SkillEvaluation].
+     */
+    fun evaluate(contract: String, payload: Map<String, Any>, timeout: Duration): Publisher<SkillEvaluation> {
+        return Flowable.fromPublisher(client.post(mapOf("uri" to spec.toUri(), "contract" to contract, "payload" to payload, "timeout" to timeout.toMillis()), SkillEvaluation::class.java, "/skill/evaluate"))
     }
 
     /**
