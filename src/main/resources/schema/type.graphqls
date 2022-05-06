@@ -237,7 +237,7 @@ type IdentityMetrics {
     identityId: Uuid
     entityCount: MetricsEntityCount
     topExecutedBehaviours: [TopExecutedBehaviour]
-    behaviourStates: [BehaviourState] @deprecated(reason: "defunct - sunset 5.0.0")
+    behaviourStates: [BehaviourState]
     intentDetectionRate: IntentDetectionRate
 }
 type MetricsEntityCount {
@@ -300,12 +300,6 @@ type Skill {
     repositoryUri: String
     "The type of the repository where the skill is"
     repositoryType: String
-    "The user name if not public"
-    repositoryUser: String
-    "A token for the given repository if not public"
-    repositoryToken: String
-    "The actual authentication type"
-    repositoryAuthType: RepositoryAuthType
     "The list of available and build skill versions"
     versions: [SkillVersion]
     "A list of all available version tags"

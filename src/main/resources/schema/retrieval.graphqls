@@ -41,7 +41,7 @@ type Experience {
     behaviourExecution(identityId: Uuid, processInstanceId: Uuid): BehaviourExecutionDetail
     behaviourExecutions(identityId: Uuid, limit: Int, offset: Int, startDate: String, endDate: String): [BehaviourExecution]
     identityMetrics(identityId: Uuid, startDate: String, endDate: String, limit: Int): IdentityMetrics
-    behaviourMetrics(identityId: Uuid, behaviourId: Uuid, startDate: String, endDate: String, limit: Int): BehaviourMetrics @deprecated(reason: "defunct - sunset 5.0.0")
+    behaviourMetrics(identityId: Uuid, behaviourId: Uuid, startDate: String, endDate: String, limit: Int): BehaviourMetrics
 }
 
 enum OrderByField {
