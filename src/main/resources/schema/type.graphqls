@@ -237,7 +237,7 @@ type IdentityMetrics {
     identityId: Uuid
     entityCount: MetricsEntityCount
     topExecutedBehaviours: [TopExecutedBehaviour]
-    behaviourStates: [BehaviourState]
+    behaviourStates: [BehaviourState] @deprecated(reason: "defunct - sunset 5.0.0")
     intentDetectionRate: IntentDetectionRate
 }
 type MetricsEntityCount {
