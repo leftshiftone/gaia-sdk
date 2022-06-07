@@ -19,6 +19,7 @@ package gaia.sdk.mqtt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.hivemq.client.mqtt.MqttGlobalPublishFilter.SUBSCRIBED
 import com.hivemq.client.mqtt.MqttWebSocketConfig
+import com.hivemq.client.mqtt.datatypes.MqttQos
 import com.hivemq.client.mqtt.lifecycle.MqttClientAutoReconnect
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
 import com.hivemq.client.mqtt.mqtt5.Mqtt5RxClient
@@ -72,7 +73,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
 
     override fun subscribe(type: IQueueType, header: QueueHeader, consumer: (QueuePayload<ByteArray>) -> Unit): Completable {
         return client.subscribeWith()
-                .topicFilter(getTopic(type, header)).noLocal(true)
+                .topicFilter(getTopic(type, header)).noLocal(true).qos(MqttQos.AT_LEAST_ONCE)
                 .applySubscribe()
                 .timeout(options.subscribeTimeout, TimeUnit.SECONDS)
                 .doOnSuccess {
@@ -99,6 +100,7 @@ class MqttSensorQueue(private val options: QueueOptions) : ISensorQueue {
     override fun publish(type: IQueueType, header: QueueHeader, payload: QueuePayload<ByteArray>): Completable {
         val publish = Mqtt5Publish.builder()
                 .topic(getTopic(type, header))
+                .qos(MqttQos.AT_LEAST_ONCE)
                 .userProperties()
                 .add("identityId", header.identityId.toString())
                 .add("userId", options.userId)
