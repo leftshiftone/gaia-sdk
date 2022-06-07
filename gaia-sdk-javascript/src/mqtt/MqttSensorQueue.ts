@@ -33,7 +33,7 @@ export class MqttSensorQueue {
             deviceId: this.options.deviceId,
             userId: this.options.userId
         });
-        const opts: IMqttPublishOpts = {properties: {userProperties}};
+        const opts: IMqttPublishOpts = {properties: {userProperties}, qos: 1};
         this.client.publish(topic, payloadStr, opts, this.mqttCallback(JSON.parse(payloadStr)));
     }
 
@@ -45,7 +45,7 @@ export class MqttSensorQueue {
         }
         if (callback) {
             console.debug('subscribe to', topic);
-            this.client.subscribe(topic, callback);
+            this.client.subscribe(topic,  {qos: 1}, callback);
             this.subscriptions.set(topic, callback);
         }
     }
