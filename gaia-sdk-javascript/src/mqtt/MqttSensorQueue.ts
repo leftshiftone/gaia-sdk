@@ -2,6 +2,7 @@ import * as mqtt from 'mqtt';
 import {IQueueOptions} from './QueueOptions';
 import {IQueueHeader} from './QueueHeader';
 import {ConversationQueueType} from './ConversationQueueType';
+import {UserProperties} from 'mqtt-packet';
 
 export class MqttSensorQueue {
 
@@ -27,13 +28,13 @@ export class MqttSensorQueue {
     public publish(conversationQueueType: ConversationQueueType, header: IQueueHeader, payload: object, attributes: object, type: string) {
         const topic = this.getTopic(conversationQueueType, header);
         console.debug(`Sending message to topic ${topic}`);
-        const payloadStr = JSON.stringify({attributes, payload: payload instanceof Array ? payload[0] : payload, type});
+        const payloadStr = JSON.stringify({attributes, type, payload: payload instanceof Array ? payload[0] : payload});
         const userProperties = Object.assign(header, {
             deviceInstanceId: this.options.deviceInstanceId,
             deviceId: this.options.deviceId,
             userId: this.options.userId
         });
-        const opts: IMqttPublishOpts = {properties: {userProperties}};
+        const opts: IMqttPublishOpts = {properties: {userProperties: JSON.parse(JSON.stringify(userProperties))}};
         this.client.publish(topic, payloadStr, opts, this.mqttCallback(JSON.parse(payloadStr)));
     }
 
@@ -100,12 +101,12 @@ export interface ConvInteraction {
 
 interface IMqttPublishOpts extends mqtt.IClientPublishOptions {
     properties?: {
-        payloadFormatIndicator?: number,
+        payloadFormatIndicator?: boolean,
         messageExpiryInterval?: number,
-        topicAlias?: string,
+        topicAlias?: number,
         responseTopic?: string,
         correlationData?: Buffer,
-        userProperties?: Object,
+        userProperties?: UserProperties,
         subscriptionIdentifier?: number,
         contentType?: string
     };

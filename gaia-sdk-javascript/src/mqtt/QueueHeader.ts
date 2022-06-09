@@ -1,8 +1,8 @@
-import {UUID} from "../graphql/GaiaScalars";
+import {UUID} from '../graphql/GaiaScalars';
 
 export interface IQueueHeader {
-    identityId: string
-    channelId?: string
+    identityId: string;
+    channelId?: string;
 }
 
 export class QueueHeader implements IQueueHeader {
@@ -16,8 +16,8 @@ export class QueueHeader implements IQueueHeader {
     }
 
     public static getChannelIdFromTopic(topic: string) {
-        const split = topic.split('/')
-        return split[split.length - 2]
+        const split = topic.split('/');
+        return split[split.length - 2];
     }
 
 }
