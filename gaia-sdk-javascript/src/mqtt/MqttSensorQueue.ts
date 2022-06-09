@@ -34,8 +34,15 @@ export class MqttSensorQueue {
             deviceId: this.options.deviceId,
             userId: this.options.userId
         });
-        const opts: IMqttPublishOpts = {properties: {userProperties: JSON.parse(JSON.stringify(userProperties))}};
+        const opts: IMqttPublishOpts = {properties: {userProperties: this.removeUndefinedValues(userProperties)}};
         this.client.publish(topic, payloadStr, opts, this.mqttCallback(JSON.parse(payloadStr)));
+    }
+
+    private removeUndefinedValues(object: object): Record<string, string> {
+        return Object.keys(object).filter(key => object[key] !== undefined).reduce((acc, key) => {
+            acc[key] = object[key];
+            return acc;
+        }, {});
     }
 
     public subscribe(type: ConversationQueueType, header: IQueueHeader, callback?: QueueCallback) {
