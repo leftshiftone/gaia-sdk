@@ -17,6 +17,26 @@ upload-dependency-report: &upload-dependency-report
 
 version: 2
 jobs:
+  filesystem-scan:
+    docker:
+      - image: python:3.7-stretch
+    steps:
+      - run: apt update && apt install -y trivy
+      - attach_workspace:
+          at: .
+      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-javascript/yarn.lock
+      - run: export PROJECT_NAME=gaia-sdk-javascript
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-python
+      - run: export PROJECT_NAME=gaia-sdk-python
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy rootfs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-java
+      - run: export PROJECT_NAME=gaia-sdk-java
+      - run:
+          <<: *upload-dependency-report
+
   webhook-completed:
     docker:
       - image: curlimages/curl:7.70.0
@@ -83,6 +103,10 @@ jobs:
           key: pip-{{ checksum "gaia-sdk-python/poetry.lock" }}
       - store_test_results:
           path: build/circleci/test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - gaia-sdk-java
       - run:
           <<: *webhook-failed
 
@@ -177,20 +201,11 @@ jobs:
           name: Collect test results python
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
-      - run: ./gradlew sonarqube -x :gaia-sdk-java:gaia-sdk-core:test
-      - run: apt update && apt install trivy
-      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-javascript/yarn.lock
-      - run: export PROJECT_NAME=gaia-sdk-javascript
-      - run:
-          <<: *upload-dependency-report
-      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-python
-      - run: export PROJECT_NAME=gaia-sdk-python
-      - run:
-          <<: *upload-dependency-report
-      - run: trivy rootfs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-java
-      - run: export PROJECT_NAME=gaia-sdk-java
-      - run:
-          <<: *upload-dependency-report
+      - run: ./gradlew sonarqube -x test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - gaia-sdk-java
       - save_cache:
           paths:
             - ~/.gradle
@@ -226,6 +241,11 @@ workflows:
           filters:
             tags:
               ignore: /.*/
+          requires:
+            - build
+      - filesystem-scan:
+          context:
+            - dependency-scan
           requires:
             - build
   weeklyBuild:
@@ -304,7 +324,6 @@ workflows:
           context:
             - asteria
             - maven-central
-            - dependency-scan
             - leftshiftone-sonar
       - webhook-completed:
           context:
