@@ -21,7 +21,7 @@ jobs:
     docker:
       - image: python:3.7-stretch
     steps:
-      - run: apt update && apt install -y trivy
+      - run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.29.0
       - attach_workspace:
           at: .
       - run: trivy fs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-javascript/yarn.lock
