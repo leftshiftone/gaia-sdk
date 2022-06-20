@@ -177,7 +177,7 @@ jobs:
           name: Collect test results python
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
-      - run: ./gradlew sonarqube
+      - run: ./gradlew sonarqube -x :gaia-sdk-java:gaia-sdk-core:test
       - run: apt update && apt install trivy
       - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-javascript/yarn.lock
       - run: export PROJECT_NAME=gaia-sdk-javascript
@@ -305,6 +305,7 @@ workflows:
             - asteria
             - maven-central
             - dependency-scan
+            - leftshiftone-sonar
       - webhook-completed:
           context:
             - asteria
