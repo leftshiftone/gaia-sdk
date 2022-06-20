@@ -22,9 +22,11 @@ jobs:
       - image: python:3.7-stretch
     steps:
       - run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.29.0
+      - checkout
       - attach_workspace:
           at: .
-      - run: trivy fs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-javascript/yarn.lock
+      - run: find -name *.jar
+      - run: trivy rootfs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-javascript/package.json
       - run: export PROJECT_NAME=gaia-sdk-javascript
       - run:
           <<: *upload-dependency-report
