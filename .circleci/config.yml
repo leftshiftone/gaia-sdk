@@ -24,15 +24,15 @@ jobs:
       - run: apt update && apt install -y trivy
       - attach_workspace:
           at: .
-      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-javascript/yarn.lock
+      - run: trivy fs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-javascript/yarn.lock
       - run: export PROJECT_NAME=gaia-sdk-javascript
       - run:
           <<: *upload-dependency-report
-      - run: trivy fs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-python
+      - run: trivy fs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-python
       - run: export PROJECT_NAME=gaia-sdk-python
       - run:
           <<: *upload-dependency-report
-      - run: trivy rootfs -s "HIGH,CRITICAL" -o json dep-report.json gaia-sdk-java
+      - run: trivy rootfs -s "HIGH,CRITICAL" -o json -f dep-report.json gaia-sdk-java
       - run: export PROJECT_NAME=gaia-sdk-java
       - run:
           <<: *upload-dependency-report
