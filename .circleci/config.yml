@@ -97,7 +97,7 @@ jobs:
           <<: *prepare-image
       - add_ssh_keys:
           fingerprints:
-            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+            - "78:01:06:29:1e:90:b8:cb:9a:d6:20:2a:09:58:5b:2b"
       - checkout
       - run: echo $OSSRH_SIGN_KEY_CONTENT | base64 --decode > "$OSSRH_SIGN_KEY_PATH"
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
@@ -123,7 +123,7 @@ jobs:
           <<: *prepare-image
       - add_ssh_keys:
           fingerprints:
-            - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
+            - "78:01:06:29:1e:90:b8:cb:9a:d6:20:2a:09:58:5b:2b"
       - checkout
       - run: echo $OSSRH_SIGN_KEY_CONTENT | base64 --decode > "$OSSRH_SIGN_KEY_PATH"
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
