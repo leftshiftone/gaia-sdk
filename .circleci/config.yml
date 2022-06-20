@@ -307,6 +307,7 @@ workflows:
           context:
             - asteria
             - maven-central
+            - dependency-scan
       - webhook-completed:
           context:
             - asteria
