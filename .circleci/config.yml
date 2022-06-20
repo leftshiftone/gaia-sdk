@@ -13,6 +13,7 @@ prepare-image: &prepare-image
 upload-dependency-report: &upload-dependency-report
   name: Upload json after trivy scan
   command: |
+    source $BASH_ENV
     curl --insecure -u $DEPENDENCY_REPORT_TOKEN -H "Content-Type: application/json" -X POST --data-binary '{"project": "'"$PROJECT_NAME"'", "report": '"$(cat dep-report.json)"'}' https://trivy-collector.aios.dev/report
 
 version: 2
