@@ -194,7 +194,7 @@ python-versions = "*"
 
 [[package]]
 name = "urllib3"
-version = "1.25.10"
+version = "1.26.9"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false

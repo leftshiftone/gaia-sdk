@@ -10,6 +10,10 @@ webhook-failed: &webhook-failed
 prepare-image: &prepare-image
   name: Prepare image
   command: apt-get update && apt-get install -y openjdk-8-jdk && pip install --no-cache-dir "poetry==1.0.0" && curl --insecure -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && rm -f "node-v$NODE_VERSION-linux-x64.tar.xz" && ln -s /usr/local/bin/node /usr/local/bin/nodejs && npm install -g yarn
+upload-dependency-report: &upload-dependency-report
+  name: Upload json after trivy scan
+  command: | 
+    curl -u $DEPENDENCY_REPORT_TOKEN -H "Content-Type: application/json" -X POST -d $TRIVY_JSON https://trivy-collector.aios.dev/report
 
 version: 2
 jobs:
@@ -174,6 +178,22 @@ jobs:
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
       - run: ./gradlew sonarqube
+      - run: apt update && apt install trivy
+      - run: trivy fs -s "HIGH,CRITICAL" -o json javascript.json gaia-sdk-javascript/yarn.lock
+      - run: | 
+          export TRIVY_JSON={'"project"': '"gaia-sdk-javascript"', '"report"': $(cat javascript.json)}
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy fs -s "HIGH,CRITICAL" -o json python.json gaia-sdk-python
+      - run: | 
+          export TRIVY_JSON={'"project"': '"gaia-sdk-python"', '"report"': $(cat python.json)}
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy rootfs -s "HIGH,CRITICAL" -o json java.json gaia-sdk-java
+      - run |
+          export TRIVY_JSON={'"project"': '"gaia-sdk-java"', '"report"': $(cat java.json)}
+      - run:
+          <<: *upload-dependency-report
       - save_cache:
           paths:
             - ~/.gradle
