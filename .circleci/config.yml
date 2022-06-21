@@ -10,9 +10,35 @@ webhook-failed: &webhook-failed
 prepare-image: &prepare-image
   name: Prepare image
   command: apt-get update && apt-get install -y openjdk-8-jdk && pip install --no-cache-dir "poetry==1.0.0" && curl --insecure -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner && rm -f "node-v$NODE_VERSION-linux-x64.tar.xz" && ln -s /usr/local/bin/node /usr/local/bin/nodejs && npm install -g yarn
+upload-dependency-report: &upload-dependency-report
+  name: Upload json after trivy scan
+  command: |
+    source $BASH_ENV
+    curl --insecure -u $DEPENDENCY_REPORT_TOKEN -H "Content-Type: application/json" -X POST --data-binary '{"project": "'"$PROJECT_NAME"'", "report": '"$(cat dep-report.json)"'}' https://trivy-collector.aios.dev/report
 
 version: 2
 jobs:
+  filesystem-scan:
+    docker:
+      - image: python:3.7-stretch
+    steps:
+      - run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.29.0
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: trivy rootfs -s "HIGH,CRITICAL" -f json -o dep-report.json gaia-sdk-javascript/package.json
+      - run: echo 'export PROJECT_NAME=gaia-sdk-javascript' >> $BASH_ENV
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy fs -s "HIGH,CRITICAL" -f json -o dep-report.json gaia-sdk-python
+      - run: echo 'export PROJECT_NAME=gaia-sdk-python*' >> $BASH_ENV
+      - run:
+          <<: *upload-dependency-report
+      - run: trivy rootfs -s "HIGH,CRITICAL" -f json -o dep-report.json gaia-sdk-java
+      - run: echo 'export PROJECT_NAME=gaia-sdk-java*' >> $BASH_ENV
+      - run:
+          <<: *upload-dependency-report
+
   webhook-completed:
     docker:
       - image: curlimages/curl:7.70.0
@@ -79,6 +105,10 @@ jobs:
           key: pip-{{ checksum "gaia-sdk-python/poetry.lock" }}
       - store_test_results:
           path: build/circleci/test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - gaia-sdk-java
       - run:
           <<: *webhook-failed
 
@@ -173,7 +203,11 @@ jobs:
           name: Collect test results python
           command: find . -type f -regex ".*/gaia-sdk-python/build/test/.*xml" -exec cp {} $TEST_RESULTS_PATH \;
           when: always
-      - run: ./gradlew sonarqube
+      - run: ./gradlew sonarqube -x test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - gaia-sdk-java
       - save_cache:
           paths:
             - ~/.gradle
@@ -209,6 +243,11 @@ workflows:
           filters:
             tags:
               ignore: /.*/
+          requires:
+            - build
+      - filesystem-scan:
+          context:
+            - dependency-scan
           requires:
             - build
   weeklyBuild:
@@ -287,6 +326,7 @@ workflows:
           context:
             - asteria
             - maven-central
+            - leftshiftone-sonar
       - webhook-completed:
           context:
             - asteria
