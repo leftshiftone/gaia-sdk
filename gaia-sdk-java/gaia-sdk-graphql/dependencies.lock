@@ -14,7 +14,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.hivemq:hivemq-mqtt-client": {
             "locked": "1.2.0",
@@ -205,7 +205,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.google.dagger:dagger": {
             "locked": "2.27",
@@ -420,7 +420,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.hivemq:hivemq-mqtt-client": {
             "locked": "1.2.0",
@@ -770,7 +770,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.google.dagger:dagger": {
             "locked": "2.27",
@@ -985,7 +985,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.hivemq:hivemq-mqtt-client": {
             "locked": "1.2.0",
@@ -1216,7 +1216,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.hivemq:hivemq-mqtt-client": {
             "locked": "1.2.0",
@@ -1459,7 +1459,7 @@
         },
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.10.0",
-            "requested": "2.10.0"
+            "requested": "2.13.3"
         },
         "com.google.dagger:dagger": {
             "locked": "2.27",
