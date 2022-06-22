@@ -1,6 +1,5 @@
 package gaia.sdk.client
 
-import com.sun.crypto.provider.SunJCE
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -29,7 +28,7 @@ class HMAC(secret: String) {
 
     private fun initMac(key: String): Mac {
         val secretKeySpec = SecretKeySpec(key.toByteArray(), "HmacSHA512")
-        val mac = Mac.getInstance("HmacSHA512", SunJCE())
+        val mac = Mac.getInstance("HmacSHA512")
         mac.init(secretKeySpec)
         return mac
     }
