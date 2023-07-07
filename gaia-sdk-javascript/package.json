@@ -30,7 +30,7 @@
         "sinon": "^7.2.3",
         "sonarqube-scanner": "2.1.2",
         "style-loader": "^0.22.1",
-        "stylelint": "^9.5.0",
+        "stylelint": "^15.10.1",
         "stylelint-config-recommended": "^2.1.0",
         "stylelint-webpack-plugin": "^0.10.5",
         "ts-jest": "^26.5.4",
