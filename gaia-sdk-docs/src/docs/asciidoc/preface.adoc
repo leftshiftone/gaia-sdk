@@ -1,1 +1,0 @@
-The GAIA SDK provides connectors to the GAIA API and abstracts API calls.

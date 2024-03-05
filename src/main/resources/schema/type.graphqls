@@ -14,7 +14,8 @@ type Identity {
     availableLanguages: Struct
     "The order of languages that will be used in case of missing translations"
     languageOrder: [String]
-
+    "Intent cascading setting"
+    intentCascading: Boolean
 }
 
 "Represents tenant information"

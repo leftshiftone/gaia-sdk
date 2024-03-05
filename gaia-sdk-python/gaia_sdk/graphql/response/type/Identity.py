@@ -60,3 +60,9 @@ class Identity:
     @property
     def language_order(self) -> List[String]:
         return list(map(lambda x: String(x), self.dictionary.get("languageOrder")))
+    """
+    Intent cascading setting
+    """
+    @property
+    def intent_cascading(self) -> Boolean:
+        return Boolean(self.dictionary.get("intentCascading"))

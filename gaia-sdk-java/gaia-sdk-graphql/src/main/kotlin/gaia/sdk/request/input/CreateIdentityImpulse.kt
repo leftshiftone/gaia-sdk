@@ -15,5 +15,6 @@ import gaia.sdk.request.enumeration.*
 class CreateIdentityImpulse(val tenantId:String, 
    val qualifier:String, 
    val availableLanguages:Struct, 
-   val languageOrder:Array<out String>) : Input()
+   val languageOrder:Array<out String>, 
+   val intentCascading:Boolean) : Input()
 

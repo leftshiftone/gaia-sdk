@@ -422,6 +422,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.qualifier();
                     d.availableLanguages();
                     d.languageOrder();
+                    d.intentCascading();
                 });
             }));
         }))));
@@ -438,6 +439,7 @@ export class HttpSensorFunction implements ISensorFunction {
                     d.qualifier();
                     d.availableLanguages();
                     d.languageOrder();
+                    d.intentCascading();
                 });
             }));
         }))));

@@ -47,6 +47,13 @@ public _typeName = "Identity";
         this.push(_ => "languageOrder")
     };
 
+    /**
+     * Intent cascading setting
+     */
+    public intentCascading = () => { 
+        this.push(_ => "intentCascading")
+    };
+
     public render = (registry: VariableRegistry):String => this.map(e => e(registry)).join(" ");
 }
 

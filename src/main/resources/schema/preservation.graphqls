@@ -130,6 +130,7 @@ input CreateIdentityImpulse {
     qualifier: String!
     availableLanguages: Struct!
     languageOrder: [String]
+    intentCascading: Boolean
 }
 "The specification to update an identity instance"
 input UpdateIdentityImpulse {
@@ -138,7 +139,7 @@ input UpdateIdentityImpulse {
     qualifier: String!
     availableLanguages: Struct!
     languageOrder: [String]
-
+    intentCascading: Boolean
 }
 "The specification to delete an identity instance"
 input DeleteIdentityImpulse {

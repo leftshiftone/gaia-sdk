@@ -48,5 +48,12 @@ class Identity: Type() {
     fun languageOrder() { 
         add {"languageOrder" } 
     }
+
+    /**
+     * Intent cascading setting
+     */
+    fun intentCascading() { 
+        add {"intentCascading" } 
+    }
 }
 

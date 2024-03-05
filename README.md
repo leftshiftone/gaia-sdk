@@ -8,8 +8,6 @@
 [![PyPI](https://img.shields.io/pypi/v/gaia-sdk?style=flat-square)](https://pypi.org/project/gaia-sdk/)
 
 
-Please see project `gaia-sdk-docs` for the documentation.
-
 
 ## Development
 
@@ -17,20 +15,5 @@ Please see project `gaia-sdk-docs` for the documentation.
 Run `./gradlew generateSource`.
 
 ### Release
-Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
+Contact internal representative
 
-#### Major
-Run `./gradlew final -Prelease.scope=major` locally.
-
-#### Minor
-Run `./gradlew final -Prelease.scope=minor` locally.
-
-#### Patch
-Must be released from branch (e.g. `release/1.0.x`)
-
-Run `./gradlew final -Prelease.scope=patch` locally.
-
-#### Release Candidate
-Set the release scope by replacing `$scope` with the version of the release candidate (major, minor, patch).
-
-Run `./gradlew candidate -x test -Prelease.scope=$scope -x sendReleaseEmail` locally.

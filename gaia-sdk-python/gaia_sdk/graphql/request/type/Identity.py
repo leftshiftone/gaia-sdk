@@ -43,5 +43,11 @@ class Identity(list):
     def language_order(self):
         self.append(lambda x: "languageOrder")
 
+    """
+    Intent cascading setting
+    """
+    def intent_cascading(self):
+        self.append(lambda x: "intentCascading")
+
     def render(self, registry: VariableRegistry):
         return " ".join(map(lambda e: e(registry), self))

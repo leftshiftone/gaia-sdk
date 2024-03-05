@@ -28,5 +28,9 @@ export interface Identity {
     /**
     * The order of languages that will be used in case of missing translations
     */
-    languageOrder?:[string]
+    languageOrder?:[string], 
+    /**
+    * Intent cascading setting
+    */
+    intentCascading?:Boolean
 }

@@ -31,5 +31,9 @@ data class Identity @JsonCreator constructor(
     /**
     * The order of languages that will be used in case of missing translations
     */
-    @JsonProperty("languageOrder") val languageOrder:List<String>? = null
+    @JsonProperty("languageOrder") val languageOrder:List<String>? = null, 
+    /**
+    * Intent cascading setting
+    */
+    @JsonProperty("intentCascading") val intentCascading:Boolean? = null
 )

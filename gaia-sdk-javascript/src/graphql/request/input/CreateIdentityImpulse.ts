@@ -16,11 +16,13 @@ public _typeName = "CreateIdentityImpulse";
     private qualifier:String;
     private availableLanguages:Struct;
     private languageOrder:Array<String>;
+    private intentCascading:Boolean;
 
-    constructor (tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>) {
+    constructor (tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>, intentCascading:Boolean) {
         this.tenantId = tenantId;
         this.qualifier = qualifier;
         this.availableLanguages = availableLanguages;
         this.languageOrder = languageOrder;
+        this.intentCascading = intentCascading;
     }
 }

@@ -17,12 +17,14 @@ public _typeName = "UpdateIdentityImpulse";
     private qualifier:String;
     private availableLanguages:Struct;
     private languageOrder:Array<String>;
+    private intentCascading:Boolean;
 
-    constructor (identityId:Uuid, tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>) {
+    constructor (identityId:Uuid, tenantId:String, qualifier:String, availableLanguages:Struct, languageOrder:Array<String>, intentCascading:Boolean) {
         this.identityId = identityId;
         this.tenantId = tenantId;
         this.qualifier = qualifier;
         this.availableLanguages = availableLanguages;
         this.languageOrder = languageOrder;
+        this.intentCascading = intentCascading;
     }
 }
